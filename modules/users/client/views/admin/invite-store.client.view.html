@@ -1,0 +1,54 @@
+<section>
+  <div class="page-header">
+    <h1>Invite A Store</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="storeForm" ng-submit="update(storeForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" class="form-control" ng-model="store.firstName" placeholder="First Name" required />
+          <div ng-messages="storeForm.firstName.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">First name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" class="form-control" ng-model="store.lastName" placeholder="Last Name" required />
+          <div ng-messages="storeForm.lastName.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Last name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="storeName">Store Name</label>
+          <input type="text" id="storeName" name="storeName" class="form-control" ng-model="store.storeName" placeholder="Store Name" required />
+          <div ng-messages="storeForm.storeName.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Store name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="storeName">Store Email</label>
+          <input type="text" id="storeEmail" name="storeEmail" class="form-control" ng-model="store.email" placeholder="Store Email" required />
+          <div ng-messages="storeForm.storeName.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Store Email is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="roles">Roles</label>
+          <div class="controls">
+            <input class="form-control" type="text" name="roles" ng-model="store.roles" id="roles" placeholder="User" ng-list required />
+            <div ng-messages="storeForm.roles.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">At least one role is required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Update" class="btn btn-default">
+        </div>
+        <div ng-show="error" class="text-danger">
+          <strong ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
