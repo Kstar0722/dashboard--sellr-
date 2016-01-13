@@ -24,7 +24,8 @@ angular.module('users.admin.routes').config(['$stateProvider',
         .state('admin.store', {
           url: '/store',
           templateUrl: 'modules/users/client/views/admin/invite-store.client.view.html',
-          controller: 'StoreController'
+          controller: 'StoreController',
+
         })
       .state('admin.user-edit', {
         url: '/users/:userId/edit',

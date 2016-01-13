@@ -1,39 +1,37 @@
 'use strict';
 
-angular.module('stores.admin').controller('StoreController', ['$scope', '$state', 'Authentication', 'userResolve',
-  function ($scope, $state, Authentication, userResolve) {
+angular.module('users.admin').controller('StoreController', ['$scope', '$http','$state', 'Authentication',
+  function ($scope, $state, $http, Authentication) {
     $scope.authentication = Authentication;
-    $scope.user = userResolve;
 
-    $scope.remove = function (user) {
-      if (confirm('Are you sure you want to delete this user?')) {
-        if (user) {
-          user.$remove();
 
-          $scope.users.splice($scope.users.indexOf(user), 1);
-        } else {
-          $scope.user.$remove(function () {
-            $state.go('admin.users');
-          });
-        }
-      }
-    };
 
-    $scope.update = function (isValid) {
+    $scope.invite = function (isValid) {
       if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'userForm');
+        $scope.$broadcast('show-errors-check-validity', 'storeForm');
 
         return false;
       }
 
-      var user = $scope.user;
 
-      user.$update(function () {
-        $state.go('admin.user', {
-          userId: user._id
-        });
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
+      var contactName = $scope.store.contactName;
+      var storeName = $scope.store.storeName;
+      var email = $scope.store.storeEmail;
+      var obj = {
+        payload:{
+          contactName: contactName,
+          storeName: storeName,
+          storeEmail:email
+        }
+      };
+      $http.post('http://api.expertoncue.com:443/store', obj).success(function (response) {
+        // If successful we assign the response to the global user model
+        //$scope.authentication.user = response;
+
+        // And redirect to the previous or home page
+        $state.go($state.previous.state.name || 'home', $state.previous.params);
+      }).error(function (response) {
+        $scope.error = response.message;
       });
     };
   }
