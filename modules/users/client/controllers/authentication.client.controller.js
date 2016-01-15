@@ -4,6 +4,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
   function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator) {
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+    $scope.regCodeErrors = false;
 
     // Get an eventual error defined in the URL query string:
     $scope.error = $location.search().err;
@@ -15,22 +16,39 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
     $scope.signup = function (isValid) {
       $scope.error = null;
-
+      var check = false;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'userForm');
 
         return false;
       }
-
-      $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
+      $http.get('http://api.expertoncue.com:443/store/validate/'+$scope.credentials.regCode).success(function (response) {
         // If successful we assign the response to the global user model
-        $scope.authentication.user = response;
-        console.dir(response);
+
+
+
+         var check = response;
+        $scope.regCodeErrors = !check;
+        console.dir($scope.regCodeErrors);
         // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
+        if(check) {
+          $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
+            // If successful we assign the response to the global user model
+            $scope.authentication.user = response;
+            console.dir(response);
+
+            // And redirect to the previous or home page
+            $state.go($state.previous.state.name || 'home', $state.previous.params);
+          }).error(function (response) {
+            $scope.error = response.message;
+          });
+        }
+
       }).error(function (response) {
         $scope.error = response.message;
       });
+      //
+
     };
 
     $scope.signin = function (isValid) {

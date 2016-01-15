@@ -22,18 +22,17 @@ var validateLocalStrategyProperty = function (property) {
  * A Validation function for local strategy email
  */
 var validateLocalStrategyEmail = function (email) {
+    console.log( (this.provider !== 'local' && !this.updated) || validator.isEmail(email));
     return ((this.provider !== 'local' && !this.updated) || validator.isEmail(email));
 };
 /**
  * A Validation function for Registration Code From Api
  */
 var validateRegistrationTokenProperty = function (property) {
-    request('http://api.expertoncue.com:443/store/'+property, function (error, response, body) {
+    request('http://api.expertoncue.com:443/store/validate/'+property, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log(body);// Show the HTML for the Google homepage.
-            if(response.message === 'valid') {
-                return true;
-            }
+            console.log('whatsup' + body);// Show the HTML for the Google homepage.
+            return (body);
         }
     });
 
@@ -56,8 +55,7 @@ var UserSchema = new Schema({
         validate: [validateLocalStrategyProperty, 'Please fill in your last name']
     },
     regCode: {
-        type: String,
-        trim: true,
+        type: Number,
         default: '',
         validate: [validateRegistrationTokenProperty, 'Incorrect Validation Code']
     },
