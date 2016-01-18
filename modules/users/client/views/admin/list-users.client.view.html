@@ -2,10 +2,11 @@
   <div class="page-header">
     <div class="row">
       <div class="col-md-4">
-        <h1>Users</h1>
+        <h1>Users - Test</h1>
       </div>
+      <md-button class=" md-button md-raised md-accent" ng-click="testFunction()">Primary Hue 1</md-button>
       <div class="col-md-4" style="margin-top: 2em">
-        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
+        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()"/>
       </div>
     </div>
   </div>
@@ -17,5 +18,6 @@
     </a>
   </div>
 
-  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage"
+              ng-change="pageChanged()"></pagination>
 </section>
