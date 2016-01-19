@@ -8,5 +8,11 @@ angular.module('core.admin').run(['Menus',
       type: 'dropdown',
       roles: ['admin']
     });
+      Menus.addMenuItem('topbar', {
+          title: 'Supplier',
+          state: 'admin',
+          type: 'dropdown',
+          roles: ['supplier']
+      });
   }
 ]);
