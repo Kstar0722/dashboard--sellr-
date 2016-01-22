@@ -12,6 +12,7 @@ module.exports = {
             ],
             js: [
                 'public/lib/angular/angular.js',
+                'public/lib/aws-sdk/dist/aws-sdk.min.js',
                 'public/lib/angular-material/angular-material.min.js',
                 'public/lib/angular-aria/angular-aria.min.js',
                 'public/lib/angular-resource/angular-resource.js',
@@ -22,7 +23,9 @@ module.exports = {
                 'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
                 'public/lib/angular-file-upload/angular-file-upload.js',
                 'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
-                'public/lib/underscore/underscore-min.js'
+                'public/lib/underscore/underscore-min.js',
+                'public/lib/ng-file-upload/ng-file-upload-all.min.js'
+
 
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']

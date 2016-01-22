@@ -4,9 +4,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     function ($scope, Authentication, $mdDialog) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        $scope.userIsRoss = function () {
-            if (_.contains(Authentication.user.roles, 'ross')) {
-                return true
+        $scope.userIsSupplier = function () {
+            if (_.contains(Authentication.user.roles, 'supplier')) {
+                return true;
             }
         };
         $scope.testFunction = function (ev) {

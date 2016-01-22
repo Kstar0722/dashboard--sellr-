@@ -6,10 +6,11 @@ angular.module('users.admin').controller('StoreController', ['$scope','$state','
 
 
 
+
+
     $scope.invite = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'storeForm');
-
         return false;
       }
 
