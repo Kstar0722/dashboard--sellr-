@@ -7,6 +7,10 @@ angular.module('users.supplier').run(['Menus',
             title: 'Upload Media',
             state: 'supplier.media'
         });
+        Menus.addSubMenuItem('topbar', 'supplier', {
+            title: 'View Media',
+            state: 'supplier.assets'
+        });
 
     }
 ]);

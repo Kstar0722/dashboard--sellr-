@@ -1,0 +1,28 @@
+
+<div class="container-fluid"  ng-controller="AssetController as vm" data-ng-init="init()">
+  <div layout="row">
+    <div>
+      <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
+        Toggle left
+      </md-button>
+    </div>
+    <div layout="column" style="display: inline-block;">
+      <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+        <md-toolbar class="md-theme-indigo">
+          <h1 class="md-toolbar-tools">Your Files</h1>
+        </md-toolbar>
+        <md-content ng-repeat="link in links track by $index" layout-padding="">
+          <!--<p>hello</p>-->
+          <!--<div ng-repeat="link in links track by $index">-->
+          <a ng-click="viewFile(link)">{{link}}</a>
+          <!--</div>-->
+        </md-content>
+      </md-sidenav>
+    </div>
+    <div layout="column" width="100%" style="padding-bottom:75%"></div>
+    <img ng-if="media == 'image'" ng-src="{{vm.news3image}}" width="100%" style="padding-bottom:75%">
+    <iframe ng-if="media =='video'" ng-src="{{vm.news3image}}" width="100%" style="padding-bottom:75%" frameBorder="2"
+            allowfullscreen="true"></iframe>
+  </div>
+</div>
+

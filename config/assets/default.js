@@ -14,6 +14,7 @@ module.exports = {
                 'public/lib/angular/angular.js',
                 'public/lib/aws-sdk/dist/aws-sdk.min.js',
                 'public/lib/angular-material/angular-material.min.js',
+                'public/lib/video.js/dist/video.min.js',
                 'public/lib/angular-aria/angular-aria.min.js',
                 'public/lib/angular-resource/angular-resource.js',
                 'public/lib/angular-animate/angular-animate.js',

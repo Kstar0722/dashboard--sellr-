@@ -3,31 +3,11 @@
     <h1>Upload An Asset!</h1>
   </div>
   <div class="col-md-12">
-    <div ng-app="fileUpload" ng-controller="MediaController">
-
-      <!--watching model:-->
-      <!--<div class="button" ngf-select ng-model="file" ngf-multiple="false">Select File</div>-->
-      <!--on file change multiple:-->
-      <!--on file change multiple:-->
-      <!--<input name="file" type="file" file />-->
-
+    <div ng-controller="MediaController as vm">
       <md-button class="md-button md-raised md-primary" ngf-select="upload($files)" ngf-multiple="true">
-             UPLOAD MULTIPLE FILES
-        <br><img src="lib/material-design-icons/file/1x_web/ic_cloud_download_white_48dp.png"/></md-button >
-      <!--<md-button class="md-button md-raised md-primary" ng-click="upload($files)" ngf-multiple="true">-->
-        <!--UPLOAD MULTIPLE FILES-->
-        <!--<br><img src="lib/material-design-icons/file/1x_web/ic_cloud_download_white_48dp.png"/></md-button >-->
-      <md-progress-circular md-mode="indeterminate" ng-show="loading" class="md-accent"></md-progress-circular>
-      <!--<br>-->
-
-      <div ng-repeat="u in uploaded">&nbsp;&nbsp;&nbsp;{{$index+1}}UPLOADS SUCCESSFUL </div>
-      <br>
-      <br>
-      <br>
-      <br>
-
-
+        UPLOAD FILES
+        <br><img src="lib/material-design-icons/file/1x_web/ic_cloud_upload_white_48dp.png"/></md-button>
+      <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
     </div>
-  </div>
   </div>
 </section>

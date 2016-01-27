@@ -5,9 +5,12 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
     $scope.regCodeErrors = false;
+    $scope.regCode = '';
 
     // Get an eventual error defined in the URL query string:
     $scope.error = $location.search().err;
+    $scope.regCode = $location.search().regcode;
+    console.log($scope.regCodeUrl);
 
     // If user is signed in then redirect back home
     if ($scope.authentication.user) {
@@ -22,7 +25,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         return false;
       }
-      $http.get('http://api.expertoncue.com:443/store/validate/'+$scope.credentials.regCode).success(function (response) {
+      $http.get('http://api.expertoncue.com:443/store/validate/'+$scope.regCode).success(function (response) {
         // If successful we assign the response to the global user model
 
 

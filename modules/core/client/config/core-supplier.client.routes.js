@@ -6,7 +6,7 @@ angular.module('core.supplier.routes').config(['$stateProvider',
         $stateProvider
             .state('supplier', {
                 abstract: true,
-                url: '/supplier',
+                url: '',
                 template: '<ui-view/>',
                 data: {
                     roles: ['supplier']
