@@ -10,7 +10,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
     // Get an eventual error defined in the URL query string:
     $scope.error = $location.search().err;
     $scope.regCode = $location.search().regcode;
-    console.log($scope.regCodeUrl);
+
 
     // If user is signed in then redirect back home
     if ($scope.authentication.user) {
@@ -32,14 +32,12 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
          var check = response;
         $scope.regCodeErrors = !check;
-        console.dir($scope.regCodeErrors);
+
         // And redirect to the previous or home page
         if(check) {
           $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
             // If successful we assign the response to the global user model
             $scope.authentication.user = response;
-            console.dir(response);
-
             // And redirect to the previous or home page
             $state.go($state.previous.state.name || 'home', $state.previous.params);
           }).error(function (response) {
