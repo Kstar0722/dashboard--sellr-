@@ -30,18 +30,36 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
 
 
-         var check = response;
+        var check = response;
         $scope.regCodeErrors = !check;
-
+        console.dir($scope.credentials);
+        for(var i in response.role){
+          response.role[i] = response.role[i].trim().toLowerCase();
+        }
         // And redirect to the previous or home page
+        $scope.credentials.roles =response.role;
+          console.log($scope.credentials)
         if(check) {
-          $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
-            // If successful we assign the response to the global user model
-            $scope.authentication.user = response;
-            // And redirect to the previous or home page
-            $state.go($state.previous.state.name || 'home', $state.previous.params);
-          }).error(function (response) {
-            $scope.error = response.message;
+            var storeUpdate = {
+                payload:{
+                    email:$scope.credentials.email,
+                    username: $scope.credentials.username,
+                    userId:$scope.regCode
+                }
+            };
+          $http.post('http://api.expertoncue.com:443/store/update', storeUpdate).success(function (res) {
+            if(res) {
+                $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
+                    // If successful we assign the response to the global user model
+                    $scope.authentication.user = response;
+                    // And redirect to the previous or home page
+                    $state.go($state.previous.state.name || 'home', $state.previous.params);
+                }).error(function (response) {
+                    $scope.error = response.message;
+                });
+            }
+          }).error(function (res) {
+            $scope.error = res.message;
           });
         }
 
@@ -63,7 +81,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
       $http.post('/api/auth/signin', $scope.credentials).success(function (response) {
         // If successful we assign the response to the global user model
-          console.log('authClientController signing %O', response);
+        console.log('authClientController signing %O', response);
         $scope.authentication.user = response;
         // And redirect to the previous or home page
         $state.go($state.previous.state.name || 'home', $state.previous.params);

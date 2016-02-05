@@ -3,7 +3,7 @@
 angular.module('core.supplier').run(['Menus',
     function (Menus) {
         Menus.addMenuItem('topbar', {
-            title: 'supplier',
+            title: 'Supplier',
             state: 'supplier',
             type: 'dropdown',
             roles: ['supplier']

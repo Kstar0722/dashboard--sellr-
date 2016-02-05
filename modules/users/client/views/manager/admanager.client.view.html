@@ -1,0 +1,20 @@
+
+<div class="container-fluid"  ng-controller="AdmanagerController as vm" data-ng-init="init()">
+  <h1>Connected items</h1>
+  <h2>{{rightArray}}</h2>
+  <div class="section row connectedItemsExample">
+    <div class="col-sm-offset-2 col-sm-4">
+      <h2>Uploaded Ads</h2>
+      <ul ui-sortable="sortableOptions" ng-model="leftArray" class="list">
+        <li ng-repeat="item in leftArray" class="item">{{item.value}}</li>
+      </ul>
+    </div>
+    <div class="col-sm-4">
+      <h2>Active Ads</h2>
+      <ul ui-sortable="sortableOptions" ng-model="rightArray" class="list" >
+        <li ng-repeat="item in rightArray" class="item">{{item.value}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+

@@ -6,13 +6,11 @@ angular.module('users.supplier.routes').config(['$stateProvider',
         $stateProvider
             .state('supplier.media', {
                 url: '/supplier',
-                templateUrl: 'modules/users/client/views/supplier/media.client.view.html',
-                controller: 'MediaController'
+                templateUrl: 'modules/users/client/views/supplier/media.client.view.html'
             })
             .state('supplier.assets', {
                 url: '/supplier/assets',
-                templateUrl: 'modules/users/client/views/supplier/assets.client.view.html',
-                controller: 'AssetController'
+                templateUrl: 'modules/users/client/views/supplier/assets.client.view.html'
             })
 
 

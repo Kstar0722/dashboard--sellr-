@@ -41,3 +41,34 @@
   postition:absolute;
   top:123px;
 }
+.section {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.list {
+  border: 1px solid #000;
+  border-radius: 15px;
+  list-style: none outside none;
+
+  overflow: auto;
+  margin: 10px;
+  padding: 10px;
+}
+
+.item {
+  padding: 5px 10px;
+  margin: 5px 0;
+  border: 2px solid #444;
+  border-radius: 5px;
+  background-color: #247BA0;
+  overflow: auto;
+  /*font-size: 1.1em;*/
+  /*font-weight: bold;*/
+  text-align: center;
+  cursor: move;
+}
+#location{
+  margin-bottom: 1%;
+}
+

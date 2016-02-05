@@ -11,7 +11,10 @@ module.exports = {
 
             ],
             js: [
+                'public/lib/jquery/dist/jquery.min.js',
+                'public/lib/jquery-ui/jquery-ui.min.js',
                 'public/lib/angular/angular.js',
+                'public/lib/angular-ui-sortable/sortable.min.js',
                 'public/lib/aws-sdk/dist/aws-sdk.min.js',
                 'public/lib/angular-material/angular-material.min.js',
                 'public/lib/video.js/dist/video.min.js',

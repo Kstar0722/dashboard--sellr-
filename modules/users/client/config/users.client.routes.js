@@ -5,6 +5,14 @@ angular.module('users').config(['$stateProvider',
   function ($stateProvider) {
     // Users state routing
     $stateProvider
+        .state('admanager', {
+          abstract: true,
+          url: '/admanager',
+          templateUrl: 'modules/users/client/views/settings/admanager.client.view.html',
+          data: {
+            roles: ['user']
+          }
+        })
       .state('settings', {
         abstract: true,
         url: '/settings',
@@ -68,5 +76,6 @@ angular.module('users').config(['$stateProvider',
         url: '/:token',
         templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
       });
+
   }
 ]);

@@ -27,7 +27,20 @@
             <p class="help-block error-text" ng-message="required">Store Email is required.</p>
           </div>
         </div>
-
+        <div class="form-group" ng-repeat="location in locations">
+          <label  ng-show="$first" id="location">Locations</label>
+          <br>
+          <input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location" >
+          <md-button class="md-button md-raised md-primary"  ng-show="$last" ng-click="addNewLocation(locs)">Add Another Location</md-button>
+          <md-button class="md-button md-raised md-primary"  ng-show="removeLocationBox" ng-click="removeLocation()">Remove Location</md-button>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="userRole">User Role</label>
+          <input type="text" id="userRole" name="userRole" class="form-control" ng-model="store.userRole" placeholder="User Role i.e Manager, User" required />
+          <div ng-messages="storeForm.userRole.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">User Role is required.</p>
+          </div>
+        </div>
         <div class="form-group">
           <input type="submit" value="Invite" class="btn btn-default">
         </div>
