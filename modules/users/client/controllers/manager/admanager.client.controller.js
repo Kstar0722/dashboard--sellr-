@@ -25,7 +25,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope','$s
                 }
                 if (response) {
                     for (var i in response.data) {
-                        var myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName}
+                        var myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName};
 
                         $scope.links.push(myData.value.length);
 

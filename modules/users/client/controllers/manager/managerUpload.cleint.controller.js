@@ -7,14 +7,25 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
         var self = this;
         //var files3 = '';
         $scope.links = [];
-        console.log('stuff')
+        $scope.list_categories = [];
         function encode(data) {
             var str = data.reduce(function (a, b) {
                 return a + String.fromCharCode(b)
             }, '');
             return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
         }
+        $scope.init = function () {
+            $http.get('http://api.expertoncue.com:443/store/location/' + $scope.authentication.user.username).then(function (response, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (response) {
 
+                        $scope.list_categories = response;
+
+                }
+            });
+        }
         $scope.viewImage = function(image){
             ImageService.image = image;
             $state.go('supplier.assets',image);
@@ -35,10 +46,13 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
         }
 
         $scope.upload = function (file) {
+
+
             var obj = {
                 payload: {
                     fileName: file[0].name,
-                    userName: $scope.authentication.user.username
+                    userName: $scope.authentication.user.username,
+                    locationId: $scope.list_category
                 }
             };
             $http.post('http://api.expertoncue.com:443/media', obj).then(function (response, err) {
