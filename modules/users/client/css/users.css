@@ -71,4 +71,53 @@
 #location{
   margin-bottom: 1%;
 }
+#homecontent {
+  position: relative;
+  overflow:auto;
+}
+#homecontent-mid {
+  min-height: 100%;
+  top: -40px;
+}
 
+.sliderdiv {
+  /*background: none repeat scroll;*/
+  float: left;
+  /*overflow:auto;*/
+  /*max-height: 10%;*/
+  overflow: scroll;
+
+}
+
+.sliderdiv img {
+  max-height: 10vh;
+
+}
+.main-search  img {
+  max-height: 15vh;
+  overflow: scroll;
+}
+.source-card{
+  max-width: 40vh;
+float: left;
+
+
+}
+.card-wrapper{
+  /*float:right;*/
+  max-width: inherit;
+
+}
+.main-search {
+  overflow: scroll;
+
+
+  /*padding: 20px 10px;*/
+
+
+}
+.side-nav-container{
+  max-height: 80vh;
+  overflow-y: scroll;
+  max-width: 80vh;
+}

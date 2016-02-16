@@ -79,6 +79,7 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
                     return false;
                 }
                 else {
+
                     var re = /(?:\.([^.]+))?$/;
 
                     var ext = re.exec(ImageService.image)[1];

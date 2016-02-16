@@ -4,8 +4,7 @@
   </div>
   <div class="col-md-12">
     <div ng-controller="ManagerUploadController as vm"  data-ng-init="init()">
-      <select id="sel" class="input-block-level" ng-model="list_category" ng-options="obj.locationId as obj.address for obj in list_categories.data"></select>
-      <br>
+
       <md-button class="md-button md-raised md-primary" ngf-select="upload($files)" ngf-multiple="true">
         UPLOAD FILES
         <br><img src="lib/material-design-icons/file/1x_web/ic_cloud_upload_white_48dp.png"/></md-button>

@@ -15,16 +15,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
             return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
         }
         $scope.init = function () {
-            $http.get('http://api.expertoncue.com:443/store/location/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
 
-                        $scope.list_categories = response;
-
-                }
-            });
         }
         $scope.viewImage = function(image){
             ImageService.image = image;
@@ -51,8 +42,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
             var obj = {
                 payload: {
                     fileName: file[0].name,
-                    userName: $scope.authentication.user.username,
-                    locationId: $scope.list_category
+                    userName: $scope.authentication.user.username
                 }
             };
             $http.post('http://api.expertoncue.com:443/media', obj).then(function (response, err) {
@@ -72,7 +62,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
                     });
                     AWS.config.region = 'us-east-1';
                     var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-
+                    console.log(response.data)
                     //if (file) {
                     var params = {
                         Key: response.data.assetId + "-" + file[0].name,
