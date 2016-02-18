@@ -85,22 +85,23 @@
   float: left;
   /*overflow:auto;*/
   /*max-height: 10%;*/
-  overflow: scroll;
+  overflow: hidden;
+  white-space: nowrap;
 
 }
 
 .sliderdiv img {
-  max-height: 10vh;
-
+  max-height: 20vh;
+  max-width:30vh;
 }
 .main-search  img {
   max-height: 15vh;
+  max-width:20vh;
   overflow: scroll;
 }
 .source-card{
   max-width: 40vh;
-float: left;
-
+  float: left;
 
 }
 .card-wrapper{
@@ -116,8 +117,14 @@ float: left;
 
 
 }
+.card-text{
+  white-space: pre-wrap;      /* CSS3 */
+
+
+}
 .side-nav-container{
   max-height: 80vh;
   overflow-y: scroll;
   max-width: 80vh;
+
 }

@@ -1,17 +1,81 @@
-<div id="container-fluid" ng-cloak>
+<div ng-controller="AuthenticationController" ng-hide="authentication.user" id="sign-in">
 
-  <div id="popupContainer">
-    <md-button class="md-button md-raised md-primary" ng-click="testFunction($event)">{{1+1}}</md-button>
-    <md-button class="md-primary md-raised" ng-click="testFunction($event)" flex="100" flex-gt-md="auto">
-      Alert Dialog
-    </md-button>
-    <md-input-container>
-      <label>Street Name</label>
-      <input>
-    </md-input-container>
-    <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
-      Checkbox 1: {{ data.cb1 }}
-    </md-checkbox>
+  <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+    <form name="userForm" ng-submit="signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
+      <fieldset>
+        <md-input-container show-erros>
+          <label>Username</label>
+          <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
+          <div ng-messages="userForm.username.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Username is required.</p>
+          </div>
+        </md-input-container>
+        <md-input-container show-errors>
+          <label >Password</label>
+          <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required>
+          <div ng-messages="userForm.password.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Password is required.</p>
+          </div>
+        </md-input-container>
+        <div class="text-center">
+          <md-button  class="btn btn-primary" type="submit">Sign in</md-button>
+          <md-button  class="btn btn-primary" ui-sref="authentication.signup">Sign up</md-button >
+        </div>
+        <div class="text-center forgot-password">
+          <a ui-sref="password.forgot">Forgot your password?</a>
+        </div>
+        <alert type="danger" ng-show="error" class="text-center text-danger">
+          <span ng-bind="error"></span>
+        </alert>
+      </fieldset>
+    </form>
   </div>
-  <h2 ng-if="userIsSupplier()">HI SUPPLIER</h2>
 </div>
+
+
+<!--<div id="sign-in">-->
+  <!--<div class="overlay">-->
+    <!--<div class="box">-->
+      <!--<h1>Sign In</h1>-->
+
+      <!--<p>Please fill in your username and<br>-->
+        <!--password to sign in.</p>-->
+
+      <!--<form name="signinForm" ng-submit="signinForm.$valid && signin()" class="signin" autocomplete="off" novalidate>-->
+        <!--<fieldset>-->
+          <!--<md-input-container>-->
+            <!--<label>Username</label>-->
+            <!--<input type="text" ng-model="credentials.username" name="username" required maxlength="50" ng-autofocus="true">-->
+            <!--<ng-messages for="signinForm.username.$error" class="alert" ng-show="signinForm.$submitted">-->
+              <!--<ng-messages-include src="error-messages"></ng-messages-include>-->
+            <!--</ng-messages>-->
+          <!--</md-input-container>-->
+
+          <!--<md-input-container>-->
+            <!--<label>Password</label>-->
+            <!--<input type="password" ng-model="credentials.password" name="password" required maxlength="50">-->
+            <!--<ng-messages for="signinForm.password.$error" class="alert" ng-show="signinForm.$submitted">-->
+              <!--<ng-messages-include src="error-messages"></ng-messages-include>-->
+            <!--</ng-messages>-->
+          <!--</md-input-container>-->
+
+          <!--<div layout="row" class="options">-->
+            <!--<md-checkbox ng-model="credentials.remember" ng-change="rememberMe()">-->
+              <!--Remember me?-->
+            <!--</md-checkbox>-->
+            <!--<div flex></div>-->
+            <!--<a ui-sref="forgot">Forgot your password?</a>-->
+          <!--</div>-->
+
+          <!--<div class="text-center">-->
+            <!--<md-button type="submit" id="login" class="md-raised md-secondary block">Sign in</md-button>-->
+          <!--</div>-->
+
+          <!--<div ng-show="error" class="text-center text-danger well">-->
+            <!--<strong ng-bind="error"></strong>-->
+          <!--</div>-->
+        <!--</fieldset>-->
+      <!--</form>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

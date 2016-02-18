@@ -247,7 +247,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
                             else {
                                 console.dir(data);
                                 // Success!
-
+                                self.determinateValue = 0;
                                 $scope.init();
                                 alert('Upload Done');
 

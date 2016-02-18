@@ -22,10 +22,10 @@
 
           <md-content ng-repeat="source in sources" layout-padding=""  >
 
-              <md-card ng-if="source.ext == 'image'"  style="background-color: #ADD8E6;" >
+              <md-card ng-if="source.ext == 'image'"  style="background-color: #ADD8E6; " >
                 <md-card-title >
                   <md-card-title-text >
-                    <span class="md-subhead">{{source.value}}</span>
+                    <span class="card-text" >{{source.value}}</span>
                     <img ng-if="source.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
                   </md-card-title-text>
                 </md-card-title>
@@ -36,10 +36,10 @@
                     </md-button>
                  </md-card-actions>
               </md-card>
-            <md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" >
+            <md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card" >
               <md-card-title >
                   <md-card-title-text >
-                    <span class="md-subhead">{{source.value}}</span>
+                    <span class="card-text">{{source.value}}</span>
                     <video controls ng-if="source.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"  frameBorder="2"
                            allowfullscreen="true" ></video>
                   </md-card-title-text>
@@ -69,7 +69,7 @@
                     <md-card ng-if="link.ext == 'image'"  class="source-card"  style="background-color: #ADD8E6;">
                       <md-card-title >
                         <md-card-title-text >
-                          <span class="md-subhead">{{link.value}}</span>
+                          <span class="card-text">{{link.value}}</span>
                           <img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}">
                         </md-card-title-text>
                       </md-card-title>
@@ -82,7 +82,7 @@
                     <md-card ng-if="link.ext =='video'"  class="source-card"  style="background-color: #ADD8E6;">
                     <md-card-title >
                         <md-card-title-text >
-                          <span class="md-subhead">{{link.value}}</span>
+                          <span class="card-text">{{link.value}}</span>
                           <video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}"  frameBorder="2"
                                  allowfullscreen="true" ></video>
                         </md-card-title-text>
