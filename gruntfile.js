@@ -32,26 +32,26 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
-      serverJS: {
-        files: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS),
-        tasks: ['jshint'],
-        options: {
-          livereload: true
-        }
-      },
+      //serverJS: {
+      //  files: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS),
+      //  tasks: ['jshint'],
+      //  options: {
+      //    livereload: true
+      //  }
+      //},
       clientViews: {
         files: defaultAssets.client.views,
         options: {
           livereload: true
         }
       },
-      clientJS: {
-        files: defaultAssets.client.js,
-        tasks: ['jshint'],
-        options: {
-          livereload: true
-        }
-      },
+      //clientJS: {
+      //  files: defaultAssets.client.js,
+      //  tasks: ['jshint'],
+      //  options: {
+      //    livereload: true
+      //  }
+      //},
       clientCSS: {
         files: defaultAssets.client.css,
         tasks: ['csslint'],
@@ -297,7 +297,7 @@ module.exports = function (grunt) {
   });
 
   // Lint CSS and JavaScript files.
-  grunt.registerTask('lint', ['sass', 'less', 'jshint', 'csslint']);
+  grunt.registerTask('lint', ['sass', 'less', 'csslint']);
 
   // Lint project files and minify them into two production files.
   grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
