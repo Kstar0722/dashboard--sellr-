@@ -71,9 +71,6 @@
 #location {
   margin-bottom: 1%;
 }
-#admanager{
-  padding-top: 10vh;
-}
 #homecontent {
   position: relative;
   overflow: auto;
@@ -119,4 +116,7 @@
   max-height: 80vh;
   overflow-y: scroll;
   max-width: 80vh;
+}
+#admanager {
+  padding-top: 10vh;
 }
