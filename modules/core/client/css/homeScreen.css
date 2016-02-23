@@ -114,8 +114,8 @@
 }
 .sign-in #login-form button:hover,
 .sign-in #reset-form button:hover {
-  background-color: #efefef;
-  color: #0F3456;
+  background-color: #0F3456;
+  color: #ffffff;
 }
 .sign-in #login-form #remember,
 .sign-in #reset-form #remember {
