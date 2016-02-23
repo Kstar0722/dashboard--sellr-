@@ -65,27 +65,20 @@
   <!--</nav>-->
 <!--</div>-->
 <div id="topNav" data-ng-controller="HeaderController">
-  <md-fab-toolbar md-open="ui.toolbarOpened" count="ui.count" ng-class="{ 'md-is-open': ui.toolbarOpened }">
-    <md-fab-trigger class="align-with-text">
-      <md-button aria-label="menu" class="md-fab md-primary" ui-sref="home" class="navbar-brand">
-        HOME<md-icon class="menu-icon"></md-icon>
-      </md-button>
-    </md-fab-trigger>
-    <md-toolbar ng-class="{ open: ui.toolbarOpened }">
-      <div class="md-toolbar-tools" data-ng-if="!menu.shouldRender(authentication.user);">
-        <span>TEAM PLANNER</span>
-      </div>
-      <md-fab-actions class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
-        <div data-ng-repeat="item in menu.items | orderBy: 'position'"
+  <md-toolbar md-open="ui.toolbarOpened" count="ui.count" ng-class="{ 'md-is-open': ui.toolbarOpened }" >
+
+    <!--<md-toolbar ng-class="{ open: ui.toolbarOpened }">-->
+
+
+      <md-toolbar class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
+        <div data-ng-repeat="item in menu.items "
              data-ng-if="item.shouldRender(authentication.user);"
-             ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute), dropdown: item.type === 'dropdown'}" ng-switch="item.type"  dropdown="item.type === 'dropdown'" >
-          <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
-          <md-menu md-position-mode="target-right bottom"  ng-switch-when="dropdown" class="dropdown-menu">
-            <md-menu-item ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
-              <md-menu-content ui-sref="{{subitem.state}}" ng-bind="subitem.title"></md-menu-content>
-            </md-menu-item>
-          </md-menu>
-          </a>
+             ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}"    >
+
+            <div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
+              <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title"></md-button>
+            </div>
+
 
         </div>
 
@@ -109,11 +102,14 @@
         </div>
 
         <md-menu md-position-mode="target-right bottom">
-          <md-button type="button" ng-click="$mdOpenMenu($event)">
-            <span data-ng-bind="authentication.user.displayName"></span>
+          <div id="profbutton">
+          <md-button  ng-click="$mdOpenMenu($event)" >
             <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
-            <ng-md-icon icon="arrow_drop_down" size="20" style="margin-left: -5px"></ng-md-icon>
+            <span data-ng-bind="authentication.user.displayName"></span>
+
+            <img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">
           </md-button>
+          </div>
           <md-menu-content width="3">
             <md-menu-item>
               <md-button ui-sref="settings.profile">Edit Profile</md-button>
@@ -148,7 +144,7 @@
                 </li>
             </ul>
         </div>-->
-      </md-fab-actions>
-    </md-toolbar>
-  </md-fab-toolbar>
+      </md-toolbar>
+    <!--</md-toolbar>-->
+  </md-toolbar>
 </div>

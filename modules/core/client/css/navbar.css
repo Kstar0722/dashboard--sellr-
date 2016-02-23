@@ -1,156 +1,31 @@
 #topNav {
-  width: 64px;
-  height: 64px;
+  width: 100%;
+  height: 25vh;
   top: 0;
   position: fixed;
   left: 0;
   transition: all .25s;
   overflow: visible !important;
-  z-index: 9000;
-  /*
-.md-fab {
-  background: rgb(245, 99, 58);
-  background: -moz-linear-gradient(top, rgba(67,137,162, 0.8) 10%, rgba(92,37,141, 0.8) 90%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(67,137,162, 0.8) 10%, rgba(92,37,141, 0.8) 90%));
-  background: -webkit-linear-gradient(top, rgba(67,137,162, 0.8) 10%, rgba(92,37,141, 0.8) 90%);
-  background: -o-linear-gradient(top, rgba(67,137,162, 0.8) 10%, rgba(92,37,141, 0.8) 90%);
-  background: -ms-linear-gradient(top, rgba(67,137,162, 0.8) 10%, rgba(92,37,141, 0.8) 90%);
-  background: linear-gradient(to bottom, rgba(67,137,162, 0.8) 10%, rgba(, 0.8) 90%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5633a', endColorstr='#f3567f', GradientType=0);
-} */
+  background: #1f1f1f;
+  color: white;
 }
 #topNav:hover {
   width: 100%;
 }
-#topNav .md-button.md-fab {
-  border-radius: 0;
-  box-shadow: none;
-  width: 64px;
-  height: 64px;
-  line-height: 64px;
+#topNav .md-menu {
+  right: 0;
+  z-index: auto;
 }
-#topNav .md-toolbar-tools {
-  display: -webkit-flex;
-  /* Safari */
-  -webkit-flex-direction: row;
-  /* Safari 6.1+ */
-  display: flex;
-  flex-direction: row;
+#topNav #profbutton {
+  padding-top: 6vh;
+  overflow: auto;
 }
-#topNav md-fab-toolbar md-fab-trigger {
-  position: absolute;
-  z-index: 20;
-  left: -8px;
-  top: -6px;
-}
-#topNav .md-fab-toolbar-content {
-  margin-left: 66px;
-}
-#topNav md-fab-toolbar md-fab-trigger md-icon {
-  opacity: 1 !important;
-}
-#topNav .md-fab {
-  background: rgba(92, 37, 141, 0.75);
-}
-#topNav md-fab-toolbar md-fab-trigger .md-fab-toolbar-background {
-  background-color: transparent !important;
-}
-#topNav md-toolbar {
-  padding-right: 50px;
-  background: #171625;
-  color: #9DA1A0 !important;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.14), 0px 8px 10px 1px rgba(0, 0, 0, 0.098), 0px 3px 14px 2px rgba(0, 0, 0, 0.084);
-}
-#topNav .md-fab-toolbar-content > * {
-  position: fixed !important;
-}
-#topNav .md-fab-action-item {
-  margin: 0 5px;
-  pointer-events: auto;
-}
-#topNav .md-fab-action-item a {
-  display: table-cell;
-  vertical-align: middle;
-}
-#topNav .dropdown-menu a {
-  display: block;
-}
-#topNav md-toolbar {
-  box-shadow: none;
-  margin-left: -2px;
-  visibility: hidden;
-}
-#topNav md-toolbar .md-toolbar-tools {
-  margin: 0;
-  border-radius: 0;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-#topNav md-toolbar .md-toolbar-tools .md-button {
-  min-width: 60px;
-}
-@media (max-width: 970px) {
-  #topNav md-toolbar .md-toolbar-tools {
-    min-height: 75px;
-    padding-right: 55px;
-  }
-}
-@media (max-width: 700px) {
-  #topNav md-toolbar .md-toolbar-tools {
-    min-height: 110px;
-  }
-  #topNav md-toolbar .md-toolbar-tools > * {
-    white-space: nowrap;
-  }
-  #topNav md-toolbar .md-toolbar-tools .md-button {
-    margin: 0 5px !important;
-    min-width: initial !important;
-  }
-  #topNav md-toolbar .md-toolbar-tools .md-button span {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-}
-#topNav md-toolbar.open {
-  visibility: visible;
-}
-#topNav md-toolbar.open .md-toolbar-tools {
-  background: #F7F7F7;
-}
-#topNav md-toolbar .divider.pull-right {
-  margin-left: auto;
-}
-#topNav md-toolbar .pull-right:last-of-type {
-  margin-right: 50px;
-}
-#topNav .menu-icon {
-  background-size: contain;
-  vertical-align: middle;
-}
-#topNav md-fab-trigger {
-  top: -6px;
-  left: -8px;
-}
-#topNav .dirty-toolbar .md-button {
-  color: white;
-  margin-left: 0;
-  text-transform: none;
-}
-#topNav .dirty-toolbar .md-button.save {
-  background: #00c68d;
-}
-#topNav .dirty-toolbar .md-button.discard {
-  background: #c0392b;
-}
-#topNav .dirty-toolbar .md-button[disabled] {
-  background: rgba(0, 0, 0, 0.12);
-  cursor: default;
-  transition: none !important;
+#topNav #pagebutton {
+  padding-left: 10vh;
+  padding-top: 10vh;
+  display: inline-block;
 }
 #topNav md-toolbar.md-default-theme:not(.md-menu-toolbar),
-#topNav md-toolbar:not(.md-menu-toolbar) .md-button {
-  color: inherit;
-}
-#topNav .md-fab-toolbar-background {
-  pointer-events: none;
+#topNav md-toolbar:not(.md-menu-toolbar) {
+  background-color: transparent;
 }
