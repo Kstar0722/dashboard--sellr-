@@ -12,7 +12,7 @@
 @orange:        #FFA500;
 
 /* VIRTUAL COLORS */
-@brand-primary: #19547f;
+@brand-primary: @pink;
 @brand-primary-75: rgba(25, 84, 127, 0.75);
 @brand-primary-50: rgba(25, 84, 127, 0.5);
 @brand-primary-25: rgba(25, 84, 127, 0.25);
@@ -22,6 +22,9 @@
 @brand-warning: @orange;
 @brand-danger: @red;
 
+.content {
+  margin-top: 0;
+}
 .sign-in {
   background-image: url(' ../img/bg_2.png ');
   background-size: cover;
@@ -31,22 +34,35 @@
   width: 100vw;
   min-height: 100vh;
 
-  form#login-form,
-  form#reset-form {
-    max-width: 600px;
+  #login-form,
+  #reset-form {
+    max-width: 550px;
     margin: auto;
     margin-top: 10vh;
-    margin-bottom: 10vh;
-    background: white;
-    padding: 80px 100px;
 
+
+    .alt-actions  {
+      margin-top: 1vh;
+      font-size: 13px;
+      a {
+        color: @brand-primary;
+        font-weight: bold;
+      }
+      color: white;
+
+    }
+    form {
+      background: white;
+      padding: 50px 100px;
+    }
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0px 1000px white inset;
       border-color: #333;
     }
 
-    img {
-      margin: 2vh auto 2vw auto;
+    .logo {
+      margin: 2vh auto 5vh auto;
+      display: block;
     }
 
     input[type=text] {

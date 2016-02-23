@@ -1,4 +1,7 @@
 /* VIRTUAL COLORS */
+.content {
+  margin-top: 0;
+}
 .sign-in {
   background-image: url(' ../img/bg_2.png ');
   background-size: cover;
@@ -8,26 +11,40 @@
   width: 100vw;
   min-height: 100vh;
 }
-.sign-in form#login-form,
-.sign-in form#reset-form {
-  max-width: 600px;
+.sign-in #login-form,
+.sign-in #reset-form {
+  max-width: 550px;
   margin: auto;
   margin-top: 10vh;
-  margin-bottom: 10vh;
-  background: white;
-  padding: 80px 100px;
 }
-.sign-in form#login-form input:-webkit-autofill,
-.sign-in form#reset-form input:-webkit-autofill {
+.sign-in #login-form .alt-actions,
+.sign-in #reset-form .alt-actions {
+  margin-top: 1vh;
+  font-size: 13px;
+  color: white;
+}
+.sign-in #login-form .alt-actions a,
+.sign-in #reset-form .alt-actions a {
+  color: #FE3A6D;
+  font-weight: bold;
+}
+.sign-in #login-form form,
+.sign-in #reset-form form {
+  background: white;
+  padding: 50px 100px;
+}
+.sign-in #login-form input:-webkit-autofill,
+.sign-in #reset-form input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
   border-color: #333;
 }
-.sign-in form#login-form img,
-.sign-in form#reset-form img {
-  margin: 2vh auto 2vw auto;
+.sign-in #login-form .logo,
+.sign-in #reset-form .logo {
+  margin: 2vh auto 5vh auto;
+  display: block;
 }
-.sign-in form#login-form input[type=text],
-.sign-in form#reset-form input[type=text] {
+.sign-in #login-form input[type=text],
+.sign-in #reset-form input[type=text] {
   height: 42px;
   border-radius: 0px;
   font-weight: 200;
@@ -35,8 +52,8 @@
   max-width: 100%;
   margin: 10px auto;
 }
-.sign-in form#login-form input[type=password],
-.sign-in form#reset-form input[type=password] {
+.sign-in #login-form input[type=password],
+.sign-in #reset-form input[type=password] {
   height: 42px;
   border-radius: 0px;
   font-weight: 200;
@@ -44,32 +61,32 @@
   max-width: 100%;
   margin: 10px auto;
 }
-.sign-in form#login-form input[type=username],
-.sign-in form#reset-form input[type=username] {
+.sign-in #login-form input[type=username],
+.sign-in #reset-form input[type=username] {
   width: 0;
   height: 0;
   padding: 0;
   opacity: 0;
   margin-bottom: -5px;
 }
-.sign-in form#login-form label,
-.sign-in form#reset-form label {
+.sign-in #login-form label,
+.sign-in #reset-form label {
   display: inline-block;
 }
-.sign-in form#login-form input[type=password]:focus,
-.sign-in form#reset-form input[type=password]:focus {
+.sign-in #login-form input[type=password]:focus,
+.sign-in #reset-form input[type=password]:focus {
   background-color: #ffffff;
 }
-.sign-in form#login-form input[type=text]:focus,
-.sign-in form#reset-form input[type=text]:focus {
+.sign-in #login-form input[type=text]:focus,
+.sign-in #reset-form input[type=text]:focus {
   background-color: #ffffff;
 }
-.sign-in form#login-form input[type=checkbox],
-.sign-in form#reset-form input[type=checkbox] {
+.sign-in #login-form input[type=checkbox],
+.sign-in #reset-form input[type=checkbox] {
   margin-left: 5px;
 }
-.sign-in form#login-form button,
-.sign-in form#reset-form button {
+.sign-in #login-form button,
+.sign-in #reset-form button {
   background-color: #0F3456;
   max-width: 100%;
   font-weight: 800;
@@ -77,12 +94,12 @@
   padding: 10px;
   margin: 30px 0 30px;
 }
-.sign-in form#login-form button:hover,
-.sign-in form#reset-form button:hover {
+.sign-in #login-form button:hover,
+.sign-in #reset-form button:hover {
   background-color: #00ADDC;
 }
-.sign-in form#login-form #remember,
-.sign-in form#reset-form #remember {
+.sign-in #login-form #remember,
+.sign-in #reset-form #remember {
   margin-right: 8px;
   margin-left: 32px;
 }
