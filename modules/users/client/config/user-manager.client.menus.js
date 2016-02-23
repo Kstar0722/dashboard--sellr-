@@ -4,12 +4,8 @@
 angular.module('users.manager').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Manage Ads',
+            title: 'Ad Manager',
             state: 'manager.ads'
-        });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Upload Ads',
-            state: 'manager.uploads'
         });
 
 

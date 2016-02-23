@@ -4,12 +4,8 @@
 angular.module('users.admin').run(['Menus',
   function (Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Users',
+      title: 'User Management',
       state: 'admin.users'
-    });
-    Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Invite A Store',
-      state: 'admin.store'
     });
   }
 ]);
