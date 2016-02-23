@@ -14,64 +14,6 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
             return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
         }
 
-        $scope.viewImage = function(image){
-            ImageService.image = image;
-            $state.go('supplier.assets',image);
-            //$scope.s3image = image;
-            //$scope.$apply();
-
-            //console.log(image)
-            //$scope.name = image;
-            //
-            //$scope.creds = {
-            //    bucket: 'beta.cdn.expertoncue.com',
-            //    access_key: 'AKIAICAP7UIWM4XZWVBA',
-            //    secret_key: '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',
-            //
-            //};
-            //var params = {
-
-            //    Key: image
-            //};
-            //
-            //// Configure The S3 Object
-            //AWS.config.update({
-            //    accessKeyId: $scope.creds.access_key,
-            //    secretAccessKey: $scope.creds.secret_key
-            //});
-            //AWS.config.region = 'us-east-1';
-            //var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-            //bucket.getObject(params, function (err, data) {
-            //    $scope.loading = true;
-            //    if (err) {
-            //        // There Was An Error With Your S3 Config
-            //        alert(err.message);
-            //        return false;
-            //    }
-            //    else {
-            //        console.log(data);
-            //
-            //        $scope.news3image = "data:image/jpeg;base64," + encode(data.Body);
-            //        $scope.$apply();
-            //        // Success!
-            //
-            //
-            //    }
-            //})
-        };
-
-        $scope.getFile = function () {
-            $http.get('http://api.expertoncue.com:443/media/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    for (var i in response.data) {
-                      $scope.links.push(response.data[i].mediaAssetId + "-" + response.data[i].fileName);
-                    }
-                }
-            });
-        }
 
         $scope.upload = function (file) {
             var obj = {

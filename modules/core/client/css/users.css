@@ -71,6 +71,9 @@
 #location {
   margin-bottom: 1%;
 }
+#admanager{
+  padding-top: 10vh;
+}
 #homecontent {
   position: relative;
   overflow: auto;

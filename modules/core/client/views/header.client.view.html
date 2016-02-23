@@ -83,13 +83,7 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right" ng-hide="authentication.user">
-          <li ui-sref-active="active">
-            <a ui-sref="authentication.signup">Sign Up</a>
-          </li>
-          <li class="divider-vertical"></li>
-          <li ui-sref-active="active">
-            <a ui-sref="authentication.signin">Sign In</a>
-          </li>
+          <h2>Welcome To The ExpertOnCue Dashboard!</h2>
         </ul>
 
         <!-- angular+css trick: avoid wrapping element into .md-fab-action-item using ng-if="true" -->
@@ -101,7 +95,7 @@
           <md-button ui-sref="admin">Manage users/permissions</md-button>
         </div>
 
-        <md-menu md-position-mode="target-right bottom">
+        <md-menu md-position-mode="target-right bottom" ng-hide="!authentication.user">
           <div id="profbutton">
           <md-button  ng-click="$mdOpenMenu($event)" >
             <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />

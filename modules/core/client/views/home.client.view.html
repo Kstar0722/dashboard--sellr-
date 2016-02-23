@@ -1,9 +1,8 @@
 <div ng-controller="AuthenticationController" ng-hide="authentication.user" id="sign-in">
 
-  <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
-    <form name="userForm" ng-submit="signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
+    <form name="userForm" ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off" class="text-center">
       <fieldset>
-        <md-input-container>
+        <md-input-container >
           <label>Username</label>
           <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
           <div ng-messages="userForm.username.$error" role="alert">
@@ -29,7 +28,7 @@
         </alert>
       </fieldset>
     </form>
-  </div>
+
 </div>
 
 

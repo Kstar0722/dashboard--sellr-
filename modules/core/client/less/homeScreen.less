@@ -1,83 +1,16 @@
 @white: #FFFFFF;
 
-body.signin, body.home {
-  section.content {
-    padding: 0;
-  }
-  input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset!important;
-  }
-  #sign-in {
-
-    background-position: 50% 50%;
-    background-size: cover;
-    color: @white;
-    height: 100vh;
-
-    .overlay {
-      background: linear-gradient(95deg, rgba(67,137,162, 0.8) 10%, rgba(92,37,141, 0.8) 90%); /* W3C */
-      height: 100vh;
-    }
-
-    .box {
-      margin: 0 auto;
-      max-width: 600px;
-      min-width: 340px;
-      padding-top: 12vh;
-      width: 40vw;
-
-      h1, p {
-        color: @white;
-        text-align: center;
-      }
-
-      a {
-
-        color: @white;
-      }
-
-      input, label, .md-icon {
-        border-color: @white;
-        color: @white;
-      }
-
-
-
-      .options {
-        margin: 20px 0 3vh;
-
-        > md-checkbox {
-          margin: 0;
-        }
-
-        > a {
-          line-height: 30px;
-        }
-      }
-
-      #login {
-
-        height: 55px;
-        margin: 0;
-        text-transform: none;
-      }
-
-
-    }
-  }
-}
-
-
-body.signin #sign-in .box #login, body.home #sign-in .box #login {
-
-  background: rgba(92, 37, 141, 0.5) !important;
-
-  &:hover {background: rgba(92, 37, 141, 1) !important;}
+#sign-in{
+  padding-top:25vh;
+  position: absolute;
+  width:100%;
+  min-height: 100%;
+  background-image: linear-gradient(95deg, rgba(255, 251, 255, 0.8) 10%, rgba(134, 131, 135, 0.8) 90%); /* W3C */
 
 }
-body.signin #sign-in, body.home #sign-in .text-danger {
 
-  color: #FA787E !important;
-  padding-top: 1em;
+#login{
+
+  margin:0 auto;
 
 }

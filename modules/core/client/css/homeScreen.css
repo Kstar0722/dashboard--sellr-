@@ -1,80 +1,11 @@
-body.signin section.content,
-body.home section.content {
-  padding: 0;
-}
-body.signin input:-webkit-autofill,
-body.home input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset!important;
-}
-body.signin #sign-in,
-body.home #sign-in {
-  background-position: 50% 50%;
-  background-size: cover;
-  color: #FFFFFF;
-  height: 100vh;
-}
-body.signin #sign-in .overlay,
-body.home #sign-in .overlay {
-  background: linear-gradient(95deg, rgba(67, 137, 162, 0.8) 10%, rgba(92, 37, 141, 0.8) 90%);
+#sign-in {
+  padding-top: 25vh;
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  background-image: linear-gradient(95deg, rgba(255, 251, 255, 0.8) 10%, rgba(134, 131, 135, 0.8) 90%);
   /* W3C */
-  height: 100vh;
 }
-body.signin #sign-in .box,
-body.home #sign-in .box {
+#login {
   margin: 0 auto;
-  max-width: 600px;
-  min-width: 340px;
-  padding-top: 12vh;
-  width: 40vw;
-}
-body.signin #sign-in .box h1,
-body.home #sign-in .box h1,
-body.signin #sign-in .box p,
-body.home #sign-in .box p {
-  color: #FFFFFF;
-  text-align: center;
-}
-body.signin #sign-in .box a,
-body.home #sign-in .box a {
-  color: #FFFFFF;
-}
-body.signin #sign-in .box input,
-body.home #sign-in .box input,
-body.signin #sign-in .box label,
-body.home #sign-in .box label,
-body.signin #sign-in .box .md-icon,
-body.home #sign-in .box .md-icon {
-  border-color: #FFFFFF;
-  color: #FFFFFF;
-}
-body.signin #sign-in .box .options,
-body.home #sign-in .box .options {
-  margin: 20px 0 3vh;
-}
-body.signin #sign-in .box .options > md-checkbox,
-body.home #sign-in .box .options > md-checkbox {
-  margin: 0;
-}
-body.signin #sign-in .box .options > a,
-body.home #sign-in .box .options > a {
-  line-height: 30px;
-}
-body.signin #sign-in .box #login,
-body.home #sign-in .box #login {
-  height: 55px;
-  margin: 0;
-  text-transform: none;
-}
-body.signin #sign-in .box #login,
-body.home #sign-in .box #login {
-  background: rgba(92, 37, 141, 0.5) !important;
-}
-body.signin #sign-in .box #login:hover,
-body.home #sign-in .box #login:hover {
-  background: #5c258d !important;
-}
-body.signin #sign-in,
-body.home #sign-in .text-danger {
-  color: #FA787E !important;
-  padding-top: 1em;
 }
