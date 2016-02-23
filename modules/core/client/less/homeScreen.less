@@ -26,13 +26,31 @@
   margin-top: 0;
 }
 .sign-in {
-  background-image: url(' ../img/bg_2.png ');
+  background-image: url(' ../img/bg_3.png ');
   background-size: cover;
   background-position: center;
   top: 0;
   position: absolute;
   width: 100vw;
   min-height: 100vh;
+
+
+  @gradient-top: rgba(2, 54, 73, 0.59);
+  @gradient-bottom: rgba(124, 13, 51, 0.49) ;
+  @gradient-split: ;
+  @gradient-start: 50%;
+
+  .shading {
+    background: rgba(0,0,0,.3);
+    width: 100vw;
+    min-height: 100vh;
+    top: 0;
+    position: absolute;
+    background: #43cf07;
+    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+  }
 
   #login-form,
   #reset-form {
