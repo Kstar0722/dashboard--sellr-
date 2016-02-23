@@ -9,8 +9,8 @@
               <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title"></md-button>
             </div>
         </div>
-        <ul class="nav navbar-nav navbar-right" ng-hide="authentication.user">
-          <h2>Welcome To The ExpertOnCue Dashboard!</h2>
+        <ul class="nav navbar-nav navbar-center" ng-hide="authentication.user">
+          <h1>ExpertOnCue Dashboard</h1>
         </ul>
         <div flex></div>
         <div ng-class="{active: $uiRoute}" ng-if="isGranted('ManageUsers')">
