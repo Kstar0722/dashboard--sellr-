@@ -1,5 +1,5 @@
 
-<div id="topNav" data-ng-controller="HeaderController">
+<div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
   <md-toolbar md-open="ui.toolbarOpened" count="ui.count" ng-class="{ 'md-is-open': ui.toolbarOpened }" >
       <md-toolbar class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
         <div data-ng-repeat="item in menu.items "
@@ -9,14 +9,11 @@
               <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title"></md-button>
             </div>
         </div>
-        <ul class="nav navbar-nav navbar-right" ng-hide="authentication.user">
-          <h2>Welcome To The ExpertOnCue Dashboard!</h2>
-        </ul>
         <div flex></div>
         <div ng-class="{active: $uiRoute}" ng-if="isGranted('ManageUsers')">
           <md-button ui-sref="admin">Manage users/permissions</md-button>
         </div>
-        <md-menu md-position-mode="target-right bottom" ng-hide="!authentication.user">
+        <md-menu md-position-mode="target-right bottom" >
           <div id="profbutton">
           <md-button  ng-click="$mdOpenMenu($event)" >
             <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
