@@ -21,12 +21,19 @@
 .sign-in #reset-form .alt-actions {
   margin-top: 1vh;
   font-size: 13px;
-  color: white;
+  color: #efefef;
 }
 .sign-in #login-form .alt-actions a,
 .sign-in #reset-form .alt-actions a {
   color: #FE3A6D;
   font-weight: bold;
+  cursor: pointer;
+  transition: all .5s;
+}
+.sign-in #login-form .alt-actions a:hover,
+.sign-in #reset-form .alt-actions a:hover {
+  color: white;
+  transition: all .5s;
 }
 .sign-in #login-form form,
 .sign-in #reset-form form {
@@ -87,7 +94,7 @@
 }
 .sign-in #login-form button,
 .sign-in #reset-form button {
-  background-color: #0F3456;
+  background-color: #FE3A6D;
   max-width: 100%;
   font-weight: 800;
   text-transform: uppercase;
@@ -96,7 +103,8 @@
 }
 .sign-in #login-form button:hover,
 .sign-in #reset-form button:hover {
-  background-color: #00ADDC;
+  background-color: #efefef;
+  color: #0F3456;
 }
 .sign-in #login-form #remember,
 .sign-in #reset-form #remember {

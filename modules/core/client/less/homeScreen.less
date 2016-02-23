@@ -47,8 +47,16 @@
       a {
         color: @brand-primary;
         font-weight: bold;
+        cursor: pointer;
+        transition: all .5s;
+
+        &:hover {
+          color: white;
+          transition: all .5s;
+        }
+
       }
-      color: white;
+      color: #efefef;
 
     }
     form {
@@ -108,7 +116,7 @@
     }
 
     button {
-      background-color: @brand-dark;
+      background-color: @brand-primary;
 
       max-width: 100%;
       font-weight: 800;
@@ -117,7 +125,8 @@
       margin: 30px 0 30px;
 
       &:hover {
-        background-color: @brand-info;
+        background-color: #efefef;
+        color: @brand-dark;
       }
     }
 
