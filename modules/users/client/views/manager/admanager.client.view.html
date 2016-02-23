@@ -3,9 +3,9 @@
 
 <div id="admanager"  ng-controller="AdmanagerController as vm" data-ng-init="init()">
   <h2 class="md-title">Ad Manager</h2>
-  <md-button class="md-button md-raised md-primary" ngf-select="upload($files)" ngf-multiple="true">
-    UPLOAD FILES
-    <br><img src="lib/material-design-icons/file/1x_web/ic_cloud_upload_white_48dp.png"/></md-button>
+  <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
+    <md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>
+      Upload Image</md-button>
   <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
   <md-progress-linear md-mode="determinate"  value="{{vm.determinateValue}}" ng-show="vm.determinateValue"></md-progress-linear>
   <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
