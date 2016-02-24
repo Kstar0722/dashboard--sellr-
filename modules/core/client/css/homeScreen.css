@@ -1,11 +1,126 @@
-#sign-in {
-  padding-top: 25vh;
+/* VIRTUAL COLORS */
+.sign-in {
+  background-image: url(' ../img/bg_3.png ');
+  background-size: cover;
+  background-position: center;
+  top: 0;
   position: absolute;
-  width: 100%;
-  min-height: 100%;
-  background-image: linear-gradient(95deg, rgba(255, 251, 255, 0.8) 10%, rgba(134, 131, 135, 0.8) 90%);
-  /* W3C */
+  width: 100vw;
+  min-height: 100vh;
 }
-#login {
-  margin: 0 auto;
+.sign-in .shading {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  position: absolute;
+  background: #43cf07;
+  background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
+  background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
+  background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
+}
+.sign-in #login-form,
+.sign-in #reset-form {
+  max-width: 550px;
+  margin: auto;
+  margin-top: 10vh;
+}
+.sign-in #login-form .alt-actions,
+.sign-in #reset-form .alt-actions {
+  margin-top: 1vh;
+  font-size: 13px;
+  color: #efefef;
+}
+.sign-in #login-form .alt-actions a,
+.sign-in #reset-form .alt-actions a {
+  color: #FE3A6D;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all .5s;
+}
+.sign-in #login-form .alt-actions a:hover,
+.sign-in #reset-form .alt-actions a:hover {
+  color: white;
+  transition: all .5s;
+}
+.sign-in #login-form form,
+.sign-in #reset-form form {
+  background: white;
+  padding: 50px 100px;
+}
+.sign-in #login-form input:-webkit-autofill,
+.sign-in #reset-form input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  border-color: #333;
+}
+.sign-in #login-form .logo,
+.sign-in #reset-form .logo {
+  margin: 2vh auto 5vh auto;
+  display: block;
+}
+.sign-in #login-form input[type=text],
+.sign-in #reset-form input[type=text] {
+  height: 42px;
+  border-radius: 0px;
+  font-weight: 200;
+  font-size: 19px;
+  max-width: 100%;
+  margin: 10px auto;
+}
+.sign-in #login-form input[type=password],
+.sign-in #reset-form input[type=password] {
+  height: 42px;
+  border-radius: 0px;
+  font-weight: 200;
+  font-size: 19px;
+  max-width: 100%;
+  margin: 10px auto;
+}
+.sign-in #login-form input[type=username],
+.sign-in #reset-form input[type=username] {
+  width: 0;
+  height: 0;
+  padding: 0;
+  opacity: 0;
+  margin-bottom: -5px;
+}
+.sign-in #login-form label,
+.sign-in #reset-form label {
+  display: inline-block;
+}
+.sign-in #login-form input[type=password]:focus,
+.sign-in #reset-form input[type=password]:focus {
+  background-color: #ffffff;
+}
+.sign-in #login-form input[type=text]:focus,
+.sign-in #reset-form input[type=text]:focus {
+  background-color: #ffffff;
+}
+.sign-in #login-form input[type=checkbox],
+.sign-in #reset-form input[type=checkbox] {
+  margin-left: 5px;
+}
+.sign-in #login-form button,
+.sign-in #reset-form button {
+  background-color: #FE3A6D;
+  max-width: 100%;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 10px;
+  margin: 30px 0 30px;
+}
+.sign-in #login-form button:hover,
+.sign-in #reset-form button:hover {
+  background-color: #0F3456;
+  color: #ffffff;
+}
+.sign-in #login-form #remember,
+.sign-in #reset-form #remember {
+  margin-right: 8px;
+  margin-left: 32px;
+}
+@media (max-width: 767px) {
+  .sign-in form#login-form img {
+    margin-top: 0;
+  }
 }

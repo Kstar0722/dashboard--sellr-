@@ -1,16 +1,162 @@
-@white: #FFFFFF;
+@black:         #000000;
+@blue:          #3299BB;
+@dark-blue:     #43619C;
+@green:         #2ECC71;
+@pink:          #FE3A6D;
+@darkest-grey:  #171625;
+@dark-grey:     #424242;
+@med-grey:      #8D9AA5;
+@light-grey:    #E2E2E2;
+@red:           #FF0000;
+@white:         #ffffff;
+@orange:        #FFA500;
 
-#sign-in{
-  padding-top:25vh;
+/* VIRTUAL COLORS */
+@brand-primary: @pink;
+@brand-primary-75: rgba(25, 84, 127, 0.75);
+@brand-primary-50: rgba(25, 84, 127, 0.5);
+@brand-primary-25: rgba(25, 84, 127, 0.25);
+@brand-light: @white;
+@brand-info: #00ADDC;
+@brand-dark: #0F3456;
+@brand-success: @green;
+@brand-warning: @orange;
+@brand-danger: @red;
+
+.sign-in {
+  background-image: url(' ../img/bg_3.png ');
+  background-size: cover;
+  background-position: center;
+  top: 0;
   position: absolute;
-  width:100%;
-  min-height: 100%;
-  background-image: linear-gradient(95deg, rgba(255, 251, 255, 0.8) 10%, rgba(134, 131, 135, 0.8) 90%); /* W3C */
+  width: 100vw;
+  min-height: 100vh;
 
-}
 
-#login{
+  @gradient-top: rgba(2, 54, 73, 0.59);
+  @gradient-bottom: rgba(124, 13, 51, 0.49) ;
+  @gradient-split: ;
+  @gradient-start: 50%;
 
-  margin:0 auto;
+  .shading {
+    background: rgba(0,0,0,.3);
+    width: 100vw;
+    min-height: 100vh;
+    top: 0;
+    position: absolute;
+    background: #43cf07;
+    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+  }
 
+  #login-form,
+  #reset-form {
+    max-width: 550px;
+    margin: auto;
+    margin-top: 10vh;
+
+
+    .alt-actions  {
+      margin-top: 1vh;
+      font-size: 13px;
+      a {
+        color: @brand-primary;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all .5s;
+
+        &:hover {
+          color: white;
+          transition: all .5s;
+        }
+
+      }
+      color: #efefef;
+
+    }
+    form {
+      background: white;
+      padding: 50px 100px;
+    }
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+      border-color: #333;
+    }
+
+    .logo {
+      margin: 2vh auto 5vh auto;
+      display: block;
+    }
+
+    input[type=text] {
+      height: 42px;
+      border-radius: 0px;
+      font-weight: 200;
+      font-size: 19px;
+      max-width: 100%;
+      margin: 10px auto;
+    }
+
+    input[type=password] {
+      height: 42px;
+      border-radius: 0px;
+      font-weight: 200;
+      font-size: 19px;
+      max-width: 100%;
+      margin: 10px auto;
+    }
+
+    input[type=username] {
+      width: 0;
+      height: 0;
+      padding: 0;
+      opacity: 0;
+      margin-bottom: -5px;
+    }
+
+    label {
+      display: inline-block;
+    }
+
+    input[type=password]:focus {
+      background-color: @white;
+    }
+
+    input[type=text]:focus {
+      background-color: @white;
+    }
+
+    input[type=checkbox] {
+      margin-left: 5px;
+    }
+
+    button {
+      background-color: @brand-primary;
+
+      max-width: 100%;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 10px;
+      margin: 30px 0 30px;
+
+      &:hover {
+        background-color: @brand-dark;
+        color: @brand-light;
+      }
+    }
+
+    #remember {
+      margin-right: 8px;
+      margin-left: 32px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    form#login-form {
+      img {
+        margin-top: 0;
+      }
+    }
+  }
 }

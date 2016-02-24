@@ -1,5 +1,49 @@
-<div ng-controller="AuthenticationController" ng-hide="authentication.user" id="sign-in">
+<div ng-controller="AuthenticationController" ng-hide="authentication.user" >
 
+
+  <div class="sign-in">
+    <div class="shading">
+    <div id="login-form">
+    <form  name="userForm" ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off"  class="text-center"><img ng-src=" http://placehold.it/200x100/efefef?text=LOGO HERE" class="logo"/>
+      <md-input-container class="md-block">
+
+        <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
+        <div ng-messages="userForm.username.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Username is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" >
+
+        <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required>
+        <div ng-messages="userForm.password.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Password is required.</p>
+        </div>
+      </md-input-container>
+      <div layout="row" layout-align="space-between center">
+        <md-checkbox ng-model="user.rememberMe" ng-change="rememberMe()">Remember me?</md-checkbox>
+        <md-button type="submit" class="md-raised md-primary">Sign in</md-button>
+      </div>
+
+
+    </form>
+      <div class="alt-actions" layout="row" layout-align="space-between start">
+      <div><a ng-click="reset = !reset">Forgot Password?</a></div>
+      <div>Don't have an account? <a ui-sref="UserRegister">Sign Up</a></div>
+
+    </div> <!-- END FORM CONTAINER -->
+    <form id="reset-form" name="resetForm" ng-show="reset" layout="column" ng-submit="resetPassword(resetUser)" class="text-center"><img src="/assets/images/logo-300w.png"  class="logo"/>
+      <md-input-container>
+        <label>Email Address</label>
+        <input type="text" ng-model="resetUser.email"/>
+      </md-input-container><br/>
+      <md-button type="submit" class="md-raised md-primary">Send Email</md-button><br/><a ng-click="reset = false">Cancel</a>
+    </form>
+  </div>
+
+
+
+
+  <!--
     <form name="userForm" ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off" class="text-center">
       <fieldset>
         <md-input-container >
@@ -28,7 +72,8 @@
         </alert>
       </fieldset>
     </form>
-
+ -->
 </div>
 
+</div>
 

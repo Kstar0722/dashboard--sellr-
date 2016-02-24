@@ -1,11 +1,13 @@
 
-
+<section class="content">
 
 <div id="admanager"  ng-controller="AdmanagerController as vm" data-ng-init="init()">
-  <h2 class="md-title">Ad Manager</h2>
-  <md-button class="md-button md-raised md-primary" ngf-select="upload($files)" ngf-multiple="true">
-    UPLOAD FILES
-    <br><img src="lib/material-design-icons/file/1x_web/ic_cloud_upload_white_48dp.png"/></md-button>
+  <div layout="row"  layout-align="space-between center">
+    <h2 class="md-title">Ad Manager</h2>
+    <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
+      <md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>
+        Upload Image</md-button>
+  </div>
   <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
   <md-progress-linear md-mode="determinate"  value="{{vm.determinateValue}}" ng-show="vm.determinateValue"></md-progress-linear>
   <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
@@ -22,12 +24,16 @@
 
           <md-content ng-repeat="source in sources" layout-padding=""  >
 
-              <md-card ng-if="source.ext == 'image'"  style="background-color: #ADD8E6; " >
+              <md-card ng-if="source.ext == 'image'"   " >
                 <md-card-title >
                   <md-card-title-text >
-                    <span class="card-text" >{{source.value}}</span>
-                    <img ng-if="source.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
+                    <span class="md-subhead" >{{source.value}}</span>
+
                   </md-card-title-text>
+                  <md-card-title-media>
+                    <img ng-if="source.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
+                    </md-card-title-media>
+
                 </md-card-title>
 
                   <md-card-actions layout="column">
@@ -184,3 +190,4 @@
   <!--</md-content>-->
 
 
+</section>

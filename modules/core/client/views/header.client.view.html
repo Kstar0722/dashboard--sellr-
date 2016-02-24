@@ -9,6 +9,7 @@
               <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title"></md-button>
             </div>
         </div>
+
         <div flex></div>
         <div ng-class="{active: $uiRoute}" ng-if="isGranted('ManageUsers')">
           <md-button ui-sref="admin">Manage users/permissions</md-button>
