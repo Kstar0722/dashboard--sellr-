@@ -30,6 +30,7 @@ module.exports = {
                 'public/lib/underscore/underscore-min.js',
                 'public/lib/ng-file-upload/ng-file-upload-all.min.js',
                 'public/lib/ng-file-upload/ng-file-upload-all.min.js',
+                'public/lib/checklist-model/checklist-model.js',
                 'public/lib/checklist-model/checklist-model.js'
 
 

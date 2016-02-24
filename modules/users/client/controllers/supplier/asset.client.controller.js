@@ -39,7 +39,7 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
             return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
         }
        $scope.init = function(){
-            $http.get('http://api.expertoncue.com:443/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

@@ -13,5 +13,10 @@ angular.module('users.manager.routes').config(['$stateProvider',
                 templateUrl: 'modules/users/client/views/manager/managerUpload.client.view.html'
 
             })
+            .state('manager.location', {
+                url: '/manager/location',
+                templateUrl: 'modules/users/client/views/manager/locationManager.client.view.html'
+
+            })
     }
 ]);

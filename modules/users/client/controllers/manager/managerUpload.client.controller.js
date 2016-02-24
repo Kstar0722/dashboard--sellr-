@@ -24,7 +24,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
         };
 
         $scope.getFile = function () {
-            $http.get('http://api.expertoncue.com:443/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -45,7 +45,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post('http://api.expertoncue.com:443/media', obj).then(function (response, err) {
+            $http.post('http://mystique.expertoncue.com:7272/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

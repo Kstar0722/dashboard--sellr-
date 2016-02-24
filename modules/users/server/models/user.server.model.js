@@ -29,7 +29,7 @@ var validateLocalStrategyEmail = function (email) {
  * A Validation function for Registration Code From Api
  */
 var validateRegistrationTokenProperty = function (property) {
-    request('http://api.expertoncue.com:443/store/validate/'+property, function (error, response, body) {
+    request('http://mystique.expertoncue.com:7272/store/validate/'+property, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log('whatsup' + body);// Show the HTML for the Google homepage.
             return (body);

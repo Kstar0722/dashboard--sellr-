@@ -1,28 +1,46 @@
-<div class="section">
-  <div class="page-header" style="padding-top:2vh;">
+<section class="content">
+  <md-subheader style="padding-top:2vh;">
     <h2>USER MANAGEMENT</h2>
-  </div>
-<div class="inner">
+  </md-subheader>
+  <!--<div class="inner">-->
   <md-button class="md-raised md-primary" ng-click="inviteStoreView()">Invite A Store</md-button>
-  <div class="page-header">
+  <div layout-gt-sm="row">
 
-    <div class="row">
-      <div class="col-md-4" >
-        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()"/>
-      </div>
-    </div>
-  </div>
-  <div class="list-group">
-    <a ng-repeat="user in pagedItems" class="list-group-item" ng-click="userEditView({userId: user._id})">
-      <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
-      <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
-      <p class="list-group-item-text" ng-bind="user.email"></p>
-    </a>
-  </div>
-  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage"
-              ng-change="pageChanged()"></pagination>
-</div>
 
+    <md-input-container class="md-block">
+      <label>SEARCH</label>
+      <input ng-model="search" ng-change="figureOutItemsToDisplay()">
+    </md-input-container>
+  </div>
+  <md-content layout="row" layout-align="space-between none">
+    <md-list>
+      <md-list-item class="md-3-line" ng-repeat="user in pagedItems" ng-click="userEditView({userId: user._id})">
+        <div class="md-list-item-text" layout="column">
+          <p ng-bind="user.username"></p>
+          <h4 ng-bind="user.roles"></h4>
+          <h3 ng-bind="user.email"></h3>
+        </div>
+      </md-list-item>
+      <md-divider></md-divider>
+      <!--<div  boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength"-->
+                  <!--ng-model="currentPage"-->
+                  <!--ng-change="pageChanged()"></div>-->
+      <!--<pagination-->
+        <!--page="currentPage"-->
+        <!--page-size="8"-->
+        <!--total="filterLength"-->
+
+        <!--paging-action="pageChanged()">-->
+      <!--</pagination>-->
+      <!--<li class="talk-music-pic"-->
+          <!--ng-repeat="user in pagedItems |-->
+        <!--offset: currentPage*itemsPerPage |-->
+        limitTo: itemsPerPage">Pagination</li>;
+      <pagination currentPage="curentPage" itemsPerPage="8"
+                  itemsList="itemsPerPage" pageList="filterLength"></pagination>
+      <!--<md-table-pagination md-limit="itemsPerPage" md-page="currentPage" md-total="filterLength" md-on-paginate="onPaginate" md-page-select ng-change="pageChanged()"></md-table-pagination>-->
+    </md-list>
+  </md-content>
   <div ui-view></div>
-</div>
+</section>
 

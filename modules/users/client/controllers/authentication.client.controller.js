@@ -25,7 +25,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         return false;
       }
-      $http.get('http://api.expertoncue.com:443/store/validate/'+$scope.regCode).success(function (response) {
+      $http.get('http://mystique.expertoncue.com:7272/store/validate/'+$scope.regCode).success(function (response) {
         // If successful we assign the response to the global user model
 
 
@@ -47,7 +47,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                     userId:$scope.regCode
                 }
             };
-          $http.post('http://api.expertoncue.com:443/store/update', storeUpdate).success(function (res) {
+          $http.post('http://mystique.expertoncue.com:7272/store/update', storeUpdate).success(function (res) {
             if(res) {
                 $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
                     // If successful we assign the response to the global user model

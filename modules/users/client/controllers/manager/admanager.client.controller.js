@@ -43,7 +43,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
         }
         $scope.init = function () {
             $scope.sources = [];
-            $http.get('http://api.expertoncue.com:443/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            $http.get('http://mystique.expertoncue.com:7272/store/location/' + $scope.authentication.user.username).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -54,7 +54,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
 
                 }
             });
-            $http.get('http://api.expertoncue.com:443/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -94,7 +94,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
         };
         $scope.getDevice = function (loc) {
             console.log('HELLO')
-            $http.get('http://api.expertoncue.com:443/devices/location/' + loc).then(function (response, err) {
+            $http.get('http://mystique.expertoncue.com:7272/devices/location/' + loc).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -110,14 +110,14 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
             $scope.leftArray = [];
             $scope.rightArray = [];
             $scope.links =[];
-            //$http.get('http://api.expertoncue.com:443/media/' + $scope.authentication.user.username).then(function (response, err) {
+            //$http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
             //    if (err) {
             //        console.log(err);
             //    }
             //    if (response) {
             //    }
             //});
-            $http.get('http://api.expertoncue.com:443/ads/device/' + deviceId).then(function (response, err) {
+            $http.get('http://mystique.expertoncue.com:7272/ads/device/' + deviceId).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -177,7 +177,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
                     deviceId:deviceId
                 }
             };
-            $http.post('http://api.expertoncue.com:443/ads/', asset).then(function (response, err) {
+            $http.post('http://mystique.expertoncue.com:7272/ads/', asset).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -189,7 +189,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
         };
         $scope.deactivateAd = function(adId, deviceId){
 
-            $http.delete('http://api.expertoncue.com:443/ads/'+adId).then(function (response, err) {
+            $http.delete('http://mystique.expertoncue.com:7272/ads/'+adId).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -208,7 +208,7 @@ angular.module('users.supplier').controller('AdmanagerController', ['$scope', '$
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post('http://api.expertoncue.com:443/media', obj).then(function (response, err) {
+            $http.post('http://mystique.expertoncue.com:7272/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
