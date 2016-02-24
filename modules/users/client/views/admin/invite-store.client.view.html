@@ -1,8 +1,8 @@
-<section>
-  <div class="page-header">
+<div class="inner">
+  <div class="page-header" >
     <h1>Invite A Store</h1>
   </div>
-  <div class="col-md-12">
+  <div >
     <form name="storeForm" ng-submit="invite(storeForm.$valid)" novalidate>
       <fieldset>
         <div class="form-group" show-errors>
@@ -35,8 +35,10 @@
           <md-button class="md-button md-raised md-primary"  ng-show="removeLocationBox" ng-click="removeLocation()">Remove Location</md-button>
         </div>
         <div class="form-group" show-errors>
-          <label for="userRole">User Role</label>
-          <input type="text" id="userRole" name="userRole" class="form-control" ng-model="store.userRole" placeholder="User Role i.e Manager, User" required />
+          <label >User Role</label>
+          <div id="checks" ng-repeat="role in roles">
+            <md-checkbox    ng-click="addRole(role.text)">{{role.text}}
+          </div>
           <div ng-messages="storeForm.userRole.$error" role="alert">
             <p class="help-block error-text" ng-message="required">User Role is required.</p>
           </div>
@@ -50,4 +52,6 @@
       </fieldset>
     </form>
   </div>
-</section>
+</div>
+<div id="clear"></div>
+

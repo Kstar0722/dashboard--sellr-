@@ -1,4 +1,4 @@
-<section>
+<section class="inner">
   <div class="page-header">
     <h1>User <span ng-bind="user.username"></span></h1>
   </div>
@@ -21,25 +21,15 @@
         </div>
         <div class="form-group" show-errors >
           <label class="control-label" >Roles</label>
-          <div class="controls" ng-repeat="role in avRoles">
-            <!--<input class="form-control" type="text" name="roles" ng-model="user.roles" id="roles" ng-list required />-->
-            <!--<label class="checkbox-inline"><input type="checkbox" >User</label>-->
-          {{role}}
-              <input type="checkbox"  ng-checked="user.roles.indexOf(role) > -1"value="{{role}}" ng-model="user.roles">
-            <!--<label ng-if="role='admin'">Admin:-->
-              <!--<input type="checkbox" ng-checked="role='admin'" ng-true-value="'admin,'"  ng-if="role='admin'">-->
-              <!--</label><br/>-->
-            <!--<label ng-if="role='supplier'">Supplier:-->
-              <!--<input type="checkbox" ng-checked="role='supplier'" ng-true-value="'Supplier,'"  ng-if="role='supplier'">-->
-            <!--</label ><br/>-->
-            <!--<label ng-if="role='manager'">Manager:-->
-              <!--<input type="checkbox" ng-checked="role='manager'" ng-true-value="'Manager,'"  ng-if="role='manager'" >-->
-            <!--</label><br/>-->
-            <!--{{user.roles}}-->
+          <div class="controls" >
+            <div id="checks" ng-repeat="role in roles">
+            <md-checkbox   ng-checked="user.roles.indexOf(role.text) > -1"  ng-click="addRole(role.text)">{{role.text}}
+            </div>
             <div ng-messages="userForm.roles.$error" role="alert">
               <p class="help-block error-text" ng-message="required">At least one role is required.</p>
             </div>
           </div>
+
         </div>
         <div class="form-group">
           <input type="submit" value="Update" class="btn btn-default">

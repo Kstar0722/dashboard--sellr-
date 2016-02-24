@@ -1,12 +1,41 @@
 'use strict';
 
-angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin',
-  function ($scope, $filter, Admin) {
+angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http','$state',
+  function ($scope, $filter, Admin, $http, $state) {
     Admin.query(function (data) {
       $scope.users = data;
       $scope.buildPager();
     });
 
+
+
+
+
+    $scope.userEditView = function(userview){
+
+      $state.go('admin.users.edit', userview, {reload:true})
+    };
+    $scope.inviteStoreView = function(userview){
+      $state.go('admin.users.store', userview, {reload:true})
+    };
+    $scope.roles = [
+      { text: 'user'},
+      {text: 'admin'},
+      {text: 'supplier'},
+      {text: 'manager'}
+    ];
+    $scope.stuffs =[];
+
+
+
+    $scope.addRole = function(role){
+      if($scope.stuffs.indexOf(role) >-1){
+        $scope.stuffs.splice($scope.stuffs.indexOf(role), 1)
+      }
+      else{
+        $scope.stuffs.push(role);
+      }
+    }
       $scope.testFunction = function () {
           console.log('test');
       };
@@ -62,7 +91,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         var contactName = $scope.store.contactName;
         var storeName = $scope.store.storeName;
         var email = $scope.store.storeEmail;
-        var role = $scope.store.userRole;
+        var role = $scope.stuffs;
         var locations = $scope.locations;
         var obj = {
           payload: {
