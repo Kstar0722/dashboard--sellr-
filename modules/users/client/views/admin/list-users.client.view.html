@@ -1,50 +1,53 @@
-<section class="content">
-  <md-subheader style="padding-top:2vh;">
-    <h2>USER MANAGEMENT</h2>
-  </md-subheader>
-  <!--<div class="inner">-->
-  <md-button class="md-raised md-primary" ng-click="inviteStoreView()">Invite A Store</md-button>
+<section class="content userList">
+
+  <div layout="row"  layout-align="space-between start" >
+    <div>
+      <h1>USER MANAGEMENT</h1>
+      <md-input-container class="md-block">
+        <label>SEARCH</label>
+        <input ng-model="search" ng-change="figureOutItemsToDisplay()">
+      </md-input-container>
+    </div>
+    <div>
+      <md-button class="md-raised md-success invite" ng-click="inviteStoreView()">Invite User</md-button>
+    </div>
+
+  </div>
+
+<div layout="row"  layout-align="space-between start" >
+  <div flex="50">
+
+
+
+
   <div layout-gt-sm="row">
 
 
-    <md-input-container class="md-block">
-      <label>SEARCH</label>
-      <input ng-model="search" ng-change="figureOutItemsToDisplay()">
-    </md-input-container>
+
   </div>
   <md-content layout="row" layout-align="space-between none">
     <md-list>
       <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="userEditView({userId: user._id,userName:user.username})">
-        <div class="md-list-item-text" layout="column">
-          <p ng-bind="user.username"></p>
-          <h4 ng-bind="user.roles"></h4>
-          <h3 ng-bind="user.email"></h3>
+
+        <img alt="{{ user.profileImageURL }}" ng-src="{{  user.profileImageURL }}" class="md-avatar" />
+        <div class="md-list-item-text">
+          <h3>{{user.firstName}} {{user.lastName}}</h3>
+          <p>{{user.username}} | {{user.email}}</p>
         </div>
+        <div class="buttons">
+          <md-button class="md-raised">Edit</md-button>
+        </div>
+
       </md-list-item>
       <md-divider></md-divider>
 
-      <!--<dir-pagination-controls-->
-        <!--max-size="5"-->
-        <!--direction-links="true"-->
-        <!--boundary-links="true" >-->
-      <!--</dir-pagination-controls>-->
-      <!--<div  boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength"-->
-                  <!--ng-model="currentPage"-->
-                  <!--ng-change="pageChanged()"></div>-->
-      <!--<pagination-->
-        <!--page="currentPage"-->
-        <!--page-size="8"-->
-        <!--total="filterLength"-->
 
-        <!--paging-action="pageChanged()">-->
-      <!--</pagination>-->
-      <!--<li class="talk-music-pic"-->
-          <!--ng-repeat="user in pagedItems |-->
-        <!--offset: currentPage*itemsPerPage |-->
-        <!--limitTo: itemsPerPage">Pagination</li>;-->
-      <!--<md-table-pagination md-limit="itemsPerPage" md-page="currentPage" md-total="filterLength" md-on-paginate="onPaginate" md-page-select ng-change="pageChanged()"></md-table-pagination>-->
     </md-list>
   </md-content>
-  <div ui-view></div>
+  </div>
+  <div flex="5"></div>
+    <div flex="40" ui-view></div>
+
+</div>
 </section>
 
