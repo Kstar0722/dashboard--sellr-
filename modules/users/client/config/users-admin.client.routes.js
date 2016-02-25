@@ -40,6 +40,12 @@ angular.module('users.admin.routes').config(['$stateProvider',
             });
           }]
         }
-      });
+      })
+        .state('admin.location', {
+            url: '/admin/locations',
+            templateUrl: 'modules/users/client/views/admin/locationManager.client.view.html',
+            controller: 'AdminLocationController'
+
+        })
   }
 ]);

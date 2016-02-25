@@ -7,10 +7,6 @@ angular.module('users.manager').run(['Menus',
             title: 'Ad Manager',
             state: 'manager.ads'
         });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Location Manager',
-            state: 'manager.location'
-        });
 
     }
 ]);

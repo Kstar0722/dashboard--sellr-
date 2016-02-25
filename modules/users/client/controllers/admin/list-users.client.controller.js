@@ -104,7 +104,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         };
 
 
-        $http.post('http://mystique.expertoncue.com:7272/store', obj).then(function (response, err) {
+        $http.post('http://api.expertoncue.com:443/store', obj).then(function (response, err) {
           // If successful we assign the response to the global user model
           //$scope.authentication.user = response;
           // And redirect to the previous or home page

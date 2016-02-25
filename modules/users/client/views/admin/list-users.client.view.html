@@ -14,7 +14,7 @@
   </div>
   <md-content layout="row" layout-align="space-between none">
     <md-list>
-      <md-list-item class="md-3-line" ng-repeat="user in pagedItems" ng-click="userEditView({userId: user._id})">
+      <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="userEditView({userId: user._id})">
         <div class="md-list-item-text" layout="column">
           <p ng-bind="user.username"></p>
           <h4 ng-bind="user.roles"></h4>
@@ -22,6 +22,12 @@
         </div>
       </md-list-item>
       <md-divider></md-divider>
+
+      <!--<dir-pagination-controls-->
+        <!--max-size="5"-->
+        <!--direction-links="true"-->
+        <!--boundary-links="true" >-->
+      <!--</dir-pagination-controls>-->
       <!--<div  boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength"-->
                   <!--ng-model="currentPage"-->
                   <!--ng-change="pageChanged()"></div>-->
@@ -36,8 +42,6 @@
           <!--ng-repeat="user in pagedItems |-->
         <!--offset: currentPage*itemsPerPage |-->
         <!--limitTo: itemsPerPage">Pagination</li>;-->
-      <pagination currentPage="curentPage" itemsPerPage="8"
-                  itemsList="itemsPerPage" pageList="filterLength"></pagination>
       <!--<md-table-pagination md-limit="itemsPerPage" md-page="currentPage" md-total="filterLength" md-on-paginate="onPaginate" md-page-select ng-change="pageChanged()"></md-table-pagination>-->
     </md-list>
   </md-content>

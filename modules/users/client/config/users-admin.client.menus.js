@@ -7,5 +7,9 @@ angular.module('users.admin').run(['Menus',
       title: 'User Management',
       state: 'admin.users'
     });
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Location Manager',
+      state: 'admin.location'
+    });
   }
 ]);
