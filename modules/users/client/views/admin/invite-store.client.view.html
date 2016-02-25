@@ -1,57 +1,68 @@
-<div class="inner">
-  <div class="page-header" >
-    <h1>Invite A Store</h1>
-  </div>
-  <div >
-    <form name="storeForm" ng-submit="invite(storeForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label for="contactName">Contact Name</label>
-          <input type="text" id="contactName" name="contactName" class="form-control" ng-model="store.contactName" placeholder="Contact Name" required />
-          <div ng-messages="storeForm.contactName.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">First name is required.</p>
-          </div>
-        </div>
+<section class="inner">
 
-        <div class="form-group" show-errors>
-          <label for="storeName">Store Name</label>
-          <input type="text" id="storeName" name="storeName" class="form-control" ng-model="store.storeName" placeholder="Store Name" required />
+    <h1>Invite A Store</h1>
+
+    <form name="storeForm" ng-submit="invite(storeForm.$valid)" novalidate>
+
+
+
+        <md-input-container class="md-block" >
+          <label>Name</label>
+          <input ng-model="store.contactName">
+          <div ng-messages="storeForm.contactName.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Name is required.</p>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" >
+          <label>Store</label>
+          <input ng-model="store.storeName">
           <div ng-messages="storeForm.storeName.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Store name is required.</p>
           </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label for="storeEmail">Store Email</label>
-          <input type="text" id="storeEmail" name="storeEmail" class="form-control" ng-model="store.storeEmail" placeholder="Store Email" required />
+        </md-input-container>
+
+
+        <md-input-container class="md-block">
+          <label>Email</label>
+          <input ng-model="store.storeEmail">
           <div ng-messages="storeForm.storeEmail.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Store Email is required.</p>
           </div>
-        </div>
-        <div class="form-group" ng-repeat="location in locations">
-          <label  ng-show="$first" id="location">Locations</label>
-          <br>
-          <input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location" >
-          <md-button class="md-button md-raised md-primary"  ng-show="$last" ng-click="addNewLocation(locs)">Add Another Location</md-button>
-          <md-button class="md-button md-raised md-primary"  ng-show="removeLocationBox" ng-click="removeLocation()">Remove Location</md-button>
-        </div>
-        <div class="form-group" show-errors>
-          <label >User Role</label>
-          <div id="checks" ng-repeat="role in roles">
-            <md-checkbox    ng-click="addRole(role.text)">{{role.text}}
-          </div>
-          <div ng-messages="storeForm.userRole.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">User Role is required.</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Invite" class="btn btn-default">
-        </div>
-        <div ng-show="error" class="text-danger">
-          <strong ng-bind="error"></strong>
-        </div>
-      </fieldset>
+        </md-input-container>
+
+
+
+
+
+        <!--<div class="form-group" ng-repeat="location in locations">-->
+          <!--<label  ng-show="$first" id="location">Locations</label>-->
+          <!--<br>-->
+          <!--<input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location" >-->
+          <!--<md-button class="md-button md-raised md-primary"  ng-show="$last" ng-click="addNewLocation(locs)">Add Another Location</md-button>-->
+          <!--<md-button class="md-button md-raised md-primary"  ng-show="removeLocationBox" ng-click="removeLocation()">Remove Location</md-button>-->
+        <!--</div>-->
+        <!--<div class="form-group" show-errors>-->
+          <!--<label >User Role</label>-->
+          <!--<div id="checks" ng-repeat="role in roles">-->
+            <!--<md-checkbox    ng-click="addRole(role.text)">{{role.text}}-->
+          <!--</div>-->
+          <!--<div ng-messages="storeForm.userRole.$error" role="alert">-->
+            <!--<p class="help-block error-text" ng-message="required">User Role is required.</p>-->
+          <!--</div>-->
+        <!--</div>-->
+
+
+
+
+        <md-button type="submit" class="md-raised md-primary">Send Invite</md-button>
+
+
+        <!--<div ng-show="error" class="text-danger">-->
+          <!--<strong ng-bind="error"></strong>-->
+        <!--</div>-->
+
     </form>
-  </div>
-</div>
-<div id="clear"></div>
+  </section>
+
 
