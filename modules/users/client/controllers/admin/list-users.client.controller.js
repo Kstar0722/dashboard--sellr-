@@ -1,20 +1,36 @@
 'use strict';
 
-angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http','$state',
-  function ($scope, $filter, Admin, $http, $state) {
+angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http','$state', 'CurrentUserService',
+  function ($scope, $filter, Admin, $http, $state, CurrentUserService) {
     Admin.query(function (data) {
       $scope.users = data;
       $scope.buildPager();
     });
+  $scope.locations = CurrentUserService.locations;
+  //$scope.userview = $state.params;
 
-
-
-
+  $scope.addLocs = function(){
+    console.log('helllo, %O', $scope.locations);
+  }
 
     $scope.userEditView = function(userview){
+      CurrentUserService.user = userview.userName;
+        $http.get('http://mystique.expertoncue.com:7272/store/location/' +CurrentUserService.user).then(function (res, err) {
+          if (err) {
+            console.log(err);
+          }
+          if (res) {
+            CurrentUserService.locations = res.data;
+            $state.go('admin.users.edit', userview, {reload:true});
+          }
+          if(res.data.length < 1){
+            CurrentUserService.locations = [];
+            $state.go('admin.users.edit', userview, {reload:true});
+          }
 
-      $state.go('admin.users.edit', userview, {reload:true})
-    };
+    })
+    }
+
     $scope.inviteStoreView = function(userview){
       $state.go('admin.users.store', userview, {reload:true})
     };
@@ -60,7 +76,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     $scope.pageChanged = function () {
       $scope.figureOutItemsToDisplay();
     };
-    $scope.locations = [{'id':'location1'}];
+    //$scope.locations = [{'id':'location1'}];
     $scope.removeLocationBox = false;
     $scope.addNewLocation = function(locs) {
       var newItemNo = $scope.locations.length+1;
@@ -87,7 +103,6 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
       }
 
       else {
-        console.log($scope.locations)
         var contactName = $scope.store.contactName;
         var storeName = $scope.store.storeName;
         var email = $scope.store.storeEmail;

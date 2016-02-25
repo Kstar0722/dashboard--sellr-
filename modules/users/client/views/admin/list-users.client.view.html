@@ -14,7 +14,7 @@
   </div>
   <md-content layout="row" layout-align="space-between none">
     <md-list>
-      <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="userEditView({userId: user._id})">
+      <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="userEditView({userId: user._id,userName:user.username})">
         <div class="md-list-item-text" layout="column">
           <p ng-bind="user.username"></p>
           <h4 ng-bind="user.roles"></h4>
