@@ -7,7 +7,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
       .state('admin.users', {
         url: '/users/:userId',
         templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-        controller: 'UserListController',
+        controller: 'UserListController'
 
 
       })
@@ -26,7 +26,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
         .state('admin.users.store', {
           url: '/store',
           templateUrl: 'modules/users/client/views/admin/invite-store.client.view.html',
-          controller: 'StoreController',
+          controller: 'StoreController'
 
         })
       .state('admin.users.user-edit', {
