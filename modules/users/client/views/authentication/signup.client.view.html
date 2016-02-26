@@ -1,68 +1,125 @@
 <div ng-controller="AuthenticationController">
   <h3 class="col-md-12 text-center">Sign up using your email!</h3>
-  <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
-    <form name="userForm" ng-submit="signup(userForm.$valid)" class="signin" novalidate autocomplete="off">
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" name="firstName" class="form-control" ng-model="credentials.firstName" placeholder="First Name" required>
-          <div ng-messages="userForm.firstName.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">First name is required.</p>
-          </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" name="lastName" class="form-control" ng-model="credentials.lastName" placeholder="Last Name" required>
-          <div ng-messages="userForm.lastName.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Last name is required.</p>
-          </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" class="form-control" ng-model="credentials.email" placeholder="Email" lowercase required>
-          <div ng-messages="userForm.email.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Email address is required.</p>
-            <p class="help-block error-text" ng-message="email">Email address is invalid.</p>
-          </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label for="regCode">Registration Code</label>
-          <input type="text" id="regCode" name="regCode" class="form-control" ng-model="regCode" placeholder="Registration Code" lowercase required>
-          <div ng-messages="userForm.regCode.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Registration Code is required.</p>
-          </div>
-        </div>
-        <div class="alert-danger"  ng-show="regCodeErrors">Registration Code is invalid</div>
-        <div class="form-group" show-errors>
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
-          <div ng-messages="userForm.username.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Username is required.</p>
-          </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label for="password">Password</label>
-            <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>
-          <div ng-messages="userForm.password.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Password is required.</p>
-            <div ng-repeat="passwordError in passwordErrors">
-              <p class="help-block error-text" ng-show="userForm.password.$error.requirements">{{passwordError}}</p>
+
+
+  <div class="sign-in">
+    <div class="shading">
+      <div id="login-form">
+        <form name="userForm" ng-submit="signup(userForm.$valid)" class="signin" novalidate autocomplete="off" class="text-center">
+          <div class="logo"></div>
+
+          <small>Welcome to the OnCue dashboard. If you need a registration code, please contact our customer support at <a href="mailto:support@expertoncue.com">support@expertoncue.com</a>.</small>
+          <md-input-container class="md-block">
+            <input type="text" id="firstName" name="firstName"  ng-model="credentials.firstName" placeholder="First Name"  required>
+            <div ng-messages="userForm.firstName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">First Name is required.</p>
             </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" id="lastName" name="lastName"  ng-model="credentials.lastName" placeholder="Last Name"  required>
+            <div ng-messages="userForm.lastName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Last Name is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" id="email" name="email"  ng-model="credentials.email" placeholder="Email"  required>
+            <div ng-messages="userForm.email.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Email is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" id="regCode" name="regCode"  ng-model="regCode" placeholder="Registration Code"  lowercase required>
+            <div ng-messages="userForm.regCode.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Registration code is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-toolbar class="md-tall md-accent" ng-show="regCodeErrors">
+           <h2>Registration Code is invalid</h2>
+          </md-toolbar>
+
+
+          <md-input-container class="md-block">
+
+            <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
+            <div ng-messages="userForm.username.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Username is required.</p>
+            </div>
+          </md-input-container>
+
+
+          <md-input-container class="md-block" >
+
+            <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required popover="{{popoverMsg}}" popover-trigger="focus" password-validator>
+            <div ng-messages="userForm.password.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Password is required.</p>
+               <div ng-repeat="passwordError in passwordErrors">
+              <p class="help-block error-text" ng-show="userForm.password.$error.requirements">{{passwordError}}</p>
+              </div>
+            </div>
+          </md-input-container>
+          <div layout="row" layout-align="space-between center">
+            <div flex=""></div>
+            <md-button class="md-raised  action">Sign up</md-button>
           </div>
+        </form>
+        <div class="alt-actions" layout="row" layout-align="space-between start">
+          <div><a ng-click="reset = !reset">Need Help?</a></div>
+          <div>Already have an account? <a ui-sref="UserRegister">Sign Up</a></div>
+
         </div>
-        <div class="form-group" ng-show="!userForm.password.$error.required">
-          <label>Password Requirements</label>
-          <progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap;">{{requirementsProgress}}%</span></progressbar>
-        </div>
-        <div class="text-center form-group">
-          <button type="submit" class="btn btn-primary">Sign up</button>
-          &nbsp; or&nbsp;
-          <a ui-sref="authentication.signin" class="show-signup">Sign in</a>
-        </div>
-        <div ng-show="error" class="text-center text-danger">
-          <strong ng-bind="error"></strong>
-        </div>
-      </fieldset>
-    </form>
+      </div>
+    </div>
   </div>
+
+  <!--<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">-->
+    <!--<form name="userForm" ng-submit="signup(userForm.$valid)" class="signin" novalidate autocomplete="off">-->
+      <!--<fieldset>-->
+
+        <!--<div class="form-group" show-errors>-->
+          <!--<label for="regCode">Registration Code</label>-->
+          <!--<input type="text" id="regCode" name="regCode" class="form-control" ng-model="regCode" placeholder="Registration Code" lowercase required>-->
+          <!--<div ng-messages="userForm.regCode.$error" role="alert">-->
+            <!--<p class="help-block error-text" ng-message="required">Registration Code is required.</p>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group" show-errors>-->
+          <!--<label for="username">Username</label>-->
+          <!--<input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>-->
+          <!--<div ng-messages="userForm.username.$error" role="alert">-->
+            <!--<p class="help-block error-text" ng-message="required">Username is required.</p>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group" show-errors>-->
+          <!--<label for="password">Password</label>-->
+            <!--<input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>-->
+          <!--<div ng-messages="userForm.password.$error" role="alert">-->
+            <!--<p class="help-block error-text" ng-message="required">Password is required.</p>-->
+            <!--<div ng-repeat="passwordError in passwordErrors">-->
+              <!--<p class="help-block error-text" ng-show="userForm.password.$error.requirements">{{passwordError}}</p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group" ng-show="!userForm.password.$error.required">-->
+          <!--<label>Password Requirements</label>-->
+          <!--<progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap;">{{requirementsProgress}}%</span></progressbar>-->
+        <!--</div>-->
+        <!--<div class="text-center form-group">-->
+          <!--<button type="submit" class="btn btn-primary">Sign up</button>-->
+          <!--&nbsp; or&nbsp;-->
+          <!--<a ui-sref="authentication.signin" class="show-signup">Sign in</a>-->
+        <!--</div>-->
+        <!--<div ng-show="error" class="text-center text-danger">-->
+          <!--<strong ng-bind="error"></strong>-->
+        <!--</div>-->
+      <!--</fieldset>-->
+    <!--</form>-->
+  <!--</div>-->
 </div>
+
+
+

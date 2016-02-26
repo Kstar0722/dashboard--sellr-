@@ -7,11 +7,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
       $scope.buildPager();
     });
 
-    // FAB BUTTON
 
-    $scope.isOpen = true;
-    console.log('ok')
-    // END FAB
 
   $scope.locations = CurrentUserService.locations;
   //$scope.userview = $state.params;

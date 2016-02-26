@@ -4,7 +4,8 @@
   <div class="sign-in">
     <div class="shading">
     <div id="login-form">
-    <form  name="userForm" ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off"  class="text-center"><img ng-src=" http://placehold.it/200x100/efefef?text=LOGO HERE" class="logo"/>
+    <form  name="userForm" ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off"  class="text-center">
+      <div class="logo"></div>
       <md-input-container class="md-block">
 
         <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
@@ -21,7 +22,7 @@
       </md-input-container>
       <div layout="row" layout-align="space-between center">
         <md-checkbox ng-model="user.rememberMe" ng-change="rememberMe()">Remember me?</md-checkbox>
-        <md-button type="submit" class="md-raised md-primary">Sign in</md-button>
+        <md-button type="submit" class="md-raised  action">Sign in</md-button>
       </div>
 
 
