@@ -6,6 +6,13 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
       $scope.users = data;
       $scope.buildPager();
     });
+
+    // FAB BUTTON
+
+    $scope.isOpen = true;
+    console.log('ok')
+    // END FAB
+
   $scope.locations = CurrentUserService.locations;
   //$scope.userview = $state.params;
 
@@ -15,6 +22,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
     $scope.userEditView = function(userview){
       CurrentUserService.user = userview.userName;
+
         $http.get('http://mystique.expertoncue.com:7272/store/location/' +CurrentUserService.user).then(function (res, err) {
           if (err) {
             console.log(err);
