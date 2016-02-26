@@ -5,7 +5,7 @@
       <h1>USER MANAGEMENT</h1>
       <md-input-container class="md-block">
         <label>SEARCH</label>
-        <input ng-model="search" ng-change="figureOutItemsToDisplay()">
+        <input ng-model="search" >
       </md-input-container>
     </div>
     <div>
@@ -29,25 +29,7 @@
           <!--</md-button>-->
         <!--</md-fab-actions>-->
       <!--</md-fab-speed-dial>-->
-      <md-fab-speed-dial md-open="false " md-direction="down"
-                         ng-class="">
-        <md-fab-trigger>
-          <md-button aria-label="menu" class="md-fab md-warn">
-            <md-icon md-svg-src="img/icons/menu.svg"></md-icon>
-          </md-button>
-        </md-fab-trigger>
-        <md-fab-actions>
-          <md-button aria-label="Twitter" class="md-fab md-raised md-mini">
-            <md-icon md-svg-src="img/icons/twitter.svg" aria-label="Twitter"></md-icon>
-          </md-button>
-          <md-button aria-label="Facebook" class="md-fab md-raised md-mini">
-            <md-icon md-svg-src="img/icons/facebook.svg" aria-label="Facebook"></md-icon>
-          </md-button>
-          <md-button aria-label="Google Hangout" class="md-fab md-raised md-mini">
-            <md-icon md-svg-src="img/icons/hangout.svg" aria-label="Google Hangout"></md-icon>
-          </md-button>
-        </md-fab-actions>
-      </md-fab-speed-dial>
+
     </div>
 
   </div>
@@ -65,9 +47,9 @@
   </div>
   <md-content layout="row" layout-align="space-between none">
     <md-list>
-      <md-list-item class="md-3-line" ng-repeat="user in users" ng-click="userEditView({userId: user._id,userName:user.username})">
+      <md-list-item class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search" ng-click="userEditView({userId: user._id,userName:user.username})">
 
-        <img alt="{{ user.profileImageURL }}" ng-src="{{  user.profileImageURL }}" class="md-avatar" />
+        <!--<img alt="{{ user.profileImageURL }}" ng-src="{{  user.profileImageURL }}" class="md-avatar" />-->
         <div class="md-list-item-text">
           <h3>{{user.firstName}} {{user.lastName}}</h3>
           <p>{{user.username}} | {{user.email}}</p>
@@ -77,11 +59,11 @@
 
 
       </md-list-item>
-      <md-divider></md-divider>
+      <!--<md-divider></md-divider>-->
 
 
     </md-list>
-  </md-content>
+  <!--</md-content>-->
   </div>
 
     <div flex="" flex-offset="5" ui-view></div>

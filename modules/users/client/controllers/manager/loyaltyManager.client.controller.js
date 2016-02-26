@@ -8,6 +8,7 @@ angular.module('users.manager').controller('LoyaltyManagerController', ['$scope'
         $scope.emails = [];
         $scope.phones = [];
         $scope.loyalty = [];
+
         $scope.init = function () {
             $scope.sources = [];
             $http.get('http://mystique.expertoncue.com:7272/loyalty/' + $scope.authentication.user.username).then(function (res, err) {
@@ -15,9 +16,9 @@ angular.module('users.manager').controller('LoyaltyManagerController', ['$scope'
                     console.log(err);
                 }
                 if (res) {
-                    console.log(res.data.contactInfo);
+                    console.log(res);
                     for (var i in res.data) {
-                        console.log(JSON.parse(res.data[i].contactInfo));
+
                         var contact = JSON.parse(res.data[i].contactInfo);
 
                         if (contact["email"]) {
@@ -27,12 +28,12 @@ angular.module('users.manager').controller('LoyaltyManagerController', ['$scope'
                             $scope.phones.push({phone: contact['phone']});
 
                         }
+
                     }
                 }
             });
 
         };
-
     }
 
 ]);

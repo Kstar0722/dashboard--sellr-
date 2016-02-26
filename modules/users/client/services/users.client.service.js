@@ -13,13 +13,29 @@ angular.module('users').factory('Users', ['$resource',
 
 //TODO this should be Users service
 angular.module('users.admin').factory('Admin', ['$resource',
-  function ($resource) {
-    return $resource('api/users/:userId', {
-      userId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      }
-    });
-  }
+  //function ($http) {
+  //  var me = this;
+  //
+  //  me.get = function(){
+  //    return $http.get('/api/users')
+  //  };
+  //
+  //  me.put = function(){
+  //    return $http.put('/api/users/:userId')
+  //  }
+  //
+  //  return me;
+  //}
+    function ($resource) {
+      return $resource('api/users/:userId', {
+        userId: '@_id'
+      }, {
+        update: {
+          method: 'PUT'
+        }
+      });
+    }
 ]);
+//
+
+

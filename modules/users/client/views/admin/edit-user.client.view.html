@@ -1,7 +1,7 @@
 <section class="inner">
 
     <h1>Editing User: <span ng-bind="user.username"></span></h1>
-
+  <md-button  class="md-button md-raised md-primary"  ng-click="remove();" ng-if="user._id !== authentication.user._id">Remove User</md-button>
     <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
       <div layout-xs="column" layout-sm="column" layout-align="space-between center">
       <md-input-container class="md-block" flex-gt-sm>
@@ -27,7 +27,7 @@
           <p class="help-block error-text" ng-message="required">Email is required.</p>
         </div>
       </md-input-container>
-        <div class="form-group" show-errors>
+
           <label class="control-label">Roles</label>
           <div class="controls">
             <div id="checks" ng-repeat="role in roles">
@@ -37,15 +37,13 @@
               <p class="help-block error-text" ng-message="required">At least one role is required.</p>
             </div>
           </div>
-
-        </div>
         <div class="form-group">
           <label  id="location">Locations</label>
           <br>
           <md-button class="md-button md-raised md-primary"  ng-click="addNewLocation(locs)">Add
             Another Location
           </md-button>
-          <div ng-repeat="location in locations">
+          <div ng-repeat="location in locations track by $index">
             <div id="activeLocations" ng-if="location.address">
               <label ng-bind="location.address"></label>
             </div>

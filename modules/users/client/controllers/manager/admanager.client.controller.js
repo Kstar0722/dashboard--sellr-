@@ -249,7 +249,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                                 // Success!
                                 self.determinateValue = 0;
                                 $scope.init();
-                                alert('Upload Done');
 
                             }
                         })

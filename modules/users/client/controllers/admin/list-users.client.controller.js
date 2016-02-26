@@ -2,20 +2,18 @@
 
 angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http','$state', 'CurrentUserService',
   function ($scope, $filter, Admin, $http, $state, CurrentUserService) {
-    Admin.query(function (data) {
-      $scope.users = data;
-      $scope.buildPager();
-    });
 
-    // FAB BUTTON
+          $scope.CurrentUserService = CurrentUserService;
+          console.log('user server %O', CurrentUserService.userList);
 
-    $scope.isOpen = true;
-    console.log('ok')
-    // END FAB
 
-  $scope.locations = CurrentUserService.locations;
-  //$scope.userview = $state.params;
+    $scope.locations = [];
 
+  $scope.userview = $state.params;
+      if(CurrentUserService.locations)
+      $scope.locations = CurrentUserService.locations;
+      else
+      $scope.locations = ["No Locations"]
   $scope.addLocs = function(){
     console.log('helllo, %O', $scope.locations);
   }
@@ -28,12 +26,15 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
             console.log(err);
           }
           if (res) {
+              console.log(res)
             CurrentUserService.locations = res.data;
-            $state.go('admin.users.edit', userview, {reload:true});
+
+            $state.go('admin.users.user-edit', userview);
           }
-          if(res.data.length < 1){
-            CurrentUserService.locations = [];
-            $state.go('admin.users.edit', userview, {reload:true});
+          if(res.data == 'No LOCATIONS'){
+
+            CurrentUserService.locations = ["No Locations"];
+            $state.go('admin.users.user-edit', userview);
           }
 
     })
@@ -72,15 +73,14 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     };
 
     $scope.figureOutItemsToDisplay = function () {
-      $scope.filteredItems = $filter('filter')($scope.users, {
+
+
+      $scope.filteredItems = $filter('filter')(CurrentUserService.userList, {
         $: $scope.search
       });
-      $scope.filterLength = $scope.filteredItems.length;
-      var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
-      var end = begin + $scope.itemsPerPage;
-      $scope.pagedItems = $scope.filteredItems.slice(begin, end);
+      $scope.newUsers =  $scope.filteredItems
     };
-
+      $scope.buildPager();
     $scope.pageChanged = function () {
       $scope.figureOutItemsToDisplay();
     };
@@ -139,5 +139,6 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         });
       }
     };
+
   }
 ]);

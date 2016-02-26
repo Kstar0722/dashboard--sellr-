@@ -84,7 +84,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         console.log('authClientController signing %O', response);
         $scope.authentication.user = response;
         // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
+        $state.go($state.previous.state.name || 'manager.loyalty', $state.previous.params);
       }).error(function (response) {
         $scope.error = response.message;
       });
