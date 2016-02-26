@@ -1,4 +1,5 @@
 /* VIRTUAL COLORS */
+/* BRANDING */
 .sign-in {
   background-image: url(' ../img/bg_3.png ');
   background-size: cover;
@@ -6,7 +7,8 @@
   top: 0;
   position: absolute;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: scroll;
 }
 .sign-in .shading {
   background: rgba(0, 0, 0, 0.3);
@@ -21,9 +23,10 @@
 }
 .sign-in #login-form,
 .sign-in #reset-form {
-  max-width: 550px;
+  max-width: 580px;
   margin: auto;
   margin-top: 10vh;
+  margin-bottom: 10vh;
 }
 .sign-in #login-form .alt-actions,
 .sign-in #reset-form .alt-actions {
@@ -55,8 +58,15 @@
 }
 .sign-in #login-form .logo,
 .sign-in #reset-form .logo {
-  margin: 2vh auto 5vh auto;
+  margin: 1vh auto 2vh auto;
   display: block;
+  background-image: url('../img/logo_black.png');
+  background-size: contain;
+  min-height: 160px;
+  max-height: 15vh;
+  background-position: center;
+  background-repeat-x: no-repeat;
+  opacity: .15;
 }
 .sign-in #login-form input[type=text],
 .sign-in #reset-form input[type=text] {
@@ -100,17 +110,18 @@
 .sign-in #reset-form input[type=checkbox] {
   margin-left: 5px;
 }
-.sign-in #login-form button,
-.sign-in #reset-form button {
+.sign-in #login-form .action,
+.sign-in #reset-form .action {
   background-color: #FE3A6D;
+  color: white;
   max-width: 100%;
   font-weight: 800;
   text-transform: uppercase;
   padding: 10px;
   margin: 30px 0 30px;
 }
-.sign-in #login-form button:hover,
-.sign-in #reset-form button:hover {
+.sign-in #login-form .action:hover,
+.sign-in #reset-form .action:hover {
   background-color: #0F3456;
   color: #ffffff;
 }
