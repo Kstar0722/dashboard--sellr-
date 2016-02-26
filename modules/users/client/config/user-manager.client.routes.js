@@ -13,6 +13,9 @@ angular.module('users.manager.routes').config(['$stateProvider',
                 templateUrl: 'modules/users/client/views/manager/managerUpload.client.view.html'
 
             })
-
+            .state('manager.loyalty', {
+                url: '/manager/loyalty',
+                templateUrl: 'modules/users/client/views/manager/loyaltyManager.client.view.html'
+            })
     }
 ]);

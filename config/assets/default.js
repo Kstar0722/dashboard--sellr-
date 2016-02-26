@@ -31,7 +31,8 @@ module.exports = {
                 'public/lib/ng-file-upload/ng-file-upload-all.min.js',
                 'public/lib/ng-file-upload/ng-file-upload-all.min.js',
                 'public/lib/checklist-model/checklist-model.js',
-                'public/lib/angularUtils-pagination/dirPagination.js'
+                'public/lib/angular-sanitize/angular-sanitize.min.js',
+                'public/lib/ng-csv/build/ng-csv.min.js'
 
 
             ],

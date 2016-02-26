@@ -7,6 +7,9 @@ angular.module('users.manager').run(['Menus',
             title: 'Ad Manager',
             state: 'manager.ads'
         });
-
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Customer Base',
+            state: 'manager.loyalty'
+        });
     }
 ]);

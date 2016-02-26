@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('users.admin').controller('StoreController', ['$scope','$state','$http', 'Authentication', 'pagination',
+angular.module('users.admin').controller('StoreController', ['$scope','$state','$http', 'Authentication',
   function ($scope, $state, $http, Authentication) {
     $scope.authentication = Authentication;
 

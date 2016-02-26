@@ -1,7 +1,7 @@
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('core', ['ngMaterial', 'ngFileUpload','ui.sortable']);
+ApplicationConfiguration.registerModule('core', ['ngMaterial', 'ngFileUpload','ui.sortable', 'ngCsv','ngSanitize']);
 ApplicationConfiguration.registerModule('core.admin', ['core']);
 ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.supplier', ['core']);
