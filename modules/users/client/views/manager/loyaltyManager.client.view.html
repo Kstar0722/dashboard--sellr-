@@ -4,20 +4,17 @@
   </md-subheader>
   <md-content layout="row" layout-align="space-between none">
     <md-list>
-      <md-list-item class="md-3-line"  ng-repeat="email in emails track by $index" >
-        <div class="md-list-item-text" layout="column" >
-          <p  ng-bind="email"></p>
+      <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
+      <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
 
-        </div>
-      </md-list-item>
-      <md-list-item class="md-3-line" ng-repeat="phone in phones track by $index" >
-        <div class="md-list-item-text" layout="column" >
-          <p  ng-bind="phone"></p>
-        </div>
-        <br>
-        </md-list-item>
-      </md-list-item>
-      <button type="button" ng-csv="loyalty" filename="loyalty_list.csv">Export To CSV</button>
+
+      <md-button class="md-button md-raised md-primary" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv">{{filteredEmails.length}}
+        <br><img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/></md-button>
+      <md-button class="md-button md-raised md-primary" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv">{{filteredPhones.length}}
+        <br><img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/></md-button>
+      <div class="md-list-item-text" layout="column" >
+        <p  ></p>
+      </div>
       <md-divider></md-divider>
     </md-list>
   </md-content>

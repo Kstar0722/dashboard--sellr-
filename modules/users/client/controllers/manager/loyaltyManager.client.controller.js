@@ -21,12 +21,11 @@ angular.module('users.manager').controller('LoyaltyManagerController', ['$scope'
                         var contact = JSON.parse(res.data[i].contactInfo);
 
                         if (contact["email"]) {
-                            $scope.emails.push(contact['email']);
-                            $scope.loyalty.push(JSON.stringify(contact['email']));
+                            $scope.emails.push({email: contact['email']});
                         }
                         else {
-                            $scope.phones.push(JSON.stringify(contact['phone']));
-                            $scope.loyalty.push(JSON.stringify(contact['phone']));
+                            $scope.phones.push({phone: contact['phone']});
+
                         }
                     }
                 }
