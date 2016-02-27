@@ -154,7 +154,7 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          src: defaultAssets.client.less,
+            src: './modules/core/client/less/styles.less',
           ext: '.css',
           rename: function (base, src) {
             return src.replace('/less/', '/css/');
