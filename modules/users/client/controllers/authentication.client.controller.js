@@ -95,7 +95,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
           }
         });
         // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'manager.loyalty', $state.previous.params);
+        $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
       }).error(function (response) {
         $scope.error = response.message;
       });

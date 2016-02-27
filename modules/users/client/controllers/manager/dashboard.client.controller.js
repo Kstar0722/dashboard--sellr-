@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('users.manager').controller('LoyaltyManagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav',
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
