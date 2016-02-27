@@ -1,7 +1,8 @@
 <section class="content" ng-controller="LoyaltyManagerController as vm" data-ng-init="init()">
   <md-subheader style="padding-top:2vh;">
-    <h2>USER EMAILS FROM DEVICE</h2>
+    <h2>USER EMAILS & TEXTS FROM DEVICE</h2>
   </md-subheader>
+
   <md-content layout="row" layout-align="space-between none">
     <md-list>
       <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
@@ -15,6 +16,34 @@
       <div class="md-list-item-text" layout="column" >
         <p  ></p>
       </div>
+      <md-content layout="row" layout-align="space-between none">
+        <md-subheader ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
+          {{locs.locationName}}
+        <md-list>
+          <md-list-item class="md-3-line" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
+            <div class="md-list-item-text">
+              <h3>{{device.deviceName}}</h3>
+            </div>
+
+
+          </md-list-item>
+          <!--<md-divider></md-divider>-->
+
+
+        </md-list>
+          </md-subheader>
+      </md-content>
+      <!--{{analytics}}-->
+      <md-content layout="row" layout-align="space-between none">
+      <md-subheader> Top 10 Analytics!
+      <md-list-item class="md-3-line" ng-repeat="analytic in analytics" >
+        <div class="md-list-item-text">
+          <h3>{{analytic.opt_value}} - {{analytic.cnt}}</h3>
+        </div>
+      </md-list-item>
+      </md-subheader>
+        </md-content>
+      <!--<div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>-->
       <md-divider></md-divider>
     </md-list>
   </md-content>

@@ -79,10 +79,21 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         return false;
       }
 
+
       $http.post('/api/auth/signin', $scope.credentials).success(function (response) {
         // If successful we assign the response to the global user model
         console.log('authClientController signing %O', response);
         $scope.authentication.user = response;
+
+        $http.get('http://mystique.expertoncue.com:7272/accounts/user/' + $scope.authentication.user.username).then(function (response, err) {
+          if (err) {
+            console.log(err);
+          }
+          if (response) {
+            localStorage.setItem('accountId', Number(response.data[0].accountId));
+            console.log('Account Id Set In Storage',Number(response.data[0].accountId));
+          }
+        });
         // And redirect to the previous or home page
         $state.go($state.previous.state.name || 'manager.loyalty', $state.previous.params);
       }).error(function (response) {
