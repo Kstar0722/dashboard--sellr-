@@ -8,6 +8,12 @@
   z-index: 1;
   background: #2B333F;
   color: white;
+  background-image: url(@home_bg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-y: 20%;
+
+
   &:hover {
     width: 100%;
   }
@@ -15,6 +21,10 @@
   .md-toolbar-tools {
     height: 15vh;
     max-height: 15vh;
+
+    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
   }
   .md-menu {
     right: 0;
@@ -41,8 +51,13 @@
 
   }
   #pagebutton{
-    padding-top: 10vh;
+    padding-top: 9vh;
     display: inline-block;
+
+    .md-button {
+
+      font-size: 16px;
+    }
   }
   md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar){
     background-color: transparent;
