@@ -42,6 +42,14 @@ md-list .md-subheader {
   background-repeat: no-repeat;
   background-position-y: 20%;
 }
+#topNav .brand {
+  background-image: url('../img/logo_white.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 180px;
+  opacity: .25;
+}
 #topNav:hover {
   width: 100%;
 }
@@ -71,6 +79,7 @@ md-list .md-subheader {
   z-index: inherit;
 }
 #topNav #pagebutton {
+  margin-top: 3vh;
   display: inline-block;
 }
 #topNav #pagebutton .md-button {
@@ -321,12 +330,13 @@ section.userList .invite {
   letter-spacing: 2px;
 }
 .dashboard .devices .device {
-  max-width: 20%;
+  width: 20%;
   min-height: 9vh;
   background: white;
   float: left;
   text-align: center;
   padding: 2.5%;
+  max-width: 200px;
 }
 @media (max-width: 768px) {
   .dashboard .devices .device {

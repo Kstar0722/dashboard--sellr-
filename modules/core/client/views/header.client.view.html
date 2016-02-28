@@ -1,7 +1,9 @@
 
 <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
-  <md-toolbar md-open="ui.toolbarOpened" count="ui.count" ng-class="{ 'md-is-open': ui.toolbarOpened }" >
+  <md-toolbar  >
       <md-toolbar class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
+
+        <div class="brand"></div>
         <div data-ng-repeat="item in menu.items "
              data-ng-if="item.shouldRender(authentication.user);"
              ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}"    >
