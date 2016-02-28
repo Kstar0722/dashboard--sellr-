@@ -2,10 +2,10 @@
 
 
   <div layout="row" layout-wrap>
-    <div flex="60" style="background:red">
+    <div flex="60" style="background:red" layout-padding>
       STATS TO GO HERE....
     </div>
-    <div flex="33" flex-offset="5" class="topten">
+    <div flex="33" flex-offset="5" layout-padding>
       <!--{{analytics}}-->
       <md-list class="md-whiteframe-5dp">
         <md-subheader>Top 10 Analytics</md-subheader>
@@ -19,25 +19,27 @@
     </div>
   </div>
   <div layout="row" layout-wrap>
-    <div flex="60" style="background:lightgreen">
+    <div flex="60" style="background:whitesmoke">
+      <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
+
+      <section layout="row" layout-sm="column" layout-align="space-around center" layout-wrap>
+
+        <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
+
+        <md-button ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv"><img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/>
+          {{filteredEmails.length}}</md-button>
+        <md-button ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" >
+          <img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/>gh{{filteredPhones.length}}</md-button>
+
+      </section>
+
 
     </div>
 
 
   </div>
 
-  <md-content layout="row" layout-align="space-between none">
-    <md-list>
-      <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
-      <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
 
-
-      <md-button class="md-button md-raised md-primary" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv">{{filteredEmails.length}}<img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/>
-      </md-button>
-      <md-button class="md-button md-raised md-primary" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv">{{filteredPhones.length}}<img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/></md-button>
-
-      </md-list>
-    </md-content>
 
 
       <md-content layout="row" layout-align="space-between none">
