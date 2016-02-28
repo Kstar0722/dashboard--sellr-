@@ -51,7 +51,7 @@
     </div>
   </div>
   <div layout="column">
-    <div class="devices" ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
+    <div class="devices " ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
       <h1>{{locs.locationName}}</h1>
       <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId" >
         <div class="icon"><i class="fa fa-desktop"></i></div>
