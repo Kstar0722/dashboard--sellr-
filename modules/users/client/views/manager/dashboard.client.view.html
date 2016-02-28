@@ -5,10 +5,18 @@
     <div flex="60" style="background:red" layout-padding>
       STATS TO GO HERE....
     </div>
-    <div flex="33" flex-offset="5" layout-padding>
+    <div flex="33" flex-offset="5" class="topten" >
       <!--{{analytics}}-->
       <md-list class="md-whiteframe-5dp">
-        <md-subheader>Top 10 Analytics</md-subheader>
+
+        <md-toolbar >
+          <div class="md-toolbar-tools">
+            <h2>
+              <span>Top 10 Items</span>
+            </h2>
+          </div>
+        </md-toolbar>
+
           <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10" >
             <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
               <p>{{analytic.opt_value}}</p><p class="md-secondary"> {{analytic.cnt}}</p>
@@ -50,11 +58,7 @@
             <div class="md-list-item-text">
               <h3>{{device.deviceName}}</h3>
             </div>
-
-
           </md-list-item>
-          <!--<md-divider></md-divider>-->
-
 
         </md-list>
           </md-subheader>

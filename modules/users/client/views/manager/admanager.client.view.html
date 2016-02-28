@@ -2,146 +2,179 @@
 
   <div id="admanager" ng-controller="AdmanagerController as vm" data-ng-init="init()">
     <div layout="row" layout-align="space-between center">
-      <h2 class="md-title">Ad Manager</h2>
-      <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
-        <md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>
-        Upload Image
-      </md-button>
+
+
     </div>
+
+
 
 
     <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
     <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"  ng-show="vm.determinateValue"></md-progress-linear>
-    <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
-      Toggle left
-    </md-button>
-    <div id="homecontent-mid" class="row rounded">
-      <div id="homebanner" class="rounded">
-        <div class="sliderdiv">
-          <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')">
-            <div class=" side-nav-container">
-              <md-toolbar >
-                <div class="md-toolbar-tools">
-                  <h2>
-                    <span>Your Files</span>
-                  </h2>
-                  
-                </div>
-              </md-toolbar>
 
-              <md-card>
-                <img ng-src=" http://placehold.it/2000x1000/333333?text= " class="md-card-image" alt="Washed Out">
-                <md-card-actions layout="row" layout-align="end center">
-                  <md-button class="md-icon-button" aria-label="Favorite">
-                    <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-                  </md-button>
-                  <md-button class="md-icon-button" aria-label="Settings">
-                    <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-                  </md-button>
-                  <md-button class="md-icon-button" aria-label="Share">
-                    <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
-                  </md-button>
-                </md-card-actions>
-              </md-card>
-              <md-content ng-repeat="source in sources" layout-padding="">
 
-                <md-card ng-if="source.ext == 'image'"
-                " >
-                <md-card-title>
-                  <md-card-title-text>
-                    <span class="md-subhead">{{source.value}}</span>
+    <div layout="row">
+      <div flex="40" class="adList md-whiteframe-10dp" style="background:">
+        <md-toolbar >
+          <div class="md-toolbar-tools">
+            <h2>
+              <span>Your Files</span>
+            </h2>
+            <div flex-auto=""></div>
+            <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
 
-                  </md-card-title-text>
-                  <md-card-title-media>
-                    <img ng-if="source.ext == 'image'"
-                         ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
-                  </md-card-title-media>
+              Upload Image
+            </md-button>
+          </div>
+        </md-toolbar>
 
-                </md-card-title>
+        <div ng-repeat="source in sources" layout-padding="">
 
-                <md-card-actions layout="column">
-                  <md-button class="md-icon-button" aria-label="Favorite"
-                             ng-click="activateAd(source.adId, currentDevice)">
-                    <img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">
-                  </md-button>
-                </md-card-actions>
-                </md-card>
-                <md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">
-                  <md-card-title>
-                    <md-card-title-text>
-                      <span class="card-text">{{source.value}}</span>
-                      <video controls ng-if="source.ext =='video'"
-                             ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"
-                             frameBorder="2"
-                             allowfullscreen="true"></video>
-                    </md-card-title-text>
-                  </md-card-title>
-                  <md-card-actions layout="column">
-                    <md-button class="md-icon-button" aria-label="Favorite"
-                               ng-click="activateAd(source.adId, currentDevice)">
-                      <img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">
-                    </md-button>
-                  </md-card-actions>
-                </md-card>
-              </md-content>
-            </div>
-          </md-sidenav>
-        </div>
+          <md-card ng-if="source.ext == 'image' "  >
 
-        <div class=" side-nav-container">
-          <md-input-container style="margin-right: 10px;">
-            <label>Size</label>
-            <md-select ng-model="size">
-              <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
-            </md-select>
-          </md-input-container>
-
-          <md-content ng-repeat="source in sources" layout-padding="">
-
-            <md-card ng-if="source.ext == 'image'"
-            " >
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-subhead">{{source.value}}</span>
-
-              </md-card-title-text>
-              <md-card-title-media>
-                <img ng-if="source.ext == 'image'"
-                     ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
-              </md-card-title-media>
-
-            </md-card-title>
-
-            <md-card-actions layout="column">
-              <md-button class="md-icon-button" aria-label="Favorite"
-                         ng-click="deactivateAd(link.adId, devices.deviceId)">
-                <img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">
+            <div class="adimage" ng-if="source.ext == 'image'" style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button class="md-icon-button" aria-label="Favorite">
+                <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+              </md-button>
+              <md-button class=" md-raised md-accent"  ng-click="activateAd(source.adId, currentDevice)">
+                Add to list
               </md-button>
             </md-card-actions>
-            </md-card>
-            <md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">
-              <md-card-title>
-                <md-card-title-text>
-                  <span class="card-text">{{source.value}}</span>
-                  <video controls ng-if="source.ext =='video'"
-                         ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"
-                         frameBorder="2"
-                         allowfullscreen="true"></video>
-                </md-card-title-text>
-              </md-card-title>
-              <md-card-actions layout="column">
-                <md-button class="md-icon-button" aria-label="Favorite"
-                           ng-click="deactivateAd(link.adId, devices.deviceId)">
-                  <img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">
-                </md-button>
-              </md-card-actions>
-            </md-card>
-          </md-content>
+          </md-card>
         </div>
-        </md-sidenav>
+
       </div>
+      <div flex="" flex-offset="10" style="background:">
+        <md-content class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="50" layout="column"  >
+        <md-card ng-if="source.ext == 'image' " ng-repeat="source in sources" >
+
+          <div class="adimage" ng-if="source.ext == 'image'" style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button class="md-icon-button" aria-label="Favorite">
+              <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Settings">
+              <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <md-button class="md-raised md-warn "
+                       ng-click="deactivateAd(link.adId, devices.deviceId)">
+              Remove from list
+            </md-button>
+          </md-card-actions>
+        </md-card>
+          </div>
+          </md-content>
+      </div>
+
     </div>
-  </div>
+
+
+
+
+
+
+
+
+
+                <!--<md-card ng-if="source.ext == 'image'"-->
+                <!--" >-->
+                <!--<md-card-title>-->
+                  <!--<md-card-title-text>-->
+                    <!--<span class="md-subhead">{{source.value}}</span>-->
+
+                  <!--</md-card-title-text>-->
+                  <!--<md-card-title-media>-->
+                    <!--<img ng-if="source.ext == 'image'"-->
+                         <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
+                  <!--</md-card-title-media>-->
+
+                <!--</md-card-title>-->
+
+                <!--<md-card-actions layout="column">-->
+                  <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+                             <!--ng-click="activateAd(source.adId, currentDevice)">-->
+                    <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
+                  <!--</md-button>-->
+                <!--</md-card-actions>-->
+                <!--</md-card>-->
+                <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">-->
+                  <!--<md-card-title>-->
+                    <!--<md-card-title-text>-->
+                      <!--<span class="card-text">{{source.value}}</span>-->
+                      <!--<video controls ng-if="source.ext =='video'"-->
+                             <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"-->
+                             <!--frameBorder="2"-->
+                             <!--allowfullscreen="true"></video>-->
+                    <!--</md-card-title-text>-->
+                  <!--</md-card-title>-->
+                  <!--<md-card-actions layout="column">-->
+                    <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+                               <!--ng-click="activateAd(source.adId, currentDevice)">-->
+                      <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
+                    <!--</md-button>-->
+                  <!--</md-card-actions>-->
+
+
+
+          <!--<md-input-container >-->
+            <!--<label>Size</label>-->
+            <!--<md-select ng-model="size">-->
+              <!--<md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>-->
+            <!--</md-select>-->
+          <!--</md-input-container>-->
+
+          <!--<div ng-repeat="source in sources" layout-padding="">-->
+
+            <!--<md-card ng-if="source.ext == 'image'"-->
+            <!--" >-->
+            <!--<md-card-title>-->
+              <!--<md-card-title-text>-->
+                <!--<span class="md-subhead">{{source.value}}</span>-->
+
+              <!--</md-card-title-text>-->
+              <!--<md-card-title-media>-->
+                <!--<img ng-if="source.ext == 'image'"-->
+                     <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
+              <!--</md-card-title-media>-->
+
+            <!--</md-card-title>-->
+
+            <!--<md-card-actions layout="column">-->
+              <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+                         <!--ng-click="deactivateAd(link.adId, devices.deviceId)">-->
+                <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
+              <!--</md-button>-->
+            <!--</md-card-actions>-->
+            <!--</md-card>-->
+            <!--</div>-->
+            <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">-->
+              <!--<md-card-title>-->
+                <!--<md-card-title-text>-->
+                  <!--<span class="card-text">{{source.value}}</span>-->
+                  <!--<video controls ng-if="source.ext =='video'"-->
+                         <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"-->
+                         <!--frameBorder="2"-->
+                         <!--allowfullscreen="true"></video>-->
+                <!--</md-card-title-text>-->
+              <!--</md-card-title>-->
+              <!--<md-card-actions layout="column">-->
+                <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+                           <!--ng-click="deactivateAd(link.adId, devices.deviceId)">-->
+                  <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
+                <!--</md-button>-->
+              <!--</md-card-actions>-->
+            <!--</md-card>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--</md-sidenav>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
   <!--<md-list layout="row">-->
   <!--<md-list-item class="md-1-line veggie-option" ng-model="list_category" ng-repeat="link in list_categories.data" layout="row" layout-wrap="">-->
   <!--<div class="md-item-text md-whiteframe-z1" flex="" ng-click="getDevice(link.locationId)">-->

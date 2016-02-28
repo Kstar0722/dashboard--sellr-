@@ -1,22 +1,38 @@
 #admanager {
 
   .upload {
-    background-color: #2ECC71;
+    background-color: @green;
     color: white;
   }
 
-  .sliderdiv {
-    /*background: none repeat scroll;*/
-    float: left;
-    /*overflow:auto;*/
-    /*max-height: 10%;*/
-    overflow: hidden;
-    white-space: nowrap;
+  //.sliderdiv {
+  //  /*background: none repeat scroll;*/
+  //  float: left;
+  //  /*overflow:auto;*/
+  //  /*max-height: 10%;*/
+  //  overflow: hidden;
+  //  white-space: nowrap;
+  //
+  //  img {
+  //    max-height: 20vh;
+  //    max-width:30vh;
+  //  }
+  //}
 
-    img {
-      max-height: 20vh;
-      max-width:30vh;
+  .adList {
+    background: lighten(@light-grey,5%);
+    md-toolbar {
+      background-color: @light-grey;
+      h2 {
+        color: @dark-grey;
+      }
     }
+  }
+  .adimage {
+    height: 20vh;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
 
