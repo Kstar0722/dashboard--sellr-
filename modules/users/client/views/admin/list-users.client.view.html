@@ -1,7 +1,7 @@
 <section class="content userList">
 
   <div layout="row"  layout-align="space-between start" >
-    <div flex="30">
+    <div flex="40">
       <h1>USER MANAGEMENT</h1>
       <md-input-container class="md-block">
         <label>SEARCH</label>
@@ -10,26 +10,6 @@
     </div>
     <div>
       <md-button class="md-raised md-success invite" ng-click="inviteStoreView()">Invite User</md-button>
-
-      <!--<md-fab-speed-dial md-open="isOpen" md-direction="down">-->
-        <!--<md-fab-trigger>-->
-          <!--<md-button aria-label="menu" class="md-fab md-warn">-->
-            <!--<md-icon md-svg-src="img/icons/menu.svg"></md-icon>-->
-          <!--</md-button>-->
-        <!--</md-fab-trigger>-->
-        <!--<md-fab-actions>-->
-          <!--<md-button aria-label="Twitter" class="md-fab md-raised md-mini">-->
-            <!--<md-icon md-svg-src="img/icons/twitter.svg" aria-label="Twitter"></md-icon>-->
-          <!--</md-button>-->
-          <!--<md-button aria-label="Facebook" class="md-fab md-raised md-mini">-->
-            <!--<md-icon md-svg-src="img/icons/facebook.svg" aria-label="Facebook"></md-icon>-->
-          <!--</md-button>-->
-          <!--<md-button aria-label="Google Hangout" class="md-fab md-raised md-mini">-->
-            <!--<md-icon md-svg-src="img/icons/hangout.svg" aria-label="Google Hangout"></md-icon>-->
-          <!--</md-button>-->
-        <!--</md-fab-actions>-->
-      <!--</md-fab-speed-dial>-->
-
     </div>
 
   </div>
@@ -38,13 +18,6 @@
   <div flex="50">
 
 
-
-
-  <div layout-gt-sm="row">
-
-
-
-  </div>
   <md-content layout="row" layout-align="space-between none">
     <md-list>
       <md-list-item class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search" ng-click="userEditView({userId: user._id,userName:user.username})">
@@ -58,7 +31,7 @@
 
           <md-button class="md-secondary md-raised">Edit</md-button>
 
-
+        <md-divider ng-if="!$last"></md-divider>
       </md-list-item>
       <!--<md-divider></md-divider>-->
 
@@ -67,7 +40,7 @@
   </md-content>
   </div>
 
-    <div flex="" flex-offset="5" ui-view></div>
+    <div flex="" flex-offset="0" ui-view></div>
 
 </div>
 </section>

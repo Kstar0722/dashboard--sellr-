@@ -1,7 +1,30 @@
-<section class="content" ng-controller="DashboardController as vm" data-ng-init="init()">
-  <md-subheader style="padding-top:2vh;">
-    <h2>USER EMAILS & TEXTS FROM DEVICE</h2>
-  </md-subheader>
+<section class="content dashboard" ng-controller="DashboardController as vm" data-ng-init="init()">
+
+
+  <div layout="row" layout-wrap>
+    <div flex="60" style="background:red">
+      STATS TO GO HERE....
+    </div>
+    <div flex="33" flex-offset="5" class="topten">
+      <!--{{analytics}}-->
+      <md-list class="md-whiteframe-5dp">
+        <md-subheader>Top 10 Analytics</md-subheader>
+          <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10" >
+            <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
+              <p>{{analytic.opt_value}}</p><p class="md-secondary"> {{analytic.cnt}}</p>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+
+      </md-list>
+    </div>
+  </div>
+  <div layout="row" layout-wrap>
+    <div flex="60" style="background:lightgreen">
+
+    </div>
+
+
+  </div>
 
   <md-content layout="row" layout-align="space-between none">
     <md-list>
@@ -9,13 +32,14 @@
       <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
 
 
-      <md-button class="md-button md-raised md-primary" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv">{{filteredEmails.length}}
-        <br><img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/></md-button>
-      <md-button class="md-button md-raised md-primary" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv">{{filteredPhones.length}}
-        <br><img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/></md-button>
-      <div class="md-list-item-text" layout="column" >
-        <p  ></p>
-      </div>
+      <md-button class="md-button md-raised md-primary" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv">{{filteredEmails.length}}<img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/>
+      </md-button>
+      <md-button class="md-button md-raised md-primary" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv">{{filteredPhones.length}}<img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/></md-button>
+
+      </md-list>
+    </md-content>
+
+
       <md-content layout="row" layout-align="space-between none">
         <md-subheader ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
           {{locs.locationName}}
@@ -33,16 +57,7 @@
         </md-list>
           </md-subheader>
       </md-content>
-      <!--{{analytics}}-->
-      <md-content layout="row" layout-align="space-between none">
-      <md-subheader> Top 10 Analytics!
-      <md-list-item class="md-3-line" ng-repeat="analytic in analytics" >
-        <div class="md-list-item-text">
-          <h3>{{analytic.opt_value}} - {{analytic.cnt}}</h3>
-        </div>
-      </md-list-item>
-      </md-subheader>
-        </md-content>
+
       <!--<div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>-->
       <md-divider></md-divider>
     </md-list>
