@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http','$state', 'CurrentUserService',
-  function ($scope, $filter, Admin, $http, $state, CurrentUserService) {
+angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http','$state', 'CurrentUserService','constants',
+  function ($scope, $filter, Admin, $http, $state, CurrentUserService,constants) {
 
           $scope.CurrentUserService = CurrentUserService;
           console.log('user server %O', CurrentUserService.userList);
@@ -21,7 +21,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     $scope.userEditView = function(userview){
       CurrentUserService.user = userview.userName;
 
-        $http.get('http://mystique.expertoncue.com:7272/store/location/' +CurrentUserService.user).then(function (res, err) {
+        $http.get(constants.API_URL + '/store/location/' +CurrentUserService.user).then(function (res, err) {
           if (err) {
             console.log(err);
           }

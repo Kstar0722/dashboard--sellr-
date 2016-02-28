@@ -1,8 +1,32 @@
 'use strict';
 
 // Setting up route
-angular.module('core').config(['$stateProvider', '$urlRouterProvider',
-  function ($stateProvider, $urlRouterProvider) {
+angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServiceProvider',
+    function ($stateProvider, $urlRouterProvider, envServiceProvider) {
+
+        //SET ENVIRONMENT
+
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                development: ['localhost', 'mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com'],
+                production: ['dashboard.expertoncue.com']
+                // anotherStage: ['domain1', 'domain2'],
+                // anotherStage: ['domain1', 'domain2']
+            },
+            vars: {
+                development: {
+                    API_URL: 'http://mystique.expertoncue.com:7070'
+                },
+                production: {
+                    apiUrl: 'http://api.expertoncue/com'
+                }
+            }
+        });
+
+        // run the environment check, so the comprobation is made
+        // before controllers and services are built
+        envServiceProvider.check();
 
     // Redirect to 404 when route not found
     $urlRouterProvider.otherwise(function ($injector, $location) {

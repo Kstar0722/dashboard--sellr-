@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
@@ -16,7 +16,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         $scope.specificLoc = [];
         $scope.init = function () {
             $scope.sources = [];
-            $http.get('http://mystique.expertoncue.com:7272/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            $http.get(constants.API_URL + '/store/location/' + $scope.authentication.user.username).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -27,7 +27,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                     for(var x in locations) {
                         location = locations[x].address;
                         $scope.specificLoc.push({locationName:locations[x].address, locationId:locations[x].locationId})
-                        $http.get('http://mystique.expertoncue.com:7272/devices/location/' + locations[x].locationId).then(function (response, err) {
+                        $http.get(constants.API_URL + '/devices/location/' + locations[x].locationId).then(function (response, err) {
                             if (err) {
                                 console.log(err);
                             }
@@ -46,7 +46,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
             })
 
 
-            $http.get('http://mystique.expertoncue.com:7272/loyalty/' + $scope.authentication.user.username).then(function (res, err) {
+            $http.get(constants.API_URL + '/loyalty/' + $scope.authentication.user.username).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -65,7 +65,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                 }
             });
             var accountId= localStorage.getItem('accountId');
-            $http.get('http://mystique.expertoncue.com:7272/analytics/top-products?account=' + accountId).then(function (res, err) {
+            $http.get(constants.API_URL + '/analytics/top-products?account=' + accountId).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }

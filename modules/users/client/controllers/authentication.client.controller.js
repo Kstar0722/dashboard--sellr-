@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants',
+    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants) {
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
     $scope.regCodeErrors = false;
@@ -25,7 +25,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         return false;
       }
-      $http.get('http://mystique.expertoncue.com:7272/store/validate/'+$scope.regCode).success(function (response) {
+        $http.get(constants.API_URL + '/store/validate/' + $scope.regCode).success(function (response) {
         // If successful we assign the response to the global user model
 
 
@@ -47,7 +47,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                     userId:$scope.regCode
                 }
             };
-          $http.post('http://mystique.expertoncue.com:7272/store/update', storeUpdate).success(function (res) {
+            $http.post(constants.API_URL + '/store/update', storeUpdate).success(function (res) {
             if(res) {
                 $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
                     // If successful we assign the response to the global user model
@@ -85,7 +85,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         console.log('authClientController signing %O', response);
         $scope.authentication.user = response;
 
-        $http.get('http://mystique.expertoncue.com:7272/accounts/user/' + $scope.authentication.user.username).then(function (response, err) {
+          $http.get(constants.API_URL + '/accounts/user/' + $scope.authentication.user.username).then(function (response, err) {
           if (err) {
             console.log(err);
           }

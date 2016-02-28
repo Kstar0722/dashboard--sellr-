@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav) {
+angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
@@ -39,7 +39,7 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
             return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
         }
        $scope.init = function(){
-            $http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

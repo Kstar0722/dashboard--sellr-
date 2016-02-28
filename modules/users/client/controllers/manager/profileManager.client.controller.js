@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav) {
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
@@ -43,7 +43,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         }
         $scope.init = function () {
             $scope.sources = [];
-            $http.get('http://mystique.expertoncue.com:7272/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            $http.get(constants.API_URL + '/store/location/' + $scope.authentication.user.username).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -54,7 +54,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
                 }
             });
-            $http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -94,7 +94,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         };
         $scope.getDevice = function (loc) {
             console.log('HELLO')
-            $http.get('http://mystique.expertoncue.com:7272/devices/location/' + loc).then(function (response, err) {
+            $http.get(constants.API_URL + '/devices/location/' + loc).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -110,14 +110,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             $scope.leftArray = [];
             $scope.rightArray = [];
             $scope.links =[];
-            //$http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
+            //$http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
             //    if (err) {
             //        console.log(err);
             //    }
             //    if (response) {
             //    }
             //});
-            $http.get('http://mystique.expertoncue.com:7272/ads/device/' + deviceId).then(function (response, err) {
+            $http.get(constants.API_URL + '/ads/device/' + deviceId).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -177,7 +177,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     deviceId:deviceId
                 }
             };
-            $http.post('http://mystique.expertoncue.com:7272/ads/', asset).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads/', asset).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -189,7 +189,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         };
         $scope.deactivateAd = function(adId, deviceId){
 
-            $http.delete('http://mystique.expertoncue.com:7272/ads/'+adId).then(function (response, err) {
+            $http.delete(constants.API_URL + '/ads/'+adId).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -208,7 +208,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post('http://mystique.expertoncue.com:7272/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.admin').controller('AdminLocationController', ['$scope','$state','$http', 'Authentication', '$timeout','Admin', 'Upload', '$sce', 'ImageService',
-    function ($scope, $state, $http, Authentication, $timeout,Admin, Upload, $sce, ImageService) {
+angular.module('users.admin').controller('AdminLocationController', ['$scope','$state','$http', 'Authentication', '$timeout','Admin', 'Upload', '$sce', 'ImageService','constants',
+    function ($scope, $state, $http, Authentication, $timeout,Admin, Upload, $sce, ImageService,constants) {
         $scope.authentication = Authentication;
         Admin.query(function (data) {
             $scope.users = data;
@@ -9,7 +9,7 @@ angular.module('users.admin').controller('AdminLocationController', ['$scope','$
         });
         var self = this;
        $scope.getLocation = function(specificUser) {
-           $http.get('http://mystique.expertoncue.com:7272/store/location/' + specificUser).then(function (res, err) {
+           $http.get(constants.API_URL + '/store/location/' + specificUser).then(function (res, err) {
                if (err) {
                    console.log(err);
                }

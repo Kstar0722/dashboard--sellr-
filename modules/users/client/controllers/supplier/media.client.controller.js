@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService) {
+angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
@@ -22,7 +22,7 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post('http://mystique.expertoncue.com:7272/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

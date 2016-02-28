@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('ManagerUploadController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService) {
+angular.module('users').controller('ManagerUploadController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
@@ -24,7 +24,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
         };
 
         $scope.getFile = function () {
-            $http.get('http://mystique.expertoncue.com:7272/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get(constants.API_URL + '7272/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -45,7 +45,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post('http://mystique.expertoncue.com:7272/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '7272/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
