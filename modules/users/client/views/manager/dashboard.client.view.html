@@ -1,6 +1,4 @@
 <section class="content dashboard" ng-controller="DashboardController as vm" data-ng-init="init()">
-
-
   <div layout="row" layout-wrap>
     <div flex="60" style="background:red" layout-padding>
       STATS TO GO HERE....
@@ -8,69 +6,58 @@
     <div flex="33" flex-offset="5" class="topten" >
       <!--{{analytics}}-->
       <md-list class="md-whiteframe-5dp">
-
         <md-toolbar >
           <div class="md-toolbar-tools">
             <h2>
-              <span>Top 10 Items</span>
+              <span>Top 10 Items <i class="fa fa-bar-chart"></i></span>
             </h2>
           </div>
         </md-toolbar>
-
-          <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10" >
-            <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
-              <p>{{analytic.opt_value}}</p><p class="md-secondary"> {{analytic.cnt}}</p>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-
+        <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10" >
+          <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
+          <p>{{analytic.opt_value}}</p>
+          <p class="md-secondary"> {{analytic.cnt}}</p>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
       </md-list>
     </div>
   </div>
   <div layout="row" layout-wrap>
-
     <div flex="60"  class="" >
       <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
       <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
-      <section layout="row" layout-sm="column" layout-align="space-around center" layout-wrap>
-
-        <md-button>Customer Signups:</md-button>
-
-
-        <md-button class="leadgen" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV"><img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/>
-          <span class="number">{{filteredEmails.length}} Phone #'s</span></md-button>
-        <md-button class="leadgen" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV" >
-          <img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/>
-          <span class="number">{{filteredPhones.length}} Email Add.</span></md-button>
-
-      </section>
-
-
-    </div>
-
-
-  </div>
-
-
-
-
-      <md-content layout="row" layout-align="space-between none">
-        <md-subheader ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
-          {{locs.locationName}}
-        <md-list>
-          <md-list-item class="md-3-line" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
-            <div class="md-list-item-text">
-              <h3>{{device.deviceName}}</h3>
+      <section class="leads" >
+        <h1>Customer Leads:</h1>
+        <div class="leadgen md-whiteframe-5dp" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV">
+          <div class="icon"><i class="fa fa-mobile"></i></div>
+          <div class="data">
+            <div class="centerhelp">
+              <span class="number">{{filteredEmails.length}}</span>
+              <span class="label">Email Addresses</span>
             </div>
-          </md-list-item>
-
-        </md-list>
-          </md-subheader>
-      </md-content>
-
-      <!--<div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>-->
-      <md-divider></md-divider>
-    </md-list>
-  </md-content>
+          </div>
+        </div>
+        <div class="leadgen md-whiteframe-5dp" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV" >
+					<span class="icon">
+					<i class="fa fa-envelope"></i>
+					</span>
+          <div class="data" >
+            <div class="centerhelp">
+              <span class="number">{{filteredPhones.length}} </span> <span class="label">Phone Numbers</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div layout="column">
+    <div class="devices" ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
+      <h1>{{locs.locationName}}</h1>
+      <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId" >
+        <div class="icon"><i class="fa fa-desktop"></i></div>
+        <p>{{device.deviceName}}</p>
+      </div>
+    </div>
+  </div>
   <div ui-view></div>
 </section>
-

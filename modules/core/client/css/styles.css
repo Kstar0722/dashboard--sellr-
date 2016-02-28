@@ -239,27 +239,115 @@ section.userList .invite {
   background-color: #424242;
   color: #E2E2E2;
 }
-.dashboard .leadgen {
-  margin-top: 20px;
+.dashboard .leads .leadgen {
+  margin-top: ;
+  background: #E2E2E2;
+  color: #424242;
+  width: 48%;
+  height: 12vh;
+  float: left;
+  text-align: center;
+  transition: all .3s ease;
+}
+.dashboard .leads .leadgen:first-of-type {
+  margin-right: 4%;
+}
+@media (max-width: 480px) {
+  .dashboard .leads .leadgen {
+    width: 100%;
+    margin: 0 0 2vh !important ;
+  }
+}
+.dashboard .leads .leadgen:hover {
+  background-color: #424242;
+  transition: all .3s ease;
+  cursor: pointer;
+}
+.dashboard .leads .leadgen:hover .data {
+  color: white;
+}
+.dashboard .leads .leadgen .icon {
   background: #8D9AA5;
-  color: white;
-  width: 38%;
-  text-align: left;
+  display: table;
+  position: relative;
+  float: left;
+  width: 30%;
+  height: 12vh;
 }
-.dashboard .leadgen:hover {
-  background-color: #171625;
-  color: white;
+.dashboard .leads .leadgen .icon i {
+  font-size: 60px;
+  vertical-align: middle;
+  display: table-cell;
 }
-.dashboard .leadgen img {
-  top: 12px;
-  position: absolute;
-  left: 13px;
-  max-height: 35px;
+@media (max-width: 1200px) {
+  .dashboard .leads .leadgen .icon i {
+    font-size: 40px;
+  }
 }
-.dashboard .leadgen .number {
-  font-size: 30px;
+.dashboard .leads .leadgen .data {
+  display: table;
+  height: 12vh;
+  width: 70%;
+}
+.dashboard .leads .leadgen .data .centerhelp {
+  height: 12vh;
+  display: table-cell;
+  vertical-align: middle;
+}
+.dashboard .leads .leadgen .data .number {
+  font-size: 60px;
   line-height: 60px;
   left: 65px;
+  font-weight: bold;
   position: inherit;
   text-transform: initial;
+}
+.dashboard .leads .leadgen .data .label {
+  display: block;
+  margin-top: 5px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.dashboard .devices .device {
+  max-width: 20%;
+  min-height: 9vh;
+  background: white;
+  float: left;
+  text-align: center;
+  padding: 2.5%;
+}
+@media (max-width: 768px) {
+  .dashboard .devices .device {
+    min-width: 26%;
+  }
+}
+@media (max-width: 480px) {
+  .dashboard .devices .device {
+    min-width: 40%;
+  }
+}
+.dashboard .devices .device p {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 20px;
+  text-transform: capitalize;
+}
+@media (max-width: 480px) {
+  .dashboard .devices .device p {
+    font-size: 14px;
+  }
+}
+.dashboard .devices .device .icon {
+  background: ;
+  width: 100%;
+  height: 80%;
+  margin: 0 auto;
+  font-size: 70px;
+  line-height: 90px;
+  color: #2ECC71;
+}
+.dashboard .devices .device .icon.error {
+  color: #FF0000;
 }
