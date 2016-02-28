@@ -27,17 +27,20 @@
     </div>
   </div>
   <div layout="row" layout-wrap>
-    <div flex="60" style="background:whitesmoke">
-      <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
 
+    <div flex="60"  class="" >
+      <div ng-repeat="phone in filteredPhones = (phones | filter: query)" ></div>
+      <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
       <section layout="row" layout-sm="column" layout-align="space-around center" layout-wrap>
 
-        <div ng-repeat="email in filteredEmails = (emails | filter: query)" ></div>
+        <md-button>Customer Signups:</md-button>
 
-        <md-button ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV"><img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/>
-          {{filteredEmails.length}}</md-button>
-        <md-button ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV" >
-          <img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/>gh{{filteredPhones.length}}</md-button>
+
+        <md-button class="leadgen" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV"><img src="lib/material-design-icons/communication/1x_web/ic_email_white_48dp.png"/>
+          <span class="number">{{filteredEmails.length}} Phone #'s</span></md-button>
+        <md-button class="leadgen" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV" >
+          <img src="lib/material-design-icons/communication/1x_web/ic_call_end_white_48dp.png"/>
+          <span class="number">{{filteredPhones.length}} Email Add.</span></md-button>
 
       </section>
 

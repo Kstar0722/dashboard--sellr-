@@ -239,3 +239,27 @@ section.userList .invite {
   background-color: #424242;
   color: #E2E2E2;
 }
+.dashboard .leadgen {
+  margin-top: 20px;
+  background: #8D9AA5;
+  color: white;
+  width: 38%;
+  text-align: left;
+}
+.dashboard .leadgen:hover {
+  background-color: #171625;
+  color: white;
+}
+.dashboard .leadgen img {
+  top: 12px;
+  position: absolute;
+  left: 13px;
+  max-height: 35px;
+}
+.dashboard .leadgen .number {
+  font-size: 30px;
+  line-height: 60px;
+  left: 65px;
+  position: inherit;
+  text-transform: initial;
+}
