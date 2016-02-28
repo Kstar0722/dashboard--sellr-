@@ -6,9 +6,9 @@
   transition: all .25s;
   overflow: hidden !important;
   z-index: 999;
-  background: #2B333F;
+  background: darken(@dark-grey, 5%);
   color: white;
-  background-image: url(@home_bg);
+  // background-image: url(@home_bg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 20%;
@@ -19,12 +19,12 @@
   }
 
   .md-toolbar-tools {
-    height: 15vh;
-    max-height: 15vh;
-
-    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
-    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
-    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    height: 10vh;
+    max-height: 10vh;
+    padding: 0 5vw;
+    //background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+    //background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    //background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
   }
   .md-menu {
     right: 0;
@@ -51,11 +51,11 @@
 
   }
   #pagebutton{
-    padding-top: 9vh;
+
     display: inline-block;
 
     .md-button {
-
+      text-transform: none;
       font-size: 16px;
 
       &:hover {

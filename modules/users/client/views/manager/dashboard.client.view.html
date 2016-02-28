@@ -1,5 +1,10 @@
 <section class="content dashboard" ng-controller="DashboardController as vm" data-ng-init="init()">
+
+  <div class="titlebar"><h1 class="md-display-2">Dashboard</h1></div>
+
+  <div class="pagecontent">
   <div layout="row" layout-wrap>
+
     <div flex="60" style="" class="chart" layout-padding>
       <h1>Store Activity</h1>
       <img src="/modules/core/client/img/chartjs.png" width="100%">
@@ -52,13 +57,21 @@
     </div>
   </div>
   <div layout="column">
+    <br>
+<h1 class="md-display-2">Devices</h1>
+    <md-divider></md-divider>
     <div class="devices " ng-repeat="locs in specificLoc "ng-if="list_devices.locationId == specificLoc.locationId">
       <h1>{{locs.locationName}}</h1>
       <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId" >
         <div class="icon"><i class="fa fa-desktop"></i></div>
         <p>{{device.deviceName}}</p>
+
       </div>
+
     </div>
+
   </div>
   <div ui-view></div>
+
+  </div><!-- endpage -->
 </section>

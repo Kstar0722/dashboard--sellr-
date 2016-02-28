@@ -1,8 +1,22 @@
 /* VIRTUAL COLORS */
 /* BRANDING */
 /* SHADING / GRADIENTS */
+body {
+  background: #f5f5f5;
+}
 .content {
-  margin: 18vh 5vw 0 5vw;
+  margin: 10vh 0 0 0;
+}
+.content .titlebar {
+  background: #1f2532;
+  padding: 20px 0;
+}
+.content .titlebar h1 {
+  margin: 0 5vw;
+  color: white;
+}
+.content .pagecontent {
+  margin: 2vh 5vw 0;
 }
 a {
   color: #FE3A6D;
@@ -22,9 +36,8 @@ md-list .md-subheader {
   transition: all .25s;
   overflow: hidden !important;
   z-index: 999;
-  background: #2B333F;
+  background: #151922;
   color: white;
-  background-image: url(' ../img/bg_3.png ');
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 20%;
@@ -33,11 +46,9 @@ md-list .md-subheader {
   width: 100%;
 }
 #topNav .md-toolbar-tools {
-  height: 15vh;
-  max-height: 15vh;
-  background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
-  background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
-  background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
+  height: 10vh;
+  max-height: 10vh;
+  padding: 0 5vw;
 }
 #topNav .md-menu {
   right: 0;
@@ -60,10 +71,10 @@ md-list .md-subheader {
   z-index: inherit;
 }
 #topNav #pagebutton {
-  padding-top: 9vh;
   display: inline-block;
 }
 #topNav #pagebutton .md-button {
+  text-transform: none;
   font-size: 16px;
 }
 #topNav #pagebutton .md-button:hover {
@@ -224,7 +235,7 @@ section.userList .invite {
   background-color: #E2E2E2;
 }
 #admanager .adList md-toolbar h2 {
-  color: #424242;
+  color: #1f2532;
 }
 #admanager .adimage {
   height: 20vh;
@@ -236,13 +247,13 @@ section.userList .invite {
   padding-top: 0;
 }
 .dashboard .topten md-toolbar {
-  background-color: #424242;
+  background-color: #1f2532;
   color: #E2E2E2;
 }
 .dashboard .leads .leadgen {
   margin-top: ;
   background: #E2E2E2;
-  color: #424242;
+  color: #1f2532;
   width: 48%;
   height: 12vh;
   float: left;
@@ -259,7 +270,7 @@ section.userList .invite {
   }
 }
 .dashboard .leads .leadgen:hover {
-  background-color: #424242;
+  background-color: #1f2532;
   transition: all .3s ease;
   cursor: pointer;
 }
