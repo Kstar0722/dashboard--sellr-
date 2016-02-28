@@ -16,7 +16,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServi
             },
             vars: {
                 development: {
-                    API_URL: 'http://mystique.expertoncue.com:7070'
+                    API_URL: 'http://mystique.expertoncue.com:7272'
                 },
                 production: {
                     apiUrl: 'http://api.expertoncue/com'
