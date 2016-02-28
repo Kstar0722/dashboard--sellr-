@@ -35,12 +35,15 @@
 
 
 
-        <div class="form-group" ng-repeat="location in locations">
+        <div  ng-repeat="location in locations">
+          <md-input-container class="md-block">
           <label  ng-show="$first" id="location">Locations</label>
           <br>
-          <input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location" >
+          <input  ng-model="location.name"  >
+
           <md-button class="md-button md-raised md-primary"  ng-show="$last" ng-click="addNewLocation(locs)">Add Another Location</md-button>
           <md-button class="md-button md-raised md-primary"  ng-show="removeLocationBox" ng-click="removeLocation()">Remove Location</md-button>
+          </md-input-container>
         </div>
         <div class="form-group" show-errors>
           <label >User Role</label>

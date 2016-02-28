@@ -8,22 +8,41 @@
         Upload Image
       </md-button>
     </div>
+
+
     <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
-    <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"
-                        ng-show="vm.determinateValue"></md-progress-linear>
+    <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"  ng-show="vm.determinateValue"></md-progress-linear>
     <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
       Toggle left
     </md-button>
     <div id="homecontent-mid" class="row rounded">
       <div id="homebanner" class="rounded">
         <div class="sliderdiv">
-          <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
-                      md-is-locked-open="$mdMedia('gt-md')">
+          <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')">
             <div class=" side-nav-container">
-              <md-toolbar class="md-theme-indigo">
-                <h1 class="md-toolbar-tools">Your Files</h1>
+              <md-toolbar >
+                <div class="md-toolbar-tools">
+                  <h2>
+                    <span>Your Files</span>
+                  </h2>
+                  
+                </div>
               </md-toolbar>
 
+              <md-card>
+                <img ng-src=" http://placehold.it/2000x1000/333333?text= " class="md-card-image" alt="Washed Out">
+                <md-card-actions layout="row" layout-align="end center">
+                  <md-button class="md-icon-button" aria-label="Favorite">
+                    <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button" aria-label="Settings">
+                    <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button" aria-label="Share">
+                    <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
+                  </md-button>
+                </md-card-actions>
+              </md-card>
               <md-content ng-repeat="source in sources" layout-padding="">
 
                 <md-card ng-if="source.ext == 'image'"
