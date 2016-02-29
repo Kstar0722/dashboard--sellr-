@@ -1,9 +1,16 @@
 .dashboard {
 
+
   .topten{
-    background: white;
+
     md-list {
       padding-top: 0;
+      background: white;
+    }
+    md-list-item {
+      padding: 8px 30px;
+      font-weight: 400;
+      color: darken(@med-grey, 20%);
     }
    md-toolbar {
      background-color: @dark-grey;
@@ -101,10 +108,11 @@
       }
   }
   .devices {
+    float: left;
     .device {
       width: 20%;
       min-height: 9vh;
-      background: white;
+      background: ;
       float: left;
       text-align: center;
       padding: 2.5%;

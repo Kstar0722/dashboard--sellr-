@@ -3,43 +3,21 @@
   <div class="titlebar"><h1 class="md-display-2">Dashboard</h1></div>
 
   <div class="pagecontent">
+    <!--CHART JS STUFF-->
+    <h1>Store Activity</h1>
+    <canvas height="70" id="line" class="chart chart-bar" chart-data="data"
+            chart-labels="labels" chart-legend="true" chart-series="series" chart-colours="colors"
+            chart-options="chartOptions">
+    </canvas>
     <div layout="row" layout-wrap>
 
-      <div flex="60" style="" class="chart" layout-padding>
-        <h1>Store Activity</h1>
-        <!--CHART JS STUFF-->
+      <div flex="60"  layout-padding layout-align="none none">
 
-        <canvas id="line" class="chart chart-line" chart-data="data"
-                chart-labels="labels" chart-legend="true" chart-series="series" chart-colours="colors"
-                chart-options="chartOptions">
-        </canvas>
-
-
-      </div>
-      <div flex="33" flex-offset="5" class="topten">
-        <!--{{analytics}}-->
-        <md-list class="md-whiteframe-5dp">
-          <md-toolbar>
-            <div class="md-toolbar-tools">
-              <h2>
-                <span>Top 10 Items <i class="fa fa-bar-chart"></i></span>
-              </h2>
-            </div>
-          </md-toolbar>
-          <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10">
-            <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
-            <p>{{analytic.opt_value}}</p>
-            <p class="md-secondary"> {{analytic.cnt}}</p>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-        </md-list>
-      </div>
-    </div>
-    <div layout="row" layout-wrap>
-      <div flex="60" class="">
-        <div ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
-        <div ng-repeat="email in filteredEmails = (emails | filter: query)"></div>
-        <section class="leads">
+        <div layout="column" layout-wrap>
+        <!-- START CUSTOMER LEADS -->
+        <div style="display: none;" ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
+        <div style="display: none;" ng-repeat="email in filteredEmails = (emails | filter: query)"></div>
+        <div class="leads">
           <h1>Customer Leads:</h1>
           <div class="leadgen md-whiteframe-5dp" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV">
             <!--<span class="overlay">Click to download CSV</span>-->
@@ -62,22 +40,48 @@
               </div>
             </div>
           </div>
-        </section>
-      </div>
-    </div>
-    <div layout="column">
-      <br>
-      <h1 class="md-display-2">Devices</h1>
-      <md-divider></md-divider>
-      <div class="devices " ng-repeat="locs in specificLoc " ng-if="list_devices.locationId == specificLoc.locationId">
-        <h1>{{locs.locationName}}</h1>
-        <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
-          <div class="icon"><i class="fa fa-desktop"></i></div>
-          <p>{{device.deviceName}}</p>
+        </div>
+          <!-- END CUSTOMER LEADS -->
+          <!-- START DEVICES -->
+        <div>
+        <h1 class="md-display-2">Devices</h1>
+        <md-divider></md-divider>
+        <div class="devices " ng-repeat="locs in specificLoc " ng-if="list_devices.locationId == specificLoc.locationId">
+          <h1>{{locs.locationName}}</h1>
+          <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
+            <div class="icon"><i class="fa fa-desktop"></i></div>
+            <p>{{device.deviceName}}</p>
+
+          </div>
 
         </div>
-
+        </div>
+          <!-- END DEVICES -->
       </div>
+        </div>
+      <div flex="33" flex-offset="5" class="topten">
+        <!--{{analytics}}-->
+        <md-list class="md-whiteframe-5dp">
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>
+                <span>Top 10 Items </span>
+              </h2>
+            </div>
+          </md-toolbar>
+          <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10">
+            <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
+            <p>{{analytic.opt_value}}</p>
+            <p class="md-secondary"> {{analytic.cnt}}</p>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </div>
+    </div>
+
+    <div layout="column">
+      <br>
+
 
     </div>
     <div ui-view></div>
