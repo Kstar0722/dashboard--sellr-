@@ -10,10 +10,10 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         $scope.labels = [];
         $scope.series = ['Scans', 'Product views'];
         $scope.data = [
-            [65, 59, 80, 81],
-            [0, 0, 0, 0]
+            [0],
+            [0]
         ];
-        $http.get('http://localhost:7272/skus/mockdata').then(function (res) {
+        $http.get(constants.API_URL + '/skus/mockdata').then(function (res) {
             $scope.data = [[], []];
             $scope.labels = [];
             //group by day scanned
