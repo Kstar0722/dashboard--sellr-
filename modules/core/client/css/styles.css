@@ -247,24 +247,77 @@ section.userList .userbox {
     margin-top: 0;
   }
 }
-#admanager .upload {
+.adManager .live {
+  background: ;
+}
+.adManager .live .tab {
+  background: red;
+  color: white;
+  padding: 2vh 5%;
+  display: table;
+}
+.adManager .library {
+  margin-top: 2vh;
+}
+.adManager .library hr {
+  border-width: 4px;
+}
+.adManager .library .ads,
+.adManager .library .ads .ad {
+  background: transparent;
+  color: black;
+}
+.adManager .upload {
   background-color: #2ECC71;
   color: white;
 }
-#admanager .adList {
-  background: #efefef;
+.adManager .ads {
+  background: grey;
+  padding: 0 2.5%;
 }
-#admanager .adList md-toolbar {
-  background-color: #E2E2E2;
+.adManager .ads .ad {
+  width: 23%;
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  position: relative ;
 }
-#admanager .adList md-toolbar h2 {
-  color: #1f2532;
+.adManager .ads .ad .action {
+  display: inline;
+  opacity: 0;
+  background: green;
+  position: relative;
+  margin: 0 auto;
+  top: 90px;
+  height: auto%;
+  text-align: center;
+  color: white;
+  border-radius: ;
+  padding: 10px;
+  vertical-align: middle;
+  transition: all .3s ease;
+  z-index: 10;
 }
-#admanager .adimage {
-  height: 20vh;
-  background-position: center;
-  background-size: cover;
+.adManager .ads .ad .action.delete {
+  background: red;
+}
+.adManager .ads .ad:hover .action {
+  opacity: 1;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.adManager .ads .ad:hover .img {
+  opacity: 0.5;
+  transition: all .3s ease;
+}
+.adManager .ads .ad .img {
+  height: 180px;
+  background: url('http://placehold.it/1920x1080/333333');
+  background-size: 100%;
   background-repeat: no-repeat;
+  background-position: center;
+  float: ;
 }
 .dashboard .topten md-list {
   padding-top: 0;

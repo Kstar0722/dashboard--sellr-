@@ -1,38 +1,81 @@
-#admanager {
 
+.adManager {
+  .live {
+    background: ;
+    .tab {
+      background: red;
+      color: white;
+      padding: 2vh 5%;
+      display: table;
+    }
+  }
+  .library {
+    margin-top: 2vh; ;
+
+    hr {
+      border-width: 4px;
+    }
+    .ads, .ads .ad {
+      background: transparent;
+      color: black;
+    }
+  }
   .upload {
     background-color: @green;
     color: white;
   }
+  .ads {
+    background: grey;
+    padding: 0 2.5%;
+    .ad {
+      width: 23%;
+      display: inline-block;
+      padding: 10px;
+      text-align: center;
+      color: white;
+      position:relative ;
 
-  //.sliderdiv {
-  //  /*background: none repeat scroll;*/
-  //  float: left;
-  //  /*overflow:auto;*/
-  //  /*max-height: 10%;*/
-  //  overflow: hidden;
-  //  white-space: nowrap;
-  //
-  //  img {
-  //    max-height: 20vh;
-  //    max-width:30vh;
-  //  }
-  //}
+      .action {
+        display: inline;
+        opacity: 0;
+        background: green;
+        position: relative;
+        margin: 0 auto;
+        top: 90px;
+        height: auto%;
+        text-align: center;
+        color: white;
+        border-radius: ;
+        padding: 10px;
+        vertical-align: middle;
+        transition: all .3s ease;
+        z-index: 10;
+        &.delete {
+          background: red;
+        }
+      }
+      &:hover {
 
-  .adList {
-    background: lighten(@light-grey,5%);
-    md-toolbar {
-      background-color: @light-grey;
-      h2 {
-        color: @dark-grey;
+        .action {
+          opacity: 1;
+          cursor: pointer;
+          transition: all .3s ease;
+        }
+        .img  {
+          opacity: 0.5;
+          transition: all .3s ease;
+        }
+      }
+
+      .img {
+        height: 180px;
+        background: url( 'http://placehold.it/1920x1080/333333' );
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        float: ;
       }
     }
-  }
-  .adimage {
-    height: 20vh;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
   }
 
 
