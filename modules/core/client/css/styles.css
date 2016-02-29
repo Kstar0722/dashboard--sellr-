@@ -61,10 +61,12 @@ md-list .md-subheader {
 #topNav .md-menu {
   right: 0;
   overflow: visible;
+  z-index: inherit;
 }
 #topNav #profmenu {
   right: 0;
   overflow: visible;
+  z-index: 9999;
 }
 #topNav #profbutton {
   padding-top: 1.5vh;

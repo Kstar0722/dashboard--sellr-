@@ -18,11 +18,6 @@
         <md-toolbar >
 
           <div class="md-toolbar-tools">
-            <label>Profiles</label>
-            <select>
-              <option ng-repeat="profile in profiles.data" value="{{profile.name}}">{{profile.name}}</option>
-              </select>
-
 
             <h2>
               <span>Your Files</span>
@@ -56,6 +51,12 @@
 
       </div>
       <div flex="" flex-offset="10" style="background:">
+        <label>Profiles</label>
+        <select>
+          <option ng-repeat="profile in profiles.data" value="{{profile.name}}">{{profile.name}}</option>
+        </select>
+
+
         <md-content class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="50" layout="column"  >
         <md-card ng-if="source.ext == 'image' " ng-repeat="source in sources" >
