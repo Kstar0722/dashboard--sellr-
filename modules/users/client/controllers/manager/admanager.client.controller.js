@@ -78,7 +78,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var re = /(?:\.([^.]+))?$/;
 
                         var ext = re.exec(myData.value)[1];
-                        console.log(ext);
                         ext = ext.toLowerCase();
 
                         if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {
