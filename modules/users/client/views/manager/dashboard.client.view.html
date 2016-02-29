@@ -7,7 +7,14 @@
 
     <div flex="60" style="" class="chart" layout-padding>
       <h1>Store Activity</h1>
-      <img src="/modules/core/client/img/chartjs.png" width="100%">
+      <!--CHART JS STUFF-->
+
+      <canvas id="line" class="chart chart-line" chart-data="data"
+              chart-labels="labels" chart-legend="true" chart-series="series"
+              chart-click="onClick" >
+      </canvas>
+
+
     </div>
     <div flex="33" flex-offset="5" class="topten" >
       <!--{{analytics}}-->

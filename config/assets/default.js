@@ -7,7 +7,8 @@ module.exports = {
                 //'public/lib/bootstrap/dist/css/bootstrap.css',
                 //'public/lib/bootstrap/dist/css/bootstrap-theme.css',
                 'public/lib/angular-material/angular-material.min.css',
-                'public/lib/angular-material/angular-material.layouts.min.css'
+                'public/lib/angular-material/angular-material.layouts.min.css',
+                'public/lib/angular-chart.js/dist/angular-chart.css'
 
             ],
             js: [
@@ -33,7 +34,10 @@ module.exports = {
                 'public/lib/checklist-model/checklist-model.js',
                 'public/lib/angular-sanitize/angular-sanitize.min.js',
                 'public/lib/ng-csv/build/ng-csv.min.js',
-                'public/lib/angular-environment/dist/angular-environment.js'
+                'public/lib/angular-environment/dist/angular-environment.js',
+                'public/lib/Chart.js/Chart.js',
+                'public/lib/angular-chart.js/dist/angular-chart.js',
+
 
 
             ],
