@@ -7,12 +7,28 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         var self = this;
 
 
-        $scope.labels = ["2/22", "2/23", "2/24", "2/25", "2/26", "2/27", "2/28"];
-        $scope.series = ['My first dataset', 'My Second dataset'];
+        $scope.labels = [];
+        $scope.series = ['Sku Scans', 'Pageviews'];
         $scope.data = [
-            [65, 59, 80, 81, 56, 55, 40],
-            [0, 0, 0, 0, 86, 27, 90]
+            [65, 59, 80, 81],
+            [0, 0, 0, 0]
         ];
+        $http.get('http://localhost:7272/skus/mockdata').then(function (res) {
+            $scope.data = [[], []];
+            $scope.labels = [];
+            //group by day scanned
+            var groupedData = _.groupBy(res.data, function (analytic) {
+                return analytic.createdDate.split(' ')[0]
+            });
+            $scope.labels = [];
+            $scope.labels = (Object.keys(groupedData));
+            for (var analytic in groupedData) {
+                $scope.data[0].push(groupedData[analytic].length)
+            }
+            console.log('groupedData %O', groupedData)
+
+
+        })
         $scope.colors = [
             {
                 fillColor: "rgba(220,110,220,0.2)",
