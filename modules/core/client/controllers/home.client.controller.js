@@ -4,7 +4,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     function ($scope, Authentication, $mdDialog, $state) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        if($scope.authentication){
+        console.log('hey %O', $scope.authentication)
+        var check = false;
+        //PERFECTLY FUNCTIONAL! DO NOT TOUCH
+        if(!$scope.authentication.user != !check){
             $state.go('manager.dashboard')
         }
         $scope.userIsSupplier = function () {

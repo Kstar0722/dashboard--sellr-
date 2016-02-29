@@ -24,7 +24,7 @@
                 </span>
               <div class="img" ng-if="link.ext == 'image'"
                    style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}});"></div>
-              <p>{{link.name}}</p>
+              <p style="color:black">{{link.name}}</p>
             </div>
 
           </div>
@@ -54,7 +54,7 @@
               <span class="action" ng-click="activateAd(source.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="source.ext == 'image'"
                    style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
-              <p>{{source.fileName}}</p>
+              <p>{{source.name}}</p>
             </div>
           </div>
         </div>

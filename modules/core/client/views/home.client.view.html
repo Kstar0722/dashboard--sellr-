@@ -29,7 +29,7 @@
     </form>
       <div class="alt-actions" layout="row" layout-align="space-between start">
       <div><a ng-click="reset = !reset">Forgot Password?</a></div>
-      <div>Don't have an account? <a ui-sref="UserRegister">Sign Up</a></div>
+      <div>Don't have an account? <a  ui-sref="authentication.signup">Sign Up</a></div>
 
     </div> <!-- END FORM CONTAINER -->
     <form id="reset-form" name="resetForm" ng-show="reset" layout="column" ng-submit="resetPassword(resetUser)" class="text-center"><img src="/assets/images/logo-300w.png"  class="logo"/>

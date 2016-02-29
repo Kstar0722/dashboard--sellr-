@@ -59,11 +59,11 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
                         if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {
-                            myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'image', adId:response.data[i].adId};
+                            myData = {name:response.data[i].fileName,value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'image', adId:response.data[i].adId};
                             $scope.sources.push(myData);
                         }
                         else if(ext =='mp4' ||ext =='mov' || ext =='m4v') {
-                            myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'video', adId:response.data[i].adId};
+                            myData = {name:response.data[i].fileName,value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'video', adId:response.data[i].adId};
                             $scope.sources.push(myData);
                         }
 
@@ -99,11 +99,11 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
                         if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {
-                            myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'image', adId:response.data[i].adId};
+                            myData = {name:response.data[i].fileName,value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'image', adId:response.data[i].adId};
                             $scope.links.push(myData);
                         }
                         else if(ext =='mp4' ||ext =='mov' || ext =='m4v') {
-                            myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'video',  adId:response.data[i].adId};
+                            myData = {name:response.data[i].fileName, value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'video',  adId:response.data[i].adId};
                             $scope.links.push(myData);
                         }
 
