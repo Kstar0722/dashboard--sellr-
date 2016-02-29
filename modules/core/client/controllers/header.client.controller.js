@@ -24,37 +24,38 @@
 'use strict';
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$window',
-  function ($scope, Authentication, Menus, $http, $window) {
-    $scope.authentication = Authentication;
-    $scope.ui = {};
+    function ($scope, Authentication, Menus, $http, $window) {
+        $scope.authentication = Authentication;
+        $scope.ui = {};
 
-    $scope.isCollapsed = false;
-    $scope.menu = Menus.getMenu('topbar');
 
-    $scope.toggleCollapsibleMenu = function () {
-      $scope.isCollapsed = !$scope.isCollapsed;
-    };
+        $scope.isCollapsed = false;
+        $scope.menu = Menus.getMenu('topbar');
 
-    $scope.signOut = function () {
-      $http.get('/auth/signout')
-          .success(function () {
+        $scope.toggleCollapsibleMenu = function () {
+            $scope.isCollapsed = !$scope.isCollapsed;
+        };
 
-            $window.location.href = '/';
-          })
-          .error(function (err) {
-            console.log('error', err);
-          })
-    };
+        $scope.signOut = function () {
+            $http.get('/auth/signout')
+                .success(function () {
 
-    $scope.$watch('ui.toolbarOpened', function (opened) {
-      if (!opened) {
-        $scope.ui.toolbarOpened = true;
-      }
-    });
+                    $window.location.href = '/';
+                })
+                .error(function (err) {
+                    console.log('error', err);
+                })
+        };
 
-    // Collapsing the menu after navigation
-    $scope.$on('$stateChangeSuccess', function () {
-      $scope.isCollapsed = false;
-    });
-  }
+        $scope.$watch('ui.toolbarOpened', function (opened) {
+            if (!opened) {
+                $scope.ui.toolbarOpened = true;
+            }
+        });
+
+        // Collapsing the menu after navigation
+        $scope.$on('$stateChangeSuccess', function () {
+            $scope.isCollapsed = false;
+        });
+    }
 ]);

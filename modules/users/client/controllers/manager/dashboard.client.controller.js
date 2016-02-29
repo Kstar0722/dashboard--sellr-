@@ -11,9 +11,9 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         $scope.series = ['Scans', 'Product views'];
         $scope.data = [
             [0],
-            [0]
+            [0, 0]
         ];
-        $http.get(constants.API_URL + '/analytics?category=sku').then(function (res) {
+        $http.get('http://localhost:7272/analytics?category=sku').then(function (res) {
             //Get Analytics for Sku Scans, first array
             $scope.data[0] = [];
             $scope.labels = [];
@@ -24,6 +24,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
             var groupedData = _.groupBy(res.data, function (analytic) {
                 return analytic.createdDate.split('T')[0]
             });
+            //var sortedData = _.sortBy(groupedData,'')
             $scope.labels = [];
             Object.keys(groupedData).forEach(function (skuScanDate) {
                 $scope.labels.push(moment(skuScanDate).format("MMM DD"))
