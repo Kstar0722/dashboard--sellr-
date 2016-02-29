@@ -23,7 +23,7 @@
 
   <md-content layout="row" layout-align="space-between none">
     <md-list>
-      <md-list-item class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search" ng-click="userEditView({userId: user._id,userName:user.username})">
+      <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search" ng-click="userEditView({userId: user._id,userName:user.username})">
 
         <img alt="{{ user.profileImageURL }}" ng-src="{{  user.profileImageURL }}" class="md-avatar" />
         <div class="md-list-item-text">
