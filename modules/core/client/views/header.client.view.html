@@ -6,8 +6,8 @@
         <div class="brand"></div>
         <div data-ng-repeat="item in menu.items "
              data-ng-if="item.shouldRender(authentication.user);"
-             ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}"    >
-            <div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
+             ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}">
+          <div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class">
               <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title" aria-label="subitme.title"></md-button>
             </div>
         </div>

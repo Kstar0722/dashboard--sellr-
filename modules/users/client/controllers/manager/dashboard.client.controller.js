@@ -1,62 +1,14 @@
 'use strict';
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
 
 
-        $scope.labels = [];
-        $scope.series = ['Scans', 'Product views'];
-        $scope.data = [
-            [0],
-            [0]
-        ];
-        $http.get(constants.API_URL + '/skus/mockdata').then(function (res) {
-            $scope.data = [[], []];
-            $scope.labels = [];
-            //group by day scanned
-            var groupedData = _.groupBy(res.data, function (analytic) {
-                return analytic.createdDate.split(' ')[0]
-            });
-            $scope.labels = [];
-            Object.keys(groupedData).forEach(function (skuScanDate) {
-                $scope.labels.push(moment(skuScanDate).format("MMM DD"))
-            })
-            for (var analytic in groupedData) {
-                $scope.data[0].push(groupedData[analytic].length)
-            }
-            console.log('groupedData %O', groupedData)
+        $scope.chartService = chartService;
 
-        })
-
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
-
-        $scope.colors = [
-            {
-                fillColor: "#FE3A6D",
-                strokeColor: "#FE3A6D",
-                pointColor: "#FE3A6D",
-                pointStrokeColor: "#FE3A6D",
-                pointHighlightFill: "#FE3A6D",
-                pointHighlightStroke: "#FE3A6D"
-
-            },
-            {
-                fillColor: "#3299BB",
-                strokeColor: "#3299BB",
-                pointColor: "#3299BB",
-                pointStrokeColor: "#3299BB",
-                pointHighlightFill: "#3299BB",
-                pointHighlightStroke: "#3299BB"
-
-            }
-        ]
-
-        $scope.chartOptions = {}
 
 
         $scope.emails = [];

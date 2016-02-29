@@ -47,6 +47,9 @@ md-list .md-subheader {
   background-repeat: no-repeat;
   background-position-y: 20%;
 }
+#topNav .my-active-class {
+  color: #FE3A6D;
+}
 #topNav .brand {
   background-image: url('../img/logo_white.png');
   background-size: contain;
