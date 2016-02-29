@@ -1,40 +1,15 @@
 'use strict';
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
 
 
-        $scope.labels = [];
-        $scope.series = ['Scans', 'Product views'];
-        $scope.data = [
-            [0],
-            [0, 0]
-        ];
-        $http.get('http://localhost:7272/analytics?category=sku').then(function (res) {
-            //Get Analytics for Sku Scans, first array
-            $scope.data[0] = [];
-            $scope.labels = [];
+        $scope.chartService = chartService;
 
-            console.log('response from /analytics?category=sku %O', res)
 
-            //group by day scanned
-            var groupedData = _.groupBy(res.data, function (analytic) {
-                return analytic.createdDate.split('T')[0]
-            });
-            //var sortedData = _.sortBy(groupedData,'')
-            $scope.labels = [];
-            Object.keys(groupedData).forEach(function (skuScanDate) {
-                $scope.labels.push(moment(skuScanDate).format("MMM DD"))
-            })
-            for (var analytic in groupedData) {
-                $scope.data[0].push(groupedData[analytic].length)
-            }
-            console.log('groupedData %O', groupedData)
-
-        })
 
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
