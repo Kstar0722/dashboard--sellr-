@@ -8,7 +8,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 
 
         $scope.labels = ["2/22", "2/23", "2/24", "2/25", "2/26", "2/27", "2/28"];
-        $scope.series = ['My first dataset', 'My Second dataset'];
+        $scope.series = ['Scans', 'Product views'];
         $scope.data = [
             [65, 59, 80, 81, 56, 55, 40],
             [0, 0, 0, 0, 86, 27, 90]
@@ -21,21 +21,22 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 
         $scope.colors = [
             {
-                fillColor: "rgba(220,110,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)"
+                fillColor: "#FE3A6D",
+                strokeColor: "#FE3A6D",
+                pointColor: "#FE3A6D",
+                pointStrokeColor: "#FE3A6D",
+                pointHighlightFill: "#FE3A6D",
+                pointHighlightStroke: "#FE3A6D",
+                datasetFill : false
 
             },
             {
-                fillColor: "rgba(110,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)"
+                fillColor: "#3299BB",
+                strokeColor: "#3299BB",
+                pointColor: "#3299BB",
+                pointStrokeColor: "#3299BB",
+                pointHighlightFill: "#3299BB",
+                pointHighlightStroke: "#3299BB"
 
             }
         ]
