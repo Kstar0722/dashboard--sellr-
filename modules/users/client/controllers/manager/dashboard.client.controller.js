@@ -26,8 +26,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                 pointColor: "#FE3A6D",
                 pointStrokeColor: "#FE3A6D",
                 pointHighlightFill: "#FE3A6D",
-                pointHighlightStroke: "#FE3A6D",
-                datasetFill : false
+                pointHighlightStroke: "#FE3A6D"
 
             },
             {

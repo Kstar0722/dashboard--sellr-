@@ -264,6 +264,11 @@ section.userList .invite {
   padding-top: 0;
   background: white;
 }
+.dashboard .topten md-list-item {
+  padding: 8px 30px;
+  font-weight: 400;
+  color: #5a6772;
+}
 .dashboard .topten md-toolbar {
   background-color: #1f2532;
   color: #E2E2E2;
