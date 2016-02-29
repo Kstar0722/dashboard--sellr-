@@ -1,8 +1,11 @@
 <section class="content userList">
 
+  <div class="titlebar"><h1 class="md-display-2">User Management</h1></div>
+
+  <div class="pagecontent">
+
   <div layout="row"  layout-align="space-between start" >
     <div flex="40">
-      <h1>USER MANAGEMENT</h1>
       <md-input-container class="md-block">
         <label>SEARCH</label>
         <input ng-model="search" >
@@ -15,7 +18,7 @@
   </div>
 
 <div layout="row"  layout-align="space-between start" >
-  <div flex="50">
+  <div flex="40">
 
 
   <md-content layout="row" layout-align="space-between none">
@@ -40,9 +43,11 @@
   </md-content>
   </div>
 
-    <div flex="" class="md-whiteframe-5dp" layout-padding  layout-margin  flex-offset="5" ui-view>
+    <div flex="50" class=" userbox md-whiteframe-5dp" layout-padding  layout-margin  flex-offset="10" ui-view>
       <h3 class="md-headline" layout-align="center center" >Select a user from the sidebar</h3></div>
 
 </div>
+    </div>
+
 </section>
 

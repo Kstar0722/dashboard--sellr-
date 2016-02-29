@@ -103,8 +103,11 @@ md-list .md-subheader {
   background-color: transparent;
 }
 section.userList .invite {
-  background-color: #00AB51;
+  background-color: #2ECC71;
   color: white;
+}
+section.userList .userbox {
+  background: white;
 }
 .sign-in {
   background-image: url(' ../img/bg_3.png ');
