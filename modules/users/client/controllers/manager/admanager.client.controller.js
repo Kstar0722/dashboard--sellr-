@@ -43,14 +43,25 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         }
         $scope.init = function () {
             $scope.sources = [];
-            $http.get(constants.API_URL + '/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            //$http.get(constants.API_URL + '/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            //    if (err) {
+            //        console.log(err);
+            //    }
+            //    if (res) {
+            //
+            //        $scope.list_categories = res;
+            //        $scope.storeDevices = true;
+            //
+            //    }
+            //});
+            $http.get(constants.API_URL  +'/profiles?userName=' + "'"+$scope.authentication.user.username+"'").then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (res) {
 
-                    $scope.list_categories = res;
-                    $scope.storeDevices = true;
+                    $scope.profiles = res;
+                    console.log('hey %O', $scope.profiles)
 
                 }
             });
@@ -67,7 +78,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var re = /(?:\.([^.]+))?$/;
 
                         var ext = re.exec(myData.value)[1];
-                        console.log(ext);
                         ext = ext.toLowerCase();
 
                         if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {

@@ -1,6 +1,7 @@
 .dashboard {
 
   .topten{
+    background: white;
     md-list {
       padding-top: 0;
     }
@@ -14,7 +15,7 @@
     @leadheight: 12vh;
     .leadgen {
       margin-top:;
-      background: @light-grey;
+      background: white;
       color: @dark-grey;
       width: 48%;
       height: @leadheight;
@@ -30,27 +31,43 @@
         margin: 0 0 2vh !important ;
       }
 
+      .overlay {
+        opacity: 0;
+        height: @leadheight;
+        width: 100%;
+        text-align: center;
+        display: none;
+        background: rgba(0,0,0,.3);
+        line-height: @leadheight;
+        position: fixed;
+      }
       &:hover {
-        background-color: @dark-grey;
+
         transition: all .3s ease;
         cursor: pointer;
-        .data {
-          color: white;
+        background: @med-grey;
+        color: white;
+        .overlay {
+          transition: all .3s ease;
+          display: inline-block;
+          opacity: 1;
         }
       }
 
       .icon {
-        background: @med-grey;
+        background: @blue;
         display: table;
         position: relative;
         float: left;
         width: 30%;
+        color: white;
         height: @leadheight;
 
         i {
           font-size: 60px;
           vertical-align: middle;
           display: table-cell;
+
           @media (max-width: 1200px) {
             font-size: 40px;
           }
