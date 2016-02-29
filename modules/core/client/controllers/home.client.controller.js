@@ -1,9 +1,12 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog',
-    function ($scope, Authentication, $mdDialog) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state',
+    function ($scope, Authentication, $mdDialog, $state) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
+        if($scope.authentication){
+            $state.go('manager.dashboard')
+        }
         $scope.userIsSupplier = function () {
             if (_.contains(Authentication.user.roles, 'supplier')) {
                 return true;
