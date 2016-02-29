@@ -66,15 +66,16 @@ md-list .md-subheader {
   right: 0;
   overflow: visible;
 }
-#topNav #profbutton img {
-  height: 5vh;
-  width: 5vh;
-}
 #topNav #profbutton {
-  padding-top: 5vh;
+  padding-top: 1.5vh;
   padding-right: 10vh;
   overflow: visible;
   z-index: inherit;
+}
+#topNav #profbutton img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 #topNav #pagebutton {
   margin-top: 3vh;
@@ -250,6 +251,9 @@ section.userList .invite {
   background-size: cover;
   background-repeat: no-repeat;
 }
+.dashboard .topten {
+  background: white;
+}
 .dashboard .topten md-list {
   padding-top: 0;
 }
@@ -259,7 +263,7 @@ section.userList .invite {
 }
 .dashboard .leads .leadgen {
   margin-top: ;
-  background: #E2E2E2;
+  background: white;
   color: #1f2532;
   width: 48%;
   height: 12vh;
@@ -276,20 +280,34 @@ section.userList .invite {
     margin: 0 0 2vh !important ;
   }
 }
+.dashboard .leads .leadgen .overlay {
+  opacity: 0;
+  height: 12vh;
+  width: 100%;
+  text-align: center;
+  display: none;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 12vh;
+  position: fixed;
+}
 .dashboard .leads .leadgen:hover {
-  background-color: #1f2532;
   transition: all .3s ease;
   cursor: pointer;
-}
-.dashboard .leads .leadgen:hover .data {
+  background: #8D9AA5;
   color: white;
 }
+.dashboard .leads .leadgen:hover .overlay {
+  transition: all .3s ease;
+  display: inline-block;
+  opacity: 1;
+}
 .dashboard .leads .leadgen .icon {
-  background: #8D9AA5;
+  background: #3299BB;
   display: table;
   position: relative;
   float: left;
   width: 30%;
+  color: white;
   height: 12vh;
 }
 .dashboard .leads .leadgen .icon i {
