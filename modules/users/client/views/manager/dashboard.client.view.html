@@ -13,54 +13,54 @@
 
     <div layout="row" layout-wrap>
 
-      <div flex="60"  layout-padding layout-align="none none">
+      <div flex="60" layout-padding layout-align="none none">
 
         <div layout="column" layout-wrap>
-        <!-- START CUSTOMER LEADS -->
-        <div style="display: none;" ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
-        <div style="display: none;" ng-repeat="email in filteredEmails = (emails | filter: query)"></div>
-        <div class="leads">
-          <h1>Customer Leads:</h1>
-          <div class="leadgen md-whiteframe-5dp" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV">
-            <!--<span class="overlay">Click to download CSV</span>-->
-            <div class="icon"><i class="fa fa-mobile"></i></div>
-            <div class="data">
-              <div class="centerhelp">
-                <span class="number">{{filteredEmails.length}}</span>
-                <span class="label">Email Addresses</span>
+          <!-- START CUSTOMER LEADS -->
+          <div style="display: none;" ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
+          <div style="display: none;" ng-repeat="email in filteredEmails = (emails | filter: query)"></div>
+          <div class="leads">
+            <h1>Customer Leads:</h1>
+            <div class="leadgen md-whiteframe-5dp" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV">
+              <!--<span class="overlay">Click to download CSV</span>-->
+              <div class="icon"><i class="fa fa-mobile"></i></div>
+              <div class="data">
+                <div class="centerhelp">
+                  <span class="number">{{filteredEmails.length}}</span>
+                  <span class="label">Email Addresses</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="leadgen md-whiteframe-5dp" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV">
-            <!--<span class="overlay">Click to download CSV</span>-->
+            <div class="leadgen md-whiteframe-5dp" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV">
+              <!--<span class="overlay">Click to download CSV</span>-->
 					<span class="icon">
 					<i class="fa fa-envelope"></i>
 					</span>
-            <div class="data">
-              <div class="centerhelp">
-                <span class="number">{{filteredPhones.length}} </span> <span class="label">Phone Numbers</span>
+              <div class="data">
+                <div class="centerhelp">
+                  <span class="number">{{filteredPhones.length}} </span> <span class="label">Phone Numbers</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
           <!-- END CUSTOMER LEADS -->
           <!-- START DEVICES -->
-        <div>
-        <h1 class="md-display-2">Devices</h1>
-        <md-divider></md-divider>
-        <div class="devices " ng-repeat="locs in specificLoc " ng-if="list_devices.locationId == specificLoc.locationId">
-          <h1>{{locs.locationName}}</h1>
-          <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
-            <div class="icon"><i class="fa fa-desktop"></i></div>
-            <p>{{device.deviceName}}</p>
+          <div>
+            <h1 class="md-display-2">Devices</h1>
+            <md-divider></md-divider>
+            <div class="devices " ng-repeat="locs in specificLoc " ng-if="list_devices.locationId == specificLoc.locationId">
+              <h1>{{locs.locationName}}</h1>
+              <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
+                <div class="icon"><i class="fa fa-desktop"></i></div>
+                <p>{{device.deviceName}}</p>
 
+              </div>
+
+            </div>
           </div>
-
-        </div>
-        </div>
           <!-- END DEVICES -->
-      </div>
         </div>
+      </div>
       <div flex="33" flex-offset="5" class="topten">
         <!--{{analytics}}-->
         <md-list class="md-whiteframe-5dp">
