@@ -1,379 +1,364 @@
-<div  ng-controller="AdmanagerController as vm" data-ng-init="init()">
+<div ng-controller="AdmanagerController as vm" data-ng-init="init()">
+  <section class="content admanager" id="admanager">
+    <div class="titlebar"><h1 class="md-display-2">Ad Manager</h1></div>
+    <div class="pagecontent">
+      <div layout="row" layout-align="space-between center">
+      </div>
+      <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
+      <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"
+                          ng-show="vm.determinateValue"></md-progress-linear>
 
-<section class="content admanager" id="admanager">
-  <div class="titlebar"><h1 class="md-display-2">Ad Manager</h1></div>
+      <div layout="row">
+        <div flex="40" class="adList md-whiteframe-10dp" style="">
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>
+                <span>Your Files</span>
+              </h2>
+              <div flex-auto=""></div>
+              <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
 
-  <div class="pagecontent">
+                Upload Image
+              </md-button>
+            </div>
+          </md-toolbar>
 
+          <div ng-repeat="source in sources" layout-padding="">
 
-    <div layout="row" layout-align="space-between center">
+            <md-card ng-if="source.ext == 'image' ">
 
-
-    </div>
-
-
-
-
-    <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
-    <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"  ng-show="vm.determinateValue"></md-progress-linear>
-
-
-    <div layout="row">
-      <div flex="40" class="adList md-whiteframe-10dp" style="">
-        <md-toolbar >
-
-          <div class="md-toolbar-tools">
-
-            <h2>
-              <span>Your Files</span>
-            </h2>
-            <div flex-auto=""></div>
-            <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
-
-              Upload Image
-            </md-button>
+              <div class="adimage" ng-if="source.ext == 'image'"
+                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-icon-button" aria-label="Favorite">
+                  <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Settings">
+                  <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+                </md-button>
+                <md-button class="md-raised md-accent" ng-click="activateAd(source.adId, currentProfile)">
+                  Add to list
+                </md-button>
+              </md-card-actions>
+            </md-card>
           </div>
-        </md-toolbar>
 
-        <div ng-repeat="source in sources" layout-padding="">
+        </div>
+        <div flex="" flex-offset="10" style="">
 
-          <md-card ng-if="source.ext == 'image' "  >
+          Profile:
 
-            <div class="adimage" ng-if="source.ext == 'image'" style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button class="md-icon-button" aria-label="Favorite">
-                <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-              </md-button>
-              <md-button class="md-icon-button" aria-label="Settings">
-                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-              </md-button>
-              <md-button class=" md-raised md-accent"  ng-click="activateAd(source.adId, currentDevice)">
-                Add to list
-              </md-button>
-            </md-card-actions>
-          </md-card>
+          <select
+            ng-click="getAds(currentProfile)"
+            ng-model="currentProfile"
+            ng-options="profile.profileId as profile.profileName for profile in profiles"></select>
+          <tt>Profile Selected: {{currentProfile}}</tt>
+
+
+          <md-content class="md-padding" layout-xs="column" layout="row">
+            <div flex-xs flex-gt-xs="50" layout="column">
+              <md-card ng-if="link.ext == 'image' " ng-repeat="link in links">
+                <div class="adimage" ng-if="link.ext == 'image'"
+                     style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}});"></div>
+                <md-card-actions layout="row" layout-align="end center">
+                  <md-button class="md-icon-button" aria-label="Favorite">
+                    <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button" aria-label="Settings">
+                    <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+                  </md-button>
+                  <md-button class="md-raised md-warn "
+                             ng-click="deactivateAd(link.adId, currentProfile)">
+                    Remove from list
+                  </md-button>
+                </md-card-actions>
+              </md-card>
+            </div>
+          </md-content>
         </div>
 
       </div>
-      <div flex="" flex-offset="10" style="">
-        <label>Profiles</label>
-        <select>
-          <option ng-repeat="profile in profiles.data" value="{{profile.name}}">{{profile.name}}</option>
-        </select>
 
 
-        <md-content class="md-padding" layout-xs="column" layout="row">
-        <div flex-xs flex-gt-xs="50" layout="column"  >
-        <md-card ng-if="source.ext == 'image' " ng-repeat="source in sources" >
+      <!--<md-card ng-if="source.ext == 'image'"-->
+      <!--" >-->
+      <!--<md-card-title>-->
+      <!--<md-card-title-text>-->
+      <!--<span class="md-subhead">{{source.value}}</span>-->
 
-          <div class="adimage" ng-if="source.ext == 'image'" style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-icon-button" aria-label="Favorite">
-              <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Settings">
-              <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-            </md-button>
-            <md-button class="md-raised md-warn "
-                       ng-click="deactivateAd(link.adId, devices.deviceId)">
-              Remove from list
-            </md-button>
-          </md-card-actions>
-        </md-card>
-          </div>
-          </md-content>
-      </div>
+      <!--</md-card-title-text>-->
+      <!--<md-card-title-media>-->
+      <!--<img ng-if="source.ext == 'image'"-->
+      <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
+      <!--</md-card-title-media>-->
 
-    </div>
+      <!--</md-card-title>-->
 
-
-
-
-
-
-
-
-
-                <!--<md-card ng-if="source.ext == 'image'"-->
-                <!--" >-->
-                <!--<md-card-title>-->
-                  <!--<md-card-title-text>-->
-                    <!--<span class="md-subhead">{{source.value}}</span>-->
-
-                  <!--</md-card-title-text>-->
-                  <!--<md-card-title-media>-->
-                    <!--<img ng-if="source.ext == 'image'"-->
-                         <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
-                  <!--</md-card-title-media>-->
-
-                <!--</md-card-title>-->
-
-                <!--<md-card-actions layout="column">-->
-                  <!--<md-button class="md-icon-button" aria-label="Favorite"-->
-                             <!--ng-click="activateAd(source.adId, currentDevice)">-->
-                    <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
-                  <!--</md-button>-->
-                <!--</md-card-actions>-->
-                <!--</md-card>-->
-                <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">-->
-                  <!--<md-card-title>-->
-                    <!--<md-card-title-text>-->
-                      <!--<span class="card-text">{{source.value}}</span>-->
-                      <!--<video controls ng-if="source.ext =='video'"-->
-                             <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"-->
-                             <!--frameBorder="2"-->
-                             <!--allowfullscreen="true"></video>-->
-                    <!--</md-card-title-text>-->
-                  <!--</md-card-title>-->
-                  <!--<md-card-actions layout="column">-->
-                    <!--<md-button class="md-icon-button" aria-label="Favorite"-->
-                               <!--ng-click="activateAd(source.adId, currentDevice)">-->
-                      <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
-                    <!--</md-button>-->
-                  <!--</md-card-actions>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+      <!--ng-click="activateAd(source.adId, currentDevice)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
+      <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">-->
+      <!--<md-card-title>-->
+      <!--<md-card-title-text>-->
+      <!--<span class="card-text">{{source.value}}</span>-->
+      <!--<video controls ng-if="source.ext =='video'"-->
+      <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"-->
+      <!--frameBorder="2"-->
+      <!--allowfullscreen="true"></video>-->
+      <!--</md-card-title-text>-->
+      <!--</md-card-title>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+      <!--ng-click="activateAd(source.adId, currentDevice)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
 
 
+      <!--<md-input-container >-->
+      <!--<label>Size</label>-->
+      <!--<md-select ng-model="size">-->
+      <!--<md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>-->
+      <!--</md-select>-->
+      <!--</md-input-container>-->
 
-          <!--<md-input-container >-->
-            <!--<label>Size</label>-->
-            <!--<md-select ng-model="size">-->
-              <!--<md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>-->
-            <!--</md-select>-->
-          <!--</md-input-container>-->
+      <!--<div ng-repeat="source in sources" layout-padding="">-->
 
-          <!--<div ng-repeat="source in sources" layout-padding="">-->
+      <!--<md-card ng-if="source.ext == 'image'"-->
+      <!--" >-->
+      <!--<md-card-title>-->
+      <!--<md-card-title-text>-->
+      <!--<span class="md-subhead">{{source.value}}</span>-->
 
-            <!--<md-card ng-if="source.ext == 'image'"-->
-            <!--" >-->
-            <!--<md-card-title>-->
-              <!--<md-card-title-text>-->
-                <!--<span class="md-subhead">{{source.value}}</span>-->
+      <!--</md-card-title-text>-->
+      <!--<md-card-title-media>-->
+      <!--<img ng-if="source.ext == 'image'"-->
+      <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
+      <!--</md-card-title-media>-->
 
-              <!--</md-card-title-text>-->
-              <!--<md-card-title-media>-->
-                <!--<img ng-if="source.ext == 'image'"-->
-                     <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
-              <!--</md-card-title-media>-->
+      <!--</md-card-title>-->
 
-            <!--</md-card-title>-->
-
-            <!--<md-card-actions layout="column">-->
-              <!--<md-button class="md-icon-button" aria-label="Favorite"-->
-                         <!--ng-click="deactivateAd(link.adId, devices.deviceId)">-->
-                <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
-              <!--</md-button>-->
-            <!--</md-card-actions>-->
-            <!--</md-card>-->
-            <!--</div>-->
-            <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">-->
-              <!--<md-card-title>-->
-                <!--<md-card-title-text>-->
-                  <!--<span class="card-text">{{source.value}}</span>-->
-                  <!--<video controls ng-if="source.ext =='video'"-->
-                         <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"-->
-                         <!--frameBorder="2"-->
-                         <!--allowfullscreen="true"></video>-->
-                <!--</md-card-title-text>-->
-              <!--</md-card-title>-->
-              <!--<md-card-actions layout="column">-->
-                <!--<md-button class="md-icon-button" aria-label="Favorite"-->
-                           <!--ng-click="deactivateAd(link.adId, devices.deviceId)">-->
-                  <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
-                <!--</md-button>-->
-              <!--</md-card-actions>-->
-            <!--</md-card>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--</md-sidenav>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+      <!--ng-click="deactivateAd(link.adId, devices.deviceId)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
       <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<md-list layout="row">-->
-  <!--<md-list-item class="md-1-line veggie-option" ng-model="list_category" ng-repeat="link in list_categories.data" layout="row" layout-wrap="">-->
-  <!--<div class="md-item-text md-whiteframe-z1" flex="" ng-click="getDevice(link.locationId)">-->
-  <!--<h3 >{{link.address}}</h3>-->
-  <!--&lt;!&ndash;<p>{{veg.type}}</p>&ndash;&gt;-->
-  <!--</div>-->
-  <!--</md-list-item>-->
-  <!--</md-list>-->
-  <!--<md-list layout="row">-->
-  <!--<md-list-item ng-show="storeDevices" ng-model="list_device"class="md-2-line veggie-option" ng-repeat="device in list_devices.data" layout="row" layout-wrap="">-->
-  <!--<div class="md-item-text md-whiteframe-z1" flex="" ng-click="getAds(device.deviceId)">-->
-  <!--<h3 >{{device.name}}</h3>-->
+      <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card">-->
+      <!--<md-card-title>-->
+      <!--<md-card-title-text>-->
+      <!--<span class="card-text">{{source.value}}</span>-->
+      <!--<video controls ng-if="source.ext =='video'"-->
+      <!--ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"-->
+      <!--frameBorder="2"-->
+      <!--allowfullscreen="true"></video>-->
+      <!--</md-card-title-text>-->
+      <!--</md-card-title>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite"-->
+      <!--ng-click="deactivateAd(link.adId, devices.deviceId)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</md-sidenav>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<md-list layout="row">-->
+      <!--<md-list-item class="md-1-line veggie-option" ng-model="list_category" ng-repeat="link in list_categories.data" layout="row" layout-wrap="">-->
+      <!--<div class="md-item-text md-whiteframe-z1" flex="" ng-click="getDevice(link.locationId)">-->
+      <!--<h3 >{{link.address}}</h3>-->
+      <!--&lt;!&ndash;<p>{{veg.type}}</p>&ndash;&gt;-->
+      <!--</div>-->
+      <!--</md-list-item>-->
+      <!--</md-list>-->
+      <!--<md-list layout="row">-->
+      <!--<md-list-item ng-show="storeDevices" ng-model="list_device"class="md-2-line veggie-option" ng-repeat="device in list_devices.data" layout="row" layout-wrap="">-->
+      <!--<div class="md-item-text md-whiteframe-z1" flex="" ng-click="getAds(device.deviceId)">-->
+      <!--<h3 >{{device.name}}</h3>-->
 
-  <!--&lt;!&ndash;<p>{{veg.type}}</p>&ndash;&gt;-->
-  <!--</div>-->
-  <!--</md-list-item>-->
-  <!--</md-list>-->
+      <!--&lt;!&ndash;<p>{{veg.type}}</p>&ndash;&gt;-->
+      <!--</div>-->
+      <!--</md-list-item>-->
+      <!--</md-list>-->
 
-  <!--</section>-->
+      <!--</section>-->
 
-  <!--</md-content>-->
-  <!--<md-content class="md-padding" layout="column">-->
-  <!--<md-list layout="row">-->
-  <!--<md-list-item class="md-1-line " ng-repeat="link in links" layout="row" layout-wrap="" >-->
-  <!--<div class="md-item-text md-whiteframe-z1" flex="" >-->
-  <!--<h1>{{link.value}}</h1>-->
-  <!--<img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}" width="25%" style="padding-bottom:75%">-->
-  <!--<video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}" width="100%"  frameBorder="2"-->
-  <!--allowfullscreen="true" ></video>-->
-  <!--</div>-->
-  <!--</md-list-item>-->
-  <!--</md-list>-->
-  <!--</md-list-item>-->
-  <!--<div class="container">-->
-  <!--<div class="row media-list">-->
-  <!--<div class="col-xs-4 media-object" ng-repeat="link in links">-->
-  <!--<div class="image" back-img="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link}}"></div>-->
-  <!--{{link}}-->
-  <!--<img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}" width="100%" style="padding-bottom:75%">-->
-  <!--<video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}" width="100%"  frameBorder="2"-->
-  <!--allowfullscreen="true" ></video>-->
-  <!--<video ng-if="media == 'video'" controls>-->
-  <!--<source ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link }}"-->
-  <!--type="{{media}}"/>-->
-  <!--</video>-->
-  <!--<h3>-->
-  <!--<span class="pull-left" ng-click="showModal(mediaObject)">{{media}}</span>-->
-  <!--<span class="pull-right">05 / 2015</span>-->
-  <!--</h3>-->
-  <!--<h4>-->
-  <!--<span class="pull-left">Brand Name</span>-->
-  <!--<span ng-show="media == 'video'" class="pull-right"><i class="fa fa-video-camera"></i></span>-->
-  <!--<span ng-show="media == 'image'" class="pull-right"><i class="fa fa-picture-o"></i></span>-->
-  <!--</h4>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--<select id="sel" class="input-block-level" ng-model="list_category"  ng-change="getDevice(list_category)"ng-options="obj.locationId as obj.address for obj in list_categories.data"></select>-->
-  <!--<select id="device" class="input-block-level" ng-model="list_device"  ng-change="getAds(list_device)"ng-options="devices.deviceId as devices.name for devices in list_devices.data"></select>-->
-  <!--<br>-->
-  <!--<div class="section row connectedItemsExample" ng-show = 'ads'>-->
-  <!--<div class="col-sm-offset-2 col-sm-4">-->
-  <!--<h2>Uploaded Ads</h2>-->
-  <!--<ul ui-sortable="sortableOptions" ng-model="leftArray" class="list">-->
-  <!--<li ng-repeat="left in leftArray" class="item">{{left.value}}</li>-->
-  <!--</ul>-->
-  <!--</div>-->
-  <!--<div class="col-sm-4">-->
-  <!--<h2>Active Ads</h2>-->
-  <!--<ul ui-sortable="sortableOptions" ng-model="rightArray" class="list" >-->
-  <!--<li ng-repeat="right in rightArray" class="item">{{right.value}}</li>-->
-  <!--</ul>-->
-  <!--</div>-->
-  <!--<md-button class="md-button md-raised md-primary" type="submit" ng-click="activate()">Activate</md-button>-->
-  <!--</div>-->
-  <!--</div>-->
+      <!--</md-content>-->
+      <!--<md-content class="md-padding" layout="column">-->
+      <!--<md-list layout="row">-->
+      <!--<md-list-item class="md-1-line " ng-repeat="link in links" layout="row" layout-wrap="" >-->
+      <!--<div class="md-item-text md-whiteframe-z1" flex="" >-->
+      <!--<h1>{{link.value}}</h1>-->
+      <!--<img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}" width="25%" style="padding-bottom:75%">-->
+      <!--<video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}" width="100%"  frameBorder="2"-->
+      <!--allowfullscreen="true" ></video>-->
+      <!--</div>-->
+      <!--</md-list-item>-->
+      <!--</md-list>-->
+      <!--</md-list-item>-->
+      <!--<div class="container">-->
+      <!--<div class="row media-list">-->
+      <!--<div class="col-xs-4 media-object" ng-repeat="link in links">-->
+      <!--<div class="image" back-img="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link}}"></div>-->
+      <!--{{link}}-->
+      <!--<img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}" width="100%" style="padding-bottom:75%">-->
+      <!--<video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}" width="100%"  frameBorder="2"-->
+      <!--allowfullscreen="true" ></video>-->
+      <!--<video ng-if="media == 'video'" controls>-->
+      <!--<source ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link }}"-->
+      <!--type="{{media}}"/>-->
+      <!--</video>-->
+      <!--<h3>-->
+      <!--<span class="pull-left" ng-click="showModal(mediaObject)">{{media}}</span>-->
+      <!--<span class="pull-right">05 / 2015</span>-->
+      <!--</h3>-->
+      <!--<h4>-->
+      <!--<span class="pull-left">Brand Name</span>-->
+      <!--<span ng-show="media == 'video'" class="pull-right"><i class="fa fa-video-camera"></i></span>-->
+      <!--<span ng-show="media == 'image'" class="pull-right"><i class="fa fa-picture-o"></i></span>-->
+      <!--</h4>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<select id="sel" class="input-block-level" ng-model="list_category"  ng-change="getDevice(list_category)"ng-options="obj.locationId as obj.address for obj in list_categories.data"></select>-->
+      <!--<select id="device" class="input-block-level" ng-model="list_device"  ng-change="getAds(list_device)"ng-options="devices.deviceId as devices.name for devices in list_devices.data"></select>-->
+      <!--<br>-->
+      <!--<div class="section row connectedItemsExample" ng-show = 'ads'>-->
+      <!--<div class="col-sm-offset-2 col-sm-4">-->
+      <!--<h2>Uploaded Ads</h2>-->
+      <!--<ul ui-sortable="sortableOptions" ng-model="leftArray" class="list">-->
+      <!--<li ng-repeat="left in leftArray" class="item">{{left.value}}</li>-->
+      <!--</ul>-->
+      <!--</div>-->
+      <!--<div class="col-sm-4">-->
+      <!--<h2>Active Ads</h2>-->
+      <!--<ul ui-sortable="sortableOptions" ng-model="rightArray" class="list" >-->
+      <!--<li ng-repeat="right in rightArray" class="item">{{right.value}}</li>-->
+      <!--</ul>-->
+      <!--</div>-->
+      <!--<md-button class="md-button md-raised md-primary" type="submit" ng-click="activate()">Activate</md-button>-->
+      <!--</div>-->
+      <!--</div>-->
 
-  <!--</md-content>-->
-  <!-- old code working with devices -->
-  <!--<div layout="row"  layout-align="space-between center">-->
-  <!--<h2 class="md-title">Ad Manager</h2>-->
-  <!--<md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">-->
-  <!--<md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>-->
-  <!--Upload Image</md-button>-->
-  <!--</div>-->
-  <!--<h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>-->
-  <!--<md-progress-linear md-mode="determinate"  value="{{vm.determinateValue}}" ng-show="vm.determinateValue"></md-progress-linear>-->
-  <!--<md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">-->
-  <!--Toggle left-->
-  <!--</md-button>-->
-  <!--<div id="homecontent-mid" class="row rounded">-->
-  <!--<div id="homebanner" class="rounded">-->
-  <!--<div class="sliderdiv" >-->
-  <!--<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" >-->
-  <!--<div class=" side-nav-container" >-->
-  <!--<md-toolbar class="md-theme-indigo">-->
-  <!--<h1 class="md-toolbar-tools">Your Files</h1>-->
-  <!--</md-toolbar>-->
+      <!--</md-content>-->
+      <!-- old code working with devices -->
+      <!--<div layout="row"  layout-align="space-between center">-->
+      <!--<h2 class="md-title">Ad Manager</h2>-->
+      <!--<md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">-->
+      <!--<md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>-->
+      <!--Upload Image</md-button>-->
+      <!--</div>-->
+      <!--<h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>-->
+      <!--<md-progress-linear md-mode="determinate"  value="{{vm.determinateValue}}" ng-show="vm.determinateValue"></md-progress-linear>-->
+      <!--<md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">-->
+      <!--Toggle left-->
+      <!--</md-button>-->
+      <!--<div id="homecontent-mid" class="row rounded">-->
+      <!--<div id="homebanner" class="rounded">-->
+      <!--<div class="sliderdiv" >-->
+      <!--<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" >-->
+      <!--<div class=" side-nav-container" >-->
+      <!--<md-toolbar class="md-theme-indigo">-->
+      <!--<h1 class="md-toolbar-tools">Your Files</h1>-->
+      <!--</md-toolbar>-->
 
-  <!--<md-content ng-repeat="source in sources" layout-padding=""  >-->
+      <!--<md-content ng-repeat="source in sources" layout-padding=""  >-->
 
-  <!--<md-card ng-if="source.ext == 'image'"   " >-->
-  <!--<md-card-title >-->
-  <!--<md-card-title-text >-->
-  <!--<span class="md-subhead" >{{source.value}}</span>-->
+      <!--<md-card ng-if="source.ext == 'image'"   " >-->
+      <!--<md-card-title >-->
+      <!--<md-card-title-text >-->
+      <!--<span class="md-subhead" >{{source.value}}</span>-->
 
-  <!--</md-card-title-text>-->
-  <!--<md-card-title-media>-->
-  <!--<img ng-if="source.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
-  <!--</md-card-title-media>-->
+      <!--</md-card-title-text>-->
+      <!--<md-card-title-media>-->
+      <!--<img ng-if="source.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">-->
+      <!--</md-card-title-media>-->
 
-  <!--</md-card-title>-->
+      <!--</md-card-title>-->
 
-  <!--<md-card-actions layout="column">-->
-  <!--<md-button class="md-icon-button" aria-label="Favorite" ng-click="activateAd(source.adId, currentDevice)">-->
-  <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
-  <!--</md-button>-->
-  <!--</md-card-actions>-->
-  <!--</md-card>-->
-  <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card" >-->
-  <!--<md-card-title >-->
-  <!--<md-card-title-text >-->
-  <!--<span class="card-text">{{source.value}}</span>-->
-  <!--<video controls ng-if="source.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"  frameBorder="2"-->
-  <!--allowfullscreen="true" ></video>-->
-  <!--</md-card-title-text>-->
-  <!--</md-card-title>-->
-  <!--<md-card-actions layout="column">-->
-  <!--<md-button class="md-icon-button" aria-label="Favorite" ng-click="activateAd(source.adId, currentDevice)">-->
-  <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
-  <!--</md-button>-->
-  <!--</md-card-actions>-->
-  <!--</md-card>-->
-  <!--</md-content>-->
-  <!--</div>-->
-  <!--</md-sidenav>-->
-  <!--</div>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite" ng-click="activateAd(source.adId, currentDevice)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
+      <!--<md-card ng-if="source.ext =='video'" style="background-color: #ADD8E6;" class="source-card" >-->
+      <!--<md-card-title >-->
+      <!--<md-card-title-text >-->
+      <!--<span class="card-text">{{source.value}}</span>-->
+      <!--<video controls ng-if="source.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"  frameBorder="2"-->
+      <!--allowfullscreen="true" ></video>-->
+      <!--</md-card-title-text>-->
+      <!--</md-card-title>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite" ng-click="activateAd(source.adId, currentDevice)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_add_circle_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
+      <!--</md-content>-->
+      <!--</div>-->
+      <!--</md-sidenav>-->
+      <!--</div>-->
 
-  <!--<div class="main-search">-->
+      <!--<div class="main-search">-->
 
-  <!--<md-tabs md-dynamic-height="" md-border-bottom="" >-->
-  <!--<md-tab label="{{link.address}}"  ng-repeat="link in list_categories.data" ng-click="getDevice(link.locationId)" >-->
+      <!--<md-tabs md-dynamic-height="" md-border-bottom="" >-->
+      <!--<md-tab label="{{link.address}}"  ng-repeat="link in list_categories.data" ng-click="getDevice(link.locationId)" >-->
 
-  <!--<md-tabs md-dynamic-height="" md-border-bottom="">-->
-  <!--<md-tab label="{{devices.name}}"  ng-repeat="devices in list_devices.data" ng-click="getAds(devices.deviceId)">-->
-  <!--<div class="card-wrapper"  >-->
+      <!--<md-tabs md-dynamic-height="" md-border-bottom="">-->
+      <!--<md-tab label="{{devices.name}}"  ng-repeat="devices in list_devices.data" ng-click="getAds(devices.deviceId)">-->
+      <!--<div class="card-wrapper"  >-->
 
-  <!--<md-content  ng-repeat="link in links" class="source-card" layout="row">-->
+      <!--<md-content  ng-repeat="link in links" class="source-card" layout="row">-->
 
-  <!--<md-card ng-if="link.ext == 'image'"  class="source-card"  style="background-color: #ADD8E6;">-->
-  <!--<md-card-title >-->
-  <!--<md-card-title-text >-->
-  <!--<span class="card-text">{{link.value}}</span>-->
-  <!--<img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}">-->
-  <!--</md-card-title-text>-->
-  <!--</md-card-title>-->
-  <!--<md-card-actions layout="column">-->
-  <!--<md-button class="md-icon-button" aria-label="Favorite" ng-click="deactivateAd(link.adId, devices.deviceId)">-->
-  <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
-  <!--</md-button>-->
-  <!--</md-card-actions>-->
-  <!--</md-card>-->
-  <!--<md-card ng-if="link.ext =='video'"  class="source-card"  style="background-color: #ADD8E6;">-->
-  <!--<md-card-title >-->
-  <!--<md-card-title-text >-->
-  <!--<span class="card-text">{{link.value}}</span>-->
-  <!--<video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}"  frameBorder="2"-->
-  <!--allowfullscreen="true" ></video>-->
-  <!--</md-card-title-text>-->
-  <!--</md-card-title>-->
-  <!--<md-card-actions layout="column">-->
-  <!--<md-button class="md-icon-button" aria-label="Favorite"  ng-click="deactivateAd(link.adId, devices.deviceId)">-->
-  <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
-  <!--</md-button>-->
-  <!--</md-card-actions>-->
-  <!--</md-card>-->
-  <!--</md-content>-->
-  <!--</div>-->
-  <!--</md-tab>-->
-  <!--</md-tabs>-->
-  <!--</md-tab>-->
-  <!--</md-tabs>-->
+      <!--<md-card ng-if="link.ext == 'image'"  class="source-card"  style="background-color: #ADD8E6;">-->
+      <!--<md-card-title >-->
+      <!--<md-card-title-text >-->
+      <!--<span class="card-text">{{link.value}}</span>-->
+      <!--<img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}">-->
+      <!--</md-card-title-text>-->
+      <!--</md-card-title>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite" ng-click="deactivateAd(link.adId, devices.deviceId)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
+      <!--<md-card ng-if="link.ext =='video'"  class="source-card"  style="background-color: #ADD8E6;">-->
+      <!--<md-card-title >-->
+      <!--<md-card-title-text >-->
+      <!--<span class="card-text">{{link.value}}</span>-->
+      <!--<video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}"  frameBorder="2"-->
+      <!--allowfullscreen="true" ></video>-->
+      <!--</md-card-title-text>-->
+      <!--</md-card-title>-->
+      <!--<md-card-actions layout="column">-->
+      <!--<md-button class="md-icon-button" aria-label="Favorite"  ng-click="deactivateAd(link.adId, devices.deviceId)">-->
+      <!--<img src="lib/material-design-icons/content/1x_web/ic_backspace_white_48dp.png">-->
+      <!--</md-button>-->
+      <!--</md-card-actions>-->
+      <!--</md-card>-->
+      <!--</md-content>-->
+      <!--</div>-->
+      <!--</md-tab>-->
+      <!--</md-tabs>-->
+      <!--</md-tab>-->
+      <!--</md-tabs>-->
 
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-</div>
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
     </div>
 </section>
+</div>
