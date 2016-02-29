@@ -37,6 +37,7 @@ module.exports = {
                 'public/lib/angular-environment/dist/angular-environment.js',
                 'public/lib/Chart.js/Chart.js',
                 'public/lib/angular-chart.js/dist/angular-chart.js',
+                'public/lib/moment/moment.js'
 
 
 

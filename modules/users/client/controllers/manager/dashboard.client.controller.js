@@ -21,7 +21,9 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                 return analytic.createdDate.split(' ')[0]
             });
             $scope.labels = [];
-            $scope.labels = (Object.keys(groupedData));
+            Object.keys(groupedData).forEach(function (skuScanDate) {
+                $scope.labels.push(moment(skuScanDate).format("MMM DD"))
+            })
             for (var analytic in groupedData) {
                 $scope.data[0].push(groupedData[analytic].length)
             }
