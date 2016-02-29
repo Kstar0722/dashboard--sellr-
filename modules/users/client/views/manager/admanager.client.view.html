@@ -14,9 +14,16 @@
 
 
     <div layout="row">
-      <div flex="40" class="adList md-whiteframe-10dp" style="background:">
+      <div flex="40" class="adList md-whiteframe-10dp" style="">
         <md-toolbar >
+
           <div class="md-toolbar-tools">
+            <label>Profiles</label>
+            <select>
+              <option ng-repeat="profile in profiles.data" value="{{profile.name}}">{{profile.name}}</option>
+              </select>
+
+
             <h2>
               <span>Your Files</span>
             </h2>
