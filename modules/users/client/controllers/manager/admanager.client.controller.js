@@ -54,15 +54,12 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             //
             //    }
             //});
-            $http.get(constants.API_URL  +'/profiles?userName=' + "'"+$scope.authentication.user.username+"'").then(function (res, err) {
+            $http.get(constants.API_URL  +'/profiles?userName=' + "'"+ $scope.authentication.user.username + "'").then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (res) {
-
                     $scope.profiles = res;
-                    console.log('hey %O', $scope.profiles)
-
                 }
             });
             $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
