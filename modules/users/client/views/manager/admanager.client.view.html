@@ -12,11 +12,11 @@
       <tt style="display:none;">Profile Selected: {{currentProfile}}</tt>
 
 
-        <div class="live">
+        <div class="live ">
           <div class="tab">
             LIVE ADS
           </div>
-          <div class="ads" >
+          <div class="ads md-whiteframe-5dp" >
 
             <div class="ad" ng-if="link.ext == 'image' " ng-repeat="link in links">
               <span class="action delete" ng-click="deactivateAd(link.adId, currentProfile)">
@@ -24,7 +24,7 @@
                 </span>
               <div class="img" ng-if="link.ext == 'image'"
                    style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}});"></div>
-              <p>Title goes here...</p>
+              <p>{{link.name}}</p>
             </div>
 
           </div>
@@ -54,7 +54,7 @@
               <span class="action" ng-click="activateAd(source.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="source.ext == 'image'"
                    style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
-              <p>Title goes here...</p>
+              <p>{{source.fileName}}</p>
             </div>
           </div>
         </div>
@@ -63,34 +63,34 @@
       <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
 
 
-      <div layout="row">
-        <div flex="40" class="adList md-whiteframe-10dp" style="">
-          <md-toolbar>
-            <div class="md-toolbar-tools">
-              <h2>
-                <span>Your Files</span>
-              </h2>
-              <div flex-auto=""></div>
+      <!--<div layout="row">-->
+        <!--<div flex="40" class="adList md-whiteframe-10dp" style="">-->
+          <!--<md-toolbar>-->
+            <!--<div class="md-toolbar-tools">-->
+              <!--<h2>-->
+                <!--<span>Your Files</span>-->
+              <!--</h2>-->
+              <!--<div flex-auto=""></div>-->
 
-            </div>
-          </md-toolbar>
+            <!--</div>-->
+          <!--</md-toolbar>-->
 
-          <div ng-repeat="source in sources" layout-padding="">
+          <!--<div ng-repeat="source in sources" layout-padding="">-->
 
-            <md-card ng-if="source.ext == 'image' ">
+            <!--<md-card ng-if="source.ext == 'image' ">-->
 
-              <div class="adimage" ng-if="source.ext == 'image'"
-                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
-              <md-card-actions layout="row" layout-align="end center">
+              <!--<div class="adimage" ng-if="source.ext == 'image'"-->
+                   <!--style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>-->
+              <!--<md-card-actions layout="row" layout-align="end center">-->
 
-                <md-button class="md-raised md-accent" ng-click="activateAd(source.adId, currentProfile)">
-                  Add to list
-                </md-button>
-              </md-card-actions>
-            </md-card>
-          </div>
+                <!--<md-button class="md-raised md-accent" ng-click="activateAd(source.adId, currentProfile)">-->
+                  <!--Add to list-->
+                <!--</md-button>-->
+              <!--</md-card-actions>-->
+            <!--</md-card>-->
+          <!--</div>-->
 
-        </div>
+        <!--</div>-->
 
 
           <!--<md-content class="md-padding" layout-xs="column" layout="row">-->
