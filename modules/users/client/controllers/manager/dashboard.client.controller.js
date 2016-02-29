@@ -1,29 +1,53 @@
 'use strict';
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
 
 
         $scope.labels = ["2/22", "2/23", "2/24", "2/25", "2/26", "2/27", "2/28"];
-        $scope.series = ['Scans', 'Page Views'];
+        $scope.series = ['My first dataset', 'My Second dataset'];
         $scope.data = [
             [65, 59, 80, 81, 56, 55, 40],
-            [28, 48, 40, 19, 86, 27, 90]
+            [0, 0, 0, 0, 86, 27, 90]
         ];
+
 
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
+
+        $scope.colors = [
+            {
+                fillColor: "rgba(220,110,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)"
+
+            },
+            {
+                fillColor: "rgba(110,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)"
+
+            }
+        ]
+
+        $scope.chartOptions = {}
 
 
         $scope.emails = [];
         $scope.phones = [];
         $scope.loyalty = [];
         $scope.analytics = [];
-         var locations = [];
+        var locations = [];
         var location;
         $scope.list_devices = [];
         $scope.stores = [];
@@ -36,11 +60,11 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                 }
                 if (res) {
 
-                  locations = res.data;
+                    locations = res.data;
 
-                    for(var x in locations) {
+                    for (var x in locations) {
                         location = locations[x].address;
-                        $scope.specificLoc.push({locationName:locations[x].address, locationId:locations[x].locationId})
+                        $scope.specificLoc.push({locationName: locations[x].address, locationId: locations[x].locationId})
                         $http.get(constants.API_URL + '/devices/location/' + locations[x].locationId).then(function (response, err) {
                             if (err) {
                                 console.log(err);
@@ -78,7 +102,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                     }
                 }
             });
-            var accountId= localStorage.getItem('accountId');
+            var accountId = localStorage.getItem('accountId');
             $http.get(constants.API_URL + '/analytics/top-products?account=' + accountId).then(function (res, err) {
                 if (err) {
                     console.log(err);
