@@ -5,6 +5,26 @@ angular.module('users').service('chartService', function ($http, $q) {
     me.labels = [];
     me.series = ['Sku Scans', 'Page Views'];
     me.groupedData = [];
+    me.colors = [
+        {
+            fillColor: "#FE3A6D",
+            strokeColor: "#FE3A6D",
+            pointColor: "#FE3A6D",
+            pointStrokeColor: "#FE3A6D",
+            pointHighlightFill: "#FE3A6D",
+            pointHighlightStroke: "#FE3A6D"
+
+        },
+        {
+            fillColor: "#3299BB",
+            strokeColor: "#3299BB",
+            pointColor: "#3299BB",
+            pointStrokeColor: "#3299BB",
+            pointHighlightFill: "#3299BB",
+            pointHighlightStroke: "#3299BB"
+
+        }
+    ]
 
 
     function getChartData() {
@@ -30,24 +50,24 @@ angular.module('users').service('chartService', function ($http, $q) {
 
     function groupAndFormatDate() {
         getChartData().then(function (results) {
-            console.log('chartService results %O', results)
+            //console.log('chartService results %O', results)
 
             results.sku.forEach(function (analytic) {
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
                 if (i < 0) {
-                    console.log('chartService pushing new date')
+                    //console.log('chartService pushing new date')
                     me.labels.push(date)
                 }
                 if (me.data[0][i]) {
-                    console.log('chartService incrementing data count for day')
+                    //console.log('chartService incrementing data count for day')
                     me.data[0][i]++
                 } else {
-                    console.log('chartService adding data point for day')
+                    //console.log('chartService adding data point for day')
                     me.data[0][i] = 1
                 }
             });
-            console.log('chartService1 me.data %O', me.data)
+            //console.log('chartService1 me.data %O', me.data)
             results.page.forEach(function (analytic) {
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -60,7 +80,7 @@ angular.module('users').service('chartService', function ($http, $q) {
                     me.data[1][i] = 1
                 }
             })
-            console.log('chartService2 me.data %O', me.data)
+            //console.log('chartService2 me.data %O', me.data)
         })
     }
 

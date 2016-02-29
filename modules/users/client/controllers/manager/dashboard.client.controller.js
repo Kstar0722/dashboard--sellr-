@@ -11,34 +11,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 
 
 
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
-
-        $scope.colors = [
-            {
-                fillColor: "#FE3A6D",
-                strokeColor: "#FE3A6D",
-                pointColor: "#FE3A6D",
-                pointStrokeColor: "#FE3A6D",
-                pointHighlightFill: "#FE3A6D",
-                pointHighlightStroke: "#FE3A6D"
-
-            },
-            {
-                fillColor: "#3299BB",
-                strokeColor: "#3299BB",
-                pointColor: "#3299BB",
-                pointStrokeColor: "#3299BB",
-                pointHighlightFill: "#3299BB",
-                pointHighlightStroke: "#3299BB"
-
-            }
-        ]
-
-        $scope.chartOptions = {}
-
-
         $scope.emails = [];
         $scope.phones = [];
         $scope.loyalty = [];
