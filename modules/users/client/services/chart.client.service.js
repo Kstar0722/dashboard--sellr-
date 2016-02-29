@@ -70,7 +70,7 @@ angular.module('users').service('chartService', function ($http, $q, constants) 
             });
 
             results.page.forEach(function (analytic) {
-                var message = 'page: ' + analytic.analyticsId
+                var message = 'page: ' + analytic.analyticsId;
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
                 if (i < 0) {
