@@ -13,12 +13,16 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
             [0],
             [0]
         ];
-        $http.get(constants.API_URL + '/skus/mockdata').then(function (res) {
-            $scope.data = [[], []];
+        $http.get(constants.API_URL + '/analytics?category=sku').then(function (res) {
+            //Get Analytics for Sku Scans, first array
+            $scope.data[0] = [];
             $scope.labels = [];
+
+            console.log('response from /analytics?category=sku %O', res)
+
             //group by day scanned
             var groupedData = _.groupBy(res.data, function (analytic) {
-                return analytic.createdDate.split(' ')[0]
+                return analytic.createdDate.split('T')[0]
             });
             $scope.labels = [];
             Object.keys(groupedData).forEach(function (skuScanDate) {
