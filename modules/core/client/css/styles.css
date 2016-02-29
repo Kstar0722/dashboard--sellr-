@@ -427,6 +427,7 @@ section.userList .userbox {
   text-align: center;
   padding: 2.5%;
   max-width: 200px;
+  min-height: 150px;
 }
 @media (max-width: 768px) {
   .dashboard .devices .device {
