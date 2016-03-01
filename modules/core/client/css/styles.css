@@ -332,6 +332,9 @@ section.userList .userbox {
   background-color: #1f2532;
   color: #E2E2E2;
 }
+.dashboard .chartbox {
+  padding: 16px;
+}
 .dashboard .leads .leadgen {
   margin-top: ;
   background: white;
