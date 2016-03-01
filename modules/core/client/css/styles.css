@@ -283,6 +283,10 @@ section.userList .userbox {
   color: white;
   position: relative ;
 }
+.adManager .ads .ad p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .adManager .ads .ad .action {
   display: inline;
   opacity: 0;
