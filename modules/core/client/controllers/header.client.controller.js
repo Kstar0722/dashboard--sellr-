@@ -28,14 +28,18 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
         $scope.authentication = Authentication;
         $scope.ui = {};
 
-
+        var originatorEv;
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
 
         $scope.toggleCollapsibleMenu = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
         };
-
+        $scope.openMenu = function($mdOpenMenu, ev) {
+            console.log('hello')
+            originatorEv = ev;
+            $mdOpenMenu(ev);
+        };
         $scope.signOut = function () {
             $http.get('/auth/signout')
                 .success(function () {
@@ -47,15 +51,15 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
                 })
         };
 
-        $scope.$watch('ui.toolbarOpened', function (opened) {
-            if (!opened) {
-                $scope.ui.toolbarOpened = true;
-            }
-        });
+        //$scope.$watch('ui.toolbarOpened', function (opened) {
+        //    if (!opened) {
+        //        $scope.ui.toolbarOpened = true;
+        //    }
+        //});
 
         // Collapsing the menu after navigation
-        $scope.$on('$stateChangeSuccess', function () {
-            $scope.isCollapsed = false;
-        });
+        //$scope.$on('$stateChangeSuccess', function () {
+        //    $scope.isCollapsed = false;
+        //});
     }
 ]);

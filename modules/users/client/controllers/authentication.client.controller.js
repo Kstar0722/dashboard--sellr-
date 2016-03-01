@@ -25,6 +25,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         return false;
       }
+        console.log('hello')
         $http.get(constants.API_URL + '/store/validate/' + $scope.regCode).success(function (response) {
         // If successful we assign the response to the global user model
 

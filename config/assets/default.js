@@ -17,7 +17,7 @@ module.exports = {
                 'public/lib/angular/angular.js',
                 'public/lib/angular-ui-sortable/sortable.min.js',
                 'public/lib/aws-sdk/dist/aws-sdk.min.js',
-                'public/lib/angular-material/angular-material.min.js',
+
                 'public/lib/video.js/dist/video.min.js',
                 'public/lib/angular-aria/angular-aria.min.js',
                 'public/lib/angular-resource/angular-resource.js',
@@ -37,7 +37,8 @@ module.exports = {
                 'public/lib/angular-environment/dist/angular-environment.js',
                 'public/lib/Chart.js/Chart.js',
                 'public/lib/angular-chart.js/dist/angular-chart.js',
-                'public/lib/moment/moment.js'
+                'public/lib/moment/moment.js',
+                'public/lib/angular-material/angular-material.js',
 
 
 

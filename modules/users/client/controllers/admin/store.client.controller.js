@@ -24,7 +24,20 @@ angular.module('users.admin').controller('StoreController', ['$scope','$state','
 
 
     };
+    $scope.stuffs =[];
 
+
+
+    $scope.addRole = function(role){
+      if($scope.stuffs.indexOf(role) >-1){
+        $scope.stuffs.splice($scope.stuffs.indexOf(role), 1)
+        console.log($scope.stuffs)
+      }
+      else{
+        $scope.stuffs.push(role);
+        console.log($scope.stuffs)
+      }
+    }
     $scope.invite = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'storeForm');
@@ -32,23 +45,23 @@ angular.module('users.admin').controller('StoreController', ['$scope','$state','
       }
 
       else {
-          console.log($scope.locations)
+
         var contactName = $scope.store.contactName;
         var storeName = $scope.store.storeName;
         var email = $scope.store.storeEmail;
-        var role = $scope.store.userRole;
+        var role = $scope.stuffs;
         var locations = $scope.locations;
         var obj = {
           payload: {
             contactName: contactName,
             storeName: storeName,
             storeEmail: email,
-            role:role,
+            role:$scope.stuffs,
             locations:locations
-          }
-        };
+      }
+    };
 
-
+        console.log('hey %O',obj);
         $http.post(constants.API_URL + '/store', obj).then(function (response, err) {
           // If successful we assign the response to the global user model
           //$scope.authentication.user = response;
