@@ -1,7 +1,6 @@
 {
   "name": "oncue-portal",
   "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
-  "engine": "4.3.1",
   "version": "0.4.2",
   "meanjs-version": "0.4.2",
   "private": false,
@@ -12,7 +11,7 @@
     "url": "https://github.com/meanjs/mean.git"
   },
   "engines": {
-    "node": ">=0.10.28",
+    "node": "4.3.0",
     "npm": ">=1.4.28"
   },
   "scripts": {
