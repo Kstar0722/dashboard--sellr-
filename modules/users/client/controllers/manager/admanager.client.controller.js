@@ -156,7 +156,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '7272/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

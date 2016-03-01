@@ -8,7 +8,13 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
 
     $scope.locations = [];
-
+    $scope.roles = [
+      { text: 'user'},
+      {text: 'admin'},
+      {text: 'supplier'},
+      {text: 'manager'}
+    ];
+    $scope.stuffs =[];
   $scope.userview = $state.params;
       if(CurrentUserService.locations)
       $scope.locations = CurrentUserService.locations;
@@ -43,13 +49,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     $scope.inviteStoreView = function(userview){
       $state.go('admin.users.store', userview, {reload:true})
     };
-    $scope.roles = [
-      { text: 'user'},
-      {text: 'admin'},
-      {text: 'supplier'},
-      {text: 'manager'}
-    ];
-    $scope.stuffs =[];
+
 
 
 

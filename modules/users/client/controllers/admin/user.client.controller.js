@@ -4,7 +4,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
   function ($scope, $state, Authentication, userResolve, $timeout) {
     $scope.authentication = Authentication;
     $scope.user = userResolve;
-
+      $scope.stuffs =[];
       $scope.roles = [
           { text: 'user'},
           {text: 'admin'},
@@ -48,6 +48,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
       }
 
       var user = $scope.user;
+        //$scope.user.role = $scope.stuffs;
       console.dir($scope.user);
       user.$update(function () {
         $state.go('admin.users.edit', {
