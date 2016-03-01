@@ -142,7 +142,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .alt-actions,
 .sign-in #reset-form .alt-actions {
-  margin-top: 1vh;
+  margin-top: 2vh;
   font-size: 13px;
   color: #efefef;
 }
@@ -332,6 +332,9 @@ section.userList .userbox {
   background-color: #1f2532;
   color: #E2E2E2;
 }
+.dashboard .chartbox {
+  padding: 16px;
+}
 .dashboard .leads .leadgen {
   margin-top: ;
   background: white;
@@ -427,6 +430,7 @@ section.userList .userbox {
   text-align: center;
   padding: 2.5%;
   max-width: 200px;
+  min-height: 150px;
 }
 @media (max-width: 768px) {
   .dashboard .devices .device {

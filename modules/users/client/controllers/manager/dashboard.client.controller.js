@@ -17,12 +17,12 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 
         $scope.colors = [
             {
-                fillColor: "#FE3A6D",
-                strokeColor: "#FE3A6D",
-                pointColor: "#FE3A6D",
-                pointStrokeColor: "#FE3A6D",
-                pointHighlightFill: "#FE3A6D",
-                pointHighlightStroke: "#FE3A6D"
+                fillColor: "#B4B7B9",
+                strokeColor: "#B4B7B9",
+                pointColor: "#B4B7B9",
+                pointStrokeColor: "#B4B7B9",
+                pointHighlightFill: "#B4B7B9",
+                pointHighlightStroke: "#B4B7B9"
 
             },
             {
