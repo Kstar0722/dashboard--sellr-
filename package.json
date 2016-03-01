@@ -1,6 +1,7 @@
 {
   "name": "oncue-portal",
   "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
+  "engine": "4.3.1",
   "version": "0.4.2",
   "meanjs-version": "0.4.2",
   "private": false,
