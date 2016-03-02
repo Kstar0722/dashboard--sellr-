@@ -24,20 +24,7 @@ angular.module('users.admin').controller('StoreController', ['$scope','$state','
 
 
     };
-    $scope.stuffs =[];
 
-
-
-    $scope.addRole = function(role){
-      if($scope.stuffs.indexOf(role) >-1){
-        $scope.stuffs.splice($scope.stuffs.indexOf(role), 1)
-        console.log($scope.stuffs)
-      }
-      else{
-        $scope.stuffs.push(role);
-        console.log($scope.stuffs)
-      }
-    }
     $scope.invite = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'storeForm');

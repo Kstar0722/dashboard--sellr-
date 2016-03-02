@@ -37,7 +37,15 @@ var validateRegistrationTokenProperty = function (property) {
     });
 
 };
+var validatePasswordProperty = function (property) {
+  if(property.length >= 6) {
+      console.log('its true')
+      return (true)
+  }
+    else
+    return false
 
+};
 /**
  * User Schema
  */
@@ -80,7 +88,8 @@ var UserSchema = new Schema({
     },
     password: {
         type: String,
-        default: ''
+        default: '',
+        validate: [validatePasswordProperty, 'Password must be at least 6 characters']
     },
     salt: {
         type: String
@@ -134,13 +143,13 @@ UserSchema.pre('save', function (next) {
  * Hook a pre validate method to test the local password
  */
 UserSchema.pre('validate', function (next) {
-    if (this.provider === 'local' && this.password && this.isModified('password')) {
-        var result = owasp.test(this.password);
-        if (result.errors.length) {
-            var error = result.errors.join(' ');
-            this.invalidate('password', error);
-        }
-    }
+    //if (this.provider === 'local' && this.password && this.isModified('password')) {
+    //    var result = owasp.test(this.password);
+    //    if (result.errors.length) {
+    //        var error = result.errors.join(' ');
+    //        this.invalidate('password', error);
+    //    }
+    //}
 
     next();
 });

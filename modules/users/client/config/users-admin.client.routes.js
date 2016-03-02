@@ -7,8 +7,14 @@ angular.module('users.admin.routes').config(['$stateProvider',
       .state('admin.users', {
         url: '/users/:userId',
         templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-        controller: 'UserListController'
-
+        controller: 'UserListController',
+          resolve: {
+              userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
+                  return Admin.get({
+                      userId: $stateParams.userId
+                  });
+              }]
+          }
 
       })
         .state('admin.users.edit', {
