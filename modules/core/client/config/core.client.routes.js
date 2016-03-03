@@ -17,7 +17,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServi
                     API_URL: 'http://mystique.expertoncue.com:7272'
                 },
                 production: {
-                    API_URL: 'http://api.expertoncue.com'
+                    API_URL: 'https://api.expertoncue.com'
                 }
             }
         });
