@@ -9,10 +9,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServi
         // set the domains and variables for each environment
         envServiceProvider.config({
             domains: {
-                development: ['localhost', 'mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com'],
+                development: ['localhost', 'mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
                 production: ['dashboard.expertoncue.com']
-                // anotherStage: ['domain1', 'domain2'],
-                // anotherStage: ['domain1', 'domain2']
             },
             vars: {
                 development: {
