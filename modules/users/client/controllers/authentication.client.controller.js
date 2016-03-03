@@ -104,14 +104,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             if ($state.previous && $state.previous.href) {
                 url += '?redirect_to=' + encodeURIComponent($state.previous.href);
             }
-<<<<<<< HEAD
-          }).error(function (res) {
-                console.log('signup errors %O', res)
-            $scope.error = res.message;
-          });
-        }
-=======
->>>>>>> 20dcb77a7fc4cfed87acbe3de5fa68c7fdb53802
 
             // Effectively call OAuth authentication route:
             $window.location.href = url;
