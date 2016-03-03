@@ -30,7 +30,6 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     console.log('stuffs %O', $scope.user.roles);
 
 
-
       if(CurrentUserService.locations)
       $scope.locations = CurrentUserService.locations;
       else

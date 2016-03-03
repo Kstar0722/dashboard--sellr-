@@ -4,7 +4,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     function ($scope, Authentication, $mdDialog, $state) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        console.log('hey %O', $scope.authentication)
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
         if(!$scope.authentication.user != !check){
