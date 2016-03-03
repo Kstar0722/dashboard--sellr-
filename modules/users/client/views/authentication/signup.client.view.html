@@ -52,12 +52,12 @@
 
           <md-input-container class="md-block" >
 
-            <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required popover="{{popoverMsg}}" popover-trigger="focus" password-validator>
+            <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-minlength="6" required>
             <div ng-messages="userForm.password.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Password is required.</p>
-               <div ng-repeat="passwordError in passwordErrors">
-              <p class="help-block error-text" ng-show="userForm.password.$error.requirements">{{passwordError}}</p>
-              </div>
+               <!--<div ng-repeat="passwordError in passwordErrors">-->
+              <p class="help-block error-text" ng-show="userForm.password.$invalid">Must be greater than 6 characters</p>
+              <!--</div>-->
             </div>
           </md-input-container>
           <div layout="row" layout-align="space-between center">

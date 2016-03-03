@@ -1179,7 +1179,6 @@ angular.module('users').factory('Authentication', ['$window',
 angular.module('users').factory('PasswordValidator', ['$window',
   function ($window) {
     var owaspPasswordStrengthTest = $window.owaspPasswordStrengthTest;
-
     return {
       getResult: function (password) {
         var result = owaspPasswordStrengthTest.test(password);
