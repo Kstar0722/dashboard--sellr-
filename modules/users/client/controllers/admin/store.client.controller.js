@@ -4,6 +4,28 @@ angular.module('users.admin').controller('StoreController', ['$scope','$state','
   function ($scope, $state, $http, Authentication,constants) {
     $scope.authentication = Authentication;
 
+    $scope.roles = [
+      { text: 'user'},
+      {text: 'admin'},
+      {text: 'supplier'},
+      {text: 'manager'}
+    ];
+
+    $scope.stuffs = [];
+    $scope.addNewRole = function(role){
+      if($scope.stuffs.indexOf(role) >-1){
+        $scope.stuffs.splice($scope.stuffs.indexOf(role), 1)
+        console.log('stuffs1 %O',$scope.stuffs)
+      }
+      else{
+        $scope.stuffs.push(role);
+        console.log('stuffs2 %O',$scope.stuffs)
+      }
+    }
+
+
+
+
 
     $scope.locations = [{'id':'location1'}];
     $scope.removeLocationBox = false;
@@ -48,7 +70,6 @@ angular.module('users.admin').controller('StoreController', ['$scope','$state','
       }
     };
 
-        console.log('hey %O',obj);
         $http.post(constants.API_URL + '/store', obj).then(function (response, err) {
           // If successful we assign the response to the global user model
           //$scope.authentication.user = response;

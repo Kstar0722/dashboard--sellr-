@@ -48,7 +48,7 @@
         <div class="form-group" show-errors>
           <label >User Role</label>
           <div id="checks" ng-repeat="role in roles">
-            <md-checkbox    ng-click="addRole(role.text)">{{role.text}}
+            <md-checkbox    ng-click="addNewRole(role.text)">{{role.text}}
           </div>
           <div ng-messages="storeForm.userRole.$error" role="alert">
             <p class="help-block error-text" ng-message="required">User Role is required.</p>
