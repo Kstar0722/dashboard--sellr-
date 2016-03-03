@@ -61,6 +61,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 });
             }
           }).error(function (res) {
+                console.log('signup errors %O', res)
             $scope.error = res.message;
           });
         }
