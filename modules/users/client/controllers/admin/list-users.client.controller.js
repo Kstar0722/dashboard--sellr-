@@ -8,7 +8,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
       {text: 'supplier'},
       {text: 'manager'}
     ];
-    $scope.user = userResolve
+    $scope.user = userResolve;
 
 
     $scope.CurrentUserService = CurrentUserService;
@@ -16,18 +16,18 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     //CurrentUserService.user = '';
     $scope.locations = [];
 
-
-    $scope.addRole = function(role){
-      if($scope.user.roles.indexOf(role) >-1){
-        $scope.user.roles.splice($scope.user.roles.indexOf(role), 1)
-        console.log('stuffs1 %O',$scope.user.roles)
-      }
-      else{
-        $scope.user.roles.push(role);
-        console.log('stuffs2 %O',$scope.user.roles)
-      }
-    }
-    console.log('stuffs %O', $scope.user.roles);
+    //
+    //$scope.addRole = function(role){
+    //  if($scope.user.roles.indexOf(role) >-1){
+    //    $scope.user.roles.splice($scope.user.roles.indexOf(role), 1);
+    //    console.log('stuffs1 %O',$scope.user.roles)
+    //  }
+    //  else{
+    //    $scope.user.roles.push(role);
+    //    console.log('stuffs2 %O',$scope.user.roles)
+    //  }
+    //}
+    //console.log('stuffs %O', $scope.user.roles);
 
 
 
@@ -79,7 +79,6 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     };
 
     $scope.figureOutItemsToDisplay = function () {
-
 
       $scope.filteredItems = $filter('filter')(CurrentUserService.userList, {
         $: $scope.search
