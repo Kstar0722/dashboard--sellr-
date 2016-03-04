@@ -470,3 +470,95 @@ section.userList .userbox {
 .dashboard .devices .device .icon.error {
   color: #FF0000;
 }
+.pricingcalc {
+  font-size: 18px;
+}
+.pricingcalc .toprow {
+  display: table;
+  width: 100%;
+  padding: 0 5vw;
+}
+.pricingcalc .toprow .plus {
+  width: 5%;
+  float: left;
+  font-size: 50px;
+  line-height: 130px;
+  color: #999;
+}
+.pricingcalc .pccol {
+  width: 30%;
+  float: left;
+  padding: 3vh 1.5vw;
+  text-align: center;
+}
+.pricingcalc .pccol h1 {
+  font-size: 80px;
+  font-weight: 900;
+}
+.pricingcalc .pccol .select {
+  margin-top: 5vh;
+}
+.pricingcalc .pccol .item {
+  display: block;
+  float: left;
+  width: 100%;
+}
+.pricingcalc .pccol .item .title {
+  text-align: left;
+  float: left;
+  padding: 10px 15px;
+  font-weight: bold;
+}
+.pricingcalc .pccol .item input {
+  float: right;
+  margin: 15px 0 ;
+}
+.pricingcalc .pccol .item .btn {
+  float: right;
+  color: white;
+  padding: 6px 12px;
+  vertical-align: middle;
+  cursor: pointer;
+  text-align: center;
+}
+.pricingcalc .pccol .item .btn.add {
+  background: #00AB51;
+}
+.pricingcalc .pccol .item .btn.remove {
+  background: #B2B2B2;
+  margin-right: 10px;
+}
+.pricingcalc .bottomrow {
+  margin-top: 5vh;
+  background: #313131;
+  display: table;
+  width: 100%;
+  color: White;
+}
+.pricingcalc .bottomrow .discount {
+  float: right;
+  color: #333;
+  background: #efefef;
+  padding: 2vh 5vw;
+  width: 100%;
+}
+.pricingcalc .bottomrow .discount h4 {
+  float: right;
+  margin-right: 2.5vw;
+}
+.pricingcalc .bottomrow .discount select {
+  float: right;
+}
+.pricingcalc .bottomrow .total {
+  padding: 2vh 5vw;
+  float: right;
+}
+.pricingcalc .bottomrow .total h4,
+.pricingcalc .bottomrow .total h1 {
+  display: inline-block;
+  float: right;
+  line-height: 40px;
+}
+.pricingcalc .bottomrow .total h4 {
+  margin-right: 2.5vw;
+}
