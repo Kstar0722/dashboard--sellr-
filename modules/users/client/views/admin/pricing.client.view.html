@@ -1,0 +1,62 @@
+<section class="pricingcalc">
+
+  <div class="toprow">
+    <div class="pccol">
+      <h1>4 </h1>
+      <h4>Devices</h4>
+
+      <div class="select">
+        <div class="item" ng-repeat="item in pricing.pricelist.devices">
+          <span class="title" >{{item.name}} : ${{item.price}} QTY: {{item.qty}}</span>
+          <span class="btn add" ng-click="addItem(item)">+</span>
+          <span class="btn remove" ng-click="removeItem(item)">-</span>
+        </div>
+      </div>
+    </div>
+    <div class="plus">
+      +
+    </div>
+    <div class="pccol">
+      <h1>BWS</h1>
+      <h4>App</h4>
+      <div class="select">
+        <div class="item" ng-repeat="item in pricing.pricelist.apps">
+          <input type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? addItem(item) : removeItem(item)" />
+          <span class="title">{{item.name}} : ${{item.price}} QTY: {{item.qty}}</span>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="plus">
+      +
+    </div>
+    <div class="pccol">
+      <h1>5</h1>
+      <h4>Accessories</h4>
+      <div class="select">
+        <div class="item"  ng-repeat="item in pricing.pricelist.accessories">
+          <span class="title">{{item.name}} : ${{item.price}} QTY: {{item.qty}}</span>
+          <span class="btn add" ng-click="addItem(item)" >+</span>
+          <span class="btn remove" ng-click="removeItem(item)">-</span>
+        </div>>
+    </div>
+  </div>
+  </div>
+
+  <div class="bottomrow">
+    <div class="discount">
+      <select  data-ng-change="addDiscount(amountDiscount)"ng-model="amountDiscount" ng-options="i.amount as i.name for i in discounts">
+      </select>
+      <h4>Discount </h4>
+
+    </div>
+    <div class="total" >
+      <h1 >${{priceTotal - (priceTotal * currentDiscount)}}</h1>
+      <h4>Total Price</h4>
+
+
+    </div>
+  </div>
+
+</section>
