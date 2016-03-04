@@ -32,7 +32,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
         .state('admin.users.store', {
           url: '/store',
           templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
-          controller: 'StoreController'
+          controller: 'inviteUserController'
 
         })
       .state('admin.users.user-edit', {

@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('users.admin').controller('StoreController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
+angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService) {
 
         $scope.myPermissions = localStorage.getItem('roles');
         $scope.accountsService = accountsService;
         $scope.authentication = Authentication;
+        console.log('authentication %O', $scope.authentication)
 
         $scope.roles = [
             {text: 'admin', id: 1004},
@@ -14,7 +15,7 @@ angular.module('users.admin').controller('StoreController', ['$scope', '$state',
             {text: 'user', id: 1003}
         ];
         $scope.user = {
-            accountId: ''
+            accountId: localStorage.getItem('accountId')
         };
         $scope.locations = [{'id': 'location1'}];
         $scope.removeLocationBox = false;
@@ -54,7 +55,6 @@ angular.module('users.admin').controller('StoreController', ['$scope', '$state',
         console.log('userRoles %O', $scope.user.roles);
 
         $scope.invite = function (isValid) {
-            debugger;
             if (!isValid) {
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
@@ -63,6 +63,8 @@ angular.module('users.admin').controller('StoreController', ['$scope', '$state',
                 var payload = {
                     payload: $scope.user
                 };
+                debugger;
+
                 $http.post(constants.API_URL + '/users', payload).then(onInviteSuccess, onInviteError);
 
             }
