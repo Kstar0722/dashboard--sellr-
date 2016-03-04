@@ -82,7 +82,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 apps: [
                     {
                         'name': 'Beer, Wine, & Spirits',
-                        'price': 9999,
+                        'price': 2000,
                         'max-quantity': 1,
                         qty:0
                     },
@@ -106,17 +106,23 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                     },
                     {
                         name: 'Floor Stand',
-                        price: 100,
+                        price: 300,
                         qty:0
                     },
                     {
                         name: '4G Hotspot',
-                        price: 100,
+                        price: 600,
                         qty:0
                     }]
             }
         }
-        $scope.discounts = [{amount :0 , name:'0%'},{amount: .05, name:'5%'}, {amount: .10, name:'10%'}, {amount: .20, name:'20%'}, {amount: .30, name:'30%'}, {amount: .40, name:'40%'}];
+        $scope.discounts = [
+            {amount :0 , name:'0%'},
+            {amount: .05, name:'5%'},
+            {amount: .10, name:'10%'},
+            {amount: .20, name:'20%'},
+            {amount: .30, name:'30%'},
+            {amount: .40, name:'40%'}];
     }
 
 
