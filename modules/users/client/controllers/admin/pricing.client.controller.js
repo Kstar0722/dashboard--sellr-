@@ -88,13 +88,13 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                     },
                     {
                         'name': 'Pharmacy',
-                        'price': 9999,
+                        'price': 2000,
                         'max-quantity': 1,
                         qty:0
                     },
                     {
                         'name': 'Dashboard',
-                        'price': 9999,
+                        'price': 2000,
                         'max-quantity': 1,
                         qty:0
                     }],

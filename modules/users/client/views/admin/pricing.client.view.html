@@ -1,5 +1,11 @@
 <section class="pricingcalc">
 
+  <div layout="row" layout-align="center center" >
+    <md-button>3 Unit Package</md-button>
+    <md-button>5 Unit Package</md-button>
+    <md-button>7 Unit Package</md-button>
+    <md-button>10 Unit Package</md-button>
+  </div>
   <div class="toprow">
     <div class="pccol">
       <h1>??</h1>
@@ -17,13 +23,14 @@
       +
     </div>
     <div class="pccol">
-      <h1>??</h1>
+      <h1>{{item.qty}}</h1>
       <h4>App</h4>
       <div class="select">
         <div class="item" ng-repeat="item in pricing.pricelist.apps">
-          <input type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? addItem(item) : removeItem(item)" />
+          <!--<input type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? addItem(item) : removeItem(item)" />-->
           <span class="title">{{item.name}} : ${{item.price}}({{item.qty}})</span>
-
+          <span class="btn add" ng-click="addItem(item)">+</span>
+          <span class="btn remove" ng-click="removeItem(item)">-</span>
         </div>
 
       </div>
@@ -55,8 +62,11 @@
     <div class="total" >
       <h1 >${{priceTotal - (priceTotal * currentDiscount)}}</h1>
       <h4>Total Price</h4>
+    </div>
 
-
+    <div class="total monthly" >
+      <h1 >${{(priceTotal - (priceTotal * currentDiscount))/12}}</h1>
+      <h4>Monthly Price (12 Month Lease)</h4>
     </div>
   </div>
 
