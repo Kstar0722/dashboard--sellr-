@@ -1,10 +1,14 @@
+<!--Right Side view for editing users-->
+<!--Uses UserController in user.client.controller.js-->
+
 <section class="inner">
 
-    <h1>Editing User: <span ng-bind="user.username"></span></h1>
+  <h1>Editing User: {{ user.username }}</h1>
   <md-button  class="md-button md-raised md-primary"  ng-click="remove();" ng-if="user._id !== authentication.user._id">Remove User</md-button>
     <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
       <div layout-xs="column" layout-sm="column" layout-align="space-between center">
-      <md-input-container class="md-block" flex-gt-sm>
+
+        <md-input-container class="md-block" flex-gt-sm>
         <label>First Name</label>
         <input ng-model="user.firstName">
         <div ng-messages="userForm.firstName.$error" role="alert">
@@ -31,35 +35,37 @@
           <label class="control-label">Roles</label>
           <div class="controls">
             <div id="checks" ng-repeat="role in roles">
-              <md-checkbox ng-checked="user.roles.indexOf(role.text) > -1" ng-click="addRole(role.text)">{{role.text}}
+              <md-checkbox ng-model="role.selected">{{role.text}}
             </div>
             <div ng-messages="userForm.roles.$error" role="alert">
               <p class="help-block error-text" ng-message="required">At least one role is required.</p>
             </div>
           </div>
-        <div class="form-group">
-          <label  id="location">Locations</label>
-          <br>
-          <md-button class="md-button md-raised md-primary"  ng-click="addNewLocation(locs)">Add
-            Another Location
-          </md-button>
-          <div ng-repeat="location in locations track by $index">
-            <div id="activeLocations" ng-if="location.address">
-              <label ng-bind="location.address"></label>
-            </div>
 
-            <div id="newLocations" ng-if="!location.address">
-              <input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location"
-                     >
-              <md-button class="md-button md-raised md-primary" ng-show="$last" ng-click="addNewLocation(locs)">Add
-                Another Location
-              </md-button>
-              <md-button class="md-button md-raised md-primary" ng-show="removeLocationBox" ng-click="removeLocation()">
-                Remove Location
-              </md-button>
-            </div>
-          </div>
-        </div>
+      <!--User Management Should Not Touch Locations...saving for later user in loc manager-->
+      <!--<div class="form-group">-->
+      <!--<label  id="location">Locations</label>-->
+      <!--<br>-->
+      <!--<md-button class="md-button md-raised md-primary"  ng-click="addNewLocation(locs)">Add-->
+      <!--Another Location-->
+      <!--</md-button>-->
+      <!--<div ng-repeat="location in locations track by $index">-->
+      <!--<div id="activeLocations" ng-if="location.address">-->
+      <!--<label ng-bind="location.address"></label>-->
+      <!--</div>-->
+
+      <!--<div id="newLocations" ng-if="!location.address">-->
+      <!--<input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location"-->
+      <!--&gt;-->
+      <!--<md-button class="md-button md-raised md-primary" ng-show="$last" ng-click="addNewLocation(locs)">Add-->
+      <!--Another Location-->
+      <!--</md-button>-->
+      <!--<md-button class="md-button md-raised md-primary" ng-show="removeLocationBox" ng-click="removeLocation()">-->
+      <!--Remove Location-->
+      <!--</md-button>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
 
 
           <md-button  class="md-button md-raised md-primary"  type="submit">

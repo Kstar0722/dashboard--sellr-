@@ -4,6 +4,7 @@ angular.module('users').service('CurrentUserService', ['Admin', '$state',
         me.user = '';
         me.locations = '';
         me.currentUserRoles=[];
+        me.userBeingEdited = {};
         Admin.query(function (data) {
             me.userList = data;
             console.log('admin returned %O', data)
@@ -16,7 +17,8 @@ angular.module('users').service('CurrentUserService', ['Admin', '$state',
                 //$state.go('admin.users.user-edit',{} , {reload:true})
                 console.log('admin returned %O', data)
             });
-        }
+        };
+
         return me;
     }
 ]);

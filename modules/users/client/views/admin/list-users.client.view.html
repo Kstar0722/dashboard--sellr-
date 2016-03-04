@@ -1,3 +1,6 @@
+<!--Left side user management-->
+<!--Uses the UserListController in list-user.client.controller.js-->
+
 <section class="content userList">
 
   <div class="titlebar"><h1 class="md-display-2">User Management</h1></div>
@@ -23,7 +26,7 @@
 
   <md-content layout="row" layout-align="space-between none">
     <md-list>
-      <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search" ng-click="userEditView({userId: user._id,userName:user.username})">
+      <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search">
 
         <img alt="{{ user.profileImageURL }}" ng-src="{{  user.profileImageURL }}" class="md-avatar" />
         <div class="md-list-item-text">
@@ -32,7 +35,7 @@
           <p>{{user.username}} | {{user.email}}</p>
         </div>
 
-          <md-button class="md-secondary md-raised">Edit</md-button>
+        <md-button class="md-secondary md-raised" ng-click="userEditView(user)">Edit</md-button>
 
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>

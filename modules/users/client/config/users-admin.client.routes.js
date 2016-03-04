@@ -5,20 +5,20 @@ angular.module('users.admin.routes').config(['$stateProvider',
   function ($stateProvider) {
     $stateProvider
       .state('admin.users', {
-        url: '/users/:userId',
+          url: '/users',
         templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-        controller: 'UserListController',
-          resolve: {
-              userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-                  return Admin.get({
-                      userId: $stateParams.userId
-                  });
-              }]
-          }
+          controller: 'UserListController'
+          //resolve: {
+          //    userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
+          //        return Admin.get({
+          //            userId: $stateParams.userId
+          //        });
+          //    }]
+          //}
 
       })
         .state('admin.users.edit', {
-          url: '/users/:userId',
+            url: '/:userId',
           templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
           controller: 'UserController',
           resolve: {
@@ -36,7 +36,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
 
         })
       .state('admin.users.user-edit', {
-        url: '/users/:userId/edit',
+          url: '/:userId/edit',
         templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
         controller: 'UserController',
         resolve: {
