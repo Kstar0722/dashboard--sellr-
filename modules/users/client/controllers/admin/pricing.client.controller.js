@@ -81,20 +81,38 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                     }],
                 apps: [
                     {
-                        'name': 'Beer, Wine, & Spirits',
-                        'price': 2000,
+                        'name': 'Beer Lookup',
+                        'price': 1000,
+                        'max-quantity': 1,
+                        qty:0
+                    },
+                    {
+                        'name': 'Wine Lookup',
+                        'price': 1000,
+                        'max-quantity': 1,
+                        qty:0
+                    },
+                    {
+                        'name': 'Spirits Lookup',
+                        'price': 1000,
                         'max-quantity': 1,
                         qty:0
                     },
                     {
                         'name': 'Pharmacy',
-                        'price': 2000,
+                        'price': 1000,
+                        'max-quantity': 1,
+                        qty:0
+                    },
+                    {
+                        'name': 'Digital Signage',
+                        'price': 1000,
                         'max-quantity': 1,
                         qty:0
                     },
                     {
                         'name': 'Dashboard',
-                        'price': 2000,
+                        'price': 1000,
                         'max-quantity': 1,
                         qty:0
                     }],
