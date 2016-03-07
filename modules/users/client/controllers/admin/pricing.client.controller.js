@@ -11,49 +11,79 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         $scope.amountDiscount = 0;
         $scope.itemPrice = [];
         $scope.currentDiscount = 0;
-        var x;
         $scope.priceTotal = 0;
+        var x;
+        $scope.addPackage  = function(number){
+            $scope.priceTotal = 0
+            var devices = $scope.pricing.pricelist.devices
+            var apps = $scope.pricing.pricelist.apps
+            var accessories = $scope.pricing.pricelist.accessories
+            devices[0].qty = Math.round((.66 * number) * 1)/1;
+            devices[1].qty = Math.round((.33 * number) * 1)/1;;
+            apps[0].qty = number;
+            apps[1].qty = number;
+            apps[2].qty = number;
+            accessories[0].qty = Math.round((.66 * number) * 1)/1;;
+            accessories[1].qty = Math.round((.33 * number) * 1)/1;;
+            $scope.pricing.pricelist.totalDevices =number;
+            $scope.pricing.pricelist.totalApps =number*3;
+            $scope.pricing.pricelist.totalAccessories = number;
+            var packageTotal = (devices[0].price * Math.round((.66 * number) * 1)/1) +(devices[1].price * Math.round((.33 * number) * 1)/1)
+                +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+(accessories[1].price * Math.round((.33 * number) * 1)/1)
+            $scope.total(packageTotal);
+        }
+        $scope.formatNumber = function(i) {
+            return Math.round(i * 1)/1;
+        }
         $scope.total = function (price) {
-
-            $scope.priceTotal += price ;
-            console.log('total called %O', price)
+            console.log(price)
+            $scope.priceTotal += price;
         }
         $scope.addDiscount = function(amount){
-            console.log('discount called %O', amount)
             $scope.currentDiscount = Number(amount);
 
         }
         $scope.subtractTotal = function (price) {
-
             if($scope.priceTotal - price >= 0)
                 $scope.priceTotal -= price ;
             else{
                 $scope.priceTotal =0;
             }
-            console.log('total called %O', price)
         }
-        $scope.addItem = function (item) {
+        $scope.addItem = function (item, id) {
             var obj = item;
-
+            if(id == 'device')
+                $scope.pricing.pricelist.totalDevices += 1;
+            if(id == 'apps')
+                $scope.pricing.pricelist.totalApps += 1;
+            if(id == 'accessories')
+                $scope.pricing.pricelist.totalAccessories += 1;
             if ($scope.itemPrice.length == 0) {
-                console.log('itemPrice1 %O', $scope.itemPrice)
                 obj.qty += 1;
+                obj.total +=1;
                 $scope.total(obj.price);
                 return $scope.itemPrice.push(obj);
             }
-            console.log('itemPrice1 %O', $scope.itemPrice);
             obj.qty += 1;
+            obj.total +=1;
             $scope.total(obj.price);
             return $scope.itemPrice.push(obj);
         }
-        $scope.removeItem = function (item) {
+        $scope.removeItem = function (item, id) {
             var obj = item;
+            if(id == 'device')
+                $scope.pricing.pricelist.totalDevices -= 1;
+            if(id == 'apps')
+                $scope.pricing.pricelist.totalApps -= 1;
+            if(id == 'accessories')
+                $scope.pricing.pricelist.totalAccessories -= 1;
             for (x in $scope.itemPrice) {
 
                 if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
                     console.log('deleted')
                     console.log('itemPrice1 %O', $scope.itemPrice)
                     obj.qty -= 1;
+                    obj.total -=1;
                     $scope.subtractTotal(obj.price);
                     return $scope.itemPrice.splice(x, 1);
                 }
@@ -131,7 +161,10 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                         name: '4G Hotspot',
                         price: 600,
                         qty:0
-                    }]
+                    }],
+                totalDevices:0,
+                totalApps:0,
+                totalAccessories:0
             }
         }
         $scope.discounts = [
