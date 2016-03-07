@@ -18,6 +18,15 @@ angular.module('users.manager.routes').config(['$stateProvider',
                 templateUrl: 'modules/users/client/views/manager/managerUpload.client.view.html'
 
             })
+            .state('manager.locations', {
+                url: '/manager/locations',
+                templateUrl: 'modules/users/client/views/manager/locationManager.client.view.html',
+                controller: 'LocationManagerController'
+            })
+            .state('manager.locations.edit', {
+                url: '/edit',
+                templateUrl: 'modules/users/client/views/manager/locationManager.edit.client.view.html'
+            })
 
     }
 ]);
