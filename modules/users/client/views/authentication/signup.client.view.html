@@ -29,17 +29,6 @@
             </div>
           </md-input-container>
 
-          <md-input-container class="md-block">
-            <input type="text" id="regCode" name="regCode"  ng-model="regCode" placeholder="Registration Code"  lowercase required>
-            <div ng-messages="userForm.regCode.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Registration code is required.</p>
-            </div>
-          </md-input-container>
-
-          <md-toolbar class="md-tall md-accent" ng-show="regCodeErrors">
-           <h2>Registration Code is invalid</h2>
-          </md-toolbar>
-
 
           <md-input-container class="md-block">
 

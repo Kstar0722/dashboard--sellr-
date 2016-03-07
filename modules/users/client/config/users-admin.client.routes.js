@@ -8,14 +8,6 @@ angular.module('users.admin.routes').config(['$stateProvider',
           url: '/users',
         templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
           controller: 'UserListController'
-          //resolve: {
-          //    userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-          //        return Admin.get({
-          //            userId: $stateParams.userId
-          //        });
-          //    }]
-          //}
-
       })
         .state('admin.users.edit', {
             url: '/:userId',
@@ -30,7 +22,6 @@ angular.module('users.admin.routes').config(['$stateProvider',
           }
         })
         .state('admin.users.store', {
-          url: '/store',
           templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
           controller: 'inviteUserController'
 

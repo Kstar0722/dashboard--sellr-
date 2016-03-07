@@ -7,12 +7,16 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         $scope.authentication = Authentication;
         $scope.user = userResolve;
 
-        $scope.roles = [
-            {text: 'admin', id: 1004, selected: userResolve.roles.indexOf('admin') > -1},
-            {text: 'manager', id: 1002, selected: userResolve.roles.indexOf('manager') > -1},
-            {text: 'supplier', id: 1007, selected: userResolve.roles.indexOf('supplier') > -1},
-            {text: 'user', id: 1003, selected: userResolve.roles.indexOf('user') > -1}
-        ];
+        console.log('userResolve %O', userResolve);
+
+        $timeout(function () {
+            $scope.roles = [
+                {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf('admin') > -1},
+                {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
+                {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
+                {text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1}
+            ];
+        }, 200);
 
 
         $scope.remove = function () {

@@ -4,12 +4,23 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr) {
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
-        $scope.regCodeErrors = false;
-        $scope.regCode = '';
 
-        // Get an eventual error defined in the URL query string:
-        $scope.error = $location.search().err;
-        $scope.regCode = $location.search().regcode;
+        var userInfo = {};
+
+        //read userinfo from URL
+        if ($location.search().r)
+            userInfo = {
+                accountId: Number($location.search().a),
+                regCode: Number($location.search().u),
+                roles: $location.search().r.split('~')
+            };
+
+        var roleTranslate = {
+            1004: 'admin',
+            1002: 'manager',
+            1007: 'supplier',
+            1003: 'user'
+        };
 
 
         // If user is signed in then redirect back home
@@ -17,55 +28,60 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             $location.path('/');
         }
 
-        $scope.signup = function (isValid) {
-            $scope.error = null;
-            var check = false;
-            if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'userForm');
-
-                return false;
-            }
-            console.log('hello')
-            $http.get(constants.API_URL + '/store/validate/' + $scope.regCode).then(onValidReg, onInvalidReg);
-
-            function onValidReg(response) {
-                console.log('reg code validate %O', response);
-                // If successful we assign the response to the global user model
-                var check = response.data;
-                localStorage.setItem('roles', JSON.stringify(response.data.roles));
-                response.data.roles.forEach(function (role) {
-                    $scope.credentials.roles = $scope.credentials.roles || [];
-                    $scope.credentials.roles.push(role.role)
-                });
-                if (check) {
-                    var storeUpdate = {
-                        payload: {
-                            email: $scope.credentials.email,
-                            username: $scope.credentials.username,
-                            userId: $scope.regCode
-                        }
-                    };
-                    $http.post(constants.API_URL + '/store/update', storeUpdate).then(onUpdateSuccess, onUpdateError)
-                }
-            }
-
-            function onInvalidReg(err) {
-                toastr.error('User is not a valid user. Please contact support.')
-
-                console.error(err);
-                $scope.error = err
-            }
+        $scope.signup = function () {
+            //$http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
+            onValidReg()
         };
 
+
+        //Reg code (userId) exists in database, continue with creation
+
+        function onValidReg(response) {
+            var storeUpdate = {
+                payload: {
+                    email: $scope.credentials.email,
+                    username: $scope.credentials.username,
+                    userId: userInfo.regCode
+                }
+            };
+            var url = constants.API_URL + '/users/' + userInfo.regCode
+            $http.put(url, storeUpdate).then(onUpdateSuccess, onUpdateError)
+
+        }
+
+        //Reg code (userId) was invalid. Show error and reset credentials.
+        function onInvalidReg(err) {
+            toastr.error('User is not a valid user. Please contact support.');
+            console.error(err);
+            $scope.credentials = {}
+        }
+
+        //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
         function onUpdateSuccess(res) {
             if (res) {
+                $scope.credentials.roles = [];
+                userInfo.roles.forEach(function (role) {
+                    $scope.credentials.roles.push(roleTranslate[role])
+                });
+                console.log('$scope credentials', $scope.credentials);
                 $http.post('/api/auth/signup', $scope.credentials).then(function (response, err) {
+                    console.log('mongoAPI says %O', response)
                     if (err) {
-                        toastr.error(err.message)
+                        toastr.error('There was an error creating your account')
                         console.error(err)
                     }
+
                     // If successful we assign the response to the global user model
-                    $scope.authentication.user = response;
+                    $scope.authentication.user = response.data;
+
+                    var roles = [];
+                    userInfo.roles.forEach(function (role) {
+                        roles.push(Number(role.roleId))
+                    });
+
+                    localStorage.setItem('accountId', userInfo.accountId);
+                    localStorage.setItem('roles', roles);
+
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
                     $state.go($state.previous.state.name || 'home', $state.previous.params);
@@ -74,8 +90,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         }
 
         function onUpdateError(err) {
-            toastr.err(err.message);
-            $scope.error = res.message;
+            toastr.error(err.message);
             console.error(err)
         }
 
@@ -120,7 +135,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             console.error(err);
             toastr.error(err.data.message);
             $scope.error = err.message;
-
+            $scope.credentials = {};
+            document.getElementById('userForm').$setPristine();
         }
 
         // OAuth provider request

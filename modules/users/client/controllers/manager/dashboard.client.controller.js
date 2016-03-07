@@ -99,7 +99,9 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                 }
             });
             var accountId = localStorage.getItem('accountId');
-            $http.get(constants.API_URL + '/analytics/top-products?account=' + accountId).then(function (res, err) {
+            var url = constants.API_URL + '/analytics/top-products?account=' + accountId;
+            console.log('analytics topProducts %O', url)
+            $http.get(url).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
