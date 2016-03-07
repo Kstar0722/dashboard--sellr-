@@ -148,8 +148,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             });
         };
         $scope.upload = function (file) {
-
-
             var obj = {
                 payload: {
                     fileName: file[0].name,
@@ -173,7 +171,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     });
                     AWS.config.region = 'us-east-1';
                     var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-
                     var params = {
                         Key: response.data.assetId + "-" + file[0].name,
                         ContentType: file[0].type,

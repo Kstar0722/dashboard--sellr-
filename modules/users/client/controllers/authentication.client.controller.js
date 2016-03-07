@@ -29,8 +29,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         }
 
         $scope.signup = function () {
-            //$http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
-            onValidReg()
+            $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
         };
 
 
@@ -136,7 +135,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             toastr.error(err.data.message);
             $scope.error = err.message;
             $scope.credentials = {};
-            document.getElementById('userForm').$setPristine();
         }
 
         // OAuth provider request

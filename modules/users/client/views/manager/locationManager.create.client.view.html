@@ -1,17 +1,14 @@
-<!--Right Side view for editing locations-->
-<!--Uses LocationManagerController in locationManager.client.controller.js-->
-
 <section class="inner">
 
-  <h1>Editing Location: {{ locationsService.editLocation.name }}</h1>
-  <md-button class="md-button md-raised md-primary" ng-click="locationsService.deleteLocation(locationsService.editLocation)">Remove Location</md-button>
-  <form name="editLocationForm" ng-submit="locationsService.updateLocation()" novalidate>
+  <h1>Create A Location</h1>
+
+  <form name="locationForm" ng-submit="createLocation()" novalidate>
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
 
       <md-input-container class="md-block" flex-gt-sm>
         <label>Name</label>
-        <input ng-model="locationsService.editLocation.name">
-        <div ng-messages="editLocationForm.name.$error" role="alert">
+        <input ng-model="location.name">
+        <div ng-messages="locationForm.name.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Location name is required.</p>
         </div>
       </md-input-container>
@@ -20,38 +17,38 @@
 
     <md-input-container class="md-block" flex-gt-sm>
       <label>Address</label>
-      <input ng-model="locationsService.editLocation.address">
-      <div ng-messages="editLocationForm.address.$error" role="alert">
+      <input ng-model="location.address">
+      <div ng-messages="locationForm.address.$error" role="alert">
         <p class="help-block error-text" ng-message="required">Location address is required.</p>
       </div>
     </md-input-container>
 
     <md-input-container class="md-block">
       <label>City</label>
-      <input ng-model="locationsService.editLocation.city">
-      <div ng-messages="editLocationForm.city.$error" role="alert">
+      <input ng-model="location.city">
+      <div ng-messages="locationForm.city.$error" role="alert">
         <p class="help-block error-text" ng-message="required">Location city is required.</p>
       </div>
     </md-input-container>
 
     <md-input-container class="md-block">
       <label>State</label>
-      <input ng-model="locationsService.editLocation.state">
-      <div ng-messages="editLocationForm.state.$error" role="alert">
+      <input ng-model="location.state">
+      <div ng-messages="locationForm.state.$error" role="alert">
         <p class="help-block error-text" ng-message="required">Location state is required.</p>
       </div>
     </md-input-container>
 
     <md-input-container class="md-block">
       <label>Zip Code</label>
-      <input ng-model="locationsService.editLocation.zipCode">
-      <div ng-messages="editLocationForm.zipCode.$error" role="alert">
+      <input type="number" ng-model="location.zipCode">
+      <div ng-messages="locationForm.zipCode.$error" role="alert">
         <p class="help-block error-text" ng-message="required">Location Zip Code is required.</p>
       </div>
     </md-input-container>
 
     <md-button class="md-button md-raised md-primary" type="submit">
-      Update
+      Create
     </md-button>
 
     <div ng-show="error" class="text-danger">
@@ -60,3 +57,5 @@
 
   </form>
 </section>
+
+

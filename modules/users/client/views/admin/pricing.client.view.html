@@ -55,10 +55,10 @@
 
   <div class="bottomrow">
     <div class="discount">
-      <div id="deviceImg" ng-repeat="source in images" >
-      <img  ng-if="source.name == 'iPad'"src="{{source.fileName}}"  />
-        <img  ng-if="source.name == 'iPad Pro'"src="{{source.fileName}}"  />
-      </div>
+      <!--<div id="deviceImg" ng-repeat="source in images" >-->
+      <!--<img  ng-if="source.name == 'iPad'"src="{{source.fileName}}"  />-->
+      <!--<img  ng-if="source.name == 'iPad Pro'"src="{{source.fileName}}"  />-->
+      <!--</div>-->
       <select  data-ng-change="addDiscount(amountDiscount)"ng-model="amountDiscount" ng-options="i.amount as i.name for i in discounts">
       </select>
 
