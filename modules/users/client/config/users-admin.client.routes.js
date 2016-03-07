@@ -44,5 +44,11 @@ angular.module('users.admin.routes').config(['$stateProvider',
             controller: 'AdminLocationController'
 
         })
+        .state('admin.pricing', {
+            url: '/admin/pricing',
+            templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
+            controller: 'AdminPricingController'
+
+        })
   }
 ]);

@@ -7,6 +7,9 @@ angular.module('users.admin').run(['Menus',
       title: 'User Management',
       state: 'admin.users'
     });
-
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Pricing Calculator',
+      state: 'admin.pricing'
+    });
   }
 ]);
