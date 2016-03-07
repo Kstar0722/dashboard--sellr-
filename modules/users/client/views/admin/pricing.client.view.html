@@ -1,15 +1,17 @@
 <section class="pricingcalc">
 
   <div layout="row" layout-align="center center" >
+
     <md-button ng-click="addPackage(3)">3 Unit Package</md-button>
     <md-button ng-click="addPackage(5)">5 Unit Package</md-button>
     <md-button ng-click="addPackage(7)">7 Unit Package</md-button>
     <md-button ng-click="addPackage(10)">10 Unit Package</md-button>
   </div>
   <div class="toprow">
+
     <div class="pccol">
       <h1>{{pricing.pricelist.totalDevices}}</h1>
-      <h4>Devices</h4>
+      <h4>Devices </h4>
 
       <div class="select">
         <div class="item" ng-repeat="item in pricing.pricelist.devices">
@@ -53,6 +55,10 @@
 
   <div class="bottomrow">
     <div class="discount">
+      <div id="deviceImg" ng-repeat="source in images" >
+      <img  ng-if="source.name == 'iPad'"src="{{source.fileName}}"  />
+        <img  ng-if="source.name == 'iPad Pro'"src="{{source.fileName}}"  />
+      </div>
       <select  data-ng-change="addDiscount(amountDiscount)"ng-model="amountDiscount" ng-options="i.amount as i.name for i in discounts">
       </select>
 
@@ -71,3 +77,4 @@
   </div>
 
 </section>
+

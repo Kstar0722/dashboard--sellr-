@@ -10,6 +10,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         var self = this;
         $scope.amountDiscount = 0;
         $scope.itemPrice = [];
+        $scope.deviceImage = 'dist/ipadair.jpeg';
+        $scope.images = [];
         $scope.currentDiscount = 0;
         $scope.priceTotal = 0;
         var x;
@@ -19,12 +21,12 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             var apps = $scope.pricing.pricelist.apps
             var accessories = $scope.pricing.pricelist.accessories
             devices[0].qty = Math.round((.66 * number) * 1)/1;
-            devices[1].qty = Math.round((.33 * number) * 1)/1;;
+            devices[1].qty = Math.round((.33 * number) * 1)/1;
             apps[0].qty = number;
             apps[1].qty = number;
             apps[2].qty = number;
-            accessories[0].qty = Math.round((.66 * number) * 1)/1;;
-            accessories[1].qty = Math.round((.33 * number) * 1)/1;;
+            accessories[0].qty = Math.round((.66 * number) * 1)/1;
+            accessories[1].qty = Math.round((.33 * number) * 1)/1;
             $scope.pricing.pricelist.totalDevices =number;
             $scope.pricing.pricelist.totalApps =number*3;
             $scope.pricing.pricelist.totalAccessories = number;
@@ -62,10 +64,21 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 obj.qty += 1;
                 obj.total +=1;
                 $scope.total(obj.price);
+                if(obj.name == 'iPad')
+                $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
+                if(obj.name == 'iPad Pro')
+                    $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
+                console.log('images %O', $scope.images);
+                //$scope.sources.push({fileName:'dist/ipadair.jpeg'});
+
                 return $scope.itemPrice.push(obj);
             }
             obj.qty += 1;
             obj.total +=1;
+            if(obj.name == 'iPad')
+                $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
+            if(obj.name == 'iPad Pro')
+                $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
             $scope.total(obj.price);
             return $scope.itemPrice.push(obj);
         }
@@ -77,6 +90,12 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 $scope.pricing.pricelist.totalApps -= 1;
             if(id == 'accessories')
                 $scope.pricing.pricelist.totalAccessories -= 1;
+            for(var y in $scope.images){
+                    if($scope.images[y].name == obj.name){
+                        console.log('image deleted');
+                        $scope.images.splice(y,1);
+                    }
+            }
             for (x in $scope.itemPrice) {
 
                 if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
