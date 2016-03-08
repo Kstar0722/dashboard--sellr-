@@ -55,6 +55,7 @@
               <div class="img" ng-if="source.ext == 'image'"
                    style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
               <p>{{source.name}}</p>
+              <button class="btn btn-danger" ng-click="deleteAd(source)">Delete</button>
             </div>
           </div>
         </div>

@@ -311,7 +311,7 @@ module.exports = function (grunt) {
   grunt.registerTask('coverage', ['env:test', 'lint', 'mocha_istanbul:coverage', 'karma:unit']);
 
   // Run the project in development mode
-    grunt.registerTask('default', ['build', 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+    grunt.registerTask('default', ['env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
 
   // Run the project in debug mode
     grunt.registerTask('debug', ['env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug']);

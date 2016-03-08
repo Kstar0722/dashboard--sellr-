@@ -1348,8 +1348,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
 'use strict';
 
-angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr',
-    function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr) {
+angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q',
+    function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr, $q) {
 
 
         $scope.authentication = Authentication;
@@ -1364,7 +1364,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
                 {text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1}
             ];
-        }, 200);
+        }, 500);
 
 
         $scope.remove = function () {
@@ -1388,12 +1388,15 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-            updateMongo();
-            updateAPI();
+            updateMongo().then(function () {
+                updateAPI();
+
+            })
         };
 
 
         function updateMongo() {
+            var defer = $q.defer();
             $scope.user.roles = [];
             $scope.roles.forEach(function (role) {
                 if (role.selected) {
@@ -1401,15 +1404,15 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 }
             });
             var user = $scope.user;
-            debugger;
-
             user.$update(function () {
                 $state.go('admin.users.user-edit', {
                     userId: user._id
                 });
+                defer.resolve()
             }, function (errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
+            return defer.promise;
         }
 
         function updateAPI() {
@@ -1421,12 +1424,12 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
             });
             var user = $scope.user;
             var userBeingEdited = CurrentUserService.userBeingEdited;
+            console.log('userBeingEditied %O', userBeingEdited)
             var url = constants.API_URL + '/users/' + userBeingEdited.userId;
             var payload = {
                 payload: user
             };
-            debugger;
-            $http.post(url, payload).then(onUpdateSuccess, onUpdateError);
+            $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
             function onUpdateSuccess(res) {
                 toastr.success('User updated', 'Success!')
@@ -1891,6 +1894,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 }
             });
         };
+
+        $scope.deleteAd = function (ad) {
+            console.log('delete ad %O', ad)
+            var url = constants.API_URL + '/ads/' + ad.mediaAssetId;
+            debugger;
+
+            //$http.delete(url)
+        }
     }
 ]);
 
