@@ -54,18 +54,17 @@
   </div>
 
   <div class="bottomrow">
-    <div class="discount">
+    <div class="discount" layout="row" layout-align="end center">
       <div id="deviceImg" ng-repeat="source in images">
         <!--<img ng-if="source.name == 'iPad'" src="{{source.fileName}}"/>-->
         <!--<img ng-if="source.name == 'iPad Pro'" src="{{source.fileName}}"/>-->
         <!--<img ng-if="source.name == 'VESA Shelf Mount'" src="{{source.fileName}}"/>-->
         <!--<img ng-if="source.name == 'Floor Stand'" src="{{source.fileName}}"/>-->
       </div>
-      <select data-ng-change="addDiscount(amountDiscount)" ng-model="amountDiscount" ng-options="i.amount as i.name for i in discounts">
-      </select>
-
       <h4>Discount </h4>
-
+      <md-select data-ng-change="addDiscount(amountDiscount)" ng-model="amountDiscount" style="width:10%">
+        <md-option ng-repeat="i in discounts" value="{{ i.amount }}">{{ i.name }}</md-option>
+      </md-select>
     </div>
     <div class="total">
       <h1>${{formatNumber(priceTotal - (priceTotal * currentDiscount))}}</h1>
