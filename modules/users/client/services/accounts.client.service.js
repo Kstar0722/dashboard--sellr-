@@ -24,7 +24,6 @@ angular.module('users').service('accountsService', function ($http, constants, t
         var payload = {
             payload: account
         };
-        debugger;
         $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
         function onCreateAccountSuccess(res) {
             toastr.success('New Account Created!')
