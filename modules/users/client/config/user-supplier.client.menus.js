@@ -4,7 +4,7 @@
 angular.module('users.supplier').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'supplier', {
-            title: 'Supplier Upload',
+            title: 'Suppliers',
             state: 'supplier.media'
         });
 
