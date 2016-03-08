@@ -7,6 +7,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
         getAccounts();
     };
 
+    me.init()
+
 
     function getAccounts() {
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
