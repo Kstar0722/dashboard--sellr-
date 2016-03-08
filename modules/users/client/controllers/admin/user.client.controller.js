@@ -56,7 +56,6 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 }
             });
             var user = $scope.user;
-            debugger;
             user.$update(function () {
                 $state.go('admin.users.user-edit', {
                     userId: user._id
@@ -82,7 +81,6 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
             var payload = {
                 payload: user
             };
-            debugger;
             $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
             function onUpdateSuccess(res) {
