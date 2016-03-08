@@ -56,7 +56,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             var obj = item;
             if(id == 'device')
                 $scope.pricing.pricelist.totalDevices += 1;
-            if(id == 'apps')
+            if(id == 'apps' )
                 $scope.pricing.pricelist.totalApps += 1;
             if(id == 'accessories')
                 $scope.pricing.pricelist.totalAccessories += 1;
@@ -65,9 +65,13 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 obj.total +=1;
                 $scope.total(obj.price);
                 if(obj.name == 'iPad')
-                $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
+                    $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
                 if(obj.name == 'iPad Pro')
                     $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
+                if(obj.name == 'VESA Shelf Mount')
+                    $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
+                if(obj.name == 'Floor Stand')
+                    $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
                 console.log('images %O', $scope.images);
                 //$scope.sources.push({fileName:'dist/ipadair.jpeg'});
 
@@ -79,16 +83,21 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
             if(obj.name == 'iPad Pro')
                 $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
+            if(obj.name == 'VESA Shelf Mount')
+                $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
+            if(obj.name == 'Floor Stand')
+                $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
+            console.log('images %O', $scope.images);
             $scope.total(obj.price);
             return $scope.itemPrice.push(obj);
         }
         $scope.removeItem = function (item, id) {
             var obj = item;
-            if(id == 'device')
+            if(id == 'device' && $scope.pricing.pricelist.totalDevices != 0)
                 $scope.pricing.pricelist.totalDevices -= 1;
-            if(id == 'apps')
+            if(id == 'apps' && $scope.pricing.pricelist.totalApps != 0)
                 $scope.pricing.pricelist.totalApps -= 1;
-            if(id == 'accessories')
+            if(id == 'accessories' && $scope.pricing.pricelist.totalAccessories != 0)
                 $scope.pricing.pricelist.totalAccessories -= 1;
             for(var y in $scope.images){
                     if($scope.images[y].name == obj.name){
