@@ -19,7 +19,6 @@ module.exports = {
 
                 'public/lib/angular-ui-sortable/sortable.min.js',
                 'public/lib/aws-sdk/dist/aws-sdk.min.js',
-
                 'public/lib/video.js/dist/video.min.js',
                 'public/lib/angular-aria/angular-aria.min.js',
                 'public/lib/angular-resource/angular-resource.js',
@@ -42,9 +41,6 @@ module.exports = {
                 'public/lib/moment/moment.js',
                 'public/lib/angular-material/angular-material.js',
                 'public/lib/angular-toastr/dist/angular-toastr.tpls.js'
-
-
-
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']
         },

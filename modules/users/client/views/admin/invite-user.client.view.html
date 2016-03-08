@@ -34,9 +34,9 @@
 
     <div class="form-group" ng-show="myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
       <label>Account: </label>
-      <select ng-model="user.accountId">
-        <option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</option>
-      </select>
+      <md-select ng-model="user.accountId">
+        <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
+      </md-select>
     </div>
 
 

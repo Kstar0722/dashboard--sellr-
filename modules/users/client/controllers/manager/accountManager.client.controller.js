@@ -4,6 +4,10 @@ angular.module('users.manager').controller('AccountManagerController', function 
     $scope.accountsService = accountsService;
     $scope.determinateValue = 0;
     $scope.accountLogo = '';
+    $scope.account = {
+        createdBy: Authentication.user.username
+    };
+
 
     //changes the view, and sets current edit account
     $scope.editAccount = function (account) {
