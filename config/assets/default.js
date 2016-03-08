@@ -13,9 +13,10 @@ module.exports = {
 
             ],
             js: [
+                'public/lib/angular/angular.js',
                 'public/lib/jquery/dist/jquery.min.js',
                 'public/lib/jquery-ui/jquery-ui.min.js',
-                'public/lib/angular/angular.js',
+
                 'public/lib/angular-ui-sortable/sortable.min.js',
                 'public/lib/aws-sdk/dist/aws-sdk.min.js',
 
@@ -57,10 +58,7 @@ module.exports = {
             'modules/*/client/scss/*.scss'
         ],
         js: [
-            'modules/core/client/app/config.js',
-            'modules/core/client/app/init.js',
-            'modules/*/client/*.js',
-            'modules/*/client/**/*.js'
+            'public/dist/application.min.js'
         ],
         views: ['modules/*/client/views/**/*.html'],
         templates: ['build/templates.js']

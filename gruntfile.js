@@ -10,6 +10,7 @@ var _ = require('lodash'),
   fs = require('fs'),
   path = require('path');
 
+
 module.exports = function (grunt) {
   // Project Configuration
   grunt.initConfig({
@@ -223,6 +224,29 @@ module.exports = function (grunt) {
           return !fs.existsSync('config/env/local.js');
         }
       }
+    },
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: ['modules/core/client/**/*.js', 'modules/users/client/**/*.js'],
+        dest: 'public/dist/built.js'
+      },
+    },
+    wiredep: {
+      task: {
+        src: [
+          'app/views/**/*.html',   // .html support...
+          'app/views/**/*.jade',   // .jade support...
+        ],
+        options: {
+          // See wiredep's configuration documentation for the options
+          // you may pass:
+
+          // https://github.com/taptapship/wiredep#configuration
+        }
+      }
     }
   });
 
@@ -240,6 +264,7 @@ module.exports = function (grunt) {
   // Load NPM tasks
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-protractor-coverage');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Make sure upload directory exists
   grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {
@@ -295,7 +320,6 @@ module.exports = function (grunt) {
       done();
     });
   });
-
   // Lint CSS and JavaScript files.
   grunt.registerTask('lint', ['sass', 'less']);
 
