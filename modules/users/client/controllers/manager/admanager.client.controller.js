@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants) {
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr) {
         $scope.authentication = Authentication;
         var self = this;
         $scope.links = [];
@@ -179,6 +179,9 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
+                    toastr.error('There was a problem uploading your ad.')
+
+
                 }
                 if (response) {
                     $scope.creds = {
@@ -208,12 +211,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                             if (err) {
                                 // There Was An Error With Your S3 Config
                                 alert(err.message);
+                                toastr.error('There was a problem uploading your ad.')
                                 return false;
                             }
                             else {
                                 console.dir(data);
                                 // Success!
                                 self.determinateValue = 0;
+                                toastr.success('New Ad Uploaded', 'Success!')
                                 $scope.init();
 
                             }
@@ -236,6 +241,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             console.log('delete ad %O', ad)
             var url = constants.API_URL + '/ads/' + ad.adId;
             $http.delete(url).then(function () {
+                toastr.success('Ad removed', 'Success');
                 $scope.init()
             })
         }
