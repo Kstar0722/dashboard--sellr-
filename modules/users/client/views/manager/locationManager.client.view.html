@@ -6,6 +6,11 @@
   <div class="titlebar"><h1 class="md-display-2">Location Management</h1></div>
 
   <div class="pagecontent">
+    <div ng-show="currentUserService.myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
+      <select ng-model="locationsService.accountId" ng-change="locationsService.getLocations()">
+        <option ng-repeat="account in accountsService.accounts" value="{{ account.accountId }}">{{ account.name }} - {{ account.address }}</option>
+      </select>
+    </div>
 
     <div layout="row" layout-align="space-between start">
       <div flex="40">
@@ -15,7 +20,7 @@
         </md-input-container>
       </div>
       <div>
-        <md-button class="md-raised md-success invite" ng-click="createLocation()">Create Location</md-button>
+        <md-button class="md-raised md-success invite" ui-sref="manager.locations.create">Create Location</md-button>
       </div>
     </div>
 
@@ -24,15 +29,16 @@
 
         <md-content layout="row" layout-align="space-between none">
           <md-list>
-            <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="location in locations  | filter: search">
+            <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="location in locationsService.locations  | filter: search">
 
               <div class="md-list-item-text">
 
                 <h3>{{location.name}} </h3>
-                <p>{{location.address + location.city + location.state + location+zipCode}}</p>
+                <p>{{location.address}}</p>
+                <p>{{ location.city }},{{ location.state }}</p>
               </div>
 
-              <md-button class="md-secondary md-raised" ng-click="locationEditView(location)">Edit</md-button>
+              <md-button class="md-secondary md-raised" ng-click="editLocation(location)">Edit</md-button>
 
               <md-divider ng-if="!$last"></md-divider>
             </md-list-item>

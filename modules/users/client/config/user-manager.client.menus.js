@@ -15,6 +15,9 @@ angular.module('users.manager').run(['Menus',
         //    title: 'Location Manager',
         //    state: 'manager.locations'
         //});
-
+        //Menus.addSubMenuItem('topbar', 'manager', {
+        //    title: 'Account Manager',
+        //    state: 'manager.accounts'
+        //});
     }
 ]);

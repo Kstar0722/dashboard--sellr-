@@ -17,26 +17,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
         $scope.user = {
             accountId: localStorage.getItem('accountId')
         };
-        $scope.locations = [{'id': 'location1'}];
-        $scope.removeLocationBox = false;
 
-
-        $scope.addNewLocation = function (locs) {
-            var newItemNo = $scope.locations.length + 1;
-            $scope.locations.push({'id': 'location' + newItemNo});
-            $scope.removeLocationBox = true;
-        };
-        $scope.removeLocation = function () {
-            if ($scope.locations.length > 1) {
-                var newItemNo = $scope.locations.length - 1;
-
-                $scope.locations.pop();
-            }
-            if ($scope.locations.length == 1)
-                $scope.removeLocationBox = false;
-
-
-        };
 
 
         $scope.toggleRole = function (roleId) {
@@ -63,7 +44,6 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
                 var payload = {
                     payload: $scope.user
                 };
-                debugger;
 
                 $http.post(constants.API_URL + '/users', payload).then(onInviteSuccess, onInviteError);
 

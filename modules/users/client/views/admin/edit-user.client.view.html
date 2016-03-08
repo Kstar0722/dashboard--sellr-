@@ -32,6 +32,15 @@
         </div>
       </md-input-container>
 
+      <!--TODO: add username stuff-->
+      <!--<md-input-container class="md-block">-->
+      <!--<label>Username</label>-->
+      <!--<input ng-model="user.username">-->
+      <!--<div ng-messages="userForm.username.$error" role="alert">-->
+      <!--<p class="help-block error-text" ng-message="required">Username is required.</p>-->
+      <!--</div>-->
+      <!--</md-input-container>-->
+
           <label class="control-label">Roles</label>
           <div class="controls">
             <div id="checks" ng-repeat="role in roles">
@@ -42,33 +51,8 @@
             </div>
           </div>
 
-      <!--User Management Should Not Touch Locations...saving for later user in loc manager-->
-      <!--<div class="form-group">-->
-      <!--<label  id="location">Locations</label>-->
-      <!--<br>-->
-      <!--<md-button class="md-button md-raised md-primary"  ng-click="addNewLocation(locs)">Add-->
-      <!--Another Location-->
-      <!--</md-button>-->
-      <!--<div ng-repeat="location in locations track by $index">-->
-      <!--<div id="activeLocations" ng-if="location.address">-->
-      <!--<label ng-bind="location.address"></label>-->
-      <!--</div>-->
 
-      <!--<div id="newLocations" ng-if="!location.address">-->
-      <!--<input type="text" ng-model="location.name" name="" placeholder="Enter a Store Location"-->
-      <!--&gt;-->
-      <!--<md-button class="md-button md-raised md-primary" ng-show="$last" ng-click="addNewLocation(locs)">Add-->
-      <!--Another Location-->
-      <!--</md-button>-->
-      <!--<md-button class="md-button md-raised md-primary" ng-show="removeLocationBox" ng-click="removeLocation()">-->
-      <!--Remove Location-->
-      <!--</md-button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-
-
-          <md-button  class="md-button md-raised md-primary"  type="submit">
+      <md-button class="md-button md-raised md-primary" type="submit">
             Update
           </md-button>
 
