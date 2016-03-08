@@ -1,4 +1,4 @@
-angular.module('users').service('accountsService', function ($http, constants) {
+angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
     me.init = function(){
@@ -19,7 +19,22 @@ angular.module('users').service('accountsService', function ($http, constants) {
         }
     }
 
+    me.createAccount = function (account) {
+        var url = constants.API_URL + '/accounts'
+        var payload = {
+            payload: account
+        };
+        debugger;
+        $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
+        function onCreateAccountSuccess(res) {
+            toastr.success('New Account Created!')
+            console.log('accounts Service, createAccount %O', res)
+        }
 
+        function onCreateAccountError(err) {
+            toastr.error('There was a problem creating this account')
+            console.error(err)
+        }
+    };
     return me;
-
 });
