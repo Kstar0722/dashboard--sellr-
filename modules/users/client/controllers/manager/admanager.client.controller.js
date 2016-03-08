@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr) {
         $scope.authentication = Authentication;
         var self = this;
         $scope.links = [];
@@ -11,7 +11,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         $scope.activeAds = false;
         $scope.storeDevices = false;
         $scope.toggleLeft = buildDelayedToggler('left');
-        $scope.profiles=[];
+        $scope.profiles = [];
         function debounce(func, wait, context) {
             var timer;
 
@@ -25,6 +25,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 }, wait || 10);
             };
         }
+
         function buildDelayedToggler(navID) {
             return debounce(function () {
                 $mdSidenav(navID)
@@ -34,15 +35,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     });
             }, 200);
         }
+
         $scope.init = function () {
             $scope.sources = [];
-            $http.get(constants.API_URL  +'/profiles?userName=' + "'"+ $scope.authentication.user.username + "'").then(function (res, err) {
+            $http.get(constants.API_URL + '/profiles?userName=' + "'" + $scope.authentication.user.username + "'").then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (res) {
-                    for(var i in res.data)
-                        $scope.profiles.push({profileName:res.data[i].name, profileId:res.data[i].profileId});
+                    for (var i in res.data)
+                        $scope.profiles.push({profileName: res.data[i].name, profileId: res.data[i].profileId});
                     $scope.currentProfile = res.data[0].profileId;
                     $scope.getAds($scope.currentProfile);
                 }
@@ -58,12 +60,22 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
-                        if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {
-                            myData = {name:response.data[i].fileName,value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'image', adId:response.data[i].adId};
+                        if (ext == 'jpg' || ext == 'png' || ext == 'svg') {
+                            myData = {
+                                name: response.data[i].fileName,
+                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
+                                ext: 'image',
+                                adId: response.data[i].adId
+                            };
                             $scope.sources.push(myData);
                         }
-                        else if(ext =='mp4' ||ext =='mov' || ext =='m4v') {
-                            myData = {name:response.data[i].fileName,value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'video', adId:response.data[i].adId};
+                        else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
+                            myData = {
+                                name: response.data[i].fileName,
+                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
+                                ext: 'video',
+                                adId: response.data[i].adId
+                            };
                             $scope.sources.push(myData);
                         }
 
@@ -85,7 +97,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         };
         $scope.getAds = function (profileId) {
 
-            $scope.links =[];
+            $scope.links = [];
             $http.get(constants.API_URL + '/ads?profileId=' + profileId).then(function (response, err) {
                 if (err) {
                     console.log(err);
@@ -98,12 +110,22 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
-                        if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {
-                            myData = {name:response.data[i].fileName,value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'image', adId:response.data[i].adId};
+                        if (ext == 'jpg' || ext == 'png' || ext == 'svg') {
+                            myData = {
+                                name: response.data[i].fileName,
+                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
+                                ext: 'image',
+                                adId: response.data[i].adId
+                            };
                             $scope.links.push(myData);
                         }
-                        else if(ext =='mp4' ||ext =='mov' || ext =='m4v') {
-                            myData = {name:response.data[i].fileName, value: response.data[i].mediaAssetId + "-" + response.data[i].fileName, ext:'video',  adId:response.data[i].adId};
+                        else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
+                            myData = {
+                                name: response.data[i].fileName,
+                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
+                                ext: 'video',
+                                adId: response.data[i].adId
+                            };
                             $scope.links.push(myData);
                         }
 
@@ -111,45 +133,46 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 }
             });
         };
-        $scope.setCurrentProfile = function(profileId){
+        $scope.setCurrentProfile = function (profileId) {
             $scope.currentProfile = profileId;
         };
 
-        $scope.activateAd = function(adId, profileId){
+        $scope.activateAd = function (adId, profileId) {
 
             var asset = {
-                payload:{
-                    adId:adId,
-                    profileId:profileId
+                payload: {
+                    adId: adId,
+                    profileId: profileId
                 }
             };
             $http.post(constants.API_URL + '/ads/profile', asset).then(function (response, err) {
                 if (err) {
                     console.log(err);
+                    toastr.error('Could not push ad to device. Please try again later.')
                 }
                 if (response) {
-
                     $scope.getAds(profileId);
+                    toastr.success('Ad pushed to devices!')
                 }
             });
         };
-        $scope.deactivateAd = function(adId, profileId){
-                console.log(adId)
+        $scope.deactivateAd = function (adId, profileId) {
+            console.log(adId)
             console.log(profileId)
-            $http.delete(constants.API_URL + '/ads/profile?profileId='+profileId+'&adId='+adId).then(function (response, err) {
+            $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function (response, err) {
                 if (err) {
                     console.log(err);
+                    toastr.error('Could not remove ad from devices.')
                 }
                 if (response) {
                     console.log(response);
                     $scope.getAds(profileId);
+                    toastr.success('Ad removed from devices.')
                     //$scope.getAds(deviceId);
                 }
             });
         };
         $scope.upload = function (file) {
-
-
             var obj = {
                 payload: {
                     fileName: file[0].name,
@@ -159,6 +182,9 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
+                    toastr.error('There was a problem uploading your ad.')
+
+
                 }
                 if (response) {
                     $scope.creds = {
@@ -173,7 +199,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     });
                     AWS.config.region = 'us-east-1';
                     var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-
                     var params = {
                         Key: response.data.assetId + "-" + file[0].name,
                         ContentType: file[0].type,
@@ -189,12 +214,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                             if (err) {
                                 // There Was An Error With Your S3 Config
                                 alert(err.message);
+                                toastr.error('There was a problem uploading your ad.')
                                 return false;
                             }
                             else {
                                 console.dir(data);
                                 // Success!
                                 self.determinateValue = 0;
+                                toastr.success('New Ad Uploaded', 'Success!')
                                 $scope.init();
 
                             }
@@ -202,7 +229,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         .on('httpUploadProgress', function (progress) {
                             // Log Progress Information
                             console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                            self.determinateValue = Math.round(progress.loaded / progress.total *100);
+                            self.determinateValue = Math.round(progress.loaded / progress.total * 100);
                             $scope.$apply();
                         });
                 }
@@ -212,6 +239,15 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 }
             });
         };
+
+        $scope.deleteAd = function (ad) {
+            console.log('delete ad %O', ad)
+            var url = constants.API_URL + '/ads/' + ad.adId;
+            $http.delete(url).then(function () {
+                toastr.success('Ad removed', 'Success');
+                $scope.init()
+            })
+        }
     }
 ]);
 

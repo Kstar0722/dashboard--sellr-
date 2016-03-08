@@ -8,7 +8,7 @@ module.exports = {
   },
   port: process.env.PORT || 8443,
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/mean',
+      uri: 'mongodb://' + 'dashboard:oncuedbpassword1@candidate.17.mongolayer.com:11137,candidate.18.mongolayer.com:11393/dashboard?replicaSet=set-5693dbc0b97408141f0014ba',
     options: {
       user: '',
       pass: ''

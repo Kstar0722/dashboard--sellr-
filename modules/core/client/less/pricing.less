@@ -1,0 +1,111 @@
+.pricingcalc {
+  font-size: 18px;
+  margin-top: 10vh;
+  .toprow{
+    display: table;
+    width: 100%;
+    padding: 5vh 0 ;
+
+    .plus {
+      width: 5%;
+      float: left;
+      font-size: 50px;
+      line-height: 150px;
+      color: #999;
+    }
+  }
+  .pccol {
+    width: 26%;
+    float: left;
+    padding: 3vh 1.5vw;
+    text-align: center;
+
+    h1 {
+      font-size: 80px;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    h4{
+      margin: 0;
+    }
+
+    .select {
+      margin-top: 5vh;
+    }
+    .item {
+      display: block;
+      float: left;
+      width: 100%;
+      .title{
+        text-align: left;
+        float: left;
+        padding: 10px 15px;
+        font-weight: bold;
+      }
+      input {
+        float: right;
+        margin: 15px 0 ;
+      }
+      .btn {
+        float: right;
+
+        color: white;
+        padding: 6px 12px;
+        vertical-align: middle;
+        cursor: pointer;
+        text-align: center;
+
+        &.add {
+          background: #00AB51;
+        }
+
+        &.remove {
+          background: #B2B2B2;
+          margin-right: 10px;
+        }
+      }
+
+    }
+
+  }
+  .bottomrow {
+    margin-top: 5vh;
+    background: #313131;
+    display: table;
+    width: 100%;
+
+    color: White;
+
+    .discount {
+      float: right;
+      color: #333;
+      background: #efefef;
+      padding: 2vh 5vw;
+      width: 100%;
+
+
+      h4 {
+        float: right;
+        margin-right: 2.5vw;
+      }
+      select {
+        float: right;
+      }
+    }
+    .total {
+      padding: 2vh 5vw;
+      float: right;
+      h4, h1 {
+        display: inline-block;
+        float: right;
+        line-height: 40px;
+      }
+      h4 {
+        margin-right: 2.5vw;
+
+      }
+    }
+  }
+
+}

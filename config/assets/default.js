@@ -8,7 +8,8 @@ module.exports = {
                 //'public/lib/bootstrap/dist/css/bootstrap-theme.css',
                 'public/lib/angular-material/angular-material.min.css',
                 'public/lib/angular-material/angular-material.layouts.min.css',
-                'public/lib/angular-chart.js/dist/angular-chart.css'
+                'public/lib/angular-chart.js/dist/angular-chart.css',
+                'public/lib/angular-toastr/dist/angular-toastr.css'
 
             ],
             js: [
@@ -39,6 +40,7 @@ module.exports = {
                 'public/lib/angular-chart.js/dist/angular-chart.js',
                 'public/lib/moment/moment.js',
                 'public/lib/angular-material/angular-material.js',
+                'public/lib/angular-toastr/dist/angular-toastr.tpls.js'
 
 
 

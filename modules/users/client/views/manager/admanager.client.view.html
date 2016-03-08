@@ -38,12 +38,12 @@
         </div>
         <div>
           <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
-
             Upload Image
           </md-button>
         </div>
         <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"
-                            ng-show="vm.determinateValue"></md-progress-linear>
+                            ng-show="vm.determinateValue">
+        </md-progress-linear>
       </div>
 
 
@@ -55,6 +55,7 @@
               <div class="img" ng-if="source.ext == 'image'"
                    style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
               <p>{{source.name}}</p>
+              <button class="btn btn-danger" ng-click="deleteAd(source)">Delete</button>
             </div>
           </div>
         </div>

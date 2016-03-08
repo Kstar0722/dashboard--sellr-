@@ -10,7 +10,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         $scope.chartService = chartService;
 
 
-
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
@@ -99,15 +98,18 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                 }
             });
             var accountId = localStorage.getItem('accountId');
-            $http.get(constants.API_URL + '/analytics/top-products?account=' + accountId).then(function (res, err) {
+            var url = constants.API_URL + '/analytics/top-products?account=' + accountId;
+            $http.get(url).then(function (res, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (res) {
+                    console.log('analytics topProducts %O', res);
                     for (var i in res.data) {
-                        $scope.analytics.push(res.data[i])
+                        if (res.data[i].action == 'Product-Request') {
+                            $scope.analytics.push(res.data[i])
+                        }
                     }
-                    console.log($scope.analytics)
                 }
             });
 
