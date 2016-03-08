@@ -148,10 +148,11 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             $http.post(constants.API_URL + '/ads/profile', asset).then(function (response, err) {
                 if (err) {
                     console.log(err);
+                    toastr.error('Could not push ad to device. Please try again later.')
                 }
                 if (response) {
-
                     $scope.getAds(profileId);
+                    toastr.success('Ad pushed to devices!')
                 }
             });
         };
@@ -161,10 +162,12 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function (response, err) {
                 if (err) {
                     console.log(err);
+                    toastr.error('Could not remove ad from devices.')
                 }
                 if (response) {
                     console.log(response);
                     $scope.getAds(profileId);
+                    toastr.success('Ad removed from devices.')
                     //$scope.getAds(deviceId);
                 }
             });
