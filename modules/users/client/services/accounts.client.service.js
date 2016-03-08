@@ -22,18 +22,18 @@ angular.module('users').service('accountsService', function ($http, constants, t
     }
 
     me.createAccount = function (account) {
-        var url = constants.API_URL + '/accounts'
+        var url = constants.API_URL + '/accounts';
         var payload = {
             payload: account
         };
         $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
         function onCreateAccountSuccess(res) {
-            toastr.success('New Account Created!')
+            toastr.success('New Account Created!');
             console.log('accounts Service, createAccount %O', res)
         }
 
         function onCreateAccountError(err) {
-            toastr.error('There was a problem creating this account')
+            toastr.error('There was a problem creating this account');
             console.error(err)
         }
     };
