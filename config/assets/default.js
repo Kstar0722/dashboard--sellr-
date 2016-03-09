@@ -54,7 +54,10 @@ module.exports = {
             'modules/*/client/scss/*.scss'
         ],
         js: [
-            'public/dist/application.min.js'
+            'modules/core/client/app/config.js',
+            'modules/core/client/app/init.js',
+            'modules/*/client/*.js',
+            'modules/*/client/**/*.js'
         ],
         views: ['modules/*/client/views/**/*.html'],
         templates: ['build/templates.js']

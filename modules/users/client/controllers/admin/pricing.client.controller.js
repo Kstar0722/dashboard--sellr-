@@ -30,6 +30,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             $scope.pricing.pricelist.totalDevices =number;
             $scope.pricing.pricelist.totalApps =number*3;
             $scope.pricing.pricelist.totalAccessories = number;
+
             var packageTotal = (devices[0].price * Math.round((.66 * number) * 1)/1) +(devices[1].price * Math.round((.33 * number) * 1)/1)
                 +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+(accessories[1].price * Math.round((.33 * number) * 1)/1)
             $scope.total(packageTotal);
@@ -64,8 +65,9 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 obj.qty += 1;
                 obj.total +=1;
                 $scope.total(obj.price);
-                if(obj.name == 'iPad')
-                    $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
+                if(obj.name == 'iPad') {
+                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+                }
                 if(obj.name == 'iPad Pro')
                     $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
                 if(obj.name == 'VESA Shelf Mount')
@@ -73,7 +75,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 if(obj.name == 'Floor Stand')
                     $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
                 console.log('images %O', $scope.images);
-                //$scope.sources.push({fileName:'dist/ipadair.jpeg'});
+                //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
 
                 return $scope.itemPrice.push(obj);
             }
@@ -105,17 +107,28 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                         $scope.images.splice(y,1);
                     }
             }
-            for (x in $scope.itemPrice) {
+            if($scope.itemPrice) {
+                for (x in $scope.itemPrice) {
+                    if ($scope.itemPrice[x].name == obj.name) {
+                        console.log('deleted')
+                        console.log('itemPrice1 %O', $scope.itemPrice)
+                        obj.qty -= 1;
+                        obj.total -= 1;
+                        $scope.subtractTotal(obj.price);
+                        return $scope.itemPrice.splice(x, 1);
+                    }
 
-                if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
-                    console.log('deleted')
-                    console.log('itemPrice1 %O', $scope.itemPrice)
-                    obj.qty -= 1;
-                    obj.total -=1;
-                    $scope.subtractTotal(obj.price);
-                    return $scope.itemPrice.splice(x, 1);
+                    //if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
+                    //    console.log('deleted')
+                    //    console.log('itemPrice1 %O', $scope.itemPrice)
+                    //    obj.qty -= 1;
+                    //    obj.total -=1;
+                    //    $scope.subtractTotal(obj.price);
+                    //    return $scope.itemPrice.splice(x, 1);
+                    //}
                 }
             }
+
         };
         $scope.appcheck;
         $scope.checkClick = function (item) {
