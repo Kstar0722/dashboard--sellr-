@@ -11,13 +11,13 @@ angular.module('users.manager').run(['Menus',
             title: 'Ads',
             state: 'manager.ads'
         });
-        //Menus.addSubMenuItem('topbar', 'manager', {
-        //    title: 'Location Manager',
-        //    state: 'manager.locations'
-        //});
-        //Menus.addSubMenuItem('topbar', 'manager', {
-        //    title: 'Account Manager',
-        //    state: 'manager.accounts'
-        //});
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Locations',
+            state: 'manager.locations'
+        });
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Accounts',
+            state: 'manager.accounts'
+        });
     }
 ]);

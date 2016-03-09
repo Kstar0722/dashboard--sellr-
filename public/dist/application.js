@@ -692,14 +692,14 @@ angular.module('users.manager').run(['Menus',
             title: 'Ads',
             state: 'manager.ads'
         });
-        //Menus.addSubMenuItem('topbar', 'manager', {
-        //    title: 'Location Manager',
-        //    state: 'manager.locations'
-        //});
-        //Menus.addSubMenuItem('topbar', 'manager', {
-        //    title: 'Account Manager',
-        //    state: 'manager.accounts'
-        //});
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Locations',
+            state: 'manager.locations'
+        });
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Accounts',
+            state: 'manager.accounts'
+        });
     }
 ]);
 
@@ -1160,12 +1160,11 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         $scope.images = [];
         $scope.currentDiscount = 0;
         $scope.priceTotal = 0;
+
         var x;
         $scope.addPackage  = function(number){
             $scope.priceTotal = 0
-            var devices = $scope.pricing.pricelist.devices
-            var apps = $scope.pricing.pricelist.apps
-            var accessories = $scope.pricing.pricelist.accessories
+
             devices[0].qty = Math.round((.66 * number) * 1)/1;
             devices[1].qty = Math.round((.33 * number) * 1)/1;
             apps[0].qty = number;
@@ -1243,9 +1242,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         //    return $scope.itemPrice.push(obj);
         //}
         $scope.addItem = function (item, id) {
-            var devices = $scope.pricing.pricelist.devices
-            var apps = $scope.pricing.pricelist.apps
-            var accessories = $scope.pricing.pricelist.accessories
+
             var obj = item;
             if(id == 'device')
                 $scope.pricing.pricelist.totalDevices += 1;
@@ -1254,47 +1251,94 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             if(id == 'accessories')
                 $scope.pricing.pricelist.totalAccessories += 1;
             if ($scope.itemPrice.length == 0) {
-                obj.qty += 1;
+                //obj.qty += 1;
                 obj.total +=1;
                 $scope.total(obj.price);
-                if(obj.name == 'iPad') {
+                if (obj.name == 'iPad') {
                     devices[0].qty += 1;
-                        $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
                 }
-                if(obj.name == 'iPad Pro'){
+                if (obj.name == 'iPad Pro') {
                     devices[1].qty += 1;
-                    $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
+                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
                 }
-                if(obj.name == 'VESA Shelf Mount') {
+                if (obj.name == 'VESA Shelf Mount') {
                     accessories[0].qty += 1;
                     $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
                 }
-                if(obj.name == 'Floor Stand') {
+                if (obj.name == 'Floor Stand') {
                     accessories[1].qty += 1;
                     $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
+                }
+                if (obj.name == '4g hotspot') {
+                    accessories[2].qty += 1;
+                }
+                if (obj.name == 'Beer Lookup') {
+                    apps[0].qty += 1;
+                }
+                if (obj.name == 'Wine Lookup') {
+                    apps[1].qty += 1;
+                }
+                if (obj.name == 'Spirits Lookup') {
+                    apps[2].qty += 1;
+                }
+                if (obj.name == 'Pharmacy ') {
+                    apps[3].qty += 1;
+                }
+                if (obj.name == 'Digital Signage ') {
+                    apps[4].qty += 1;
+                }
+                if (obj.name == 'Dashboard ') {
+                    apps[5].qty += 1;
                 }
                 console.log('images %O', $scope.images);
                 //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
 
                 //return $scope.itemPrice.push(obj);
             }
-            obj.qty += 1;
-            obj.total +=1;
-            if(obj.name == 'iPad') {
-                $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+            else {
+                //obj.qty += 1;
+                obj.total += 1;
+                if (obj.name == 'iPad') {
+                    devices[0].qty += 1;
+                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+                }
+                if (obj.name == 'iPad Pro') {
+                    devices[1].qty += 1;
+                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
+                }
+                if (obj.name == 'VESA Shelf Mount') {
+                    accessories[0].qty += 1;
+                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
+                }
+                if (obj.name == 'Floor Stand') {
+                    accessories[1].qty += 1;
+                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
+                }
+                if (obj.name == '4g hotspot') {
+                    accessories[2].qty += 1;
+                }
+                if (obj.name == 'Beer Lookup') {
+                    apps[0].qty += 1;
+                }
+                if (obj.name == 'Wine Lookup') {
+                    apps[1].qty += 1;
+                }
+                if (obj.name == 'Spirits Lookup') {
+                    apps[2].qty += 1;
+                }
+                if (obj.name == 'Pharmacy ') {
+                    apps[3].qty += 1;
+                }
+                if (obj.name == 'Digital Signage ') {
+                    apps[4].qty += 1;
+                }
+                if (obj.name == 'Dashboard ') {
+                    apps[5].qty += 1;
+                }
+                $scope.total(obj.price);
+                //return $scope.itemPrice.push(obj);
             }
-            if(obj.name == 'iPad Pro'){
-                $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-            }
-            if(obj.name == 'VESA Shelf Mount') {
-                $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-            }
-            if(obj.name == 'Floor Stand') {
-                $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-            }
-
-            $scope.total(obj.price);
-            //return $scope.itemPrice.push(obj);
         }
         $scope.removeItem = function (item, id) {
             var obj = item;
@@ -1310,28 +1354,65 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                         $scope.images.splice(y,1);
                     }
             }
-            if($scope.itemPrice) {
-                for (x in $scope.itemPrice) {
-                    if ($scope.itemPrice[x].name == obj.name) {
-                        console.log('deleted')
-                        console.log('itemPrice1 %O', $scope.itemPrice)
-                        obj.qty -= 1;
-                        obj.total -= 1;
-                        $scope.subtractTotal(obj.price);
-                        return $scope.itemPrice.splice(x, 1);
-                    }
+            //if($scope.itemPrice) {
+            //    for (x in $scope.itemPrice) {
+            //        if ($scope.itemPrice[x].name == obj.name) {
+            //            console.log('deleted')
+            //            console.log('itemPrice1 %O', $scope.itemPrice)
+            //            obj.qty -= 1;
+            //            obj.total -= 1;
+            //            $scope.subtractTotal(obj.price);
+            //            return $scope.itemPrice.splice(x, 1);
+            //        }
+            //
+            //        //if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
+            //        //    console.log('deleted')
+            //        //    console.log('itemPrice1 %O', $scope.itemPrice)
+            //            obj.qty -= 1;
+            //            obj.total -=1;
+            //            $scope.subtractTotal(obj.price);
+            //        //    return $scope.itemPrice.splice(x, 1);
+            //        //}
+            //    }
+            //}
 
-                    //if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
-                    //    console.log('deleted')
-                    //    console.log('itemPrice1 %O', $scope.itemPrice)
-                    //    obj.qty -= 1;
-                    //    obj.total -=1;
-                    //    $scope.subtractTotal(obj.price);
-                    //    return $scope.itemPrice.splice(x, 1);
-                    //}
-                }
+            obj.total -=1;
+            console.log('obj for removing %O', obj);
+            console.log('pricing obj %O', $scope.pricing);
+            $scope.subtractTotal(obj.price);
+            if (obj.name == 'iPad') {
+                devices[0].qty -=1;
             }
-
+            if (obj.name == 'iPad Pro') {
+                devices[1].qty -=1;
+            }
+            if (obj.name == 'VESA Shelf Mount') {
+                accessories[0].qty -=1;
+            }
+            if (obj.name == 'Floor Stand') {
+                accessories[1].qty -=1;
+            }
+            if (obj.name == '4g hotspot') {
+                accessories[2].qty -= 1;
+            }
+            if (obj.name == 'Beer Lookup') {
+                apps[0].qty -= 1;
+            }
+            if (obj.name == 'Wine Lookup') {
+                apps[1].qty -= 1;
+            }
+            if (obj.name == 'Spirits Lookup') {
+                apps[2].qty -= 1;
+            }
+            if (obj.name == 'Pharmacy ') {
+                apps[3].qty -= 1;
+            }
+            if (obj.name == 'Digital Signage ') {
+                apps[4].qty -= 1;
+            }
+            if (obj.name == 'Dashboard ') {
+                apps[5].qty -= 1;
+            }
         };
         $scope.appcheck;
         $scope.checkClick = function (item) {
@@ -1418,6 +1499,9 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             {amount: .20, name:'20%'},
             {amount: .30, name:'30%'},
             {amount: .40, name:'40%'}];
+        var devices = $scope.pricing.pricelist.devices
+        var apps = $scope.pricing.pricelist.apps
+        var accessories = $scope.pricing.pricelist.accessories
     }
 
 
