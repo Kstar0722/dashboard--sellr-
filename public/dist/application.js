@@ -1199,7 +1199,53 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 $scope.priceTotal =0;
             }
         }
+        //$scope.addItem = function (item, id) {
+        //    var obj = item;
+        //    if(id == 'device')
+        //        $scope.pricing.pricelist.totalDevices += 1;
+        //    if(id == 'apps' )
+        //        $scope.pricing.pricelist.totalApps += 1;
+        //    if(id == 'accessories')
+        //        $scope.pricing.pricelist.totalAccessories += 1;
+        //    if ($scope.itemPrice.length == 0) {
+        //        obj.qty += 1;
+        //        obj.total +=1;
+        //        $scope.total(obj.price);
+        //        if(obj.name == 'iPad') {
+        //            $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+        //        }
+        //        if(obj.name == 'iPad Pro'){
+        //            $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
+        //            }
+        //        if(obj.name == 'VESA Shelf Mount') {
+        //            $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
+        //        }
+        //        if(obj.name == 'Floor Stand') {
+        //            $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
+        //        }
+        //        console.log('images %O', $scope.images);
+        //        //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
+        //
+        //        return $scope.itemPrice.push(obj);
+        //    }
+        //    obj.qty += 1;
+        //    obj.total +=1;
+        //    if(obj.name == 'iPad')
+        //        $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
+        //    if(obj.name == 'iPad Pro')
+        //        $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
+        //    if(obj.name == 'VESA Shelf Mount')
+        //        $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
+        //    if(obj.name == 'Floor Stand')
+        //        $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
+        //    console.log('images %O', $scope.images);
+        //    $scope.total(obj.price);
+        //    return $scope.itemPrice.push(obj);
+        //}
         $scope.addItem = function (item, id) {
+            var devices = $scope.pricing.pricelist.devices
+            var apps = $scope.pricing.pricelist.apps
+            var accessories = $scope.pricing.pricelist.accessories
             var obj = item;
             if(id == 'device')
                 $scope.pricing.pricelist.totalDevices += 1;
@@ -1212,32 +1258,43 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 obj.total +=1;
                 $scope.total(obj.price);
                 if(obj.name == 'iPad') {
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+                    devices[0].qty += 1;
+                        $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
                 }
-                if(obj.name == 'iPad Pro')
+                if(obj.name == 'iPad Pro'){
+                    devices[1].qty += 1;
                     $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-                if(obj.name == 'VESA Shelf Mount')
-                    $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
-                if(obj.name == 'Floor Stand')
-                    $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
+                }
+                if(obj.name == 'VESA Shelf Mount') {
+                    accessories[0].qty += 1;
+                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
+                }
+                if(obj.name == 'Floor Stand') {
+                    accessories[1].qty += 1;
+                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
+                }
                 console.log('images %O', $scope.images);
                 //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
 
-                return $scope.itemPrice.push(obj);
+                //return $scope.itemPrice.push(obj);
             }
             obj.qty += 1;
             obj.total +=1;
-            if(obj.name == 'iPad')
-                $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
-            if(obj.name == 'iPad Pro')
+            if(obj.name == 'iPad') {
+                $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
+            }
+            if(obj.name == 'iPad Pro'){
                 $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-            if(obj.name == 'VESA Shelf Mount')
-                $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
-            if(obj.name == 'Floor Stand')
-                $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
-            console.log('images %O', $scope.images);
+            }
+            if(obj.name == 'VESA Shelf Mount') {
+                $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
+            }
+            if(obj.name == 'Floor Stand') {
+                $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
+            }
+
             $scope.total(obj.price);
-            return $scope.itemPrice.push(obj);
+            //return $scope.itemPrice.push(obj);
         }
         $scope.removeItem = function (item, id) {
             var obj = item;
