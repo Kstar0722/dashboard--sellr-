@@ -117,23 +117,20 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
+            console.log('i hope I can sign in with %O',payload);
             $http.post(url, payload).then(function (res) {
                 toastr.success('Welcome to the OnCue Dashboard', 'Success');
-                console.log('response from OnCue API %O', response);
+                console.log('response from OnCue API %O', res);
 
                 //build roles array for user to store in local storage
-                var roles = [];
-                response.data.forEach(function (role) {
-                    roles.push(role.roleId)
-                });
+
 
                 //mock token for testing
-                response.data.token = 'definitelyarealtoken';
-                authToken.setToken(response.data.token);
-                localStorage.setItem('roles', roles);
+                authToken.setToken(res.data.token);
+                localStorage.setItem('roles', res.data.roles);
 
                 //store account Id in location storage
-                localStorage.setItem('accountId', Number(response.data[0].accountId));
+                localStorage.setItem('accountId', Number(response.data.accountId));
 
                 // And redirect to the previous or home page
                 $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
