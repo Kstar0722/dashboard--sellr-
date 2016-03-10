@@ -8,6 +8,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             $scope.buildPager();
         });
         var self = this;
+
+
         $scope.amountDiscount = 0;
         $scope.itemPrice = [];
         $scope.deviceImage = 'dist/ipadair.jpeg';

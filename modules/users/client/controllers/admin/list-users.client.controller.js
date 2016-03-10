@@ -3,6 +3,7 @@
 angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants',
     function ($scope, $filter, Admin, $http, $state, CurrentUserService, constants) {
 
+
         $scope.CurrentUserService = CurrentUserService;
         $scope.userview = $state.params;
         //CurrentUserService.user = '';

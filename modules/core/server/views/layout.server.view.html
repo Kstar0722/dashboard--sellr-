@@ -25,7 +25,9 @@
   <link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
 
   <!-- Application CSS Files -->
-  {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
+  {% for cssFile in cssFiles %}
+  <link rel="stylesheet" href="{{cssFile}}">
+  {% endfor %}
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -34,28 +36,31 @@
 </head>
 
 <body class="ng-cloak">
-  <header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
+<header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
 
-      {% block content %}{% endblock %}
+{% block content %}{% endblock %}
 
 
-  <!--Embedding The User Object-->
-  <script type="text/javascript">
-    var user = {{ user | json | safe }};
-  </script>
+<!--&lt;!&ndash;Embedding The User Object&ndash;&gt;-->
+<script type="text/javascript">
+var user = {{ user | json | safe }}
+</script>
 
-  <!--Load The Socket.io File-->
-  <!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
+<!--Load The Socket.io File-->
+<!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
 
-  <!--Application JavaScript Files-->
-  {% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
-  <!--<script type="text/javascript" src="/lib/angular/angular.min.js"></script>-->
-  <!--<script type="text/javascript" src="config/config.js"></script>-->
-  <!--<script type="text/javascript" src="dist/built.js"></script>-->
-  {% if livereload %}
-  <!--Livereload script rendered -->
-  <!--<script type="text/javascript" src="{{host}}:35729/livereload.js"></script>-->
-  {% endif %}
+<!--Application JavaScript Files-->
+<!--{% for jsFile in jsFiles %}-->
+<!--<script type="text/javascript" src="{{jsFile}}"></script>-->
+<!--{% endfor %}-->
+<script type="text/javascript" src="dist/lib.min.js"></script>
+<script type="text/javascript" src="dist/application.min.js"></script>
+
+{% if livereload %}
+<!--Livereload script rendered -->
+<script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
+{% endif %}
+
 </body>
 
 </html>
