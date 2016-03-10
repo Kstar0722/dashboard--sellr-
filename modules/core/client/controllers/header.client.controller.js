@@ -19,6 +19,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
             $mdOpenMenu(ev);
         };
         $scope.signOut = function () {
+            localStorage.clear();
             $http.get('/auth/signout')
                 .success(function () {
 

@@ -130,7 +130,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 localStorage.setItem('roles', res.data.roles);
 
                 //store account Id in location storage
-                localStorage.setItem('accountId', Number(response.data.accountId));
+                localStorage.setItem('accountId', response.data.accountId);
 
                 // And redirect to the previous or home page
                 $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
