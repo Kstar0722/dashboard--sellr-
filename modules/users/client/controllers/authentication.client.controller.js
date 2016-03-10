@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
-    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
+    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
@@ -15,6 +15,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 roles: $location.search().r.split('~')
             };
 
+
+        //switches between roleIds and strings for use in
+        //mongoDB and OncueApi
         var roleTranslate = {
             1004: 'admin',
             1002: 'manager',
@@ -34,7 +37,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
 
         //Reg code (userId) exists in database, continue with creation
-
         function onValidReg(response) {
             var storeUpdate = {
                 payload: {
@@ -64,11 +66,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 });
                 console.log('$scope credentials', $scope.credentials);
                 $http.post('/api/auth/signup', $scope.credentials).then(function (response, err) {
-                    console.log('mongoAPI says %O', response)
+                    console.log('mongoAPI says %O', response);
                     if (err) {
-                        toastr.error('There was an error creating your account')
+                        toastr.error('There was an error creating your account');
                         console.error(err)
                     }
+
+                    //mock token for testing
+                    response.data.token = 'definitelyarealtoken';
+                    authToken.setToken(response.data.token);
 
                     // If successful we assign the response to the global user model
                     $scope.authentication.user = response.data;
@@ -100,37 +106,41 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-
-
             $http.post('/api/auth/signin', $scope.credentials).then(onSigninSuccess, onSigninError)
         };
 
+        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
             $scope.authentication.user = response.data;
-            $http.get(constants.API_URL + '/accounts/user/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    toastr.error(err)
-                    console.error(err);
-                }
-                toastr.success('Welcome to the Oncue Dashboard', 'Success')
-                console.log('response from getUser %O', response);
-                var roles = [];
-                response.data.forEach(function (role) {
-                    roles.push(role.roleId)
-                });
-                localStorage.setItem('accountId', Number(response.data[0].accountId));
-                localStorage.setItem('roles', roles);
+            var url = constants.API_URL + "/users/login";
+            var payload = {
+                payload: $scope.credentials
+            };
+            console.log('i hope I can sign in with %O',payload);
+            $http.post(url, payload).then(function (res) {
+                toastr.success('Welcome to the OnCue Dashboard', 'Success');
+                console.log('response from OnCue API %O', res);
 
+                //build roles array for user to store in local storage
+
+
+                //mock token for testing
+                authToken.setToken(res.data.token);
+                localStorage.setItem('roles', res.data.roles);
+
+                //store account Id in location storage
+                localStorage.setItem('accountId', Number(response.data.accountId));
+
+                // And redirect to the previous or home page
+                $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
 
             });
-            // And redirect to the previous or home page
-            $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
         }
 
 
+        //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
-
             console.error(err);
             toastr.error(err.data.message);
             $scope.error = err.message;

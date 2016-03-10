@@ -27,11 +27,39 @@ var ApplicationConfiguration = (function () {
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider',
-  function ($locationProvider, $httpProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider', 'envServiceProvider',
+    function ($locationProvider, $httpProvider, envServiceProvider) {
     $locationProvider.html5Mode(true).hashPrefix('!');
 
-    $httpProvider.interceptors.push('authInterceptor');
+        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
+        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+
+
+        //SET ENVIRONMENT
+
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                local: ['localhost'],
+                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
+                production: ['dashboard.expertoncue.com', '*.herokuapp.com','testdashboard.expertoncue.com']
+            },
+            vars: {
+                local: {
+                    API_URL: 'http://localhost:7272'
+                },
+                development: {
+                    API_URL: 'http://mystique.expertoncue.com:7272'
+                },
+                production: {
+                    API_URL: 'https://api.expertoncue.com'
+                }
+            }
+        });
+
+        // run the environment check, so the comprobation is made
+        // before controllers and services are built
+        envServiceProvider.check();
   }
 ]);
 
@@ -244,34 +272,10 @@ angular.module('core.supplier.routes').config(['$stateProvider',
 ;'use strict';
 
 // Setting up route
-angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServiceProvider',
-    function ($stateProvider, $urlRouterProvider, envServiceProvider) {
+angular.module('core').config(['$stateProvider', '$urlRouterProvider',
+    function ($stateProvider, $urlRouterProvider) {
 
-        //SET ENVIRONMENT
 
-        // set the domains and variables for each environment
-        envServiceProvider.config({
-            domains: {
-                local: ['localhost'],
-                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
-                production: ['dashboard.expertoncue.com', '*.herokuapp.com']
-            },
-            vars: {
-                local: {
-                    API_URL: 'http://localhost:7272'
-                },
-                development: {
-                    API_URL: 'http://mystique.expertoncue.com:7272'
-                },
-                production: {
-                    API_URL: 'https://api.expertoncue.com'
-                }
-            }
-        });
-
-        // run the environment check, so the comprobation is made
-        // before controllers and services are built
-        envServiceProvider.check();
 
         // Redirect to 404 when route not found
         $urlRouterProvider.otherwise(function ($injector, $location) {
@@ -459,6 +463,45 @@ angular.module('core')
       }
     };
   }]);
+;angular.module('core').factory('authToken', function ($window) {
+
+  var me = this;
+  var storage = $window.localStorage;
+  var cachedToken;
+  var userToken = 'token';
+
+// Save Token to Storage as 'token'
+  function setToken(token) {
+    cachedToken = token;
+    storage.setItem(userToken, token);
+
+  }
+
+// Get token 'token' from storage
+  function getToken() {
+    if (!cachedToken)
+      cachedToken = storage.getItem(userToken);
+    return cachedToken
+  }
+
+// Returns true or false based on whether or not token exists in storage
+  function isAuthenticated() {
+    return !!getToken();
+  }
+
+//Removes token
+  function removeToken() {
+    cachedToken = null;
+    storage.removeItem(userToken)
+  }
+
+  me.setToken = setToken;
+  me.getToken = getToken;
+  me.isAuthenticated = isAuthenticated;
+  me.removeToken = removeToken;
+
+  return me;
+});
 ;'use strict';
 
 angular.module('core').factory('authInterceptor', ['$q', '$injector',
@@ -481,6 +524,25 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
     };
   }
 ]);
+;angular.module('core')
+    .factory('oncueAuthInterceptor', function (authToken) {
+
+        return {
+            request: function (config) {
+                var token = authToken.getToken();  //Gets token from local storage
+                if (token)
+                    config.headers.Authorization = 'Bearer ' + token;  //Attaches token to header with Bearer tag
+
+                return config
+
+            },
+            response: function (response) {
+                return response
+
+            }
+        }
+    });
+
 ;'use strict';
 
 //Menu service used for managing  menus
@@ -1644,8 +1706,8 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 ]);
 ;'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
-    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
+    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
@@ -1659,6 +1721,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 roles: $location.search().r.split('~')
             };
 
+
+        //switches between roleIds and strings for use in
+        //mongoDB and OncueApi
         var roleTranslate = {
             1004: 'admin',
             1002: 'manager',
@@ -1678,7 +1743,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
 
         //Reg code (userId) exists in database, continue with creation
-
         function onValidReg(response) {
             var storeUpdate = {
                 payload: {
@@ -1708,11 +1772,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 });
                 console.log('$scope credentials', $scope.credentials);
                 $http.post('/api/auth/signup', $scope.credentials).then(function (response, err) {
-                    console.log('mongoAPI says %O', response)
+                    console.log('mongoAPI says %O', response);
                     if (err) {
-                        toastr.error('There was an error creating your account')
+                        toastr.error('There was an error creating your account');
                         console.error(err)
                     }
+
+                    //mock token for testing
+                    response.data.token = 'definitelyarealtoken';
+                    authToken.setToken(response.data.token);
 
                     // If successful we assign the response to the global user model
                     $scope.authentication.user = response.data;
@@ -1744,37 +1812,41 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-
-
             $http.post('/api/auth/signin', $scope.credentials).then(onSigninSuccess, onSigninError)
         };
 
+        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
             $scope.authentication.user = response.data;
-            $http.get(constants.API_URL + '/accounts/user/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    toastr.error(err)
-                    console.error(err);
-                }
-                toastr.success('Welcome to the Oncue Dashboard', 'Success')
-                console.log('response from getUser %O', response);
-                var roles = [];
-                response.data.forEach(function (role) {
-                    roles.push(role.roleId)
-                });
-                localStorage.setItem('accountId', Number(response.data[0].accountId));
-                localStorage.setItem('roles', roles);
+            var url = constants.API_URL + "/users/login";
+            var payload = {
+                payload: $scope.credentials
+            };
+            console.log('i hope I can sign in with %O',payload);
+            $http.post(url, payload).then(function (res) {
+                toastr.success('Welcome to the OnCue Dashboard', 'Success');
+                console.log('response from OnCue API %O', res);
 
+                //build roles array for user to store in local storage
+
+
+                //mock token for testing
+                authToken.setToken(res.data.token);
+                localStorage.setItem('roles', res.data.roles);
+
+                //store account Id in location storage
+                localStorage.setItem('accountId', Number(response.data.accountId));
+
+                // And redirect to the previous or home page
+                $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
 
             });
-            // And redirect to the previous or home page
-            $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
         }
 
 
+        //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
-
             console.error(err);
             toastr.error(err.data.message);
             $scope.error = err.message;
@@ -3349,7 +3421,7 @@ angular.module('users').directive('lowercase', function () {
 ;angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
-    me.init = function(){
+    me.init = function () {
         me.accounts = [];
         me.editAccount = {};
         getAccounts();
@@ -3364,6 +3436,7 @@ angular.module('users').directive('lowercase', function () {
             me.accounts = res.data;
             console.log('accounts Service, accounts %O', me.accounts)
         }
+
         function onGetAccountError(err) {
             console.error(err)
         }
@@ -3384,6 +3457,25 @@ angular.module('users').directive('lowercase', function () {
             toastr.error('There was a problem creating this account');
             console.error(err)
         }
+    };
+
+    me.generateAuthCode = function (authCode) {
+        var url = constants.API_URL + '/accounts/auth'
+        var payload = {
+            payload: {
+                accountId: me.editAccount.accountId,
+                oldAuthCode: authCode
+            }
+        };
+        //TODO: wait for API route
+        debugger;
+        $http.post(url, payload).then(function (res, err) {
+            if (err) {
+                console.error(err)
+            } else {
+                me.editAccount.authCode = res.data.authCode;
+            }
+        })
     };
     return me;
 });

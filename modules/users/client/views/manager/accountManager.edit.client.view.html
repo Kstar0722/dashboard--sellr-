@@ -15,7 +15,6 @@
           <p class="help-block error-text" ng-message="required">Account name is required.</p>
         </div>
       </md-input-container>
-
     </div>
 
     <div>
@@ -30,6 +29,14 @@
     <pre>{{ accountLogo|json }}</pre>
     <img ng-src="{{ accountLogo }}">
     <!--TODO: add color picker-->
+
+    <div layout="row" layout-align="space-between center">
+      <label>Device Authentication Code: </label>
+      <p><strong>{{ accountsService.editAccount.authCode || 123456 }}</strong></p>
+      <md-button class="md-button md-raised md-accent" ng-click="accountsService.generateAuthCode(accountsService.editAccount.authCode)">Generate New Code
+      </md-button>
+    </div>
+
 
 
     <md-button class="md-button md-raised md-primary" type="submit">
