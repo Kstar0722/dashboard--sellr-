@@ -112,6 +112,8 @@ ApplicationConfiguration.registerModule('core.supplier.routes', ['ui.router']);
 
 ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
+ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
+ApplicationConfiguration.registerModule('core.storeOwner.routes', ['ui.router']);
 ;'use strict';
 
 // Use Applicaion configuration module to register a new module
@@ -122,6 +124,8 @@ ApplicationConfiguration.registerModule('users.supplier', ['core.supplier']);
 ApplicationConfiguration.registerModule('users.supplier.routes', ['core.supplier.routes']);
 ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
+ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
+ApplicationConfiguration.registerModule('users.storeOwner.routes', ['core.storeOwner.routes']);
 ;'use strict';
 
 angular.module('core.admin').run(['Menus',
@@ -175,6 +179,35 @@ angular.module('core.manager.routes').config(['$stateProvider',
                 template: '<ui-view/>',
                 data: {
                     roles: ['manager']
+                }
+            });
+    }
+]);
+;'use strict';
+
+angular.module('core.storeOwner').run(['Menus',
+    function (Menus) {
+        Menus.addMenuItem('topbar', {
+            title: 'Store Owner',
+            state: 'storeOwner',
+            type: 'dropdown',
+            roles: ['store owner']
+        });
+
+    }
+]);
+;'use strict';
+
+// Setting up route
+angular.module('core.storeOwner.routes').config(['$stateProvider',
+    function ($stateProvider) {
+        $stateProvider
+            .state('storeOwner', {
+                abstract: true,
+                url: '',
+                template: '<ui-view/>',
+                data: {
+                    roles: ['store owner']
                 }
             });
     }
@@ -737,6 +770,34 @@ angular.module('users.manager.routes').config(['$stateProvider',
 ;'use strict';
 
 // Configuring the Articles module
+angular.module('users.storeOwner').run(['Menus',
+    function (Menus) {
+        Menus.addSubMenuItem('topbar', 'storeOwner', {
+            title: 'Invite User',
+            state: 'storeOwner.inviteUser'
+        });
+
+    }
+]);
+;'use strict';
+
+// Setting up route
+angular.module('users.storeOwner.routes').config(['$stateProvider',
+    function ($stateProvider) {
+        $stateProvider
+            .state('storeOwner.inviteUser', {
+                url: '/invite',
+                templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
+                controller:'StoreOwnerInviteController'
+            })
+
+
+
+    }
+]);
+;'use strict';
+
+// Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'supplier', {
@@ -803,7 +864,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
                 }
             })
             .state('admin.users.store', {
-                templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
+                templateUrl: 'modules/users/client/views/admin/userInvite.client.view.html',
                 controller: 'inviteUserController'
 
             })
@@ -950,6 +1011,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
 
         $scope.roles = [
             {text: 'admin', id: 1004},
+            {text: 'store owner', id: 1006},
             {text: 'manager', id: 1002},
             {text: 'supplier', id: 1007},
             {text: 'user', id: 1003}
@@ -1497,6 +1559,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         $timeout(function () {
             $scope.roles = [
                 {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf('admin') > -1},
+                {text: 'store owner', id: 1006, selected: $scope.user.roles.indexOf('store owner') > -1},
                 {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
                 {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
                 {text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1}
@@ -2859,6 +2922,142 @@ angular.module('users').controller('SettingsController', ['$scope', 'Authenticat
   function ($scope, Authentication) {
     $scope.user = Authentication.user;
   }
+]);
+;'use strict';
+
+angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService',
+    function ($scope,Authentication, $filter, Admin, $http, $state, CurrentUserService, constants, accountsService) {
+
+
+        $scope.CurrentUserService = CurrentUserService;
+        $scope.userview = $state.params;
+        //CurrentUserService.user = '';
+        $scope.locations = [];
+
+
+        if (CurrentUserService.locations)
+            $scope.locations = CurrentUserService.locations;
+        else
+            $scope.locations = ["No Locations"]
+        $scope.addLocs = function () {
+            console.log('helllo, %O', $scope.locations);
+        }
+
+        $scope.userEditView = function (user) {
+            //debugger;
+
+            $http.get(constants.API_URL + '/users?email=' + user.email).then(function (res, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (res) {
+                    console.log(res);
+                    CurrentUserService.userBeingEdited = res.data[0];
+                    $state.go('admin.users.user-edit', {userId: user._id});
+                    console.log('currentUserService userBeingEdited %O', CurrentUserService.userBeingEdited)
+                }
+            })
+        };
+
+        $scope.inviteStoreView = function () {
+            $state.go('admin.users.store', {}, {reload: true})
+        };
+
+
+        $scope.buildPager = function () {
+            $scope.pagedItems = [];
+            $scope.itemsPerPage = 15;
+            $scope.currentPage = 1;
+            $scope.figureOutItemsToDisplay();
+        };
+
+        $scope.figureOutItemsToDisplay = function () {
+
+            $scope.filteredItems = $filter('filter')(CurrentUserService.userList, {
+                $: $scope.search
+            });
+            $scope.newUsers = $scope.filteredItems
+        };
+        $scope.buildPager();
+        $scope.pageChanged = function () {
+            $scope.figureOutItemsToDisplay();
+        };
+        $scope.removeLocationBox = false;
+        $scope.addNewLocation = function (locs) {
+            var newItemNo = $scope.locations.length + 1;
+            $scope.locations.push({'id': 'location' + newItemNo});
+            $scope.removeLocationBox = true;
+        };
+        $scope.removeLocation = function () {
+            if ($scope.locations.length > 1) {
+                var newItemNo = $scope.locations.length - 1;
+
+                $scope.locations.pop();
+            }
+            if ($scope.locations.length == 1)
+                $scope.removeLocationBox = false;
+
+
+        };
+        $scope.myPermissions = localStorage.getItem('roles');
+        $scope.accountsService = accountsService;
+        $scope.authentication = Authentication;
+        console.log('authentication %O', $scope.authentication)
+
+        $scope.roles = [
+            {text: 'admin', id: 1004},
+            {text: 'store owner', id: 1006},
+            {text: 'manager', id: 1002},
+            {text: 'supplier', id: 1007},
+            {text: 'user', id: 1003}
+        ];
+        $scope.user = {
+            accountId: localStorage.getItem('accountId')
+        };
+
+
+
+        $scope.toggleRole = function (roleId) {
+            $scope.user.roles = $scope.user.roles || [];
+
+            //if role exists, remove it
+            if ($scope.user.roles.indexOf(roleId) > -1) {
+                $scope.user.roles.splice($scope.user.roles.indexOf(roleId), 1);
+
+            }
+            else {
+                //insert role
+                $scope.user.roles.push(roleId);
+            }
+        }
+        console.log('userRoles %O', $scope.user.roles);
+
+        $scope.invite = function (isValid) {
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'userForm');
+                return false;
+            }
+            else {
+                var payload = {
+                    payload: $scope.user
+                };
+
+                $http.post(constants.API_URL + '/users', payload).then(onInviteSuccess, onInviteError);
+
+            }
+        };
+        function onInviteSuccess(response) {
+            toastr.success('User Invited', 'Invite Success!');
+            console.dir(response);
+            $state.go($state.previous.state.name || 'home', $state.previous.params);
+        }
+
+        function onInviteError(err) {
+            toastr.error('There was a problem inviting this user.');
+            console.error(err)
+        }
+    }
+
 ]);
 ;'use strict';
 

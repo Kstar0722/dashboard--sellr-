@@ -8,3 +8,5 @@ ApplicationConfiguration.registerModule('users.supplier', ['core.supplier']);
 ApplicationConfiguration.registerModule('users.supplier.routes', ['core.supplier.routes']);
 ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
+ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
+ApplicationConfiguration.registerModule('users.storeOwner.routes', ['core.storeOwner.routes']);
