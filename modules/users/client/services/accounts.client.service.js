@@ -1,7 +1,7 @@
 angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
-    me.init = function(){
+    me.init = function () {
         me.accounts = [];
         me.editAccount = {};
         getAccounts();
@@ -16,6 +16,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
             me.accounts = res.data;
             console.log('accounts Service, accounts %O', me.accounts)
         }
+
         function onGetAccountError(err) {
             console.error(err)
         }
@@ -36,6 +37,25 @@ angular.module('users').service('accountsService', function ($http, constants, t
             toastr.error('There was a problem creating this account');
             console.error(err)
         }
+    };
+
+    me.generateAuthCode = function (authCode) {
+        var url = constants.API_URL + '/accounts/auth'
+        var payload = {
+            payload: {
+                accountId: me.editAccount.accountId,
+                oldAuthCode: authCode
+            }
+        };
+        //TODO: wait for API route
+        debugger;
+        $http.post(url, payload).then(function (res, err) {
+            if (err) {
+                console.error(err)
+            } else {
+                me.editAccount.authCode = res.data.authCode;
+            }
+        })
     };
     return me;
 });

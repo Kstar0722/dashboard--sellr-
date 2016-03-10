@@ -4,11 +4,39 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider',
-  function ($locationProvider, $httpProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider', 'envServiceProvider',
+    function ($locationProvider, $httpProvider, envServiceProvider) {
     $locationProvider.html5Mode(true).hashPrefix('!');
 
-    $httpProvider.interceptors.push('authInterceptor');
+        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
+        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+
+
+        //SET ENVIRONMENT
+
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                local: ['localhost'],
+                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
+                production: ['dashboard.expertoncue.com', '*.herokuapp.com','testdashboard.expertoncue.com']
+            },
+            vars: {
+                local: {
+                    API_URL: 'http://localhost:7272'
+                },
+                development: {
+                    API_URL: 'http://mystique.expertoncue.com:7272'
+                },
+                production: {
+                    API_URL: 'https://api.expertoncue.com'
+                }
+            }
+        });
+
+        // run the environment check, so the comprobation is made
+        // before controllers and services are built
+        envServiceProvider.check();
   }
 ]);
 
