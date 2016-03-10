@@ -125,12 +125,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 //build roles array for user to store in local storage
 
 
-                //mock token for testing
+                //set token in localStorage and memory
                 authToken.setToken(res.data.token);
+
+                //set roles
                 localStorage.setItem('roles', res.data.roles);
 
                 //store account Id in location storage
-                localStorage.setItem('accountId', response.data.accountId);
+                localStorage.setItem('accountId', res.data.accountId);
 
                 // And redirect to the previous or home page
                 $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
