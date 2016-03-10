@@ -11,7 +11,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServi
             domains: {
                 local: ['localhost'],
                 development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
-                production: ['dashboard.expertoncue.com', '*.herokuapp.com']
+                production: ['dashboard.expertoncue.com', '*.herokuapp.com','testdashboard.expertoncue.com']
             },
             vars: {
                 local: {
