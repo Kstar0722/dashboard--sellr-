@@ -22,7 +22,7 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
