@@ -5,7 +5,6 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         $scope.authentication = Authentication;
         Admin.query(function (data) {
             $scope.users = data;
-            $scope.buildPager();
         });
         var self = this;
 
@@ -18,6 +17,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         $scope.priceTotal = 0;
 
         var x;
+
         $scope.addPackage  = function(number){
             $scope.priceTotal = 0
 
@@ -29,13 +29,19 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             accessories[0].qty = Math.round((.66 * number) * 1)/1;
             accessories[1].qty = number;
             accessories[2].qty = Math.round((.33 * number) * 1)/1;
-            $scope.pricing.pricelist.totalDevices =number;
-            $scope.pricing.pricelist.totalApps =number*3;
-            $scope.pricing.pricelist.totalAccessories = number;
+            $scope.cart.pricelist.totalDevices =number;
+            $scope.cart.pricelist.totalApps =number*3;
+            $scope.cart.pricelist.totalAccessories = number;
 
             var packageTotal = (devices[0].price * Math.round((.66 * number) * 1)/1) +(devices[1].price * Math.round((.33 * number) * 1)/1)
                 +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+((accessories[1].price * number * 1)/1)+(accessories[2].price * Math.round((.33 * number) * 1)/1)
             $scope.total(packageTotal);
+        }
+        $scope.clear = function(){
+            console.log('hit');
+            angular.merge($scope.cart, $scope.emptyCart);
+            //$scope.cart = _.clone($scope.emptyCart);
+            $scope.priceTotal = 0;
         }
         $scope.formatNumber = function(i) {
             return Math.round(i * 1)/1;
@@ -55,49 +61,6 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 $scope.priceTotal =0;
             }
         }
-        //$scope.addItem = function (item, id) {
-        //    var obj = item;
-        //    if(id == 'device')
-        //        $scope.pricing.pricelist.totalDevices += 1;
-        //    if(id == 'apps' )
-        //        $scope.pricing.pricelist.totalApps += 1;
-        //    if(id == 'accessories')
-        //        $scope.pricing.pricelist.totalAccessories += 1;
-        //    if ($scope.itemPrice.length == 0) {
-        //        obj.qty += 1;
-        //        obj.total +=1;
-        //        $scope.total(obj.price);
-        //        if(obj.name == 'iPad') {
-        //            $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-        //        }
-        //        if(obj.name == 'iPad Pro'){
-        //            $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-        //            }
-        //        if(obj.name == 'VESA Shelf Mount') {
-        //            $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-        //        }
-        //        if(obj.name == 'Floor Stand') {
-        //            $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-        //        }
-        //        console.log('images %O', $scope.images);
-        //        //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
-        //
-        //        return $scope.itemPrice.push(obj);
-        //    }
-        //    obj.qty += 1;
-        //    obj.total +=1;
-        //    if(obj.name == 'iPad')
-        //        $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
-        //    if(obj.name == 'iPad Pro')
-        //        $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-        //    if(obj.name == 'VESA Shelf Mount')
-        //        $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
-        //    if(obj.name == 'Floor Stand')
-        //        $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
-        //    console.log('images %O', $scope.images);
-        //    $scope.total(obj.price);
-        //    return $scope.itemPrice.push(obj);
-        //}
         $scope.switchItem = function(cart, mod) {
 
             switch (cart.name) {
@@ -200,11 +163,11 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
             var obj = item;
             if(id == 'device')
-                $scope.pricing.pricelist.totalDevices += 1;
+                $scope.cart.pricelist.totalDevices += 1;
             if(id == 'apps' )
-                $scope.pricing.pricelist.totalApps += 1;
+                $scope.cart.pricelist.totalApps += 1;
             if(id == 'accessories')
-                $scope.pricing.pricelist.totalAccessories += 1;
+                $scope.cart.pricelist.totalAccessories += 1;
             if ($scope.itemPrice.length == 0) {
                 //obj.qty += 1;
                 obj.total +=1;
@@ -225,12 +188,12 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         }
         $scope.removeItem = function (item, id) {
             var obj = item;
-            if(id == 'device' && $scope.pricing.pricelist.totalDevices != 0)
-                $scope.pricing.pricelist.totalDevices -= 1;
-            if(id == 'apps' && $scope.pricing.pricelist.totalApps != 0)
-                $scope.pricing.pricelist.totalApps -= 1;
-            if(id == 'accessories' && $scope.pricing.pricelist.totalAccessories != 0)
-                $scope.pricing.pricelist.totalAccessories -= 1;
+            if(id == 'device' && $scope.cart.pricelist.totalDevices != 0)
+                $scope.cart.pricelist.totalDevices -= 1;
+            if(id == 'apps' && $scope.cart.pricelist.totalApps != 0)
+                $scope.cart.pricelist.totalApps -= 1;
+            if(id == 'accessories' && $scope.cart.pricelist.totalAccessories != 0)
+                $scope.cart.pricelist.totalAccessories -= 1;
             for(var y in $scope.images){
                     if($scope.images[y].name == obj.name){
                         console.log('image deleted');
@@ -261,7 +224,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
             obj.total -=1;
             console.log('obj for removing %O', obj);
-            console.log('pricing obj %O', $scope.pricing);
+            console.log('pricing obj %O', $scope.cart);
             $scope.subtractTotal(obj.price);
             $scope.switchItem(item, 'subtract');
         };
@@ -272,7 +235,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             else
                 $scope.removeItem(item);
         }
-        $scope.pricing = {
+        $scope.cart = {};
+        $scope.emptyCart = {
             pricelist: {
                 devices: [
                     {
@@ -365,9 +329,11 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             {amount: .20, name:'20%'},
             {amount: .30, name:'30%'},
             {amount: .40, name:'40%'}];
-        var devices = $scope.pricing.pricelist.devices
-        var apps = $scope.pricing.pricelist.apps
-        var accessories = $scope.pricing.pricelist.accessories
+
+        angular.copy($scope.emptyCart, $scope.cart)
+        var devices = $scope.cart.pricelist.devices
+        var apps = $scope.cart.pricelist.apps
+        var accessories = $scope.cart.pricelist.accessories
     }
 
 

@@ -1,4 +1,4 @@
-<section class="pricingcalc">
+<section class="pricingcalc" >
 
   <div layout="row" layout-align="center center">
 
@@ -6,16 +6,16 @@
     <md-button ng-click="addPackage(5)">5 Unit Package</md-button>
     <md-button ng-click="addPackage(7)">7 Unit Package</md-button>
     <md-button ng-click="addPackage(10)">10 Unit Package</md-button>
-    <md-button ng-click="addPackage(0)">CLEAR</md-button>
+    <md-button ng-click="clear()">CLEAR</md-button>
   </div>
   <div class="toprow">
 
     <div class="pccol">
-      <h1>{{pricing.pricelist.totalDevices}}</h1>
+      <h1>{{cart.pricelist.totalDevices}}</h1>
       <h4>Devices </h4>
 
       <div class="select">
-        <div class="item" ng-repeat="item in pricing.pricelist.devices">
+        <div class="item" ng-repeat="item in cart.pricelist.devices">
           <span class="title">{{item.name}} : ${{item.price}}({{item.qty}})</span>
           <span class="btn add" ng-click="addItem(item, 'device')">+</span>
           <span class="btn remove" ng-click="removeItem(item, 'device')">-</span>
@@ -26,10 +26,10 @@
       +
     </div>
     <div class="pccol">
-      <h1>{{pricing.pricelist.totalApps}}</h1>
+      <h1>{{cart.pricelist.totalApps}}</h1>
       <h4>App</h4>
       <div class="select">
-        <div class="item" ng-repeat="item in pricing.pricelist.apps">
+        <div class="item" ng-repeat="item in cart.pricelist.apps">
           <!--<input type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? addItem(item) : removeItem(item)" />-->
           <span class="title">{{item.name}} : ${{item.price}}({{item.qty}})</span>
           <span class="btn add" ng-click="addItem(item , 'apps')">+</span>
@@ -42,10 +42,10 @@
       +
     </div>
     <div class="pccol">
-      <h1>{{pricing.pricelist.totalAccessories}}</h1>
+      <h1>{{cart.pricelist.totalAccessories}}</h1>
       <h4>Accessories</h4>
       <div class="select">
-        <div class="item" ng-repeat="item in pricing.pricelist.accessories">
+        <div class="item" ng-repeat="item in cart.pricelist.accessories">
           <span class="title">{{item.name}} : ${{item.price}}({{item.qty}})</span>
           <span class="btn add" ng-click="addItem(item , 'accessories')">+</span>
           <span class="btn remove" ng-click="removeItem(item, 'accessories')">-</span>
