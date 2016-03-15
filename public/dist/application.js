@@ -21,7 +21,8 @@ var ApplicationConfiguration = (function () {
     registerModule: registerModule
   };
 })();
-;'use strict';
+
+'use strict';
 
 //Start by defining the main module and adding the module dependencies
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
@@ -63,7 +64,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
   }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(["$rootScope", "$state", "Authentication", function ($rootScope, $state, Authentication) {
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -105,7 +106,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
       };
     }
   }
-});
+}]);
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
@@ -129,7 +130,8 @@ angular.element(document).ready(function () {
   //Then init the app
   angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });
-;'use strict';
+
+'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core', ['ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js']);
@@ -142,7 +144,8 @@ ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
 ApplicationConfiguration.registerModule('core.storeOwner.routes', ['ui.router']);
-;'use strict';
+
+'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users', ['core']);
@@ -154,7 +157,8 @@ ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
 ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
 ApplicationConfiguration.registerModule('users.storeOwner.routes', ['core.storeOwner.routes']);
-;'use strict';
+
+'use strict';
 
 angular.module('core.admin').run(['Menus',
   function (Menus) {
@@ -166,7 +170,8 @@ angular.module('core.admin').run(['Menus',
       });
   }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('core.admin.routes').config(['$stateProvider',
@@ -182,7 +187,8 @@ angular.module('core.admin.routes').config(['$stateProvider',
             });
     }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('core.manager').run(['Menus',
     function (Menus) {
@@ -195,7 +201,8 @@ angular.module('core.manager').run(['Menus',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('core.manager.routes').config(['$stateProvider',
@@ -211,7 +218,8 @@ angular.module('core.manager.routes').config(['$stateProvider',
             });
     }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('core.storeOwner').run(['Menus',
     function (Menus) {
@@ -224,7 +232,8 @@ angular.module('core.storeOwner').run(['Menus',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('core.storeOwner.routes').config(['$stateProvider',
@@ -240,7 +249,8 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
             });
     }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('core.supplier').run(['Menus',
     function (Menus) {
@@ -253,7 +263,8 @@ angular.module('core.supplier').run(['Menus',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('core.supplier.routes').config(['$stateProvider',
@@ -269,7 +280,8 @@ angular.module('core.supplier.routes').config(['$stateProvider',
             });
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
@@ -314,7 +326,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             });
     }
 ]);
-;
+
+
 'use strict';
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$window',
@@ -359,7 +372,8 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
         //});
     }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state',
     function ($scope, Authentication, $mdDialog, $state) {
@@ -391,7 +405,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 /**
  * Edits by Ryan Hutchison
@@ -465,7 +480,8 @@ angular.module('core')
       }
     };
   }]);
-;angular.module('core').factory('authToken', function ($window) {
+
+angular.module('core').factory('authToken', ["$window", function ($window) {
 
   var me = this;
   var storage = $window.localStorage;
@@ -503,8 +519,9 @@ angular.module('core')
   me.removeToken = removeToken;
 
   return me;
-});
-;'use strict';
+}]);
+
+'use strict';
 
 angular.module('core').factory('authInterceptor', ['$q', '$injector',
   function ($q, $injector) {
@@ -526,8 +543,9 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
     };
   }
 ]);
-;angular.module('core')
-    .factory('oncueAuthInterceptor', function (authToken) {
+
+angular.module('core')
+    .factory('oncueAuthInterceptor', ["authToken", function (authToken) {
 
         return {
             request: function (config) {
@@ -543,9 +561,10 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
 
             }
         }
-    });
+    }]);
 
-;'use strict';
+
+'use strict';
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
@@ -719,7 +738,8 @@ angular.module('core').service('Menus', [
     });
   }
 ]);
-;'use strict';
+
+'use strict';
 
 // Create the Socket.io wrapper service
 angular.module('core').service('Socket', ['Authentication', '$state', '$timeout',
@@ -759,7 +779,8 @@ angular.module('core').service('Socket', ['Authentication', '$state', '$timeout'
     };
   }
 ]);
-;'use strict';
+
+'use strict';
 
 // Configuring the Articles module
 angular.module('users.manager').run(['Menus',
@@ -782,7 +803,8 @@ angular.module('users.manager').run(['Menus',
         });
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('users.manager.routes').config(['$stateProvider',
@@ -831,7 +853,8 @@ angular.module('users.manager.routes').config(['$stateProvider',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Configuring the Articles module
 angular.module('users.storeOwner').run(['Menus',
@@ -843,7 +866,8 @@ angular.module('users.storeOwner').run(['Menus',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('users.storeOwner.routes').config(['$stateProvider',
@@ -859,7 +883,8 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
@@ -871,7 +896,8 @@ angular.module('users.supplier').run(['Menus',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('users.supplier.routes').config(['$stateProvider',
@@ -889,7 +915,8 @@ angular.module('users.supplier.routes').config(['$stateProvider',
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
@@ -904,7 +931,8 @@ angular.module('users.admin').run(['Menus',
         });
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('users.admin.routes').config(['$stateProvider',
@@ -952,7 +980,8 @@ angular.module('users.admin.routes').config(['$stateProvider',
             })
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Config HTTP Error Handling
 angular.module('users').config(['$httpProvider',
@@ -982,7 +1011,8 @@ angular.module('users').config(['$httpProvider',
     ]);
   }
 ]);
-;'use strict';
+
+'use strict';
 
 // Setting up route
 angular.module('users').config(['$stateProvider',
@@ -1063,7 +1093,8 @@ angular.module('users').config(['$stateProvider',
 
   }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService) {
@@ -1128,7 +1159,8 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
     }
 ]);
 
-;'use strict';
+
+'use strict';
 
 angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants',
     function ($scope, $filter, Admin, $http, $state, CurrentUserService, constants) {
@@ -1244,7 +1276,8 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
     }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users.admin').controller('AdminPricingController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Admin', 'Upload', '$sce', 'ImageService', 'constants',
     function ($scope, $state, $http, Authentication, $timeout, Admin, Upload, $sce, ImageService, constants) {
@@ -1273,13 +1306,14 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             apps[1].qty = number;
             apps[2].qty = number;
             accessories[0].qty = Math.round((.66 * number) * 1)/1;
-            accessories[1].qty = Math.round((.33 * number) * 1)/1;
+            accessories[1].qty = number;
+            accessories[2].qty = Math.round((.33 * number) * 1)/1;
             $scope.pricing.pricelist.totalDevices =number;
             $scope.pricing.pricelist.totalApps =number*3;
             $scope.pricing.pricelist.totalAccessories = number;
 
             var packageTotal = (devices[0].price * Math.round((.66 * number) * 1)/1) +(devices[1].price * Math.round((.33 * number) * 1)/1)
-                +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+(accessories[1].price * Math.round((.33 * number) * 1)/1)
+                +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+((accessories[1].price * number * 1)/1)+(accessories[2].price * Math.round((.33 * number) * 1)/1)
             $scope.total(packageTotal);
         }
         $scope.formatNumber = function(i) {
@@ -1343,6 +1377,104 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         //    $scope.total(obj.price);
         //    return $scope.itemPrice.push(obj);
         //}
+        $scope.switchItem = function(cart, mod) {
+
+            switch (cart.name) {
+                case 'iPad Air 16GB':
+                    if(mod == 'add')
+                        devices[0].qty += 1;
+                    else if(devices[0].qty != 0)
+                        devices[0].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipadair.jpeg'});
+                    break;
+                case 'iPad Pro 32GB':
+                    if(mod == 'add')
+                        devices[1].qty += 1;
+                    else if(devices[1].qty != 0)
+                        devices[1].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipad-pro-250x306.jpg'});
+                    break;
+                case 'iPad Air 16GB 4G':
+                    if(mod == 'add')
+                        devices[2].qty += 1;
+                    else if(devices[2].qty != 0)
+                        devices[2].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipadair.jpeg'});
+                    break;
+                case 'iPad Pro 128GB 4G':
+                    if(mod == 'add')
+                        devices[3].qty += 1;
+                    else if(devices[3].qty != 0)
+                        devices[3].qty -= 1;
+                    break;
+                case 'Beer Lookup':
+                    if(mod == 'add')
+                        apps[0].qty += 1;
+                    else if(apps[0].qty != 0)
+                        apps[0].qty -= 1;
+                    break;
+                case 'Wine Lookup':
+                    if(mod == 'add')
+                        apps[1].qty += 1;
+                    else if(apps[1].qty != 0)
+                        apps[1].qty -= 1;
+                    break;
+                case 'Spirits Lookup':
+                    if(mod == 'add')
+                        apps[2].qty += 1;
+                    else if(apps[2].qty != 0)
+                        apps[2].qty -= 1;
+                    break;
+                case 'Pharmacy':
+                    if(mod == 'add')
+                        apps[3].qty += 1;
+                    else if(apps[3].qty != 0)
+                        apps[3].qty -= 1;
+                    break;
+                case 'Digital Signage':
+                    if(mod == 'add')
+                        apps[4].qty += 1;
+                    else if(apps[4].qty != 0)
+                        apps[4].qty -= 1;
+                    break;
+                case 'Dashboard':
+                    if(mod == 'add')
+                        apps[5].qty += 1;
+                    else if(apps[5].qty != 0)
+                        apps[5].qty -= 1;
+                    break;
+
+                case 'VESA Shelf Mount':
+                    if(mod == 'add')
+                        accessories[0].qty += 1;
+                    else if(accessories[0].qty != 0)
+                        accessories[0].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/vesa.jpg'});
+                    break;
+                case '2D Scanner':
+                    if(mod == 'add')
+                        accessories[1].qty += 1;
+                    else if(accessories[1].qty != 0)
+                        accessories[1].qty -= 1;
+                    break;
+                case 'Floor Stand':
+                    if(mod == 'add')
+                        accessories[2].qty += 1;
+                    else if(accessories[2].qty != 0)
+                        accessories[2].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/armodillo-floor.png'});
+                    break;
+                case '4G Hotspot':
+                    if(mod == 'add')
+                        accessories[3].qty += 1;
+                    else if(accessories[3].qty != 0)
+                        accessories[3].qty -= 1;
+                    break;
+                default:
+
+            }
+        }
+
         $scope.addItem = function (item, id) {
 
             var obj = item;
@@ -1356,44 +1488,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 //obj.qty += 1;
                 obj.total +=1;
                 $scope.total(obj.price);
-                if (obj.name == 'iPad') {
-                    devices[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-                }
-                if (obj.name == 'iPad Pro') {
-                    devices[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
-                }
-                if (obj.name == 'VESA Shelf Mount') {
-                    accessories[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-                }
-                if (obj.name == 'Floor Stand') {
-                    accessories[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-                }
-                if (obj.name == '4g hotspot') {
-                    accessories[2].qty += 1;
-                }
-                if (obj.name == 'Beer Lookup') {
-                    apps[0].qty += 1;
-                }
-                if (obj.name == 'Wine Lookup') {
-                    apps[1].qty += 1;
-                }
-                if (obj.name == 'Spirits Lookup') {
-                    apps[2].qty += 1;
-                }
-                if (obj.name == 'Pharmacy ') {
-                    apps[3].qty += 1;
-                }
-                if (obj.name == 'Digital Signage ') {
-                    apps[4].qty += 1;
-                }
-                if (obj.name == 'Dashboard ') {
-                    apps[5].qty += 1;
-                }
-                console.log('images %O', $scope.images);
+                $scope.switchItem(item, 'add');
+
                 //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
 
                 //return $scope.itemPrice.push(obj);
@@ -1401,43 +1497,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             else {
                 //obj.qty += 1;
                 obj.total += 1;
-                if (obj.name == 'iPad') {
-                    devices[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-                }
-                if (obj.name == 'iPad Pro') {
-                    devices[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
-                }
-                if (obj.name == 'VESA Shelf Mount') {
-                    accessories[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-                }
-                if (obj.name == 'Floor Stand') {
-                    accessories[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-                }
-                if (obj.name == '4g hotspot') {
-                    accessories[2].qty += 1;
-                }
-                if (obj.name == 'Beer Lookup') {
-                    apps[0].qty += 1;
-                }
-                if (obj.name == 'Wine Lookup') {
-                    apps[1].qty += 1;
-                }
-                if (obj.name == 'Spirits Lookup') {
-                    apps[2].qty += 1;
-                }
-                if (obj.name == 'Pharmacy ') {
-                    apps[3].qty += 1;
-                }
-                if (obj.name == 'Digital Signage ') {
-                    apps[4].qty += 1;
-                }
-                if (obj.name == 'Dashboard ') {
-                    apps[5].qty += 1;
-                }
+                $scope.switchItem(item, 'add');
                 $scope.total(obj.price);
                 //return $scope.itemPrice.push(obj);
             }
@@ -1482,39 +1542,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             console.log('obj for removing %O', obj);
             console.log('pricing obj %O', $scope.pricing);
             $scope.subtractTotal(obj.price);
-            if (obj.name == 'iPad') {
-                devices[0].qty -=1;
-            }
-            if (obj.name == 'iPad Pro') {
-                devices[1].qty -=1;
-            }
-            if (obj.name == 'VESA Shelf Mount') {
-                accessories[0].qty -=1;
-            }
-            if (obj.name == 'Floor Stand') {
-                accessories[1].qty -=1;
-            }
-            if (obj.name == '4g hotspot') {
-                accessories[2].qty -= 1;
-            }
-            if (obj.name == 'Beer Lookup') {
-                apps[0].qty -= 1;
-            }
-            if (obj.name == 'Wine Lookup') {
-                apps[1].qty -= 1;
-            }
-            if (obj.name == 'Spirits Lookup') {
-                apps[2].qty -= 1;
-            }
-            if (obj.name == 'Pharmacy ') {
-                apps[3].qty -= 1;
-            }
-            if (obj.name == 'Digital Signage ') {
-                apps[4].qty -= 1;
-            }
-            if (obj.name == 'Dashboard ') {
-                apps[5].qty -= 1;
-            }
+            $scope.switchItem(item, 'subtract');
         };
         $scope.appcheck;
         $scope.checkClick = function (item) {
@@ -1527,13 +1555,23 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             pricelist: {
                 devices: [
                     {
-                        name: 'iPad',
-                        price: 500,
+                        name: 'iPad Air 16GB',
+                        price: 499,
                         qty:0
                     },
                     {
-                        name: 'iPad Pro',
-                        price: 1000,
+                        name: 'iPad Pro 32GB',
+                        price: 799,
+                        qty:0
+                    },
+                    {
+                        name: 'iPad Air 16GB 4G',
+                        price: 629,
+                        qty:0
+                    },
+                    {
+                        name: 'iPad Pro 128GB 4G',
+                        price: 1079,
                         qty:0
                     }],
                 apps: [
@@ -1576,12 +1614,17 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 accessories: [
                     {
                         name: 'VESA Shelf Mount',
-                        price: 100,
+                        price: 130,
+                        qty:0
+                    },
+                    {
+                        name: '2D Scanner',
+                        price: 208,
                         qty:0
                     },
                     {
                         name: 'Floor Stand',
-                        price: 300,
+                        price: 350,
                         qty:0
                     },
                     {
@@ -1609,7 +1652,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
 ]);
 
-;'use strict';
+
+'use strict';
 
 angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q',
     function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr, $q) {
@@ -1706,7 +1750,8 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         }
     }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
@@ -1868,7 +1913,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         };
     }
 ]);
-;angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
+
+angular.module('users.manager').controller('AccountManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", "Authentication", "$http", "constants", function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
 
     accountsService.init();
     $scope.accountsService = accountsService;
@@ -1961,8 +2007,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         });
     };
 
-});
-;'use strict';
+}]);
+
+'use strict';
 
 angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr) {
@@ -2220,7 +2267,8 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function ($sce) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 }]);
-;'use strict';
+
+'use strict';
 
 angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService) {
@@ -2339,7 +2387,8 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
     }
 
 ]);
-;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
+
+angular.module('users.manager').controller('LocationManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", function ($scope, locationsService, $state, accountsService, CurrentUserService) {
     locationsService.init().then(function () {
         $scope.locationsService = locationsService;
         $scope.location = {};
@@ -2355,8 +2404,9 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         $state.go('manager.locations.edit', {id: location.locationId})
     }
 
-});
-;'use strict';
+}]);
+
+'use strict';
 
 angular.module('users').controller('ManagerUploadController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
@@ -2472,7 +2522,8 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
 
 ]);
 
-;'use strict';
+
+'use strict';
 
 angular.module('users.manager').controller('ProfileController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
@@ -2805,7 +2856,8 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function ($sce) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 }]);
-;'use strict';
+
+'use strict';
 
 angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator',
   function ($scope, $stateParams, $http, $location, Authentication, PasswordValidator) {
@@ -2864,7 +2916,8 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
   }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users').controller('ChangePasswordController', ['$scope', '$http', 'Authentication', 'PasswordValidator',
   function ($scope, $http, Authentication, PasswordValidator) {
@@ -2892,7 +2945,8 @@ angular.module('users').controller('ChangePasswordController', ['$scope', '$http
     };
   }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
   function ($scope, $timeout, $window, Authentication, FileUploader) {
@@ -2965,7 +3019,8 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
     };
   }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users').controller('EditProfileController', ['$scope', '$http', '$location', 'Users', 'Authentication',
   function ($scope, $http, $location, Users, Authentication) {
@@ -2994,14 +3049,16 @@ angular.module('users').controller('EditProfileController', ['$scope', '$http', 
     };
   }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users').controller('SettingsController', ['$scope', 'Authentication',
   function ($scope, Authentication) {
     $scope.user = Authentication.user;
   }
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
     function ($scope,Authentication, $filter, Admin, $http, $state, CurrentUserService, constants, accountsService, toastr) {
@@ -3137,7 +3194,8 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
     }
 
 ]);
-;'use strict';
+
+'use strict';
 
 angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
@@ -3245,7 +3303,8 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
     }
 ]);
 
-;'use strict';
+
+'use strict';
 
 angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
@@ -3338,7 +3397,8 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
 
 ]);
 
-;'use strict';
+
+'use strict';
 
 angular.module('users')
   .directive('passwordValidator', ['PasswordValidator', function(PasswordValidator) {
@@ -3382,7 +3442,8 @@ angular.module('users')
       }
     };
   }]);
-;'use strict';
+
+'use strict';
 
 angular.module('users')
   .directive('passwordVerify', [function() {
@@ -3410,7 +3471,8 @@ angular.module('users')
       }
     };
   }]);
-;'use strict';
+
+'use strict';
 
 // Users directive used to force lowercase input
 angular.module('users').directive('lowercase', function () {
@@ -3424,7 +3486,8 @@ angular.module('users').directive('lowercase', function () {
     }
   };
 });
-;angular.module('users').service('accountsService', function ($http, constants, toastr) {
+
+angular.module('users').service('accountsService', ["$http", "constants", "toastr", function ($http, constants, toastr) {
     var me = this;
 
     me.init = function () {
@@ -3484,8 +3547,9 @@ angular.module('users').directive('lowercase', function () {
         })
     };
     return me;
-});
-;'use strict';
+}]);
+
+'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users.supplier').factory('ImageService', [
@@ -3496,7 +3560,8 @@ angular.module('users.supplier').factory('ImageService', [
         return me;
     }
 ]);
-;'use strict';
+
+'use strict';
 
 // Authentication service for user variables
 angular.module('users').factory('Authentication', ['$window',
@@ -3508,7 +3573,8 @@ angular.module('users').factory('Authentication', ['$window',
     return auth;
   }
 ]);
-;angular.module('users').service('chartService', function ($http, $q, constants) {
+
+angular.module('users').service('chartService', ["$http", "$q", "constants", function ($http, $q, constants) {
     var me = this;
 
     me.data = [[0], [0]];
@@ -3616,9 +3682,10 @@ angular.module('users').factory('Authentication', ['$window',
 
 
     return me;
-})
+}])
 ;
-;angular.module('core').service('constants', function (envService) {
+
+angular.module('core').service('constants', ["envService", function (envService) {
     var me = this;
 
 
@@ -3627,8 +3694,9 @@ angular.module('users').factory('Authentication', ['$window',
     console.log('constants %O', me)
 
     return me;
-});
-;angular.module('users').service('CurrentUserService', ['Admin', '$state',
+}]);
+
+angular.module('users').service('CurrentUserService', ['Admin', '$state',
     function (Admin, $state) {
         var me = this;
         me.user = '';
@@ -3653,7 +3721,8 @@ angular.module('users').factory('Authentication', ['$window',
         return me;
     }
 ]);
-;angular.module('users').service('locationsService', function ($http, constants, toastr, $q) {
+
+angular.module('users').service('locationsService', ["$http", "constants", "toastr", "$q", function ($http, constants, toastr, $q) {
     var me = this;
 
     me.init = function () {
@@ -3749,8 +3818,9 @@ angular.module('users').factory('Authentication', ['$window',
 
 
     return me;
-});
-;'use strict';
+}]);
+
+'use strict';
 
 // PasswordValidator service used for testing the password strength
 angular.module('users').factory('PasswordValidator', ['$window',
@@ -3775,7 +3845,8 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
   }
 ]);
-;'use strict';
+
+'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users').factory('Users', ['$resource',
