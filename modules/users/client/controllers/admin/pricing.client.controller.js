@@ -27,13 +27,14 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             apps[1].qty = number;
             apps[2].qty = number;
             accessories[0].qty = Math.round((.66 * number) * 1)/1;
-            accessories[1].qty = Math.round((.33 * number) * 1)/1;
+            accessories[1].qty = number;
+            accessories[2].qty = Math.round((.33 * number) * 1)/1;
             $scope.pricing.pricelist.totalDevices =number;
             $scope.pricing.pricelist.totalApps =number*3;
             $scope.pricing.pricelist.totalAccessories = number;
 
             var packageTotal = (devices[0].price * Math.round((.66 * number) * 1)/1) +(devices[1].price * Math.round((.33 * number) * 1)/1)
-                +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+(accessories[1].price * Math.round((.33 * number) * 1)/1)
+                +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+((accessories[1].price * number * 1)/1)+(accessories[2].price * Math.round((.33 * number) * 1)/1)
             $scope.total(packageTotal);
         }
         $scope.formatNumber = function(i) {
@@ -97,6 +98,97 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         //    $scope.total(obj.price);
         //    return $scope.itemPrice.push(obj);
         //}
+        $scope.switchItem = function(cart, mod) {
+
+            switch (cart.name) {
+                case 'iPad Air 16GB':
+                    if(mod == 'add')
+                        devices[0].qty += 1;
+                    else if(devices[0].qty != 0)
+                        devices[0].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipadair.jpeg'});
+                    break;
+                case 'iPad Pro 32GB':
+                    if(mod == 'add')
+                        devices[1].qty += 1;
+                    else if(devices[1].qty != 0)
+                        devices[1].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipad-pro-250x306.jpg'});
+                    break;
+                case 'iPad Air 32GB 4G':
+                    if(mod == 'add')
+                        devices[2].qty += 1;
+                    else if(devices[2].qty != 0)
+                        devices[2].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipadair.jpeg'});
+                    break;
+                case 'iPad Pro 128GB 4G':
+                    if(mod == 'add')
+                        devices[4].qty += 1;
+                    else if(devices[4].qty != 0)
+                        devices[4].qty -= 1;
+                    break;
+                case 'Beer Lookup':
+                    if(mod == 'add')
+                        apps[0].qty += 1;
+                    else if(apps[0].qty != 0)
+                        apps[0].qty -= 1;
+                    break;
+                case 'Wine Lookup':
+                    if(mod == 'add')
+                        apps[1].qty += 1;
+                    else if(apps[1].qty != 0)
+                        apps[1].qty -= 1;
+                    break;
+                case 'Spirits Lookup':
+                    if(mod == 'add')
+                        apps[2].qty += 1;
+                    else if(apps[2].qty != 0)
+                        apps[2].qty -= 1;
+                    break;
+                case 'Pharmacy':
+                    if(mod == 'add')
+                        apps[3].qty += 1;
+                    else if(apps[3].qty != 0)
+                        apps[3].qty -= 1;
+                    break;
+                case 'Dashboard':
+                    if(mod == 'add')
+                        apps[4].qty += 1;
+                    else if(apps[4].qty != 0)
+                        apps[4].qty -= 1;
+                    break;
+                case 'VESA Shelf Mount':
+                    if(mod == 'add')
+                        accessories[0].qty += 1;
+                    else if(accessories[0].qty != 0)
+                        accessories[0].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/vesa.jpg'});
+                    break;
+                case '2D Scanner':
+                    if(mod == 'add')
+                        accessories[1].qty += 1;
+                    else if(accessories[1].qty != 0)
+                        accessories[1].qty -= 1;
+                    break;
+                case 'Floor Stand':
+                    if(mod == 'add')
+                        accessories[2].qty += 1;
+                    else if(accessories[2].qty != 0)
+                        accessories[2].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/armodillo-floor.png'});
+                    break;
+                case '4G hotspot':
+                    if(mod == 'add')
+                        accessories[3].qty += 1;
+                    else if(accessories[3].qty != 0)
+                        accessories[3].qty -= 1;
+                    break;
+                default:
+
+            }
+        }
+
         $scope.addItem = function (item, id) {
 
             var obj = item;
@@ -110,44 +202,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 //obj.qty += 1;
                 obj.total +=1;
                 $scope.total(obj.price);
-                if (obj.name == 'iPad') {
-                    devices[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-                }
-                if (obj.name == 'iPad Pro') {
-                    devices[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
-                }
-                if (obj.name == 'VESA Shelf Mount') {
-                    accessories[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-                }
-                if (obj.name == 'Floor Stand') {
-                    accessories[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-                }
-                if (obj.name == '4g hotspot') {
-                    accessories[2].qty += 1;
-                }
-                if (obj.name == 'Beer Lookup') {
-                    apps[0].qty += 1;
-                }
-                if (obj.name == 'Wine Lookup') {
-                    apps[1].qty += 1;
-                }
-                if (obj.name == 'Spirits Lookup') {
-                    apps[2].qty += 1;
-                }
-                if (obj.name == 'Pharmacy ') {
-                    apps[3].qty += 1;
-                }
-                if (obj.name == 'Digital Signage ') {
-                    apps[4].qty += 1;
-                }
-                if (obj.name == 'Dashboard ') {
-                    apps[5].qty += 1;
-                }
-                console.log('images %O', $scope.images);
+                $scope.switchItem(item, 'add');
+
                 //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
 
                 //return $scope.itemPrice.push(obj);
@@ -155,43 +211,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             else {
                 //obj.qty += 1;
                 obj.total += 1;
-                if (obj.name == 'iPad') {
-                    devices[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-                }
-                if (obj.name == 'iPad Pro') {
-                    devices[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
-                }
-                if (obj.name == 'VESA Shelf Mount') {
-                    accessories[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-                }
-                if (obj.name == 'Floor Stand') {
-                    accessories[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-                }
-                if (obj.name == '4g hotspot') {
-                    accessories[2].qty += 1;
-                }
-                if (obj.name == 'Beer Lookup') {
-                    apps[0].qty += 1;
-                }
-                if (obj.name == 'Wine Lookup') {
-                    apps[1].qty += 1;
-                }
-                if (obj.name == 'Spirits Lookup') {
-                    apps[2].qty += 1;
-                }
-                if (obj.name == 'Pharmacy ') {
-                    apps[3].qty += 1;
-                }
-                if (obj.name == 'Digital Signage ') {
-                    apps[4].qty += 1;
-                }
-                if (obj.name == 'Dashboard ') {
-                    apps[5].qty += 1;
-                }
+                $scope.switchItem(item, 'add');
                 $scope.total(obj.price);
                 //return $scope.itemPrice.push(obj);
             }
@@ -236,39 +256,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             console.log('obj for removing %O', obj);
             console.log('pricing obj %O', $scope.pricing);
             $scope.subtractTotal(obj.price);
-            if (obj.name == 'iPad') {
-                devices[0].qty -=1;
-            }
-            if (obj.name == 'iPad Pro') {
-                devices[1].qty -=1;
-            }
-            if (obj.name == 'VESA Shelf Mount') {
-                accessories[0].qty -=1;
-            }
-            if (obj.name == 'Floor Stand') {
-                accessories[1].qty -=1;
-            }
-            if (obj.name == '4g hotspot') {
-                accessories[2].qty -= 1;
-            }
-            if (obj.name == 'Beer Lookup') {
-                apps[0].qty -= 1;
-            }
-            if (obj.name == 'Wine Lookup') {
-                apps[1].qty -= 1;
-            }
-            if (obj.name == 'Spirits Lookup') {
-                apps[2].qty -= 1;
-            }
-            if (obj.name == 'Pharmacy ') {
-                apps[3].qty -= 1;
-            }
-            if (obj.name == 'Digital Signage ') {
-                apps[4].qty -= 1;
-            }
-            if (obj.name == 'Dashboard ') {
-                apps[5].qty -= 1;
-            }
+            $scope.switchItem(item, 'subtract');
         };
         $scope.appcheck;
         $scope.checkClick = function (item) {
@@ -281,13 +269,23 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             pricelist: {
                 devices: [
                     {
-                        name: 'iPad',
-                        price: 500,
+                        name: 'iPad Air 16GB',
+                        price: 499,
                         qty:0
                     },
                     {
-                        name: 'iPad Pro',
-                        price: 1000,
+                        name: 'iPad Pro 32GB',
+                        price: 799,
+                        qty:0
+                    },
+                    {
+                        name: 'iPad Air 16GB 4G',
+                        price: 629,
+                        qty:0
+                    },
+                    {
+                        name: 'iPad Pro 128GB 4G',
+                        price: 1079,
                         qty:0
                     }],
                 apps: [
@@ -330,12 +328,17 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 accessories: [
                     {
                         name: 'VESA Shelf Mount',
-                        price: 100,
+                        price: 130,
+                        qty:0
+                    },
+                    {
+                        name: '2D Scanner',
+                        price: 208,
                         qty:0
                     },
                     {
                         name: 'Floor Stand',
-                        price: 300,
+                        price: 350,
                         qty:0
                     },
                     {
