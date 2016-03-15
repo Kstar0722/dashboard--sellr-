@@ -115,7 +115,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                         devices[1].qty -= 1;
                     $scope.images.push({name: cart.name, fileName: 'dist/ipad-pro-250x306.jpg'});
                     break;
-                case 'iPad Air 32GB 4G':
+                case 'iPad Air 16GB 4G':
                     if(mod == 'add')
                         devices[2].qty += 1;
                     else if(devices[2].qty != 0)
@@ -124,9 +124,9 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                     break;
                 case 'iPad Pro 128GB 4G':
                     if(mod == 'add')
-                        devices[4].qty += 1;
-                    else if(devices[4].qty != 0)
-                        devices[4].qty -= 1;
+                        devices[3].qty += 1;
+                    else if(devices[3].qty != 0)
+                        devices[3].qty -= 1;
                     break;
                 case 'Beer Lookup':
                     if(mod == 'add')
@@ -152,12 +152,19 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                     else if(apps[3].qty != 0)
                         apps[3].qty -= 1;
                     break;
-                case 'Dashboard':
+                case 'Digital Signage':
                     if(mod == 'add')
                         apps[4].qty += 1;
                     else if(apps[4].qty != 0)
                         apps[4].qty -= 1;
                     break;
+                case 'Dashboard':
+                    if(mod == 'add')
+                        apps[5].qty += 1;
+                    else if(apps[5].qty != 0)
+                        apps[5].qty -= 1;
+                    break;
+
                 case 'VESA Shelf Mount':
                     if(mod == 'add')
                         accessories[0].qty += 1;
@@ -178,7 +185,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                         accessories[2].qty -= 1;
                     $scope.images.push({name: cart.name, fileName: 'dist/armodillo-floor.png'});
                     break;
-                case '4G hotspot':
+                case '4G Hotspot':
                     if(mod == 'add')
                         accessories[3].qty += 1;
                     else if(accessories[3].qty != 0)
