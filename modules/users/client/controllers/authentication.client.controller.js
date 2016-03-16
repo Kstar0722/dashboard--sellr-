@@ -38,15 +38,17 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         //Reg code (userId) exists in database, continue with creation
         function onValidReg(response) {
-            var storeUpdate = {
+            var userUpdate = {
                 payload: {
                     email: $scope.credentials.email,
                     username: $scope.credentials.username,
+                    password: $scope.credentials.password,
                     userId: userInfo.regCode
                 }
             };
-            var url = constants.API_URL + '/users/' + userInfo.regCode
-            $http.put(url, storeUpdate).then(onUpdateSuccess, onUpdateError)
+            var url = constants.API_URL + '/users/' + userInfo.regCode;
+            debugger;
+            $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
 
@@ -72,9 +74,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                         console.error(err)
                     }
 
-                    //mock token for testing
-                    response.data.token = 'definitelyarealtoken';
-                    authToken.setToken(response.data.token);
 
                     // If successful we assign the response to the global user model
                     $scope.authentication.user = response.data;
