@@ -179,7 +179,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                     toastr.error('There was a problem uploading your ad.')
@@ -214,14 +214,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                             if (err) {
                                 // There Was An Error With Your S3 Config
                                 alert(err.message);
-                                toastr.error('There was a problem uploading your ad.')
+                                toastr.error('There was a problem uploading your ad.');
                                 return false;
                             }
                             else {
                                 console.dir(data);
                                 // Success!
                                 self.determinateValue = 0;
-                                toastr.success('New Ad Uploaded', 'Success!')
+                                toastr.success('New Ad Uploaded', 'Success!');
                                 $scope.init();
 
                             }

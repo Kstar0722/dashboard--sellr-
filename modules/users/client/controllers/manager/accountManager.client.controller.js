@@ -16,7 +16,9 @@ angular.module('users.manager').controller('AccountManagerController', function 
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
+    $scope.getLogo = function(){
 
+    }
     //TODO: clean this up
     $scope.upload = function (file) {
         var mediaAssetId;
@@ -29,7 +31,7 @@ angular.module('users.manager').controller('AccountManagerController', function 
         };
 
         //TODO: change media route to ads
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+        $http.post(constants.API_URL + '/media/logo', obj).then(function (response, err) {
             if (err) {
                 console.log(err);
             }

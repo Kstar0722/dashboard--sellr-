@@ -24,7 +24,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
         };
 
         $scope.getFile = function () {
-            $http.get(constants.API_URL + '7272/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -45,7 +45,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '7272/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }

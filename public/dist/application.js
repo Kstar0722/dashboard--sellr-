@@ -28,11 +28,39 @@ var ApplicationConfiguration = (function () {
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider',
-  function ($locationProvider, $httpProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider', 'envServiceProvider',
+    function ($locationProvider, $httpProvider, envServiceProvider) {
     $locationProvider.html5Mode(true).hashPrefix('!');
 
-    $httpProvider.interceptors.push('authInterceptor');
+        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
+        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+
+
+        //SET ENVIRONMENT
+
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                local: ['localhost'],
+                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
+                production: ['dashboard.expertoncue.com', '*.herokuapp.com','testdashboard.expertoncue.com']
+            },
+            vars: {
+                local: {
+                    API_URL: 'http://localhost:7272'
+                },
+                development: {
+                    API_URL: 'http://mystique.expertoncue.com:7272'
+                },
+                production: {
+                    API_URL: 'https://api.expertoncue.com'
+                }
+            }
+        });
+
+        // run the environment check, so the comprobation is made
+        // before controllers and services are built
+        envServiceProvider.check();
   }
 ]);
 
@@ -114,6 +142,8 @@ ApplicationConfiguration.registerModule('core.supplier.routes', ['ui.router']);
 
 ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
+ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
+ApplicationConfiguration.registerModule('core.storeOwner.routes', ['ui.router']);
 
 'use strict';
 
@@ -125,6 +155,8 @@ ApplicationConfiguration.registerModule('users.supplier', ['core.supplier']);
 ApplicationConfiguration.registerModule('users.supplier.routes', ['core.supplier.routes']);
 ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
+ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
+ApplicationConfiguration.registerModule('users.storeOwner.routes', ['core.storeOwner.routes']);
 
 'use strict';
 
@@ -189,6 +221,37 @@ angular.module('core.manager.routes').config(['$stateProvider',
 
 'use strict';
 
+angular.module('core.storeOwner').run(['Menus',
+    function (Menus) {
+        Menus.addMenuItem('topbar', {
+            title: 'Store Owner',
+            state: 'storeOwner',
+            type: 'dropdown',
+            roles: ['store owner']
+        });
+
+    }
+]);
+
+'use strict';
+
+// Setting up route
+angular.module('core.storeOwner.routes').config(['$stateProvider',
+    function ($stateProvider) {
+        $stateProvider
+            .state('storeOwner', {
+                abstract: true,
+                url: '',
+                template: '<ui-view/>',
+                data: {
+                    roles: ['store owner']
+                }
+            });
+    }
+]);
+
+'use strict';
+
 angular.module('core.supplier').run(['Menus',
     function (Menus) {
         Menus.addMenuItem('topbar', {
@@ -221,34 +284,9 @@ angular.module('core.supplier.routes').config(['$stateProvider',
 'use strict';
 
 // Setting up route
-angular.module('core').config(['$stateProvider', '$urlRouterProvider', 'envServiceProvider',
-    function ($stateProvider, $urlRouterProvider, envServiceProvider) {
+angular.module('core').config(['$stateProvider', '$urlRouterProvider',
+    function ($stateProvider, $urlRouterProvider) {
 
-        //SET ENVIRONMENT
-
-        // set the domains and variables for each environment
-        envServiceProvider.config({
-            domains: {
-                local: ['localhost'],
-                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
-                production: ['dashboard.expertoncue.com', '*.herokuapp.com']
-            },
-            vars: {
-                local: {
-                    API_URL: 'http://localhost:7272'
-                },
-                development: {
-                    API_URL: 'http://mystique.expertoncue.com:7272'
-                },
-                production: {
-                    API_URL: 'https://api.expertoncue.com'
-                }
-            }
-        });
-
-        // run the environment check, so the comprobation is made
-        // before controllers and services are built
-        envServiceProvider.check();
 
         // Redirect to 404 when route not found
         $urlRouterProvider.otherwise(function ($injector, $location) {
@@ -309,8 +347,10 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
             $mdOpenMenu(ev);
         };
         $scope.signOut = function () {
+            $window.localStorage.clear();
             $http.get('/auth/signout')
                 .success(function () {
+                    $window.localStorage.clear();
 
                     $window.location.href = '/';
                 })
@@ -440,6 +480,46 @@ angular.module('core')
     };
   }]);
 
+angular.module('core').factory('authToken', ["$window", function ($window) {
+
+  var me = this;
+  var storage = $window.localStorage;
+  var cachedToken;
+  var userToken = 'token';
+
+// Save Token to Storage as 'token'
+  function setToken(token) {
+    cachedToken = token;
+    storage.setItem(userToken, token);
+
+  }
+
+// Get token 'token' from storage
+  function getToken() {
+    if (!cachedToken)
+      cachedToken = storage.getItem(userToken);
+    return cachedToken
+  }
+
+// Returns true or false based on whether or not token exists in storage
+  function isAuthenticated() {
+    return !!getToken();
+  }
+
+//Removes token
+  function removeToken() {
+    cachedToken = null;
+    storage.removeItem(userToken)
+  }
+
+  me.setToken = setToken;
+  me.getToken = getToken;
+  me.isAuthenticated = isAuthenticated;
+  me.removeToken = removeToken;
+
+  return me;
+}]);
+
 'use strict';
 
 angular.module('core').factory('authInterceptor', ['$q', '$injector',
@@ -462,6 +542,26 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
     };
   }
 ]);
+
+angular.module('core')
+    .factory('oncueAuthInterceptor', ["authToken", function (authToken) {
+
+        return {
+            request: function (config) {
+                var token = authToken.getToken();  //Gets token from local storage
+                if (token)
+                    config.headers.Authorization = 'Bearer ' + token;  //Attaches token to header with Bearer tag
+
+                return config
+
+            },
+            response: function (response) {
+                return response
+
+            }
+        }
+    }]);
+
 
 'use strict';
 
@@ -756,6 +856,36 @@ angular.module('users.manager.routes').config(['$stateProvider',
 'use strict';
 
 // Configuring the Articles module
+angular.module('users.storeOwner').run(['Menus',
+    function (Menus) {
+        Menus.addSubMenuItem('topbar', 'storeOwner', {
+            title: 'Invite User',
+            state: 'storeOwner.inviteUser'
+        });
+
+    }
+]);
+
+'use strict';
+
+// Setting up route
+angular.module('users.storeOwner.routes').config(['$stateProvider',
+    function ($stateProvider) {
+        $stateProvider
+            .state('storeOwner.inviteUser', {
+                url: '/invite',
+                templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
+                controller:'StoreOwnerInviteController'
+            })
+
+
+
+    }
+]);
+
+'use strict';
+
+// Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'supplier', {
@@ -825,7 +955,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
                 }
             })
             .state('admin.users.store', {
-                templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
+                templateUrl: 'modules/users/client/views/admin/userInvite.client.view.html',
                 controller: 'inviteUserController'
 
             })
@@ -975,6 +1105,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
 
         $scope.roles = [
             {text: 'admin', id: 1004},
+            {text: 'store owner', id: 1006},
             {text: 'manager', id: 1002},
             {text: 'supplier', id: 1007},
             {text: 'user', id: 1003}
@@ -1152,270 +1283,189 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
         $scope.authentication = Authentication;
         Admin.query(function (data) {
             $scope.users = data;
-            $scope.buildPager();
         });
         var self = this;
-
-
         $scope.amountDiscount = 0;
         $scope.itemPrice = [];
         $scope.deviceImage = 'dist/ipadair.jpeg';
         $scope.images = [];
         $scope.currentDiscount = 0;
         $scope.priceTotal = 0;
-
-        var x;
         $scope.addPackage  = function(number){
             $scope.priceTotal = 0
 
             devices[0].qty = Math.round((.66 * number) * 1)/1;
             devices[1].qty = Math.round((.33 * number) * 1)/1;
             apps[0].qty = number;
-            apps[1].qty = number;
-            apps[2].qty = number;
             accessories[0].qty = Math.round((.66 * number) * 1)/1;
-            accessories[1].qty = Math.round((.33 * number) * 1)/1;
-            $scope.pricing.pricelist.totalDevices =number;
-            $scope.pricing.pricelist.totalApps =number*3;
-            $scope.pricing.pricelist.totalAccessories = number;
-
+            accessories[1].qty = number;
+            accessories[2].qty = Math.round((.33 * number) * 1)/1;
+            $scope.cart.pricelist.totalDevices =number;
+            $scope.cart.pricelist.totalApps =number;
+            $scope.cart.pricelist.totalAccessories = number*2;
             var packageTotal = (devices[0].price * Math.round((.66 * number) * 1)/1) +(devices[1].price * Math.round((.33 * number) * 1)/1)
-                +(apps[0].price * number)+(apps[1].price * number)+(apps[2].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+(accessories[1].price * Math.round((.33 * number) * 1)/1)
+                +(apps[0].price * number) +(accessories[0].price * Math.round((.66 * number) * 1)/1)+((accessories[1].price * number * 1)/1)+(accessories[2].price * Math.round((.33 * number) * 1)/1)
             $scope.total(packageTotal);
-        }
+        };
+        $scope.clear = function(){
+            console.log('hit');
+            angular.merge($scope.cart, $scope.emptyCart);
+            $scope.priceTotal = 0;
+        };
         $scope.formatNumber = function(i) {
             return Math.round(i * 1)/1;
-        }
+        };
         $scope.total = function (price) {
             console.log(price)
             $scope.priceTotal += price;
-        }
+        };
         $scope.addDiscount = function(amount){
             $scope.currentDiscount = Number(amount);
 
-        }
+        };
         $scope.subtractTotal = function (price) {
             if($scope.priceTotal - price >= 0)
                 $scope.priceTotal -= price ;
             else{
                 $scope.priceTotal =0;
             }
-        }
-        //$scope.addItem = function (item, id) {
-        //    var obj = item;
-        //    if(id == 'device')
-        //        $scope.pricing.pricelist.totalDevices += 1;
-        //    if(id == 'apps' )
-        //        $scope.pricing.pricelist.totalApps += 1;
-        //    if(id == 'accessories')
-        //        $scope.pricing.pricelist.totalAccessories += 1;
-        //    if ($scope.itemPrice.length == 0) {
-        //        obj.qty += 1;
-        //        obj.total +=1;
-        //        $scope.total(obj.price);
-        //        if(obj.name == 'iPad') {
-        //            $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-        //        }
-        //        if(obj.name == 'iPad Pro'){
-        //            $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-        //            }
-        //        if(obj.name == 'VESA Shelf Mount') {
-        //            $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-        //        }
-        //        if(obj.name == 'Floor Stand') {
-        //            $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-        //        }
-        //        console.log('images %O', $scope.images);
-        //        //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
-        //
-        //        return $scope.itemPrice.push(obj);
-        //    }
-        //    obj.qty += 1;
-        //    obj.total +=1;
-        //    if(obj.name == 'iPad')
-        //        $scope.images.push({name:obj.name, fileName:'dist/ipadair.jpeg'});
-        //    if(obj.name == 'iPad Pro')
-        //        $scope.images.push({name:obj.name, fileName:'dist/ipad-pro-250x306.jpg'});
-        //    if(obj.name == 'VESA Shelf Mount')
-        //        $scope.images.push({name:obj.name, fileName:'dist/vesa.jpg'});
-        //    if(obj.name == 'Floor Stand')
-        //        $scope.images.push({name:obj.name, fileName:'dist/armodillo-floor.png'});
-        //    console.log('images %O', $scope.images);
-        //    $scope.total(obj.price);
-        //    return $scope.itemPrice.push(obj);
-        //}
-        $scope.addItem = function (item, id) {
+        };
+        $scope.switchItem = function(cart, mod) {
+            switch (cart.name) {
+                case 'iPad Air 16GB':
+                    if(mod == 'add')
+                        devices[0].qty += 1;
+                    else if(devices[0].qty != 0)
+                        devices[0].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipadair.jpeg'});
+                    break;
+                case 'iPad Pro 32GB':
+                    if(mod == 'add')
+                        devices[1].qty += 1;
+                    else if(devices[1].qty != 0)
+                        devices[1].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipad-pro-250x306.jpg'});
+                    break;
+                case 'iPad Air 16GB 4G':
+                    if(mod == 'add')
+                        devices[2].qty += 1;
+                    else if(devices[2].qty != 0)
+                        devices[2].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/ipadair.jpeg'});
+                    break;
+                case 'iPad Pro 128GB 4G':
+                    if(mod == 'add')
+                        devices[3].qty += 1;
+                    else if(devices[3].qty != 0)
+                        devices[3].qty -= 1;
+                    break;
+                case 'BWS bundle':
+                    if(mod == 'add')
+                        apps[0].qty += 1;
+                    else if(apps[0].qty != 0)
+                        apps[0].qty -= 1;
+                    break;
+                case 'Beer Lookup':
+                    if(mod == 'add')
+                        apps[1].qty += 1;
+                    else if(apps[1].qty != 0)
+                        apps[1].qty -= 1;
+                    break;
+                case 'Wine Lookup':
+                    if(mod == 'add')
+                        apps[2].qty += 1;
+                    else if(apps[2].qty != 0)
+                        apps[2].qty -= 1;
+                    break;
+                case 'Spirits Lookup':
+                    if(mod == 'add')
+                        apps[3].qty += 1;
+                    else if(apps[3].qty != 0)
+                        apps[3].qty -= 1;
+                    break;
+                case 'Pharmacy':
+                    if(mod == 'add')
+                        apps[4].qty += 1;
+                    else if(apps[4].qty != 0)
+                        apps[4].qty -= 1;
+                    break;
+                case 'Digital Signage':
+                    if(mod == 'add')
+                        apps[5].qty += 1;
+                    else if(apps[5].qty != 0)
+                        apps[5].qty -= 1;
+                    break;
+                case 'Dashboard':
+                    if(mod == 'add')
+                        apps[6].qty += 1;
+                    else if(apps[6].qty != 0)
+                        apps[6].qty -= 1;
+                    break;
 
+                case 'VESA Shelf Mount':
+                    if(mod == 'add')
+                        accessories[0].qty += 1;
+                    else if(accessories[0].qty != 0)
+                        accessories[0].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/vesa.jpg'});
+                    break;
+                case '2D Scanner':
+                    if(mod == 'add')
+                        accessories[1].qty += 1;
+                    else if(accessories[1].qty != 0)
+                        accessories[1].qty -= 1;
+                    break;
+                case 'Floor Stand':
+                    if(mod == 'add')
+                        accessories[2].qty += 1;
+                    else if(accessories[2].qty != 0)
+                        accessories[2].qty -= 1;
+                    $scope.images.push({name: cart.name, fileName: 'dist/armodillo-floor.png'});
+                    break;
+                case '4G Hotspot':
+                    if(mod == 'add')
+                        accessories[3].qty += 1;
+                    else if(accessories[3].qty != 0)
+                        accessories[3].qty -= 1;
+                    break;
+                default:
+            }
+        };
+        $scope.addItem = function (item, id) {
             var obj = item;
             if(id == 'device')
-                $scope.pricing.pricelist.totalDevices += 1;
+                $scope.cart.pricelist.totalDevices += 1;
             if(id == 'apps' )
-                $scope.pricing.pricelist.totalApps += 1;
+                $scope.cart.pricelist.totalApps += 1;
             if(id == 'accessories')
-                $scope.pricing.pricelist.totalAccessories += 1;
+                $scope.cart.pricelist.totalAccessories += 1;
             if ($scope.itemPrice.length == 0) {
-                //obj.qty += 1;
                 obj.total +=1;
                 $scope.total(obj.price);
-                if (obj.name == 'iPad') {
-                    devices[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-                }
-                if (obj.name == 'iPad Pro') {
-                    devices[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
-                }
-                if (obj.name == 'VESA Shelf Mount') {
-                    accessories[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-                }
-                if (obj.name == 'Floor Stand') {
-                    accessories[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-                }
-                if (obj.name == '4g hotspot') {
-                    accessories[2].qty += 1;
-                }
-                if (obj.name == 'Beer Lookup') {
-                    apps[0].qty += 1;
-                }
-                if (obj.name == 'Wine Lookup') {
-                    apps[1].qty += 1;
-                }
-                if (obj.name == 'Spirits Lookup') {
-                    apps[2].qty += 1;
-                }
-                if (obj.name == 'Pharmacy ') {
-                    apps[3].qty += 1;
-                }
-                if (obj.name == 'Digital Signage ') {
-                    apps[4].qty += 1;
-                }
-                if (obj.name == 'Dashboard ') {
-                    apps[5].qty += 1;
-                }
-                console.log('images %O', $scope.images);
-                //$scope.sources.push({fileName:'dist/ipadair.jpeg'});git pull
-
-                //return $scope.itemPrice.push(obj);
+                $scope.switchItem(item, 'add');
             }
             else {
-                //obj.qty += 1;
                 obj.total += 1;
-                if (obj.name == 'iPad') {
-                    devices[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipadair.jpeg'});
-                }
-                if (obj.name == 'iPad Pro') {
-                    devices[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/ipad-pro-250x306.jpg'});
-                }
-                if (obj.name == 'VESA Shelf Mount') {
-                    accessories[0].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/vesa.jpg'});
-                }
-                if (obj.name == 'Floor Stand') {
-                    accessories[1].qty += 1;
-                    $scope.images.push({name: obj.name, fileName: 'dist/armodillo-floor.png'});
-                }
-                if (obj.name == '4g hotspot') {
-                    accessories[2].qty += 1;
-                }
-                if (obj.name == 'Beer Lookup') {
-                    apps[0].qty += 1;
-                }
-                if (obj.name == 'Wine Lookup') {
-                    apps[1].qty += 1;
-                }
-                if (obj.name == 'Spirits Lookup') {
-                    apps[2].qty += 1;
-                }
-                if (obj.name == 'Pharmacy ') {
-                    apps[3].qty += 1;
-                }
-                if (obj.name == 'Digital Signage ') {
-                    apps[4].qty += 1;
-                }
-                if (obj.name == 'Dashboard ') {
-                    apps[5].qty += 1;
-                }
+                $scope.switchItem(item, 'add');
                 $scope.total(obj.price);
-                //return $scope.itemPrice.push(obj);
             }
-        }
+        };
         $scope.removeItem = function (item, id) {
             var obj = item;
-            if(id == 'device' && $scope.pricing.pricelist.totalDevices != 0)
-                $scope.pricing.pricelist.totalDevices -= 1;
-            if(id == 'apps' && $scope.pricing.pricelist.totalApps != 0)
-                $scope.pricing.pricelist.totalApps -= 1;
-            if(id == 'accessories' && $scope.pricing.pricelist.totalAccessories != 0)
-                $scope.pricing.pricelist.totalAccessories -= 1;
+            if(id == 'device' && item.qty != 0)
+                $scope.cart.pricelist.totalDevices -= 1;
+            if(id == 'apps' && item.qty != 0)
+                $scope.cart.pricelist.totalApps -= 1;
+            if(id == 'accessories' && item.qty != 0)
+                $scope.cart.pricelist.totalAccessories -= 1;
             for(var y in $scope.images){
                     if($scope.images[y].name == obj.name){
-                        console.log('image deleted');
                         $scope.images.splice(y,1);
                     }
             }
-            //if($scope.itemPrice) {
-            //    for (x in $scope.itemPrice) {
-            //        if ($scope.itemPrice[x].name == obj.name) {
-            //            console.log('deleted')
-            //            console.log('itemPrice1 %O', $scope.itemPrice)
-            //            obj.qty -= 1;
-            //            obj.total -= 1;
-            //            $scope.subtractTotal(obj.price);
-            //            return $scope.itemPrice.splice(x, 1);
-            //        }
-            //
-            //        //if ($scope.itemPrice.hasOwnProperty(x) && $scope.itemPrice[x] === obj) {
-            //        //    console.log('deleted')
-            //        //    console.log('itemPrice1 %O', $scope.itemPrice)
-            //            obj.qty -= 1;
-            //            obj.total -=1;
-            //            $scope.subtractTotal(obj.price);
-            //        //    return $scope.itemPrice.splice(x, 1);
-            //        //}
-            //    }
-            //}
-
             obj.total -=1;
-            console.log('obj for removing %O', obj);
-            console.log('pricing obj %O', $scope.pricing);
             $scope.subtractTotal(obj.price);
-            if (obj.name == 'iPad') {
-                devices[0].qty -=1;
-            }
-            if (obj.name == 'iPad Pro') {
-                devices[1].qty -=1;
-            }
-            if (obj.name == 'VESA Shelf Mount') {
-                accessories[0].qty -=1;
-            }
-            if (obj.name == 'Floor Stand') {
-                accessories[1].qty -=1;
-            }
-            if (obj.name == '4g hotspot') {
-                accessories[2].qty -= 1;
-            }
-            if (obj.name == 'Beer Lookup') {
-                apps[0].qty -= 1;
-            }
-            if (obj.name == 'Wine Lookup') {
-                apps[1].qty -= 1;
-            }
-            if (obj.name == 'Spirits Lookup') {
-                apps[2].qty -= 1;
-            }
-            if (obj.name == 'Pharmacy ') {
-                apps[3].qty -= 1;
-            }
-            if (obj.name == 'Digital Signage ') {
-                apps[4].qty -= 1;
-            }
-            if (obj.name == 'Dashboard ') {
-                apps[5].qty -= 1;
-            }
+            $scope.switchItem(item, 'subtract');
         };
         $scope.appcheck;
         $scope.checkClick = function (item) {
@@ -1424,20 +1474,37 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             else
                 $scope.removeItem(item);
         }
-        $scope.pricing = {
+        $scope.cart = {};
+        $scope.emptyCart = {
             pricelist: {
                 devices: [
                     {
-                        name: 'iPad',
-                        price: 500,
+                        name: 'iPad Air 16GB',
+                        price: 499,
                         qty:0
                     },
                     {
-                        name: 'iPad Pro',
-                        price: 1000,
+                        name: 'iPad Pro 32GB',
+                        price: 799,
+                        qty:0
+                    },
+                    {
+                        name: 'iPad Air 16GB 4G',
+                        price: 629,
+                        qty:0
+                    },
+                    {
+                        name: 'iPad Pro 128GB 4G',
+                        price: 1079,
                         qty:0
                     }],
                 apps: [
+                    {
+                        'name': 'BWS bundle',
+                        'price': 2500,
+                        'max-quantity': 1,
+                        qty:0
+                    },
                     {
                         'name': 'Beer Lookup',
                         'price': 1000,
@@ -1477,12 +1544,17 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 accessories: [
                     {
                         name: 'VESA Shelf Mount',
-                        price: 100,
+                        price: 130,
+                        qty:0
+                    },
+                    {
+                        name: '2D Scanner',
+                        price: 275,
                         qty:0
                     },
                     {
                         name: 'Floor Stand',
-                        price: 300,
+                        price: 350,
                         qty:0
                     },
                     {
@@ -1502,9 +1574,11 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             {amount: .20, name:'20%'},
             {amount: .30, name:'30%'},
             {amount: .40, name:'40%'}];
-        var devices = $scope.pricing.pricelist.devices
-        var apps = $scope.pricing.pricelist.apps
-        var accessories = $scope.pricing.pricelist.accessories
+
+        angular.copy($scope.emptyCart, $scope.cart);
+        var devices = $scope.cart.pricelist.devices;
+        var apps = $scope.cart.pricelist.apps;
+        var accessories = $scope.cart.pricelist.accessories;
     }
 
 
@@ -1525,6 +1599,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         $timeout(function () {
             $scope.roles = [
                 {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf('admin') > -1},
+                {text: 'store owner', id: 1006, selected: $scope.user.roles.indexOf('store owner') > -1},
                 {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
                 {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
                 {text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1}
@@ -1610,8 +1685,8 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
-    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
+    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
@@ -1625,6 +1700,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 roles: $location.search().r.split('~')
             };
 
+
+        //switches between roleIds and strings for use in
+        //mongoDB and OncueApi
         var roleTranslate = {
             1004: 'admin',
             1002: 'manager',
@@ -1644,7 +1722,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
 
         //Reg code (userId) exists in database, continue with creation
-
         function onValidReg(response) {
             var storeUpdate = {
                 payload: {
@@ -1674,11 +1751,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 });
                 console.log('$scope credentials', $scope.credentials);
                 $http.post('/api/auth/signup', $scope.credentials).then(function (response, err) {
-                    console.log('mongoAPI says %O', response)
+                    console.log('mongoAPI says %O', response);
                     if (err) {
-                        toastr.error('There was an error creating your account')
+                        toastr.error('There was an error creating your account');
                         console.error(err)
                     }
+
+                    //mock token for testing
+                    response.data.token = 'definitelyarealtoken';
+                    authToken.setToken(response.data.token);
 
                     // If successful we assign the response to the global user model
                     $scope.authentication.user = response.data;
@@ -1710,37 +1791,43 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-
-
             $http.post('/api/auth/signin', $scope.credentials).then(onSigninSuccess, onSigninError)
         };
 
+        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
             $scope.authentication.user = response.data;
-            $http.get(constants.API_URL + '/accounts/user/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    toastr.error(err)
-                    console.error(err);
-                }
-                toastr.success('Welcome to the Oncue Dashboard', 'Success')
-                console.log('response from getUser %O', response);
-                var roles = [];
-                response.data.forEach(function (role) {
-                    roles.push(role.roleId)
-                });
-                localStorage.setItem('accountId', Number(response.data[0].accountId));
-                localStorage.setItem('roles', roles);
+            var url = constants.API_URL + "/users/login";
+            var payload = {
+                payload: $scope.credentials
+            };
+            console.log('i hope I can sign in with %O',payload);
+            $http.post(url, payload).then(function (res) {
+                toastr.success('Welcome to the OnCue Dashboard', 'Success');
+                console.log('response from OnCue API %O', res);
 
+                //build roles array for user to store in local storage
+
+
+                //set token in localStorage and memory
+                authToken.setToken(res.data.token);
+
+                //set roles
+                localStorage.setItem('roles', res.data.roles);
+
+                //store account Id in location storage
+                localStorage.setItem('accountId', res.data.accountId);
+
+                // And redirect to the previous or home page
+                $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
 
             });
-            // And redirect to the previous or home page
-            $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
         }
 
 
+        //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
-
             console.error(err);
             toastr.error(err.data.message);
             $scope.error = err.message;
@@ -1777,7 +1864,9 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
+    $scope.getLogo = function(){
 
+    }
     //TODO: clean this up
     $scope.upload = function (file) {
         var mediaAssetId;
@@ -1790,7 +1879,7 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
         };
 
         //TODO: change media route to ads
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+        $http.post(constants.API_URL + '/media/logo', obj).then(function (response, err) {
             if (err) {
                 console.log(err);
             }
@@ -2033,7 +2122,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                     toastr.error('There was a problem uploading your ad.')
@@ -2068,14 +2157,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                             if (err) {
                                 // There Was An Error With Your S3 Config
                                 alert(err.message);
-                                toastr.error('There was a problem uploading your ad.')
+                                toastr.error('There was a problem uploading your ad.');
                                 return false;
                             }
                             else {
                                 console.dir(data);
                                 // Success!
                                 self.determinateValue = 0;
-                                toastr.success('New Ad Uploaded', 'Success!')
+                                toastr.success('New Ad Uploaded', 'Success!');
                                 $scope.init();
 
                             }
@@ -2275,7 +2364,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
         };
 
         $scope.getFile = function () {
-            $http.get(constants.API_URL + '7272/media/' + $scope.authentication.user.username).then(function (response, err) {
+            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2296,7 +2385,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '7272/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2903,6 +2992,143 @@ angular.module('users').controller('SettingsController', ['$scope', 'Authenticat
 
 'use strict';
 
+angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
+    function ($scope,Authentication, $filter, Admin, $http, $state, CurrentUserService, constants, accountsService, toastr) {
+
+
+        $scope.CurrentUserService = CurrentUserService;
+        $scope.userview = $state.params;
+        //CurrentUserService.user = '';
+        $scope.locations = [];
+
+
+        if (CurrentUserService.locations)
+            $scope.locations = CurrentUserService.locations;
+        else
+            $scope.locations = ["No Locations"]
+        $scope.addLocs = function () {
+            console.log('helllo, %O', $scope.locations);
+        }
+
+        $scope.userEditView = function (user) {
+            //debugger;
+
+            $http.get(constants.API_URL + '/users?email=' + user.email).then(function (res, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (res) {
+                    console.log(res);
+                    CurrentUserService.userBeingEdited = res.data[0];
+                    $state.go('admin.users.user-edit', {userId: user._id});
+                    console.log('currentUserService userBeingEdited %O', CurrentUserService.userBeingEdited)
+                }
+            })
+        };
+
+        $scope.inviteStoreView = function () {
+            $state.go('admin.users.store', {}, {reload: true})
+        };
+
+
+        $scope.buildPager = function () {
+            $scope.pagedItems = [];
+            $scope.itemsPerPage = 15;
+            $scope.currentPage = 1;
+            $scope.figureOutItemsToDisplay();
+        };
+
+        $scope.figureOutItemsToDisplay = function () {
+
+            $scope.filteredItems = $filter('filter')(CurrentUserService.userList, {
+                $: $scope.search
+            });
+            $scope.newUsers = $scope.filteredItems
+        };
+        $scope.buildPager();
+        $scope.pageChanged = function () {
+            $scope.figureOutItemsToDisplay();
+        };
+        $scope.removeLocationBox = false;
+        $scope.addNewLocation = function (locs) {
+            var newItemNo = $scope.locations.length + 1;
+            $scope.locations.push({'id': 'location' + newItemNo});
+            $scope.removeLocationBox = true;
+        };
+        $scope.removeLocation = function () {
+            if ($scope.locations.length > 1) {
+                var newItemNo = $scope.locations.length - 1;
+
+                $scope.locations.pop();
+            }
+            if ($scope.locations.length == 1)
+                $scope.removeLocationBox = false;
+
+
+        };
+        $scope.myPermissions = localStorage.getItem('roles');
+        $scope.accountsService = accountsService;
+        $scope.authentication = Authentication;
+        console.log('authentication %O', $scope.authentication)
+
+        $scope.roles = [
+            {text: 'admin', id: 1004},
+            {text: 'store owner', id: 1006},
+            {text: 'manager', id: 1002},
+            {text: 'supplier', id: 1007},
+            {text: 'user', id: 1003}
+        ];
+        $scope.user = {
+            accountId: localStorage.getItem('accountId')
+        };
+
+
+
+        $scope.toggleRole = function (roleId) {
+            $scope.user.roles = $scope.user.roles || [];
+
+            //if role exists, remove it
+            if ($scope.user.roles.indexOf(roleId) > -1) {
+                $scope.user.roles.splice($scope.user.roles.indexOf(roleId), 1);
+
+            }
+            else {
+                //insert role
+                $scope.user.roles.push(roleId);
+            }
+        }
+        console.log('userRoles %O', $scope.user.roles);
+
+        $scope.invite = function (isValid) {
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'userForm');
+                return false;
+            }
+            else {
+                var payload = {
+                    payload: $scope.user
+                };
+
+                $http.post(constants.API_URL + '/users', payload).then(onInviteSuccess, onInviteError);
+
+            }
+        };
+        function onInviteSuccess(response) {
+            toastr.success('User Invited', 'Invite Success!');
+            console.dir(response);
+            $state.go($state.previous.state.name || 'home', $state.previous.params);
+        }
+
+        function onInviteError(err) {
+            toastr.error('There was a problem inviting this user.');
+            console.error(err)
+        }
+    }
+
+]);
+
+'use strict';
+
 angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
         $scope.authentication = Authentication;
@@ -3034,7 +3260,7 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
                     userName: $scope.authentication.user.username
                 }
             };
-            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -3196,7 +3422,7 @@ angular.module('users').directive('lowercase', function () {
 angular.module('users').service('accountsService', ["$http", "constants", "toastr", function ($http, constants, toastr) {
     var me = this;
 
-    me.init = function(){
+    me.init = function () {
         me.accounts = [];
         me.editAccount = {};
         getAccounts();
@@ -3211,6 +3437,7 @@ angular.module('users').service('accountsService', ["$http", "constants", "toast
             me.accounts = res.data;
             console.log('accounts Service, accounts %O', me.accounts)
         }
+
         function onGetAccountError(err) {
             console.error(err)
         }
@@ -3231,6 +3458,25 @@ angular.module('users').service('accountsService', ["$http", "constants", "toast
             toastr.error('There was a problem creating this account');
             console.error(err)
         }
+    };
+
+    me.generateAuthCode = function (authCode) {
+        var url = constants.API_URL + '/accounts/auth'
+        var payload = {
+            payload: {
+                accountId: me.editAccount.accountId,
+                oldAuthCode: authCode
+            }
+        };
+        //TODO: wait for API route
+        debugger;
+        $http.post(url, payload).then(function (res, err) {
+            if (err) {
+                console.error(err)
+            } else {
+                me.editAccount.authCode = res.data.authCode;
+            }
+        })
     };
     return me;
 }]);

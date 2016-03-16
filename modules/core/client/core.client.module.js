@@ -9,3 +9,5 @@ ApplicationConfiguration.registerModule('core.supplier.routes', ['ui.router']);
 
 ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
+ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
+ApplicationConfiguration.registerModule('core.storeOwner.routes', ['ui.router']);

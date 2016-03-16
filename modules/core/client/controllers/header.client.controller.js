@@ -19,8 +19,10 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
             $mdOpenMenu(ev);
         };
         $scope.signOut = function () {
+            $window.localStorage.clear();
             $http.get('/auth/signout')
                 .success(function () {
+                    $window.localStorage.clear();
 
                     $window.location.href = '/';
                 })
