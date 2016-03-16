@@ -186,7 +186,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                     }
             }
             obj.total -=1;
-            $scope.subtractTotal(obj.price);
+            if(obj.qty != 0)
+                $scope.subtractTotal(obj.price);
             $scope.switchItem(item, 'subtract');
         };
         $scope.appcheck;
@@ -195,7 +196,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 $scope.addItem(item);
             else
                 $scope.removeItem(item);
-        }
+        };
+
         $scope.cart = {};
         $scope.emptyCart = {
             pricelist: {
