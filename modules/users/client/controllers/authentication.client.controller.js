@@ -89,7 +89,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
-                    $state.go($state.previous.state.name || 'home', $state.previous.params);
+                    $state.go('manager.dashboard');
                 })
             }
         }
