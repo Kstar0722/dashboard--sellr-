@@ -196,7 +196,8 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
                 $scope.addItem(item);
             else
                 $scope.removeItem(item);
-        }
+        };
+
         $scope.cart = {};
         $scope.emptyCart = {
             pricelist: {
