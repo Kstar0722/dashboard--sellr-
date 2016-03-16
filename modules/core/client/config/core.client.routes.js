@@ -20,7 +20,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'HomeController'
             })
             .state('not-found', {
-                url: '/not-found',git
+                url: '/not-found',
                 templateUrl: 'modules/core/client/views/404.client.view.html',
                 data: {
                     ignoreState: true
