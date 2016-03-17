@@ -26,9 +26,7 @@
                         ng-show="determinateValue"></md-progress-linear>
 
 
-    <pre>{{ accountLogo|json }}</pre>
-    <img ng-src="{{ accountLogo }}">
-    <!--TODO: add color picker-->
+    <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" height="100">
 
     <div layout="row" layout-align="space-between center">
       <label>Device Authentication Code: </label>

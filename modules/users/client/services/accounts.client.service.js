@@ -13,6 +13,12 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function getAccounts() {
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
+            res.data.forEach(function (account) {
+                if (account.preferences != "undefined") {
+                    console.log(account.preferences);
+                    account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+                }
+            });
             me.accounts = res.data;
             console.log('accounts Service, accounts %O', me.accounts)
         }

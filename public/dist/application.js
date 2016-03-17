@@ -1825,13 +1825,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
     //changes the view, and sets current edit account
     $scope.editAccount = function (account) {
-
+        $scope.currentAccountLogo = '';
         accountsService.editAccount = account;
-        $scope.accountLogo = '';
-        console.log('editAccount %O', accountsService.editAccount);
-
-        // $scope.accountLogo = JSON.parse(accountsService.editAccount.preferences).logo
-        console.log('logo %O',$scope.accountLogo);
 
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
@@ -1888,9 +1883,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                         else {
                             console.log('s3 response to upload %O', data);
                             // Success!
-                            $scope.accountLogo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            console.log('logo %O', accountsService.editAccount.accountId);
-                             accountsService.init();
+                            accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
+                            $scope.currentAccountLogo = accountsService.editAccount.logo
+                            // accountsService.init();
                             //$scope.accountsService = accountsService;
                             //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
                             //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId})
@@ -3391,6 +3386,12 @@ angular.module('users').directive('lowercase', function () {
     function getAccounts() {
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
+            res.data.forEach(function (account) {
+                if (account.preferences != "undefined") {
+                    console.log(account.preferences);
+                    account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+                }
+            });
             me.accounts = res.data;
             console.log('accounts Service, accounts %O', me.accounts)
         }

@@ -27,7 +27,8 @@
             <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="account in accountsService.accounts  | filter: search">
 
               <div class="md-list-item-text">
-
+                <img ng-src="{{ account.logo }}" height="25px">
+                <!--<pre>{{ account.preferences }}</pre>-->
                 <h3>{{account.name}} </h3>
               </div>
 
