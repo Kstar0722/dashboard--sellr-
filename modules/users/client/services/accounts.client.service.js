@@ -15,7 +15,6 @@ angular.module('users').service('accountsService', function ($http, constants, t
         function onGetAccountSuccess(res) {
             res.data.forEach(function (account) {
                 if (account.preferences != "undefined") {
-                    console.log(account.preferences);
                     account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
                 }
             });
