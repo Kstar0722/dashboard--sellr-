@@ -12,7 +12,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         $timeout(function () {
             $scope.roles = [
                 {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf('admin') > -1},
-                {text: 'store owner', id: 2009, selected: $scope.user.roles.indexOf('store owner') > -1},
+                {text: 'owner', id: 1009, selected: $scope.user.roles.indexOf('owner') > -1},
                 {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
                 {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
                 {text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1}
@@ -77,7 +77,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
             });
             var user = $scope.user;
             var userBeingEdited = CurrentUserService.userBeingEdited;
-            console.log('userBeingEditied %O', userBeingEdited);
+            console.log('userBeingEditied %O', userBeingEdited)
             var url = constants.API_URL + '/users/' + userBeingEdited.userId;
             var payload = {
                 payload: user

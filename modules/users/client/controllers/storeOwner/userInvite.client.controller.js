@@ -81,7 +81,7 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
 
         $scope.roles = [
             {text: 'admin', id: 1004},
-            {text: 'store owner', id: 1006},
+            {text: 'owner', id: 1009},
             {text: 'manager', id: 1002},
             {text: 'supplier', id: 1007},
             {text: 'user', id: 1003}

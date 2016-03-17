@@ -13,8 +13,12 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function getAccounts() {
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
+            res.data.forEach(function (account) {
+                if (account.preferences != "undefined") {
+                    account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+                }
+            });
             me.accounts = res.data;
-            console.log('accounts Service, accounts %O', me.accounts)
         }
 
         function onGetAccountError(err) {
@@ -40,15 +44,14 @@ angular.module('users').service('accountsService', function ($http, constants, t
     };
 
     me.generateAuthCode = function (authCode) {
-        var url = constants.API_URL + '/accounts/auth'
+        var url = constants.API_URL + '/accounts/auth';
         var payload = {
             payload: {
                 accountId: me.editAccount.accountId,
-                oldAuthCode: authCode
+                authCode: authCode
             }
         };
-        //TODO: wait for API route
-        debugger;
+        console.log('authCode Payload %O', payload)
         $http.post(url, payload).then(function (res, err) {
             if (err) {
                 console.error(err)
@@ -59,3 +62,5 @@ angular.module('users').service('accountsService', function ($http, constants, t
     };
     return me;
 });
+
+//TESTING STUFFFS

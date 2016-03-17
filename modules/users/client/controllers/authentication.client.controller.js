@@ -22,7 +22,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             1004: 'admin',
             1002: 'manager',
             1007: 'supplier',
-            1003: 'user'
+            1003: 'user',
+            1009: 'owner'
         };
 
 
@@ -38,15 +39,17 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         //Reg code (userId) exists in database, continue with creation
         function onValidReg(response) {
-            var storeUpdate = {
+            var userUpdate = {
                 payload: {
                     email: $scope.credentials.email,
                     username: $scope.credentials.username,
+                    password: $scope.credentials.password,
                     userId: userInfo.regCode
                 }
             };
-            var url = constants.API_URL + '/users/' + userInfo.regCode
-            $http.put(url, storeUpdate).then(onUpdateSuccess, onUpdateError)
+            var url = constants.API_URL + '/users/' + userInfo.regCode;
+            debugger;
+            $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
 
@@ -58,8 +61,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         }
 
         //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
-        function onUpdateSuccess(res) {
-            if (res) {
+        function onUpdateSuccess(apiRes) {
+            if (apiRes) {
                 $scope.credentials.roles = [];
                 userInfo.roles.forEach(function (role) {
                     $scope.credentials.roles.push(roleTranslate[role])
@@ -72,16 +75,13 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                         console.error(err)
                     }
 
-                    //mock token for testing
-                    response.data.token = 'definitelyarealtoken';
-                    authToken.setToken(response.data.token);
 
                     // If successful we assign the response to the global user model
                     $scope.authentication.user = response.data;
 
                     var roles = [];
                     userInfo.roles.forEach(function (role) {
-                        roles.push(Number(role.roleId))
+                        roles.push(role)
                     });
 
                     localStorage.setItem('accountId', userInfo.accountId);
@@ -89,7 +89,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
-                    $state.go($state.previous.state.name || 'home', $state.previous.params);
+                    $state.go('manager.dashboard');
                 })
             }
         }
