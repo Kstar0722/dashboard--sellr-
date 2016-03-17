@@ -1,43 +1,48 @@
 angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
-
     accountsService.init();
     $scope.accountsService = accountsService;
+
     $scope.determinateValue = 0;
     $scope.accountLogo = '';
     $scope.account = {
         createdBy: Authentication.user.username
     };
-
+    console.log($scope.account);
 
     //changes the view, and sets current edit account
     $scope.editAccount = function (account) {
+
         accountsService.editAccount = account;
+        $scope.accountLogo = '';
         console.log('editAccount %O', accountsService.editAccount);
+
+        $scope.accountLogo =JSON.parse(accountsService.editAccount.preferences).s3url
+        console.log('logo %O',$scope.accountLogo);
+
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
-    $scope.getLogo = function(){
 
-    }
     //TODO: clean this up
-    $scope.upload = function (file) {
+    $scope.upload = function (file, accountId) {
         var mediaAssetId;
         var fileName = file[0].name;
         var obj = {
             payload: {
                 fileName: file[0].name,
-                userName: Authentication.user.username
+                userName: Authentication.user.username,
+                type:'LOGO',
+                accountId:accountId
             }
         };
 
-        //TODO: change media route to ads
-        $http.post(constants.API_URL + '/media/logo', obj).then(function (response, err) {
+        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
             if (err) {
                 console.log(err);
             }
             if (response) {
                 console.log('oncue API response %O', response)
-                mediaAssetId = response.data.assetId
+                mediaAssetId = response.data.assetId;
                 $scope.creds = {
                     bucket: 'beta.cdn.expertoncue.com',
                     access_key: 'AKIAICAP7UIWM4XZWVBA',
@@ -71,7 +76,11 @@ angular.module('users.manager').controller('AccountManagerController', function 
                             console.log('s3 response to upload %O', data);
                             // Success!
                             $scope.accountLogo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            console.log('logo %O', $scope.accountLogo);
+                            console.log('logo %O', accountsService.editAccount.accountId);
+                             accountsService.init();
+                            //$scope.accountsService = accountsService;
+                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
+                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId})
                             $scope.$apply();
                             $scope.determinateValue = 0;
 
