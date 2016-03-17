@@ -45,6 +45,16 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             $scope.currentDiscount = Number(amount);
 
         };
+        $scope.sendOrder = function(){
+            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (response) {
+
+                }
+            })
+        }
         $scope.subtractTotal = function (price) {
             if($scope.priceTotal - price >= 0)
                 $scope.priceTotal -= price ;

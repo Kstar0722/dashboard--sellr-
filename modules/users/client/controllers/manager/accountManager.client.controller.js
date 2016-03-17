@@ -16,7 +16,7 @@ angular.module('users.manager').controller('AccountManagerController', function 
         $scope.accountLogo = '';
         console.log('editAccount %O', accountsService.editAccount);
 
-        $scope.accountLogo =JSON.parse(accountsService.editAccount.preferences).s3url
+        $scope.accountLogo =JSON.parse(accountsService.editAccount.preferences).logo
         console.log('logo %O',$scope.accountLogo);
 
         $state.go('manager.accounts.edit', {id: account.accountId})
@@ -78,9 +78,6 @@ angular.module('users.manager').controller('AccountManagerController', function 
                             $scope.accountLogo = constants.ADS_URL + mediaAssetId + '-' + fileName;
                             console.log('logo %O', accountsService.editAccount.accountId);
                              accountsService.init();
-                            //$scope.accountsService = accountsService;
-                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
-                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId})
                             $scope.$apply();
                             $scope.determinateValue = 0;
 
