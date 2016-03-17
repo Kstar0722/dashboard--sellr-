@@ -40,15 +40,14 @@ angular.module('users').service('accountsService', function ($http, constants, t
     };
 
     me.generateAuthCode = function (authCode) {
-        var url = constants.API_URL + '/accounts/auth'
+        var url = constants.API_URL + '/accounts/auth';
         var payload = {
             payload: {
                 accountId: me.editAccount.accountId,
-                oldAuthCode: authCode
+                authCode: authCode
             }
         };
-        //TODO: wait for API route
-        debugger;
+        console.log('authCode Payload %O', payload)
         $http.post(url, payload).then(function (res, err) {
             if (err) {
                 console.error(err)

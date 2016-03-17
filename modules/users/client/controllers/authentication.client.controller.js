@@ -61,8 +61,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         }
 
         //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
-        function onUpdateSuccess(res) {
-            if (res) {
+        function onUpdateSuccess(apiRes) {
+            if (apiRes) {
                 $scope.credentials.roles = [];
                 userInfo.roles.forEach(function (role) {
                     $scope.credentials.roles.push(roleTranslate[role])
@@ -81,7 +81,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     var roles = [];
                     userInfo.roles.forEach(function (role) {
-                        roles.push(role.roleId)
+                        roles.push(role)
                     });
 
                     localStorage.setItem('accountId', userInfo.accountId);

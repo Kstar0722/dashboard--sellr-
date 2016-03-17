@@ -16,14 +16,13 @@ angular.module('users.manager').controller('AccountManagerController', function 
         $scope.accountLogo = '';
         console.log('editAccount %O', accountsService.editAccount);
 
-        $scope.accountLogo =JSON.parse(accountsService.editAccount.preferences).s3url
+        // $scope.accountLogo = JSON.parse(accountsService.editAccount.preferences).logo
         console.log('logo %O',$scope.accountLogo);
 
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
 
-    //TODO: clean this up
     $scope.upload = function (file, accountId) {
         var mediaAssetId;
         var fileName = file[0].name;
