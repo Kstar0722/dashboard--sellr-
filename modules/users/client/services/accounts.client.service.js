@@ -19,7 +19,6 @@ angular.module('users').service('accountsService', function ($http, constants, t
                 }
             });
             me.accounts = res.data;
-            console.log('accounts Service, accounts %O', me.accounts)
         }
 
         function onGetAccountError(err) {

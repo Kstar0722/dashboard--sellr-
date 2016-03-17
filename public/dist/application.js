@@ -3445,7 +3445,6 @@ angular.module('users').service('accountsService', ["$http", "constants", "toast
                 }
             });
             me.accounts = res.data;
-            console.log('accounts Service, accounts %O', me.accounts)
         }
 
         function onGetAccountError(err) {
