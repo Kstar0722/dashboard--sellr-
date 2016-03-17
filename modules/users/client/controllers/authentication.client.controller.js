@@ -22,7 +22,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             1004: 'admin',
             1002: 'manager',
             1007: 'supplier',
-            1003: 'user'
+            1003: 'user',
+            1009: 'owner'
         };
 
 
@@ -80,7 +81,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     var roles = [];
                     userInfo.roles.forEach(function (role) {
-                        roles.push(Number(role.roleId))
+                        roles.push(role.roleId)
                     });
 
                     localStorage.setItem('accountId', userInfo.accountId);
