@@ -2181,74 +2181,53 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function($sce) {
     };
 }]);;'use strict';
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
+    function($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
-
-
+        $scope.myPermissions = localStorage.getItem('roles');
+        $scope.selectAccountId = localStorage.getItem('accountId');
         $scope.chartService = chartService;
-
-
-        $scope.onClick = function (points, evt) {
+        $scope.accountsService = accountsService;
+        $scope.onClick = function(points, evt) {
             console.log(points, evt);
         };
 
-        $scope.colors = [
-            {
-                fillColor: "#B4B7B9",
-                strokeColor: "#B4B7B9",
-                pointColor: "#B4B7B9",
-                pointStrokeColor: "#B4B7B9",
-                pointHighlightFill: "#B4B7B9",
-                pointHighlightStroke: "#B4B7B9"
-
-            },
-            {
-                fillColor: "#3299BB",
-                strokeColor: "#3299BB",
-                pointColor: "#3299BB",
-                pointStrokeColor: "#3299BB",
-                pointHighlightFill: "#3299BB",
-                pointHighlightStroke: "#3299BB"
-
-            }
-        ]
-
         $scope.chartOptions = {}
-
-
-        $scope.emails = [];
-        $scope.phones = [];
-        $scope.loyalty = [];
-        $scope.analytics = [];
-        var locations = [];
-        var location;
-        $scope.list_devices = [];
-        $scope.stores = [];
-        $scope.specificLoc = [];
-        $scope.init = function () {
+        $scope.init = function() {
+            $scope.emails = [];
+            $scope.phones = [];
+            $scope.loyalty = [];
+            $scope.analytics = [];
+            var locations = [];
+            var location;
+            $scope.list_devices = [];
+            $scope.stores = [];
+            $scope.specificLoc = [];
+            chartService.groupAndFormatDate($scope.selectAccountId)
             $scope.sources = [];
-            $http.get(constants.API_URL + '/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (res) {
-
                     locations = res.data;
-
                     for (var x in locations) {
                         location = locations[x].address;
-                        $scope.specificLoc.push({locationName: locations[x].address, locationId: locations[x].locationId})
-                        $http.get(constants.API_URL + '/devices/location/' + locations[x].locationId).then(function (response, err) {
+                        $scope.specificLoc.push({
+                            locationName: locations[x].address,
+                            locationId: locations[x].locationId
+                        })
+                        $http.get(constants.API_URL + '/devices/location/' + locations[x].locationId).then(function(response, err) {
                             if (err) {
                                 console.log(err);
                             }
-                            if (response) {
+                            if (response.data) {
                                 for (var i in response.data) {
+
                                     $scope.list_devices.push({
-                                        deviceName: response.data[i].name,
+                                        deviceName: response.data[i].name || '',
                                         locationId: response.data[i].location_locationId
                                     });
                                 }
@@ -2260,7 +2239,9 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
             })
 
 
-            $http.get(constants.API_URL + '/loyalty/' + $scope.authentication.user.username).then(function (res, err) {
+
+            //TODO:add loyalty by accountId
+            $http.get(constants.API_URL + '/loyalty/' + $scope.authentication.user.username).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2268,19 +2249,22 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                     for (var i in res.data) {
                         var contact = JSON.parse(res.data[i].contactInfo);
                         if (contact["email"]) {
-                            $scope.emails.push({email: contact['email']});
-                        }
-                        else {
-                            $scope.phones.push({phone: contact['phone']});
+                            $scope.emails.push({
+                                email: contact['email']
+                            });
+                        } else {
+                            $scope.phones.push({
+                                phone: contact['phone']
+                            });
 
                         }
 
                     }
                 }
             });
-            var accountId = localStorage.getItem('accountId');
-            var url = constants.API_URL + '/analytics/top-products?account=' + accountId;
-            $http.get(url).then(function (res, err) {
+
+            var url = constants.API_URL + '/analytics/top-products?account=' + $scope.selectAccountId;
+            $http.get(url).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2297,8 +2281,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         };
     }
 
-]);
-;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
+]);;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
     locationsService.init().then(function () {
         $scope.locationsService = locationsService;
         $scope.location = {};
@@ -3472,46 +3455,54 @@ angular.module('users').factory('Authentication', ['$window',
     return auth;
   }
 ]);
-;angular.module('users').service('chartService', function ($http, $q, constants) {
+;angular.module('users').service('chartService', function($http, $q, constants) {
     var me = this;
-
-    me.data = [[0], [0]];
+    me.groupAndFormatDate = groupAndFormatDate;
+    me.data = [
+        [0],
+        [0]
+    ];
     me.labels = [];
     me.series = ['Sku Scans', 'Page Views'];
-    me.colors = [
-        {
-            fillColor: "#FE3A6D",
-            strokeColor: "#FE3A6D",
-            pointColor: "#FE3A6D",
-            pointStrokeColor: "#FE3A6D",
-            pointHighlightFill: "#FE3A6D",
-            pointHighlightStroke: "#FE3A6D"
+    me.colors = [{
+        fillColor: "#B4B7B9",
+        strokeColor: "#B4B7B9",
+        pointColor: "#B4B7B9",
+        pointStrokeColor: "#B4B7B9",
+        pointHighlightFill: "#B4B7B9",
+        pointHighlightStroke: "#B4B7B9"
 
-        },
-        {
-            fillColor: "#3299BB",
-            strokeColor: "#3299BB",
-            pointColor: "#3299BB",
-            pointStrokeColor: "#3299BB",
-            pointHighlightFill: "#3299BB",
-            pointHighlightStroke: "#3299BB"
+    }, {
+        fillColor: "#3299BB",
+        strokeColor: "#3299BB",
+        pointColor: "#3299BB",
+        pointStrokeColor: "#3299BB",
+        pointHighlightFill: "#3299BB",
+        pointHighlightStroke: "#3299BB"
 
-        }
-    ]
+    }]
 
 
-    function getChartData() {
-        //Get Analytics from API
+
+    function getChartData(accountId) {
+        me.data = [
+            [0],
+            [0]
+        ];
+        me.labels = [];
+        accountId = accountId || localStorage.getItem('accountId')
+            //Get Analytics from API
         var defer = $q.defer();
         var results = {
             sku: [],
             page: []
         }
 
-        $http.get(constants.API_URL + '/analytics?category=sku').then(function (res) {
+        $http.get(constants.API_URL + '/analytics?category=sku&account=' + accountId).then(function(res) {
+            console.log('skus by account %O', res)
             results.sku = res.data.reverse();
             //Get Analytics for Page Views, Second Array
-            $http.get(constants.API_URL + '/analytics?category=pageview').then(function (pageViewRes) {
+            $http.get(constants.API_URL + '/analytics?category=pageview&account=' + accountId).then(function(pageViewRes) {
                 results.page = pageViewRes.data.reverse();
                 defer.resolve(results)
             });
@@ -3521,9 +3512,9 @@ angular.module('users').factory('Authentication', ['$window',
         return defer.promise
     }
 
-    function groupAndFormatDate() {
-        getChartData().then(function (results) {
-            results.sku.forEach(function (analytic) {
+    function groupAndFormatDate(accountId) {
+        getChartData(accountId).then(function(results) {
+            results.sku.forEach(function(analytic) {
                 var message = analytic.analyticsId + ' ';
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -3535,7 +3526,7 @@ angular.module('users').factory('Authentication', ['$window',
                 }
                 if (me.data[0][i]) {
                     me.data[0][i]++
-                    message += 'incremented data point '
+                        message += 'incremented data point '
                 } else {
                     me.data[0][i] = 1
                     message += 'added new data point '
@@ -3543,7 +3534,7 @@ angular.module('users').factory('Authentication', ['$window',
                 //console.log(message)
             });
 
-            results.page.forEach(function (analytic) {
+            results.page.forEach(function(analytic) {
                 var message = 'page: ' + analytic.analyticsId;
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -3580,9 +3571,7 @@ angular.module('users').factory('Authentication', ['$window',
 
 
     return me;
-})
-;
-;angular.module('core').service('constants', function (envService) {
+});;angular.module('core').service('constants', function (envService) {
     var me = this;
 
 
