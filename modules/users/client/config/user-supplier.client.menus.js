@@ -7,6 +7,5 @@ angular.module('users.supplier').run(['Menus',
             title: 'Suppliers',
             state: 'supplier.media'
         });
-
     }
 ]);
