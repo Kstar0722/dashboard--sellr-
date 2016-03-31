@@ -16,7 +16,10 @@ angular.module('users').service('locationsService', function ($http, constants, 
     //MAIN CRUD OPERATIONS, Create, Get, Update, Delete
 
     me.createLocation = function (location) {
+        console.log('location service location object %O', location)
         var url = constants.API_URL + '/locations';
+        location.accountId = localStorage.getItem('accountId');
+        location.defaultLoc = 0;
         var payload = {
             payload: location
         };
@@ -41,7 +44,7 @@ angular.module('users').service('locationsService', function ($http, constants, 
         var payload = {
             payload: me.editLocation
         };
-        $http.put(url, payload).then(onUpdateLocationSuccess, onUpdateLocationFail)
+        $http.put(url, payload).then(onUpdateLocationSuccess, onUpdateLocationFail,  getLocations)
 
     };
 
@@ -60,7 +63,7 @@ angular.module('users').service('locationsService', function ($http, constants, 
     //API RESPONSE/ERROR HANDLING
 
     function onCreateLocationSuccess(res) {
-        if (res.statusCode == 200) {
+        if (res.status == 200) {
             toastr.success('New Location Created', 'Success!')
         }
     }

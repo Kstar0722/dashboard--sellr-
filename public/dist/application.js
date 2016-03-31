@@ -1289,6 +1289,16 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
             $scope.currentDiscount = Number(amount);
 
         };
+        $scope.sendOrder = function(){
+            $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (response) {
+
+                }
+            })
+        }
         $scope.subtractTotal = function (price) {
             if($scope.priceTotal - price >= 0)
                 $scope.priceTotal -= price ;
@@ -3624,7 +3634,10 @@ angular.module('users').factory('Authentication', ['$window',
     //MAIN CRUD OPERATIONS, Create, Get, Update, Delete
 
     me.createLocation = function (location) {
+        console.log('location service location object %O', location)
         var url = constants.API_URL + '/locations';
+        location.accountId = localStorage.getItem('accountId');
+        location.defaultLoc = 0;
         var payload = {
             payload: location
         };
@@ -3649,7 +3662,7 @@ angular.module('users').factory('Authentication', ['$window',
         var payload = {
             payload: me.editLocation
         };
-        $http.put(url, payload).then(onUpdateLocationSuccess, onUpdateLocationFail)
+        $http.put(url, payload).then(onUpdateLocationSuccess, onUpdateLocationFail,  getLocations)
 
     };
 
@@ -3668,7 +3681,7 @@ angular.module('users').factory('Authentication', ['$window',
     //API RESPONSE/ERROR HANDLING
 
     function onCreateLocationSuccess(res) {
-        if (res.statusCode == 200) {
+        if (res.status == 200) {
             toastr.success('New Location Created', 'Success!')
         }
     }
