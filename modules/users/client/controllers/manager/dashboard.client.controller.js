@@ -54,13 +54,12 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                         });
                     }
                 }
-
             })
 
 
 
             //TODO:add loyalty by accountId
-            $http.get(constants.API_URL + '/loyalty/' + $scope.authentication.user.username).then(function(res, err) {
+            $http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
