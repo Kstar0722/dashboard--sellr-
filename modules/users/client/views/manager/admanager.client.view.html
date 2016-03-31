@@ -4,13 +4,18 @@
     <div class="pagecontent">
 
 
-
       <select
+        ng-show="profiles.length>1"
         ng-click="getAds(currentProfile)"
         ng-model="currentProfile"
-        ng-options="profile.profileId as profile.profileName for profile in profiles" style="display:none;"></select>
-      <tt style="display:none;">Profile Selected: {{currentProfile}}</tt>
+        ng-options="profile.profileId as profile.profileName for profile in profiles"></select>
 
+      <div class="form-group" ng-show="myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
+        <label>Account: </label>
+        <md-select ng-model="selectAccountId" ng-change="init()">
+          <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
+        </md-select>
+      </div>
 
         <div class="live ">
           <div class="tab">
@@ -18,13 +23,13 @@
           </div>
           <div class="ads md-whiteframe-5dp" >
 
-            <div class="ad" ng-if="link.ext == 'image' " ng-repeat="link in links">
-              <span class="action delete" ng-click="deactivateAd(link.adId, currentProfile)">
+            <div class="ad" ng-if="activeAd.ext == 'image' " ng-repeat="activeAd in activeAds">
+              <span class="action delete" ng-click="deactivateAd(activeAd.adId, currentProfile)">
                       Remove Ad
                 </span>
-              <div class="img" ng-if="link.ext == 'image'"
-                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}});"></div>
-              <p style="color:black">{{link.name}}</p>
+              <div class="img" ng-if="activeAd.ext == 'image'"
+                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value}});"></div>
+              <p style="color:black">{{activeAd.name}}</p>
             </div>
 
           </div>
@@ -50,73 +55,18 @@
 
         <div class="media">
           <div class="ads">
-            <div class="ad"  ng-repeat="source in sources">
-              <span class="action" ng-click="activateAd(source.adId, currentProfile)">Add Ad</span>
-              <div class="img" ng-if="source.ext == 'image'"
-                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>
-              <p>{{source.name}}</p>
-              <button class="btn btn-danger" ng-click="deleteAd(source)">Delete</button>
+            <div class="ad" ng-repeat="media in allMedia">
+              <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
+              <div class="img" ng-if="media.ext == 'image'"
+                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value}});"></div>
+              <p>{{media.name}}</p>
+              <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
             </div>
           </div>
         </div>
       </div>
 
       <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
-
-
-      <!--<div layout="row">-->
-        <!--<div flex="40" class="adList md-whiteframe-10dp" style="">-->
-          <!--<md-toolbar>-->
-            <!--<div class="md-toolbar-tools">-->
-              <!--<h2>-->
-                <!--<span>Your Files</span>-->
-              <!--</h2>-->
-              <!--<div flex-auto=""></div>-->
-
-            <!--</div>-->
-          <!--</md-toolbar>-->
-
-          <!--<div ng-repeat="source in sources" layout-padding="">-->
-
-            <!--<md-card ng-if="source.ext == 'image' ">-->
-
-              <!--<div class="adimage" ng-if="source.ext == 'image'"-->
-                   <!--style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}});"></div>-->
-              <!--<md-card-actions layout="row" layout-align="end center">-->
-
-                <!--<md-button class="md-raised md-accent" ng-click="activateAd(source.adId, currentProfile)">-->
-                  <!--Add to list-->
-                <!--</md-button>-->
-              <!--</md-card-actions>-->
-            <!--</md-card>-->
-          <!--</div>-->
-
-        <!--</div>-->
-
-
-          <!--<md-content class="md-padding" layout-xs="column" layout="row">-->
-            <!--<div flex-xs flex-gt-xs="50" layout="column">-->
-              <!--<md-card ng-if="link.ext == 'image' " ng-repeat="link in links">-->
-                <!--<div class="adimage" ng-if="link.ext == 'image'"-->
-                     <!--style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}});"></div>-->
-                <!--<md-card-actions layout="row" layout-align="end center">-->
-                  <!--<md-button class="md-icon-button" aria-label="Favorite">-->
-                    <!--<md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>-->
-                  <!--</md-button>-->
-                  <!--<md-button class="md-icon-button" aria-label="Settings">-->
-                    <!--<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>-->
-                  <!--</md-button>-->
-                  <!--<md-button class="md-raised md-warn "-->
-                             <!--ng-click="deactivateAd(link.adId, currentProfile)">-->
-                    <!--Remove from list-->
-                  <!--</md-button>-->
-                <!--</md-card-actions>-->
-              <!--</md-card>-->
-            <!--</div>-->
-          <!--</md-content>-->
-        </div>
-
-      </div>
 
 
     </div>

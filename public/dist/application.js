@@ -28,39 +28,39 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider', 'envServiceProvider',
-    function ($locationProvider, $httpProvider, envServiceProvider) {
-    $locationProvider.html5Mode(true).hashPrefix('!');
+function ($locationProvider, $httpProvider, envServiceProvider) {
+  $locationProvider.html5Mode(true).hashPrefix('!');
 
-        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
-        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+  $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
+  $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
 
 
-        //SET ENVIRONMENT
+  //SET ENVIRONMENT
 
-        // set the domains and variables for each environment
-        envServiceProvider.config({
-            domains: {
-                local: ['localhost'],
-                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
-                production: ['dashboard.expertoncue.com', '*.herokuapp.com','testdashboard.expertoncue.com']
-            },
-            vars: {
-                local: {
-                    API_URL: 'http://localhost:7272'
-                },
-                development: {
-                    API_URL: 'http://mystique.expertoncue.com:7272'
-                },
-                production: {
-                    API_URL: 'https://api.expertoncue.com'
-                }
-            }
-        });
+  // set the domains and variables for each environment
+  envServiceProvider.config({
+    domains: {
+      local: ['localhost'],
+      development: ['dashdev.expertoncue.com'],
+      production: ['dashboard.expertoncue.com']
+    },
+    vars: {
+      local: {
+        API_URL: 'http://localhost:7272'
+      },
+      development: {
+        API_URL: 'https://apidev.expertoncue.com'
+      },
+      production: {
+        API_URL: 'https://api.expertoncue.com'
+      }
+    }
+  });
 
-        // run the environment check, so the comprobation is made
-        // before controllers and services are built
-        envServiceProvider.check();
-  }
+  // run the environment check, so the comprobation is made
+  // before controllers and services are built
+  envServiceProvider.check();
+}
 ]);
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
@@ -96,7 +96,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
   // Store previous state
   function storePreviousState(state, params) {
-    // only store this state if it shouldn't be ignored 
+    // only store this state if it shouldn't be ignored
     if (!state.data || !state.data.ignoreState) {
       $state.previous = {
         state: state,
@@ -867,7 +867,6 @@ angular.module('users.supplier').run(['Menus',
             title: 'Suppliers',
             state: 'supplier.media'
         });
-
     }
 ]);
 ;'use strict';
@@ -1911,18 +1910,22 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 });
 ;'use strict';
 
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr) {
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService',
+    function($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService) {
         $scope.authentication = Authentication;
         var self = this;
-        $scope.links = [];
-        $scope.sources = [];
+        $scope.activeAds = [];
+        $scope.allMedia = [];
         $scope.sortingLog = [];
         $scope.ads = false;
         $scope.activeAds = false;
         $scope.storeDevices = false;
+        $scope.selectAccountId = localStorage.getItem('accountId');
         $scope.toggleLeft = buildDelayedToggler('left');
         $scope.profiles = [];
+        $scope.myPermissions = localStorage.getItem('roles');
+        $scope.accountsService = accountsService;
+
         function debounce(func, wait, context) {
             var timer;
 
@@ -1930,7 +1933,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 var context = $scope,
                     args = Array.prototype.slice.call(arguments);
                 $timeout.cancel(timer);
-                timer = $timeout(function () {
+                timer = $timeout(function() {
                     timer = undefined;
                     func.apply(context, args);
                 }, wait || 10);
@@ -1938,65 +1941,35 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         }
 
         function buildDelayedToggler(navID) {
-            return debounce(function () {
+            return debounce(function() {
                 $mdSidenav(navID)
                     .toggle()
-                    .then(function () {
+                    .then(function() {
                         console.log("toggle " + navID + " is done");
                     });
             }, 200);
         }
 
-        $scope.init = function () {
-            $scope.sources = [];
-            $http.get(constants.API_URL + '/profiles?userName=' + "'" + $scope.authentication.user.username + "'").then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (res) {
-                    for (var i in res.data)
-                        $scope.profiles.push({profileName: res.data[i].name, profileId: res.data[i].profileId});
-                    $scope.currentProfile = res.data[0].profileId;
-                    $scope.getAds($scope.currentProfile);
-                }
-            });
-            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    console.log(response)
-                    for (var i in response.data) {
-                        var myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName};
-                        var re = /(?:\.([^.]+))?$/;
-                        var ext = re.exec(myData.value)[1];
-                        ext = ext.toLowerCase();
-                        if (ext == 'jpg' || ext == 'png' || ext == 'svg') {
-                            myData = {
-                                name: response.data[i].fileName,
-                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
-                                ext: 'image',
-                                adId: response.data[i].adId
-                            };
-                            $scope.sources.push(myData);
-                        }
-                        else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
-                            myData = {
-                                name: response.data[i].fileName,
-                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
-                                ext: 'video',
-                                adId: response.data[i].adId
-                            };
-                            $scope.sources.push(myData);
-                        }
-
-                    }
-                }
-            });
-
+        $scope.init = function() {
+            $scope.getProfiles();
+            $scope.getActiveAds();
+            $scope.getAllMedia()
         };
-        $scope.getDevice = function (loc) {
-            $http.get(constants.API_URL + '/devices/location/' + loc).then(function (response, err) {
+        $scope.getProfiles = function() {
+            $scope.profiles = [];
+            $http.get(constants.API_URL + '/profiles?accountId=' + $scope.selectAccountId).then(function(res, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (res.data.length > 0) {
+                    $scope.profiles = res.data;
+                    $scope.currentProfile = res.data[0].profileId;
+                    $scope.getActiveAds($scope.currentProfile);
+                }
+            });
+        }
+        $scope.getDevice = function(loc) {
+            $http.get(constants.API_URL + '/devices/location/' + loc).then(function(response, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2006,18 +1979,57 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 }
             });
         };
-        $scope.getAds = function (profileId) {
+        $scope.getActiveAds = function(profileId) {
+            $scope.activeAds = [];
+            $http.get(constants.API_URL + '/ads?profileId=' + profileId).then(function(response, err) {
+                if (err) {
+                    console.log(err);
+                }
+                if (response.data.length > 0) {
+                    $scope.ads = true;
+                    for (var i in response.data) {
+                        var myData = {
+                            value: response.data[i].mediaAssetId + "-" + response.data[i].fileName
+                        };
 
-            $scope.links = [];
-            $http.get(constants.API_URL + '/ads?profileId=' + profileId).then(function (response, err) {
+                        var re = /(?:\.([^.]+))?$/;
+                        var ext = re.exec(myData.value)[1];
+                        ext = ext.toLowerCase();
+                        if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'svg') {
+                            myData = {
+                                name: response.data[i].fileName,
+                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
+                                ext: 'image',
+                                adId: response.data[i].adId
+                            };
+                            $scope.activeAds.push(myData);
+                        } else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
+                            myData = {
+                                name: response.data[i].fileName,
+                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
+                                ext: 'video',
+                                adId: response.data[i].adId
+                            };
+                            $scope.activeAds.push(myData);
+                        }
+
+                    }
+                }
+            });
+        };
+        $scope.getAllMedia = function() {
+            $scope.allMedia = [];
+
+            $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId).then(function(response, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (response) {
-                    $scope.ads = true;
+                    console.log(response)
                     for (var i in response.data) {
-                        var myData = {value: response.data[i].mediaAssetId + "-" + response.data[i].fileName};
-
+                        var myData = {
+                            value: response.data[i].mediaAssetId + "-" + response.data[i].fileName
+                        };
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
@@ -2028,69 +2040,68 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                                 ext: 'image',
                                 adId: response.data[i].adId
                             };
-                            $scope.links.push(myData);
-                        }
-                        else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
+                            $scope.allMedia.push(myData);
+                        } else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
                             myData = {
                                 name: response.data[i].fileName,
                                 value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
                                 ext: 'video',
                                 adId: response.data[i].adId
                             };
-                            $scope.links.push(myData);
+                            $scope.allMedia.push(myData);
                         }
 
                     }
                 }
             });
-        };
-        $scope.setCurrentProfile = function (profileId) {
+        }
+        $scope.setCurrentProfile = function(profileId) {
             $scope.currentProfile = profileId;
         };
 
-        $scope.activateAd = function (adId, profileId) {
-
+        $scope.activateAd = function(adId, profileId) {
             var asset = {
                 payload: {
                     adId: adId,
                     profileId: profileId
                 }
             };
-            $http.post(constants.API_URL + '/ads/profile', asset).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads/profile', asset).then(function(response, err) {
                 if (err) {
                     console.log(err);
                     toastr.error('Could not push ad to device. Please try again later.')
                 }
                 if (response) {
-                    $scope.getAds(profileId);
+                    $scope.getActiveAds(profileId);
                     toastr.success('Ad pushed to devices!')
                 }
             });
         };
-        $scope.deactivateAd = function (adId, profileId) {
+        $scope.deactivateAd = function(adId, profileId) {
             console.log(adId)
             console.log(profileId)
-            $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function (response, err) {
+            $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function(response, err) {
                 if (err) {
                     console.log(err);
                     toastr.error('Could not remove ad from devices.')
                 }
                 if (response) {
                     console.log(response);
-                    $scope.getAds(profileId);
+                    $scope.getActiveAds(profileId);
                     toastr.success('Ad removed from devices.')
-                    //$scope.getAds(deviceId);
+                        //$scope.getActiveAds(deviceId);
                 }
             });
         };
-        $scope.upload = function (file) {
+        $scope.upload = function(file) {
             var obj = {
                 payload: {
                     fileName: file[0].name,
-                    userName: $scope.authentication.user.username
+                    userName: $scope.authentication.user.username,
+                    accountId: $scope.selectAccountId
                 }
             };
-            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
+            $http.post(constants.API_URL + '/ads', obj).then(function(response, err) {
                 if (err) {
                     console.log(err);
                     toastr.error('There was a problem uploading your ad.')
@@ -2099,17 +2110,21 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 }
                 if (response) {
                     $scope.creds = {
-                        bucket: 'beta.cdn.expertoncue.com',
-                        access_key: 'AKIAICAP7UIWM4XZWVBA',
-                        secret_key: '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'
-                    }
-                    // Configure The S3 Object
+                            bucket: 'beta.cdn.expertoncue.com',
+                            access_key: 'AKIAICAP7UIWM4XZWVBA',
+                            secret_key: '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'
+                        }
+                        // Configure The S3 Object
                     AWS.config.update({
                         accessKeyId: $scope.creds.access_key,
                         secretAccessKey: $scope.creds.secret_key
                     });
                     AWS.config.region = 'us-east-1';
-                    var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
+                    var bucket = new AWS.S3({
+                        params: {
+                            Bucket: $scope.creds.bucket
+                        }
+                    });
                     var params = {
                         Key: response.data.assetId + "-" + file[0].name,
                         ContentType: file[0].type,
@@ -2120,15 +2135,14 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         }
                     };
                     console.dir(params.Metadata.fileKey)
-                    bucket.putObject(params, function (err, data) {
+                    bucket.putObject(params, function(err, data) {
                             $scope.loading = true;
                             if (err) {
                                 // There Was An Error With Your S3 Config
                                 alert(err.message);
                                 toastr.error('There was a problem uploading your ad.');
                                 return false;
-                            }
-                            else {
+                            } else {
                                 console.dir(data);
                                 // Success!
                                 self.determinateValue = 0;
@@ -2137,24 +2151,23 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
                             }
                         })
-                        .on('httpUploadProgress', function (progress) {
+                        .on('httpUploadProgress', function(progress) {
                             // Log Progress Information
                             console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
                             self.determinateValue = Math.round(progress.loaded / progress.total * 100);
                             $scope.$apply();
                         });
-                }
-                else {
+                } else {
                     // No File Selected
                     alert('No File Selected');
                 }
             });
         };
 
-        $scope.deleteAd = function (ad) {
+        $scope.deleteAd = function(ad) {
             console.log('delete ad %O', ad)
             var url = constants.API_URL + '/ads/' + ad.adId;
-            $http.delete(url).then(function () {
+            $http.delete(url).then(function() {
                 toastr.success('Ad removed', 'Success');
                 $scope.init()
             })
@@ -2162,81 +2175,59 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     }
 ]);
 
-angular.module("users.supplier").filter("trustUrl", ['$sce', function ($sce) {
-    return function (recordingUrl) {
+angular.module("users.supplier").filter("trustUrl", ['$sce', function($sce) {
+    return function(recordingUrl) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
-}]);
-;'use strict';
+}]);;'use strict';
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
+    function($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
-
-
+        $scope.myPermissions = localStorage.getItem('roles');
+        $scope.selectAccountId = localStorage.getItem('accountId');
         $scope.chartService = chartService;
-
-
-        $scope.onClick = function (points, evt) {
+        $scope.accountsService = accountsService;
+        $scope.onClick = function(points, evt) {
             console.log(points, evt);
         };
 
-        $scope.colors = [
-            {
-                fillColor: "#B4B7B9",
-                strokeColor: "#B4B7B9",
-                pointColor: "#B4B7B9",
-                pointStrokeColor: "#B4B7B9",
-                pointHighlightFill: "#B4B7B9",
-                pointHighlightStroke: "#B4B7B9"
-
-            },
-            {
-                fillColor: "#3299BB",
-                strokeColor: "#3299BB",
-                pointColor: "#3299BB",
-                pointStrokeColor: "#3299BB",
-                pointHighlightFill: "#3299BB",
-                pointHighlightStroke: "#3299BB"
-
-            }
-        ]
-
         $scope.chartOptions = {}
-
-
-        $scope.emails = [];
-        $scope.phones = [];
-        $scope.loyalty = [];
-        $scope.analytics = [];
-        var locations = [];
-        var location;
-        $scope.list_devices = [];
-        $scope.stores = [];
-        $scope.specificLoc = [];
-        $scope.init = function () {
+        $scope.init = function() {
+            $scope.emails = [];
+            $scope.phones = [];
+            $scope.loyalty = [];
+            $scope.analytics = [];
+            var locations = [];
+            var location;
+            $scope.list_devices = [];
+            $scope.stores = [];
+            $scope.specificLoc = [];
+            chartService.groupAndFormatDate($scope.selectAccountId)
             $scope.sources = [];
-            $http.get(constants.API_URL + '/store/location/' + $scope.authentication.user.username).then(function (res, err) {
+            $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
                 if (res) {
-
                     locations = res.data;
-
                     for (var x in locations) {
                         location = locations[x].address;
-                        $scope.specificLoc.push({locationName: locations[x].address, locationId: locations[x].locationId})
-                        $http.get(constants.API_URL + '/devices/location/' + locations[x].locationId).then(function (response, err) {
+                        $scope.specificLoc.push({
+                            locationName: locations[x].address,
+                            locationId: locations[x].locationId
+                        })
+                        $http.get(constants.API_URL + '/devices/location/' + locations[x].locationId).then(function(response, err) {
                             if (err) {
                                 console.log(err);
                             }
-                            if (response) {
+                            if (response.data) {
                                 for (var i in response.data) {
+
                                     $scope.list_devices.push({
-                                        deviceName: response.data[i].name,
+                                        deviceName: response.data[i].name || '',
                                         locationId: response.data[i].location_locationId
                                     });
                                 }
@@ -2248,7 +2239,9 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
             })
 
 
-            $http.get(constants.API_URL + '/loyalty/' + $scope.authentication.user.username).then(function (res, err) {
+
+            //TODO:add loyalty by accountId
+            $http.get(constants.API_URL + '/loyalty/' + $scope.authentication.user.username).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2256,19 +2249,22 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
                     for (var i in res.data) {
                         var contact = JSON.parse(res.data[i].contactInfo);
                         if (contact["email"]) {
-                            $scope.emails.push({email: contact['email']});
-                        }
-                        else {
-                            $scope.phones.push({phone: contact['phone']});
+                            $scope.emails.push({
+                                email: contact['email']
+                            });
+                        } else {
+                            $scope.phones.push({
+                                phone: contact['phone']
+                            });
 
                         }
 
                     }
                 }
             });
-            var accountId = localStorage.getItem('accountId');
-            var url = constants.API_URL + '/analytics/top-products?account=' + accountId;
-            $http.get(url).then(function (res, err) {
+
+            var url = constants.API_URL + '/analytics/top-products?account=' + $scope.selectAccountId;
+            $http.get(url).then(function(res, err) {
                 if (err) {
                     console.log(err);
                 }
@@ -2285,8 +2281,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
         };
     }
 
-]);
-;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
+]);;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
     locationsService.init().then(function () {
         $scope.locationsService = locationsService;
         $scope.location = {};
@@ -3460,46 +3455,54 @@ angular.module('users').factory('Authentication', ['$window',
     return auth;
   }
 ]);
-;angular.module('users').service('chartService', function ($http, $q, constants) {
+;angular.module('users').service('chartService', function($http, $q, constants) {
     var me = this;
-
-    me.data = [[0], [0]];
+    me.groupAndFormatDate = groupAndFormatDate;
+    me.data = [
+        [0],
+        [0]
+    ];
     me.labels = [];
     me.series = ['Sku Scans', 'Page Views'];
-    me.colors = [
-        {
-            fillColor: "#FE3A6D",
-            strokeColor: "#FE3A6D",
-            pointColor: "#FE3A6D",
-            pointStrokeColor: "#FE3A6D",
-            pointHighlightFill: "#FE3A6D",
-            pointHighlightStroke: "#FE3A6D"
+    me.colors = [{
+        fillColor: "#B4B7B9",
+        strokeColor: "#B4B7B9",
+        pointColor: "#B4B7B9",
+        pointStrokeColor: "#B4B7B9",
+        pointHighlightFill: "#B4B7B9",
+        pointHighlightStroke: "#B4B7B9"
 
-        },
-        {
-            fillColor: "#3299BB",
-            strokeColor: "#3299BB",
-            pointColor: "#3299BB",
-            pointStrokeColor: "#3299BB",
-            pointHighlightFill: "#3299BB",
-            pointHighlightStroke: "#3299BB"
+    }, {
+        fillColor: "#3299BB",
+        strokeColor: "#3299BB",
+        pointColor: "#3299BB",
+        pointStrokeColor: "#3299BB",
+        pointHighlightFill: "#3299BB",
+        pointHighlightStroke: "#3299BB"
 
-        }
-    ]
+    }]
 
 
-    function getChartData() {
-        //Get Analytics from API
+
+    function getChartData(accountId) {
+        me.data = [
+            [0],
+            [0]
+        ];
+        me.labels = [];
+        accountId = accountId || localStorage.getItem('accountId')
+            //Get Analytics from API
         var defer = $q.defer();
         var results = {
             sku: [],
             page: []
         }
 
-        $http.get(constants.API_URL + '/analytics?category=sku').then(function (res) {
+        $http.get(constants.API_URL + '/analytics?category=sku&account=' + accountId).then(function(res) {
+            console.log('skus by account %O', res)
             results.sku = res.data.reverse();
             //Get Analytics for Page Views, Second Array
-            $http.get(constants.API_URL + '/analytics?category=pageview').then(function (pageViewRes) {
+            $http.get(constants.API_URL + '/analytics?category=pageview&account=' + accountId).then(function(pageViewRes) {
                 results.page = pageViewRes.data.reverse();
                 defer.resolve(results)
             });
@@ -3509,9 +3512,9 @@ angular.module('users').factory('Authentication', ['$window',
         return defer.promise
     }
 
-    function groupAndFormatDate() {
-        getChartData().then(function (results) {
-            results.sku.forEach(function (analytic) {
+    function groupAndFormatDate(accountId) {
+        getChartData(accountId).then(function(results) {
+            results.sku.forEach(function(analytic) {
                 var message = analytic.analyticsId + ' ';
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -3523,7 +3526,7 @@ angular.module('users').factory('Authentication', ['$window',
                 }
                 if (me.data[0][i]) {
                     me.data[0][i]++
-                    message += 'incremented data point '
+                        message += 'incremented data point '
                 } else {
                     me.data[0][i] = 1
                     message += 'added new data point '
@@ -3531,7 +3534,7 @@ angular.module('users').factory('Authentication', ['$window',
                 //console.log(message)
             });
 
-            results.page.forEach(function (analytic) {
+            results.page.forEach(function(analytic) {
                 var message = 'page: ' + analytic.analyticsId;
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -3568,9 +3571,7 @@ angular.module('users').factory('Authentication', ['$window',
 
 
     return me;
-})
-;
-;angular.module('core').service('constants', function (envService) {
+});;angular.module('core').service('constants', function (envService) {
     var me = this;
 
 

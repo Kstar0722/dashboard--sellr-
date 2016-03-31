@@ -5,39 +5,39 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider', 'envServiceProvider',
-    function ($locationProvider, $httpProvider, envServiceProvider) {
-    $locationProvider.html5Mode(true).hashPrefix('!');
+function ($locationProvider, $httpProvider, envServiceProvider) {
+  $locationProvider.html5Mode(true).hashPrefix('!');
 
-        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
-        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+  $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
+  $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
 
 
-        //SET ENVIRONMENT
+  //SET ENVIRONMENT
 
-        // set the domains and variables for each environment
-        envServiceProvider.config({
-            domains: {
-                local: ['localhost'],
-                development: ['mystique.expertoncue.com', 'mystique.expertoncue.com:3000', 'betadashboard.expertoncue.com', 'dashboarddev.expertoncue.com'],
-                production: ['dashboard.expertoncue.com', '*.herokuapp.com','testdashboard.expertoncue.com']
-            },
-            vars: {
-                local: {
-                    API_URL: 'http://localhost:7272'
-                },
-                development: {
-                    API_URL: 'http://mystique.expertoncue.com:7272'
-                },
-                production: {
-                    API_URL: 'https://api.expertoncue.com'
-                }
-            }
-        });
+  // set the domains and variables for each environment
+  envServiceProvider.config({
+    domains: {
+      local: ['localhost'],
+      development: ['dashdev.expertoncue.com'],
+      production: ['dashboard.expertoncue.com']
+    },
+    vars: {
+      local: {
+        API_URL: 'http://localhost:7272'
+      },
+      development: {
+        API_URL: 'https://apidev.expertoncue.com'
+      },
+      production: {
+        API_URL: 'https://api.expertoncue.com'
+      }
+    }
+  });
 
-        // run the environment check, so the comprobation is made
-        // before controllers and services are built
-        envServiceProvider.check();
-  }
+  // run the environment check, so the comprobation is made
+  // before controllers and services are built
+  envServiceProvider.check();
+}
 ]);
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
@@ -73,7 +73,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
   // Store previous state
   function storePreviousState(state, params) {
-    // only store this state if it shouldn't be ignored 
+    // only store this state if it shouldn't be ignored
     if (!state.data || !state.data.ignoreState) {
       $state.previous = {
         state: state,
