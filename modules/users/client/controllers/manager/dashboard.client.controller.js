@@ -39,6 +39,17 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 								if (response.data.length > 0) {
 									console.log('response for device query for %s %O', thisLocation.locationId, response)
 										//this location has devices, add to that location
+									response.data.forEach(function(device) {
+										var rightNow = moment();
+										var time = moment(device.lastCheck).subtract(4, 'hours')
+										device.moment = moment(time).fromNow();
+										var timeDiff = time.diff(rightNow, 'hours')
+										device.unhealthy = timeDiff <= -3 ? true : false;
+										console.log('rightNow', rightNow)
+										console.log('timeDiff', timeDiff)
+										console.log('device unhealthy', device.unhealthy)
+
+									})
 									thisLocation.devices = response.data || [];
 									$scope.locations.push(thisLocation)
 								}

@@ -64,9 +64,10 @@
 						<div class="devices " ng-repeat="location in locations">
 							<h1>{{location.name}} - {{location.address}}</h1>
 							<div class="device" ng-repeat="device in location.devices">
-								<div class="icon">
+								<div class="icon" ng-class="{error:device.unhealthy}">
 									<i class="fa fa-desktop"></i></div>
 								<p>{{device.name}}</p>
+								<small>Last online {{device.moment}}</small>
 							</div>
 						</div>
 					</div>
