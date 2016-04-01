@@ -340,7 +340,6 @@ section.userList .userbox {
   padding: 16px;
 }
 .dashboard .leads .leadgen {
-  margin-top: ;
   background: white;
   color: #1f2532;
   width: 48%;
@@ -427,9 +426,8 @@ section.userList .userbox {
   float: left;
 }
 .dashboard .devices .device {
-  width: 20%;
+  min-width: 8vw;
   min-height: 9vh;
-  background: ;
   float: left;
   text-align: center;
   padding: 2.5%;
@@ -459,7 +457,6 @@ section.userList .userbox {
   }
 }
 .dashboard .devices .device .icon {
-  background: ;
   width: 100%;
   height: 80%;
   margin: 0 auto;
