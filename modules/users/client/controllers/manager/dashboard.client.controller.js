@@ -39,8 +39,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 								if (response.data.length > 0) {
 									//this location has devices, add to that location
 									response.data.forEach(function(device) {
-                                        console.log(device)
-                                        console.log(device.niceDate)
 										var rightNow = moment();
                                         var time = moment(device.lastCheck).subtract(4, 'hours');
 										device.moment = moment(time).fromNow();

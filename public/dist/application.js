@@ -2296,8 +2296,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 								if (response.data.length > 0) {
 									//this location has devices, add to that location
 									response.data.forEach(function(device) {
-                                        console.log(device)
-                                        console.log(device.niceDate)
 										var rightNow = moment();
                                         var time = moment(device.lastCheck).subtract(4, 'hours');
 										device.moment = moment(time).fromNow();
@@ -3441,9 +3439,12 @@ angular.module('users').directive('lowercase', function () {
 ;angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
+
     me.init = function () {
+        me.selectAccountId = localStorage.getItem('accountId');
         me.accounts = [];
         me.editAccount = {};
+        me.currentAccount = {};
         getAccounts();
     };
 
@@ -3451,11 +3452,17 @@ angular.module('users').directive('lowercase', function () {
 
 
     function getAccounts() {
+        console.log('selectAccountId %O', me.selectAccountId)
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
+            me.accounts = [];
             res.data.forEach(function (account) {
                 if (account.preferences != "undefined") {
                     account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+                }
+                if (account.accountId == me.selectAccountId) {
+                    me.currentAccount = account;
+                    console.log('setting current account %O', me.currentAccount)
                 }
             });
             me.accounts = res.data;
@@ -3503,7 +3510,6 @@ angular.module('users').directive('lowercase', function () {
     return me;
 });
 
-//TESTING STUFFFS
 ;'use strict';
 
 // Users service used for communicating with the users REST endpoint

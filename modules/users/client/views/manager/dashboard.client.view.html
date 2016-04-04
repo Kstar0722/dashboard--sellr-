@@ -50,6 +50,9 @@
 					<!-- START DEVICES -->
 					<div>
 						<h1 class="md-display-2">Devices</h1>
+            <small ng-show="accountsService.currentAccount.accountId == selectAccountId">Authentication Code: {{ accountsService.currentAccount.authCode
+              }}
+            </small>
 						<md-divider></md-divider>
 						<div class="devices " ng-repeat="location in locations">
 							<h1>{{location.name}} - {{location.address}}</h1>
