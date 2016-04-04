@@ -1,4 +1,4 @@
-angular.module('users').service('chartService', function($http, $q, constants) {
+angular.module('core').service('chartService', function ($http, $q, constants) {
     var me = this;
     me.groupAndFormatDate = groupAndFormatDate;
     me.data = [
@@ -42,10 +42,12 @@ angular.module('users').service('chartService', function($http, $q, constants) {
         }
 
         $http.get(constants.API_URL + '/analytics?category=sku&account=' + accountId).then(function(res) {
+            me.skuData = res.data;
             console.log('skus by account %O', res)
             results.sku = res.data.reverse();
             //Get Analytics for Page Views, Second Array
             $http.get(constants.API_URL + '/analytics?category=pageview&account=' + accountId).then(function(pageViewRes) {
+                me.pageData = pageViewRes.data
                 results.page = pageViewRes.data.reverse();
                 defer.resolve(results)
             });

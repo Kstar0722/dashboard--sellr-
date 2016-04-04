@@ -304,6 +304,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                     ignoreState: true
                 }
             })
+            .state('stats', {
+                url: '/stats/{account}',
+                templateUrl: 'modules/core/client/views/stats.client.view.html',
+                controller: 'statsController'
+            })
             .state('forbidden', {
                 url: '/forbidden',
                 templateUrl: 'modules/core/client/views/403.client.view.html',
@@ -390,6 +395,67 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     }
 ]);
+;angular.module('core').controller('statsController', function ($scope, $http, $stateParams, constants, chartService, $timeout) {
+    $scope.chartService = chartService;
+    $scope.locations = [];
+    var accountId = $stateParams.account;       //set by the URL
+    var refreshInterval = 60;                   //how often data refreshes, in seconds;
+
+    function refreshData() {
+        $scope.locations = [];
+        getDevicesLocations();
+        chartService.groupAndFormatDate(accountId);
+
+        //after 30 seconds, recursively refresh data
+        $timeout(function () {
+            refreshData()
+        }, refreshInterval * 1000)
+    }
+
+    function getDevicesLocations() {
+        $http.get(constants.API_URL + '/locations?account=' + accountId).then(function (res, err) {
+            if (err) {
+                console.log(err);
+            }
+            if (res.data.length > 0) {
+                //this account has at least one location
+                res.data.forEach(function (thisLocation) {
+                    thisLocation.devices = [];
+                    $http.get(constants.API_URL + '/devices/location/' + thisLocation.locationId).then(function (response, err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        if (response.data.length > 0) {
+                            //this location has devices, add to that location
+                            response.data.forEach(function (device) {
+                                console.log(device);
+                                console.log(device.niceDate);
+
+                                //check to see if device is unhealthy
+                                var rightNow = moment();
+                                var time = moment(device.lastCheck).subtract(4, 'hours');
+                                device.moment = moment(time).fromNow();
+
+                                //determines what classifies as 'unhealthy'
+                                var timeDiff = time.diff(rightNow, 'minutes');
+                                device.unhealthy = timeDiff <= -60;
+
+                            });
+                            thisLocation.devices = response.data || [];
+                            $scope.locations.push(thisLocation)
+                        }
+                    });
+                })
+            }
+        })
+    }
+
+
+    //call the function on load to start the loop.
+    refreshData()
+
+
+});
 ;'use strict';
 
 /**
@@ -2230,11 +2296,13 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 								if (response.data.length > 0) {
 									//this location has devices, add to that location
 									response.data.forEach(function(device) {
+                                        console.log(device)
+                                        console.log(device.niceDate)
 										var rightNow = moment();
-										var time = moment(device.lastCheck).subtract(4, 'hours')
+                                        var time = moment(device.lastCheck).subtract(4, 'hours');
 										device.moment = moment(time).fromNow();
-										var timeDiff = time.diff(rightNow, 'hours')
-										device.unhealthy = timeDiff <= -3 ? true : false;
+                                        var timeDiff = time.diff(rightNow, 'hours');
+                                        device.unhealthy = timeDiff <= -3;
 
 									})
 									thisLocation.devices = response.data || [];
@@ -2244,7 +2312,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 						})
 					}
 				})
-				//TODO:add loyalty by accountId
 			$http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function(res, err) {
 				if (err) {
 					console.log(err);
@@ -2285,7 +2352,8 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		};
 	}
 
-]);;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
+]);
+;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
     locationsService.init().then(function () {
         $scope.locationsService = locationsService;
         $scope.location = {};
@@ -3459,7 +3527,7 @@ angular.module('users').factory('Authentication', ['$window',
     return auth;
   }
 ]);
-;angular.module('users').service('chartService', function($http, $q, constants) {
+;angular.module('core').service('chartService', function ($http, $q, constants) {
     var me = this;
     me.groupAndFormatDate = groupAndFormatDate;
     me.data = [
@@ -3503,10 +3571,12 @@ angular.module('users').factory('Authentication', ['$window',
         }
 
         $http.get(constants.API_URL + '/analytics?category=sku&account=' + accountId).then(function(res) {
+            me.skuData = res.data;
             console.log('skus by account %O', res)
             results.sku = res.data.reverse();
             //Get Analytics for Page Views, Second Array
             $http.get(constants.API_URL + '/analytics?category=pageview&account=' + accountId).then(function(pageViewRes) {
+                me.pageData = pageViewRes.data
                 results.page = pageViewRes.data.reverse();
                 defer.resolve(results)
             });
@@ -3575,7 +3645,8 @@ angular.module('users').factory('Authentication', ['$window',
 
 
     return me;
-});;angular.module('core').service('constants', function (envService) {
+});
+;angular.module('core').service('constants', function (envService) {
     var me = this;
 
 

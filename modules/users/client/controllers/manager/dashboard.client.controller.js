@@ -39,11 +39,13 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 								if (response.data.length > 0) {
 									//this location has devices, add to that location
 									response.data.forEach(function(device) {
+                                        console.log(device)
+                                        console.log(device.niceDate)
 										var rightNow = moment();
-										var time = moment(device.lastCheck).subtract(4, 'hours')
+                                        var time = moment(device.lastCheck).subtract(4, 'hours');
 										device.moment = moment(time).fromNow();
-										var timeDiff = time.diff(rightNow, 'hours')
-										device.unhealthy = timeDiff <= -3 ? true : false;
+                                        var timeDiff = time.diff(rightNow, 'hours');
+                                        device.unhealthy = timeDiff <= -3;
 
 									})
 									thisLocation.devices = response.data || [];
@@ -53,7 +55,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 						})
 					}
 				})
-				//TODO:add loyalty by accountId
 			$http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function(res, err) {
 				if (err) {
 					console.log(err);
