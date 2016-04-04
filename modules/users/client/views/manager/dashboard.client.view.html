@@ -3,31 +3,21 @@
 	<div class="titlebar">
 		<h1 class="md-display-2">Dashboard</h1>
 	</div>
-
 	<div class="pagecontent">
-		<div class="form-group" ng-show="myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
-			<label>Account: </label>
-			<md-select ng-model="selectAccountId" ng-change="init()">
-				<md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
-			</md-select>
-		</div>
+    <div class="form-group" ng-show="myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
+      <label>Account: </label>
+      <md-select ng-model="selectAccountId" ng-change="init()">
+        <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
+      </md-select>
+    </div>
 		<!--CHART JS STUFF-->
 		<div class="chartbox" layout="column" layout-wrap>
-
-
 			<h1>Store Activity</h1>
-
 			<canvas height="70" id="line" class="chart chart-bar" chart-data="chartService.data" chart-labels="chartService.labels" chart-legend="true" chart-series="chartService.series" chart-colours="chartService.colors" chart-options="chartOptions">
 				</canvas>
-
-
 		</div>
-
-
 		<div layout="row" layout-wrap>
-
 			<div flex="60" layout-padding layout-align="none none">
-
 				<div layout="column" layout-wrap>
 					<!-- START CUSTOMER LEADS -->
 					<div style="display: none;" ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
@@ -60,6 +50,9 @@
 					<!-- START DEVICES -->
 					<div>
 						<h1 class="md-display-2">Devices</h1>
+            <small ng-show="accountsService.currentAccount.accountId == selectAccountId">Authentication Code: {{ accountsService.currentAccount.authCode
+              }}
+            </small>
 						<md-divider></md-divider>
 						<div class="devices " ng-repeat="location in locations">
 							<h1>{{location.name}} - {{location.address}}</h1>
@@ -93,14 +86,10 @@
 				</md-list>
 			</div>
 		</div>
-
 		<div layout="column">
 			<br>
-
-
 		</div>
 		<div ui-view></div>
-
 	</div>
 	<!-- endpage -->
 </section>
