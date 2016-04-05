@@ -15,6 +15,8 @@ angular.module('core').controller('statsController', function ($scope, $http, $s
         }, refreshInterval * 1000)
     }
 
+    localStorage.clear()
+
     function getDevicesLocations() {
         $http.get(constants.API_URL + '/locations?account=' + accountId).then(function (res, err) {
             if (err) {

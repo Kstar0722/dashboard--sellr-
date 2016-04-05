@@ -33,7 +33,7 @@ angular.module('core').service('chartService', function ($http, $q, constants) {
             [0]
         ];
         me.labels = [];
-        accountId = accountId || localStorage.getItem('accountId')
+        accountId = accountId || localStorage.getItem('accountId');
             //Get Analytics from API
         var defer = $q.defer();
         var results = {

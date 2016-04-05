@@ -334,7 +334,6 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
             $scope.isCollapsed = !$scope.isCollapsed;
         };
         $scope.openMenu = function($mdOpenMenu, ev) {
-            console.log('hello')
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
@@ -411,6 +410,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             refreshData()
         }, refreshInterval * 1000)
     }
+
+    localStorage.clear()
 
     function getDevicesLocations() {
         $http.get(constants.API_URL + '/locations?account=' + accountId).then(function (res, err) {
@@ -3568,7 +3569,7 @@ angular.module('users').factory('Authentication', ['$window',
             [0]
         ];
         me.labels = [];
-        accountId = accountId || localStorage.getItem('accountId')
+        accountId = accountId || localStorage.getItem('accountId');
             //Get Analytics from API
         var defer = $q.defer();
         var results = {
