@@ -340,7 +340,6 @@ section.userList .userbox {
   padding: 16px;
 }
 .dashboard .leads .leadgen {
-  margin-top: ;
   background: white;
   color: #1f2532;
   width: 48%;
@@ -427,9 +426,8 @@ section.userList .userbox {
   float: left;
 }
 .dashboard .devices .device {
-  width: 20%;
+  min-width: 8vw;
   min-height: 9vh;
-  background: ;
   float: left;
   text-align: center;
   padding: 2.5%;
@@ -459,7 +457,6 @@ section.userList .userbox {
   }
 }
 .dashboard .devices .device .icon {
-  background: ;
   width: 100%;
   height: 80%;
   margin: 0 auto;
@@ -566,4 +563,69 @@ section.userList .userbox {
 }
 .pricingcalc .bottomrow .total h4 {
   margin-right: 2.5vw;
+}
+.stats .left {
+  width: 50vw;
+  height: 100vw;
+  float: left;
+}
+.stats .left .deviceframe {
+  transform: scale(0.3);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150px;
+  height: 150px;
+}
+.stats .right {
+  width: 50vw;
+  height: 100vw;
+  float: left;
+  padding: 5%;
+}
+.stats .devices {
+  float: left;
+  position: absolute;
+  top: 50vw;
+  padding: 0 2%;
+}
+.stats .devices .device {
+  width: 25%;
+  height: 15vh;
+  float: left;
+  text-align: center;
+  padding: 2.5%;
+}
+@media (max-width: 768px) {
+  .stats .devices .device {
+    width: 33%;
+  }
+}
+@media (max-width: 480px) {
+  .stats .devices .device {
+    width: 50%;
+  }
+}
+.stats .devices .device p {
+  margin-top: 0px;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 20px;
+  text-transform: capitalize;
+}
+@media (max-width: 480px) {
+  .stats .devices .device p {
+    font-size: 14px;
+  }
+}
+.stats .devices .device .icon {
+  width: 100%;
+  height: 80%;
+  margin: 0 auto;
+  font-size: 50px;
+  line-height: 50px;
+  color: #00AB51;
+}
+.stats .devices .device .icon.error {
+  color: red;
 }

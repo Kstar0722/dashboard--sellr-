@@ -14,7 +14,6 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
             $scope.isCollapsed = !$scope.isCollapsed;
         };
         $scope.openMenu = function($mdOpenMenu, ev) {
-            console.log('hello')
             originatorEv = ev;
             $mdOpenMenu(ev);
         };

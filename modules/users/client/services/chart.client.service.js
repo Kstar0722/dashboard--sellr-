@@ -1,43 +1,53 @@
-angular.module('users').service('chartService', function ($http, $q, constants) {
+angular.module('core').service('chartService', function ($http, $q, constants) {
     var me = this;
-
-    me.data = [[0], [0]];
+    me.groupAndFormatDate = groupAndFormatDate;
+    me.data = [
+        [0],
+        [0]
+    ];
     me.labels = [];
     me.series = ['Sku Scans', 'Page Views'];
-    me.colors = [
-        {
-            fillColor: "#FE3A6D",
-            strokeColor: "#FE3A6D",
-            pointColor: "#FE3A6D",
-            pointStrokeColor: "#FE3A6D",
-            pointHighlightFill: "#FE3A6D",
-            pointHighlightStroke: "#FE3A6D"
+    me.colors = [{
+        fillColor: "#B4B7B9",
+        strokeColor: "#B4B7B9",
+        pointColor: "#B4B7B9",
+        pointStrokeColor: "#B4B7B9",
+        pointHighlightFill: "#B4B7B9",
+        pointHighlightStroke: "#B4B7B9"
 
-        },
-        {
-            fillColor: "#3299BB",
-            strokeColor: "#3299BB",
-            pointColor: "#3299BB",
-            pointStrokeColor: "#3299BB",
-            pointHighlightFill: "#3299BB",
-            pointHighlightStroke: "#3299BB"
+    }, {
+        fillColor: "#3299BB",
+        strokeColor: "#3299BB",
+        pointColor: "#3299BB",
+        pointStrokeColor: "#3299BB",
+        pointHighlightFill: "#3299BB",
+        pointHighlightStroke: "#3299BB"
 
-        }
-    ]
+    }]
 
 
-    function getChartData() {
-        //Get Analytics from API
+
+    function getChartData(accountId) {
+        me.data = [
+            [0],
+            [0]
+        ];
+        me.labels = [];
+        accountId = accountId || localStorage.getItem('accountId');
+            //Get Analytics from API
         var defer = $q.defer();
         var results = {
             sku: [],
             page: []
         }
 
-        $http.get(constants.API_URL + '/analytics?category=sku').then(function (res) {
+        $http.get(constants.API_URL + '/analytics?category=sku&account=' + accountId).then(function(res) {
+            me.skuData = res.data;
+            console.log('skus by account %O', res)
             results.sku = res.data.reverse();
             //Get Analytics for Page Views, Second Array
-            $http.get(constants.API_URL + '/analytics?category=pageview').then(function (pageViewRes) {
+            $http.get(constants.API_URL + '/analytics?category=pageview&account=' + accountId).then(function(pageViewRes) {
+                me.pageData = pageViewRes.data
                 results.page = pageViewRes.data.reverse();
                 defer.resolve(results)
             });
@@ -47,9 +57,9 @@ angular.module('users').service('chartService', function ($http, $q, constants) 
         return defer.promise
     }
 
-    function groupAndFormatDate() {
-        getChartData().then(function (results) {
-            results.sku.forEach(function (analytic) {
+    function groupAndFormatDate(accountId) {
+        getChartData(accountId).then(function(results) {
+            results.sku.forEach(function(analytic) {
                 var message = analytic.analyticsId + ' ';
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -61,7 +71,7 @@ angular.module('users').service('chartService', function ($http, $q, constants) 
                 }
                 if (me.data[0][i]) {
                     me.data[0][i]++
-                    message += 'incremented data point '
+                        message += 'incremented data point '
                 } else {
                     me.data[0][i] = 1
                     message += 'added new data point '
@@ -69,7 +79,7 @@ angular.module('users').service('chartService', function ($http, $q, constants) 
                 //console.log(message)
             });
 
-            results.page.forEach(function (analytic) {
+            results.page.forEach(function(analytic) {
                 var message = 'page: ' + analytic.analyticsId;
                 var date = moment(analytic.createdDate.split('T')[0]).format('MMM DD');
                 var i = me.labels.indexOf(date);
@@ -106,5 +116,4 @@ angular.module('users').service('chartService', function ($http, $q, constants) 
 
 
     return me;
-})
-;
+});

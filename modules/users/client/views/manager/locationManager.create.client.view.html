@@ -2,7 +2,7 @@
 
   <h1>Create A Location</h1>
 
-  <form name="locationForm" ng-submit="createLocation()" novalidate>
+  <form name="locationForm" ng-submit="locationsService.createLocation(location)" novalidate>
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
 
       <md-input-container class="md-block" flex-gt-sm>

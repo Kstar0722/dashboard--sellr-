@@ -1,99 +1,95 @@
 <section class="content dashboard" ng-controller="DashboardController as vm" data-ng-init="init()">
 
-  <div class="titlebar"><h1 class="md-display-2">Dashboard</h1></div>
-
-  <div class="pagecontent">
-    <!--CHART JS STUFF-->
-    <div class="chartbox" layout="column" layout-wrap >
-
-
-        <h1>Store Activity</h1>
-
-        <canvas height="70" id="line" class="chart chart-bar" chart-data="chartService.data"
-                chart-labels="chartService.labels" chart-legend="true" chart-series="chartService.series" chart-colours="colors"
-                chart-options="chartOptions">
-        </canvas>
-
-
+	<div class="titlebar">
+		<h1 class="md-display-2">Dashboard</h1>
+	</div>
+	<div class="pagecontent">
+    <div class="form-group" ng-show="myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
+      <label>Account: </label>
+      <md-select ng-model="selectAccountId" ng-change="init()">
+        <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
+      </md-select>
     </div>
-
-
-    <div layout="row" layout-wrap>
-
-      <div flex="60" layout-padding layout-align="none none">
-
-        <div layout="column" layout-wrap>
-          <!-- START CUSTOMER LEADS -->
-          <div style="display: none;" ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
-          <div style="display: none;" ng-repeat="email in filteredEmails = (emails | filter: query)"></div>
-          <div class="leads">
-            <h1>Customer Leads:</h1>
-            <div class="leadgen md-whiteframe-5dp" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV">
-              <!--<span class="overlay">Click to download CSV</span>-->
-              <div class="icon"><i class="fa fa-envelope"></i></div>
-              <div class="data">
-                <div class="centerhelp">
-                  <span class="number">{{filteredEmails.length}}</span>
-                  <span class="label">Email Addresses</span>
-                </div>
-              </div>
-            </div>
-            <div class="leadgen md-whiteframe-5dp" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV">
-              <!--<span class="overlay">Click to download CSV</span>-->
-					<span class="icon">
+		<!--CHART JS STUFF-->
+		<div class="chartbox" layout="column" layout-wrap>
+			<h1>Store Activity</h1>
+			<canvas height="70" id="line" class="chart chart-bar" chart-data="chartService.data" chart-labels="chartService.labels" chart-legend="true" chart-series="chartService.series" chart-colours="chartService.colors" chart-options="chartOptions">
+				</canvas>
+		</div>
+		<div layout="row" layout-wrap>
+			<div flex="60" layout-padding layout-align="none none">
+				<div layout="column" layout-wrap>
+					<!-- START CUSTOMER LEADS -->
+					<div style="display: none;" ng-repeat="phone in filteredPhones = (phones | filter: query)"></div>
+					<div style="display: none;" ng-repeat="email in filteredEmails = (emails | filter: query)"></div>
+					<div class="leads">
+						<h1>Customer Leads:</h1>
+						<div class="leadgen md-whiteframe-5dp" ng-csv="emails" csv-header="['Emails']" filename="loyalty_list_emails.csv" aria-label="Download CSV">
+							<!--<span class="overlay">Click to download CSV</span>-->
+							<div class="icon"><i class="fa fa-envelope"></i></div>
+							<div class="data">
+								<div class="centerhelp">
+									<span class="number">{{filteredEmails.length}}</span>
+									<span class="label">Email Addresses</span>
+								</div>
+							</div>
+						</div>
+						<div class="leadgen md-whiteframe-5dp" ng-csv="phones" csv-header="['Phone #s']" filename="loyalty_list_phones.csv" aria-label="Download CSV">
+							<!--<span class="overlay">Click to download CSV</span>-->
+							<span class="icon">
 					<i class="fa fa-mobile"></i>
 					</span>
-              <div class="data">
-                <div class="centerhelp">
-                  <span class="number">{{filteredPhones.length}} </span> <span class="label">Phone Numbers</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- END CUSTOMER LEADS -->
-          <!-- START DEVICES -->
-          <div>
-            <h1 class="md-display-2">Devices</h1>
-            <md-divider></md-divider>
-            <div class="devices " ng-repeat="locs in specificLoc " ng-if="list_devices.locationId == specificLoc.locationId">
-              <h1>{{locs.locationName}}</h1>
-              <div class="device" ng-repeat="device in list_devices" ng-if="device.locationId == locs.locationId">
-                <div class="icon"><i class="fa fa-desktop"></i></div>
-                <p>{{device.deviceName}}</p>
-
-              </div>
-
-            </div>
-          </div>
-          <!-- END DEVICES -->
-        </div>
-      </div>
-      <div flex="33" flex-offset="5" class="topten">
-        <!--{{analytics}}-->
-        <md-list class="md-whiteframe-5dp">
-          <md-toolbar>
-            <div class="md-toolbar-tools">
-              <h2>
-                <span>Top 10 Items </span>
-              </h2>
-            </div>
-          </md-toolbar>
-          <md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10">
-            <!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
-            <p>{{analytic.opt_value}}</p>
-            <p class="md-secondary"> {{analytic.cnt}}</p>
-            <md-divider ng-if="!$last"></md-divider>
-          </md-list-item>
-        </md-list>
-      </div>
-    </div>
-
-    <div layout="column">
-      <br>
-
-
-    </div>
-    <div ui-view></div>
-
-  </div><!-- endpage -->
+							<div class="data">
+								<div class="centerhelp">
+									<span class="number">{{filteredPhones.length}} </span> <span class="label">Phone Numbers</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END CUSTOMER LEADS -->
+					<!-- START DEVICES -->
+					<div>
+						<h1 class="md-display-2">Devices</h1>
+            <small ng-show="accountsService.currentAccount.accountId == selectAccountId">Authentication Code: {{ accountsService.currentAccount.authCode
+              }}
+            </small>
+						<md-divider></md-divider>
+						<div class="devices " ng-repeat="location in locations">
+							<h1>{{location.name}} - {{location.address}}</h1>
+							<div class="device" ng-repeat="device in location.devices">
+								<div class="icon" ng-class="{error:device.unhealthy}">
+									<i class="fa fa-desktop"></i></div>
+								<p>{{device.name}}</p>
+								<small>Last online {{device.moment}}</small>
+							</div>
+						</div>
+					</div>
+					<!-- END DEVICES -->
+				</div>
+			</div>
+			<div flex="33" flex-offset="5" class="topten">
+				<!--{{analytics}}-->
+				<md-list class="md-whiteframe-5dp">
+					<md-toolbar>
+						<div class="md-toolbar-tools">
+							<h2>
+								<span>Top 10 Items </span>
+				</h2>
+						</div>
+					</md-toolbar>
+					<md-list-item class="" ng-repeat="analytic in analytics |  limitTo:10">
+						<!--<md-icon md-svg-icon="{{setting.icon}}"></md-icon>-->
+						<p>{{analytic.opt_value}}</p>
+						<p class="md-secondary"> {{analytic.cnt}}</p>
+						<md-divider ng-if="!$last"></md-divider>
+					</md-list-item>
+				</md-list>
+			</div>
+		</div>
+		<div layout="column">
+			<br>
+		</div>
+		<div ui-view></div>
+	</div>
+	<!-- endpage -->
 </section>

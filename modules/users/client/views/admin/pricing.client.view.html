@@ -55,7 +55,9 @@
   </div>
 
   <div class="bottomrow">
+
     <div class="discount" layout="row" layout-align="end center">
+      Installation <md-checkbox type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? total(250*cart.pricelist.totalDevices) : subtractTotal(250*cart.pricelist.totalDevices)" />
       <div id="deviceImg" ng-repeat="source in images">
         <!--<img ng-if="source.name == 'iPad'" src="{{source.fileName}}"/>-->
         <!--<img ng-if="source.name == 'iPad Pro'" src="{{source.fileName}}"/>-->
@@ -66,7 +68,10 @@
       <md-select data-ng-change="addDiscount(amountDiscount)" ng-model="amountDiscount" style="width:10%">
         <md-option ng-repeat="i in discounts" value="{{ i.amount }}">{{ i.name }}</md-option>
       </md-select>
+
+
     </div>
+    <md-button ng-click="sendOrder()">Send Order</md-button>
     <div class="total">
       <h1>${{formatNumber(priceTotal - (priceTotal * currentDiscount))}}</h1>
       <h4>Total Price</h4>

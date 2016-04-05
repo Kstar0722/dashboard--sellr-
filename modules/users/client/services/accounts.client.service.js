@@ -1,9 +1,12 @@
 angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
+
     me.init = function () {
+        me.selectAccountId = localStorage.getItem('accountId');
         me.accounts = [];
         me.editAccount = {};
+        me.currentAccount = {};
         getAccounts();
     };
 
@@ -11,11 +14,17 @@ angular.module('users').service('accountsService', function ($http, constants, t
 
 
     function getAccounts() {
+        console.log('selectAccountId %O', me.selectAccountId)
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
+            me.accounts = [];
             res.data.forEach(function (account) {
                 if (account.preferences != "undefined") {
                     account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+                }
+                if (account.accountId == me.selectAccountId) {
+                    me.currentAccount = account;
+                    console.log('setting current account %O', me.currentAccount)
                 }
             });
             me.accounts = res.data;
@@ -63,4 +72,3 @@ angular.module('users').service('accountsService', function ($http, constants, t
     return me;
 });
 
-//TESTING STUFFFS
