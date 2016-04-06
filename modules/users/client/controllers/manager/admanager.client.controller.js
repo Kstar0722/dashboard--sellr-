@@ -6,6 +6,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         var self = this;
         $scope.activeAds = [];
         $scope.allMedia = [];
+        $scope.allAccountMedia = [];
         $scope.sortingLog = [];
         $scope.ads = false;
         $scope.activeAds = false;
@@ -42,8 +43,8 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
         $scope.init = function() {
             $scope.getProfiles();
-            $scope.getActiveAds();
-            $scope.getAllMedia()
+            $scope.getAllMedia();
+
         };
         $scope.getProfiles = function() {
             $scope.profiles = [];
@@ -64,7 +65,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     console.log(err);
                 }
                 if (response) {
-
                     $scope.list_devices = response;
                 }
             });
@@ -85,13 +85,19 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
-                        if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'svg') {
+                        if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
                             myData = {
                                 name: response.data[i].fileName,
                                 value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
                                 ext: 'image',
                                 adId: response.data[i].adId
                             };
+                            for(var i in $scope.allMedia) {
+                               if($scope.allMedia[i].name == myData.name){
+                                   $scope.allMedia.splice(i,1);
+                                   console.log($scope.allMedia)
+                               }
+                            }
                             $scope.activeAds.push(myData);
                         } else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
                             myData = {
@@ -123,7 +129,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
                         ext = ext.toLowerCase();
-                        if (ext == 'jpg' || ext == 'png' || ext == 'svg') {
+                        if (ext == 'jpg' ||ext == 'jpeg' || ext == 'png' || ext == 'gif') {
                             myData = {
                                 name: response.data[i].fileName,
                                 value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
@@ -131,6 +137,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                                 adId: response.data[i].adId
                             };
                             $scope.allMedia.push(myData);
+
                         } else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
                             myData = {
                                 name: response.data[i].fileName,
@@ -144,6 +151,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     }
                 }
             });
+
         }
         $scope.setCurrentProfile = function(profileId) {
             $scope.currentProfile = profileId;
@@ -178,15 +186,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 if (response) {
                     console.log(response);
                     $scope.getActiveAds(profileId);
-                    toastr.success('Ad removed from devices.')
+                    toastr.success('Ad removed from devices.');
                         //$scope.getActiveAds(deviceId);
                 }
             });
         };
         $scope.upload = function(file) {
+            var filename =(file[0].name).replace(/ /g,"_");
             var obj = {
                 payload: {
-                    fileName: file[0].name,
+                    fileName: filename,
                     userName: $scope.authentication.user.username,
                     accountId: $scope.selectAccountId
                 }
@@ -216,7 +225,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         }
                     });
                     var params = {
-                        Key: response.data.assetId + "-" + file[0].name,
+                        Key: response.data.assetId + "-" +filename,
                         ContentType: file[0].type,
                         Body: file[0],
                         ServerSideEncryption: 'AES256',
@@ -260,8 +269,10 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             $http.delete(url).then(function() {
                 toastr.success('Ad removed', 'Success');
                 $scope.init()
+
             })
         }
+
     }
 ]);
 
