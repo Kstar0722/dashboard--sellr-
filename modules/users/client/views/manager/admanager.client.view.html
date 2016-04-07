@@ -28,7 +28,7 @@
                       Remove Ad
                 </span>
               <div class="img" ng-if="activeAd.ext == 'image'"
-                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value}});"></div>
+                   style="background-image: url({{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value}});"></div>
               <p style="color:black">{{activeAd.name}}</p>
             </div>
 
@@ -57,8 +57,8 @@
           <div class="ads">
             <div class="ad" ng-repeat="media in allMedia">
               <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
-              <div class="img" ng-if="media.ext == 'image'"
-                   style="background-image: url({{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value}});"></div>
+              <div class="img" ng-if="media.ext == 'image' "
+                   style="background-image: url({{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value}});"></div>
               <p>{{media.name}}</p>
               <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
             </div>
