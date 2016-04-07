@@ -14,6 +14,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
 
 
     function getAccounts() {
+        me.accounts = [];
         console.log('selectAccountId %O', me.selectAccountId)
         $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
@@ -44,6 +45,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
         function onCreateAccountSuccess(res) {
             toastr.success('New Account Created!');
             console.log('accounts Service, createAccount %O', res)
+            getAccounts()
         }
 
         function onCreateAccountError(err) {
