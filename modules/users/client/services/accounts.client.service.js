@@ -35,7 +35,22 @@ angular.module('users').service('accountsService', function ($http, constants, t
             console.error(err)
         }
     }
+    me.deleteAccount = function (account) {
+        var url = constants.API_URL + '/accounts/deactivate/'+account;
 
+
+        $http.put(url).then(onCreateAccountSuccess, onCreateAccountError);
+        function onCreateAccountSuccess(res) {
+            toastr.success('Account Deactivated!');
+            console.log('accounts Service, createAccount %O', res)
+            getAccounts()
+        }
+
+        function onCreateAccountError(err) {
+            toastr.error('There was a problem deactivating this account');
+            console.error(err)
+        }
+    };
     me.createAccount = function (account) {
         var url = constants.API_URL + '/accounts';
         account.status = 1;
