@@ -95,7 +95,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                             for(var i in $scope.allMedia) {
                                if($scope.allMedia[i].name == myData.name){
                                    $scope.allMedia.splice(i,1);
-                                   console.log($scope.allMedia)
                                }
                             }
                             $scope.activeAds.push(myData);
@@ -106,6 +105,11 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                                 ext: 'video',
                                 adId: response.data[i].adId
                             };
+                            for(var i in $scope.allMedia) {
+                                if($scope.allMedia[i].name == myData.name){
+                                    $scope.allMedia.splice(i,1);
+                                }
+                            }
                             $scope.activeAds.push(myData);
                         }
 

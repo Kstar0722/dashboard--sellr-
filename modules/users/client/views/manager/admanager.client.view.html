@@ -23,12 +23,13 @@
           </div>
           <div class="ads md-whiteframe-5dp" >
 
-            <div class="ad" ng-if="activeAd.ext == 'image' " ng-repeat="activeAd in activeAds">
+            <div class="ad"  ng-repeat="activeAd in activeAds">
               <span class="action delete" ng-click="deactivateAd(activeAd.adId, currentProfile)">
                       Remove Ad
                 </span>
               <div class="img" ng-if="activeAd.ext == 'image'"
                    style="background-image: url({{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value}});"></div>
+              <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
               <p style="color:black">{{activeAd.name}}</p>
             </div>
 
@@ -59,6 +60,10 @@
               <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="media.ext == 'image' "
                    style="background-image: url({{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value}});"></div>
+              <video  class ='img'controls ng-if="media.ext =='video'"
+                      ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value | trustUrl }}"
+                      frameBorder="2"
+                      allowfullscreen="true"></video>
               <p>{{media.name}}</p>
               <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
             </div>
