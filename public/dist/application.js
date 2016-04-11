@@ -3499,6 +3499,7 @@ angular.module('users').directive('lowercase', function () {
 
     me.createAccount = function (account) {
         var url = constants.API_URL + '/accounts';
+        account.status = 1;
         var payload = {
             payload: account
         };

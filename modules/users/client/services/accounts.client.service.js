@@ -38,6 +38,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
 
     me.createAccount = function (account) {
         var url = constants.API_URL + '/accounts';
+        account.status = 1;
         var payload = {
             payload: account
         };
