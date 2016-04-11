@@ -5,8 +5,9 @@ angular.module('users.manager.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('manager.dashboard', {
-                url: '/dashboard',
-                templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
+                url: '/dashboard/:accountId',
+                templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html',
+
             })
             .state('manager.ads', {
                 url: '/manager/admanager',

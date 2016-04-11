@@ -21,26 +21,17 @@
 
     <div layout="row" layout-align="space-between start">
       <div flex="40">
-
-        <md-content layout="row" layout-align="space-between none">
           <md-list>
-            <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="account in accountsService.accounts  | filter: search">
-
-              <div class="md-list-item-text">
+            <md-list-item  class="md-3-line " ng-repeat="account in accountsService.accounts  | filter: search">
+              <div class="md-list-item-text ">
                 <img ng-src="{{ account.logo }}" height="25px">
                 <!--<pre>{{ account.preferences }}</pre>-->
                 <h3>{{account.name}} </h3>
               </div>
-
               <md-button class="md-secondary md-raised" ng-click="editAccount(account)">Edit</md-button>
-
               <md-divider ng-if="!$last"></md-divider>
             </md-list-item>
-            <!--<md-divider></md-divider>-->
-
-
           </md-list>
-        </md-content>
       </div>
 
       <div flex="50" class=" locationbox md-whiteframe-5dp" layout-padding layout-margin flex-offset="10" ui-view>
