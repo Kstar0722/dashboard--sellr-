@@ -116,15 +116,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         };
 
         //We've signed into the mongoDB, now lets authenticate with OnCue's API.
-        function onSigninSuccess(res) {
+        function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
-            authToken.setToken(res.data.token);
+            authToken.setToken(response.data.token);
 
             //set roles
-            localStorage.setItem('roles', res.data.roles);
+            localStorage.setItem('roles', response.data.roles);
 
             //store account Id in location storage
-            localStorage.setItem('accountId', res.data.accountId);
+            localStorage.setItem('accountId', response.data.accountId);
 
             $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
         }
@@ -132,7 +132,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         function onApiSuccess(response){
                 $scope.authentication.user = response.data;
                 toastr.success('Welcome to the OnCue Dashboard', 'Success');
-                console.log('response from OnCue API %O', res);
+
                 $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
 
         }
