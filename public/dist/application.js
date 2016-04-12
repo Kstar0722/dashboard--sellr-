@@ -1921,7 +1921,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 console.log(err);
             }
             if (response) {
-                console.log('oncue API response %O', response)
+                console.log('oncue API response %O', response);
                 mediaAssetId = response.data.assetId;
                 $scope.creds = {
                     bucket: 'beta.cdn.expertoncue.com',
@@ -1956,7 +1956,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                             console.log('s3 response to upload %O', data);
                             // Success!
                             accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            $scope.currentAccountLogo = accountsService.editAccount.logo
+                            $scope.currentAccountLogo = accountsService.editAccount.logo;
                             // accountsService.init();
                             //$scope.accountsService = accountsService;
                             //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
@@ -3523,6 +3523,26 @@ angular.module('users').directive('lowercase', function () {
         function onCreateAccountError(err) {
             toastr.error('There was a problem creating this account');
             console.error(err)
+        }
+    };
+
+    me.updateAccount = function () {
+        me.editAccount.preferences = {
+            logo: me.editAccount.logo,
+            style: me.editAccount.style
+        };
+        console.log('about to update %O', me.editAccount);
+        var url = constants.API_URL + '/accounts/' + me.editAccount.accountId;
+        console.log('posting to ' + url)
+        $http.put(url, me.editAccount).then(onUpdateSuccess, onUpdateError);
+        function onUpdateSuccess(res) {
+            console.log('updated account response %O', res)
+            toastr.success('Account Updated!')
+        }
+
+        function onUpdateError(err) {
+            console.error('Error updating account %O', err)
+            toastr.error('There was a problem updating this account')
         }
     };
 

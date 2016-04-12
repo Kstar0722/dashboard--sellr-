@@ -70,6 +70,26 @@ angular.module('users').service('accountsService', function ($http, constants, t
         }
     };
 
+    me.updateAccount = function () {
+        me.editAccount.preferences = {
+            logo: me.editAccount.logo,
+            style: me.editAccount.style
+        };
+        console.log('about to update %O', me.editAccount);
+        var url = constants.API_URL + '/accounts/' + me.editAccount.accountId;
+        console.log('posting to ' + url)
+        $http.put(url, me.editAccount).then(onUpdateSuccess, onUpdateError);
+        function onUpdateSuccess(res) {
+            console.log('updated account response %O', res)
+            toastr.success('Account Updated!')
+        }
+
+        function onUpdateError(err) {
+            console.error('Error updating account %O', err)
+            toastr.error('There was a problem updating this account')
+        }
+    };
+
     me.generateAuthCode = function (authCode) {
         var url = constants.API_URL + '/accounts/auth';
         var payload = {
