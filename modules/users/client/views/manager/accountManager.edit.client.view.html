@@ -5,7 +5,7 @@
 
   <h1>Editing Account: {{ accountsService.editAccount.name }}</h1>
   <md-button class="md-button md-raised md-primary" ng-click="accountsService.deleteAccount(accountsService.editAccount.accountId)">Remove Account</md-button>
-  <form name="editAccountForm" ng-submit="accountsService.updateAccount()" novalidate>
+  <form name="editAccountForm" novalidate>
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
 
       <md-input-container class="md-block" flex-gt-sm>
@@ -14,6 +14,10 @@
         <div ng-messages="editAccountForm.name.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Account name is required.</p>
         </div>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Custom Style Url </label>
+        <input ng-model="accountsService.editAccount.style">
       </md-input-container>
     </div>
 
@@ -36,10 +40,7 @@
     </div>
 
 
-
-    <md-button class="md-button md-raised md-primary" type="submit">
-      Update
-    </md-button>
+    <md-button class="md-button md-raised md-primary" ng-click="accountsService.updateAccount()">Update</md-button>
 
     <div ng-show="error" class="text-danger">
       <strong ng-bind="error"></strong>

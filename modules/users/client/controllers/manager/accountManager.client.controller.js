@@ -35,7 +35,7 @@ angular.module('users.manager').controller('AccountManagerController', function 
                 console.log(err);
             }
             if (response) {
-                console.log('oncue API response %O', response)
+                console.log('oncue API response %O', response);
                 mediaAssetId = response.data.assetId;
                 $scope.creds = {
                     bucket: 'beta.cdn.expertoncue.com',
@@ -70,7 +70,7 @@ angular.module('users.manager').controller('AccountManagerController', function 
                             console.log('s3 response to upload %O', data);
                             // Success!
                             accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            $scope.currentAccountLogo = accountsService.editAccount.logo
+                            $scope.currentAccountLogo = accountsService.editAccount.logo;
                             // accountsService.init();
                             //$scope.accountsService = accountsService;
                             //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
