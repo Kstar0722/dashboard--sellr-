@@ -4,7 +4,7 @@
 <section class="inner">
 
   <h1>Editing Account: {{ accountsService.editAccount.name }}</h1>
-  <md-button class="md-button md-raised md-primary" ng-click="accountsService.deleteAccount(accountsService.editAccount)">Remove Account</md-button>
+  <md-button class="md-button md-raised md-primary" ng-click="accountsService.deleteAccount(accountsService.editAccount.accountId)">Remove Account</md-button>
   <form name="editAccountForm" ng-submit="accountsService.updateAccount()" novalidate>
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
 

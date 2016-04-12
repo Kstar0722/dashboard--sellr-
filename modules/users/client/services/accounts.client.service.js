@@ -16,7 +16,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function getAccounts() {
         me.accounts = [];
         console.log('selectAccountId %O', me.selectAccountId)
-        $http.get(constants.API_URL + '/accounts').then(onGetAccountSuccess, onGetAccountError);
+        $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError);
         function onGetAccountSuccess(res) {
             me.accounts = [];
             res.data.forEach(function (account) {
@@ -35,9 +35,25 @@ angular.module('users').service('accountsService', function ($http, constants, t
             console.error(err)
         }
     }
+    me.deleteAccount = function (account) {
+        var url = constants.API_URL + '/accounts/deactivate/'+account;
 
+
+        $http.put(url).then(onCreateAccountSuccess, onCreateAccountError);
+        function onCreateAccountSuccess(res) {
+            toastr.success('Account Deactivated!');
+            console.log('accounts Service, createAccount %O', res)
+            getAccounts()
+        }
+
+        function onCreateAccountError(err) {
+            toastr.error('There was a problem deactivating this account');
+            console.error(err)
+        }
+    };
     me.createAccount = function (account) {
         var url = constants.API_URL + '/accounts';
+        account.status = 1;
         var payload = {
             payload: account
         };
