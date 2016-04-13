@@ -75,10 +75,13 @@ angular.module('users').service('accountsService', function ($http, constants, t
             logo: me.editAccount.logo,
             style: me.editAccount.style
         };
+        var payload = {
+            payload: me.editAccount
+        };
         console.log('about to update %O', me.editAccount);
         var url = constants.API_URL + '/accounts/' + me.editAccount.accountId;
-        console.log('posting to ' + url)
-        $http.put(url, me.editAccount).then(onUpdateSuccess, onUpdateError);
+        console.log('putting to ' + url);
+        $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
         function onUpdateSuccess(res) {
             console.log('updated account response %O', res)
             toastr.success('Account Updated!')

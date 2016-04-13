@@ -11,9 +11,11 @@ angular.module('users.manager').controller('AccountManagerController', function 
 
     //changes the view, and sets current edit account
     $scope.editAccount = function (account) {
+        console.log('editing account %O', account)
         $scope.currentAccountLogo = '';
         accountsService.editAccount = account;
-
+        accountsService.editAccount.style = JSON.parse(account.preferences).style
+        console.log('editAccount is now %O', accountsService.editAccount)
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
