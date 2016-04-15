@@ -45,12 +45,13 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 									//this location has devices, add to that location
 									response.data.forEach(function(device) {
 										var rightNow = moment();
-                                        var time = moment(device.lastCheck).subtract(4, 'hours');
+                                        // var time = moment(device.lastCheck).subtract(4, 'hours');
+                                        var time = moment(device.lastCheck);
 										device.moment = moment(time).fromNow();
                                         var timeDiff = time.diff(rightNow, 'hours');
                                         device.unhealthy = timeDiff <= -3;
 
-									})
+                                    });
 									thisLocation.devices = response.data || [];
 									$scope.locations.push(thisLocation)
 								}

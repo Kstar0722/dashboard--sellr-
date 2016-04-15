@@ -382,11 +382,10 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http',
-    function ($scope, Authentication, $mdDialog, $state, $http) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state',
+    function ($scope, Authentication, $mdDialog, $state) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        $scope.stuff = {};
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
         if(!$scope.authentication.user != !check){
@@ -396,27 +395,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             if (_.contains(Authentication.user.roles, 'supplier')) {
                 return true;
             }
-        };
-        $scope.askForPasswordReset = function (isValid) {
-            console.log('ask for password called %O',$scope.stuff )
-            $scope.success = $scope.error = null;
-
-            if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'forgotPasswordForm');
-
-                return false;
-            }
-            $scope.stuff.username = $scope.stuff.passuser;
-            $http.post('/api/auth/forgot', $scope.stuff).success(function (response) {
-                // Show user success message and clear form
-                $scope.credentials = null;
-                $scope.success = response.message;
-
-            }).error(function (response) {
-                // Show user error message and clear form
-                $scope.credentials = null;
-                $scope.error = response.message;
-            });
         };
         $scope.testFunction = function (ev) {
             $mdDialog.show(
@@ -1157,13 +1135,12 @@ angular.module('users').config(['$stateProvider',
         url: '/signin?err',
         templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
       })
-
       .state('password', {
         abstract: true,
         url: '/password',
         template: '<ui-view/>'
       })
-      .state('mypassword.forgot', {
+      .state('password.forgot', {
         url: '/forgot',
         templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html'
       })
@@ -1898,36 +1875,41 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-            var url = constants.API_URL + "/users/login";
-            var payload = {
-                payload: $scope.credentials
-            };
-            console.log('i hope I can sign in with %O',payload);
-            $http.post(url, payload).then(onSigninSuccess, onSigninError);
-
+            $http.post('/api/auth/signin', $scope.credentials).then(onSigninSuccess, onSigninError)
         };
 
         //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
-            authToken.setToken(response.data.token);
-
-            //set roles
-            localStorage.setItem('roles', response.data.roles);
-
-            //store account Id in location storage
-            localStorage.setItem('accountId', response.data.accountId);
-
-            $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
-        }
-
-        function onApiSuccess(response){
-                $scope.authentication.user = response.data;
+            $scope.authentication.user = response.data;
+            var url = constants.API_URL + "/users/login";
+            var payload = {
+                payload: $scope.credentials
+            };
+            console.log('i hope I can sign in with %O',payload);
+            $http.post(url, payload).then(function (res) {
                 toastr.success('Welcome to the OnCue Dashboard', 'Success');
+                console.log('response from OnCue API %O', res);
 
+                //build roles array for user to store in local storage
+
+
+                //set token in localStorage and memory
+                authToken.setToken(res.data.token);
+
+                //set roles
+                localStorage.setItem('roles', res.data.roles);
+
+                //store account Id in location storage
+                localStorage.setItem('accountId', res.data.accountId);
+
+                // And redirect to the previous or home page
                 $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
 
+            });
         }
+
+
         //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
             console.error(err);
@@ -1961,9 +1943,11 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
 
     //changes the view, and sets current edit account
     $scope.editAccount = function (account) {
+        console.log('editing account %O', account)
         $scope.currentAccountLogo = '';
         accountsService.editAccount = account;
-
+        accountsService.editAccount.style = JSON.parse(account.preferences).style
+        console.log('editAccount is now %O', accountsService.editAccount)
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
@@ -1985,7 +1969,7 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
                 console.log(err);
             }
             if (response) {
-                console.log('oncue API response %O', response)
+                console.log('oncue API response %O', response);
                 mediaAssetId = response.data.assetId;
                 $scope.creds = {
                     bucket: 'beta.cdn.expertoncue.com',
@@ -2020,7 +2004,7 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
                             console.log('s3 response to upload %O', data);
                             // Success!
                             accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            $scope.currentAccountLogo = accountsService.editAccount.logo
+                            $scope.currentAccountLogo = accountsService.editAccount.logo;
                             // accountsService.init();
                             //$scope.accountsService = accountsService;
                             //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
@@ -2381,12 +2365,13 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 									//this location has devices, add to that location
 									response.data.forEach(function(device) {
 										var rightNow = moment();
-                                        var time = moment(device.lastCheck).subtract(4, 'hours');
+                                        // var time = moment(device.lastCheck).subtract(4, 'hours');
+                                        var time = moment(device.lastCheck);
 										device.moment = moment(time).fromNow();
                                         var timeDiff = time.diff(rightNow, 'hours');
                                         device.unhealthy = timeDiff <= -3;
 
-									})
+                                    });
 									thisLocation.devices = response.data || [];
 									$scope.locations.push(thisLocation)
 								}
@@ -2957,7 +2942,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         Authentication.user = response;
 
         // And redirect to the index page
-        $location.path('/dashboard');
+        $location.path('/password/reset/success');
       }).error(function (response) {
         $scope.error = response.message;
       });
@@ -3604,6 +3589,29 @@ angular.module('users').service('accountsService', ["$http", "constants", "toast
         function onCreateAccountError(err) {
             toastr.error('There was a problem creating this account');
             console.error(err)
+        }
+    };
+
+    me.updateAccount = function () {
+        me.editAccount.preferences = {
+            logo: me.editAccount.logo,
+            style: me.editAccount.style
+        };
+        var payload = {
+            payload: me.editAccount
+        };
+        console.log('about to update %O', me.editAccount);
+        var url = constants.API_URL + '/accounts/' + me.editAccount.accountId;
+        console.log('putting to ' + url);
+        $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
+        function onUpdateSuccess(res) {
+            console.log('updated account response %O', res)
+            toastr.success('Account Updated!')
+        }
+
+        function onUpdateError(err) {
+            console.error('Error updating account %O', err)
+            toastr.error('There was a problem updating this account')
         }
     };
 

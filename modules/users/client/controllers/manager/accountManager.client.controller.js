@@ -11,9 +11,11 @@ angular.module('users.manager').controller('AccountManagerController', function 
 
     //changes the view, and sets current edit account
     $scope.editAccount = function (account) {
+        console.log('editing account %O', account)
         $scope.currentAccountLogo = '';
         accountsService.editAccount = account;
-
+        accountsService.editAccount.style = JSON.parse(account.preferences).style
+        console.log('editAccount is now %O', accountsService.editAccount)
         $state.go('manager.accounts.edit', {id: account.accountId})
     }
 
@@ -35,7 +37,7 @@ angular.module('users.manager').controller('AccountManagerController', function 
                 console.log(err);
             }
             if (response) {
-                console.log('oncue API response %O', response)
+                console.log('oncue API response %O', response);
                 mediaAssetId = response.data.assetId;
                 $scope.creds = {
                     bucket: 'beta.cdn.expertoncue.com',
@@ -70,7 +72,7 @@ angular.module('users.manager').controller('AccountManagerController', function 
                             console.log('s3 response to upload %O', data);
                             // Success!
                             accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            $scope.currentAccountLogo = accountsService.editAccount.logo
+                            $scope.currentAccountLogo = accountsService.editAccount.logo;
                             // accountsService.init();
                             //$scope.accountsService = accountsService;
                             //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});

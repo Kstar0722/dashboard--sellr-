@@ -106,36 +106,41 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-            var url = constants.API_URL + "/users/login";
-            var payload = {
-                payload: $scope.credentials
-            };
-            console.log('i hope I can sign in with %O',payload);
-            $http.post(url, payload).then(onSigninSuccess, onSigninError);
-
+            $http.post('/api/auth/signin', $scope.credentials).then(onSigninSuccess, onSigninError)
         };
 
         //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
-            authToken.setToken(response.data.token);
-
-            //set roles
-            localStorage.setItem('roles', response.data.roles);
-
-            //store account Id in location storage
-            localStorage.setItem('accountId', response.data.accountId);
-
-            $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
-        }
-
-        function onApiSuccess(response){
-                $scope.authentication.user = response.data;
+            $scope.authentication.user = response.data;
+            var url = constants.API_URL + "/users/login";
+            var payload = {
+                payload: $scope.credentials
+            };
+            console.log('i hope I can sign in with %O',payload);
+            $http.post(url, payload).then(function (res) {
                 toastr.success('Welcome to the OnCue Dashboard', 'Success');
+                console.log('response from OnCue API %O', res);
 
+                //build roles array for user to store in local storage
+
+
+                //set token in localStorage and memory
+                authToken.setToken(res.data.token);
+
+                //set roles
+                localStorage.setItem('roles', res.data.roles);
+
+                //store account Id in location storage
+                localStorage.setItem('accountId', res.data.accountId);
+
+                // And redirect to the previous or home page
                 $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
 
+            });
         }
+
+
         //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
             console.error(err);
