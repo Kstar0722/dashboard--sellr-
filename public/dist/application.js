@@ -382,10 +382,11 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state',
-    function ($scope, Authentication, $mdDialog, $state) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http',
+    function ($scope, Authentication, $mdDialog, $state, $http) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
+        $scope.stuff = {};
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
         if(!$scope.authentication.user != !check){
@@ -395,6 +396,27 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             if (_.contains(Authentication.user.roles, 'supplier')) {
                 return true;
             }
+        };
+        $scope.askForPasswordReset = function (isValid) {
+            console.log('ask for password called %O',$scope.stuff )
+            $scope.success = $scope.error = null;
+
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'forgotPasswordForm');
+
+                return false;
+            }
+            $scope.stuff.username = $scope.stuff.passuser;
+            $http.post('/api/auth/forgot', $scope.stuff).success(function (response) {
+                // Show user success message and clear form
+                $scope.credentials = null;
+                $scope.success = response.message;
+
+            }).error(function (response) {
+                // Show user error message and clear form
+                $scope.credentials = null;
+                $scope.error = response.message;
+            });
         };
         $scope.testFunction = function (ev) {
             $mdDialog.show(
@@ -1135,12 +1157,13 @@ angular.module('users').config(['$stateProvider',
         url: '/signin?err',
         templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
       })
+
       .state('password', {
         abstract: true,
         url: '/password',
         template: '<ui-view/>'
       })
-      .state('password.forgot', {
+      .state('mypassword.forgot', {
         url: '/forgot',
         templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html'
       })
@@ -2942,7 +2965,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         Authentication.user = response;
 
         // And redirect to the index page
-        $location.path('/password/reset/success');
+        $location.path('/dashboard');
       }).error(function (response) {
         $scope.error = response.message;
       });
