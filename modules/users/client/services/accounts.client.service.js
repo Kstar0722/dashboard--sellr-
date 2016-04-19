@@ -32,7 +32,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
         }
 
         function onGetAccountError(err) {
-            toastr.err("We're experiencing some technical difficulties with our database, please check back soon")
+            toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
             console.error(err)
         }
     }

@@ -32,7 +32,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			$http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function(res, err) {
 					if (err) {
 						console.log(err);
-						toastr.err("We're experiencing some technical difficulties with our database, please check back soon")
+						toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
 
 
 					}
@@ -65,7 +65,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			$http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function(res, err) {
 				if (err) {
 					console.log(err);
-					toastr.err("We're experiencing some technical difficulties with our database, please check back soon")
+					toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
 				}
 				if (res) {
 					for (var i in res.data) {
@@ -89,7 +89,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			$http.get(url).then(function(res, err) {
 				if (err) {
 					console.log(err);
-					toastr.err("We're experiencing some technical difficulties with our database, please check back soon")
+					toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
 				}
 				if (res) {
 					console.log('analytics topProducts %O', res);
