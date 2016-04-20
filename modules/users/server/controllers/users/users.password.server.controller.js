@@ -10,7 +10,7 @@ var path = require('path'),
   User = mongoose.model('User'),
   nodemailer = require('nodemailer'),
   async = require('async'),
-  crypto = require('crypto'),
+    crypto = require('crypto'),
     request = require('request');
 
 var smtpTransport = nodemailer.createTransport(config.mailer.options);
@@ -81,7 +81,7 @@ exports.forgot = function (req, res, next) {
       }};
 
       request({
-        url: 'https://apidev.expertoncue.com/emails', //URL to hit
+          url: 'https://api.expertoncue.com/emails', //URL to hit
         qs: {from: 'OncueAPI', time: +new Date()}, //Query string data
         method: 'POST',
         headers:  {
@@ -202,7 +202,7 @@ exports.reset = function (req, res, next) {
       }};
 
       request({
-        url: 'https://apidev.expertoncue.com/emails', //URL to hit
+          url: 'https://api.expertoncue.com/emails', //URL to hit
         qs: {from: 'OncueAPI', time: +new Date()}, //Query string data
         method: 'POST',
         headers:  {
