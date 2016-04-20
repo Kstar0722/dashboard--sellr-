@@ -57,7 +57,7 @@ function ($locationProvider, $httpProvider, envServiceProvider) {
         API_URL: 'https://apiqa.expertoncue.com'
       },
       production: {
-        API_URL: 'https://api.expertoncue.com'
+        API_URL: 'https://sellrdashboard.com'
       }
     }
   });
