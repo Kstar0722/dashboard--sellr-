@@ -50,12 +50,13 @@ angular.module('users').config(['$stateProvider',
         url: '/signin?err',
         templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
       })
+
       .state('password', {
         abstract: true,
         url: '/password',
         template: '<ui-view/>'
       })
-      .state('password.forgot', {
+      .state('mypassword.forgot', {
         url: '/forgot',
         templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html'
       })

@@ -50,7 +50,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         Authentication.user = response;
 
         // And redirect to the index page
-        $location.path('/password/reset/success');
+        $location.path('/dashboard');
       }).error(function (response) {
         $scope.error = response.message;
       });

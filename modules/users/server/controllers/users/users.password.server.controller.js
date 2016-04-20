@@ -10,9 +10,11 @@ var path = require('path'),
   User = mongoose.model('User'),
   nodemailer = require('nodemailer'),
   async = require('async'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+    request = require('request');
 
 var smtpTransport = nodemailer.createTransport(config.mailer.options);
+
 
 /**
  * Forgot for reset password (forgot POST)
@@ -71,25 +73,35 @@ exports.forgot = function (req, res, next) {
     },
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
-      var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'Password Reset',
-        html: emailHTML
-      };
-      smtpTransport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          res.send({
-            message: 'An email has been sent to the provided email with further instructions.'
-          });
-        } else {
+      var mailOptions = {payload:{
+        source:'password',
+        email: user.email,
+        title: 'Password Reset',
+        body: emailHTML
+      }};
+
+      request({
+        url: 'https://apidev.expertoncue.com/emails', //URL to hit
+        qs: {from: 'OncueAPI', time: +new Date()}, //Query string data
+        method: 'POST',
+        headers:  {
+          "content-type": "application/json",  // <--Very important!!!
+        },
+        body: JSON.stringify(mailOptions)//Set the body as a string
+      }, function(error, response, body){
+        if(error) {
+          console.log(error);
           return res.status(400).send({
             message: 'Failure sending email'
           });
+        } else {
+          res.send({
+            message: 'An email has been sent to the provided email with further instructions.'
+          });
+          console.log(response.statusCode, body);
         }
-
-        done(err);
       });
+      //done(error);
     }
   ], function (err) {
     if (err) {
@@ -182,16 +194,25 @@ exports.reset = function (req, res, next) {
     },
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
-      var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'Your password has been changed',
-        html: emailHTML
-      };
+      var mailOptions = {payload:{
+        source:'password',
+        email: user.email,
+        title: 'Password Reset Success',
+        body: emailHTML
+      }};
 
-      smtpTransport.sendMail(mailOptions, function (err) {
-        done(err, 'done');
+      request({
+        url: 'https://apidev.expertoncue.com/emails', //URL to hit
+        qs: {from: 'OncueAPI', time: +new Date()}, //Query string data
+        method: 'POST',
+        headers:  {
+          "content-type": "application/json",  // <--Very important!!!
+        },
+        body: JSON.stringify(mailOptions)//Set the body as a string
+      }, function(error, response, body){
+        done(error);
       });
+
     }
   ], function (err) {
     if (err) {
