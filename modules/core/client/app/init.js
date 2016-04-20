@@ -20,7 +20,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com' ],
                 staging: [ 'dashqa.expertoncue.com' ],
-                production: [ 'dashboard.expertoncue.com', 'sellrdashboard.com' ]
+                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ]
             },
             vars: {
                 local: {
