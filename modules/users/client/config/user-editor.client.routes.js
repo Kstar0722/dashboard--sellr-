@@ -6,7 +6,7 @@ angular.module('users.editor.routes').config(['$stateProvider',
         $stateProvider
             .state('editor.products', {
                 url: '/editor',
-                templateUrl: 'modules/users/client/views/editor/productEditor.client.view.html'
+                templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html'
             })
 
 
