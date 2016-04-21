@@ -111,6 +111,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
             }
         })
     };
+
+
     return me;
 });
 
