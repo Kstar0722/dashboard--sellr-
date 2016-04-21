@@ -27,111 +27,111 @@ var ApplicationConfiguration = (function () {
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$httpProvider', 'envServiceProvider',
-function ($locationProvider, $httpProvider, envServiceProvider) {
-  $locationProvider.html5Mode(true).hashPrefix('!');
+angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider',
+    function ($locationProvider, $httpProvider, envServiceProvider) {
+        $locationProvider.html5Mode(true).hashPrefix('!');
 
-  $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
-  $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
+        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
 
 
-  //SET ENVIRONMENT
+        //SET ENVIRONMENT
 
-  // set the domains and variables for each environment
-  envServiceProvider.config({
-    domains: {
-      local: ['localhost'],
-      development: ['dashdev.expertoncue.com'],
-      staging: ['dashqa.expertoncue.com'],
-      production: ['sellrdashboard.com']
-    },
-    vars: {
-      local: {
-        API_URL: 'http://localhost:7272'
-      },
-      development: {
-        API_URL: 'https://apidev.expertoncue.com'
-      },
-      staging: {
-        API_URL: 'https://apiqa.expertoncue.com'
-      },
-      production: {
-        API_URL: 'https://api.expertoncue.com'
-      }
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                local: [ 'localhost' ],
+                development: [ 'dashdev.expertoncue.com' ],
+                staging: [ 'dashqa.expertoncue.com' ],
+                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ]
+            },
+            vars: {
+                local: {
+                    API_URL: 'http://localhost:7272'
+                },
+                development: {
+                    API_URL: 'https://apidev.expertoncue.com'
+                },
+                staging: {
+                    API_URL: 'https://apiqa.expertoncue.com'
+                },
+                production: {
+                    API_URL: 'https://api.expertoncue.com'
+                }
+            }
+        });
+
+        // run the environment check, so the comprobation is made
+        // before controllers and services are built
+        envServiceProvider.check();
     }
-  });
-
-  // run the environment check, so the comprobation is made
-  // before controllers and services are built
-  envServiceProvider.check();
-}
 ]);
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
 
-  // Check authentication before changing state
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
-      var allowed = false;
-      toState.data.roles.forEach(function (role) {
-        if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
-          allowed = true;
-          return true;
+    // Check authentication before changing state
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
+            var allowed = false;
+            toState.data.roles.forEach(function (role) {
+                if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
+                    allowed = true;
+                    return true;
+                }
+            });
+
+            if (!allowed) {
+                event.preventDefault();
+                if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
+                    $state.go('forbidden');
+                } else {
+                    $state.go('authentication.signin').then(function () {
+                        storePreviousState(toState, toParams);
+                    });
+                }
+            }
         }
-      });
+    });
 
-      if (!allowed) {
-        event.preventDefault();
-        if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
-          $state.go('forbidden');
-        } else {
-          $state.go('authentication.signin').then(function () {
-            storePreviousState(toState, toParams);
-          });
+    // Record previous state
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        storePreviousState(fromState, fromParams);
+    });
+
+    // Store previous state
+    function storePreviousState(state, params) {
+        // only store this state if it shouldn't be ignored
+        if (!state.data || !state.data.ignoreState) {
+            $state.previous = {
+                state: state,
+                params: params,
+                href: $state.href(state, params)
+            };
         }
-      }
     }
-  });
-
-  // Record previous state
-  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-    storePreviousState(fromState, fromParams);
-  });
-
-  // Store previous state
-  function storePreviousState(state, params) {
-    // only store this state if it shouldn't be ignored
-    if (!state.data || !state.data.ignoreState) {
-      $state.previous = {
-        state: state,
-        params: params,
-        href: $state.href(state, params)
-      };
-    }
-  }
 });
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
-  //Fixing facebook bug with redirect
-  if (window.location.hash && window.location.hash === '#_=_') {
-    if (window.history && history.pushState) {
-      window.history.pushState('', document.title, window.location.pathname);
-    } else {
-      // Prevent scrolling by storing the page's current scroll offset
-      var scroll = {
-        top: document.body.scrollTop,
-        left: document.body.scrollLeft
-      };
-      window.location.hash = '';
-      // Restore the scroll offset, should be flicker free
-      document.body.scrollTop = scroll.top;
-      document.body.scrollLeft = scroll.left;
+    //Fixing facebook bug with redirect
+    if (window.location.hash && window.location.hash === '#_=_') {
+        if (window.history && history.pushState) {
+            window.history.pushState('', document.title, window.location.pathname);
+        } else {
+            // Prevent scrolling by storing the page's current scroll offset
+            var scroll = {
+                top: document.body.scrollTop,
+                left: document.body.scrollLeft
+            };
+            window.location.hash = '';
+            // Restore the scroll offset, should be flicker free
+            document.body.scrollTop = scroll.top;
+            document.body.scrollLeft = scroll.left;
+        }
     }
-  }
 
-  //Then init the app
-  angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+    //Then init the app
+    angular.bootstrap(document, [ ApplicationConfiguration.applicationModuleName ]);
 });
 ;'use strict';
 
@@ -141,10 +141,7 @@ ApplicationConfiguration.registerModule('core.admin', ['core']);
 ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.supplier', ['core']);
 ApplicationConfiguration.registerModule('core.supplier.routes', ['ui.router']);
-ApplicationConfiguration.registerModule('core.editor', ['core']);
-ApplicationConfiguration.registerModule('core.editor.routes', ['ui.router']);
-ApplicationConfiguration.registerModule('core.curator', ['core']);
-ApplicationConfiguration.registerModule('core.curator.routes', ['ui.router']);
+
 ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
@@ -157,10 +154,6 @@ ApplicationConfiguration.registerModule('users.admin', ['core.admin']);
 ApplicationConfiguration.registerModule('users.admin.routes', ['core.admin.routes']);
 ApplicationConfiguration.registerModule('users.supplier', ['core.supplier']);
 ApplicationConfiguration.registerModule('users.supplier.routes', ['core.supplier.routes']);
-ApplicationConfiguration.registerModule('users.curator', ['core.curator']);
-ApplicationConfiguration.registerModule('users.curator.routes', ['core.curator.routes']);
-ApplicationConfiguration.registerModule('users.editor', ['core.editor']);
-ApplicationConfiguration.registerModule('users.editor.routes', ['core.editor.routes']);
 ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
 ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
@@ -189,64 +182,6 @@ angular.module('core.admin.routes').config(['$stateProvider',
                 template: '<ui-view/>',
                 data: {
                     roles: ['admin']
-                }
-            });
-    }
-]);
-;'use strict';
-
-angular.module('core.curator').run(['Menus',
-    function (Menus) {
-        Menus.addMenuItem('topbar', {
-            title: 'Curator',
-            state: 'curator',
-            type: 'dropdown',
-            roles: ['curator']
-        });
-
-    }
-]);
-;'use strict';
-
-// Setting up route
-angular.module('core.curator.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('curator', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
-                data: {
-                    roles: ['curator']
-                }
-            });
-    }
-]);
-;'use strict';
-
-angular.module('core.editor').run(['Menus',
-    function (Menus) {
-        Menus.addMenuItem('topbar', {
-            title: 'Editor',
-            state: 'editor',
-            type: 'dropdown',
-            roles: ['editor']
-        });
-
-    }
-]);
-;'use strict';
-
-// Setting up route
-angular.module('core.editor.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('editor', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
-                data: {
-                    roles: ['editor']
                 }
             });
     }
@@ -919,56 +854,6 @@ angular.module('core').service('Socket', ['Authentication', '$state', '$timeout'
 ;'use strict';
 
 // Configuring the Articles module
-angular.module('users.curator').run(['Menus',
-    function (Menus) {
-        Menus.addSubMenuItem('topbar', 'curator', {
-            title: 'Assign Products',
-            state: 'curator.assign'
-        });
-    }
-]);
-;'use strict';
-
-// Setting up route
-angular.module('users.curator.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('curator.assign', {
-                url: '/assign',
-                templateUrl: 'modules/users/client/views/curator/assignProducts.client.view.html'
-            })
-
-    }
-]);
-;'use strict';
-
-// Configuring the Articles module
-angular.module('users.editor').run(['Menus',
-    function (Menus) {
-        Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Product Editor',
-            state: 'editor.products'
-        });
-    }
-]);
-;'use strict';
-
-// Setting up route
-angular.module('users.editor.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('editor.products', {
-                url: '/editor',
-                templateUrl: 'modules/users/client/views/editor/productEditor.client.view.html'
-            })
-
-
-
-    }
-]);
-;'use strict';
-
-// Configuring the Articles module
 angular.module('users.manager').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'manager', {
@@ -1109,10 +994,6 @@ angular.module('users.admin').run(['Menus',
             title: 'Pricing',
             state: 'admin.pricing'
         });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Devices',
-            state: 'admin.device'
-        });
     }
 ]);
 ;'use strict';
@@ -1159,12 +1040,6 @@ angular.module('users.admin.routes').config(['$stateProvider',
                 url: '/admin/pricing',
                 templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
                 controller: 'AdminPricingController'
-
-            })
-            .state('admin.device', {
-                url: '/admin/device',
-                templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
-                controller: 'DeviceManagerController'
 
             })
     }
@@ -1283,113 +1158,6 @@ angular.module('users').config(['$stateProvider',
 ]);
 ;'use strict';
 
-angular.module('users.admin').controller('DeviceManagerController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$stateParams',
-    function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $stateParams) {
-        $scope.authentication = Authentication;
-        //$scope.file = '  ';
-        var self = this;
-        $scope.myPermissions = localStorage.getItem('roles');
-        if ($stateParams.accountId)
-            $scope.selectAccountId = $stateParams.accountId;
-        else
-            $scope.selectAccountId = localStorage.getItem('accountId');
-
-        $scope.accountsService = accountsService;
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
-        $scope.chartOptions = {}
-        $scope.init = function () {
-            $state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
-            $scope.emails = [];
-            $scope.phones = [];
-            $scope.loyalty = [];
-            $scope.analytics = [];
-            $scope.locations = [];
-            $scope.stores = [];
-            $scope.specificLoc = [];
-
-            console.log('state params %O', $stateParams)
-            //$scope.selectAccountId = $stateParams.accountId;
-            $scope.sources = [];
-            $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-
-
-                }
-                if (res.data.length > 0) {
-                    //this account has at least one location
-                    res.data.forEach(function (thisLocation) {
-                        thisLocation.devices = [];
-                        $http.get(constants.API_URL + '/devices/location/' + thisLocation.locationId).then(function (response, err) {
-                            if (err) {
-                                console.log(err);
-                            }
-                            if (response.data.length > 0) {
-                                //this location has devices, add to that location
-                                response.data.forEach(function (device) {
-                                    var rightNow = moment();
-                                    // var time = moment(device.lastCheck).subtract(4, 'hours');
-                                    var time = moment(device.lastCheck);
-                                    device.moment = moment(time).fromNow();
-                                    var timeDiff = time.diff(rightNow, 'hours');
-                                    device.unhealthy = timeDiff <= -3;
-
-                                });
-                                thisLocation.devices = response.data || [];
-                                $scope.locations.push(thisLocation)
-                            }
-                        });
-                    })
-                }
-            })
-            $http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-                }
-                if (res) {
-                    for (var i in res.data) {
-                        var contact = JSON.parse(res.data[i].contactInfo);
-                        if (contact["email"]) {
-                            $scope.emails.push({
-                                email: contact['email']
-                            });
-                        } else {
-                            $scope.phones.push({
-                                phone: contact['phone']
-                            });
-
-                        }
-
-                    }
-                }
-            });
-
-            var url = constants.API_URL + '/analytics/top-products?account=' + $scope.selectAccountId;
-            $http.get(url).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-                }
-                if (res) {
-                    console.log('analytics topProducts %O', res);
-                    for (var i in res.data) {
-                        if (res.data[i].action == 'Product-Request') {
-                            $scope.analytics.push(res.data[i])
-                        }
-                    }
-                }
-            });
-
-        };
-    }
-]);
-
-;'use strict';
-
 angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService) {
 
@@ -1403,7 +1171,9 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
             {text: 'owner', id: 1009},
             {text: 'manager', id: 1002},
             {text: 'supplier', id: 1007},
-            {text: 'user', id: 1003}
+            { text: 'user', id: 1003 },
+            { text: 'editor', id: 1010 },
+            { text: 'curator', id: 1011 }
         ];
         $scope.user = {
             accountId: localStorage.getItem('accountId')
@@ -1906,7 +1676,9 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 {text: 'owner', id: 1009, selected: $scope.user.roles.indexOf('owner') > -1},
                 {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
                 {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
-                {text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1}
+                { text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1 },
+                { text: 'editor', id: 1010, selected: $scope.user.roles.indexOf('editor') > -1 },
+                { text: 'curator', id: 1011, selected: $scope.user.roles.indexOf('curator') > -1 }
             ];
         }, 500);
 
@@ -3161,6 +2933,11 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
   }
 ]);
+;angular.module('users').controller('productEditorController', function ($scope, Authentication) {
+    $scope.userId = Authentication.userId || localStorage.getItem('userId')
+    
+
+});
 ;'use strict';
 
 angular.module('users').controller('ChangePasswordController', ['$scope', '$http', 'Authentication', 'PasswordValidator',
@@ -3384,7 +3161,9 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
             {text: 'owner', id: 1009},
             {text: 'manager', id: 1002},
             {text: 'supplier', id: 1007},
-            {text: 'user', id: 1003}
+            { text: 'user', id: 1003 },
+            { text: 'editor', id: 1010 },
+            { text: 'curator', id: 1011 }
         ];
         $scope.user = {
             accountId: localStorage.getItem('accountId')
@@ -3834,6 +3613,8 @@ angular.module('users').directive('lowercase', function () {
             }
         })
     };
+
+
     return me;
 });
 
@@ -4139,6 +3920,192 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
   }
 ]);
+;angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication) {
+    var me = this;
+
+
+    me.init = function () {
+        me.availableProducts = [];
+        me.myProducts = [];
+        me.stats = {};
+        me.currentType = 1;
+        me.getStats();
+
+        //initialize with new products so list isnt empty
+        me.getAvailableProducts({ type: me.currentType, status: 'NEW' })
+    };
+
+    //send in type,status and receive all products (limited to 50)
+    me.getAvailableProducts = function (options) {
+        if (!options.type || !options.status) {
+            console.error('getAvailableProducts: Please add a type and status to get available products %O', options)
+        }
+        var url = constants.API_URL + '/edit?status=' + options.status + '&type=' + options.type;
+        $http.get(url).then(getAvailProdSuccess, getAvailProdError);
+
+        function getAvailProdSuccess(response) {
+            if (response.status === 200) {
+                me.availableProducts = response.data
+            }
+        }
+
+        function getAvailProdError(error) {
+            console.error('getAvailProdError %O', error)
+        }
+    };
+
+    //send in type,status,userid, get back list of products
+    me.getMyProducts = function (options) {
+        if (!options.type || !options.status || !options.userId) {
+            console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
+        }
+        var url = constants.API_URL + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.user;
+        $http.get(url).then(getMyProdSuccess, getMyProdError);
+
+        function getMyProdSuccess(response) {
+            if (response.status === 200) {
+                me.myProducts = response.data
+            }
+        }
+
+        function getMyProdError(error) {
+            console.error('getMyProdError %O', error)
+        }
+    };
+
+    //claim a product
+    me.claim = function (options) {
+        //options should have userId and productId
+        if (!options.productId || !options.userId) {
+            console.error('could not claim, wrong options')
+        }
+        var payload = {
+            "payload": options
+        };
+        var url = constants.API_URL + '/edit/claim';
+        return $http.post(url, payload)
+    };
+
+    me.saveProduct = function (product) {
+        //check productId
+        if (!product.productId) {
+            console.error('saveProduct: no productId specified %O', product)
+        }
+        product.status = 'NPROGRESS';
+        var payload = {
+            payload: product
+        };
+        var url = constants.API_URL + '/products/' + product.productId;
+        $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
+
+        function onUpdateSuccess(response) {
+            console.log('onUpdateSuccess %O', response)
+        }
+
+        function onUpdateError(error) {
+            console.error('onUpdateError %O', error)
+        }
+    };
+
+    me.finishProduct = function (product) {
+        if (!product.productId) {
+            console.error('finishProduct: no productId specified %O', product)
+        }
+        product.status = 'DONE';
+        var payload = {
+            payload: product
+        };
+        var url = constants.API_URL + '/products/' + product.productId;
+        $http.put(url, payload).then(onFinishSuccess, onFinishError);
+
+        function onFinishSuccess(response) {
+            console.log('onFinishSuccess %O', response)
+        }
+
+        function onFinishError(error) {
+            console.error('onFinishError %O', error)
+        }
+    };
+
+    me.getStats = function () {
+        var url = constants.API_URL + '/edit/stats'
+        $http.get(url).then(onGetStatSuccess, onGetStatError);
+        function onGetStatSuccess(response) {
+            console.log('onGetStatSuccess %O', response)
+            me.stats = response.data
+        }
+
+        function onGetStatError(error) {
+            console.log('onGetStatError %O', error)
+        }
+    };
+
+    me.uploadMedia = function (file) {
+        var mediaAssetId;
+        var obj = {
+            payload: {
+                fileName: file[ 0 ].name,
+                userName: Authentication.user.username,
+                type: 'IMAGE',
+                accountId: accountId
+            }
+        };
+
+        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
+            if (err) {
+                console.log(err);
+            }
+            if (response) {
+                console.log('oncue API response %O', response);
+                mediaAssetId = response.data.assetId;
+                var creds = {
+                    bucket: 'beta.cdn.expertoncue.com',
+                    access_key: 'AKIAICAP7UIWM4XZWVBA',
+                    secret_key: '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'
+                };
+                // Configure The S3 Object
+                AWS.config.update({
+                    accessKeyId: creds.access_key,
+                    secretAccessKey: creds.secret_key
+                });
+                AWS.config.region = 'us-east-1';
+                var bucket = new AWS.S3({ params: { Bucket: creds.bucket } });
+                var params = {
+                    Key: mediaAssetId + "-" + file[ 0 ].name,
+                    ContentType: file[ 0 ].type,
+                    Body: file[ 0 ],
+                    ServerSideEncryption: 'AES256',
+                    Metadata: {
+                        fileKey: JSON.stringify(response.data.assetId)
+                    }
+                };
+
+                bucket.putObject(params, function (err, data) {
+                        if (err) {
+                            // There Was An Error With Your S3 Config
+                            alert(err.message);
+                            return false;
+                        }
+                        else {
+                            console.log('s3 response to upload %O', data);
+                            // Success!
+                        }
+                    })
+                    .on('httpUploadProgress', function (progress) {
+                        // Log Progress Information
+                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
+                    });
+            }
+            else {
+                // No File Selected
+                alert('No File Selected');
+            }
+        });
+    };
+
+
+    return me;
+});
 ;'use strict';
 
 // Users service used for communicating with the users REST endpoint
