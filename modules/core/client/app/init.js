@@ -20,7 +20,7 @@ function ($locationProvider, $httpProvider, envServiceProvider) {
       local: ['localhost'],
       development: ['dashdev.expertoncue.com'],
       staging: ['dashqa.expertoncue.com'],
-      production: ['dashboard.expertoncue.com']
+      production: ['sellrdashboard.com']
     },
     vars: {
       local: {
@@ -33,7 +33,7 @@ function ($locationProvider, $httpProvider, envServiceProvider) {
         API_URL: 'https://apiqa.expertoncue.com'
       },
       production: {
-        API_URL: 'https://sellrdashboard.com'
+        API_URL: 'https://api.expertoncue.com'
       }
     }
   });

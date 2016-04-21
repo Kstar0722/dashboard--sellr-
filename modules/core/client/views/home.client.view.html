@@ -1,10 +1,11 @@
 <div ng-controller="AuthenticationController" ng-hide="authentication.user" >
 
 
-  <div class="sign-in">
+  <div class="sign-in" >
     <div class="shading">
-    <div id="login-form" class="">
-    <form  name="userForm" ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off"  class="text-center md-whiteframe-18dp">
+    <div id="login-form" class="" >
+      <div ng-show="!reset">
+    <form  name="userForm"  ng-submit="signin(userForm.$valid)"  novalidate autocomplete="off"  class="text-center md-whiteframe-18dp">
       <div class="logo"></div>
       <md-input-container class="md-block">
 
@@ -32,16 +33,16 @@
       <div>Don't have an account? <a  ui-sref="authentication.signup">Sign Up</a></div>
 
     </div> <!-- END FORM CONTAINER -->
-
+      </div>
     <form id="reset-form"  ng-show="reset" name="forgotPasswordForm" ng-submit="askForPasswordReset(forgotPasswordForm.$valid)"   autocomplete="off" class="text-center" novalidate><img src="/assets/images/logo-300w.png"  class="logo"/>
       <md-input-container>
         <label>Username</label>
         <input type="text" id="passuser" name="passuser" class="form-control" ng-model="stuff.passuser" placeholder="Username" lowercase required/>
       </md-input-container><br/>
       <div ng-messages="forgotPasswordForm.passuser.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Enter a username.</p>
+        <p class="help-block error-text" ng-message="required"></p>
       </div>
-      <md-button type="submit" class="md-raised md-primary">Send Email</md-button>
+      <md-button type="submit" class="  action">Send Email</md-button>
       <div ng-show="error" class="text-center text-danger">
         <strong ng-bind="error"></strong>
       </div>

@@ -11,5 +11,9 @@ angular.module('users.admin').run(['Menus',
             title: 'Pricing',
             state: 'admin.pricing'
         });
+        Menus.addSubMenuItem('topbar', 'admin', {
+            title: 'Devices',
+            state: 'admin.device'
+        });
     }
 ]);
