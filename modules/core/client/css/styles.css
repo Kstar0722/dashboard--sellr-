@@ -48,7 +48,7 @@ md-list .md-subheader {
   background-position-y: 20%;
 }
 #topNav .my-active-class {
-  color: #FE3A6D;
+  color: #2DC89A;
 }
 #topNav .brand {
   background-image: url('../img/logo_white.png');
@@ -98,7 +98,7 @@ md-list .md-subheader {
   margin: 6px 0;
 }
 #topNav #pagebutton .md-button:hover {
-  color: #FE3A6D;
+  color: #2DC89A;
   background-color: transparent;
 }
 #topNav md-toolbar.md-default-theme:not(.md-menu-toolbar),
@@ -148,7 +148,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .alt-actions a,
 .sign-in #reset-form .alt-actions a {
-  color: #FE3A6D;
+  color: #2DC89A;
   font-weight: bold;
   cursor: pointer;
   transition: all .5s;
@@ -224,7 +224,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .action,
 .sign-in #reset-form .action {
-  background-color: #FE3A6D;
+  background-color: #2DC89A;
   color: white;
   max-width: 100%;
   font-weight: 800;
@@ -234,7 +234,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .action:hover,
 .sign-in #reset-form .action:hover {
-  background-color: #0F3456;
+  background-color: #2DC89A;
   color: #ffffff;
 }
 .sign-in #login-form #remember,
