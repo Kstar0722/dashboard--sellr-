@@ -1,0 +1,12 @@
+<section class="stats ">
+  <div class="col-xs-4 white ">
+    <button class="btn btn-info" ng-repeat="type in pes.productTypes" ng-click="selectProductType(type)">{{ type.name }}</button>
+  </div>
+  <!--product number for each status type-->
+  <div ng-repeat="status in pes.productStatuses" class="col-xs-2 grey" ng-click="selectProductStatus(status)"
+       ui-sref="editor.products({status:status.value})"
+       ui-sref-active="active">
+    <h1>{{ pes.productStats[pes.currentType.productTypeId][status.value]}}</h1>
+    <span>{{status.name}}</span>
+  </div>
+</section>

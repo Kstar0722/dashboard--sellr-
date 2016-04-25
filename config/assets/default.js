@@ -39,7 +39,7 @@ module.exports = {
 				'public/lib/moment/min/moment.min.js',
 				'public/lib/angular-material/angular-material.min.js',
 				'public/lib/angular-toastr/dist/angular-toastr.tpls.min.js',
-				'public/lib/moment/min/locales.min.js'
+                'public/lib/moment/min/locales.min.js'
 			]
 		},
 		css: [

@@ -24,16 +24,21 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             },
             vars: {
                 local: {
-                    API_URL: 'http://localhost:7272'
+                    API_URL: 'http://localhost:7272',
+                    BWS_API: 'https://bwsdev.expertoncue.com'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com'
+                    API_URL: 'https://apidev.expertoncue.com',
+                    BWS_API: 'https://bwsdev.expertoncue.com'
                 },
                 staging: {
-                    API_URL: 'https://apiqa.expertoncue.com'
+                    API_URL: 'https://apiqa.expertoncue.com',
+                    BWS_API: 'https://bwsqa.expertoncue.com'
                 },
                 production: {
-                    API_URL: 'https://api.expertoncue.com'
+                    API_URL: 'https://api.expertoncue.com',
+                    BWS_API: 'https://bws.expertoncue.com'
+
                 }
             }
         });

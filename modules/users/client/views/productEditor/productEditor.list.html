@@ -1,0 +1,38 @@
+<div class="list">
+  <div class="row " ng-repeat="product in pes.productList">
+    <div class="col-md-8" ui-sref="editor.products.detail({productId:product.productId})">
+      <h5 id="sidebar-heading">{{ product.name }}</h5>
+      <div id="last-edited">Edited {{ product.lastEdit }}</div>
+      <div ng-if="product.status == 'inprogress'" class="label label-default">In Progress</div>
+      <div ng-if="product.status !== 'inprogress'" class="label"
+           ng-class="{'label-primary':product.status=='done','label-success':product.status=='approved'}">{{ product.status }}
+      </div>
+    </div>
+    <div class="col-md-4 " ng-if="permissions.editor">
+      <button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>
+      <button ng-show="product.status !=='done'" class="btn btn-default btn-sm" ng-click="editProduct(product)">Edit</button>
+    </div>
+    <!--<div class="col-md-2  ">-->
+    <!--<a class="btn btn-primary" data-toggle="modal">Add to my list</a>-->
+    <!--</div>-->
+
+
+    <div class="modal fade" id="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add to my list</h4>
+          </div>
+          <div class="modal-body">
+            <p>By adding this to your list no other editor will be able to work on this product.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Never Mind</button>
+            <button class="btn btn-primary btn-wide" ng-click="claimProduct()">Add to my list</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

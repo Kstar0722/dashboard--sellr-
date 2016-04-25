@@ -33,7 +33,8 @@
     "angular-environment": "^1.0.3",
     "Chart.js": "^1.0.2",
     "angular-chart.js": "^0.8.8",
-    "moment": "^2.12.0"
+    "moment": "^2.12.0",
+    "angular-audio": "^1.7.2"
   },
   "resolutions": {
     "angular": ">=1.4.8",

@@ -1,7 +1,18 @@
-<div>
+<head>
+  <link href="http://cdn.trumedia.io/static/flatui/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <!-- Loading Flat UI -->
+  <link href="http://cdn.trumedia.io/static/flatui/css/flat-ui.css" rel="stylesheet">
+  <!-- Load JS here for greater good =============================-->
+
+</head>
+<div class="productEditor">
   <div ui-view="stats"></div>
-
-  <div ui-view="list"></div>
-
-  <div ui-view="detail"></div>
+  <div class="row">
+    <div class="col-sm-2" ui-view="list" style="border:red 2px solid"></div>
+    <div class="col-sm-10" ng-include="detail.template" style="border:blue 2px solid"></div>
+  </div>
 </div>
+
+<script src="http://cdn.trumedia.io/static/flatui/js/jquery-1.8.3.min.js"></script>
+<script src="http://cdn.trumedia.io/static/flatui/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="http://cdn.trumedia.io/static/flatui/js/bootstrap.min.js"></script>

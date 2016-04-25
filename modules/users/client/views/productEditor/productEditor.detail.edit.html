@@ -1,0 +1,314 @@
+<!--NOTE: pes stands for productEditorService, as defined in the controller. Shorted for easier readability-->
+
+<body style="background: #fbfbfb;">
+
+<!--replace with toastr?-->
+<div id="note">
+  Product Updated!
+</div>
+
+<div class="container-fluid">
+
+  <div class="col-md-6 " style="margin-left: 4%; margin-top: 2vh;">
+
+    <!--show if product is not assigned to current user-->
+    <div class="alert alert-danger" style="background: red; color: white" ng-show="pes.currentProduct.editStatusId">
+      <strong>Edit in Progress</strong><br> This product is currently being edited by another user.
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-9">
+        <h4><i>Editing:</i> {{ pes.currentProduct.title }} </h4>
+        <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}} ( {{ pes.currentProduct.sku }} )</span>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+        <input type="submit" class="btn btn-success pull-right" name="submit" value="Update Product">
+      </div>
+    </div>
+    <hr>
+
+    <form role="form">
+
+      <!--show if requested by macs, scan app images-->
+      <div class="row">
+        <!--repeat 6 times, grab images based on sku and index from cdn -->
+        <a ng-repeat="i in [0,1,2,3,4,5]" href="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png" target="_blank">
+          <img class="reference" ng-src="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png">
+        </a>
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+          <div class="form-group">
+            <label>Title</label>
+            <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.title">
+          </div>
+          <div ng-show="pes.currentProduct.audio">
+            <label>Audio:</label>
+            <button class="btn" ng-click="playAudio()">Play</button>
+            <button class="btn" ng-click="pauseAudio()">Pause</button>
+          </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <!--insert image from upload-->
+          <img ng-repeat="image in pes.currentProduct.images" ng-src="{{image.publicUrl}}" height="200px">
+          <button class="btn" ngf-select="pes.uploadMedia($files)">
+            Upload Image
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description / Script</label>
+        <textarea class="form-control" name="beer_script" rows="5" id="beer_script" ng-model="pes.currentProduct.description"></textarea>
+      </div>
+
+
+      <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type">
+        <label for="prop">{{ prop.label }}<span ng-show="prop.info"> - ({{ prop.info }})</span></label>
+        <textarea class="form-control" id="prop" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{prop.info}}"></textarea>
+        <input class="form-control" id="prop" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
+        <select ng-switch-when="countryselect" class="form-control" ng-options="country.name as country.name for country in Countries"
+                ng-model="prop.value"></select>
+      </div>
+      <div class="form-group">
+        <label>Research Notes</label>
+        <textarea class="form-control" name="beer_research_notes" rows="3" id="beer_research_notes" ng-model="pes.currentProduct.researchNotes">{{ pes.currentProduct.researchNotes }}</textarea>
+      </div>
+
+      <input type="submit" class="btn btn-success" name="submit" value="Update Product" ng-click="updateProduct(pes.currentProduct)">
+    </form>
+
+
+    <!-- Send Back MODAL -->
+    <div class="modal" id="sendback" ng-show="permissions.curator">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Send back to Editor</h4>
+          </div>
+          <div class="modal-body">
+            <p>This will send the product back to the editor for revisions. Please add additional comments below to instruct editor on necessary
+              changes.</p>
+            <!--TODO: send back reset status to inprogress-->
+            <div class="form-group">
+              <label>Comments</label>
+              <textarea class="form-control" name="beer_feedback" ng-model="feedback"></textarea>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+            <input class="btn btn-primary btn-wide" type="submit" style="background-color: #C52424" value="Send back to Editor"
+                   ng-click="sendBack(feedback)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Send Back MODAL -->
+
+
+    <!-- BEGIN submitForApproval MODAL -->
+    <div class="modal" id="submitforapproval">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Submit for Approval</h4>
+          </div>
+
+          <div class="modal-body">
+            <p>This will submit the product to be reviewed by our team and if the data is accurate we will approve. If data is not accurate the product
+              will be rejected and sent back to you.</p>
+
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+            <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" ng-click="submitForApproval(pes.currentProduct)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
+
+    <!-- BEGIN markAsApproved MODAL -->
+    <div class="modal" id="markasapproved" ng-show="permissions.curator">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Approve Product</h4>
+          </div>
+
+          <div class="modal-body">
+            <p>Once this is marked as Approved. It will be synced with the OnCue master database and deployed to all devices.</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+            <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" ng-click="approveProduct(pes.currentProduct)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
+    <!-- UNSUBMIT  MODAL -->
+    <div class="modal" id="unsubmitproduct">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Unsubmit Product</h4>
+          </div>
+
+          <div class="modal-body">
+            <p>Unsubmitting this product will allow you to continue editing the product and submit again at a later time.</p>
+
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+            <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" ng-click="unsubmitProduct(pes.currentProduct)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END UNSUBMIT MODAL -->
+
+    <div class="row">
+      <div class="col-md-7">
+        <h4>{{ pes.currentProduct.title }} </h4>
+        <span>Requested by: {{pes.currentProduct.requestedBy}}</span>
+      </div>
+      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <!-- Button trigger modal -->
+
+        <ul class="nav nav-pills pull-right" style="margin-top: 15px;">
+          <li ng-show="permissions.curator" role="presentation"><a href="#" data-toggle="modal" style="background-color: #C52424;" data-target="#sendback">Send
+            Back</a></li>
+          <li ng-show="pes.currentProduct.status === inprogress" role="presentation"><a href="#" data-toggle="modal" data-target="#submitforapproval">Mark
+            as Done</a>
+          </li>
+          <li ng-show="permissions.curator" role="presentation"><a href="#" data-toggle="modal" data-target="#markasapproved">Approve</a></li>
+
+        </ul>
+        <br><br>
+        <button ng-click="editProduct(pes.currentProduct)" type="button" class="btn btn-default pull-right">Edit Product</button>
+        <button type="button" style="margin-top: 5px;" class="btn btn-primary pull-right" data-toggle="modal" data-target="#unsubmitproduct">
+          Unsubmit Product
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<!--TODO: add stuff to show product feedback-->
+<!--{if segment_3=="in-progress" && beer_feedback}-->
+<!--<hr>-->
+<!--<div class="alert alert-primary" style="background: #4BC4D4; color: white; border: none;">-->
+
+<!--<strong>Changes requested from Product Admin:</strong><br> {beer_feedback}-->
+<!--</div>-->
+<!--{/if}-->
+
+<!--<hr>-->
+
+<!--<div class="row">-->
+<!--<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">-->
+<!--<div class="form-group">-->
+<!--<label>Description / Script</label>-->
+<!--<p>{if beer_script}{beer_script}{if:else}<span class="label label-danger">Missing Script</span>{/if}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">-->
+<!--{if beer_image}-->
+<!--<img src="{beer_image}" class="img-responsive" alt="Image">-->
+<!--{if:else}-->
+<!--<img src="http://placehold.it/400x400/333333?text=No Image" class="img-responsive" alt="Image">-->
+<!--{/if}-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label>Food Pairing</label>-->
+<!--<p>{if beer_food_pairing}{beer_food_pairing}{if:else}<span class="label label-danger">Missing Food Pairing</span>{/if}</p>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<label>Brewery</label>-->
+<!--<p>{if beer_brewery && beer_brewery != "NA"}{beer_brewery}{if:else}<span class="label label-danger">Missing Brewery</span>{/if}</p>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">-->
+<!--<div class="form-group">-->
+<!--<label>Country</label>-->
+<!--<p>{beer_country}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">-->
+<!--<div class="form-group">-->
+<!--<label>Region or State</label>-->
+<!--<p>{beer_region}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class=" row">-->
+<!--<div class="col-md-6">-->
+<!--<div class="form-group">-->
+<!--<label>Style ( Ale, lager, Lambin, Mead, etc. )</label>-->
+<!--<p>{beer_style}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-6">-->
+<!--<div class="form-group">-->
+<!--<label>Type ( Amber, Porter Stout, etc.)</label>-->
+<!--<p>{beer_type}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class=" row">-->
+<!--<div class="col-md-6">-->
+<!--<div class="form-group">-->
+<!--<label>ABV (Alcohol by Volume)</label>-->
+<!--<p>{beer_abv}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-6">-->
+<!--<div class="form-group">-->
+<!--<label>Price (USD)</label>-->
+<!--<p>{beer_price}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class=" row">-->
+<!--<div class="col-md-6">-->
+<!--<div class="form-group">-->
+<!--<label>Size (optional)</label>-->
+<!--<p>{beer_size}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-6">-->
+<!--<div class="form-group">-->
+<!--<label>Packaging (optional)</label>-->
+<!--<p>{beer_packaging}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<label>Research Notes</label>-->
+<!--<p>{beer_research_notes}</p>-->
+<!--</div>-->
+<!--{/exp:channel:entries}-->
+
+<!--{if:else}-->
+<!--Select a product on the left to start editing-->
+<!--{/if}-->
+<!--</div>-->
+<!--</div>-->
+
+

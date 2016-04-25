@@ -629,3 +629,112 @@ section.userList .userbox {
 .stats .devices .device .icon.error {
   color: red;
 }
+.productEditor {
+  margin-top: 6vw;
+  height: 100vh;
+  width: 100vw;
+}
+.productEditor .stats {
+  text-align: center;
+  background: #111921;
+  width: 100vw;
+  display: table;
+  color: white;
+  -webkit-box-shadow: inset 0px 0px 30px 5px #000000;
+  -moz-box-shadow: inset 0px 0px 30px 5px #000000;
+  box-shadow: inset 0px 0px 30px 5px #000000;
+}
+.productEditor .stats h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 0px;
+}
+.productEditor .stats span {
+  font-size: 14px;
+  padding-bottom: 25px;
+  display: block;
+}
+.productEditor .stats a:hover {
+  text-decoration: none;
+}
+.productEditor .stats .grey a {
+  color: #888;
+}
+.productEditor .stats .orange a {
+  color: #E67E22;
+}
+.productEditor .stats .white a {
+  color: #fff;
+}
+.productEditor .stats .green a {
+  color: #3CD669;
+}
+.productEditor .stats .active {
+  background: rgba(255, 255, 255, 0.22);
+  color: #111921;
+}
+.productEditor .reference {
+  max-width: 33%;
+}
+.productEditor .sidebar-entry {
+  margin-bottom: 30px;
+}
+.productEditor .sidebar-entry a {
+  color: #333;
+}
+.productEditor #sidebar-heading {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 22px;
+  font-weight: 900;
+}
+.productEditor #last-edited {
+  font-size: 12px;
+}
+.productEditor label {
+  opacity: .7;
+}
+.productEditor #note {
+  position: fixed;
+  z-index: 101;
+  top: 0px;
+  color: white;
+  right: 0px;
+  left: 0px;
+  height: 55px;
+  font-size: 19px;
+  opacity: 0.85;
+  width: 100vw;
+  background: #00AB51;
+  text-align: center;
+  line-height: 2.7;
+  overflow: hidden;
+  display: none;
+  transition: display .3s;
+  animation: note 0.5s 1;
+  -webkit-animation: note 0.5s 1;
+  animation-fill-mode: forwards;
+  animation-delay: 4s;
+  -webkit-animation-delay: 4s;
+  /* Safari and Chrome */
+  -webkit-animation-fill-mode: forwards;
+}
+@keyframes note {
+  from {
+    opacity: .85;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes note {
+  from {
+    opacity: .85;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.productEditor .list {
+  height: 75vh;
+}

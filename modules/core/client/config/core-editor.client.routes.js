@@ -5,11 +5,20 @@ angular.module('core.editor.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('editor', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
+                url: '/editor',
+                // resolve: {
+                //     type: [ '$stateParams', function ($stateParams) {
+                //         return $stateParams.type
+                //     } ],
+                //     status: [ '$stateParams', function ($stateParams) {
+                //         return $stateParams.status
+                //     } ]
+                // },
+                templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
+                controller: 'productEditorController',
+                // template: '<ui-view/>',
                 data: {
-                    roles: ['editor']
+                    roles: [ 'editor', 'curator', 'admin' ]
                 }
             });
     }
