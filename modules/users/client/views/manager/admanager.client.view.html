@@ -28,8 +28,8 @@
                       Remove Ad
                 </span>
               <div class="img" ng-if="activeAd.ext == 'image'"
-                   style="background-image: url({{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value}});"></div>
-              <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
+                   style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value}});"></div>
+              <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
               <p style="color:black">{{activeAd.name}}</p>
             </div>
 
@@ -43,9 +43,15 @@
             <h1 class="md-display-1">Media Library</h1>
         </div>
         <div>
-          <md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">
-            Upload Image
-          </md-button>
+          <div ngf-drop ngf-select ng-model="files" class="drop-box"
+               ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+               accept="image/*,application/pdf"
+               ngf-pattern="'image/*,application/pdf'">Drop images here or click to upload</div>
+          <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+          <!--<br>OR:-->
+          <!--<md-button class="md-button md-raised upload" ngf-select="upload($files)" ngf-multiple="true">-->
+            <!--Upload Image-->
+          <!--</md-button>-->
         </div>
         <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"
                             ng-show="vm.determinateValue">
@@ -59,9 +65,9 @@
             <div class="ad" ng-repeat="media in allMedia">
               <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="media.ext == 'image' "
-                   style="background-image: url({{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value}});"></div>
+                   style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value}});"></div>
               <video  class ='img'controls ng-if="media.ext =='video'"
-                      ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + media.value | trustUrl }}"
+                      ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
                       frameBorder="2"
                       allowfullscreen="true"></video>
               <p>{{media.name}}</p>
