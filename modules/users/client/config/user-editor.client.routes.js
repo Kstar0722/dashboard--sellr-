@@ -6,10 +6,7 @@ angular.module('users.editor.routes').config(['$stateProvider',
         $stateProvider
             .state('editor.products', {
                 url: '/:type/:status',
-                params: {
-                    type: 'wine',
-                    status: 'available'
-                },
+                // controller: 'productEditorController',
                 views: {
                     'list': {
                         templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'

@@ -5,7 +5,8 @@ angular.module('users.supplier').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'supplier', {
             title: 'Suppliers',
-            state: 'supplier.media'
+            state: 'supplier.media',
+            position:2
         });
     }
 ]);

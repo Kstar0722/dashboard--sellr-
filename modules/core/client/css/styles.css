@@ -50,6 +50,10 @@ md-list .md-subheader {
 #topNav .my-active-class {
   color: #FE3A6D;
 }
+#topNav .menu-dropdowns {
+  overflow: visible;
+  z-index: 9999;
+}
 #topNav .brand {
   background-image: url('../img/logo_white.png');
   background-size: contain;
@@ -630,19 +634,24 @@ section.userList .userbox {
   color: red;
 }
 .productEditor {
-  margin-top: 6vw;
-  height: 100vh;
+  margin-top: 10vh;
   width: 100vw;
 }
 .productEditor .stats {
   text-align: center;
   background: #111921;
   width: 100vw;
-  display: table;
+  z-index: 50;
+  height: 10vh;
   color: white;
+  position: fixed;
+  top: 10vh;
   -webkit-box-shadow: inset 0px 0px 30px 5px #000000;
   -moz-box-shadow: inset 0px 0px 30px 5px #000000;
   box-shadow: inset 0px 0px 30px 5px #000000;
+}
+.productEditor .productContent {
+  margin-top: 20vh;
 }
 .productEditor .stats h1 {
   font-size: 40px;
@@ -736,5 +745,7 @@ section.userList .userbox {
   }
 }
 .productEditor .list {
-  height: 75vh;
+  padding: 5vh 0 0 5vw ;
+  height: 80vh;
+  overflow-y: scroll;
 }

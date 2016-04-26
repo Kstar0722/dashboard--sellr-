@@ -4,13 +4,33 @@
       <md-toolbar class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
 
         <div class="brand"></div>
-        <div data-ng-repeat="item in menu.items "
+        <div data-ng-repeat="item in menu.items |orderBy:'position'"
              data-ng-if="item.shouldRender(authentication.user);"
-             ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}">
-          <div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class">
-              <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title" aria-label="subitme.title"></md-button>
-            </div>
+             ng-switch="item.type" class="{{item.menuItemClass}}">
+          <md-menu-bar>
+
+            <md-menu md-position-mode="target-right bottom" ng-switch-when="dropdown">
+              <md-button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state)}">{{ item.title }}</md-button>
+              <md-menu-content class="">
+                <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class"
+                              ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}">{{ subitem.title }}
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </md-menu-bar>
+
+          <div ng-switch-when=" button
+              " id="pagebutton">
+            <md-button ui-sref="{{item.state}}" ui-sref-active="my-active-class">{{item.title }}
+            </md-button>
+
+          </div>
+
+          <!--<div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class">-->
+          <!--<md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title" aria-label="subitem.title"></md-button>-->
+          <!--</div>-->
         </div>
+
 
         <div flex></div>
         <div ng-class="{active: $uiRoute}" ng-if="isGranted('ManageUsers')">

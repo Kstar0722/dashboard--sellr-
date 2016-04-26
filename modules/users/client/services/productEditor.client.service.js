@@ -1,10 +1,11 @@
+'use strict';
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q) {
     var me = this;
     var debugLogs = true;
     var log = function (title, data) {
         if (debugLogs) {
-            title += '%O'
-            console.log(title, data)
+            title += '%O';
+            console.log(title, data);
         }
     };
 
@@ -27,26 +28,28 @@ angular.module('users').service('productEditorService', function ($http, $locati
         //initialize with new products so list isnt empty
 
         me.getStats();
-        me.updateProductList()
+        me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
         if (!options.type || !options.status) {
-            console.error('getAvailableProducts: Please add a type and status to get available products %O', options)
+            options = {
+                type: me.currentType.productTypeId,
+                status: me.currentStatus.value
+            };
         }
-        var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type;
+        log('getProdList options', options);
+        var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
         //TODO: enable actual api call here
         function rand() {
             return Math.floor(Math.random() * 100);
         }
-
         me.productList = [
             { name: 'Awesome ' + options.type.name + ' 1', productId: 155220, lastEdit: rand() + ' min ago', status: 'inprogress' },
             { name: 'Awesome ' + options.type.name + ' 2', productId: 222222, lastEdit: rand() + ' week(s) ago', status: 'new' },
             { name: 'Awesome ' + options.type.name + ' 3', productId: 333333, lastEdit: rand() + ' hour(s) ago', status: 'done' },
             { name: 'Awesome ' + options.type.name + ' 4', productId: 444444, lastEdit: rand() + ' day(s) ago', status: 'inprogress' }
-
         ];
         // $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
@@ -61,12 +64,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
 
     me.updateProductList = function () {
-        me.getProductList({ type: me.currentType.productTypeId, status: me.currentStatus.value })
+        me.getProductList({ type: me.currentType, status: me.currentStatus })
     };
 
     //send in type,status,userid, get back list of products
     me.getMyProducts = function (options) {
-        var options = options | {};
+        options = options | {};
         if (!options.type || !options.status || !options.userId) {
             options = {
                 type: me.currentType.productTypeId,

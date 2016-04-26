@@ -15,7 +15,6 @@ angular.module('core.editor.routes').config(['$stateProvider',
                 //     } ]
                 // },
                 templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
-                controller: 'productEditorController',
                 // template: '<ui-view/>',
                 data: {
                     roles: [ 'editor', 'curator', 'admin' ]

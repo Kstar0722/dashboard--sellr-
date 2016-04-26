@@ -3,17 +3,25 @@
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Users',
-            state: 'admin.users'
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Account Manager',
+            state: 'manager.accounts',
+            position: 3
         });
         Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Pricing',
-            state: 'admin.pricing'
+            title: 'User Management',
+            state: 'admin.users',
+            position: 5
         });
         Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Devices',
-            state: 'admin.device'
+            title: 'Pricing Calculator',
+            state: 'admin.pricing',
+            position: 6
+        });
+        Menus.addSubMenuItem('topbar', 'admin', {
+            title: 'Device Management',
+            state: 'admin.device',
+            position: 7
         });
     }
 ]);

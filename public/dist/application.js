@@ -178,8 +178,17 @@ angular.module('core.admin').run(['Menus',
           title: 'Admin',
           state: 'admin',
           type: 'dropdown',
-          roles: ['admin']
+          roles: [ 'admin' ],
+          position: 3
       });
+      Menus.addMenuItem('topbar', {
+          title: 'Dashboard',
+          state: 'dashboard',
+          type: 'button',
+          roles: [ '*' ],
+          position: 0
+      });
+
   }
 ]);
 ;'use strict';
@@ -203,10 +212,11 @@ angular.module('core.admin.routes').config(['$stateProvider',
 angular.module('core.editor').run([ 'Menus',
     function (Menus) {
         Menus.addMenuItem('topbar', {
-            title: 'Editor',
+            title: 'Product Editor',
             state: 'editor',
             type: 'dropdown',
-            roles: [ 'editor', 'curator', 'admin' ]
+            roles: [ 'editor', 'curator', 'admin' ],
+            position: 4
         });
     }
 ]);
@@ -227,7 +237,6 @@ angular.module('core.editor.routes').config(['$stateProvider',
                 //     } ]
                 // },
                 templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
-                controller: 'productEditorController',
                 // template: '<ui-view/>',
                 data: {
                     roles: [ 'editor', 'curator', 'admin' ]
@@ -243,7 +252,8 @@ angular.module('core.manager').run(['Menus',
             title: 'Manager',
             state: 'manager',
             type: 'dropdown',
-            roles: ['manager']
+            roles: ['manager'],
+            position:0
         });
 
     }
@@ -272,7 +282,8 @@ angular.module('core.storeOwner').run(['Menus',
             title: 'Store Owner',
             state: 'storeOwner',
             type: 'dropdown',
-            roles: ['owner']
+            roles: ['owner'],
+            position:1
         });
 
     }
@@ -301,7 +312,8 @@ angular.module('core.supplier').run(['Menus',
             title: 'Supplier',
             state: 'supplier',
             type: 'dropdown',
-            roles: ['supplier']
+            roles: ['supplier'],
+            position:2
         });
 
     }
@@ -374,14 +386,16 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 ;
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$window',
-    function ($scope, Authentication, Menus, $http, $window) {
+angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state',
+    function ($scope, Authentication, Menus, $http, $window, $state) {
         $scope.authentication = Authentication;
         $scope.ui = {};
+        $scope.$state = $state;
 
         var originatorEv;
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
+        console.log('menus %O', $scope.menu);
 
         $scope.toggleCollapsibleMenu = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
@@ -906,8 +920,19 @@ angular.module('core').service('Socket', ['Authentication', '$state', '$timeout'
 angular.module('users.editor').run([ 'Menus', 'productEditorService',
     function (Menus, productEditorService) {
         Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Product Editor',
-            state: 'editor.products'
+            title: 'Wine',
+            state: 'editor.products({type:"wine"})',
+            position: 9
+        });
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Beer',
+            state: 'editor.products({type:"beer"})',
+            position: 9
+        });
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Spirits',
+            state: 'editor.products({type:"spirits"})',
+            position: 9
         });
     }
 ]);
@@ -919,10 +944,7 @@ angular.module('users.editor.routes').config(['$stateProvider',
         $stateProvider
             .state('editor.products', {
                 url: '/:type/:status',
-                params: {
-                    type: 'wine',
-                    status: 'available'
-                },
+                // controller: 'productEditorController',
                 views: {
                     'list': {
                         templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
@@ -961,21 +983,14 @@ angular.module('users.editor.routes').config(['$stateProvider',
 angular.module('users.manager').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Dashboard',
-            state: 'manager.dashboard'
-        });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Ads',
+            title: 'Ad Manager',
             state: 'manager.ads'
         });
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Locations',
+            title: 'Location Manager',
             state: 'manager.locations'
         });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Accounts',
-            state: 'manager.accounts'
-        });
+        
     }
 ]);
 ;'use strict';
@@ -984,9 +999,9 @@ angular.module('users.manager').run(['Menus',
 angular.module('users.manager.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
-            .state('manager.dashboard', {
+            .state('dashboard', {
                 url: '/dashboard/:accountId',
-                templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html',
+                templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
 
             })
             .state('manager.ads', {
@@ -1035,7 +1050,8 @@ angular.module('users.storeOwner').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'storeOwner', {
             title: 'Invite User',
-            state: 'storeOwner.inviteUser'
+            state: 'storeOwner.inviteUser',
+            position:8
         });
 
     }
@@ -1063,7 +1079,8 @@ angular.module('users.supplier').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'supplier', {
             title: 'Suppliers',
-            state: 'supplier.media'
+            state: 'supplier.media',
+            position:2
         });
     }
 ]);
@@ -1090,17 +1107,25 @@ angular.module('users.supplier.routes').config(['$stateProvider',
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Users',
-            state: 'admin.users'
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Account Manager',
+            state: 'manager.accounts',
+            position: 3
         });
         Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Pricing',
-            state: 'admin.pricing'
+            title: 'User Management',
+            state: 'admin.users',
+            position: 5
         });
         Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Devices',
-            state: 'admin.device'
+            title: 'Pricing Calculator',
+            state: 'admin.pricing',
+            position: 6
+        });
+        Menus.addSubMenuItem('topbar', 'admin', {
+            title: 'Device Management',
+            state: 'admin.device',
+            position: 7
         });
     }
 ]);
@@ -2117,7 +2142,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             $scope.authentication.user = response.data;
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
-            $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
+            $state.go('dashboard', $state.previous.params);
 
         }
         //We could not sign into mongo, so clear everything and show error.
@@ -3154,23 +3179,45 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ]);
 ;angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries) {
     productEditorService.init();
+
+
     $scope.pes = productEditorService;
     $scope.userId = Authentication.userId || localStorage.getItem('userId');
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
+    console.log('authentication %O', Authentication)
     $scope.permissions = {
-        editor: Authentication.user.roles.indexOf('editor') > -1,
-        curator: Authentication.user.roles.indexOf('curator') > -1
+        editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
+        curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
 
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
         productEditorService.currentStatus = productEditorService.productStatuses[ 0 ];
-        $state.go('editor.products', { type: type.name });
+        // $state.go('editor.products', { type: type.name });
         productEditorService.updateProductList()
     };
+    function setState() {
+        var type;
+        switch ($stateParams.type) {
+            case 'wine':
+                type = { name: 'wine', productTypeId: 1 };
+                break;
+            case 'beer':
+                type = { name: 'beer', productTypeId: 2 };
+                break;
+            case 'spirits':
+                type = { name: 'spirits', productTypeId: 3 };
+                break;
+        }
+        console.log('typeSetState', type);
+        $scope.selectProductType(type);
+
+    }
+
+    setState();
 
     $scope.selectProductStatus = function (status) {
         productEditorService.currentStatus = status;
@@ -3193,13 +3240,13 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
 
     $scope.submitForApproval = function (prod) {
-        productEditorService.finishProduct(prod)
+        productEditorService.finishProduct(prod);
         //    TODO:redirect to view screen
 
     };
 
     $scope.approveProduct = function (prod) {
-        productEditorService.approveProduct(prod)
+        productEditorService.approveProduct(prod);
         //    TODO:redirect to view screen
     };
 
@@ -3215,10 +3262,10 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 
     $scope.playAudio = function () {
         productEditorService.currentProduct.audio.play()
-    }
+    };
     $scope.pauseAudio = function () {
         productEditorService.currentProduct.audio.pause()
-    }
+    };
     $scope.seekAudio = function () {
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
@@ -5840,13 +5887,14 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
   }
 ]);
-;angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q) {
+;'use strict';
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q) {
     var me = this;
     var debugLogs = true;
     var log = function (title, data) {
         if (debugLogs) {
-            title += '%O'
-            console.log(title, data)
+            title += '%O';
+            console.log(title, data);
         }
     };
 
@@ -5869,26 +5917,28 @@ angular.module('users').factory('PasswordValidator', ['$window',
         //initialize with new products so list isnt empty
 
         me.getStats();
-        me.updateProductList()
+        me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
         if (!options.type || !options.status) {
-            console.error('getAvailableProducts: Please add a type and status to get available products %O', options)
+            options = {
+                type: me.currentType.productTypeId,
+                status: me.currentStatus.value
+            };
         }
-        var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type;
+        log('getProdList options', options);
+        var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
         //TODO: enable actual api call here
         function rand() {
             return Math.floor(Math.random() * 100);
         }
-
         me.productList = [
             { name: 'Awesome ' + options.type.name + ' 1', productId: 155220, lastEdit: rand() + ' min ago', status: 'inprogress' },
             { name: 'Awesome ' + options.type.name + ' 2', productId: 222222, lastEdit: rand() + ' week(s) ago', status: 'new' },
             { name: 'Awesome ' + options.type.name + ' 3', productId: 333333, lastEdit: rand() + ' hour(s) ago', status: 'done' },
             { name: 'Awesome ' + options.type.name + ' 4', productId: 444444, lastEdit: rand() + ' day(s) ago', status: 'inprogress' }
-
         ];
         // $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
@@ -5903,12 +5953,12 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
 
     me.updateProductList = function () {
-        me.getProductList({ type: me.currentType.productTypeId, status: me.currentStatus.value })
+        me.getProductList({ type: me.currentType, status: me.currentStatus })
     };
 
     //send in type,status,userid, get back list of products
     me.getMyProducts = function (options) {
-        var options = options | {};
+        options = options | {};
         if (!options.type || !options.status || !options.userId) {
             options = {
                 type: me.currentType.productTypeId,
