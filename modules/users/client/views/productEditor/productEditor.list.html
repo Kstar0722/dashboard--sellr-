@@ -1,5 +1,4 @@
-<div class="list">
-  <button class="btn btn-warning" ng-click="pes.getMyProducts()">Only Show My Products</button>
+<div class="list" >
   <div class="row " ng-repeat="product in pes.productList">
     <div class="col-md-8" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>
