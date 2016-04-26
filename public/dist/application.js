@@ -2004,7 +2004,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             1002: 'manager',
             1007: 'supplier',
             1003: 'user',
-            1009: 'owner'
+            1009: 'owner',
+            1010: 'editor',
+            1011: 'curator'
         };
 
 
@@ -2067,6 +2069,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     localStorage.setItem('accountId', userInfo.accountId);
                     localStorage.setItem('roles', roles);
+                    localStorage.setItem('userId', userInfo.regCode);
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
@@ -2091,12 +2094,11 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
-            console.log('i hope I can sign in with %O',payload);
             $http.post(url, payload).then(onSigninSuccess, onSigninError);
 
         };
 
-        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
+        //We've signed into the mongoDB, now lets authenticate with OnCue's API
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
             authToken.setToken(response.data.token);
@@ -2106,6 +2108,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             //store account Id in location storage
             localStorage.setItem('accountId', response.data.accountId);
+            localStorage.setItem('userId', response.data.userId);
 
             $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
         }
@@ -5851,7 +5854,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
     me.init = function () {
         me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
         me.productStatuses = [
-            { name: 'Available', value: 'available' },
+            { name: 'Available', value: 'new' },
             { name: 'In Progress', value: 'inprogress' },
             { name: 'Done', value: 'done' },
             { name: 'Approved', value: 'approved' }
@@ -5900,20 +5903,27 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
 
     me.updateProductList = function () {
-        me.getProductList({ type: me.currentType, status: me.currentStatus })
+        me.getProductList({ type: me.currentType.productTypeId, status: me.currentStatus.value })
     };
 
     //send in type,status,userid, get back list of products
     me.getMyProducts = function (options) {
+        var options = options | {};
         if (!options.type || !options.status || !options.userId) {
-            console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
+            options = {
+                type: me.currentType.productTypeId,
+                status: me.currentStatus.value,
+                userId: 407
+            };
+
+            // console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
         }
-        var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.user;
+        var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId;
         $http.get(url).then(getMyProdSuccess, getMyProdError);
 
         function getMyProdSuccess(response) {
             if (response.status === 200) {
-                me.myProducts = response.data
+                me.productList = response.data
             }
         }
 
@@ -5927,7 +5937,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
             console.error('setCurrentProduct: please provide productId')
             return
         }
-        me.getProductDetail(product.productId).then(onGetProductDetailSuccess, onGetProductDetailError)
+        me.getProductDetail(product.productId).then(onGetProductDetailSuccess, onGetProductDetailError);
         function onGetProductDetailSuccess(res) {
             if (res.data.length > 0) {
                 me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
@@ -6029,24 +6039,24 @@ angular.module('users').factory('PasswordValidator', ['$window',
         }
     };
     me.getStats = function () {
-        var url = constants.BWS_API + '/edit/stats';
+        var url = constants.BWS_API + '/edit/count';
 
         //TODO: api call
         me.productStats = {
             1: {
-                available: 15,
+                new: 15,
                 inprogress: 12,
                 done: 62,
                 approved: 92
             },
             2: {
-                available: 14,
+                new: 14,
                 inprogress: 6,
                 done: 1,
                 approved: 918
             },
             3: {
-                available: 56,
+                new: 56,
                 inprogress: 234,
                 done: 151,
                 approved: 342
@@ -6054,12 +6064,13 @@ angular.module('users').factory('PasswordValidator', ['$window',
         };
         // $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
-            console.log('onGetStatSuccess %O', response)
-            me.stats = response.data
+            console.log('onGetStatSuccess %O', response);
+            me.productStats = response.data
         }
 
         function onGetStatError(error) {
             console.log('onGetStatError %O', error)
+            me.productStats = {}
         }
     };
 

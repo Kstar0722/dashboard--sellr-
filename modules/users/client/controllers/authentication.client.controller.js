@@ -23,7 +23,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             1002: 'manager',
             1007: 'supplier',
             1003: 'user',
-            1009: 'owner'
+            1009: 'owner',
+            1010: 'editor',
+            1011: 'curator'
         };
 
 
@@ -86,6 +88,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     localStorage.setItem('accountId', userInfo.accountId);
                     localStorage.setItem('roles', roles);
+                    localStorage.setItem('userId', userInfo.regCode);
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
@@ -110,12 +113,11 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
-            console.log('i hope I can sign in with %O',payload);
             $http.post(url, payload).then(onSigninSuccess, onSigninError);
 
         };
 
-        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
+        //We've signed into the mongoDB, now lets authenticate with OnCue's API
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
             authToken.setToken(response.data.token);
@@ -125,6 +127,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             //store account Id in location storage
             localStorage.setItem('accountId', response.data.accountId);
+            localStorage.setItem('userId', response.data.userId);
 
             $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
         }
