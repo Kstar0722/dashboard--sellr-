@@ -24,7 +24,7 @@
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
+  <!--<script type="text/javascript">getUser()</script>-->
 
 </head>
 
@@ -32,15 +32,46 @@
 <header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
 
 {% block content %}{% endblock %}
+<script>
 
+</script>
+<script type="text/javascript">
+  </script>
 
 <!--&lt;!&ndash;Embedding The User Object&ndash;&gt;-->
 <script type="text/javascript">
-var user = {{ user | json | safe }}
+
+  var user = {{user | json | safe}}
+
+  function callIntercom(){
+
+    if(localStorage.getItem('userObject')){
+      console.log('local storage accountId fetch intercom');
+
+      var userObject = JSON.parse(localStorage.getItem('userObject'));
+      /* Replace 'APP_ID' with your app ID */
+      var intercomSettings = {
+        app_id: 'ugnow3fn',
+        name:userObject.displayName, // Full name
+        email:userObject.email, // Email address
+        created_at: userObject.created
+      };
+      /* Replace 'APP_ID' with your app ID */
+      function callIntercomScript(intercomSettings){console.log(intercomSettings);var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ugnow3fn';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,true);}}}
+      callIntercomScript(intercomSettings);
+    }
+    else{
+      console.log('intercom else');
+      setTimeout(function(){
+        callIntercom();
+      },10000)
+    }
+  }
+  callIntercom();
 </script>
 
 <!--Load The Socket.io File-->
-<!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
 <!--Application JavaScript Files-->
 <!--{% for jsFile in jsFiles %}-->
@@ -48,6 +79,7 @@ var user = {{ user | json | safe }}
 <!--{% endfor %}-->
 <script type="text/javascript" src="dist/lib.min.js"></script>
 <script type="text/javascript" src="dist/application.min.js"></script>
+
 
 <!--{% if livereload %}-->
 <!--&lt;!&ndash;Livereload script rendered &ndash;&gt;-->

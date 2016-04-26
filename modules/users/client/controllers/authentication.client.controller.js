@@ -131,6 +131,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         function onApiSuccess(response){
             $scope.authentication.user = response.data;
+            console.log(response);
+            localStorage.setItem('userObject', JSON.stringify({displayName:response.data.displayName, email: response.data.email, created:response.data.created}));
+
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
             $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
