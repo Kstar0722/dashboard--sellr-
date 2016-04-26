@@ -1,46 +1,18 @@
 'use strict';
 
-angular.module('intercomApp', [
-		'ngIntercom' // or you can use 'angular-intercom'
-	])
-	.value('fakeUser', {
-		email: 'john.doe@example.com',
-		name: 'John Doe',
-		created_at: 1234567890,
-		user_id: '9876'
-	})
 
-	// inject your app_id anyway you like
-	.constant('INTERCOM_APPID', 'ugnow3fn')
-
-	// Configure your $intercom module with appID
-	.config(function($intercomProvider, INTERCOM_APPID) {
-		// Either include your app_id here or later on boot
-		$intercomProvider
-			.appID(INTERCOM_APPID);
-
-		// you can include the Intercom's script yourself or use the built in async loading feature
-		$intercomProvider
-			.asyncLoading(true)
-	})
-	.run(function($intercom, fakeUser) {
-		// boot $intercom after you have user data usually after auth success
-		$intercom.boot(fakeUser); // app_id not required if set in .config() block
-	})
-angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService', '$intercom',
-	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService, $intercom) {
+angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
+	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
 
 		var intercomUser = {
 			app_id: "ugnow3fn",
 			name: $scope.authentication.user.displayName, // Full name
 			email: $scope.authentication.user.email, // Email address
-			created_at: $scope.authentication.user.created,
-		}
+			created_at: $scope.authentication.user.created
+		};
 
 
-		console.log('intercome update %O', $intercom.update(intercomUser));
-		//$scope.file = '  ';
 		var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');
 		if($stateParams.accountId)
