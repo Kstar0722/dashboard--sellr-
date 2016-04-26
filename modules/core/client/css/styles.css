@@ -33,7 +33,7 @@ a:hover {
 md-list .md-subheader {
   font-size: 24px;
 }
-#topNav {
+#topNav .md-toolbar-tools {
   width: 100%;
   top: 0;
   position: fixed;
@@ -47,14 +47,13 @@ md-list .md-subheader {
   background-repeat: no-repeat;
   background-position-y: 20%;
 }
-#topNav .my-active-class {
+#topNav .md-toolbar-tools .my-active-class {
   color: #FE3A6D;
 }
-#topNav .menu-dropdowns {
-  overflow: visible;
-  z-index: 9999;
+#topNav .md-toolbar-tools .my-inactive-class {
+  color: white;
 }
-#topNav .brand {
+#topNav .md-toolbar-tools .brand {
   background-image: url('../img/logo_white.png');
   background-size: contain;
   background-repeat: no-repeat;
@@ -62,51 +61,51 @@ md-list .md-subheader {
   width: 180px;
   opacity: .25;
 }
-#topNav:hover {
+#topNav .md-toolbar-tools:hover {
   width: 100%;
 }
-#topNav .md-toolbar-tools {
+#topNav .md-toolbar-tools .md-toolbar-tools {
   height: 10vh;
   max-height: 10vh;
   margin: 0 auto;
   padding: 0 ;
 }
-#topNav .md-menu {
-  right: 0;
-  overflow: visible;
-  z-index: inherit;
-}
-#topNav #profmenu {
+#topNav .md-toolbar-tools .md-menu {
   right: 0;
   overflow: visible;
   z-index: 9999;
 }
-#topNav #profbutton {
+#topNav .md-toolbar-tools #profmenu {
+  right: 0;
+  overflow: visible;
+  z-index: 9999;
+}
+#topNav .md-toolbar-tools #profbutton {
   padding-top: 1.5vh;
   padding-right: 10vh;
   overflow: visible;
   z-index: inherit;
 }
-#topNav #profbutton img {
+#topNav .md-toolbar-tools #profbutton img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
 }
-#topNav #pagebutton {
+#topNav .md-toolbar-tools #pagebutton {
   margin-top: 3vh;
   display: inline-block;
 }
-#topNav #pagebutton .md-button {
+#topNav .md-toolbar-tools #pagebutton .md-button {
   text-transform: none;
   font-size: 16px;
   margin: 6px 0;
 }
-#topNav #pagebutton .md-button:hover {
+#topNav .md-toolbar-tools #pagebutton .md-button:hover {
   color: #FE3A6D;
   background-color: transparent;
 }
-#topNav md-toolbar.md-default-theme:not(.md-menu-toolbar),
-#topNav md-toolbar:not(.md-menu-toolbar) {
+#topNav .md-toolbar-tools md-toolbar.md-default-theme:not(.md-menu-toolbar),
+#topNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
 section.userList .invite {

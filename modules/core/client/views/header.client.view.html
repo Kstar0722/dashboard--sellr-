@@ -2,12 +2,18 @@
 
   <md-toolbar class="md-menu-toolbar md-toolbar-tools">
     <div class="brand"></div>
+
+    <!--non-dropdowns-->
     <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown'">{{item.title}}
     </md-button>
+
     <div>
+      <!--menu dropdowns-->
       <md-menu-bar>
         <md-menu ng-repeat="item in menu.items |orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
-          <button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state)}">{{ item.title }}</button>
+          <button ng-click="$mdOpenMenu($event)"
+                  ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}">{{ item.title }}
+          </button>
           <md-menu-content>
             <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class"
                           ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}">{{ subitem.title }}
