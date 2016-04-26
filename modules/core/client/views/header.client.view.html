@@ -1,64 +1,44 @@
-
 <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
-  <md-toolbar  >
-      <md-toolbar class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
 
-        <div class="brand"></div>
-        <div data-ng-repeat="item in menu.items |orderBy:'position'"
-             data-ng-if="item.shouldRender(authentication.user);"
-             ng-switch="item.type" class="{{item.menuItemClass}}">
-          <md-menu-bar>
-
-            <md-menu md-position-mode="target-right bottom" ng-switch-when="dropdown">
-              <md-button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state)}">{{ item.title }}</md-button>
-              <md-menu-content class="">
-                <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class"
-                              ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}">{{ subitem.title }}
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
-          </md-menu-bar>
-
-          <div ng-switch-when=" button
-              " id="pagebutton">
-            <md-button ui-sref="{{item.state}}" ui-sref-active="my-active-class">{{item.title }}
-            </md-button>
-
-          </div>
-
-          <!--<div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class">-->
-          <!--<md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title" aria-label="subitem.title"></md-button>-->
-          <!--</div>-->
-        </div>
-
-
-        <div flex></div>
-        <div ng-class="{active: $uiRoute}" ng-if="isGranted('ManageUsers')">
-          <md-button ui-sref="admin">Manage users/permissions</md-button>
-        </div>
-        <md-menu md-position-mode="target-right bottom" >
-          <div id="profbutton">
-          <md-button  ng-click="$mdOpenMenu($event)" aria-label="USER ACCOUNT DROPDOWN" >
-            <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
-            <span data-ng-bind="authentication.user.displayName"></span>
-            <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
-          </md-button>
-          </div>
-          <md-menu-content width="3" id ="profmenu">
-            <md-menu-item>
-              <md-button ui-sref="settings.profile">Edit Profile</md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button ui-sref="settings.picture">Edit Profile Picture</md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button href="/api/auth/signout" target="_self">SignOut</md-button>
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools">
+    <div class="brand"></div>
+    <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown'">{{item.title}}
+    </md-button>
+    <div>
+      <md-menu-bar>
+        <md-menu ng-repeat="item in menu.items |orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
+          <button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state)}">{{ item.title }}</button>
+          <md-menu-content>
+            <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class"
+                          ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}">{{ subitem.title }}
             </md-menu-item>
           </md-menu-content>
-
-
         </md-menu>
-      </md-toolbar>
+      </md-menu-bar>
+    </div>
 
+    <!--add space between menu and profile thing-->
+    <div flex></div>
+
+    <md-menu md-position-mode="target-right bottom">
+      <div id="profbutton" ng-click="$mdOpenMenu($event)">
+        <md-button aria-label="USER ACCOUNT DROPDOWN">
+          <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image"/>
+          <span data-ng-bind="authentication.user.displayName"></span>
+          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
+        </md-button>
+      </div>
+      <md-menu-content width="3" id="profmenu">
+        <md-menu-item>
+          <md-button ui-sref="settings.profile">Edit Profile</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ui-sref="settings.picture">Edit Profile Picture</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button href="/api/auth/signout" target="_self">SignOut</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
   </md-toolbar>
 </div>

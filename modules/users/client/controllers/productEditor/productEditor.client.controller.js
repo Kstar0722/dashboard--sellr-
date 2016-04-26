@@ -1,7 +1,6 @@
-angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries) {
+angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
     productEditorService.init();
-
-
+    
     $scope.pes = productEditorService;
     $scope.userId = Authentication.userId || localStorage.getItem('userId');
     $scope.detail = {

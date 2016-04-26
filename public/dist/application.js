@@ -439,7 +439,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
         if(!$scope.authentication.user != !check){
-            $state.go('manager.dashboard')
+            $state.go('dashboard')
         }
         $scope.userIsSupplier = function () {
             if (_.contains(Authentication.user.roles, 'supplier')) {
@@ -3177,10 +3177,9 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
   }
 ]);
-;angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries) {
+;angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
     productEditorService.init();
-
-
+    
     $scope.pes = productEditorService;
     $scope.userId = Authentication.userId || localStorage.getItem('userId');
     $scope.detail = {

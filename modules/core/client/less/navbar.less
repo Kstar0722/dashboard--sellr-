@@ -1,12 +1,8 @@
 
-#topNav {
+#topNav .md-toolbar-tools {
   .my-active-class {
     color: @pink;
 
-  }
-  .menu-dropdowns {
-    overflow: visible;
-    z-index: 9999;
   }
   width: 100%;
   top: 0;
@@ -22,7 +18,6 @@
   background-repeat: no-repeat;
   background-position-y: 20%;
 
-
   .brand {
     background-image: url(@logowhite);
     background-size: contain;
@@ -34,7 +29,6 @@
   &:hover {
     width: 100%;
   }
-
   .md-toolbar-tools {
     height: 10vh;
     max-height: 10vh;
@@ -47,7 +41,7 @@
   .md-menu {
     right: 0;
     overflow:visible;
-    z-index: inherit;
+    z-index: 9999;
   }
   #profmenu {
     right: 0;
