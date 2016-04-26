@@ -2146,7 +2146,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
-            $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
+            $state.transitionTo($state.previous.state.name || 'manager.dashboard', $state.previous.params,  {reload: true});
+            window.location.reload();
 
         }
         //We could not sign into mongo, so clear everything and show error.
@@ -2579,13 +2580,6 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function($sce) {
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
-
-		var intercomUser = {
-			app_id: "ugnow3fn",
-			name: $scope.authentication.user.displayName, // Full name
-			email: $scope.authentication.user.email, // Email address
-			created_at: $scope.authentication.user.created
-		};
 
 
 		var self = this;

@@ -5,13 +5,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
 
-		var intercomUser = {
-			app_id: "ugnow3fn",
-			name: $scope.authentication.user.displayName, // Full name
-			email: $scope.authentication.user.email, // Email address
-			created_at: $scope.authentication.user.created
-		};
-
 
 		var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');

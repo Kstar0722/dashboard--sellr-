@@ -136,7 +136,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
-            $state.go($state.previous.state.name || 'manager.dashboard', $state.previous.params);
+            $state.transitionTo($state.previous.state.name || 'manager.dashboard', $state.previous.params,  {reload: true});
+            window.location.reload();
 
         }
         //We could not sign into mongo, so clear everything and show error.
