@@ -23,7 +23,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             1002: 'manager',
             1007: 'supplier',
             1003: 'user',
-            1009: 'owner'
+            1009: 'owner',
+            1010: 'editor',
+            1011: 'curator'
         };
 
 
@@ -86,6 +88,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     localStorage.setItem('accountId', userInfo.accountId);
                     localStorage.setItem('roles', roles);
+                    localStorage.setItem('userId', userInfo.regCode);
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
@@ -110,7 +113,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
-            console.log('i hope I can sign in with %O',payload);
             $http.post(url, payload).then(onSigninSuccess, onSigninError);
 
         };
@@ -136,8 +138,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
-            $state.transitionTo($state.previous.state.name || 'manager.dashboard', $state.previous.params,  {reload: true});
-            window.location.reload();
+            $state.go('dashboard', $state.previous.params);
 
         }
         //We could not sign into mongo, so clear everything and show error.

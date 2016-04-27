@@ -6,7 +6,8 @@ angular.module('core.manager').run(['Menus',
             title: 'Manager',
             state: 'manager',
             type: 'dropdown',
-            roles: ['manager']
+            roles: ['manager'],
+            position:0
         });
 
     }

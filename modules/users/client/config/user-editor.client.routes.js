@@ -5,11 +5,37 @@ angular.module('users.editor.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('editor.products', {
-                url: '/editor',
-                templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html'
+                url: '/:type/:status',
+                // controller: 'productEditorController',
+                views: {
+                    'list': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
+                    },
+                    'stats': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
+                    },
+                    'detail': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+                    }
+                }
             })
-
-
+            .state('editor.products.detail', {
+                url: '/:productId/:task',
+                params: {
+                    task: 'view'
+                },
+                views: {
+                    'list': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
+                    },
+                    'stats': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
+                    },
+                    'detail': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+                    }
+                }
+            })
 
     }
 ]);
