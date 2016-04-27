@@ -1,23 +1,22 @@
 .productEditor {
-  margin-top: 10vh;
+  margin-top: calc(~"30px +" @navheight + @subnavheight) ;
 
-  width: 100vw;
   .stats {
     text-align: center;
-    background: #111921;
+    background: @brand-dark;
     width: 100vw;
     z-index: 50;
-    height: 10vh;
+    min-height: @subnavheight;
     color: white;
     position: fixed;
-    top: 10vh;
+    top: @navheight;
     -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
     -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
     box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
   }
 
   .productContent {
-   margin-top: 20vh;
+
   }
   .stats h1 {
     font-size: 40px;
@@ -124,6 +123,11 @@
     padding: 5vh 0 0 5vw ;
     height: 80vh;
     overflow-y: scroll;
+    background: #f5f5f5;
+
+    .btn-primary {
+      background: @sellrgreen;
+    }
 
   }
 

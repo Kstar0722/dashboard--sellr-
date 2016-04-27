@@ -2,40 +2,43 @@
 /* BRANDING */
 /* SHADING / GRADIENTS */
 /* SITE FRAMEWORK */
-body {
+body.dashboard {
   background: #f5f5f5;
   height: auto;
+  font-size: 15px;
 }
-.content {
-  margin: 10vh 0 0 0;
+body.dashboard .content {
+  margin: 120px 0 0 0;
 }
-.content .titlebar {
+body.dashboard .content .titlebar {
   background: #1f2532;
   padding: 20px 0;
 }
-.content .titlebar h1 {
+body.dashboard .content .titlebar h1 {
   margin: 0 auto;
   color: white;
   max-width: 1200px;
 }
-.content .pagecontent {
+body.dashboard .content .pagecontent {
   margin: 2vh auto 0;
   max-width: 1200px;
   padding: 0 5vw;
 }
-a {
-  color: #FE3A6D;
+body.dashboard a {
+  color: #2DC89A;
   text-decoration: none;
 }
-a:hover {
+body.dashboard a:hover {
   color: #171625;
 }
-md-list .md-subheader {
+body.dashboard md-list .md-subheader {
   font-size: 24px;
 }
 #topNav .md-toolbar-tools {
+  font-size: 100%;
   width: 100%;
   top: 0;
+  min-height: 120px;
   position: fixed;
   left: 0;
   transition: all .25s;
@@ -48,10 +51,12 @@ md-list .md-subheader {
   background-position-y: 20%;
 }
 #topNav .md-toolbar-tools .my-active-class {
-  color: #FE3A6D;
+  color: #2DC89A;
+  background: transparent;
 }
 #topNav .md-toolbar-tools .my-inactive-class {
   color: white;
+  background: transparent;
 }
 #topNav .md-toolbar-tools .brand {
   background-image: url('../img/logo_white.png');
@@ -65,15 +70,16 @@ md-list .md-subheader {
   width: 100%;
 }
 #topNav .md-toolbar-tools .md-toolbar-tools {
-  height: 10vh;
-  max-height: 10vh;
   margin: 0 auto;
-  padding: 0 ;
+  padding: ;
 }
 #topNav .md-toolbar-tools .md-menu {
   right: 0;
   overflow: visible;
   z-index: 9999;
+}
+#topNav .md-toolbar-tools .md-menu button {
+  font-size: 1em;
 }
 #topNav .md-toolbar-tools #profmenu {
   right: 0;
@@ -81,7 +87,7 @@ md-list .md-subheader {
   z-index: 9999;
 }
 #topNav .md-toolbar-tools #profbutton {
-  padding-top: 1.5vh;
+  padding-top: 25px;
   padding-right: 10vh;
   overflow: visible;
   z-index: inherit;
@@ -108,8 +114,12 @@ md-list .md-subheader {
 #topNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
+.md-menu-bar-menu md-menu-item {
+  padding-left: 20px;
+  color: #142332;
+}
 section.userList .invite {
-  background-color: #2ECC71;
+  background-color: #2DC89A;
   color: white;
 }
 section.userList .userbox {
@@ -151,7 +161,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .alt-actions a,
 .sign-in #reset-form .alt-actions a {
-  color: #FE3A6D;
+  color: #2DC89A;
   font-weight: bold;
   cursor: pointer;
   transition: all .5s;
@@ -227,7 +237,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .action,
 .sign-in #reset-form .action {
-  background-color: #FE3A6D;
+  background-color: #2DC89A;
   color: white;
   max-width: 100%;
   font-weight: 800;
@@ -237,7 +247,7 @@ section.userList .userbox {
 }
 .sign-in #login-form .action:hover,
 .sign-in #reset-form .action:hover {
-  background-color: #0F3456;
+  background-color: #142332;
   color: #ffffff;
 }
 .sign-in #login-form #remember,
@@ -271,7 +281,7 @@ section.userList .userbox {
   color: black;
 }
 .adManager .upload {
-  background-color: #2ECC71;
+  background-color: #2DC89A;
   color: white;
 }
 .adManager .ads {
@@ -337,7 +347,7 @@ section.userList .userbox {
 }
 .dashboard .topten md-toolbar {
   background-color: #1f2532;
-  color: #E2E2E2;
+  color: #DFE3EB;
 }
 .dashboard .chartbox {
   padding: 16px;
@@ -465,7 +475,7 @@ section.userList .userbox {
   margin: 0 auto;
   font-size: 70px;
   line-height: 90px;
-  color: #2ECC71;
+  color: #2DC89A;
 }
 .dashboard .devices .device .icon.error {
   color: #FF0000;
@@ -633,24 +643,20 @@ section.userList .userbox {
   color: red;
 }
 .productEditor {
-  margin-top: 10vh;
-  width: 100vw;
+  margin-top: calc(30px + 220px);
 }
 .productEditor .stats {
   text-align: center;
-  background: #111921;
+  background: #142332;
   width: 100vw;
   z-index: 50;
-  height: 10vh;
+  min-height: 100px;
   color: white;
   position: fixed;
-  top: 10vh;
+  top: 120px;
   -webkit-box-shadow: inset 0px 0px 30px 5px #000000;
   -moz-box-shadow: inset 0px 0px 30px 5px #000000;
   box-shadow: inset 0px 0px 30px 5px #000000;
-}
-.productEditor .productContent {
-  margin-top: 20vh;
 }
 .productEditor .stats h1 {
   font-size: 40px;
@@ -747,4 +753,8 @@ section.userList .userbox {
   padding: 5vh 0 0 5vw ;
   height: 80vh;
   overflow-y: scroll;
+  background: #f5f5f5;
+}
+.productEditor .list .btn-primary {
+  background: #2DC89A;
 }
