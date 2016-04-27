@@ -1,12 +1,11 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
     productEditorService.init();
-    
+
     $scope.pes = productEditorService;
     $scope.userId = Authentication.userId || localStorage.getItem('userId');
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
-    console.log('authentication %O', Authentication)
     $scope.permissions = {
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
@@ -32,7 +31,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
         }
-        console.log('typeSetState', type);
         $scope.selectProductType(type);
 
     }
@@ -61,7 +59,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     $scope.submitForApproval = function (prod) {
         productEditorService.finishProduct(prod);
-        //    TODO:redirect to view screen
+        // document.getElementById('submitforapproval').
+        $scope.viewProduct(prod)
+
 
     };
 

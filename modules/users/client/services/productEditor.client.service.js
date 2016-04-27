@@ -1,7 +1,7 @@
 'use strict';
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q) {
     var me = this;
-    var debugLogs = true;
+    var debugLogs = false;
     var log = function (title, data) {
         if (debugLogs) {
             title += '%O';
