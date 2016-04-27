@@ -412,6 +412,24 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         $scope.menu = Menus.getMenu('topbar');
         console.log('menus %O', $scope.menu);
 
+        //
+        //
+        //var user = {{ user | json | safe }};
+        //
+        //
+        //
+        //window.intercomSettings = {
+        //    app_id: "ugnow3fn",
+        //    name: '{{user.displayName}}', // Full name
+        //    email: '{{user.email}}', // Email address
+        //    created_at:'{{user.created | json | safe}}'// Signup date as a Unix timestamp
+        //};
+        //(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ugnow3fn';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+        //
+        //
+        //
+
+
         $scope.toggleCollapsibleMenu = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
         };
@@ -2164,7 +2182,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         };
 
-        //We've signed into the mongoDB, now lets authenticate with OnCue's API
+        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
             // If successful we assign the response to the global user model
             authToken.setToken(response.data.token);
@@ -2174,13 +2192,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             //store account Id in location storage
             localStorage.setItem('accountId', response.data.accountId);
-            localStorage.setItem('userId', response.data.userId);
 
             $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
         }
 
         function onApiSuccess(response){
             $scope.authentication.user = response.data;
+            console.log(response);
+            localStorage.setItem('userObject', JSON.stringify({displayName:response.data.displayName, email: response.data.email, created:response.data.created}));
+
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
             $state.go('dashboard', $state.previous.params);
@@ -2384,6 +2404,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     console.log(err);
                 }
                 if (response.data.length > 0) {
+
                     $scope.ads = true;
                     for (var i in response.data) {
                         var myData = {
@@ -2499,80 +2520,98 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     console.log(response);
                     $scope.getActiveAds(profileId);
                     toastr.success('Ad removed from devices.');
-                        //$scope.getActiveAds(deviceId);
+                    $scope.getAllMedia();
+
                 }
             });
         };
-        $scope.upload = function(file) {
-            var filename =(file[0].name).replace(/ /g,"_");
-            var obj = {
-                payload: {
-                    fileName: filename,
-                    userName: $scope.authentication.user.username,
-                    accountId: $scope.selectAccountId
-                }
-            };
-            $http.post(constants.API_URL + '/ads', obj).then(function(response, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error('There was a problem uploading your ad.')
+        $scope.$watch('files', function () {
+            $scope.upload($scope.files);
+        });
+        $scope.$watch('file', function () {
+            if ($scope.file != null) {
+                $scope.files = [$scope.file];
+            }
+        });
 
-
-                }
-                if (response) {
-                    $scope.creds = {
-                            bucket: 'beta.cdn.expertoncue.com',
-                            access_key: 'AKIAICAP7UIWM4XZWVBA',
-                            secret_key: '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'
-                        }
-                        // Configure The S3 Object
-                    AWS.config.update({
-                        accessKeyId: $scope.creds.access_key,
-                        secretAccessKey: $scope.creds.secret_key
-                    });
-                    AWS.config.region = 'us-east-1';
-                    var bucket = new AWS.S3({
-                        params: {
-                            Bucket: $scope.creds.bucket
-                        }
-                    });
-                    var params = {
-                        Key: response.data.assetId + "-" +filename,
-                        ContentType: file[0].type,
-                        Body: file[0],
-                        ServerSideEncryption: 'AES256',
-                        Metadata: {
-                            fileKey: JSON.stringify(response.data.assetId)
-                        }
-                    };
-                    console.dir(params.Metadata.fileKey)
-                    bucket.putObject(params, function(err, data) {
-                            $scope.loading = true;
+        $scope.upload = function(files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!file.$error) {
+                        var filename = (file.name).replace(/ /g, "_");
+                        console.log('account id %O', localStorage.getItem('accountId'))
+                        var obj = {
+                            payload: {
+                                fileName: filename,
+                                userName: $scope.authentication.user.username,
+                                accountId: localStorage.getItem('accountId')
+                            }
+                        };
+                        $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
                             if (err) {
-                                // There Was An Error With Your S3 Config
-                                alert(err.message);
-                                toastr.error('There was a problem uploading your ad.');
-                                return false;
-                            } else {
-                                console.dir(data);
-                                // Success!
-                                self.determinateValue = 0;
-                                toastr.success('New Ad Uploaded', 'Success!');
-                                $scope.init();
+                                console.log(err);
+                                toastr.error('There was a problem uploading your ad.')
+
 
                             }
-                        })
-                        .on('httpUploadProgress', function(progress) {
-                            // Log Progress Information
-                            console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                            self.determinateValue = Math.round(progress.loaded / progress.total * 100);
-                            $scope.$apply();
+                            if (response) {
+                                console.log(response);
+                                $scope.creds = {
+                                    bucket: 'cdn.expertoncue.com/ads',
+                                    access_key: 'AKIAICAP7UIWM4XZWVBA',
+                                    secret_key: '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'
+                                };
+                                // Configure The S3 Object
+                                AWS.config.update({
+                                    accessKeyId: $scope.creds.access_key,
+                                    secretAccessKey: $scope.creds.secret_key
+                                });
+                                AWS.config.region = 'us-east-1';
+                                var bucket = new AWS.S3({
+                                    params: {
+                                        Bucket: $scope.creds.bucket
+                                    }
+                                });
+                                var params = {
+                                    Key: response.data.assetId + "-" + filename,
+                                    ContentType: file.type,
+                                    Body: file,
+                                    ServerSideEncryption: 'AES256',
+                                    Metadata: {
+                                        fileKey: JSON.stringify(response.data.assetId)
+                                    }
+                                };
+                                console.dir(params.Metadata.fileKey)
+                                bucket.putObject(params, function (err, data) {
+                                        $scope.loading = true;
+                                        if (err) {
+                                            // There Was An Error With Your S3 Config
+                                            alert(err.message);
+                                            toastr.error('There was a problem uploading your ad.');
+                                            return false;
+                                        } else {
+                                            console.dir(data);
+                                            // Success!
+                                            self.determinateValue = 0;
+                                            toastr.success('New Ad Uploaded', 'Success!');
+                                            $scope.getAllMedia();
+                                        }
+                                    })
+                                    .on('httpUploadProgress', function (progress) {
+                                        // Log Progress Information
+                                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
+                                        self.determinateValue = Math.round(progress.loaded / progress.total * 100);
+                                        $scope.$apply();
+                                    });
+                            } else {
+                                // No File Selected
+                                alert('No File Selected');
+                            }
                         });
-                } else {
-                    // No File Selected
-                    alert('No File Selected');
+                    };
                 }
-            });
+            }
         };
 
         $scope.deleteAd = function(ad) {
@@ -2591,10 +2630,12 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
 'use strict';
 
+
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
-		//$scope.file = '  ';
+
+
 		var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');
 		if($stateParams.accountId)
@@ -2607,6 +2648,13 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			console.log(points, evt);
 		};
 		$scope.chartOptions = {}
+
+
+
+
+
+
+
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
@@ -3729,12 +3777,12 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
 
 'use strict';
 
-angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
+angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants', 'toastr',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants,toastr) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
-        //var files3 = '';
+        var files = [];
         $scope.links = [];
         function encode(data) {
             var str = data.reduce(function (a, b) {
@@ -3742,80 +3790,92 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
             }, '');
             return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
         }
+        $scope.$watch('files', function () {
+            $scope.upload($scope.files);
+        });
+        $scope.$watch('file', function () {
+            if ($scope.file != null) {
+                $scope.files = [$scope.file];
+            }
+        });
 
-
-        $scope.upload = function (file) {
-            var obj = {
-                payload: {
-                    fileName: file[0].name,
-                    userName: $scope.authentication.user.username
-                }
-            };
-            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    $scope.creds = {
-                        bucket: 'beta.cdn.expertoncue.com',
-                        access_key: 'AKIAICAP7UIWM4XZWVBA',
-                        secret_key: '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'
-                    }
-                    // Configure The S3 Object
-                    AWS.config.update({
-                        accessKeyId: $scope.creds.access_key,
-                        secretAccessKey: $scope.creds.secret_key
-                    });
-                    AWS.config.region = 'us-east-1';
-                    var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-
-                    //if (file) {
-                    var params = {
-                        Key: response.data.assetId + "-" + file[0].name,
-                        ContentType: file[0].type,
-                        Body: file[0],
-                        ServerSideEncryption: 'AES256',
-                        Metadata: {
-                            fileKey: JSON.stringify(response.data.assetId)
-                        }
-                    };
-                    console.dir(params.Metadata.fileKey)
-                            bucket.putObject(params, function (err, data) {
-                                    $scope.loading = true;
-                                    if (err) {
-                                        // There Was An Error With Your S3 Config
-                                        alert(err.message);
-                                        return false;
-                                    }
-                                    else {
-                                        console.dir(data);
-                                        // Success!
-
-
-                                        alert('Upload Done');
-
-                                    }
-                                })
-                                .on('httpUploadProgress', function (progress) {
-                                    // Log Progress Information
-
-                                    console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                                    self.determinateValue = Math.round(progress.loaded / progress.total *100);
-                                    $scope.$apply();
-                                    //$scope.$apply();
-                                    //console.log($scope.data.loading);
-                                    //$scope.loading = (progress.loaded / progress.total *100);
-
+        $scope.upload = function(files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!file.$error) {
+                        var filename = (file.name).replace(/ /g, "_");
+                        console.log('account id %O', localStorage.getItem('accountId'))
+                        var obj = {
+                            payload: {
+                                fileName: filename,
+                                userName: $scope.authentication.user.username,
+                                accountId: localStorage.getItem('accountId')
+                            }
+                        };
+                        $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
+                            if (err) {
+                                console.log(err);
+                                toastr.error('There was a problem uploading your ad.')
+                            }
+                            if (response) {
+                                console.log(response);
+                                $scope.creds = {
+                                    bucket: 'cdn.expertoncue.com/supplier',
+                                    access_key: 'AKIAICAP7UIWM4XZWVBA',
+                                    secret_key: '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'
+                                };
+                                // Configure The S3 Object
+                                AWS.config.update({
+                                    accessKeyId: $scope.creds.access_key,
+                                    secretAccessKey: $scope.creds.secret_key
                                 });
-                        }
-                        else {
-                            // No File Selected
-                            alert('No File Selected');
-                        }
-            });
-            //}
+                                AWS.config.region = 'us-east-1';
+                                var bucket = new AWS.S3({
+                                    params: {
+                                        Bucket: $scope.creds.bucket
+                                    }
+                                });
+                                var params = {
+                                    Key: response.data.assetId + "-" + filename,
+                                    ContentType: file.type,
+                                    Body: file,
+                                    ServerSideEncryption: 'AES256',
+                                    Metadata: {
+                                        fileKey: JSON.stringify(response.data.assetId)
+                                    }
+                                };
+                                console.dir(params.Metadata.fileKey)
+                                bucket.putObject(params, function (err, data) {
+                                        $scope.loading = true;
+                                        if (err) {
+                                            // There Was An Error With Your S3 Config
+                                            alert(err.message);
+                                            toastr.error('There was a problem uploading your ad.');
+                                            return false;
+                                        } else {
+                                            console.dir(data);
+                                            // Success!
+                                            self.determinateValue = 0;
+                                            toastr.success('New Ad Uploaded', 'Success!');
 
-        };
+                                        }
+                                    })
+                                    .on('httpUploadProgress', function (progress) {
+                                        // Log Progress Information
+                                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
+                                        self.determinateValue = Math.round(progress.loaded / progress.total * 100);
+                                        $scope.$apply();
+                                    });
+                            } else {
+                                // No File Selected
+                                alert('No File Selected');
+                            }
+                        });
+                    };
+                }
+            }
+        }
     }
 
 ]);
