@@ -3,7 +3,7 @@
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>
-      <div id="last-edited">Edited {{ product.lastEdit }}</div>
+      <div id="last-edited">Edited {{ product.lastEdit }}<span ng-show="product.username">by {{product.username}}</span></div>
       <div ng-if="product.status == 'inprogress'" class="label label-default">In Progress</div>
       <div ng-if="product.status !== 'inprogress'" class="label"
            ng-class="{'label-primary':product.status=='done','label-success':product.status=='approved'}">{{ product.status }}
@@ -11,7 +11,9 @@
     </div>
     <div class="row" ng-if="permissions.editor">
       <button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>
-      <button ng-show="product.status !=='done' && product.userId===userId" class="btn btn-default btn-sm" ng-click="editProduct(product)">Edit</button>
+      <button ng-show="product.status !=='done' && product.userId===userId" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>
+      <button ng-show="product.status !=='done' && product.userId===userId" class="btn btn-danger btn-sm" ng-click="removeClaim(product)">Unassign
+      </button>
       <button ng-show="$state.includes('editor.products', { status: 'new' })" class="btn btn-info btn-sm" ng-click="claimProduct(product)">Claim</button>
     </div>
     <md-divider></md-divider>

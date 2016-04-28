@@ -3229,7 +3229,8 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     // productEditorService.init();
     $scope.$state = $state;
     $scope.pes = productEditorService;
-    $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
+    // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
+    $scope.userId = 407;
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -3241,11 +3242,15 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
-        productEditorService.currentStatus = productEditorService.productStatuses[ 0 ];
         // $state.go('editor.products', { type: type.name });
         productEditorService.updateProductList()
     };
-    function setState() {
+
+    $scope.selectProductStatus = function (status) {
+        productEditorService.currentStatus = status;
+        productEditorService.updateProductList()
+    };
+    function init() {
         var type;
         switch ($stateParams.type) {
             case 'wine':
@@ -3258,23 +3263,45 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
         }
-        $scope.selectProductType(type);
-
-    }
-
-    setState();
-
-    $scope.selectProductStatus = function (status) {
+        var status;
+        switch ($stateParams.status) {
+            case 'new':
+                status = { name: 'Available', value: 'new' };
+                break;
+            case 'inprogress':
+                status = { name: 'In Progress', value: 'inprogress' };
+                break;
+            case 'done':
+                status = { name: 'Done', value: 'done' };
+                break;
+            case 'approved':
+                status = { name: 'Approved', value: 'approved' };
+                break;
+        }
+        productEditorService.currentType = type;
         productEditorService.currentStatus = status;
         productEditorService.updateProductList()
-    };
+    }
+
+    init();
+
+
 
     $scope.claimProduct = function (prod) {
         var options = {
-            userId: 407,
+            userId: $scope.userId,
             productId: prod.productId
         };
-        productEditorService.claim(options)
+        productEditorService.claim(options);
+        $scope.editProduct(prod)
+    };
+
+    $scope.removeClaim = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId
+        };
+        productEditorService.removeClaim(options)
     }
 
     $scope.viewProduct = function (product) {
@@ -5965,6 +5992,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
+    me.userId = 407;
 
 
     me.init = function () {
@@ -5980,17 +6008,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.myProducts = [];
         me.stats = {};
         me.currentProduct = {};
-        me.currentType = me.productTypes[ 0 ];
-        me.currentStatus = me.productStatuses[ 0 ];
+        me.currentType = {};
+        me.currentStatus = {};
         //initialize with new products so list isnt empty
-        log('productServiceInit', me.currentType);
 
         me.getStats();
-        me.updateProductList();
+        // me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
+        console.time('getProductList')
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -6003,7 +6031,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
-                me.productList = response.data
+                console.timeEnd('getProductList');
+                me.getStats();
+                me.productList = _.sortBy(response.data, function (p) {
+                    log('sorter', Math.abs(p.userId - me.userId))
+                    return Math.abs(p.userId - me.userId);
+                })
             }
         }
         function getAvailProdError(error) {
@@ -6089,6 +6122,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
+        options.status = 'inprogress';
         var payload = {
             "payload": options
         };
@@ -6096,6 +6130,26 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
             log('claim response', res)
+        })
+    };
+
+    //remove a claim on a product
+    me.removeClaim = function (options) {
+        //options should have userId and productId
+        if (!options.productId || !options.userId) {
+            console.error('could not claim, wrong options')
+        }
+        options.status = 'new';
+        var payload = {
+            "payload": options
+        };
+        log('removing claim', payload);
+        var url = constants.BWS_API + '/edit/claim';
+        $http.put(url, payload).then(function (res) {
+            log('claim response', res)
+            me.updateProductList()
+        }, function (err) {
+            log('deleteClaim error', err)
         })
     };
 

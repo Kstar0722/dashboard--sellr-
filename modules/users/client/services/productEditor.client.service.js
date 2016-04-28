@@ -10,6 +10,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
+    me.userId = 407;
 
 
     me.init = function () {
@@ -25,17 +26,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.myProducts = [];
         me.stats = {};
         me.currentProduct = {};
-        me.currentType = me.productTypes[ 0 ];
-        me.currentStatus = me.productStatuses[ 0 ];
+        me.currentType = {};
+        me.currentStatus = {};
         //initialize with new products so list isnt empty
-        log('productServiceInit', me.currentType);
 
         me.getStats();
-        me.updateProductList();
+        // me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
+        console.time('getProductList')
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -48,7 +49,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
-                me.productList = response.data
+                console.timeEnd('getProductList');
+                me.getStats();
+                me.productList = _.sortBy(response.data, function (p) {
+                    log('sorter', Math.abs(p.userId - me.userId))
+                    return Math.abs(p.userId - me.userId);
+                })
             }
         }
         function getAvailProdError(error) {
@@ -134,6 +140,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
+        options.status = 'inprogress';
         var payload = {
             "payload": options
         };
@@ -141,6 +148,26 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
             log('claim response', res)
+        })
+    };
+
+    //remove a claim on a product
+    me.removeClaim = function (options) {
+        //options should have userId and productId
+        if (!options.productId || !options.userId) {
+            console.error('could not claim, wrong options')
+        }
+        options.status = 'new';
+        var payload = {
+            "payload": options
+        };
+        log('removing claim', payload);
+        var url = constants.BWS_API + '/edit/claim';
+        $http.put(url, payload).then(function (res) {
+            log('claim response', res)
+            me.updateProductList()
+        }, function (err) {
+            log('deleteClaim error', err)
         })
     };
 

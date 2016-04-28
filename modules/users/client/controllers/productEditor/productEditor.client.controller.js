@@ -2,7 +2,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
     // productEditorService.init();
     $scope.$state = $state;
     $scope.pes = productEditorService;
-    $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
+    // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
+    $scope.userId = 407;
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -14,11 +15,15 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
-        productEditorService.currentStatus = productEditorService.productStatuses[ 0 ];
         // $state.go('editor.products', { type: type.name });
         productEditorService.updateProductList()
     };
-    function setState() {
+
+    $scope.selectProductStatus = function (status) {
+        productEditorService.currentStatus = status;
+        productEditorService.updateProductList()
+    };
+    function init() {
         var type;
         switch ($stateParams.type) {
             case 'wine':
@@ -31,23 +36,45 @@ angular.module('users').controller('productEditorController', function ($scope, 
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
         }
-        $scope.selectProductType(type);
-
-    }
-
-    setState();
-
-    $scope.selectProductStatus = function (status) {
+        var status;
+        switch ($stateParams.status) {
+            case 'new':
+                status = { name: 'Available', value: 'new' };
+                break;
+            case 'inprogress':
+                status = { name: 'In Progress', value: 'inprogress' };
+                break;
+            case 'done':
+                status = { name: 'Done', value: 'done' };
+                break;
+            case 'approved':
+                status = { name: 'Approved', value: 'approved' };
+                break;
+        }
+        productEditorService.currentType = type;
         productEditorService.currentStatus = status;
         productEditorService.updateProductList()
-    };
+    }
+
+    init();
+
+
 
     $scope.claimProduct = function (prod) {
         var options = {
-            userId: 407,
+            userId: $scope.userId,
             productId: prod.productId
         };
-        productEditorService.claim(options)
+        productEditorService.claim(options);
+        $scope.editProduct(prod)
+    };
+
+    $scope.removeClaim = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId
+        };
+        productEditorService.removeClaim(options)
     }
 
     $scope.viewProduct = function (product) {
