@@ -21,8 +21,7 @@ var ApplicationConfiguration = (function () {
     registerModule: registerModule
   };
 })();
-
-'use strict';
+;'use strict';
 
 //Start by defining the main module and adding the module dependencies
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
@@ -49,7 +48,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             vars: {
                 local: {
                     API_URL: 'http://localhost:7272',
-                    BWS_API: 'https://bwsdev.expertoncue.com'
+                    BWS_API: 'http://localhost:7171'
                 },
                 development: {
                     API_URL: 'https://apidev.expertoncue.com',
@@ -73,7 +72,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(["$rootScope", "$state", "Authentication", function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
 
     // Check authentication before changing state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -115,7 +114,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(["$rootScope"
             };
         }
     }
-}]);
+});
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
@@ -139,8 +138,7 @@ angular.element(document).ready(function () {
     //Then init the app
     angular.bootstrap(document, [ ApplicationConfiguration.applicationModuleName ]);
 });
-
-'use strict';
+;'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core', [ 'ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js' ]);
@@ -156,8 +154,7 @@ ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
 ApplicationConfiguration.registerModule('core.storeOwner.routes', ['ui.router']);
-
-'use strict';
+;'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users', ['core']);
@@ -173,8 +170,7 @@ ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
 ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
 ApplicationConfiguration.registerModule('users.storeOwner.routes', ['core.storeOwner.routes']);
-
-'use strict';
+;'use strict';
 
 angular.module('core.admin').run(['Menus',
   function (Menus) {
@@ -195,8 +191,7 @@ angular.module('core.admin').run(['Menus',
 
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.admin.routes').config(['$stateProvider',
@@ -212,8 +207,7 @@ angular.module('core.admin.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.editor').run([ 'Menus',
     function (Menus) {
@@ -226,8 +220,7 @@ angular.module('core.editor').run([ 'Menus',
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.editor.routes').config(['$stateProvider',
@@ -251,8 +244,7 @@ angular.module('core.editor.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.manager').run(['Menus',
     function (Menus) {
@@ -266,8 +258,7 @@ angular.module('core.manager').run(['Menus',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.manager.routes').config(['$stateProvider',
@@ -283,8 +274,7 @@ angular.module('core.manager.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.storeOwner').run(['Menus',
     function (Menus) {
@@ -298,8 +288,7 @@ angular.module('core.storeOwner').run(['Menus',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.storeOwner.routes').config(['$stateProvider',
@@ -315,8 +304,7 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.supplier').run(['Menus',
     function (Menus) {
@@ -330,8 +318,7 @@ angular.module('core.supplier').run(['Menus',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.supplier.routes').config(['$stateProvider',
@@ -347,8 +334,7 @@ angular.module('core.supplier.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
@@ -397,8 +383,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             });
     }
 ]);
-
-
+;
 'use strict';
 
 angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state',
@@ -462,8 +447,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         //});
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http',
     function ($scope, Authentication, $mdDialog, $state, $http) {
@@ -517,8 +501,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     }
 ]);
-
-angular.module('core').controller('statsController', ["$scope", "$http", "$stateParams", "constants", "chartService", "$timeout", function ($scope, $http, $stateParams, constants, chartService, $timeout) {
+;angular.module('core').controller('statsController', function ($scope, $http, $stateParams, constants, chartService, $timeout) {
     $scope.chartService = chartService;
     $scope.locations = [];
     var accountId = $stateParams.account;       //set by the URL
@@ -580,9 +563,8 @@ angular.module('core').controller('statsController', ["$scope", "$http", "$state
     refreshData()
 
 
-}]);
-
-'use strict';
+});
+;'use strict';
 
 /**
  * Edits by Ryan Hutchison
@@ -656,8 +638,7 @@ angular.module('core')
       }
     };
   }]);
-
-angular.module('core').factory('authToken', ["$window", function ($window) {
+;angular.module('core').factory('authToken', function ($window) {
 
   var me = this;
   var storage = $window.localStorage;
@@ -695,9 +676,8 @@ angular.module('core').factory('authToken', ["$window", function ($window) {
   me.removeToken = removeToken;
 
   return me;
-}]);
-
-'use strict';
+});
+;'use strict';
 
 angular.module('core').factory('authInterceptor', ['$q', '$injector',
   function ($q, $injector) {
@@ -719,9 +699,8 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
     };
   }
 ]);
-
-angular.module('core')
-    .factory('oncueAuthInterceptor', ["authToken", function (authToken) {
+;angular.module('core')
+    .factory('oncueAuthInterceptor', function (authToken) {
 
         return {
             request: function (config) {
@@ -737,10 +716,9 @@ angular.module('core')
 
             }
         }
-    }]);
+    });
 
-
-'use strict';
+;'use strict';
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
@@ -914,8 +892,7 @@ angular.module('core').service('Menus', [
     });
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Create the Socket.io wrapper service
 angular.module('core').service('Socket', ['Authentication', '$state', '$timeout',
@@ -955,31 +932,29 @@ angular.module('core').service('Socket', ['Authentication', '$state', '$timeout'
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.editor').run([ 'Menus', 'productEditorService',
     function (Menus, productEditorService) {
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Wine',
-            state: 'editor.products({type:"wine"})',
+            state: 'editor.products({type:"wine",status:"new"})',
             position: 9
         });
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Beer',
-            state: 'editor.products({type:"beer"})',
+            state: 'editor.products({type:"beer",status:"new"})',
             position: 9
         });
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Spirits',
-            state: 'editor.products({type:"spirits"})',
+            state: 'editor.products({type:"spirits",status:"new"})',
             position: 9
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.editor.routes').config(['$stateProvider',
@@ -1020,8 +995,7 @@ angular.module('users.editor.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.manager').run(['Menus',
@@ -1037,8 +1011,7 @@ angular.module('users.manager').run(['Menus',
         
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.manager.routes').config(['$stateProvider',
@@ -1088,8 +1061,7 @@ angular.module('users.manager.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.storeOwner').run(['Menus',
@@ -1102,8 +1074,7 @@ angular.module('users.storeOwner').run(['Menus',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.storeOwner.routes').config(['$stateProvider',
@@ -1119,8 +1090,7 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
@@ -1132,8 +1102,7 @@ angular.module('users.supplier').run(['Menus',
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.supplier.routes').config(['$stateProvider',
@@ -1151,8 +1120,7 @@ angular.module('users.supplier.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
@@ -1179,8 +1147,7 @@ angular.module('users.admin').run(['Menus',
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.admin.routes').config(['$stateProvider',
@@ -1234,8 +1201,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
             })
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Config HTTP Error Handling
 angular.module('users').config(['$httpProvider',
@@ -1265,8 +1231,7 @@ angular.module('users').config(['$httpProvider',
     ]);
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users').config(['$stateProvider',
@@ -1348,8 +1313,7 @@ angular.module('users').config(['$stateProvider',
 
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('DeviceManagerController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$stateParams',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $stateParams) {
@@ -1456,8 +1420,7 @@ angular.module('users.admin').controller('DeviceManagerController', ['$scope', '
     }
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService) {
@@ -1524,8 +1487,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
     }
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants',
     function ($scope, $filter, Admin, $http, $state, CurrentUserService, constants) {
@@ -1641,8 +1603,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('AdminPricingController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Admin', 'Upload', '$sce', 'ImageService', 'constants',
     function ($scope, $state, $http, Authentication, $timeout, Admin, Upload, $sce, ImageService, constants) {
@@ -1962,8 +1923,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q',
     function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr, $q) {
@@ -2062,8 +2022,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         }
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
@@ -2225,8 +2184,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         };
     }
 ]);
-
-angular.module('users.manager').controller('AccountManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", "Authentication", "$http", "constants", function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
+;angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
     accountsService.init();
     $scope.accountsService = accountsService;
 
@@ -2324,9 +2282,8 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
         });
     };
 
-}]);
-
-'use strict';
+});
+;'use strict';
 
 angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService',
     function($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService) {
@@ -2627,8 +2584,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     }
 ]);
 
-
-'use strict';
+;'use strict';
 
 
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
@@ -2744,8 +2700,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 	}
 
 ]);
-
-angular.module('users.manager').controller('LocationManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", function ($scope, locationsService, $state, accountsService, CurrentUserService) {
+;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
     locationsService.init().then(function () {
         $scope.locationsService = locationsService;
         $scope.location = {};
@@ -2761,9 +2716,8 @@ angular.module('users.manager').controller('LocationManagerController', ["$scope
         $state.go('manager.locations.edit', {id: location.locationId})
     }
 
-}]);
-
-'use strict';
+});
+;'use strict';
 
 angular.module('users').controller('ManagerUploadController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
@@ -2879,8 +2833,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
 
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.manager').controller('ProfileController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
@@ -3213,8 +3166,7 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function ($sce) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 }]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator',
   function ($scope, $stateParams, $http, $location, Authentication, PasswordValidator) {
@@ -3273,12 +3225,11 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
   }
 ]);
-
-angular.module('users').controller('productEditorController', ["$scope", "Authentication", "productEditorService", "$location", "$state", "$stateParams", "Countries", "$mdMenu", function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
-    productEditorService.init();
-
+;angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
+    // productEditorService.init();
+    $scope.$state = $state;
     $scope.pes = productEditorService;
-    $scope.userId = Authentication.userId || localStorage.getItem('userId');
+    $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -3318,6 +3269,14 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
         productEditorService.updateProductList()
     };
 
+    $scope.claimProduct = function (prod) {
+        var options = {
+            userId: 407,
+            productId: prod.productId
+        };
+        productEditorService.claim(options)
+    }
+
     $scope.viewProduct = function (product) {
         productEditorService.setCurrentProduct(product);
         $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
@@ -3335,7 +3294,6 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
 
     $scope.submitForApproval = function (prod) {
         productEditorService.finishProduct(prod);
-        // document.getElementById('submitforapproval').
         $scope.viewProduct(prod)
 
 
@@ -3368,9 +3326,8 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
     }
 
 
-}]);
-
-angular.module('users').controller('productEditorDetailController', ["$scope", "Authentication", "productEditorService", "$location", "$state", "$stateParams", "type", "status", function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
+});
+;angular.module('users').controller('productEditorDetailController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
 
     $scope.userId = Authentication.userId || localStorage.getItem('userId');
 
@@ -3384,9 +3341,8 @@ angular.module('users').controller('productEditorDetailController', ["$scope", "
 
     console.log('starting product detail controller');
     $scope.productEditorService = productEditorService;
-}]);
-
-'use strict';
+});
+;'use strict';
 
 angular.module('users').controller('ChangePasswordController', ['$scope', '$http', 'Authentication', 'PasswordValidator',
   function ($scope, $http, Authentication, PasswordValidator) {
@@ -3414,8 +3370,7 @@ angular.module('users').controller('ChangePasswordController', ['$scope', '$http
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
   function ($scope, $timeout, $window, Authentication, FileUploader) {
@@ -3488,8 +3443,7 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('EditProfileController', ['$scope', '$http', '$location', 'Users', 'Authentication',
   function ($scope, $http, $location, Users, Authentication) {
@@ -3518,16 +3472,14 @@ angular.module('users').controller('EditProfileController', ['$scope', '$http', 
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('SettingsController', ['$scope', 'Authentication',
   function ($scope, Authentication) {
     $scope.user = Authentication.user;
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
     function ($scope,Authentication, $filter, Admin, $http, $state, CurrentUserService, constants, accountsService, toastr) {
@@ -3665,8 +3617,7 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
     }
 
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
@@ -3774,8 +3725,7 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
     }
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants', 'toastr',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants,toastr) {
@@ -3880,8 +3830,7 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
 
 ]);
 
-
-(function () {
+;(function () {
     var indexOf = [].indexOf || function (item) {
             for (var i = 0, l = this.length; i < l; i++) {
                 if (i in this && this[ i ] === item) return i;
@@ -4739,8 +4688,7 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
     });
 
 }).call(this);
-
-'use strict';
+;'use strict';
 
 angular.module('users')
   .directive('passwordValidator', ['PasswordValidator', function(PasswordValidator) {
@@ -4784,8 +4732,7 @@ angular.module('users')
       }
     };
   }]);
-
-'use strict';
+;'use strict';
 
 angular.module('users')
   .directive('passwordVerify', [function() {
@@ -4813,8 +4760,7 @@ angular.module('users')
       }
     };
   }]);
-
-'use strict';
+;'use strict';
 
 // Users directive used to force lowercase input
 angular.module('users').directive('lowercase', function () {
@@ -4828,8 +4774,7 @@ angular.module('users').directive('lowercase', function () {
     }
   };
 });
-
-angular.module('users').service('accountsService', ["$http", "constants", "toastr", function ($http, constants, toastr) {
+;angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
 
@@ -4945,10 +4890,9 @@ angular.module('users').service('accountsService', ["$http", "constants", "toast
 
 
     return me;
-}]);
+});
 
-
-'use strict';
+;'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users.supplier').factory('ImageService', [
@@ -4959,8 +4903,7 @@ angular.module('users.supplier').factory('ImageService', [
         return me;
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Authentication service for user variables
 angular.module('users').factory('Authentication', ['$window',
@@ -4972,8 +4915,7 @@ angular.module('users').factory('Authentication', ['$window',
     return auth;
   }
 ]);
-
-angular.module('core').service('chartService', ["$http", "$q", "constants", function ($http, $q, constants) {
+;angular.module('core').service('chartService', function ($http, $q, constants) {
     var me = this;
     me.groupAndFormatDate = groupAndFormatDate;
     me.data = [
@@ -5091,9 +5033,8 @@ angular.module('core').service('chartService', ["$http", "$q", "constants", func
 
 
     return me;
-}]);
-
-angular.module('core').service('constants', ["envService", function (envService) {
+});
+;angular.module('core').service('constants', function (envService) {
     var me = this;
 
 
@@ -5103,9 +5044,8 @@ angular.module('core').service('constants', ["envService", function (envService)
     console.log('constants %O', me)
 
     return me;
-}]);
-
-angular.module('users').service('Countries', function () {
+});
+;angular.module('users').service('Countries', function () {
     var me = this;
     me.allCountries = [
         {
@@ -5863,8 +5803,7 @@ angular.module('users').service('Countries', function () {
 
     return me;
 });
-
-angular.module('users').service('CurrentUserService', ['Admin', '$state',
+;angular.module('users').service('CurrentUserService', ['Admin', '$state',
     function (Admin, $state) {
         var me = this;
         me.user = '';
@@ -5889,8 +5828,7 @@ angular.module('users').service('CurrentUserService', ['Admin', '$state',
         return me;
     }
 ]);
-
-angular.module('users').service('locationsService', ["$http", "constants", "toastr", "$q", function ($http, constants, toastr, $q) {
+;angular.module('users').service('locationsService', function ($http, constants, toastr, $q) {
     var me = this;
 
     me.init = function () {
@@ -5989,9 +5927,8 @@ angular.module('users').service('locationsService', ["$http", "constants", "toas
 
 
     return me;
-}]);
-
-'use strict';
+});
+;'use strict';
 
 // PasswordValidator service used for testing the password strength
 angular.module('users').factory('PasswordValidator', ['$window',
@@ -6016,17 +5953,18 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
   }
 ]);
-
-'use strict';
-angular.module('users').service('productEditorService', ["$http", "$location", "constants", "Authentication", "$stateParams", "$q", function ($http, $location, constants, Authentication, $stateParams, $q) {
+;'use strict';
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr) {
     var me = this;
-    var debugLogs = false;
+    var debugLogs = true;
     var log = function (title, data) {
         if (debugLogs) {
             title += '%O';
             console.log(title, data);
         }
     };
+    var cachedProduct;
+    me.changes = [];
 
 
     me.init = function () {
@@ -6045,6 +5983,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         me.currentType = me.productTypes[ 0 ];
         me.currentStatus = me.productStatuses[ 0 ];
         //initialize with new products so list isnt empty
+        log('productServiceInit', me.currentType);
 
         me.getStats();
         me.updateProductList();
@@ -6060,17 +5999,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
         log('getProdList options', options);
         var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
-        //TODO: enable actual api call here
-        function rand() {
-            return Math.floor(Math.random() * 100);
-        }
-        me.productList = [
-            { name: 'Awesome ' + options.type.name + ' 1', productId: 155220, lastEdit: rand() + ' min ago', status: 'inprogress' },
-            { name: 'Awesome ' + options.type.name + ' 2', productId: 222222, lastEdit: rand() + ' week(s) ago', status: 'new' },
-            { name: 'Awesome ' + options.type.name + ' 3', productId: 333333, lastEdit: rand() + ' hour(s) ago', status: 'done' },
-            { name: 'Awesome ' + options.type.name + ' 4', productId: 444444, lastEdit: rand() + ' day(s) ago', status: 'inprogress' }
-        ];
-        // $http.get(url).then(getAvailProdSuccess, getAvailProdError);
+        $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
@@ -6112,7 +6041,12 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
     me.setCurrentProduct = function (product) {
+        me.currentProduct = {};
+        cachedProduct = {};
+        me.changes = [];
+
         if (!product.productId) {
             console.error('setCurrentProduct: please provide productId')
             return
@@ -6121,11 +6055,14 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         function onGetProductDetailSuccess(res) {
             if (res.data.length > 0) {
                 me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                    log('formattedProduct', formattedProduct)
+                    var p = formattedProduct;
+                    log('formattedProduct', formattedProduct);
                     me.currentProduct = formattedProduct;
+                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
+
                 })
             } else {
-                me.currentProduct = {};
+                toastr.error('Could not get product detail for ' + product.name)
             }
         }
 
@@ -6134,6 +6071,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
     me.getProductDetail = function (productId) {
         if (!productId) {
             console.error('getProductDetail: please provide productId')
@@ -6141,9 +6079,9 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
         var url = constants.BWS_API + '/products/' + productId;
         log('getting product detail for ', url)
-
         return $http.get(url)
     }
+
 
     //claim a product
     me.claim = function (options) {
@@ -6154,30 +6092,44 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         var payload = {
             "payload": options
         };
+        log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
-        return $http.post(url, payload)
+        $http.post(url, payload).then(function (res) {
+            log('claim response', res)
+        })
     };
+
 
     me.saveProduct = function (product) {
         //check productId
         if (!product.productId) {
             console.error('saveProduct: no productId specified %O', product)
+            return
         }
+        product = compareToCachedProduct(product);
         product.status = 'inprogress';
+
+        //TODO: get real userId
+        product.userId = 407;
         var payload = {
             payload: product
         };
+        log('saveProduct', payload)
         var url = constants.BWS_API + '/products/' + product.productId;
         $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
         function onUpdateSuccess(response) {
-            console.log('onUpdateSuccess %O', response)
+            log('onUpdateSuccess', response)
+            window.scrollTo(0, 0);
+
         }
 
         function onUpdateError(error) {
+            toastr.error('There was a problem updating this product', 'Could not save')
             console.error('onUpdateError %O', error)
         }
     };
+
 
     me.finishProduct = function (product) {
         if (!product.productId) {
@@ -6199,6 +6151,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
     me.approveProduct = function (product) {
         if (!product.productId) {
             console.error('approveProduct: no productId specified %O', product)
@@ -6218,31 +6171,11 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             console.error('onApproveError %O', error)
         }
     };
+
+
     me.getStats = function () {
         var url = constants.BWS_API + '/edit/count';
-
-        //TODO: api call
-        me.productStats = {
-            1: {
-                new: 15,
-                inprogress: 12,
-                done: 62,
-                approved: 92
-            },
-            2: {
-                new: 14,
-                inprogress: 6,
-                done: 1,
-                approved: 918
-            },
-            3: {
-                new: 56,
-                inprogress: 234,
-                done: 151,
-                approved: 342
-            }
-        };
-        // $http.get(url).then(onGetStatSuccess, onGetStatError);
+        $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
             console.log('onGetStatSuccess %O', response);
             me.productStats = response.data
@@ -6307,69 +6240,47 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             }
         };
 
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
-            if (err) {
-                console.log(err);
-            }
-            if (response) {
-                console.log('oncue API response %O', response);
-                mediaAssetId = response.data.assetId;
-                var creds = {
-                    bucket: 'beta.cdn.expertoncue.com',
-                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                    secret_key: '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'
-                };
-                // Configure The S3 Object
-                AWS.config.update({
-                    accessKeyId: creds.access_key,
-                    secretAccessKey: creds.secret_key
-                });
-                AWS.config.region = 'us-east-1';
-                var bucket = new AWS.S3({ params: { Bucket: creds.bucket } });
-                var params = {
-                    Key: mediaAssetId + "-" + file[ 0 ].name,
-                    ContentType: file[ 0 ].type,
-                    Body: file[ 0 ],
-                    ServerSideEncryption: 'AES256',
-                    Metadata: {
-                        fileKey: JSON.stringify(response.data.assetId)
-                    }
-                };
-
-                bucket.putObject(params, function (err, data) {
-                        if (err) {
-                            // There Was An Error With Your S3 Config
-                            alert(err.message);
-                            return false;
-                        }
-                        else {
-                            console.log('s3 response to upload %O', data);
-                            // Success!
-                        }
-                    })
-                    .on('httpUploadProgress', function (progress) {
-                        // Log Progress Information
-                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                    });
-            }
-            else {
-                // No File Selected
-                alert('No File Selected');
-            }
-        });
+        //TODO: tie into new upload service
     };
 
+    function compareToCachedProduct(prod) {
+        log('updatedProd', prod);
+        log('cachedProd', cachedProduct);
+        me.changes = [];
+        if (prod.title !== cachedProduct.title) {
+            me.changes.push('Changed title to ' + cachedProduct.title)
+        }
+
+        for (var i = 0; i < prod.properties.length; i++) {
+            var updated = prod.properties[ i ];
+            var cached = cachedProduct.properties[ i ];
+
+            if (updated.value !== cached.value) {
+                if (cached.value === '') {
+                    updated.changed = 'new';
+                    me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+                } else {
+                    updated.changed = 'update';
+                    me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+                }
+            } else {
+                updated.changed = 'false';
+            }
+        }
+        log('changes added', prod);
+        return (prod)
+    }
+
+    me.init();
 
     return me;
-}]);
-
-angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
+});
+;angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
     return function (recordingUrl) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 } ]);
-
-'use strict';
+;'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users').factory('Users', ['$resource',

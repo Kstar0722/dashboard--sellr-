@@ -25,7 +25,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             vars: {
                 local: {
                     API_URL: 'http://localhost:7272',
-                    BWS_API: 'https://bwsdev.expertoncue.com'
+                    BWS_API: 'http://localhost:7171'
                 },
                 development: {
                     API_URL: 'https://apidev.expertoncue.com',

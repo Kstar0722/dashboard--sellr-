@@ -1,8 +1,8 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
-    productEditorService.init();
-
+    // productEditorService.init();
+    $scope.$state = $state;
     $scope.pes = productEditorService;
-    $scope.userId = Authentication.userId || localStorage.getItem('userId');
+    $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -42,6 +42,14 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.updateProductList()
     };
 
+    $scope.claimProduct = function (prod) {
+        var options = {
+            userId: 407,
+            productId: prod.productId
+        };
+        productEditorService.claim(options)
+    }
+
     $scope.viewProduct = function (product) {
         productEditorService.setCurrentProduct(product);
         $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
@@ -59,7 +67,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     $scope.submitForApproval = function (prod) {
         productEditorService.finishProduct(prod);
-        // document.getElementById('submitforapproval').
         $scope.viewProduct(prod)
 
 
