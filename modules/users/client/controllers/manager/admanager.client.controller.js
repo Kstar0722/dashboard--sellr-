@@ -209,7 +209,8 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         $scope.upload = function(files) {
             var mediaConfig = {
                 mediaRoute: 'ads',
-                folder:'ads'
+                folder:'ads',
+                accountId: localStorage.getItem('accountId')
             }
             uploadService.upload(files, mediaConfig).then(function(response, err ){
                 if(response) {

@@ -2169,7 +2169,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         };
     }
 ]);
-;angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
+;angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
     accountsService.init();
     $scope.accountsService = accountsService;
 
@@ -2191,80 +2191,20 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
     }
 
 
-    $scope.upload = function (file, accountId) {
-        var mediaAssetId;
-        var fileName = file[0].name;
-        var obj = {
-            payload: {
-                fileName: file[0].name,
-                userName: Authentication.user.username,
-                type:'LOGO',
-                accountId:accountId
+    $scope.upload = function (files, accountId) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'logo',
+            type:'LOGO',
+            accountId: accountId
+        }
+        uploadService.upload(files, mediaConfig).then(function(response, err ){
+            if(response) {
+                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response.mediaAssetId + '-' + response.fileName;
+                $scope.currentAccountLogo = accountsService.editAccount.logo;
+                toastr.success('Logo Updated', 'Success!');
             }
-        };
-
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
-            if (err) {
-                console.log(err);
-            }
-            if (response) {
-                console.log('oncue API response %O', response);
-                mediaAssetId = response.data.assetId;
-                $scope.creds = {
-                    bucket: 'beta.cdn.expertoncue.com',
-                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                    secret_key: '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'
-                };
-                // Configure The S3 Object
-                AWS.config.update({
-                    accessKeyId: $scope.creds.access_key,
-                    secretAccessKey: $scope.creds.secret_key
-                });
-                AWS.config.region = 'us-east-1';
-                var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-                var params = {
-                    Key: mediaAssetId + "-" + file[0].name,
-                    ContentType: file[0].type,
-                    Body: file[0],
-                    ServerSideEncryption: 'AES256',
-                    Metadata: {
-                        fileKey: JSON.stringify(response.data.assetId)
-                    }
-                };
-
-                bucket.putObject(params, function (err, data) {
-                        $scope.loading = true;
-                        if (err) {
-                            // There Was An Error With Your S3 Config
-                            alert(err.message);
-                            return false;
-                        }
-                        else {
-                            console.log('s3 response to upload %O', data);
-                            // Success!
-                            accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            $scope.currentAccountLogo = accountsService.editAccount.logo;
-                            // accountsService.init();
-                            //$scope.accountsService = accountsService;
-                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
-                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId})
-                            $scope.$apply();
-                            $scope.determinateValue = 0;
-
-                        }
-                    })
-                    .on('httpUploadProgress', function (progress) {
-                        // Log Progress Information
-                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                        $scope.determinateValue = Math.round(progress.loaded / progress.total * 100);
-                        $scope.$apply();
-                    });
-            }
-            else {
-                // No File Selected
-                alert('No File Selected');
-            }
-        });
+        })
     };
 
 });
@@ -2479,7 +2419,8 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         $scope.upload = function(files) {
             var mediaConfig = {
                 mediaRoute: 'ads',
-                folder:'ads'
+                folder:'ads',
+                accountId: localStorage.getItem('accountId')
             }
             uploadService.upload(files, mediaConfig).then(function(response, err ){
                 if(response) {
@@ -3641,7 +3582,8 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
         $scope.upload = function(files) {
             var mediaConfig = {
                 mediaRoute: 'ads',
-                folder:'supplier'
+                folder:'supplier',
+                accountId: localStorage.getItem('accountId')
             };
             uploadService.upload(files, mediaConfig).then(function(response, err ){
                 if(response) {
@@ -4007,7 +3949,7 @@ angular.module('users').factory('Authentication', ['$window',
 
 
     me.API_URL = envService.read('API_URL');
-    me.ADS_URL = 'http://s3.amazonaws.com/beta.cdn.expertoncue.com/';
+    me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/';
     console.log('constants %O', me)
 
     return me;
@@ -4369,7 +4311,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
     me.upload = function(files, mediaConfig){
 
         var defer = $q.defer();
-        console.log('upload service called %0', files)
+        console.log('upload service called %0', files);
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
@@ -4379,10 +4321,10 @@ angular.module('users').factory('PasswordValidator', ['$window',
                     if(mediaConfig.mediaRoute == 'media') {
                         var obj = {
                             payload: {
-                                fileType: mediaConfig.fileType,
+                                type: mediaConfig.type,
                                 fileName: filename,
                                 userName: Authentication.user.username,
-                                accountId: localStorage.getItem('accountId')
+                                accountId: mediaConfig.accountId
                             }
                         };
                     }
@@ -4391,7 +4333,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
                             payload: {
                                 fileName: filename,
                                 userName: Authentication.user.username,
-                                accountId: localStorage.getItem('accountId')
+                                accountId: mediaConfig.accountId
                             }
                         };
                     }
@@ -4405,6 +4347,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
 
                         }
                         if (response) {
+                            var  mediaAssetId = response.data.assetId;
                             console.log(response);
                              var creds = {
                                 bucket: 'cdn.expertoncue.com/'+mediaConfig.folder,
@@ -4443,7 +4386,11 @@ angular.module('users').factory('PasswordValidator', ['$window',
                                         console.dir(data);
                                         // Success!
                                         self.determinateValue = 0;
-                                       var message = 'New Ad Uploaded Success!';
+                                       var message = {
+                                           message:'New Ad Uploaded Success!',
+                                           mediaAssetId:mediaAssetId,
+                                           fileName:filename
+                                       };
                                         defer.resolve(message)
 
                                     }

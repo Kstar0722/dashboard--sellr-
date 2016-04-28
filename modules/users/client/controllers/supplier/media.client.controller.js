@@ -20,7 +20,8 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
         $scope.upload = function(files) {
             var mediaConfig = {
                 mediaRoute: 'ads',
-                folder:'supplier'
+                folder:'supplier',
+                accountId: localStorage.getItem('accountId')
             };
             uploadService.upload(files, mediaConfig).then(function(response, err ){
                 if(response) {

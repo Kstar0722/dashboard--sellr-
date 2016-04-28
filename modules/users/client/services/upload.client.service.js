@@ -19,7 +19,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
     me.upload = function(files, mediaConfig){
 
         var defer = $q.defer();
-        console.log('upload service called %0', files)
+        console.log('upload service called %0', files);
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
@@ -29,10 +29,10 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                     if(mediaConfig.mediaRoute == 'media') {
                         var obj = {
                             payload: {
-                                fileType: mediaConfig.fileType,
+                                type: mediaConfig.type,
                                 fileName: filename,
                                 userName: Authentication.user.username,
-                                accountId: localStorage.getItem('accountId')
+                                accountId: mediaConfig.accountId
                             }
                         };
                     }
@@ -41,7 +41,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                             payload: {
                                 fileName: filename,
                                 userName: Authentication.user.username,
-                                accountId: localStorage.getItem('accountId')
+                                accountId: mediaConfig.accountId
                             }
                         };
                     }
@@ -55,6 +55,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
 
                         }
                         if (response) {
+                            var  mediaAssetId = response.data.assetId;
                             console.log(response);
                              var creds = {
                                 bucket: 'cdn.expertoncue.com/'+mediaConfig.folder,
@@ -93,7 +94,11 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                         console.dir(data);
                                         // Success!
                                         self.determinateValue = 0;
-                                       var message = 'New Ad Uploaded Success!';
+                                       var message = {
+                                           message:'New Ad Uploaded Success!',
+                                           mediaAssetId:mediaAssetId,
+                                           fileName:filename
+                                       };
                                         defer.resolve(message)
 
                                     }
