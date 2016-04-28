@@ -3,7 +3,8 @@
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>
-      <div id="last-edited">Edited {{ product.lastEdit }}<span ng-show="product.username">by {{product.username}}</span></div>
+      <div id="last-edited">Edited {{ product.lastEdit }}</div>
+      <div ng-show="product.username"> by {{product.username}}</div>
       <div ng-if="product.status == 'inprogress'" class="label label-default">In Progress</div>
       <div ng-if="product.status !== 'inprogress'" class="label"
            ng-class="{'label-primary':product.status=='done','label-success':product.status=='approved'}">{{ product.status }}
