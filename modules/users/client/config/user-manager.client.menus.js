@@ -4,20 +4,13 @@
 angular.module('users.manager').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Dashboard',
-            state: 'manager.dashboard'
-        });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Ads',
+            title: 'Ad Manager',
             state: 'manager.ads'
         });
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Locations',
+            title: 'Location Manager',
             state: 'manager.locations'
         });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Accounts',
-            state: 'manager.accounts'
-        });
+        
     }
 ]);

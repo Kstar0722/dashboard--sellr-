@@ -1,46 +1,50 @@
-
 <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
 
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools">
+    <div class="brand"></div>
 
-  <md-toolbar  >
-      <md-toolbar class="md-toolbar-tools" data-ng-if="menu.shouldRender(authentication.user);">
+    <!--non-dropdowns-->
+    <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown'">{{item.title}}
+    </md-button>
 
-        <div class="brand"></div>
-        <div data-ng-repeat="item in menu.items "
-             data-ng-if="item.shouldRender(authentication.user);"
-             ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}">
-          <div id="pagebutton" ng-repeat="subitem in item.items " ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class">
-              <md-button ui-sref="{{subitem.state}}" ng-bind="subitem.title" aria-label="subitme.title"></md-button>
-            </div>
-        </div>
-
-        <div flex></div>
-        <div ng-class="{active: $uiRoute}" ng-if="isGranted('ManageUsers')">
-          <md-button ui-sref="admin">Manage users/permissions</md-button>
-        </div>
-        <md-menu md-position-mode="target-right bottom" >
-          <div id="profbutton">
-          <md-button  ng-click="$mdOpenMenu($event)" aria-label="USER ACCOUNT DROPDOWN" >
-            <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
-            <span data-ng-bind="authentication.user.displayName"></span>
-            <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
-          </md-button>
-          </div>
-          <md-menu-content width="3" id ="profmenu">
-            <md-menu-item>
-              <md-button ui-sref="settings.profile">Edit Profile</md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button ui-sref="settings.picture">Edit Profile Picture</md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button href="/api/auth/signout" target="_self">SignOut</md-button>
+    <div>
+      <!--menu dropdowns-->
+      <md-menu-bar>
+        <md-menu ng-repeat="item in menu.items |orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
+          <button ng-click="$mdOpenMenu($event)"
+                  ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}">{{ item.title }}
+          </button>
+          <md-menu-content>
+            <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class"
+                          ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}">{{ subitem.title }}
             </md-menu-item>
           </md-menu-content>
-
-
         </md-menu>
-      </md-toolbar>
+      </md-menu-bar>
+    </div>
 
+    <!--add space between menu and profile thing-->
+    <div flex></div>
+
+    <md-menu md-position-mode="target-right bottom">
+      <div id="profbutton" ng-click="$mdOpenMenu($event)">
+        <md-button aria-label="USER ACCOUNT DROPDOWN">
+          <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image"/>
+          <span data-ng-bind="authentication.user.displayName"></span>
+          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
+        </md-button>
+      </div>
+      <md-menu-content width="3" id="profmenu">
+        <md-menu-item>
+          <md-button ui-sref="settings.profile">Edit Profile</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ui-sref="settings.picture">Edit Profile Picture</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button href="/api/auth/signout" target="_self">SignOut</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
   </md-toolbar>
 </div>

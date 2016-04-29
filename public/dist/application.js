@@ -21,8 +21,7 @@ var ApplicationConfiguration = (function () {
     registerModule: registerModule
   };
 })();
-
-'use strict';
+;'use strict';
 
 //Start by defining the main module and adding the module dependencies
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
@@ -48,16 +47,21 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             },
             vars: {
                 local: {
-                    API_URL: 'http://localhost:7272'
+                    API_URL: 'http://localhost:7272',
+                    BWS_API: 'http://10.0.1.56:7171'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com'
+                    API_URL: 'https://apidev.expertoncue.com',
+                    BWS_API: 'https://bwsdev.expertoncue.com'
                 },
                 staging: {
-                    API_URL: 'https://apiqa.expertoncue.com'
+                    API_URL: 'https://apiqa.expertoncue.com',
+                    BWS_API: 'https://bwsqa.expertoncue.com'
                 },
                 production: {
-                    API_URL: 'https://api.expertoncue.com'
+                    API_URL: 'https://api.expertoncue.com',
+                    BWS_API: 'https://bws.expertoncue.com'
+
                 }
             }
         });
@@ -68,7 +72,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(["$rootScope", "$state", "Authentication", function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
 
     // Check authentication before changing state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -110,7 +114,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(["$rootScope"
             };
         }
     }
-}]);
+});
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
@@ -134,11 +138,10 @@ angular.element(document).ready(function () {
     //Then init the app
     angular.bootstrap(document, [ ApplicationConfiguration.applicationModuleName ]);
 });
-
-'use strict';
+;'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('core', ['ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js', 'ngIntercom']);
+ApplicationConfiguration.registerModule('core', [ 'ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js' ]);
 ApplicationConfiguration.registerModule('core.admin', ['core']);
 ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.supplier', ['core']);
@@ -151,8 +154,7 @@ ApplicationConfiguration.registerModule('core.manager', ['core']);
 ApplicationConfiguration.registerModule('core.manager.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.storeOwner', ['core']);
 ApplicationConfiguration.registerModule('core.storeOwner.routes', ['ui.router']);
-
-'use strict';
+;'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users', ['core']);
@@ -168,8 +170,7 @@ ApplicationConfiguration.registerModule('users.manager', ['core.manager']);
 ApplicationConfiguration.registerModule('users.manager.routes', ['core.manager.routes']);
 ApplicationConfiguration.registerModule('users.storeOwner', ['core.storeOwner']);
 ApplicationConfiguration.registerModule('users.storeOwner.routes', ['core.storeOwner.routes']);
-
-'use strict';
+;'use strict';
 
 angular.module('core.admin').run(['Menus',
   function (Menus) {
@@ -177,12 +178,20 @@ angular.module('core.admin').run(['Menus',
           title: 'Admin',
           state: 'admin',
           type: 'dropdown',
-          roles: ['admin']
+          roles: [ 'admin' ],
+          position: 3
       });
+      Menus.addMenuItem('topbar', {
+          title: 'Dashboard',
+          state: 'dashboard',
+          type: 'button',
+          roles: [ '*' ],
+          position: 0
+      });
+
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.admin.routes').config(['$stateProvider',
@@ -198,70 +207,44 @@ angular.module('core.admin.routes').config(['$stateProvider',
             });
     }
 ]);
+;'use strict';
 
-'use strict';
-
-angular.module('core.curator').run(['Menus',
+angular.module('core.editor').run([ 'Menus',
     function (Menus) {
         Menus.addMenuItem('topbar', {
-            title: 'Curator',
-            state: 'curator',
-            type: 'dropdown',
-            roles: ['curator']
-        });
-
-    }
-]);
-
-'use strict';
-
-// Setting up route
-angular.module('core.curator.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('curator', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
-                data: {
-                    roles: ['curator']
-                }
-            });
-    }
-]);
-
-'use strict';
-
-angular.module('core.editor').run(['Menus',
-    function (Menus) {
-        Menus.addMenuItem('topbar', {
-            title: 'Editor',
+            title: 'Product Editor',
             state: 'editor',
             type: 'dropdown',
-            roles: ['editor']
+            roles: [ 'editor', 'curator', 'admin' ],
+            position: 4
         });
-
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.editor.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('editor', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
+                url: '/editor',
+                // resolve: {
+                //     type: [ '$stateParams', function ($stateParams) {
+                //         return $stateParams.type
+                //     } ],
+                //     status: [ '$stateParams', function ($stateParams) {
+                //         return $stateParams.status
+                //     } ]
+                // },
+                templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
+                // template: '<ui-view/>',
                 data: {
-                    roles: ['editor']
+                    roles: [ 'editor', 'curator', 'admin' ]
                 }
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.manager').run(['Menus',
     function (Menus) {
@@ -269,13 +252,13 @@ angular.module('core.manager').run(['Menus',
             title: 'Manager',
             state: 'manager',
             type: 'dropdown',
-            roles: ['manager']
+            roles: ['manager'],
+            position:0
         });
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.manager.routes').config(['$stateProvider',
@@ -291,8 +274,7 @@ angular.module('core.manager.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.storeOwner').run(['Menus',
     function (Menus) {
@@ -300,13 +282,13 @@ angular.module('core.storeOwner').run(['Menus',
             title: 'Store Owner',
             state: 'storeOwner',
             type: 'dropdown',
-            roles: ['owner']
+            roles: ['owner'],
+            position:1
         });
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.storeOwner.routes').config(['$stateProvider',
@@ -322,8 +304,7 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core.supplier').run(['Menus',
     function (Menus) {
@@ -331,13 +312,13 @@ angular.module('core.supplier').run(['Menus',
             title: 'Supplier',
             state: 'supplier',
             type: 'dropdown',
-            roles: ['supplier']
+            roles: ['supplier'],
+            position:2
         });
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core.supplier.routes').config(['$stateProvider',
@@ -353,8 +334,7 @@ angular.module('core.supplier.routes').config(['$stateProvider',
             });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
@@ -403,18 +383,19 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             });
     }
 ]);
-
-
+;
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$window',
-    function ($scope, Authentication, Menus, $http, $window) {
+angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state',
+    function ($scope, Authentication, Menus, $http, $window, $state) {
         $scope.authentication = Authentication;
         $scope.ui = {};
+        $scope.$state = $state;
 
         var originatorEv;
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
+        console.log('menus %O', $scope.menu);
 
         //
         //
@@ -466,8 +447,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
         //});
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http',
     function ($scope, Authentication, $mdDialog, $state, $http) {
@@ -477,7 +457,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
         if(!$scope.authentication.user != !check){
-            $state.go('manager.dashboard')
+            $state.go('dashboard')
         }
         $scope.userIsSupplier = function () {
             if (_.contains(Authentication.user.roles, 'supplier')) {
@@ -521,8 +501,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     }
 ]);
-
-angular.module('core').controller('statsController', ["$scope", "$http", "$stateParams", "constants", "chartService", "$timeout", function ($scope, $http, $stateParams, constants, chartService, $timeout) {
+;angular.module('core').controller('statsController', function ($scope, $http, $stateParams, constants, chartService, $timeout) {
     $scope.chartService = chartService;
     $scope.locations = [];
     var accountId = $stateParams.account;       //set by the URL
@@ -584,9 +563,8 @@ angular.module('core').controller('statsController', ["$scope", "$http", "$state
     refreshData()
 
 
-}]);
-
-'use strict';
+});
+;'use strict';
 
 /**
  * Edits by Ryan Hutchison
@@ -660,8 +638,7 @@ angular.module('core')
       }
     };
   }]);
-
-angular.module('core').factory('authToken', ["$window", function ($window) {
+;angular.module('core').factory('authToken', function ($window) {
 
   var me = this;
   var storage = $window.localStorage;
@@ -699,9 +676,8 @@ angular.module('core').factory('authToken', ["$window", function ($window) {
   me.removeToken = removeToken;
 
   return me;
-}]);
-
-'use strict';
+});
+;'use strict';
 
 angular.module('core').factory('authInterceptor', ['$q', '$injector',
   function ($q, $injector) {
@@ -723,9 +699,8 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
     };
   }
 ]);
-
-angular.module('core')
-    .factory('oncueAuthInterceptor', ["authToken", function (authToken) {
+;angular.module('core')
+    .factory('oncueAuthInterceptor', function (authToken) {
 
         return {
             request: function (config) {
@@ -741,10 +716,9 @@ angular.module('core')
 
             }
         }
-    }]);
+    });
 
-
-'use strict';
+;'use strict';
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
@@ -918,8 +892,7 @@ angular.module('core').service('Menus', [
     });
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Create the Socket.io wrapper service
 angular.module('core').service('Socket', ['Authentication', '$state', '$timeout',
@@ -959,94 +932,94 @@ angular.module('core').service('Socket', ['Authentication', '$state', '$timeout'
     };
   }
 ]);
-
-'use strict';
-
-// Configuring the Articles module
-angular.module('users.curator').run(['Menus',
-    function (Menus) {
-        Menus.addSubMenuItem('topbar', 'curator', {
-            title: 'Assign Products',
-            state: 'curator.assign'
-        });
-    }
-]);
-
-'use strict';
-
-// Setting up route
-angular.module('users.curator.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('curator.assign', {
-                url: '/assign',
-                templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html'
-            })
-
-    }
-]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
-angular.module('users.editor').run(['Menus',
-    function (Menus) {
+angular.module('users.editor').run([ 'Menus', 'productEditorService',
+    function (Menus, productEditorService) {
         Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Product Editor',
-            state: 'editor.products'
+            title: 'Wine',
+            state: 'editor.products({type:"wine",status:"new"})',
+            position: 9
+        });
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Beer',
+            state: 'editor.products({type:"beer",status:"new"})',
+            position: 9
+        });
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Spirits',
+            state: 'editor.products({type:"spirits",status:"new"})',
+            position: 9
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.editor.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('editor.products', {
-                url: '/editor',
-                templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html'
+                url: '/:type/:status',
+                // controller: 'productEditorController',
+                views: {
+                    'list': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
+                    },
+                    'stats': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
+                    },
+                    'detail': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+                    }
+                }
             })
-
-
+            .state('editor.products.detail', {
+                url: '/:productId/:task',
+                params: {
+                    task: 'view'
+                },
+                views: {
+                    'list': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
+                    },
+                    'stats': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
+                    },
+                    'detail': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+                    }
+                }
+            })
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.manager').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Dashboard',
-            state: 'manager.dashboard'
-        });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Ads',
+            title: 'Ad Manager',
             state: 'manager.ads'
         });
         Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Locations',
+            title: 'Location Manager',
             state: 'manager.locations'
         });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Accounts',
-            state: 'manager.accounts'
-        });
+        
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.manager.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
-            .state('manager.dashboard', {
+            .state('dashboard', {
                 url: '/dashboard/:accountId',
-                templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html',
+                templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
 
             })
             .state('manager.ads', {
@@ -1088,21 +1061,20 @@ angular.module('users.manager.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.storeOwner').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'storeOwner', {
             title: 'Invite User',
-            state: 'storeOwner.inviteUser'
+            state: 'storeOwner.inviteUser',
+            position:8
         });
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.storeOwner.routes').config(['$stateProvider',
@@ -1118,20 +1090,19 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'supplier', {
             title: 'Suppliers',
-            state: 'supplier.media'
+            state: 'supplier.media',
+            position:2
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.supplier.routes').config(['$stateProvider',
@@ -1149,28 +1120,34 @@ angular.module('users.supplier.routes').config(['$stateProvider',
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Users',
-            state: 'admin.users'
+        Menus.addSubMenuItem('topbar', 'manager', {
+            title: 'Account Manager',
+            state: 'manager.accounts',
+            position: 3
         });
         Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Pricing',
-            state: 'admin.pricing'
+            title: 'User Management',
+            state: 'admin.users',
+            position: 5
         });
         Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Devices',
-            state: 'admin.device'
+            title: 'Pricing Calculator',
+            state: 'admin.pricing',
+            position: 6
+        });
+        Menus.addSubMenuItem('topbar', 'admin', {
+            title: 'Device Management',
+            state: 'admin.device',
+            position: 7
         });
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users.admin.routes').config(['$stateProvider',
@@ -1224,8 +1201,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
             })
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Config HTTP Error Handling
 angular.module('users').config(['$httpProvider',
@@ -1255,8 +1231,7 @@ angular.module('users').config(['$httpProvider',
     ]);
   }
 ]);
-
-'use strict';
+;'use strict';
 
 // Setting up route
 angular.module('users').config(['$stateProvider',
@@ -1338,8 +1313,7 @@ angular.module('users').config(['$stateProvider',
 
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('DeviceManagerController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$stateParams',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $stateParams) {
@@ -1446,8 +1420,7 @@ angular.module('users.admin').controller('DeviceManagerController', ['$scope', '
     }
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService) {
@@ -1514,8 +1487,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
     }
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants',
     function ($scope, $filter, Admin, $http, $state, CurrentUserService, constants) {
@@ -1631,8 +1603,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('AdminPricingController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Admin', 'Upload', '$sce', 'ImageService', 'constants',
     function ($scope, $state, $http, Authentication, $timeout, Admin, Upload, $sce, ImageService, constants) {
@@ -1952,8 +1923,7 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q',
     function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr, $q) {
@@ -2052,8 +2022,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         }
     }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
@@ -2078,7 +2047,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             1002: 'manager',
             1007: 'supplier',
             1003: 'user',
-            1009: 'owner'
+            1009: 'owner',
+            1010: 'editor',
+            1011: 'curator'
         };
 
 
@@ -2141,6 +2112,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     localStorage.setItem('accountId', userInfo.accountId);
                     localStorage.setItem('roles', roles);
+                    localStorage.setItem('userId', userInfo.regCode);
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
@@ -2165,7 +2137,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
-            console.log('i hope I can sign in with %O',payload);
             $http.post(url, payload).then(onSigninSuccess, onSigninError);
 
         };
@@ -2191,8 +2162,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
 
-            $state.transitionTo($state.previous.state.name || 'manager.dashboard', $state.previous.params,  {reload: true});
-            window.location.reload();
+            $state.go('dashboard', $state.previous.params);
 
         }
         //We could not sign into mongo, so clear everything and show error.
@@ -2214,8 +2184,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         };
     }
 ]);
-
-angular.module('users.manager').controller('AccountManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", "Authentication", "$http", "constants", function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants) {
+;angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
     accountsService.init();
     $scope.accountsService = accountsService;
 
@@ -2237,88 +2206,27 @@ angular.module('users.manager').controller('AccountManagerController', ["$scope"
     }
 
 
-    $scope.upload = function (file, accountId) {
-        var mediaAssetId;
-        var fileName = file[0].name;
-        var obj = {
-            payload: {
-                fileName: file[0].name,
-                userName: Authentication.user.username,
-                type:'LOGO',
-                accountId:accountId
+    $scope.upload = function (files, accountId) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'logo',
+            type:'LOGO',
+            accountId: accountId
+        }
+        uploadService.upload(files, mediaConfig).then(function(response, err ){
+            if(response) {
+                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response.mediaAssetId + '-' + response.fileName;
+                $scope.currentAccountLogo = accountsService.editAccount.logo;
+                toastr.success('Logo Updated', 'Success!');
             }
-        };
-
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
-            if (err) {
-                console.log(err);
-            }
-            if (response) {
-                console.log('oncue API response %O', response);
-                mediaAssetId = response.data.assetId;
-                $scope.creds = {
-                    bucket: 'beta.cdn.expertoncue.com',
-                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                    secret_key: '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'
-                };
-                // Configure The S3 Object
-                AWS.config.update({
-                    accessKeyId: $scope.creds.access_key,
-                    secretAccessKey: $scope.creds.secret_key
-                });
-                AWS.config.region = 'us-east-1';
-                var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-                var params = {
-                    Key: mediaAssetId + "-" + file[0].name,
-                    ContentType: file[0].type,
-                    Body: file[0],
-                    ServerSideEncryption: 'AES256',
-                    Metadata: {
-                        fileKey: JSON.stringify(response.data.assetId)
-                    }
-                };
-
-                bucket.putObject(params, function (err, data) {
-                        $scope.loading = true;
-                        if (err) {
-                            // There Was An Error With Your S3 Config
-                            alert(err.message);
-                            return false;
-                        }
-                        else {
-                            console.log('s3 response to upload %O', data);
-                            // Success!
-                            accountsService.editAccount.logo = constants.ADS_URL + mediaAssetId + '-' + fileName;
-                            $scope.currentAccountLogo = accountsService.editAccount.logo;
-                            // accountsService.init();
-                            //$scope.accountsService = accountsService;
-                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId});
-                            //$state.go('manager.accounts.edit', {id: accountsService.editAccount.accountId})
-                            $scope.$apply();
-                            $scope.determinateValue = 0;
-
-                        }
-                    })
-                    .on('httpUploadProgress', function (progress) {
-                        // Log Progress Information
-                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                        $scope.determinateValue = Math.round(progress.loaded / progress.total * 100);
-                        $scope.$apply();
-                    });
-            }
-            else {
-                // No File Selected
-                alert('No File Selected');
-            }
-        });
+        })
     };
 
-}]);
+});
+;'use strict';
 
-'use strict';
-
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService',
-    function($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService) {
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService',
+    function($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService) {
         $scope.authentication = Authentication;
         var self = this;
         $scope.activeAds = [];
@@ -2524,83 +2432,100 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         });
 
         $scope.upload = function(files) {
-            if (files && files.length) {
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    if (!file.$error) {
-                        var filename = (file.name).replace(/ /g, "_");
-                        console.log('account id %O', localStorage.getItem('accountId'))
-                        var obj = {
-                            payload: {
-                                fileName: filename,
-                                userName: $scope.authentication.user.username,
-                                accountId: localStorage.getItem('accountId')
-                            }
-                        };
-                        $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
-                            if (err) {
-                                console.log(err);
-                                toastr.error('There was a problem uploading your ad.')
-
-
-                            }
-                            if (response) {
-                                console.log(response);
-                                $scope.creds = {
-                                    bucket: 'cdn.expertoncue.com/ads',
-                                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                                    secret_key: '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'
-                                };
-                                // Configure The S3 Object
-                                AWS.config.update({
-                                    accessKeyId: $scope.creds.access_key,
-                                    secretAccessKey: $scope.creds.secret_key
-                                });
-                                AWS.config.region = 'us-east-1';
-                                var bucket = new AWS.S3({
-                                    params: {
-                                        Bucket: $scope.creds.bucket
-                                    }
-                                });
-                                var params = {
-                                    Key: response.data.assetId + "-" + filename,
-                                    ContentType: file.type,
-                                    Body: file,
-                                    ServerSideEncryption: 'AES256',
-                                    Metadata: {
-                                        fileKey: JSON.stringify(response.data.assetId)
-                                    }
-                                };
-                                console.dir(params.Metadata.fileKey)
-                                bucket.putObject(params, function (err, data) {
-                                        $scope.loading = true;
-                                        if (err) {
-                                            // There Was An Error With Your S3 Config
-                                            alert(err.message);
-                                            toastr.error('There was a problem uploading your ad.');
-                                            return false;
-                                        } else {
-                                            console.dir(data);
-                                            // Success!
-                                            self.determinateValue = 0;
-                                            toastr.success('New Ad Uploaded', 'Success!');
-                                            $scope.getAllMedia();
-                                        }
-                                    })
-                                    .on('httpUploadProgress', function (progress) {
-                                        // Log Progress Information
-                                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                                        self.determinateValue = Math.round(progress.loaded / progress.total * 100);
-                                        $scope.$apply();
-                                    });
-                            } else {
-                                // No File Selected
-                                alert('No File Selected');
-                            }
-                        });
-                    };
-                }
+            var mediaConfig = {
+                mediaRoute: 'ads',
+                folder:'ads',
+                accountId: localStorage.getItem('accountId')
             }
+            uploadService.upload(files, mediaConfig).then(function(response, err ){
+                if(response) {
+                    toastr.success('New Ad Uploaded', 'Success!');
+                    $scope.getAllMedia();
+                }
+            })
+
+
+
+
+            //$scope.getAllMedia();
+
+            //if (files && files.length) {
+            //    for (var i = 0; i < files.length; i++) {
+            //        var file = files[i];
+            //        if (!file.$error) {
+            //            var filename = (file.name).replace(/ /g, "_");
+            //            console.log('account id %O', localStorage.getItem('accountId'))
+            //            var obj = {
+            //                payload: {
+            //                    fileName: filename,
+            //                    userName: $scope.authentication.user.username,
+            //                    accountId: localStorage.getItem('accountId')
+            //                }
+            //            };
+            //            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
+            //                if (err) {
+            //                    console.log(err);
+            //                    toastr.error('There was a problem uploading your ad.')
+            //
+            //
+            //                }
+            //                if (response) {
+            //                    console.log(response);
+            //                    $scope.creds = {
+            //                        bucket: 'cdn.expertoncue.com/ads',
+            //                        access_key: 'AKIAICAP7UIWM4XZWVBA',
+            //                        secret_key: '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'
+            //                    };
+            //                    // Configure The S3 Object
+            //                    AWS.config.update({
+            //                        accessKeyId: $scope.creds.access_key,
+            //                        secretAccessKey: $scope.creds.secret_key
+            //                    });
+            //                    AWS.config.region = 'us-east-1';
+            //                    var bucket = new AWS.S3({
+            //                        params: {
+            //                            Bucket: $scope.creds.bucket
+            //                        }
+            //                    });
+            //                    var params = {
+            //                        Key: response.data.assetId + "-" + filename,
+            //                        ContentType: file.type,
+            //                        Body: file,
+            //                        ServerSideEncryption: 'AES256',
+            //                        Metadata: {
+            //                            fileKey: JSON.stringify(response.data.assetId)
+            //                        }
+            //                    };
+            //                    console.dir(params.Metadata.fileKey)
+            //                    bucket.putObject(params, function (err, data) {
+            //                            $scope.loading = true;
+            //                            if (err) {
+            //                                // There Was An Error With Your S3 Config
+            //                                alert(err.message);
+            //                                toastr.error('There was a problem uploading your ad.');
+            //                                return false;
+            //                            } else {
+            //                                console.dir(data);
+            //                                // Success!
+            //                                self.determinateValue = 0;
+            //                                toastr.success('New Ad Uploaded', 'Success!');
+            //                                $scope.getAllMedia();
+            //                            }
+            //                        })
+            //                        .on('httpUploadProgress', function (progress) {
+            //                            // Log Progress Information
+            //                            console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
+            //                            self.determinateValue = Math.round(progress.loaded / progress.total * 100);
+            //                            $scope.$apply();
+            //                        });
+            //                } else {
+            //                    // No File Selected
+            //                    alert('No File Selected');
+            //                }
+            //            });
+            //        };
+            //    }
+            //}
         };
 
         $scope.deleteAd = function(ad) {
@@ -2616,13 +2541,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     }
 ]);
 
-angular.module("users.supplier").filter("trustUrl", ['$sce', function($sce) {
-    return function(recordingUrl) {
-        return $sce.trustAsResourceUrl(recordingUrl);
-    };
-}]);
-
-'use strict';
+;'use strict';
 
 
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
@@ -2738,8 +2657,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 	}
 
 ]);
-
-angular.module('users.manager').controller('LocationManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", function ($scope, locationsService, $state, accountsService, CurrentUserService) {
+;angular.module('users.manager').controller('LocationManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService) {
     locationsService.init().then(function () {
         $scope.locationsService = locationsService;
         $scope.location = {};
@@ -2755,9 +2673,8 @@ angular.module('users.manager').controller('LocationManagerController', ["$scope
         $state.go('manager.locations.edit', {id: location.locationId})
     }
 
-}]);
-
-'use strict';
+});
+;'use strict';
 
 angular.module('users').controller('ManagerUploadController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
@@ -2873,8 +2790,7 @@ angular.module('users').controller('ManagerUploadController', ['$scope','$state'
 
 ]);
 
-
-'use strict';
+;'use strict';
 
 angular.module('users.manager').controller('ProfileController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
@@ -3207,8 +3123,7 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function ($sce) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 }]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator',
   function ($scope, $stateParams, $http, $location, Authentication, PasswordValidator) {
@@ -3267,14 +3182,124 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
   }
 ]);
+;angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
+    // productEditorService.init();
+    $scope.$state = $state;
+    $scope.pes = productEditorService;
+    $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
+    $scope.detail = {
+        template: 'modules/users/client/views/productEditor/productEditor.detail.html'
+    };
+    $scope.permissions = {
+        editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
+        curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
+    };
 
-angular.module('users').controller('productEditorController', ["$scope", "Authentication", function ($scope, Authentication) {
-    $scope.userId = Authentication.userId || localStorage.getItem('userId')
-    
+    $scope.Countries = Countries.allCountries;
+    $scope.selectProductType = function (type) {
+        productEditorService.currentType = type;
+        productEditorService.currentStatus = productEditorService.productStatuses[ 0 ];
+        // $state.go('editor.products', { type: type.name });
+        productEditorService.updateProductList()
+    };
+    function setState() {
+        var type;
+        switch ($stateParams.type) {
+            case 'wine':
+                type = { name: 'wine', productTypeId: 1 };
+                break;
+            case 'beer':
+                type = { name: 'beer', productTypeId: 2 };
+                break;
+            case 'spirits':
+                type = { name: 'spirits', productTypeId: 3 };
+                break;
+        }
+        $scope.selectProductType(type);
 
-}]);
+    }
 
-'use strict';
+    setState();
+
+    $scope.selectProductStatus = function (status) {
+        productEditorService.currentStatus = status;
+        productEditorService.updateProductList()
+    };
+
+    $scope.claimProduct = function (prod) {
+        var options = {
+            userId: 407,
+            productId: prod.productId
+        };
+        productEditorService.claim(options)
+    }
+
+    $scope.viewProduct = function (product) {
+        productEditorService.setCurrentProduct(product);
+        $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+    };
+    $scope.editProduct = function (product) {
+        productEditorService.setCurrentProduct(product);
+        $state.go('editor.products.detail', { productId: product.productId, task: 'edit' });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+    };
+
+    $scope.sendBack = function (feedback) {
+        //send product back to be edited again
+    };
+
+    $scope.submitForApproval = function (prod) {
+        productEditorService.finishProduct(prod);
+        $scope.viewProduct(prod)
+
+
+    };
+
+    $scope.approveProduct = function (prod) {
+        productEditorService.approveProduct(prod);
+        //    TODO:redirect to view screen
+    };
+
+    $scope.unsubmitProduct = function (prod) {
+        //save automatically updates status to 'inprogress'
+        productEditorService.saveProduct(prod)
+    };
+
+    $scope.updateProduct = function (prod) {
+        productEditorService.saveProduct(prod)
+    };
+
+
+    $scope.playAudio = function () {
+        productEditorService.currentProduct.audio.play()
+    };
+    $scope.pauseAudio = function () {
+        productEditorService.currentProduct.audio.pause()
+    };
+    $scope.seekAudio = function () {
+        productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
+
+    }
+
+
+});
+;angular.module('users').controller('productEditorDetailController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
+
+    $scope.userId = Authentication.userId || localStorage.getItem('userId');
+
+    // $scope.permissions.editor = JSON.parse(localStorage.getItem('roles')).indexOf(1010) > -1;
+    // $scope.permissions.curator = JSON.parse(localStorage.getItem('roles')).indexOf(1011) > -1;
+    $scope.permissions = {
+        editor: Authentication.user.roles.indexOf('editor') > -1,
+        curator: Authentication.user.roles.indexOf('curator') > -1
+    };
+    console.log('state params %O', type, status)
+
+    console.log('starting product detail controller');
+    $scope.productEditorService = productEditorService;
+});
+;'use strict';
 
 angular.module('users').controller('ChangePasswordController', ['$scope', '$http', 'Authentication', 'PasswordValidator',
   function ($scope, $http, Authentication, PasswordValidator) {
@@ -3302,8 +3327,7 @@ angular.module('users').controller('ChangePasswordController', ['$scope', '$http
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
   function ($scope, $timeout, $window, Authentication, FileUploader) {
@@ -3376,8 +3400,7 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('EditProfileController', ['$scope', '$http', '$location', 'Users', 'Authentication',
   function ($scope, $http, $location, Users, Authentication) {
@@ -3406,16 +3429,14 @@ angular.module('users').controller('EditProfileController', ['$scope', '$http', 
     };
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users').controller('SettingsController', ['$scope', 'Authentication',
   function ($scope, Authentication) {
     $scope.user = Authentication.user;
   }
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
     function ($scope,Authentication, $filter, Admin, $http, $state, CurrentUserService, constants, accountsService, toastr) {
@@ -3553,8 +3574,7 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
     }
 
 ]);
-
-'use strict';
+;'use strict';
 
 angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
@@ -3662,22 +3682,16 @@ angular.module('users.supplier').controller('AssetController', ['$scope','$state
     }
 ]);
 
+;'use strict';
 
-'use strict';
-
-angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants', 'toastr',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants,toastr) {
+angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants', 'toastr', 'uploadService',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants,toastr, uploadService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
         var files = [];
         $scope.links = [];
-        function encode(data) {
-            var str = data.reduce(function (a, b) {
-                return a + String.fromCharCode(b)
-            }, '');
-            return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
-        }
+
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
         });
@@ -3688,88 +3702,883 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
         });
 
         $scope.upload = function(files) {
-            if (files && files.length) {
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    if (!file.$error) {
-                        var filename = (file.name).replace(/ /g, "_");
-                        console.log('account id %O', localStorage.getItem('accountId'))
-                        var obj = {
-                            payload: {
-                                fileName: filename,
-                                userName: $scope.authentication.user.username,
-                                accountId: localStorage.getItem('accountId')
-                            }
-                        };
-                        $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
-                            if (err) {
-                                console.log(err);
-                                toastr.error('There was a problem uploading your ad.')
-                            }
-                            if (response) {
-                                console.log(response);
-                                $scope.creds = {
-                                    bucket: 'cdn.expertoncue.com/supplier',
-                                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                                    secret_key: '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'
-                                };
-                                // Configure The S3 Object
-                                AWS.config.update({
-                                    accessKeyId: $scope.creds.access_key,
-                                    secretAccessKey: $scope.creds.secret_key
-                                });
-                                AWS.config.region = 'us-east-1';
-                                var bucket = new AWS.S3({
-                                    params: {
-                                        Bucket: $scope.creds.bucket
-                                    }
-                                });
-                                var params = {
-                                    Key: response.data.assetId + "-" + filename,
-                                    ContentType: file.type,
-                                    Body: file,
-                                    ServerSideEncryption: 'AES256',
-                                    Metadata: {
-                                        fileKey: JSON.stringify(response.data.assetId)
-                                    }
-                                };
-                                console.dir(params.Metadata.fileKey)
-                                bucket.putObject(params, function (err, data) {
-                                        $scope.loading = true;
-                                        if (err) {
-                                            // There Was An Error With Your S3 Config
-                                            alert(err.message);
-                                            toastr.error('There was a problem uploading your ad.');
-                                            return false;
-                                        } else {
-                                            console.dir(data);
-                                            // Success!
-                                            self.determinateValue = 0;
-                                            toastr.success('New Ad Uploaded', 'Success!');
-
-                                        }
-                                    })
-                                    .on('httpUploadProgress', function (progress) {
-                                        // Log Progress Information
-                                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                                        self.determinateValue = Math.round(progress.loaded / progress.total * 100);
-                                        $scope.$apply();
-                                    });
-                            } else {
-                                // No File Selected
-                                alert('No File Selected');
-                            }
-                        });
-                    };
+            var mediaConfig = {
+                mediaRoute: 'ads',
+                folder:'supplier',
+                accountId: localStorage.getItem('accountId')
+            };
+            uploadService.upload(files, mediaConfig).then(function(response, err ){
+                if(response) {
+                    toastr.success('New Ad Uploaded', 'Success!');
                 }
-            }
+                else{
+                    toastr.error('There was a problem uploading ads')
+                }
+            })
         }
     }
 
 ]);
 
+;(function () {
+    var indexOf = [].indexOf || function (item) {
+            for (var i = 0, l = this.length; i < l; i++) {
+                if (i in this && this[ i ] === item) return i;
+            }
+            return -1;
+        };
 
-'use strict';
+    angular.module('users').directive('countrySelect', function () {
+        var allCountries;
+        allCountries = [
+            {
+                code: 'AF',
+                name: 'Afghanistan'
+            }, {
+                code: 'AL',
+                name: 'Albania'
+            }, {
+                code: 'DZ',
+                name: 'Algeria'
+            }, {
+                code: 'AS',
+                name: 'American Samoa'
+            }, {
+                code: 'AD',
+                name: 'Andorre'
+            }, {
+                code: 'AO',
+                name: 'Angola'
+            }, {
+                code: 'AI',
+                name: 'Anguilla'
+            }, {
+                code: 'AQ',
+                name: 'Antarctica'
+            }, {
+                code: 'AG',
+                name: 'Antigua and Barbuda'
+            }, {
+                code: 'AR',
+                name: 'Argentina'
+            }, {
+                code: 'AM',
+                name: 'Armenia'
+            }, {
+                code: 'AW',
+                name: 'Aruba'
+            }, {
+                code: 'AU',
+                name: 'Australia'
+            }, {
+                code: 'AT',
+                name: 'Austria'
+            }, {
+                code: 'AZ',
+                name: 'Azerbaijan'
+            }, {
+                code: 'BS',
+                name: 'Bahamas'
+            }, {
+                code: 'BH',
+                name: 'Bahrain'
+            }, {
+                code: 'BD',
+                name: 'Bangladesh'
+            }, {
+                code: 'BB',
+                name: 'Barbade'
+            }, {
+                code: 'BY',
+                name: 'Belarus'
+            }, {
+                code: 'BE',
+                name: 'Belgium'
+            }, {
+                code: 'BZ',
+                name: 'Belize'
+            }, {
+                code: 'BJ',
+                name: 'Benin'
+            }, {
+                code: 'BM',
+                name: 'Bermuda'
+            }, {
+                code: 'BT',
+                name: 'Bhutan'
+            }, {
+                code: 'BO',
+                name: 'Bolivia'
+            }, {
+                code: 'BQ',
+                name: 'Bonaire, Sint Eustatius and Saba'
+            }, {
+                code: 'BA',
+                name: 'Bosnia and Herzegovina'
+            }, {
+                code: 'BW',
+                name: 'Botswana'
+            }, {
+                code: 'BV',
+                name: 'Bouvet Island'
+            }, {
+                code: 'BR',
+                name: 'Brazil'
+            }, {
+                code: 'IO',
+                name: 'British Indian Ocean Territory'
+            }, {
+                code: 'VG',
+                name: 'British Virgin Islands'
+            }, {
+                code: 'BN',
+                name: 'Brunei'
+            }, {
+                code: 'BG',
+                name: 'Bulgaria'
+            }, {
+                code: 'BF',
+                name: 'Burkina Faso'
+            }, {
+                code: 'BI',
+                name: 'Burundi'
+            }, {
+                code: 'KH',
+                name: 'Cambodia'
+            }, {
+                code: 'CM',
+                name: 'Cameroon'
+            }, {
+                code: 'CA',
+                name: 'Canada'
+            }, {
+                code: 'CV',
+                name: 'Cape Verde'
+            }, {
+                code: 'KY',
+                name: 'Cayman Islands'
+            }, {
+                code: 'CF',
+                name: 'Central African Republic'
+            }, {
+                code: 'TD',
+                name: 'Chad'
+            }, {
+                code: 'CL',
+                name: 'Chile'
+            }, {
+                code: 'CN',
+                name: 'China'
+            }, {
+                code: 'CX',
+                name: 'Christmas Island'
+            }, {
+                code: 'CC',
+                name: 'Cocos (Keeling) Islands'
+            }, {
+                code: 'CO',
+                name: 'Colombia'
+            }, {
+                code: 'KM',
+                name: 'Comoros'
+            }, {
+                code: 'CG',
+                name: 'Congo'
+            }, {
+                code: 'CD',
+                name: 'Congo (Dem. Rep.)'
+            }, {
+                code: 'CK',
+                name: 'Cook Islands'
+            }, {
+                code: 'CR',
+                name: 'Costa Rica'
+            }, {
+                code: 'ME',
+                name: 'Crna Gora'
+            }, {
+                code: 'HR',
+                name: 'Croatia'
+            }, {
+                code: 'CU',
+                name: 'Cuba'
+            }, {
+                code: 'CW',
+                name: 'Curaçao'
+            }, {
+                code: 'CY',
+                name: 'Cyprus'
+            }, {
+                code: 'CZ',
+                name: 'Czech Republic'
+            }, {
+                code: 'CI',
+                name: "Côte D'Ivoire"
+            }, {
+                code: 'DK',
+                name: 'Denmark'
+            }, {
+                code: 'DJ',
+                name: 'Djibouti'
+            }, {
+                code: 'DM',
+                name: 'Dominica'
+            }, {
+                code: 'DO',
+                name: 'Dominican Republic'
+            }, {
+                code: 'TL',
+                name: 'East Timor'
+            }, {
+                code: 'EC',
+                name: 'Ecuador'
+            }, {
+                code: 'EG',
+                name: 'Egypt'
+            }, {
+                code: 'SV',
+                name: 'El Salvador'
+            }, {
+                code: 'GQ',
+                name: 'Equatorial Guinea'
+            }, {
+                code: 'ER',
+                name: 'Eritrea'
+            }, {
+                code: 'EE',
+                name: 'Estonia'
+            }, {
+                code: 'ET',
+                name: 'Ethiopia'
+            }, {
+                code: 'FK',
+                name: 'Falkland Islands'
+            }, {
+                code: 'FO',
+                name: 'Faroe Islands'
+            }, {
+                code: 'FJ',
+                name: 'Fiji'
+            }, {
+                code: 'FI',
+                name: 'Finland'
+            }, {
+                code: 'FR',
+                name: 'France'
+            }, {
+                code: 'GF',
+                name: 'French Guiana'
+            }, {
+                code: 'PF',
+                name: 'French Polynesia'
+            }, {
+                code: 'TF',
+                name: 'French Southern Territories'
+            }, {
+                code: 'GA',
+                name: 'Gabon'
+            }, {
+                code: 'GM',
+                name: 'Gambia'
+            }, {
+                code: 'GE',
+                name: 'Georgia'
+            }, {
+                code: 'DE',
+                name: 'Germany'
+            }, {
+                code: 'GH',
+                name: 'Ghana'
+            }, {
+                code: 'GI',
+                name: 'Gibraltar'
+            }, {
+                code: 'GR',
+                name: 'Greece'
+            }, {
+                code: 'GL',
+                name: 'Greenland'
+            }, {
+                code: 'GD',
+                name: 'Grenada'
+            }, {
+                code: 'GP',
+                name: 'Guadeloupe'
+            }, {
+                code: 'GU',
+                name: 'Guam'
+            }, {
+                code: 'GT',
+                name: 'Guatemala'
+            }, {
+                code: 'GG',
+                name: 'Guernsey and Alderney'
+            }, {
+                code: 'GN',
+                name: 'Guinea'
+            }, {
+                code: 'GW',
+                name: 'Guinea-Bissau'
+            }, {
+                code: 'GY',
+                name: 'Guyana'
+            }, {
+                code: 'HT',
+                name: 'Haiti'
+            }, {
+                code: 'HM',
+                name: 'Heard and McDonald Islands'
+            }, {
+                code: 'HN',
+                name: 'Honduras'
+            }, {
+                code: 'HK',
+                name: 'Hong Kong'
+            }, {
+                code: 'HU',
+                name: 'Hungary'
+            }, {
+                code: 'IS',
+                name: 'Iceland'
+            }, {
+                code: 'IN',
+                name: 'India'
+            }, {
+                code: 'ID',
+                name: 'Indonesia'
+            }, {
+                code: 'IR',
+                name: 'Iran'
+            }, {
+                code: 'IQ',
+                name: 'Iraq'
+            }, {
+                code: 'IE',
+                name: 'Ireland'
+            }, {
+                code: 'IM',
+                name: 'Isle of Man'
+            }, {
+                code: 'IL',
+                name: 'Israel'
+            }, {
+                code: 'IT',
+                name: 'Italy'
+            }, {
+                code: 'JM',
+                name: 'Jamaica'
+            }, {
+                code: 'JP',
+                name: 'Japan'
+            }, {
+                code: 'JE',
+                name: 'Jersey'
+            }, {
+                code: 'JO',
+                name: 'Jordan'
+            }, {
+                code: 'KZ',
+                name: 'Kazakhstan'
+            }, {
+                code: 'KE',
+                name: 'Kenya'
+            }, {
+                code: 'KI',
+                name: 'Kiribati'
+            }, {
+                code: 'KP',
+                name: 'Korea (North)'
+            }, {
+                code: 'KR',
+                name: 'Korea (South)'
+            }, {
+                code: 'KW',
+                name: 'Kuwait'
+            }, {
+                code: 'KG',
+                name: 'Kyrgyzstan'
+            }, {
+                code: 'LA',
+                name: 'Laos'
+            }, {
+                code: 'LV',
+                name: 'Latvia'
+            }, {
+                code: 'LB',
+                name: 'Lebanon'
+            }, {
+                code: 'LS',
+                name: 'Lesotho'
+            }, {
+                code: 'LR',
+                name: 'Liberia'
+            }, {
+                code: 'LY',
+                name: 'Libya'
+            }, {
+                code: 'LI',
+                name: 'Liechtenstein'
+            }, {
+                code: 'LT',
+                name: 'Lithuania'
+            }, {
+                code: 'LU',
+                name: 'Luxembourg'
+            }, {
+                code: 'MO',
+                name: 'Macao'
+            }, {
+                code: 'MK',
+                name: 'Macedonia'
+            }, {
+                code: 'MG',
+                name: 'Madagascar'
+            }, {
+                code: 'MW',
+                name: 'Malawi'
+            }, {
+                code: 'MY',
+                name: 'Malaysia'
+            }, {
+                code: 'MV',
+                name: 'Maldives'
+            }, {
+                code: 'ML',
+                name: 'Mali'
+            }, {
+                code: 'MT',
+                name: 'Malta'
+            }, {
+                code: 'MH',
+                name: 'Marshall Islands'
+            }, {
+                code: 'MQ',
+                name: 'Martinique'
+            }, {
+                code: 'MR',
+                name: 'Mauritania'
+            }, {
+                code: 'MU',
+                name: 'Mauritius'
+            }, {
+                code: 'YT',
+                name: 'Mayotte'
+            }, {
+                code: 'MX',
+                name: 'Mexico'
+            }, {
+                code: 'FM',
+                name: 'Micronesia'
+            }, {
+                code: 'MD',
+                name: 'Moldova'
+            }, {
+                code: 'MC',
+                name: 'Monaco'
+            }, {
+                code: 'MN',
+                name: 'Mongolia'
+            }, {
+                code: 'MS',
+                name: 'Montserrat'
+            }, {
+                code: 'MA',
+                name: 'Morocco'
+            }, {
+                code: 'MZ',
+                name: 'Mozambique'
+            }, {
+                code: 'MM',
+                name: 'Myanmar'
+            }, {
+                code: 'NA',
+                name: 'Namibia'
+            }, {
+                code: 'NR',
+                name: 'Nauru'
+            }, {
+                code: 'NP',
+                name: 'Nepal'
+            }, {
+                code: 'NL',
+                name: 'Netherlands'
+            }, {
+                code: 'AN',
+                name: 'Netherlands Antilles'
+            }, {
+                code: 'NC',
+                name: 'New Caledonia'
+            }, {
+                code: 'NZ',
+                name: 'New Zealand'
+            }, {
+                code: 'NI',
+                name: 'Nicaragua'
+            }, {
+                code: 'NE',
+                name: 'Niger'
+            }, {
+                code: 'NG',
+                name: 'Nigeria'
+            }, {
+                code: 'NU',
+                name: 'Niue'
+            }, {
+                code: 'NF',
+                name: 'Norfolk Island'
+            }, {
+                code: 'MP',
+                name: 'Northern Mariana Islands'
+            }, {
+                code: 'NO',
+                name: 'Norway'
+            }, {
+                code: 'OM',
+                name: 'Oman'
+            }, {
+                code: 'PK',
+                name: 'Pakistan'
+            }, {
+                code: 'PW',
+                name: 'Palau'
+            }, {
+                code: 'PS',
+                name: 'Palestine'
+            }, {
+                code: 'PA',
+                name: 'Panama'
+            }, {
+                code: 'PG',
+                name: 'Papua New Guinea'
+            }, {
+                code: 'PY',
+                name: 'Paraguay'
+            }, {
+                code: 'PE',
+                name: 'Peru'
+            }, {
+                code: 'PH',
+                name: 'Philippines'
+            }, {
+                code: 'PN',
+                name: 'Pitcairn'
+            }, {
+                code: 'PL',
+                name: 'Poland'
+            }, {
+                code: 'PT',
+                name: 'Portugal'
+            }, {
+                code: 'PR',
+                name: 'Puerto Rico'
+            }, {
+                code: 'QA',
+                name: 'Qatar'
+            }, {
+                code: 'RO',
+                name: 'Romania'
+            }, {
+                code: 'RU',
+                name: 'Russia'
+            }, {
+                code: 'RW',
+                name: 'Rwanda'
+            }, {
+                code: 'RE',
+                name: 'Réunion'
+            }, {
+                code: 'BL',
+                name: 'Saint Barthélemy'
+            }, {
+                code: 'SH',
+                name: 'Saint Helena'
+            }, {
+                code: 'KN',
+                name: 'Saint Kitts and Nevis'
+            }, {
+                code: 'LC',
+                name: 'Saint Lucia'
+            }, {
+                code: 'MF',
+                name: 'Saint Martin'
+            }, {
+                code: 'PM',
+                name: 'Saint Pierre and Miquelon'
+            }, {
+                code: 'VC',
+                name: 'Saint Vincent and the Grenadines'
+            }, {
+                code: 'WS',
+                name: 'Samoa'
+            }, {
+                code: 'SM',
+                name: 'San Marino'
+            }, {
+                code: 'SA',
+                name: 'Saudi Arabia'
+            }, {
+                code: 'SN',
+                name: 'Senegal'
+            }, {
+                code: 'RS',
+                name: 'Serbia'
+            }, {
+                code: 'SC',
+                name: 'Seychelles'
+            }, {
+                code: 'SL',
+                name: 'Sierra Leone'
+            }, {
+                code: 'SG',
+                name: 'Singapore'
+            }, {
+                code: 'SX',
+                name: 'Sint Maarten'
+            }, {
+                code: 'SK',
+                name: 'Slovakia'
+            }, {
+                code: 'SI',
+                name: 'Slovenia'
+            }, {
+                code: 'SB',
+                name: 'Solomon Islands'
+            }, {
+                code: 'SO',
+                name: 'Somalia'
+            }, {
+                code: 'ZA',
+                name: 'South Africa'
+            }, {
+                code: 'GS',
+                name: 'South Georgia and the South Sandwich Islands'
+            }, {
+                code: 'SS',
+                name: 'South Sudan'
+            }, {
+                code: 'ES',
+                name: 'Spain'
+            }, {
+                code: 'LK',
+                name: 'Sri Lanka'
+            }, {
+                code: 'SD',
+                name: 'Sudan'
+            }, {
+                code: 'SR',
+                name: 'Suriname'
+            }, {
+                code: 'SJ',
+                name: 'Svalbard and Jan Mayen'
+            }, {
+                code: 'SZ',
+                name: 'Swaziland'
+            }, {
+                code: 'SE',
+                name: 'Sweden'
+            }, {
+                code: 'CH',
+                name: 'Switzerland'
+            }, {
+                code: 'SY',
+                name: 'Syria'
+            }, {
+                code: 'ST',
+                name: 'São Tomé and Príncipe'
+            }, {
+                code: 'TW',
+                name: 'Taiwan'
+            }, {
+                code: 'TJ',
+                name: 'Tajikistan'
+            }, {
+                code: 'TZ',
+                name: 'Tanzania'
+            }, {
+                code: 'TH',
+                name: 'Thailand'
+            }, {
+                code: 'TG',
+                name: 'Togo'
+            }, {
+                code: 'TK',
+                name: 'Tokelau'
+            }, {
+                code: 'TO',
+                name: 'Tonga'
+            }, {
+                code: 'TT',
+                name: 'Trinidad and Tobago'
+            }, {
+                code: 'TN',
+                name: 'Tunisia'
+            }, {
+                code: 'TR',
+                name: 'Turkey'
+            }, {
+                code: 'TM',
+                name: 'Turkmenistan'
+            }, {
+                code: 'TC',
+                name: 'Turks and Caicos Islands'
+            }, {
+                code: 'TV',
+                name: 'Tuvalu'
+            }, {
+                code: 'UG',
+                name: 'Uganda'
+            }, {
+                code: 'UA',
+                name: 'Ukraine'
+            }, {
+                code: 'AE',
+                name: 'United Arab Emirates'
+            }, {
+                code: 'GB',
+                name: 'United Kingdom'
+            }, {
+                code: 'UM',
+                name: 'United States Minor Outlying Islands'
+            }, {
+                code: 'US',
+                name: 'United States of America'
+            }, {
+                code: 'UY',
+                name: 'Uruguay'
+            }, {
+                code: 'UZ',
+                name: 'Uzbekistan'
+            }, {
+                code: 'VU',
+                name: 'Vanuatu'
+            }, {
+                code: 'VA',
+                name: 'Vatican City'
+            }, {
+                code: 'VE',
+                name: 'Venezuela'
+            }, {
+                code: 'VN',
+                name: 'Vietnam'
+            }, {
+                code: 'VI',
+                name: 'Virgin Islands of the United States'
+            }, {
+                code: 'WF',
+                name: 'Wallis and Futuna'
+            }, {
+                code: 'EH',
+                name: 'Western Sahara'
+            }, {
+                code: 'YE',
+                name: 'Yemen'
+            }, {
+                code: 'ZM',
+                name: 'Zambia'
+            }, {
+                code: 'ZW',
+                name: 'Zimbabwe'
+            }, {
+                code: 'AX',
+                name: 'Åland Islands'
+            }
+        ];
+        return {
+            restrict: 'AE',
+            replace: true,
+            scope: {
+                priorities: '@csPriorities',
+                only: '@csOnly',
+                except: '@csExcept'
+            },
+            template: '<select ng-options="country.name as country.name for country in countries"> <option value="" ng-if="isSelectionOptional"></option> </select>',
+            controller: [
+                '$scope', '$attrs', function ($scope, $attrs) {
+                    var countryCodesIn, findCountriesIn, includeOnlyRequestedCountries, removeCountry, removeExcludedCountries, separator, updateWithPriorityCountries;
+                    separator = {
+                        code: '-',
+                        name: '────────────────────',
+                        disabled: true
+                    };
+                    countryCodesIn = function (codesString) {
+                        var codes;
+                        codes = codesString ? codesString.split(',') : [];
+                        return codes.map(function (code) {
+                            return code.trim();
+                        });
+                    };
+                    findCountriesIn = (function (_this) {
+                        return function (codesString) {
+                            var country, countryCodes, i, len, ref, ref1, results;
+                            countryCodes = countryCodesIn(codesString);
+                            ref = _this.countries;
+                            results = [];
+                            for (i = 0, len = ref.length; i < len; i++) {
+                                country = ref[ i ];
+                                if (ref1 = country.code, indexOf.call(countryCodes, ref1) >= 0) {
+                                    results.push(country);
+                                }
+                            }
+                            return results;
+                        };
+                    })(this);
+                    removeCountry = (function (_this) {
+                        return function (country) {
+                            return _this.countries.splice(_this.countries.indexOf(country), 1);
+                        };
+                    })(this);
+                    includeOnlyRequestedCountries = (function (_this) {
+                        return function () {
+                            if (!$scope.only) {
+                                return;
+                            }
+                            return _this.countries = findCountriesIn($scope.only);
+                        };
+                    })(this);
+                    removeExcludedCountries = function () {
+                        var country, i, len, ref, results;
+                        if (!$scope.except) {
+                            return;
+                        }
+                        ref = findCountriesIn($scope.except);
+                        results = [];
+                        for (i = 0, len = ref.length; i < len; i++) {
+                            country = ref[ i ];
+                            results.push(removeCountry(country));
+                        }
+                        return results;
+                    };
+                    updateWithPriorityCountries = (function (_this) {
+                        return function () {
+                            var i, len, priorityCountries, priorityCountry, ref, results;
+                            priorityCountries = findCountriesIn($scope.priorities);
+                            if (priorityCountries.length === 0) {
+                                return;
+                            }
+                            _this.countries.unshift(separator);
+                            ref = priorityCountries.reverse();
+                            results = [];
+                            for (i = 0, len = ref.length; i < len; i++) {
+                                priorityCountry = ref[ i ];
+                                removeCountry(priorityCountry);
+                                results.push(_this.countries.unshift(priorityCountry));
+                            }
+                            return results;
+                        };
+                    })(this);
+                    this.countries = allCountries.slice();
+                    includeOnlyRequestedCountries();
+                    removeExcludedCountries();
+                    updateWithPriorityCountries();
+                    $scope.countries = this.countries;
+                    return $scope.isSelectionOptional = $attrs.csRequired === void 0;
+                }
+            ]
+        };
+    });
+
+}).call(this);
+;'use strict';
 
 angular.module('users')
   .directive('passwordValidator', ['PasswordValidator', function(PasswordValidator) {
@@ -3813,8 +4622,7 @@ angular.module('users')
       }
     };
   }]);
-
-'use strict';
+;'use strict';
 
 angular.module('users')
   .directive('passwordVerify', [function() {
@@ -3842,8 +4650,7 @@ angular.module('users')
       }
     };
   }]);
-
-'use strict';
+;'use strict';
 
 // Users directive used to force lowercase input
 angular.module('users').directive('lowercase', function () {
@@ -3857,8 +4664,7 @@ angular.module('users').directive('lowercase', function () {
     }
   };
 });
-
-angular.module('users').service('accountsService', ["$http", "constants", "toastr", function ($http, constants, toastr) {
+;angular.module('users').service('accountsService', function ($http, constants, toastr) {
     var me = this;
 
 
@@ -3974,10 +4780,9 @@ angular.module('users').service('accountsService', ["$http", "constants", "toast
 
 
     return me;
-}]);
+});
 
-
-'use strict';
+;'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users.supplier').factory('ImageService', [
@@ -3988,8 +4793,7 @@ angular.module('users.supplier').factory('ImageService', [
         return me;
     }
 ]);
-
-'use strict';
+;'use strict';
 
 // Authentication service for user variables
 angular.module('users').factory('Authentication', ['$window',
@@ -4001,8 +4805,7 @@ angular.module('users').factory('Authentication', ['$window',
     return auth;
   }
 ]);
-
-angular.module('core').service('chartService', ["$http", "$q", "constants", function ($http, $q, constants) {
+;angular.module('core').service('chartService', function ($http, $q, constants) {
     var me = this;
     me.groupAndFormatDate = groupAndFormatDate;
     me.data = [
@@ -4120,20 +4923,777 @@ angular.module('core').service('chartService', ["$http", "$q", "constants", func
 
 
     return me;
-}]);
-
-angular.module('core').service('constants', ["envService", function (envService) {
+});
+;angular.module('core').service('constants', function (envService) {
     var me = this;
 
 
     me.API_URL = envService.read('API_URL');
-    me.ADS_URL = 'http://s3.amazonaws.com/beta.cdn.expertoncue.com/';
+    me.BWS_API = envService.read('BWS_API');
+    me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/';
     console.log('constants %O', me)
 
     return me;
-}]);
+});
+;angular.module('users').service('Countries', function () {
+    var me = this;
+    me.allCountries = [
+        {
+            code: 'AF',
+            name: 'Afghanistan'
+        }, {
+            code: 'AL',
+            name: 'Albania'
+        }, {
+            code: 'DZ',
+            name: 'Algeria'
+        }, {
+            code: 'AS',
+            name: 'American Samoa'
+        }, {
+            code: 'AD',
+            name: 'Andorre'
+        }, {
+            code: 'AO',
+            name: 'Angola'
+        }, {
+            code: 'AI',
+            name: 'Anguilla'
+        }, {
+            code: 'AQ',
+            name: 'Antarctica'
+        }, {
+            code: 'AG',
+            name: 'Antigua and Barbuda'
+        }, {
+            code: 'AR',
+            name: 'Argentina'
+        }, {
+            code: 'AM',
+            name: 'Armenia'
+        }, {
+            code: 'AW',
+            name: 'Aruba'
+        }, {
+            code: 'AU',
+            name: 'Australia'
+        }, {
+            code: 'AT',
+            name: 'Austria'
+        }, {
+            code: 'AZ',
+            name: 'Azerbaijan'
+        }, {
+            code: 'BS',
+            name: 'Bahamas'
+        }, {
+            code: 'BH',
+            name: 'Bahrain'
+        }, {
+            code: 'BD',
+            name: 'Bangladesh'
+        }, {
+            code: 'BB',
+            name: 'Barbade'
+        }, {
+            code: 'BY',
+            name: 'Belarus'
+        }, {
+            code: 'BE',
+            name: 'Belgium'
+        }, {
+            code: 'BZ',
+            name: 'Belize'
+        }, {
+            code: 'BJ',
+            name: 'Benin'
+        }, {
+            code: 'BM',
+            name: 'Bermuda'
+        }, {
+            code: 'BT',
+            name: 'Bhutan'
+        }, {
+            code: 'BO',
+            name: 'Bolivia'
+        }, {
+            code: 'BQ',
+            name: 'Bonaire, Sint Eustatius and Saba'
+        }, {
+            code: 'BA',
+            name: 'Bosnia and Herzegovina'
+        }, {
+            code: 'BW',
+            name: 'Botswana'
+        }, {
+            code: 'BV',
+            name: 'Bouvet Island'
+        }, {
+            code: 'BR',
+            name: 'Brazil'
+        }, {
+            code: 'IO',
+            name: 'British Indian Ocean Territory'
+        }, {
+            code: 'VG',
+            name: 'British Virgin Islands'
+        }, {
+            code: 'BN',
+            name: 'Brunei'
+        }, {
+            code: 'BG',
+            name: 'Bulgaria'
+        }, {
+            code: 'BF',
+            name: 'Burkina Faso'
+        }, {
+            code: 'BI',
+            name: 'Burundi'
+        }, {
+            code: 'KH',
+            name: 'Cambodia'
+        }, {
+            code: 'CM',
+            name: 'Cameroon'
+        }, {
+            code: 'CA',
+            name: 'Canada'
+        }, {
+            code: 'CV',
+            name: 'Cape Verde'
+        }, {
+            code: 'KY',
+            name: 'Cayman Islands'
+        }, {
+            code: 'CF',
+            name: 'Central African Republic'
+        }, {
+            code: 'TD',
+            name: 'Chad'
+        }, {
+            code: 'CL',
+            name: 'Chile'
+        }, {
+            code: 'CN',
+            name: 'China'
+        }, {
+            code: 'CX',
+            name: 'Christmas Island'
+        }, {
+            code: 'CC',
+            name: 'Cocos (Keeling) Islands'
+        }, {
+            code: 'CO',
+            name: 'Colombia'
+        }, {
+            code: 'KM',
+            name: 'Comoros'
+        }, {
+            code: 'CG',
+            name: 'Congo'
+        }, {
+            code: 'CD',
+            name: 'Congo (Dem. Rep.)'
+        }, {
+            code: 'CK',
+            name: 'Cook Islands'
+        }, {
+            code: 'CR',
+            name: 'Costa Rica'
+        }, {
+            code: 'ME',
+            name: 'Crna Gora'
+        }, {
+            code: 'HR',
+            name: 'Croatia'
+        }, {
+            code: 'CU',
+            name: 'Cuba'
+        }, {
+            code: 'CW',
+            name: 'Curaçao'
+        }, {
+            code: 'CY',
+            name: 'Cyprus'
+        }, {
+            code: 'CZ',
+            name: 'Czech Republic'
+        }, {
+            code: 'CI',
+            name: "Côte D'Ivoire"
+        }, {
+            code: 'DK',
+            name: 'Denmark'
+        }, {
+            code: 'DJ',
+            name: 'Djibouti'
+        }, {
+            code: 'DM',
+            name: 'Dominica'
+        }, {
+            code: 'DO',
+            name: 'Dominican Republic'
+        }, {
+            code: 'TL',
+            name: 'East Timor'
+        }, {
+            code: 'EC',
+            name: 'Ecuador'
+        }, {
+            code: 'EG',
+            name: 'Egypt'
+        }, {
+            code: 'SV',
+            name: 'El Salvador'
+        }, {
+            code: 'GQ',
+            name: 'Equatorial Guinea'
+        }, {
+            code: 'ER',
+            name: 'Eritrea'
+        }, {
+            code: 'EE',
+            name: 'Estonia'
+        }, {
+            code: 'ET',
+            name: 'Ethiopia'
+        }, {
+            code: 'FK',
+            name: 'Falkland Islands'
+        }, {
+            code: 'FO',
+            name: 'Faroe Islands'
+        }, {
+            code: 'FJ',
+            name: 'Fiji'
+        }, {
+            code: 'FI',
+            name: 'Finland'
+        }, {
+            code: 'FR',
+            name: 'France'
+        }, {
+            code: 'GF',
+            name: 'French Guiana'
+        }, {
+            code: 'PF',
+            name: 'French Polynesia'
+        }, {
+            code: 'TF',
+            name: 'French Southern Territories'
+        }, {
+            code: 'GA',
+            name: 'Gabon'
+        }, {
+            code: 'GM',
+            name: 'Gambia'
+        }, {
+            code: 'GE',
+            name: 'Georgia'
+        }, {
+            code: 'DE',
+            name: 'Germany'
+        }, {
+            code: 'GH',
+            name: 'Ghana'
+        }, {
+            code: 'GI',
+            name: 'Gibraltar'
+        }, {
+            code: 'GR',
+            name: 'Greece'
+        }, {
+            code: 'GL',
+            name: 'Greenland'
+        }, {
+            code: 'GD',
+            name: 'Grenada'
+        }, {
+            code: 'GP',
+            name: 'Guadeloupe'
+        }, {
+            code: 'GU',
+            name: 'Guam'
+        }, {
+            code: 'GT',
+            name: 'Guatemala'
+        }, {
+            code: 'GG',
+            name: 'Guernsey and Alderney'
+        }, {
+            code: 'GN',
+            name: 'Guinea'
+        }, {
+            code: 'GW',
+            name: 'Guinea-Bissau'
+        }, {
+            code: 'GY',
+            name: 'Guyana'
+        }, {
+            code: 'HT',
+            name: 'Haiti'
+        }, {
+            code: 'HM',
+            name: 'Heard and McDonald Islands'
+        }, {
+            code: 'HN',
+            name: 'Honduras'
+        }, {
+            code: 'HK',
+            name: 'Hong Kong'
+        }, {
+            code: 'HU',
+            name: 'Hungary'
+        }, {
+            code: 'IS',
+            name: 'Iceland'
+        }, {
+            code: 'IN',
+            name: 'India'
+        }, {
+            code: 'ID',
+            name: 'Indonesia'
+        }, {
+            code: 'IR',
+            name: 'Iran'
+        }, {
+            code: 'IQ',
+            name: 'Iraq'
+        }, {
+            code: 'IE',
+            name: 'Ireland'
+        }, {
+            code: 'IM',
+            name: 'Isle of Man'
+        }, {
+            code: 'IL',
+            name: 'Israel'
+        }, {
+            code: 'IT',
+            name: 'Italy'
+        }, {
+            code: 'JM',
+            name: 'Jamaica'
+        }, {
+            code: 'JP',
+            name: 'Japan'
+        }, {
+            code: 'JE',
+            name: 'Jersey'
+        }, {
+            code: 'JO',
+            name: 'Jordan'
+        }, {
+            code: 'KZ',
+            name: 'Kazakhstan'
+        }, {
+            code: 'KE',
+            name: 'Kenya'
+        }, {
+            code: 'KI',
+            name: 'Kiribati'
+        }, {
+            code: 'KP',
+            name: 'Korea (North)'
+        }, {
+            code: 'KR',
+            name: 'Korea (South)'
+        }, {
+            code: 'KW',
+            name: 'Kuwait'
+        }, {
+            code: 'KG',
+            name: 'Kyrgyzstan'
+        }, {
+            code: 'LA',
+            name: 'Laos'
+        }, {
+            code: 'LV',
+            name: 'Latvia'
+        }, {
+            code: 'LB',
+            name: 'Lebanon'
+        }, {
+            code: 'LS',
+            name: 'Lesotho'
+        }, {
+            code: 'LR',
+            name: 'Liberia'
+        }, {
+            code: 'LY',
+            name: 'Libya'
+        }, {
+            code: 'LI',
+            name: 'Liechtenstein'
+        }, {
+            code: 'LT',
+            name: 'Lithuania'
+        }, {
+            code: 'LU',
+            name: 'Luxembourg'
+        }, {
+            code: 'MO',
+            name: 'Macao'
+        }, {
+            code: 'MK',
+            name: 'Macedonia'
+        }, {
+            code: 'MG',
+            name: 'Madagascar'
+        }, {
+            code: 'MW',
+            name: 'Malawi'
+        }, {
+            code: 'MY',
+            name: 'Malaysia'
+        }, {
+            code: 'MV',
+            name: 'Maldives'
+        }, {
+            code: 'ML',
+            name: 'Mali'
+        }, {
+            code: 'MT',
+            name: 'Malta'
+        }, {
+            code: 'MH',
+            name: 'Marshall Islands'
+        }, {
+            code: 'MQ',
+            name: 'Martinique'
+        }, {
+            code: 'MR',
+            name: 'Mauritania'
+        }, {
+            code: 'MU',
+            name: 'Mauritius'
+        }, {
+            code: 'YT',
+            name: 'Mayotte'
+        }, {
+            code: 'MX',
+            name: 'Mexico'
+        }, {
+            code: 'FM',
+            name: 'Micronesia'
+        }, {
+            code: 'MD',
+            name: 'Moldova'
+        }, {
+            code: 'MC',
+            name: 'Monaco'
+        }, {
+            code: 'MN',
+            name: 'Mongolia'
+        }, {
+            code: 'MS',
+            name: 'Montserrat'
+        }, {
+            code: 'MA',
+            name: 'Morocco'
+        }, {
+            code: 'MZ',
+            name: 'Mozambique'
+        }, {
+            code: 'MM',
+            name: 'Myanmar'
+        }, {
+            code: 'NA',
+            name: 'Namibia'
+        }, {
+            code: 'NR',
+            name: 'Nauru'
+        }, {
+            code: 'NP',
+            name: 'Nepal'
+        }, {
+            code: 'NL',
+            name: 'Netherlands'
+        }, {
+            code: 'AN',
+            name: 'Netherlands Antilles'
+        }, {
+            code: 'NC',
+            name: 'New Caledonia'
+        }, {
+            code: 'NZ',
+            name: 'New Zealand'
+        }, {
+            code: 'NI',
+            name: 'Nicaragua'
+        }, {
+            code: 'NE',
+            name: 'Niger'
+        }, {
+            code: 'NG',
+            name: 'Nigeria'
+        }, {
+            code: 'NU',
+            name: 'Niue'
+        }, {
+            code: 'NF',
+            name: 'Norfolk Island'
+        }, {
+            code: 'MP',
+            name: 'Northern Mariana Islands'
+        }, {
+            code: 'NO',
+            name: 'Norway'
+        }, {
+            code: 'OM',
+            name: 'Oman'
+        }, {
+            code: 'PK',
+            name: 'Pakistan'
+        }, {
+            code: 'PW',
+            name: 'Palau'
+        }, {
+            code: 'PS',
+            name: 'Palestine'
+        }, {
+            code: 'PA',
+            name: 'Panama'
+        }, {
+            code: 'PG',
+            name: 'Papua New Guinea'
+        }, {
+            code: 'PY',
+            name: 'Paraguay'
+        }, {
+            code: 'PE',
+            name: 'Peru'
+        }, {
+            code: 'PH',
+            name: 'Philippines'
+        }, {
+            code: 'PN',
+            name: 'Pitcairn'
+        }, {
+            code: 'PL',
+            name: 'Poland'
+        }, {
+            code: 'PT',
+            name: 'Portugal'
+        }, {
+            code: 'PR',
+            name: 'Puerto Rico'
+        }, {
+            code: 'QA',
+            name: 'Qatar'
+        }, {
+            code: 'RO',
+            name: 'Romania'
+        }, {
+            code: 'RU',
+            name: 'Russia'
+        }, {
+            code: 'RW',
+            name: 'Rwanda'
+        }, {
+            code: 'RE',
+            name: 'Réunion'
+        }, {
+            code: 'BL',
+            name: 'Saint Barthélemy'
+        }, {
+            code: 'SH',
+            name: 'Saint Helena'
+        }, {
+            code: 'KN',
+            name: 'Saint Kitts and Nevis'
+        }, {
+            code: 'LC',
+            name: 'Saint Lucia'
+        }, {
+            code: 'MF',
+            name: 'Saint Martin'
+        }, {
+            code: 'PM',
+            name: 'Saint Pierre and Miquelon'
+        }, {
+            code: 'VC',
+            name: 'Saint Vincent and the Grenadines'
+        }, {
+            code: 'WS',
+            name: 'Samoa'
+        }, {
+            code: 'SM',
+            name: 'San Marino'
+        }, {
+            code: 'SA',
+            name: 'Saudi Arabia'
+        }, {
+            code: 'SN',
+            name: 'Senegal'
+        }, {
+            code: 'RS',
+            name: 'Serbia'
+        }, {
+            code: 'SC',
+            name: 'Seychelles'
+        }, {
+            code: 'SL',
+            name: 'Sierra Leone'
+        }, {
+            code: 'SG',
+            name: 'Singapore'
+        }, {
+            code: 'SX',
+            name: 'Sint Maarten'
+        }, {
+            code: 'SK',
+            name: 'Slovakia'
+        }, {
+            code: 'SI',
+            name: 'Slovenia'
+        }, {
+            code: 'SB',
+            name: 'Solomon Islands'
+        }, {
+            code: 'SO',
+            name: 'Somalia'
+        }, {
+            code: 'ZA',
+            name: 'South Africa'
+        }, {
+            code: 'GS',
+            name: 'South Georgia and the South Sandwich Islands'
+        }, {
+            code: 'SS',
+            name: 'South Sudan'
+        }, {
+            code: 'ES',
+            name: 'Spain'
+        }, {
+            code: 'LK',
+            name: 'Sri Lanka'
+        }, {
+            code: 'SD',
+            name: 'Sudan'
+        }, {
+            code: 'SR',
+            name: 'Suriname'
+        }, {
+            code: 'SJ',
+            name: 'Svalbard and Jan Mayen'
+        }, {
+            code: 'SZ',
+            name: 'Swaziland'
+        }, {
+            code: 'SE',
+            name: 'Sweden'
+        }, {
+            code: 'CH',
+            name: 'Switzerland'
+        }, {
+            code: 'SY',
+            name: 'Syria'
+        }, {
+            code: 'ST',
+            name: 'São Tomé and Príncipe'
+        }, {
+            code: 'TW',
+            name: 'Taiwan'
+        }, {
+            code: 'TJ',
+            name: 'Tajikistan'
+        }, {
+            code: 'TZ',
+            name: 'Tanzania'
+        }, {
+            code: 'TH',
+            name: 'Thailand'
+        }, {
+            code: 'TG',
+            name: 'Togo'
+        }, {
+            code: 'TK',
+            name: 'Tokelau'
+        }, {
+            code: 'TO',
+            name: 'Tonga'
+        }, {
+            code: 'TT',
+            name: 'Trinidad and Tobago'
+        }, {
+            code: 'TN',
+            name: 'Tunisia'
+        }, {
+            code: 'TR',
+            name: 'Turkey'
+        }, {
+            code: 'TM',
+            name: 'Turkmenistan'
+        }, {
+            code: 'TC',
+            name: 'Turks and Caicos Islands'
+        }, {
+            code: 'TV',
+            name: 'Tuvalu'
+        }, {
+            code: 'UG',
+            name: 'Uganda'
+        }, {
+            code: 'UA',
+            name: 'Ukraine'
+        }, {
+            code: 'AE',
+            name: 'United Arab Emirates'
+        }, {
+            code: 'GB',
+            name: 'United Kingdom'
+        }, {
+            code: 'UM',
+            name: 'United States Minor Outlying Islands'
+        }, {
+            code: 'US',
+            name: 'United States'
+        }, {
+            code: 'UY',
+            name: 'Uruguay'
+        }, {
+            code: 'UZ',
+            name: 'Uzbekistan'
+        }, {
+            code: 'VU',
+            name: 'Vanuatu'
+        }, {
+            code: 'VA',
+            name: 'Vatican City'
+        }, {
+            code: 'VE',
+            name: 'Venezuela'
+        }, {
+            code: 'VN',
+            name: 'Vietnam'
+        }, {
+            code: 'VI',
+            name: 'Virgin Islands of the United States'
+        }, {
+            code: 'WF',
+            name: 'Wallis and Futuna'
+        }, {
+            code: 'EH',
+            name: 'Western Sahara'
+        }, {
+            code: 'YE',
+            name: 'Yemen'
+        }, {
+            code: 'ZM',
+            name: 'Zambia'
+        }, {
+            code: 'ZW',
+            name: 'Zimbabwe'
+        }, {
+            code: 'AX',
+            name: 'Åland Islands'
+        }
+    ];
 
-angular.module('users').service('CurrentUserService', ['Admin', '$state',
+    return me;
+});
+;angular.module('users').service('CurrentUserService', ['Admin', '$state',
     function (Admin, $state) {
         var me = this;
         me.user = '';
@@ -4158,8 +5718,7 @@ angular.module('users').service('CurrentUserService', ['Admin', '$state',
         return me;
     }
 ]);
-
-angular.module('users').service('locationsService', ["$http", "constants", "toastr", "$q", function ($http, constants, toastr, $q) {
+;angular.module('users').service('locationsService', function ($http, constants, toastr, $q) {
     var me = this;
 
     me.init = function () {
@@ -4258,9 +5817,8 @@ angular.module('users').service('locationsService', ["$http", "constants", "toas
 
 
     return me;
-}]);
-
-'use strict';
+});
+;'use strict';
 
 // PasswordValidator service used for testing the password strength
 angular.module('users').factory('PasswordValidator', ['$window',
@@ -4285,52 +5843,86 @@ angular.module('users').factory('PasswordValidator', ['$window',
     };
   }
 ]);
-
-angular.module('users').service('productEditorService', ["$http", "$location", "constants", "Authentication", function ($http, $location, constants, Authentication) {
+;'use strict';
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr) {
     var me = this;
+    var debugLogs = true;
+    var log = function (title, data) {
+        if (debugLogs) {
+            title += '%O';
+            console.log(title, data);
+        }
+    };
+    var cachedProduct;
+    me.changes = [];
 
 
     me.init = function () {
-        me.availableProducts = [];
+        me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
+        me.productStatuses = [
+            { name: 'Available', value: 'new' },
+            { name: 'In Progress', value: 'inprogress' },
+            { name: 'Done', value: 'done' },
+            { name: 'Approved', value: 'approved' }
+        ];
+        me.productStats = {};
+        me.productList = [];
         me.myProducts = [];
         me.stats = {};
-        me.currentType = 1;
-        me.getStats();
-
+        me.currentProduct = {};
+        me.currentType = me.productTypes[ 0 ];
+        me.currentStatus = me.productStatuses[ 0 ];
         //initialize with new products so list isnt empty
-        me.getAvailableProducts({ type: me.currentType, status: 'NEW' })
+        log('productServiceInit', me.currentType);
+
+        me.getStats();
+        me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
-    me.getAvailableProducts = function (options) {
+    me.getProductList = function (options) {
         if (!options.type || !options.status) {
-            console.error('getAvailableProducts: Please add a type and status to get available products %O', options)
+            options = {
+                type: me.currentType.productTypeId,
+                status: me.currentStatus.value
+            };
         }
-        var url = constants.API_URL + '/edit?status=' + options.status + '&type=' + options.type;
+        log('getProdList options', options);
+        var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
         $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
-                me.availableProducts = response.data
+                me.productList = response.data
             }
         }
-
         function getAvailProdError(error) {
             console.error('getAvailProdError %O', error)
         }
     };
 
+    me.updateProductList = function () {
+        me.getProductList({ type: me.currentType, status: me.currentStatus })
+    };
+
     //send in type,status,userid, get back list of products
     me.getMyProducts = function (options) {
+        options = options | {};
         if (!options.type || !options.status || !options.userId) {
-            console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
+            options = {
+                type: me.currentType.productTypeId,
+                status: me.currentStatus.value,
+                userId: 407
+            };
+
+            // console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
         }
-        var url = constants.API_URL + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.user;
+        var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId;
         $http.get(url).then(getMyProdSuccess, getMyProdError);
 
         function getMyProdSuccess(response) {
             if (response.status === 200) {
-                me.myProducts = response.data
+                me.productList = response.data
             }
         }
 
@@ -4338,6 +5930,48 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             console.error('getMyProdError %O', error)
         }
     };
+
+
+    me.setCurrentProduct = function (product) {
+        me.currentProduct = {};
+        cachedProduct = {};
+        me.changes = [];
+
+        if (!product.productId) {
+            console.error('setCurrentProduct: please provide productId')
+            return
+        }
+        me.getProductDetail(product.productId).then(onGetProductDetailSuccess, onGetProductDetailError);
+        function onGetProductDetailSuccess(res) {
+            if (res.data.length > 0) {
+                me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+                    var p = formattedProduct;
+                    log('formattedProduct', formattedProduct);
+                    me.currentProduct = formattedProduct;
+                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
+
+                })
+            } else {
+                toastr.error('Could not get product detail for ' + product.name)
+            }
+        }
+
+        function onGetProductDetailError(err) {
+            console.error('onGetProductDetailError %O', err)
+        }
+    };
+
+
+    me.getProductDetail = function (productId) {
+        if (!productId) {
+            console.error('getProductDetail: please provide productId')
+            return
+        }
+        var url = constants.BWS_API + '/products/' + productId;
+        log('getting product detail for ', url)
+        return $http.get(url)
+    }
+
 
     //claim a product
     me.claim = function (options) {
@@ -4348,40 +5982,54 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         var payload = {
             "payload": options
         };
-        var url = constants.API_URL + '/edit/claim';
-        return $http.post(url, payload)
+        log('claiming', payload);
+        var url = constants.BWS_API + '/edit/claim';
+        $http.post(url, payload).then(function (res) {
+            log('claim response', res)
+        })
     };
+
 
     me.saveProduct = function (product) {
         //check productId
         if (!product.productId) {
             console.error('saveProduct: no productId specified %O', product)
+            return
         }
-        product.status = 'NPROGRESS';
+        product = compareToCachedProduct(product);
+        product.status = 'inprogress';
+
+        //TODO: get real userId
+        product.userId = 407;
         var payload = {
             payload: product
         };
-        var url = constants.API_URL + '/products/' + product.productId;
+        log('saveProduct', payload)
+        var url = constants.BWS_API + '/products/' + product.productId;
         $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
         function onUpdateSuccess(response) {
-            console.log('onUpdateSuccess %O', response)
+            log('onUpdateSuccess', response)
+            window.scrollTo(0, 0);
+
         }
 
         function onUpdateError(error) {
+            toastr.error('There was a problem updating this product', 'Could not save')
             console.error('onUpdateError %O', error)
         }
     };
+
 
     me.finishProduct = function (product) {
         if (!product.productId) {
             console.error('finishProduct: no productId specified %O', product)
         }
-        product.status = 'DONE';
+        product.status = 'done';
         var payload = {
             payload: product
         };
-        var url = constants.API_URL + '/products/' + product.productId;
+        var url = constants.BWS_API + '/products/' + product.productId;
         $http.put(url, payload).then(onFinishSuccess, onFinishError);
 
         function onFinishSuccess(response) {
@@ -4393,17 +6041,83 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
+    me.approveProduct = function (product) {
+        if (!product.productId) {
+            console.error('approveProduct: no productId specified %O', product)
+        }
+        product.status = 'approved';
+        var payload = {
+            payload: product
+        };
+        var url = constants.BWS_API + '/products/' + product.productId;
+        $http.put(url, payload).then(onApproveSuccess, onApproveError);
+
+        function onApproveSuccess(response) {
+            console.log('onApproveSuccess %O', response)
+        }
+
+        function onApproveError(error) {
+            console.error('onApproveError %O', error)
+        }
+    };
+
+
     me.getStats = function () {
-        var url = constants.API_URL + '/edit/stats'
+        var url = constants.BWS_API + '/edit/count';
         $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
-            console.log('onGetStatSuccess %O', response)
-            me.stats = response.data
+            console.log('onGetStatSuccess %O', response);
+            me.productStats = response.data
         }
 
         function onGetStatError(error) {
             console.log('onGetStatError %O', error)
+            me.productStats = {}
         }
+    };
+
+    me.formatProductDetail = function (product) {
+        var defer = $q.defer()
+        product.title = product.title || product.displayName || product.name;
+        product.properties.forEach(function (prop) {
+            switch (prop.label) {
+                case 'Country':
+                    prop.type = 'countryselect'
+                    break;
+                case 'Script':
+                    prop.type = 'textarea';
+                    break;
+                case 'Description':
+                    prop.type = 'textarea';
+                    break;
+                case 'foodpairing':
+                    prop.type = 'textarea';
+                    break;
+                default:
+                    prop.type = 'input';
+                    break;
+            }
+        });
+        product.mediaAssets.forEach(function (m) {
+            switch (m.type) {
+                case 'AUDIO':
+                    product.description = m.script;
+                    product.audio = document.createElement('AUDIO');
+                    product.audio.src = m.publicUrl;
+                    product.audio.ontimeupdate = function setProgress() {
+                        product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
+                    };
+                    break;
+                case 'IMAGE':
+                    product.hasImages = true;
+                    product.images = product.images || [];
+                    product.images.push(m)
+            }
+        });
+        defer.resolve(product);
+
+        return defer.promise;
     };
 
     me.uploadMedia = function (file) {
@@ -4412,68 +6126,186 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             payload: {
                 fileName: file[ 0 ].name,
                 userName: Authentication.user.username,
-                type: 'IMAGE',
-                accountId: accountId
+                type: 'IMAGE'
             }
         };
 
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
-            if (err) {
-                console.log(err);
-            }
-            if (response) {
-                console.log('oncue API response %O', response);
-                mediaAssetId = response.data.assetId;
-                var creds = {
-                    bucket: 'beta.cdn.expertoncue.com',
-                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                    secret_key: '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'
-                };
-                // Configure The S3 Object
-                AWS.config.update({
-                    accessKeyId: creds.access_key,
-                    secretAccessKey: creds.secret_key
-                });
-                AWS.config.region = 'us-east-1';
-                var bucket = new AWS.S3({ params: { Bucket: creds.bucket } });
-                var params = {
-                    Key: mediaAssetId + "-" + file[ 0 ].name,
-                    ContentType: file[ 0 ].type,
-                    Body: file[ 0 ],
-                    ServerSideEncryption: 'AES256',
-                    Metadata: {
-                        fileKey: JSON.stringify(response.data.assetId)
-                    }
-                };
+        //TODO: tie into new upload service
+    };
 
-                bucket.putObject(params, function (err, data) {
+    function compareToCachedProduct(prod) {
+        log('updatedProd', prod);
+        log('cachedProd', cachedProduct);
+        me.changes = [];
+        if (prod.title !== cachedProduct.title) {
+            me.changes.push('Changed title to ' + cachedProduct.title)
+        }
+
+        for (var i = 0; i < prod.properties.length; i++) {
+            var updated = prod.properties[ i ];
+            var cached = cachedProduct.properties[ i ];
+
+            if (updated.value !== cached.value) {
+                if (cached.value === '') {
+                    updated.changed = 'new';
+                    me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+                } else {
+                    updated.changed = 'update';
+                    me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+                }
+            } else {
+                updated.changed = 'false';
+            }
+        }
+        log('changes added', prod);
+        return (prod)
+    }
+
+    me.init();
+
+    return me;
+});
+;angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
+    return function (recordingUrl) {
+        return $sce.trustAsResourceUrl(recordingUrl);
+    };
+} ]);
+;angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q) {
+    var me = this;
+
+
+    me.init = function () {
+        me.selectAccountId = localStorage.getItem('accountId');
+        me.accounts = [];
+        me.editAccount = {};
+        me.currentAccount = {};
+        me.files = [];
+        me.loading;
+        me.determinate = {value:0};
+
+    };
+
+    me.init()
+
+
+    me.upload = function(files, mediaConfig){
+
+        var defer = $q.defer();
+        console.log('upload service called %0', files);
+        if (files && files.length) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (!file.$error) {
+                    var filename = (file.name).replace(/ /g, "_");
+                    console.log('account id %O', localStorage.getItem('accountId'));
+                    if(mediaConfig.mediaRoute == 'media') {
+                        var obj = {
+                            payload: {
+                                type: mediaConfig.type,
+                                fileName: filename,
+                                userName: Authentication.user.username,
+                                accountId: mediaConfig.accountId
+                            }
+                        };
+                    }
+                    else{
+                        var obj = {
+                            payload: {
+                                fileName: filename,
+                                userName: Authentication.user.username,
+                                accountId: mediaConfig.accountId
+                            }
+                        };
+                    }
+
+                    $http.post(constants.API_URL +'/'+ mediaConfig.mediaRoute, obj).then(function (response, err) {
+
                         if (err) {
-                            // There Was An Error With Your S3 Config
-                            alert(err.message);
-                            return false;
+                            console.log(err);
+                            toastr.error('There was a problem uploading your ad.')
+
+
                         }
-                        else {
-                            console.log('s3 response to upload %O', data);
-                            // Success!
+                        if (response) {
+                            var  mediaAssetId = response.data.assetId;
+                            console.log(response);
+                             var creds = {
+                                bucket: 'cdn.expertoncue.com/'+mediaConfig.folder,
+                                access_key: 'AKIAICAP7UIWM4XZWVBA',
+                                secret_key: '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'
+                            };
+                            // Configure The S3 Object
+                            AWS.config.update({
+                                accessKeyId: creds.access_key,
+                                secretAccessKey: creds.secret_key
+                            });
+                            AWS.config.region = 'us-east-1';
+                            var bucket = new AWS.S3({
+                                params: {
+                                    Bucket: creds.bucket
+                                }
+                            });
+                            var params = {
+                                Key: response.data.assetId + "-" + filename,
+                                ContentType: file.type,
+                                Body: file,
+                                ServerSideEncryption: 'AES256',
+                                Metadata: {
+                                    fileKey: JSON.stringify(response.data.assetId)
+                                }
+                            };
+                            console.dir(params.Metadata.fileKey)
+                            bucket.putObject(params, function (err, data) {
+                                    me.loading = true;
+                                    if (err) {
+                                        // There Was An Error With Your S3 Config
+                                        alert(err.message);
+                                        toastr.error('There was a problem uploading your ad.');
+                                        return false;
+                                    } else {
+                                        console.dir(data);
+                                        // Success!
+                                        self.determinateValue = 0;
+                                        var updateMedia = {
+                                            mediaAssetId:mediaAssetId,
+                                            publicUrl:'https://s3.amazonaws.com/cdn.expertoncue.com/'+mediaConfig.folder+'/'+response.data.assetId + "-" + filename
+                                        };
+
+                                        $http.put(constants.API_URL +'/media', updateMedia).then(function (response, err) {
+                                            var message = {
+                                                message: 'New Ad Uploaded Success!',
+                                                publicUrl: updateMedia.publicUrl,
+                                                fileName: filename
+                                            };
+                                            defer.resolve(message)
+                                        })
+                                    }
+                                })
+                                .on('httpUploadProgress', function (progress) {
+                                    // Log Progress Information
+                                    console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
+                                    me.determinate.value = Math.round(progress.loaded / progress.total * 100);
+
+                                });
+                        } else {
+                            // No File Selected
+                            alert('No File Selected');
                         }
-                    })
-                    .on('httpUploadProgress', function (progress) {
-                        // Log Progress Information
-                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
+
                     });
+
+                }
             }
-            else {
-                // No File Selected
-                alert('No File Selected');
-            }
-        });
+        }
+        return defer.promise
     };
 
 
-    return me;
-}]);
 
-'use strict';
+    return me;
+});
+
+;'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users').factory('Users', ['$resource',
