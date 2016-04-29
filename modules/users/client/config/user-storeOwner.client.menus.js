@@ -5,7 +5,8 @@ angular.module('users.storeOwner').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'storeOwner', {
             title: 'Invite User',
-            state: 'storeOwner.inviteUser'
+            state: 'storeOwner.inviteUser',
+            position:8
         });
 
     }

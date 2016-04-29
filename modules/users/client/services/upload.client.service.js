@@ -94,13 +94,19 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                         console.dir(data);
                                         // Success!
                                         self.determinateValue = 0;
-                                       var message = {
-                                           message:'New Ad Uploaded Success!',
-                                           mediaAssetId:mediaAssetId,
-                                           fileName:filename
-                                       };
-                                        defer.resolve(message)
+                                        var updateMedia = {
+                                            mediaAssetId:mediaAssetId,
+                                            publicUrl:'https://s3.amazonaws.com/cdn.expertoncue.com/'+mediaConfig.folder+'/'+response.data.assetId + "-" + filename
+                                        };
 
+                                        $http.put(constants.API_URL +'/media', updateMedia).then(function (response, err) {
+                                            var message = {
+                                                message: 'New Ad Uploaded Success!',
+                                                publicUrl: updateMedia.publicUrl,
+                                                fileName: filename
+                                            };
+                                            defer.resolve(message)
+                                        })
                                     }
                                 })
                                 .on('httpUploadProgress', function (progress) {
