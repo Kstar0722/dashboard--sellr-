@@ -1,11 +1,5 @@
 
 <body style="background: #fbfbfb;">
-<div ng-show="!pes.currentProduct.name" class="loading-anim">
-  <div class='uil-ripple-css' style='transform:scale(0.81);'>
-    <div></div>
-    <div></div>
-  </div>
-</div>
 <div ng-show="pes.currentProduct.name.length>0">
 
   <!--replace with toastr?-->
@@ -184,7 +178,6 @@
         <div class="">
           <br><br>
           <div class="btn-group" role="group">
-            <button ng-click="editProduct(pes.currentProduct)" type="button" class="btn btn-default">Edit</button>
             <button type="button" class="btn btn-primary" ng-show="pes.currentProduct.status =='done'" data-toggle="modal" data-target="#unsubmitproduct">
               Unsubmit
             </button>

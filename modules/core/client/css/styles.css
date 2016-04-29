@@ -758,9 +758,6 @@ section.userList .userbox {
 .productEditor .list .btn-primary {
   background: #2DC89A;
 }
-.productEditor .loading-anim {
-  width: 100%;
-}
 @-webkit-keyframes uil-ripple {
   0% {
     width: 0;
