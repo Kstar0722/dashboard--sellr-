@@ -1,13 +1,19 @@
 'use strict';
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr) {
     var me = this;
-    var debugLogs = false;
+    var debugLogs = true;
     var log = function (title, data) {
         if (debugLogs) {
             title += '%O';
             console.log(title, data);
         }
     };
+    var cachedProduct;
+    me.changes = [];
+    me.userId = 407;
+    me.show = {
+        loading: true
+    }
 
 
     me.init = function () {
@@ -21,18 +27,20 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.productStats = {};
         me.productList = [];
         me.myProducts = [];
-        me.stats = {};
         me.currentProduct = {};
-        me.currentType = me.productTypes[ 0 ];
-        me.currentStatus = me.productStatuses[ 0 ];
+        me.currentType = {};
+        me.currentStatus = {};
         //initialize with new products so list isnt empty
 
         me.getStats();
-        me.updateProductList();
+        me.show.loading = false;
+        // me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
+        me.show.loading = true;
+        console.time('getProductList')
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -41,21 +49,29 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         log('getProdList options', options);
         var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
-        //TODO: enable actual api call here
-        function rand() {
-            return Math.floor(Math.random() * 100);
-        }
-        me.productList = [
-            { name: 'Awesome ' + options.type.name + ' 1', productId: 155220, lastEdit: rand() + ' min ago', status: 'inprogress' },
-            { name: 'Awesome ' + options.type.name + ' 2', productId: 222222, lastEdit: rand() + ' week(s) ago', status: 'new' },
-            { name: 'Awesome ' + options.type.name + ' 3', productId: 333333, lastEdit: rand() + ' hour(s) ago', status: 'done' },
-            { name: 'Awesome ' + options.type.name + ' 4', productId: 444444, lastEdit: rand() + ' day(s) ago', status: 'inprogress' }
-        ];
-        // $http.get(url).then(getAvailProdSuccess, getAvailProdError);
+        $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
-                me.productList = response.data
+                console.timeEnd('getProductList');
+                me.show.loading = false;
+
+                me.getStats();
+                response.data = response.data.map(function (product) {
+                    if (product.lastEdit) {
+                        if (constants.env === 'dev' || constants.env === 'local') {
+                            product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
+                            log('lastEdit', product.lastEdit)
+                        } else {
+                            product.lastEdit = moment(product.lastEdit).fromNow()
+                        }
+                    }
+                    return product
+                })
+                me.productList = _.sortBy(response.data, function (p) {
+                    log('sorter', Math.abs(p.userId - me.userId))
+                    return Math.abs(p.userId - me.userId);
+                })
             }
         }
         function getAvailProdError(error) {
@@ -93,7 +109,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
     };
 
+
     me.setCurrentProduct = function (product) {
+        me.currentProduct = {};
+        cachedProduct = {};
+        me.changes = [];
+
         if (!product.productId) {
             console.error('setCurrentProduct: please provide productId')
             return
@@ -102,11 +123,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
         function onGetProductDetailSuccess(res) {
             if (res.data.length > 0) {
                 me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                    log('formattedProduct', formattedProduct)
+                    var p = formattedProduct;
+                    log('formattedProduct', formattedProduct);
                     me.currentProduct = formattedProduct;
+                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
+
                 })
             } else {
-                me.currentProduct = {};
+                toastr.error('Could not get product detail for ' + product.name)
             }
         }
 
@@ -115,6 +139,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
     };
 
+
     me.getProductDetail = function (productId) {
         if (!productId) {
             console.error('getProductDetail: please provide productId')
@@ -122,9 +147,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         var url = constants.BWS_API + '/products/' + productId;
         log('getting product detail for ', url)
-
         return $http.get(url)
     }
+
 
     //claim a product
     me.claim = function (options) {
@@ -132,30 +157,68 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
+        options.status = 'inprogress';
         var payload = {
             "payload": options
         };
+        log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
-        return $http.post(url, payload)
+        $http.post(url, payload).then(function (res) {
+            me.getStats();
+            me.updateProductList();
+            log('claim response', res)
+        })
     };
+
+    //remove a claim on a product
+    me.removeClaim = function (options) {
+        //options should have userId and productId
+        if (!options.productId || !options.userId) {
+            console.error('could not claim, wrong options')
+        }
+        options.status = 'new';
+        var payload = {
+            "payload": options
+        };
+        log('removing claim', payload);
+        var url = constants.BWS_API + '/edit/claim';
+        $http.put(url, payload).then(function (res) {
+            log('claim response', res);
+            me.currentProduct = {};
+            me.updateProductList()
+        }, function (err) {
+            log('deleteClaim error', err)
+        })
+    };
+
 
     me.saveProduct = function (product) {
         //check productId
         if (!product.productId) {
             console.error('saveProduct: no productId specified %O', product)
+            return
         }
+        product = compareToCachedProduct(product);
         product.status = 'inprogress';
+
+        //TODO: get real userId
+        product.userId = 407;
         var payload = {
             payload: product
         };
+        log('saveProduct', payload)
         var url = constants.BWS_API + '/products/' + product.productId;
         $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
         function onUpdateSuccess(response) {
-            console.log('onUpdateSuccess %O', response)
+            log('onUpdateSuccess', response)
+            window.scrollTo(0, 0);
+            toastr.success('Product saved!')
+
         }
 
         function onUpdateError(error) {
+            toastr.error('There was a problem updating this product', 'Could not save');
             console.error('onUpdateError %O', error)
         }
     };
@@ -180,6 +243,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
     };
 
+
     me.approveProduct = function (product) {
         if (!product.productId) {
             console.error('approveProduct: no productId specified %O', product)
@@ -199,31 +263,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
             console.error('onApproveError %O', error)
         }
     };
-    me.getStats = function () {
-        var url = constants.BWS_API + '/edit/count';
 
-        //TODO: api call
-        me.productStats = {
-            1: {
-                new: 15,
-                inprogress: 12,
-                done: 62,
-                approved: 92
-            },
-            2: {
-                new: 14,
-                inprogress: 6,
-                done: 1,
-                approved: 918
-            },
-            3: {
-                new: 56,
-                inprogress: 234,
-                done: 151,
-                approved: 342
-            }
-        };
-        // $http.get(url).then(onGetStatSuccess, onGetStatError);
+
+    me.getStats = function () {
+        me.productStats = {};
+
+        var url = constants.BWS_API + '/edit/count';
+        $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
             console.log('onGetStatSuccess %O', response);
             me.productStats = response.data
@@ -288,58 +334,38 @@ angular.module('users').service('productEditorService', function ($http, $locati
             }
         };
 
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
-            if (err) {
-                console.log(err);
-            }
-            if (response) {
-                console.log('oncue API response %O', response);
-                mediaAssetId = response.data.assetId;
-                var creds = {
-                    bucket: 'beta.cdn.expertoncue.com',
-                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                    secret_key: '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'
-                };
-                // Configure The S3 Object
-                AWS.config.update({
-                    accessKeyId: creds.access_key,
-                    secretAccessKey: creds.secret_key
-                });
-                AWS.config.region = 'us-east-1';
-                var bucket = new AWS.S3({ params: { Bucket: creds.bucket } });
-                var params = {
-                    Key: mediaAssetId + "-" + file[ 0 ].name,
-                    ContentType: file[ 0 ].type,
-                    Body: file[ 0 ],
-                    ServerSideEncryption: 'AES256',
-                    Metadata: {
-                        fileKey: JSON.stringify(response.data.assetId)
-                    }
-                };
-
-                bucket.putObject(params, function (err, data) {
-                        if (err) {
-                            // There Was An Error With Your S3 Config
-                            alert(err.message);
-                            return false;
-                        }
-                        else {
-                            console.log('s3 response to upload %O', data);
-                            // Success!
-                        }
-                    })
-                    .on('httpUploadProgress', function (progress) {
-                        // Log Progress Information
-                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                    });
-            }
-            else {
-                // No File Selected
-                alert('No File Selected');
-            }
-        });
+        //TODO: tie into new upload service
     };
 
+    function compareToCachedProduct(prod) {
+        log('updatedProd', prod);
+        log('cachedProd', cachedProduct);
+        me.changes = [];
+        if (prod.title !== cachedProduct.title) {
+            me.changes.push('Changed title to ' + cachedProduct.title)
+        }
+
+        for (var i = 0; i < prod.properties.length; i++) {
+            var updated = prod.properties[ i ];
+            var cached = cachedProduct.properties[ i ];
+
+            if (updated.value !== cached.value) {
+                if (!cached.valueId) {
+                    updated.changed = 'new';
+                    me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+                } else {
+                    updated.changed = 'update';
+                    me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+                }
+            } else {
+                updated.changed = 'false';
+            }
+        }
+        log('changes added', prod);
+        return (prod)
+    }
+
+    me.init();
 
     return me;
 });

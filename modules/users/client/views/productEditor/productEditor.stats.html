@@ -1,6 +1,5 @@
 <section class="stats ">
   <div class="col-xs-4 white ">
-
     <!--<div class="btn-group" role="group" aria-label="">-->
     <!--<button class="btn btn-info" ng-repeat="type in pes.productTypes" ng-click="selectProductType(type)">{{ type.name }}</button>-->
     <!--</div>-->
@@ -9,7 +8,8 @@
   <div ng-repeat="status in pes.productStatuses" class="col-xs-2 grey" ng-click="selectProductStatus(status)"
        ui-sref="editor.products({status:status.value})"
        ui-sref-active="active">
-    <h1>{{ pes.productStats[pes.currentType.productTypeId][status.value]}}</h1>
+    <md-progress-circular ng-hide="pes.productStats[pes.currentType.productTypeId][status.value]>=0" md-mode="indeterminate"></md-progress-circular>
+    <h1 ng-show="pes.productStats[pes.currentType.productTypeId][status.value]>=0">{{ pes.productStats[pes.currentType.productTypeId][status.value]}}</h1>
     <span>{{status.name}}</span>
   </div>
 </section>

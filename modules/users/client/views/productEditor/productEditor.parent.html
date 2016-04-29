@@ -5,11 +5,22 @@
   <!-- Load JS here for greater good =============================-->
 
 </head>
+
 <div class="productEditor" ng-controller="productEditorController">
-  <div ui-view="stats"></div>
-  <div class="row productContent">
-    <div class="col-md-4" ui-view="list" style=""></div>
-    <div class="col-md-8" ng-include="detail.template" style=""></div>
+
+  <div>
+    <div ui-view="stats"></div>
+
+    <div class="row productContent">
+      <div ng-show="pes.show.loading" class="col-md-4 loading-anim">
+        <div class='uil-ripple-css' style='transform:scale(0.81);'>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <div ng-show="!pes.show.loading" class="col-md-4" ui-view="list"></div>
+      <div class="col-md-8" ng-include="detail.template" style=""></div>
+    </div>
   </div>
 </div>
 

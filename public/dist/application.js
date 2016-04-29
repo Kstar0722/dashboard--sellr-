@@ -49,19 +49,23 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             vars: {
                 local: {
                     API_URL: 'http://localhost:7272',
-                    BWS_API: 'https://bwsdev.expertoncue.com'
+                    BWS_API: 'http://localhost:7171',
+                    env:'local'
                 },
                 development: {
                     API_URL: 'https://apidev.expertoncue.com',
-                    BWS_API: 'https://bwsdev.expertoncue.com'
+                    BWS_API: 'https://bwsdev.expertoncue.com',
+                    env:'dev'
                 },
                 staging: {
                     API_URL: 'https://apiqa.expertoncue.com',
-                    BWS_API: 'https://bwsqa.expertoncue.com'
+                    BWS_API: 'https://bwsqa.expertoncue.com',
+                    env:'staging'
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bws.expertoncue.com'
+                    BWS_API: 'https://bws.expertoncue.com',
+                    env:'production'
 
                 }
             }
@@ -963,17 +967,17 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
     function (Menus, productEditorService) {
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Wine',
-            state: 'editor.products({type:"wine"})',
+            state: 'editor.products({type:"wine",status:"new"})',
             position: 9
         });
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Beer',
-            state: 'editor.products({type:"beer"})',
+            state: 'editor.products({type:"beer",status:"new"})',
             position: 9
         });
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Spirits',
-            state: 'editor.products({type:"spirits"})',
+            state: 'editor.products({type:"spirits",status:"new"})',
             position: 9
         });
     }
@@ -3275,10 +3279,11 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ]);
 
 angular.module('users').controller('productEditorController', ["$scope", "Authentication", "productEditorService", "$location", "$state", "$stateParams", "Countries", "$mdMenu", function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
-    productEditorService.init();
-
+    // productEditorService.init();
+    $scope.$state = $state;
     $scope.pes = productEditorService;
-    $scope.userId = Authentication.userId || localStorage.getItem('userId');
+    // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
+    $scope.userId = 407;
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -3287,14 +3292,20 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
 
+    $scope.search = {};
+
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
-        productEditorService.currentStatus = productEditorService.productStatuses[ 0 ];
         // $state.go('editor.products', { type: type.name });
         productEditorService.updateProductList()
     };
-    function setState() {
+
+    $scope.selectProductStatus = function (status) {
+        productEditorService.currentStatus = status;
+        productEditorService.updateProductList()
+    };
+    function init() {
         var type;
         switch ($stateParams.type) {
             case 'wine':
@@ -3307,16 +3318,49 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
         }
-        $scope.selectProductType(type);
-
-    }
-
-    setState();
-
-    $scope.selectProductStatus = function (status) {
+        var status;
+        switch ($stateParams.status) {
+            case 'new':
+                status = { name: 'Available', value: 'new' };
+                break;
+            case 'inprogress':
+                status = { name: 'In Progress', value: 'inprogress' };
+                break;
+            case 'done':
+                status = { name: 'Done', value: 'done' };
+                break;
+            case 'approved':
+                status = { name: 'Approved', value: 'approved' };
+                break;
+        }
+        productEditorService.currentType = type;
         productEditorService.currentStatus = status;
         productEditorService.updateProductList()
+    }
+
+    init();
+
+
+
+    $scope.claimProduct = function (prod) {
+        var options = {
+            userId: $scope.userId,
+            productId: prod.productId
+        };
+        productEditorService.claim(options);
+        $scope.editProduct(prod)
     };
+
+    $scope.removeClaim = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId
+        };
+        productEditorService.removeClaim(options)
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
+
+
+    }
 
     $scope.viewProduct = function (product) {
         productEditorService.setCurrentProduct(product);
@@ -3325,7 +3369,13 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
     };
     $scope.editProduct = function (product) {
         productEditorService.setCurrentProduct(product);
-        $state.go('editor.products.detail', { productId: product.productId, task: 'edit' });
+        productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
+        $state.go('editor.products.detail', {
+            type: productEditorService.currentType.name,
+            status: 'inprogress',
+            productId: product.productId,
+            task: 'edit'
+        });
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 
@@ -3335,7 +3385,6 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
 
     $scope.submitForApproval = function (prod) {
         productEditorService.finishProduct(prod);
-        // document.getElementById('submitforapproval').
         $scope.viewProduct(prod)
 
 
@@ -5099,6 +5148,7 @@ angular.module('core').service('constants', ["envService", function (envService)
 
     me.API_URL = envService.read('API_URL');
     me.BWS_API=envService.read('BWS_API');
+    me.env=envService.read('env');
     me.ADS_URL = 'http://s3.amazonaws.com/beta.cdn.expertoncue.com/';
     console.log('constants %O', me)
 
@@ -6018,15 +6068,21 @@ angular.module('users').factory('PasswordValidator', ['$window',
 ]);
 
 'use strict';
-angular.module('users').service('productEditorService', ["$http", "$location", "constants", "Authentication", "$stateParams", "$q", function ($http, $location, constants, Authentication, $stateParams, $q) {
+angular.module('users').service('productEditorService', ["$http", "$location", "constants", "Authentication", "$stateParams", "$q", "toastr", function ($http, $location, constants, Authentication, $stateParams, $q, toastr) {
     var me = this;
-    var debugLogs = false;
+    var debugLogs = true;
     var log = function (title, data) {
         if (debugLogs) {
             title += '%O';
             console.log(title, data);
         }
     };
+    var cachedProduct;
+    me.changes = [];
+    me.userId = 407;
+    me.show = {
+        loading: true
+    }
 
 
     me.init = function () {
@@ -6040,18 +6096,20 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         me.productStats = {};
         me.productList = [];
         me.myProducts = [];
-        me.stats = {};
         me.currentProduct = {};
-        me.currentType = me.productTypes[ 0 ];
-        me.currentStatus = me.productStatuses[ 0 ];
+        me.currentType = {};
+        me.currentStatus = {};
         //initialize with new products so list isnt empty
 
         me.getStats();
-        me.updateProductList();
+        me.show.loading = false;
+        // me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
+        me.show.loading = true;
+        console.time('getProductList')
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -6060,21 +6118,29 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
         log('getProdList options', options);
         var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
-        //TODO: enable actual api call here
-        function rand() {
-            return Math.floor(Math.random() * 100);
-        }
-        me.productList = [
-            { name: 'Awesome ' + options.type.name + ' 1', productId: 155220, lastEdit: rand() + ' min ago', status: 'inprogress' },
-            { name: 'Awesome ' + options.type.name + ' 2', productId: 222222, lastEdit: rand() + ' week(s) ago', status: 'new' },
-            { name: 'Awesome ' + options.type.name + ' 3', productId: 333333, lastEdit: rand() + ' hour(s) ago', status: 'done' },
-            { name: 'Awesome ' + options.type.name + ' 4', productId: 444444, lastEdit: rand() + ' day(s) ago', status: 'inprogress' }
-        ];
-        // $http.get(url).then(getAvailProdSuccess, getAvailProdError);
+        $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
-                me.productList = response.data
+                console.timeEnd('getProductList');
+                me.show.loading = false;
+
+                me.getStats();
+                response.data = response.data.map(function (product) {
+                    if (product.lastEdit) {
+                        if (constants.env === 'dev' || constants.env === 'local') {
+                            product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
+                            log('lastEdit', product.lastEdit)
+                        } else {
+                            product.lastEdit = moment(product.lastEdit).fromNow()
+                        }
+                    }
+                    return product
+                })
+                me.productList = _.sortBy(response.data, function (p) {
+                    log('sorter', Math.abs(p.userId - me.userId))
+                    return Math.abs(p.userId - me.userId);
+                })
             }
         }
         function getAvailProdError(error) {
@@ -6112,7 +6178,12 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
     me.setCurrentProduct = function (product) {
+        me.currentProduct = {};
+        cachedProduct = {};
+        me.changes = [];
+
         if (!product.productId) {
             console.error('setCurrentProduct: please provide productId')
             return
@@ -6121,11 +6192,14 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         function onGetProductDetailSuccess(res) {
             if (res.data.length > 0) {
                 me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                    log('formattedProduct', formattedProduct)
+                    var p = formattedProduct;
+                    log('formattedProduct', formattedProduct);
                     me.currentProduct = formattedProduct;
+                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
+
                 })
             } else {
-                me.currentProduct = {};
+                toastr.error('Could not get product detail for ' + product.name)
             }
         }
 
@@ -6134,6 +6208,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
     me.getProductDetail = function (productId) {
         if (!productId) {
             console.error('getProductDetail: please provide productId')
@@ -6141,9 +6216,9 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
         var url = constants.BWS_API + '/products/' + productId;
         log('getting product detail for ', url)
-
         return $http.get(url)
     }
+
 
     //claim a product
     me.claim = function (options) {
@@ -6151,30 +6226,68 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
+        options.status = 'inprogress';
         var payload = {
             "payload": options
         };
+        log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
-        return $http.post(url, payload)
+        $http.post(url, payload).then(function (res) {
+            me.getStats();
+            me.updateProductList();
+            log('claim response', res)
+        })
     };
+
+    //remove a claim on a product
+    me.removeClaim = function (options) {
+        //options should have userId and productId
+        if (!options.productId || !options.userId) {
+            console.error('could not claim, wrong options')
+        }
+        options.status = 'new';
+        var payload = {
+            "payload": options
+        };
+        log('removing claim', payload);
+        var url = constants.BWS_API + '/edit/claim';
+        $http.put(url, payload).then(function (res) {
+            log('claim response', res);
+            me.currentProduct = {};
+            me.updateProductList()
+        }, function (err) {
+            log('deleteClaim error', err)
+        })
+    };
+
 
     me.saveProduct = function (product) {
         //check productId
         if (!product.productId) {
             console.error('saveProduct: no productId specified %O', product)
+            return
         }
+        product = compareToCachedProduct(product);
         product.status = 'inprogress';
+
+        //TODO: get real userId
+        product.userId = 407;
         var payload = {
             payload: product
         };
+        log('saveProduct', payload)
         var url = constants.BWS_API + '/products/' + product.productId;
         $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
         function onUpdateSuccess(response) {
-            console.log('onUpdateSuccess %O', response)
+            log('onUpdateSuccess', response)
+            window.scrollTo(0, 0);
+            toastr.success('Product saved!')
+
         }
 
         function onUpdateError(error) {
+            toastr.error('There was a problem updating this product', 'Could not save');
             console.error('onUpdateError %O', error)
         }
     };
@@ -6199,6 +6312,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         }
     };
 
+
     me.approveProduct = function (product) {
         if (!product.productId) {
             console.error('approveProduct: no productId specified %O', product)
@@ -6218,31 +6332,13 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             console.error('onApproveError %O', error)
         }
     };
-    me.getStats = function () {
-        var url = constants.BWS_API + '/edit/count';
 
-        //TODO: api call
-        me.productStats = {
-            1: {
-                new: 15,
-                inprogress: 12,
-                done: 62,
-                approved: 92
-            },
-            2: {
-                new: 14,
-                inprogress: 6,
-                done: 1,
-                approved: 918
-            },
-            3: {
-                new: 56,
-                inprogress: 234,
-                done: 151,
-                approved: 342
-            }
-        };
-        // $http.get(url).then(onGetStatSuccess, onGetStatError);
+
+    me.getStats = function () {
+        me.productStats = {};
+
+        var url = constants.BWS_API + '/edit/count';
+        $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
             console.log('onGetStatSuccess %O', response);
             me.productStats = response.data
@@ -6307,58 +6403,38 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             }
         };
 
-        $http.post(constants.API_URL + '/media', obj).then(function (response, err) {
-            if (err) {
-                console.log(err);
-            }
-            if (response) {
-                console.log('oncue API response %O', response);
-                mediaAssetId = response.data.assetId;
-                var creds = {
-                    bucket: 'beta.cdn.expertoncue.com',
-                    access_key: 'AKIAICAP7UIWM4XZWVBA',
-                    secret_key: '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'
-                };
-                // Configure The S3 Object
-                AWS.config.update({
-                    accessKeyId: creds.access_key,
-                    secretAccessKey: creds.secret_key
-                });
-                AWS.config.region = 'us-east-1';
-                var bucket = new AWS.S3({ params: { Bucket: creds.bucket } });
-                var params = {
-                    Key: mediaAssetId + "-" + file[ 0 ].name,
-                    ContentType: file[ 0 ].type,
-                    Body: file[ 0 ],
-                    ServerSideEncryption: 'AES256',
-                    Metadata: {
-                        fileKey: JSON.stringify(response.data.assetId)
-                    }
-                };
-
-                bucket.putObject(params, function (err, data) {
-                        if (err) {
-                            // There Was An Error With Your S3 Config
-                            alert(err.message);
-                            return false;
-                        }
-                        else {
-                            console.log('s3 response to upload %O', data);
-                            // Success!
-                        }
-                    })
-                    .on('httpUploadProgress', function (progress) {
-                        // Log Progress Information
-                        console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                    });
-            }
-            else {
-                // No File Selected
-                alert('No File Selected');
-            }
-        });
+        //TODO: tie into new upload service
     };
 
+    function compareToCachedProduct(prod) {
+        log('updatedProd', prod);
+        log('cachedProd', cachedProduct);
+        me.changes = [];
+        if (prod.title !== cachedProduct.title) {
+            me.changes.push('Changed title to ' + cachedProduct.title)
+        }
+
+        for (var i = 0; i < prod.properties.length; i++) {
+            var updated = prod.properties[ i ];
+            var cached = cachedProduct.properties[ i ];
+
+            if (updated.value !== cached.value) {
+                if (!cached.valueId) {
+                    updated.changed = 'new';
+                    me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+                } else {
+                    updated.changed = 'update';
+                    me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+                }
+            } else {
+                updated.changed = 'false';
+            }
+        }
+        log('changes added', prod);
+        return (prod)
+    }
+
+    me.init();
 
     return me;
 }]);

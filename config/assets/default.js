@@ -39,6 +39,7 @@ module.exports = {
 				'public/lib/moment/min/locales.min.js',
 				'public/lib/angular-intercom/angular-intercom.min.js',
 				'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+                'public/lib/moment/moment.js'
 			]
 		},
 		css: [
