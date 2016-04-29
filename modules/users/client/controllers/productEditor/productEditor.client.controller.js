@@ -12,6 +12,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
 
+    $scope.search = {};
+
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
@@ -75,6 +77,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
             productId: product.productId
         };
         productEditorService.removeClaim(options)
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
+
+
     }
 
     $scope.viewProduct = function (product) {
@@ -84,7 +89,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
     $scope.editProduct = function (product) {
         productEditorService.setCurrentProduct(product);
-        $state.go('editor.products.detail', { productId: product.productId, task: 'edit' });
+        productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
+        $state.go('editor.products.detail', {
+            type: productEditorService.currentType.name,
+            status: 'inprogress',
+            productId: product.productId,
+            task: 'edit'
+        });
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 

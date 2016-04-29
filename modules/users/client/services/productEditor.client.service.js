@@ -11,6 +11,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     var cachedProduct;
     me.changes = [];
     me.userId = 407;
+    me.show = {
+        loading: true
+    }
 
 
     me.init = function () {
@@ -24,18 +27,19 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.productStats = {};
         me.productList = [];
         me.myProducts = [];
-        me.stats = {};
         me.currentProduct = {};
         me.currentType = {};
         me.currentStatus = {};
         //initialize with new products so list isnt empty
 
         me.getStats();
+        me.show.loading = false;
         // me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
+        me.show.loading = true;
         console.time('getProductList')
         if (!options.type || !options.status) {
             options = {
@@ -50,7 +54,20 @@ angular.module('users').service('productEditorService', function ($http, $locati
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
                 console.timeEnd('getProductList');
+                me.show.loading = false;
+
                 me.getStats();
+                response.data = response.data.map(function (product) {
+                    if (product.lastEdit) {
+                        if (constants.env === 'dev' || constants.env === 'local') {
+                            product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
+                            log('lastEdit', product.lastEdit)
+                        } else {
+                            product.lastEdit = moment(product.lastEdit).fromNow()
+                        }
+                    }
+                    return product
+                })
                 me.productList = _.sortBy(response.data, function (p) {
                     log('sorter', Math.abs(p.userId - me.userId))
                     return Math.abs(p.userId - me.userId);
@@ -147,6 +164,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
+            me.getStats();
+            me.updateProductList();
             log('claim response', res)
         })
     };
@@ -164,7 +183,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('removing claim', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
-            log('claim response', res)
+            log('claim response', res);
+            me.currentProduct = {};
             me.updateProductList()
         }, function (err) {
             log('deleteClaim error', err)
@@ -193,15 +213,15 @@ angular.module('users').service('productEditorService', function ($http, $locati
         function onUpdateSuccess(response) {
             log('onUpdateSuccess', response)
             window.scrollTo(0, 0);
+            toastr.success('Product saved!')
 
         }
 
         function onUpdateError(error) {
-            toastr.error('There was a problem updating this product', 'Could not save')
+            toastr.error('There was a problem updating this product', 'Could not save');
             console.error('onUpdateError %O', error)
         }
     };
-
 
     me.finishProduct = function (product) {
         if (!product.productId) {
@@ -246,6 +266,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
 
     me.getStats = function () {
+        me.productStats = {};
+
         var url = constants.BWS_API + '/edit/count';
         $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
@@ -328,7 +350,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             var cached = cachedProduct.properties[ i ];
 
             if (updated.value !== cached.value) {
-                if (cached.value === '') {
+                if (!cached.valueId) {
                     updated.changed = 'new';
                     me.changes.push('Added ' + updated.label + ' as ' + updated.value)
                 } else {
