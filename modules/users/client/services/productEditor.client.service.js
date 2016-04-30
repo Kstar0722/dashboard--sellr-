@@ -324,17 +324,23 @@ angular.module('users').service('productEditorService', function ($http, $locati
         return defer.promise;
     };
 
-    me.uploadMedia = function (file) {
-        var mediaAssetId;
-        var obj = {
-            payload: {
-                fileName: file[ 0 ].name,
-                userName: Authentication.user.username,
-                type: 'IMAGE'
+    me.uploadMedia = function (files) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'products',
+            type:'PRODUCT',
+            accountId: accountId,
+            productId: me.currentProduct.productId
+        }
+        uploadService.upload(files, mediaConfig).then(function(response, err ){
+            if(response) {
+                toastr.success('Product Image Updated!');
             }
-        };
+            else{
+                toastr.error('Product Image Failed To Update!');
+            }
+        })
 
-        //TODO: tie into new upload service
     };
 
     function compareToCachedProduct(prod) {
