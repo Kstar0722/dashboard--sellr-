@@ -30,7 +30,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 development: {
                     API_URL: 'https://apidev.expertoncue.com',
-                    BWS_API: 'https://localhost:7171',
+                    BWS_API: 'https://bwsdev.expertoncue.com',
                     env:'dev'
                 },
                 staging: {
