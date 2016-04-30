@@ -3,9 +3,9 @@
     <label for="searchProduct">Filter Product List</label>
     <input id="searchProduct" type="text" ng-model="search.productList">
   </md-input-container>
-  <p ng-show="(pes.productList|filter:search.productList).length==0">Only showing the first 50 products. Please edit these first.</p>
+  <p ng-show="(pes.productList|filter:search.productList).length==0">No products found that match: "{{ search.productList }}"</p>
 
-  <div class="row " ng-repeat="product in pes.productList|filter:search.productList">
+  <div class="row " ng-repeat="product in pes.productList|filter:search.productList|limitTo:search.limit:sortBy:'productId'">
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>
@@ -16,14 +16,15 @@
            ng-class="{'label-primary':product.status=='done','label-success':product.status=='approved'}">{{ product.status }}
       </div>
     </div>
-    <div class="row" ng-if="permissions.editor">
+    <div class="row" ng-if="permissions.editor || permissions.curator">
       <button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>
-      <button ng-show="product.status !=='done' && product.userId===userId" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>
-      <button ng-show="product.status !=='done' && product.userId===userId" class="btn btn-danger btn-sm" ng-click="removeClaim(product)">Unassign
+      <button ng-show="product.status !=='done' && product.userId==userId" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>
+      <button ng-show="product.status !=='done' && product.userId==userId" class="btn btn-danger btn-sm" ng-click="removeClaim(product)">Unassign
       </button>
       <button ng-show="$state.includes('editor.products', { status: 'new' })" class="btn btn-info btn-sm" ng-click="claimProduct(product)">Claim</button>
     </div>
     <md-divider></md-divider>
+    <button class="btn btn-large btn-info" ng-show="$last" ng-click="showMore()">More</button>
     <!--<div class="col-md-2  ">-->
     <!--<a class="btn btn-primary" data-toggle="modal">Add to my list</a>-->
     <!--</div>-->

@@ -3,7 +3,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.$state = $state;
     $scope.pes = productEditorService;
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
-    $scope.userId = 407;
+    $scope.userId = localStorage.getItem('userId');
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -11,8 +11,15 @@ angular.module('users').controller('productEditorController', function ($scope, 
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
+    console.log('permisons %O', $scope.permissions)
 
-    $scope.search = {};
+    $scope.search = {
+        limit: 15
+    };
+
+    $scope.showMore = function () {
+        $scope.search.limit += 15
+    }
 
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
@@ -68,7 +75,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
             productId: prod.productId
         };
         productEditorService.claim(options);
-        $scope.editProduct(prod)
+        // $scope.editProduct(prod)
     };
 
     $scope.removeClaim = function (product) {

@@ -10,7 +10,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
-    me.userId = 407;
+    me.userId = localStorage.getItem('userId');
     me.show = {
         loading: true
     }
@@ -47,7 +47,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 status: me.currentStatus.value
             };
         }
-        log('getProdList options', options);
         var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
         $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
@@ -55,7 +54,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             if (response.status === 200) {
                 console.timeEnd('getProductList');
                 me.show.loading = false;
-
+                log('getProdList ', response.data);
                 me.getStats();
                 response.data = response.data.map(function (product) {
                     if (product.lastEdit) {
@@ -67,7 +66,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
                         }
                     }
                     return product
-                })
+                });
+
                 me.productList = _.sortBy(response.data, function (p) {
                     log('sorter', Math.abs(p.userId - me.userId))
                     return Math.abs(p.userId - me.userId);
@@ -90,7 +90,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             options = {
                 type: me.currentType.productTypeId,
                 status: me.currentStatus.value,
-                userId: 407
+                userId: me.userId
             };
 
             // console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
@@ -145,7 +145,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             console.error('getProductDetail: please provide productId')
             return
         }
-        var url = constants.BWS_API + '/products/' + productId;
+        var url = constants.BWS_API + '/edit/products/' + productId;
         log('getting product detail for ', url)
         return $http.get(url)
     }
@@ -201,13 +201,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
         product = compareToCachedProduct(product);
         product.status = 'inprogress';
 
-        //TODO: get real userId
-        product.userId = 407;
+        product.userId = me.userId;
         var payload = {
             payload: product
         };
         log('saveProduct', payload)
-        var url = constants.BWS_API + '/products/' + product.productId;
+        var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
         function onUpdateSuccess(response) {
@@ -231,7 +230,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var payload = {
             payload: product
         };
-        var url = constants.BWS_API + '/products/' + product.productId;
+        var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onFinishSuccess, onFinishError);
 
         function onFinishSuccess(response) {
@@ -252,13 +251,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var payload = {
             payload: product
         };
-        var url = constants.BWS_API + '/products/' + product.productId;
+        var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onApproveSuccess, onApproveError);
-
         function onApproveSuccess(response) {
             console.log('onApproveSuccess %O', response)
         }
-
         function onApproveError(error) {
             console.error('onApproveError %O', error)
         }
