@@ -338,6 +338,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             }
             else{
                 toastr.error('Product Image Failed To Update!');
+                console.log(err)
             }
         })
 
