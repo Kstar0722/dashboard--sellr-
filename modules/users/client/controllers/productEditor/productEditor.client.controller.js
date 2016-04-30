@@ -68,22 +68,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
     init();
 
 
-
-    $scope.claimProduct = function (prod) {
+    $scope.claimProduct = function (prod, i) {
         var options = {
             userId: $scope.userId,
             productId: prod.productId
         };
         productEditorService.claim(options);
+        productEditorService.productList[ i ].username = Authentication.user.username;
+        productEditorService.productList[ i ].userId = $scope.userId;
         // $scope.editProduct(prod)
     };
 
-    $scope.removeClaim = function (product) {
+    $scope.removeClaim = function (product, i) {
         var options = {
             userId: $scope.userId,
             productId: product.productId
         };
-        productEditorService.removeClaim(options)
+        productEditorService.removeClaim(options);
+        productEditorService.productList[ i ].username = null;
+        productEditorService.productList[ i ].userId = null;
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
 
 
@@ -106,15 +109,14 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 
-    $scope.sendBack = function (feedback) {
-        //send product back to be edited again
+    $scope.sendBack = function (prod, feedback) {
+        prod.description += '======== CURATOR FEEDBACK: ========= ' + JSON.stringify(feedback);
+        productEditorService.saveProduct(prod);
     };
 
     $scope.submitForApproval = function (prod) {
         productEditorService.finishProduct(prod);
         $scope.viewProduct(prod)
-
-
     };
 
     $scope.approveProduct = function (prod) {

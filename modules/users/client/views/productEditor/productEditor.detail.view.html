@@ -84,17 +84,16 @@
             <div class="modal-body">
               <p>This will send the product back to the editor for revisions. Please add additional comments below to instruct editor on necessary
                 changes.</p>
-              <!--TODO: send back reset status to inprogress-->
               <div class="form-group">
                 <label>Comments</label>
-                <span class="form-control" name="beer_feedback">{{ feedback }}</span>
+                <input class="form-control" ng-model="feedback">
               </div>
 
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" style="background-color: #C52424" value="Send back to Editor"
-                     ng-click="sendBack(feedback)">
+              <input class="btn btn-primary btn-wide" type="submit" style="background-color: #C52424" value="Send back to Editor" data-dismiss="modal"
+                     ng-click="sendBack(pes.currentProduct,feedback)">
             </div>
           </div>
         </div>
@@ -118,7 +117,8 @@
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" ng-click="submitForApproval(pes.currentProduct)">
+              <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" data-dismiss="modal"
+                     ng-click="submitForApproval(pes.currentProduct)">
             </div>
           </div>
         </div>
@@ -141,7 +141,8 @@
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" ng-click="approveProduct(pes.currentProduct)">
+              <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" ng-click="approveProduct(pes.currentProduct)"
+                     data-dismiss="modal">
             </div>
           </div>
         </div>
@@ -162,7 +163,8 @@
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" ng-click="unsubmitProduct(pes.currentProduct)">
+              <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" ng-click="unsubmitProduct(pes.currentProduct)"
+                     data-dismiss="modal">
             </div>
           </div>
         </div>

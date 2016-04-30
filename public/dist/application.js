@@ -3260,22 +3260,25 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     init();
 
 
-
-    $scope.claimProduct = function (prod) {
+    $scope.claimProduct = function (prod, i) {
         var options = {
             userId: $scope.userId,
             productId: prod.productId
         };
         productEditorService.claim(options);
+        productEditorService.productList[ i ].username = Authentication.user.username;
+        productEditorService.productList[ i ].userId = $scope.userId;
         // $scope.editProduct(prod)
     };
 
-    $scope.removeClaim = function (product) {
+    $scope.removeClaim = function (product, i) {
         var options = {
             userId: $scope.userId,
             productId: product.productId
         };
-        productEditorService.removeClaim(options)
+        productEditorService.removeClaim(options);
+        productEditorService.productList[ i ].username = null;
+        productEditorService.productList[ i ].userId = null;
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
 
 
@@ -3298,15 +3301,14 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 
-    $scope.sendBack = function (feedback) {
-        //send product back to be edited again
+    $scope.sendBack = function (prod, feedback) {
+        prod.description += '======== CURATOR FEEDBACK: ========= ' + JSON.stringify(feedback);
+        productEditorService.saveProduct(prod);
     };
 
     $scope.submitForApproval = function (prod) {
         productEditorService.finishProduct(prod);
         $scope.viewProduct(prod)
-
-
     };
 
     $scope.approveProduct = function (prod) {
@@ -4984,7 +4986,7 @@ angular.module('users').factory('Authentication', ['$window',
     me.API_URL = envService.read('API_URL');
     me.BWS_API=envService.read('BWS_API');
     me.env=envService.read('env');
-    me.ADS_URL = 'http://s3.amazonaws.com/beta.cdn.expertoncue.com/';
+    me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/';
     console.log('constants %O', me)
 
     return me;
@@ -6064,7 +6066,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
             me.getStats();
-            me.updateProductList();
+            // me.updateProductList();
             log('claim response', res)
         })
     };
@@ -6084,7 +6086,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
             me.currentProduct = {};
-            me.updateProductList()
         }, function (err) {
             log('deleteClaim error', err)
         })
@@ -6152,7 +6153,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         };
         var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onApproveSuccess, onApproveError);
-
         function onApproveSuccess(response) {
             console.log('onApproveSuccess %O', response)
         }
@@ -6221,17 +6221,24 @@ angular.module('users').service('productEditorService', function ($http, $locati
         return defer.promise;
     };
 
-    me.uploadMedia = function (file) {
-        var mediaAssetId;
-        var obj = {
-            payload: {
-                fileName: file[ 0 ].name,
-                userName: Authentication.user.username,
-                type: 'IMAGE'
+    me.uploadMedia = function (files) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'products',
+            type:'PRODUCT',
+            accountId: accountId,
+            productId: me.currentProduct.productId
+        }
+        uploadService.upload(files, mediaConfig).then(function(response, err ){
+            if(response) {
+                toastr.success('Product Image Updated!');
             }
-        };
+            else{
+                toastr.error('Product Image Failed To Update!');
+                console.log(err)
+            }
+        })
 
-        //TODO: tie into new upload service
     };
 
     function compareToCachedProduct(prod) {
@@ -6239,7 +6246,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('cachedProd', cachedProduct);
         me.changes = [];
         if (prod.title !== cachedProduct.title) {
-            me.changes.push('Changed title to ' + cachedProduct.title)
+            me.changes.push('Changed title to ' + prod.title)
         }
 
         for (var i = 0; i < prod.properties.length; i++) {

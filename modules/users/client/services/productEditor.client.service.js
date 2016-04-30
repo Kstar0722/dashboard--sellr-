@@ -165,7 +165,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
             me.getStats();
-            me.updateProductList();
+            // me.updateProductList();
             log('claim response', res)
         })
     };
@@ -185,7 +185,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
             me.currentProduct = {};
-            me.updateProductList()
         }, function (err) {
             log('deleteClaim error', err)
         })
@@ -346,7 +345,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('cachedProd', cachedProduct);
         me.changes = [];
         if (prod.title !== cachedProduct.title) {
-            me.changes.push('Changed title to ' + cachedProduct.title)
+            me.changes.push('Changed title to ' + prod.title)
         }
 
         for (var i = 0; i < prod.properties.length; i++) {
