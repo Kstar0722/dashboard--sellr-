@@ -1,5 +1,5 @@
 'use strict';
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope) {
     var me = this;
     var debugLogs = true;
     var log = function (title, data) {
@@ -13,7 +13,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.userId = localStorage.getItem('userId');
     me.show = {
         loading: true
-    }
+    };
+
+
 
 
     me.init = function () {
@@ -164,6 +166,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
+            socket.emit('product-claimed', options);
             me.getStats();
             // me.updateProductList();
             log('claim response', res)
@@ -184,6 +187,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
+            socket.emit('product-unclaimed', options);
             me.currentProduct = {};
         }, function (err) {
             log('deleteClaim error', err)
@@ -212,6 +216,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             log('onUpdateSuccess', response)
             window.scrollTo(0, 0);
             toastr.success('Product saved!')
+            socket.emit('product-saved')
 
         }
 
@@ -368,7 +373,33 @@ angular.module('users').service('productEditorService', function ($http, $locati
         return (prod)
     }
 
+    var socket = io.connect(constants.BWS_API);
+    socket.on('update', function (data) {
+        console.log('UPDATING FOR SOCKETS')
+        // me.updateProductList();
+        me.getStats()
+    });
+
+    socket.on('update-claims', function (data) {
+        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+        var i = _.findIndex(me.productList, function (p) {
+            return p.productId == data.productId
+        });
+        me.productList[ i ].userId = data.userId;
+        $rootScope.$apply()
+    });
+
+    socket.on('claim-removed', function (data) {
+        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+        var i = _.findIndex(me.productList, function (p) {
+            return p.productId == data.productId
+        });
+        me.productList[ i ].userId = null;
+        $rootScope.$apply()
+    })
+
     me.init();
+
 
     return me;
 });

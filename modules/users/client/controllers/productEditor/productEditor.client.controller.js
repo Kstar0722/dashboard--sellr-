@@ -1,5 +1,10 @@
-angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
-    // productEditorService.init();
+angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
+   
+
+
+
+
+
     $scope.$state = $state;
     $scope.pes = productEditorService;
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
@@ -13,18 +18,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
     console.log('permisons %O', $scope.permissions)
 
-    $scope.search = {
-        limit: 15
-    };
+    $scope.search = {};
+    $scope.searchLimit = 15;
 
     $scope.showMore = function () {
-        $scope.search.limit += 15
-    }
+        $scope.searchLimit += 15;
+        socket.send({ message: 'hello world' })
+    };
 
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
-        // $state.go('editor.products', { type: type.name });
+        $state.go('editor.products', { type: type.name, status: productEditorService.currentStatus.value });
         productEditorService.updateProductList()
     };
 
@@ -68,12 +73,16 @@ angular.module('users').controller('productEditorController', function ($scope, 
     init();
 
 
-    $scope.claimProduct = function (prod, i) {
+    $scope.claimProduct = function (prod) {
         var options = {
             userId: $scope.userId,
             productId: prod.productId
         };
         productEditorService.claim(options);
+        var i = _.findIndex(productEditorService.productList, function (p) {
+            return p.productId === prod.productId
+        });
+
         productEditorService.productList[ i ].username = Authentication.user.username;
         productEditorService.productList[ i ].userId = $scope.userId;
         // $scope.editProduct(prod)

@@ -9,14 +9,11 @@
 <div class="container-fluid">
 
   <div class="col-md-10 " style="margin-left: 4%; margin-top: 2vh;">
-    <!--show if product is not assigned to current user-->
-    <div class="alert alert-danger" style="background: red; color: white" ng-show="pes.currentProduct.editStatusId">
-      <strong>Edit in Progress</strong><br> This product is currently being edited by another user.
-    </div>
 
     <div class="row">
       <div class="col-md-9">
         <h4><i>Editing:</i> {{ pes.currentProduct.title }} </h4>
+        <div>Product Id {{ pes.currentProduct.productId }}</div>
         <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
         <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}} ( {{ pes.currentProduct.sku }} )</span>
       </div>
