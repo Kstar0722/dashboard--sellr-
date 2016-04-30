@@ -3311,11 +3311,15 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
 
     $scope.sendBack = function (prod, feedback) {
-        prod.description += '======== CURATOR FEEDBACK: ========= ' + JSON.stringify(feedback);
+        prod.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
         productEditorService.saveProduct(prod);
     };
 
     $scope.submitForApproval = function (prod) {
+        var re = /<.*?>.*$/;
+        prod.description = prod.description.replace(re, '');
+        var re2 = /=+.*?.*$/;
+        prod.description = prod.description.replace(re2, '');
         productEditorService.finishProduct(prod);
         $scope.viewProduct(prod)
     };
