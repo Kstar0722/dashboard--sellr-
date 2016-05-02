@@ -60,7 +60,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 me.getStats();
                 response.data = response.data.map(function (product) {
                     if (product.lastEdit) {
-                        if (constants.env === 'dev' || constants.env === 'local') {
+                        if (constants.env === 'local') {
                             product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
                             log('lastEdit', product.lastEdit)
                         } else {

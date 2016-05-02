@@ -132,6 +132,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         prod.description = prod.description.replace(re, '');
         var re2 = /=+.*?.*$/;
         prod.description = prod.description.replace(re2, '');
+        productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
         $scope.viewProduct(prod)
     };

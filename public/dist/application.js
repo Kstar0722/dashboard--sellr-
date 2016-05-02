@@ -3324,6 +3324,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         prod.description = prod.description.replace(re, '');
         var re2 = /=+.*?.*$/;
         prod.description = prod.description.replace(re2, '');
+        productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
         $scope.viewProduct(prod)
     };
@@ -5981,7 +5982,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 me.getStats();
                 response.data = response.data.map(function (product) {
                     if (product.lastEdit) {
-                        if (constants.env === 'dev' || constants.env === 'local') {
+                        if (constants.env === 'local') {
                             product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
                             log('lastEdit', product.lastEdit)
                         } else {
