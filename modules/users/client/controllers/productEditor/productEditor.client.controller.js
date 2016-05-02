@@ -16,7 +16,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
-    console.log('permisons %O', $scope.permissions)
 
     $scope.search = {};
     $scope.searchLimit = 15;
@@ -65,13 +64,19 @@ angular.module('users').controller('productEditorController', function ($scope, 
                 status = { name: 'Approved', value: 'approved' };
                 break;
         }
+
         productEditorService.currentType = type;
         productEditorService.currentStatus = status;
-        productEditorService.updateProductList()
+        productEditorService.updateProductList();
+        if ($stateParams.productId) {
+            if ($stateParams.task === 'view') {
+                $scope.viewProduct($stateParams)
+            }
+            if ($stateParams.task === 'edit') {
+                $scope.editProduct($stateParams)
+            }
+        }
     }
-
-    init();
-
 
     $scope.claimProduct = function (prod) {
         var options = {
@@ -97,8 +102,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.productList[ i ].username = null;
         productEditorService.productList[ i ].userId = null;
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
-
-
     }
 
     $scope.viewProduct = function (product) {
@@ -109,6 +112,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.editProduct = function (product) {
         productEditorService.setCurrentProduct(product);
         productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
+        console.log('editProduct sees type as ', productEditorService.currentType.name)
         $state.go('editor.products.detail', {
             type: productEditorService.currentType.name,
             status: 'inprogress',
@@ -157,6 +161,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     }
+
+    init();
+
 
 
 });
