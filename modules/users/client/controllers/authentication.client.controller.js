@@ -123,10 +123,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             authToken.setToken(response.data.token);
 
             //set roles
+
             localStorage.setItem('roles', response.data.roles);
 
             //store account Id in location storage
             localStorage.setItem('accountId', response.data.accountId);
+
+            //set userId
+            localStorage.setItem('userId', response.data.userId);
 
             $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
         }

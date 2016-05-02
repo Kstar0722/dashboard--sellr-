@@ -1,9 +1,14 @@
-angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu) {
-    // productEditorService.init();
+angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
+   
+
+
+
+
+
     $scope.$state = $state;
     $scope.pes = productEditorService;
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
-    $scope.userId = 407;
+    $scope.userId = localStorage.getItem('userId');
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
@@ -11,13 +16,20 @@ angular.module('users').controller('productEditorController', function ($scope, 
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
+    console.log('permisons %O', $scope.permissions)
 
     $scope.search = {};
+    $scope.searchLimit = 15;
+
+    $scope.showMore = function () {
+        $scope.searchLimit += 15;
+        socket.send({ message: 'hello world' })
+    };
 
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
-        // $state.go('editor.products', { type: type.name });
+        $state.go('editor.products', { type: type.name, status: productEditorService.currentStatus.value });
         productEditorService.updateProductList()
     };
 
@@ -61,22 +73,29 @@ angular.module('users').controller('productEditorController', function ($scope, 
     init();
 
 
-
     $scope.claimProduct = function (prod) {
         var options = {
             userId: $scope.userId,
             productId: prod.productId
         };
         productEditorService.claim(options);
-        $scope.editProduct(prod)
+        var i = _.findIndex(productEditorService.productList, function (p) {
+            return p.productId === prod.productId
+        });
+
+        productEditorService.productList[ i ].username = Authentication.user.username;
+        productEditorService.productList[ i ].userId = $scope.userId;
+        // $scope.editProduct(prod)
     };
 
-    $scope.removeClaim = function (product) {
+    $scope.removeClaim = function (product, i) {
         var options = {
             userId: $scope.userId,
             productId: product.productId
         };
-        productEditorService.removeClaim(options)
+        productEditorService.removeClaim(options);
+        productEditorService.productList[ i ].username = null;
+        productEditorService.productList[ i ].userId = null;
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
 
 
@@ -99,15 +118,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 
-    $scope.sendBack = function (feedback) {
-        //send product back to be edited again
+    $scope.sendBack = function (prod, feedback) {
+        prod.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
+        productEditorService.saveProduct(prod);
     };
 
     $scope.submitForApproval = function (prod) {
+        var re = /<.*?>.*$/;
+        prod.description = prod.description.replace(re, '');
+        var re2 = /=+.*?.*$/;
+        prod.description = prod.description.replace(re2, '');
         productEditorService.finishProduct(prod);
         $scope.viewProduct(prod)
-
-
     };
 
     $scope.approveProduct = function (prod) {

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope) {
     var me = this;
     var debugLogs = true;
     var log = function (title, data) {
@@ -10,10 +10,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
-    me.userId = 407;
+    me.userId = localStorage.getItem('userId');
     me.show = {
         loading: true
-    }
+    };
+
+
 
 
     me.init = function () {
@@ -47,7 +49,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 status: me.currentStatus.value
             };
         }
-        log('getProdList options', options);
         var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
         $http.get(url).then(getAvailProdSuccess, getAvailProdError);
 
@@ -55,7 +56,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             if (response.status === 200) {
                 console.timeEnd('getProductList');
                 me.show.loading = false;
-
+                log('getProdList ', response.data);
                 me.getStats();
                 response.data = response.data.map(function (product) {
                     if (product.lastEdit) {
@@ -67,7 +68,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
                         }
                     }
                     return product
-                })
+                });
+
                 me.productList = _.sortBy(response.data, function (p) {
                     log('sorter', Math.abs(p.userId - me.userId))
                     return Math.abs(p.userId - me.userId);
@@ -90,7 +92,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             options = {
                 type: me.currentType.productTypeId,
                 status: me.currentStatus.value,
-                userId: 407
+                userId: me.userId
             };
 
             // console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
@@ -145,7 +147,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             console.error('getProductDetail: please provide productId')
             return
         }
-        var url = constants.BWS_API + '/products/' + productId;
+        var url = constants.BWS_API + '/edit/products/' + productId;
         log('getting product detail for ', url)
         return $http.get(url)
     }
@@ -164,8 +166,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
+            socket.emit('product-claimed', options);
             me.getStats();
-            me.updateProductList();
+            // me.updateProductList();
             log('claim response', res)
         })
     };
@@ -184,8 +187,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
+            socket.emit('product-unclaimed', options);
             me.currentProduct = {};
-            me.updateProductList()
         }, function (err) {
             log('deleteClaim error', err)
         })
@@ -201,19 +204,19 @@ angular.module('users').service('productEditorService', function ($http, $locati
         product = compareToCachedProduct(product);
         product.status = 'inprogress';
 
-        //TODO: get real userId
-        product.userId = 407;
+        product.userId = me.userId;
         var payload = {
             payload: product
         };
         log('saveProduct', payload)
-        var url = constants.BWS_API + '/products/' + product.productId;
+        var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
 
         function onUpdateSuccess(response) {
             log('onUpdateSuccess', response)
             window.scrollTo(0, 0);
             toastr.success('Product saved!')
+            socket.emit('product-saved')
 
         }
 
@@ -231,7 +234,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var payload = {
             payload: product
         };
-        var url = constants.BWS_API + '/products/' + product.productId;
+        var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onFinishSuccess, onFinishError);
 
         function onFinishSuccess(response) {
@@ -252,13 +255,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var payload = {
             payload: product
         };
-        var url = constants.BWS_API + '/products/' + product.productId;
+        var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onApproveSuccess, onApproveError);
-
         function onApproveSuccess(response) {
             console.log('onApproveSuccess %O', response)
         }
-
         function onApproveError(error) {
             console.error('onApproveError %O', error)
         }
@@ -349,7 +350,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('cachedProd', cachedProduct);
         me.changes = [];
         if (prod.title !== cachedProduct.title) {
-            me.changes.push('Changed title to ' + cachedProduct.title)
+            me.changes.push('Changed title to ' + prod.title)
         }
 
         for (var i = 0; i < prod.properties.length; i++) {
@@ -372,7 +373,33 @@ angular.module('users').service('productEditorService', function ($http, $locati
         return (prod)
     }
 
+    var socket = io.connect(constants.BWS_API);
+    socket.on('update', function (data) {
+        console.log('UPDATING FOR SOCKETS')
+        // me.updateProductList();
+        me.getStats()
+    });
+
+    socket.on('update-claims', function (data) {
+        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+        var i = _.findIndex(me.productList, function (p) {
+            return p.productId == data.productId
+        });
+        me.productList[ i ].userId = data.userId;
+        $rootScope.$apply()
+    });
+
+    socket.on('claim-removed', function (data) {
+        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+        var i = _.findIndex(me.productList, function (p) {
+            return p.productId == data.productId
+        });
+        me.productList[ i ].userId = null;
+        $rootScope.$apply()
+    })
+
     me.init();
+
 
     return me;
 });

@@ -28,11 +28,11 @@
       <hr>
 
       <form role="form">
-
         <!--show if requested by macs, scan app images-->
         <div class="row">
           <!--repeat 6 times, grab images based on sku and index from cdn -->
-          <a ng-repeat="i in [0,1,2,3,4,5]" href="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png" target="_blank">
+          <a ng-show="pes.currentProduct.description =='MACS'" ng-repeat="i in [0,1,2,3,4,5]"
+             href="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png" target="_blank">
             <img class="reference" ng-src="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png">
           </a>
         </div>
@@ -51,13 +51,13 @@
             </div>
           </div>
           <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <img ng-repeat="image in pes.currentProduct.images" ng-src="{{image.publicUrl}}" height="200px">
+            <img ng-repeat="image in pes.currentProduct.images" ng-src="{{image.publicUrl}}" height="auto" style="max-width: 100%">
           </div>
         </div>
 
         <div class="form-group">
           <label>Description / Script</label>
-          <div name="beer_script" id="beer_script">{{ pes.currentProduct.description }}</div>
+          <div name="beer_script" id="beer_script" ng-bind-html="pes.currentProduct.description"></div>
         </div>
 
 
@@ -84,17 +84,16 @@
             <div class="modal-body">
               <p>This will send the product back to the editor for revisions. Please add additional comments below to instruct editor on necessary
                 changes.</p>
-              <!--TODO: send back reset status to inprogress-->
               <div class="form-group">
                 <label>Comments</label>
-                <span class="form-control" name="beer_feedback">{{ feedback }}</span>
+                <input class="form-control" ng-model="feedback">
               </div>
 
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" style="background-color: #C52424" value="Send back to Editor"
-                     ng-click="sendBack(feedback)">
+              <input class="btn btn-primary btn-wide" type="submit" style="background-color: #C52424" value="Send back to Editor" data-dismiss="modal"
+                     ng-click="sendBack(pes.currentProduct,feedback)">
             </div>
           </div>
         </div>
@@ -118,7 +117,8 @@
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" ng-click="submitForApproval(pes.currentProduct)">
+              <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" data-dismiss="modal"
+                     ng-click="submitForApproval(pes.currentProduct)">
             </div>
           </div>
         </div>
@@ -136,11 +136,13 @@
             </div>
 
             <div class="modal-body">
-              <p>Once this is marked as Approved. It will be synced with the OnCue master database and deployed to all devices.</p>
+              <p>By marking this as 'Approved', you are confirming that all of the product information is complete and accurate. Once approved, this
+                product information will be shown on all devices.</p>
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" ng-click="approveProduct(pes.currentProduct)">
+              <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" ng-click="approveProduct(pes.currentProduct)"
+                     data-dismiss="modal">
             </div>
           </div>
         </div>
@@ -161,14 +163,15 @@
             </div>
             <div class="modal-footer">
               <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-              <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" ng-click="unsubmitProduct(pes.currentProduct)">
+              <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" ng-click="unsubmitProduct(pes.currentProduct)"
+                     data-dismiss="modal">
             </div>
           </div>
         </div>
       </div>
       <!-- END UNSUBMIT MODAL -->
       <div class="row">
-        <div class="btn-group" role="group" ng-show="permissions.curator && pes.currentProduct.status ==='done'">
+        <div class="btn-group" role="group" ng-show="permissions.curator && pes.currentProduct.status =='done'">
           <button class="btn " type="button" style="background-color:#C52424" data-toggle="modal" data-target="#sendback">Send Back</button>
           <button class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve</button>
         </div>
@@ -178,7 +181,8 @@
         <div class="">
           <br><br>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary" ng-show="pes.currentProduct.status =='done'" data-toggle="modal" data-target="#unsubmitproduct">
+            <button type="button" class="btn btn-primary" ng-show="pes.currentProduct.status =='done' && pes.currentProduct.userId==userId"
+                    data-toggle="modal" data-target="#unsubmitproduct">
               Unsubmit
             </button>
             <button class="btn btn-default" type="button" ng-show="pes.currentProduct.status==='inprogress'" data-toggle="modal"
