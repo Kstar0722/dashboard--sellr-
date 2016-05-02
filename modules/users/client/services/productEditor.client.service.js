@@ -330,9 +330,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
             mediaRoute: 'media',
             folder:'products',
             type:'PRODUCT',
+            fileType:'IMAGE',
             accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
+        console.log('product config %0', mediaConfig)
         uploadService.upload(files, mediaConfig).then(function(response, err ){
             if(response) {
                 toastr.success('Product Image Updated!');

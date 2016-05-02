@@ -27,25 +27,40 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                     var filename = (file.name).replace(/ /g, "_");
                     console.log('account id %O', localStorage.getItem('accountId'));
                     if(mediaConfig.mediaRoute == 'media') {
+                        if(mediaConfig.type == 'PRODUCT') {
+                            var obj = {
+                                payload: {
+                                    fileName: filename,
+                                    userName: Authentication.user.username,
+                                    type:mediaConfig.type,
+                                    fileType:mediaConfig.fileType,
+                                    accountId: mediaConfig.accountId,
+                                    productId:mediaConfig.productId
+                                }
+                            };
+                        }
+                        else{
+                            var obj = {
+                                payload: {
+                                    type: mediaConfig.type,
+                                    fileType:mediaConfig.type,
+                                    fileName: filename,
+                                    userName: Authentication.user.username,
+                                    accountId: mediaConfig.accountId
+                                }
+                            };
+                        }
+                    }
+                    else {
                         var obj = {
                             payload: {
-                                type: mediaConfig.type,
                                 fileName: filename,
                                 userName: Authentication.user.username,
                                 accountId: mediaConfig.accountId
                             }
                         };
                     }
-                    else{
-                        var obj = {
-                            payload: {
-                                fileName: filename,
-                                userName: Authentication.user.username,
-                                accountId: mediaConfig.accountId
-                            }
-                        };
-                    }
-
+                    console.log('upload service object %0', obj)
                     $http.post(constants.API_URL +'/'+ mediaConfig.mediaRoute, obj).then(function (response, err) {
 
                         if (err) {
@@ -91,21 +106,28 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                         toastr.error('There was a problem uploading your ad.');
                                         return false;
                                     } else {
-                                        console.dir(data);
+
                                         // Success!
                                         self.determinateValue = 0;
                                         var updateMedia = {
-                                            mediaAssetId:mediaAssetId,
-                                            publicUrl:'https://s3.amazonaws.com/cdn.expertoncue.com/'+mediaConfig.folder+'/'+response.data.assetId + "-" + filename
+                                            payload: {
+                                                mediaAssetId: mediaAssetId,
+                                                publicUrl: 'https://s3.amazonaws.com/cdn.expertoncue.com/' + mediaConfig.folder + '/' + response.data.assetId + "-" + filename
+                                            }
                                         };
-
+                                        console.log(updateMedia);
                                         $http.put(constants.API_URL +'/media', updateMedia).then(function (response, err) {
-                                            var message = {
-                                                message: 'New Ad Uploaded Success!',
-                                                publicUrl: updateMedia.publicUrl,
-                                                fileName: filename
-                                            };
-                                            defer.resolve(message)
+                                            if(err){
+                                                console.log(err)
+                                            }
+                                            else {
+                                                var message = {
+                                                    message: 'New Ad Uploaded Success!',
+                                                    publicUrl: updateMedia.publicUrl,
+                                                    fileName: filename
+                                                };
+                                                defer.resolve(message)
+                                            }
                                         })
                                     }
                                 })
