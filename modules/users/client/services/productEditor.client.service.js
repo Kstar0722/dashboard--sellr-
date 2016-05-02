@@ -311,7 +311,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         product.mediaAssets.forEach(function (m) {
             switch (m.type) {
                 case 'AUDIO':
-                    product.description = m.script;
+                    product.description = product.description || m.script;
                     product.audio = document.createElement('AUDIO');
                     product.audio.src = m.publicUrl;
                     product.audio.ontimeupdate = function setProgress() {

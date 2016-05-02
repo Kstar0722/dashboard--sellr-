@@ -3315,10 +3315,12 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     };
 
     $scope.submitForApproval = function (prod) {
-        var re = /<.*?>.*$/;
-        prod.description = prod.description.replace(re, '');
-        var re2 = /=+.*?.*$/;
-        prod.description = prod.description.replace(re2, '');
+        if (prod.description) {
+            var re = /<.*?>.*$/;
+            prod.description = prod.description.replace(re, '');
+            var re2 = /=+.*?.*$/;
+            prod.description = prod.description.replace(re2, '');
+        }
         productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
         $('#submitforapproval').modal('hide')
@@ -3353,11 +3355,17 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 
     $(window).bind('keydown', function (event) {
         if (event.ctrlKey || event.metaKey) {
+            var prod = productEditorService.currentProduct;
+
             switch (String.fromCharCode(event.which).toLowerCase()) {
                 case 's':
                     event.preventDefault();
-                    productEditorService.saveProduct(productEditorService.currentProduct);
+                    $scope.updateProduct(prod);
                     break;
+                case 'd':
+                    event.preventDefault();
+                    $scope.submitForApproval(prod)
+
             }
         }
     });
@@ -6241,7 +6249,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         product.mediaAssets.forEach(function (m) {
             switch (m.type) {
                 case 'AUDIO':
-                    product.description = m.script;
+                    product.description = product.description || m.script;
                     product.audio = document.createElement('AUDIO');
                     product.audio.src = m.publicUrl;
                     product.audio.ontimeupdate = function setProgress() {
