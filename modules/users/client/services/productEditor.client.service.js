@@ -329,7 +329,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             mediaRoute: 'media',
             folder:'products',
             type:'PRODUCT',
-            accountId: accountId,
+            accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
         uploadService.upload(files, mediaConfig).then(function(response, err ){

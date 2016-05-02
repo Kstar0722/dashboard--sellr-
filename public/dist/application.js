@@ -5039,7 +5039,7 @@ angular.module('core').service('constants', ["envService", function (envService)
     me.API_URL = envService.read('API_URL');
     me.BWS_API=envService.read('BWS_API');
     me.env=envService.read('env');
-    me.ADS_URL = 'http://s3.amazonaws.com/beta.cdn.expertoncue.com/';
+    me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/';
     console.log('constants %O', me)
 
     return me;
@@ -6283,17 +6283,24 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         return defer.promise;
     };
 
-    me.uploadMedia = function (file) {
-        var mediaAssetId;
-        var obj = {
-            payload: {
-                fileName: file[ 0 ].name,
-                userName: Authentication.user.username,
-                type: 'IMAGE'
+    me.uploadMedia = function (files) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'products',
+            type:'PRODUCT',
+            accountId: localStorage.getItem('accountId'),
+            productId: me.currentProduct.productId
+        }
+        uploadService.upload(files, mediaConfig).then(function(response, err ){
+            if(response) {
+                toastr.success('Product Image Updated!');
             }
-        };
+            else{
+                toastr.error('Product Image Failed To Update!');
+                console.log(err)
+            }
+        })
 
-        //TODO: tie into new upload service
     };
 
     function compareToCachedProduct(prod) {
