@@ -351,6 +351,27 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     };
 
+    me.uploadAudio = function (files) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'products',
+            type:'PRODUCT',
+            fileType:'AUDIO',
+            accountId: localStorage.getItem('accountId'),
+            productId: me.currentProduct.productId
+        }
+        console.log('product config %0', mediaConfig)
+        uploadService.upload(files, mediaConfig).then(function(response, err ){
+            if(response) {
+                toastr.success('Product Audio Updated!');
+            }
+            else{
+                toastr.error('Product Audio Failed To Update!');
+                console.log(err)
+            }
+        })
+
+    };
     function compareToCachedProduct(prod) {
         log('updatedProd', prod);
         log('cachedProd', cachedProduct);
