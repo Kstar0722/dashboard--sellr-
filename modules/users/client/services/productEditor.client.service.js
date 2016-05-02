@@ -166,7 +166,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
-            //socket.emit('product-claimed', options);
+            socket.emit('product-claimed', options);
             me.getStats();
             // me.updateProductList();
             log('claim response', res)
@@ -187,10 +187,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
-            //socket.emit('product-unclaimed', options);
+            toastr.info('You claimed product ' + options.productId);
+            socket.emit('product-unclaimed', options);
             me.currentProduct = {};
         }, function (err) {
             log('deleteClaim error', err)
+            toastr.error('There was an error claiming this product.')
         })
     };
 
@@ -216,7 +218,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             log('onUpdateSuccess', response)
             window.scrollTo(0, 0);
             toastr.success('Product saved!')
-            //socket.emit('product-saved')
+            socket.emit('product-saved')
 
         }
 
@@ -239,10 +241,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
         function onFinishSuccess(response) {
             console.log('onFinishSuccess %O', response)
+            toastr.success('Product submitted for approval')
         }
 
         function onFinishError(error) {
             console.error('onFinishError %O', error)
+            toastr.error('There was a problem submitting this product for approval.')
         }
     };
 
@@ -375,30 +379,30 @@ angular.module('users').service('productEditorService', function ($http, $locati
         return (prod)
     }
 
-    // var //socket = io.connect(constants.BWS_API);
-    // //socket.on('update', function (data) {
-    //     console.log('UPDATING FOR SOCKETS')
-    //     // me.updateProductList();
-    //     me.getStats()
-    // });
-    //
-    // //socket.on('update-claims', function (data) {
-    //     console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-    //     var i = _.findIndex(me.productList, function (p) {
-    //         return p.productId == data.productId
-    //     });
-    //     me.productList[ i ].userId = data.userId;
-    //     $rootScope.$apply()
-    // });
-    //
-    // //socket.on('claim-removed', function (data) {
-    //     console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-    //     var i = _.findIndex(me.productList, function (p) {
-    //         return p.productId == data.productId
-    //     });
-    //     me.productList[ i ].userId = null;
-    //     $rootScope.$apply()
-    // })
+    var socket = io.connect(constants.BWS_API);
+    socket.on('update', function (data) {
+        console.log('UPDATING FOR SOCKETS')
+        // me.updateProductList();
+        me.getStats()
+    });
+    
+    socket.on('update-claims', function (data) {
+        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+        var i = _.findIndex(me.productList, function (p) {
+            return p.productId == data.productId
+        });
+        me.productList[ i ].userId = data.userId;
+        $rootScope.$apply()
+    });
+    
+    socket.on('claim-removed', function (data) {
+        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+        var i = _.findIndex(me.productList, function (p) {
+            return p.productId == data.productId
+        });
+        me.productList[ i ].userId = null;
+        $rootScope.$apply()
+    })
 
     me.init();
 
