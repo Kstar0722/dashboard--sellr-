@@ -39,16 +39,20 @@
             <label>Title</label>
             <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.title">
           </div>
-          <div ng-show="pes.currentProduct.audio">
-            <label>Audio:</label>
-            <button class="btn" ng-click="playAudio()">Play</button>
-            <button class="btn" ng-click="pauseAudio()">Pause</button>
-          </div>
-          <button class="btn" ngf-select="pes.uploadAudio($files)">
-            Upload Audio
-          </button>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      </div>
+      <div class="row">
+        <div class="col-md-12" ng-show="pes.currentProduct.audio">
+          <label>Audio:</label>
+          <button class="btn" ng-click="playAudio()">Play</button>
+          <button class="btn" ng-click="pauseAudio()">Pause</button>
+        </div>
+        <button class="btn" ngf-select="pes.uploadAudio($files)">
+          Upload Audio
+        </button>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           <!--insert image from upload-->
           <img ng-repeat="image in pes.currentProduct.images" ng-src="{{image.publicUrl}}" height="200px">
           <button class="btn" ngf-select="pes.uploadMedia($files)">

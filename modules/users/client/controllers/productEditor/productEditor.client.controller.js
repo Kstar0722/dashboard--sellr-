@@ -1,9 +1,4 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
-   
-
-
-
-
 
     $scope.$state = $state;
     $scope.pes = productEditorService;
@@ -162,7 +157,19 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.seekAudio = function () {
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
-    }
+    };
+
+    $(window).bind('keydown', function (event) {
+        if (event.ctrlKey || event.metaKey) {
+            switch (String.fromCharCode(event.which).toLowerCase()) {
+                case 's':
+                    event.preventDefault();
+                    productEditorService.saveProduct(productEditorService.currentProduct);
+                    break;
+            }
+        }
+    });
+
 
     init();
 
