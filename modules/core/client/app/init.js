@@ -29,7 +29,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com',
+                    API_URL: 'https://oncue-api.com',
                     BWS_API: 'https://sellr-bws.herokuapp.com',
                     env:'dev'
                 },
