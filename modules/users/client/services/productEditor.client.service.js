@@ -42,7 +42,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
         me.show.loading = true;
-        console.time('getProductList')
+        console.time('getProductList');
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -71,7 +71,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 });
 
                 me.productList = _.sortBy(response.data, function (p) {
-                    log('sorter', Math.abs(p.userId - me.userId))
+                    log('sorter', Math.abs(p.userId - me.userId));
                     return Math.abs(p.userId - me.userId);
                 })
             }
@@ -166,9 +166,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
+            toastr.info('You claimed product ' + options.productId);
             socket.emit('product-claimed', options);
             me.getStats();
-            // me.updateProductList();
             log('claim response', res)
         })
     };
@@ -187,11 +187,10 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
-            toastr.info('You claimed product ' + options.productId);
             socket.emit('product-unclaimed', options);
             me.currentProduct = {};
         }, function (err) {
-            log('deleteClaim error', err)
+            log('deleteClaim error', err);
             toastr.error('There was an error claiming this product.')
         })
     };
