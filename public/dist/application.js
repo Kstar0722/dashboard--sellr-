@@ -3257,7 +3257,6 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
     };
-    console.log('permisons %O', $scope.permissions)
 
     $scope.search = {};
     $scope.searchLimit = 15;
@@ -3306,13 +3305,19 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
                 status = { name: 'Approved', value: 'approved' };
                 break;
         }
+
         productEditorService.currentType = type;
         productEditorService.currentStatus = status;
-        productEditorService.updateProductList()
+        productEditorService.updateProductList();
+        if ($stateParams.productId) {
+            if ($stateParams.task === 'view') {
+                $scope.viewProduct($stateParams)
+            }
+            if ($stateParams.task === 'edit') {
+                $scope.editProduct($stateParams)
+            }
+        }
     }
-
-    init();
-
 
     $scope.claimProduct = function (prod) {
         var options = {
@@ -3338,8 +3343,6 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
         productEditorService.productList[ i ].username = null;
         productEditorService.productList[ i ].userId = null;
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
-
-
     }
 
     $scope.viewProduct = function (product) {
@@ -3350,6 +3353,7 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
     $scope.editProduct = function (product) {
         productEditorService.setCurrentProduct(product);
         productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
+        console.log('editProduct sees type as ', productEditorService.currentType.name)
         $state.go('editor.products.detail', {
             type: productEditorService.currentType.name,
             status: 'inprogress',
@@ -3398,6 +3402,9 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     }
+
+    init();
+
 
 
 }]);
@@ -6151,7 +6158,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
-            socket.emit('product-claimed', options);
+            //socket.emit('product-claimed', options);
             me.getStats();
             // me.updateProductList();
             log('claim response', res)
@@ -6172,7 +6179,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
-            socket.emit('product-unclaimed', options);
+            //socket.emit('product-unclaimed', options);
             me.currentProduct = {};
         }, function (err) {
             log('deleteClaim error', err)
@@ -6201,7 +6208,7 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             log('onUpdateSuccess', response)
             window.scrollTo(0, 0);
             toastr.success('Product saved!')
-            socket.emit('product-saved')
+            //socket.emit('product-saved')
 
         }
 
@@ -6358,30 +6365,30 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
         return (prod)
     }
 
-    var socket = io.connect(constants.BWS_API);
-    socket.on('update', function (data) {
-        console.log('UPDATING FOR SOCKETS')
-        // me.updateProductList();
-        me.getStats()
-    });
-
-    socket.on('update-claims', function (data) {
-        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-        var i = _.findIndex(me.productList, function (p) {
-            return p.productId == data.productId
-        });
-        me.productList[ i ].userId = data.userId;
-        $rootScope.$apply()
-    });
-
-    socket.on('claim-removed', function (data) {
-        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-        var i = _.findIndex(me.productList, function (p) {
-            return p.productId == data.productId
-        });
-        me.productList[ i ].userId = null;
-        $rootScope.$apply()
-    })
+    // var //socket = io.connect(constants.BWS_API);
+    // //socket.on('update', function (data) {
+    //     console.log('UPDATING FOR SOCKETS')
+    //     // me.updateProductList();
+    //     me.getStats()
+    // });
+    //
+    // //socket.on('update-claims', function (data) {
+    //     console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+    //     var i = _.findIndex(me.productList, function (p) {
+    //         return p.productId == data.productId
+    //     });
+    //     me.productList[ i ].userId = data.userId;
+    //     $rootScope.$apply()
+    // });
+    //
+    // //socket.on('claim-removed', function (data) {
+    //     console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+    //     var i = _.findIndex(me.productList, function (p) {
+    //         return p.productId == data.productId
+    //     });
+    //     me.productList[ i ].userId = null;
+    //     $rootScope.$apply()
+    // })
 
     me.init();
 
