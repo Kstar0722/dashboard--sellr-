@@ -134,6 +134,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         prod.description = prod.description.replace(re2, '');
         productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
+        $('#submitforapproval').modal('hide')
         $scope.viewProduct(prod)
     };
 

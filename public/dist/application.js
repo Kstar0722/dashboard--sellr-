@@ -3326,6 +3326,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         prod.description = prod.description.replace(re2, '');
         productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
+        $('#submitforapproval').modal('hide')
         $scope.viewProduct(prod)
     };
 
