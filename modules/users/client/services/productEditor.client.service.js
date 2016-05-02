@@ -1,5 +1,5 @@
 'use strict';
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService) {
     var me = this;
     var debugLogs = true;
     var log = function (title, data) {
