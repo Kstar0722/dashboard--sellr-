@@ -18,7 +18,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         envServiceProvider.config({
             domains: {
                 local: [ 'localhost' ],
-                development: [ 'dashdev.expertoncue.com' ],
+                development: [ 'dashdev.expertoncue.com', 'https://blooming-caverns-80586.herokuapp.com' ],
                 staging: [ 'dashqa.expertoncue.com' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ]
             },
@@ -29,8 +29,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com',
-                    BWS_API: 'https://bwsdev.expertoncue.com',
+                    API_URL: 'https://oncue-api.herokuapp.com',
+                    BWS_API: 'https://sellr-bws.herokuapp.com',
                     env:'dev'
                 },
                 staging: {

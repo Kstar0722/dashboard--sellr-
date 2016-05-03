@@ -39,16 +39,20 @@
             <label>Title</label>
             <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.title">
           </div>
-          <div ng-show="pes.currentProduct.audio">
-            <label>Audio:</label>
-            <button class="btn" ng-click="playAudio()">Play</button>
-            <button class="btn" ng-click="pauseAudio()">Pause</button>
-          </div>
-          <button class="btn" ngf-select="pes.uploadAudio($files)">
-            Upload Audio
-          </button>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      </div>
+      <div class="row">
+        <div class="col-md-12" ng-show="pes.currentProduct.audio">
+          <label>Audio:</label>
+          <button class="btn" ng-click="playAudio()">Play</button>
+          <button class="btn" ng-click="pauseAudio()">Pause</button>
+        </div>
+        <button class="btn" ngf-select="pes.uploadAudio($files)">
+          Upload Audio
+        </button>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           <!--insert image from upload-->
           <img ng-repeat="image in pes.currentProduct.images" ng-src="{{image.publicUrl}}" height="200px">
           <button class="btn" ngf-select="pes.uploadMedia($files)">
@@ -73,10 +77,12 @@
         <select ng-switch-when="countryselect" class="form-control" ng-options="country.name as country.name for country in Countries"
                 ng-model="prop.value"></select>
       </div>
-      <div class="form-group">
-        <label>Research Notes</label>
-        <textarea class="form-control" name="beer_research_notes" rows="3" id="beer_research_notes" ng-model="pes.currentProduct.researchNotes">{{ pes.currentProduct.researchNotes }}</textarea>
-      </div>
+
+      <!--TODO: Find somewhere to put research notes-->
+      <!--<div class="form-group">-->
+      <!--<label>Research Notes</label>-->
+      <!--<textarea class="form-control" name="beer_research_notes" rows="3" id="beer_research_notes" ng-model="pes.currentProduct.researchNotes">{{ pes.currentProduct.researchNotes }}</textarea>-->
+      <!--</div>-->
 
     </form>
 
@@ -92,7 +98,6 @@
           <div class="modal-body">
             <p>This will send the product back to the editor for revisions. Please add additional comments below to instruct editor on necessary
               changes.</p>
-            <!--TODO: send back reset status to inprogress-->
             <div class="form-group">
               <label>Comments</label>
               <textarea class="form-control" name="beer_feedback" ng-model="feedback"></textarea>
@@ -126,8 +131,7 @@
           </div>
           <div class="modal-footer">
             <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-            <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" data-dismiss="modal"
-                   ng-click="submitForApproval(pes.currentProduct)">
+            <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" ng-click="submitForApproval(pes.currentProduct)">
           </div>
         </div>
       </div>
@@ -185,7 +189,6 @@
       </div>
     </div>
     <div class="row">
-
       <div class="pull-right">
         <div class="btn-group" role="group">
           <button class="btn btn-info" type="button" ng-show="pes.currentProduct.status==='inprogress'" data-toggle="modal"
@@ -199,6 +202,16 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <p>Keyboard Shortcuts:</p>
+      <div>
+        <small><code>Ctrl + S / ⌘ + S</code> -- Save Product</small>
+      </div>
+      <div>
+        <small><code>Ctrl + D / ⌘ + D</code> -- Mark As Done</small>
+      </div>
+    </div>
   </div>
+
 </div>
 
