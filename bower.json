@@ -4,11 +4,10 @@
   "homepage": "http://meanjs.org/",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "~3",
     "angular": "~1.4.8",
     "angular-resource": "~1.4.8",
     "angular-animate": "~1.4.8",
-    "angular-mocks": "~1.4.8",
+    "angular-mocks": "^1.5.5",
     "angular-bootstrap": "~0.13",
     "angular-ui-utils": "bower",
     "angular-ui-router": "~0.2",
@@ -34,12 +33,14 @@
     "Chart.js": "^1.0.2",
     "angular-chart.js": "^0.8.8",
     "moment": "^2.13.0",
-    "angular-audio": "^1.7.2"
+    "angular-audio": "^1.7.2",
+    "jasmine-core": "jasmine#^2.4.1"
   },
   "resolutions": {
-    "angular": ">=1.4.8",
+    "angular": "1.4.10",
     "angular-animate": "^1.4.8",
     "angular-messages": "^1.4.8",
-    "angular-toastr": "^1.7.0"
+    "angular-toastr": "^1.7.0",
+    "angular-mocks": "^1.4.8"
   }
 }
