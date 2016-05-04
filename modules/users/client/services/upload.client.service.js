@@ -8,149 +8,143 @@ angular.module('users').service('uploadService', function ($http, constants, toa
         me.editAccount = {};
         me.currentAccount = {};
         me.files = [];
-        me.loading;
-        me.determinate = {value:0};
+        me.determinate = {value: 0};
 
     };
 
     me.init()
 
 
-    me.upload = function(files, mediaConfig){
+    me.upload = function (file, mediaConfig) {
 
+        var messages = [];
         var defer = $q.defer();
-        console.log('upload service called %0', files);
-        if (files && files.length) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                if (!file.$error) {
-                    var filename = (file.name).replace(/ /g, "_");
-                    console.log('account id %O', localStorage.getItem('accountId'));
-                    if(mediaConfig.mediaRoute == 'media') {
-                        if(mediaConfig.type == 'PRODUCT') {
-                            var obj = {
-                                payload: {
-                                    fileName: filename,
-                                    userName: Authentication.user.username,
-                                    type:mediaConfig.type,
-                                    fileType:mediaConfig.fileType,
-                                    accountId: mediaConfig.accountId,
-                                    productId:mediaConfig.productId
-                                }
-                            };
-                        }
-                        else{
-                            var obj = {
-                                payload: {
-                                    type: mediaConfig.type,
-                                    fileType:mediaConfig.type,
-                                    fileName: filename,
-                                    userName: Authentication.user.username,
-                                    accountId: mediaConfig.accountId
-                                }
-                            };
-                        }
-                    }
-                    else {
-                        var obj = {
+        var config = mediaConfig;
+        if (file) {
+            var filename = (file.name).replace(/ /g, "_");
+
+            if (!file.$error) {
+
+                var newObject;
+                if (config.mediaRoute == 'media') {
+                    if (config.type == 'PRODUCT') {
+                        newObject = {
                             payload: {
                                 fileName: filename,
                                 userName: Authentication.user.username,
-                                accountId: mediaConfig.accountId
+                                type: config.type,
+                                fileType: config.fileType,
+                                accountId: config.accountId,
+                                productId: config.productId
                             }
                         };
                     }
-                    console.log('upload service object %0', obj)
-                    $http.post(constants.API_URL +'/'+ mediaConfig.mediaRoute, obj).then(function (response, err) {
-
-                        if (err) {
-                            console.log(err);
-                            toastr.error('There was a problem uploading your ad.')
-
-
-                        }
-                        if (response) {
-                            var  mediaAssetId = response.data.assetId;
-                            console.log(response);
-                             var creds = {
-                                bucket: 'cdn.expertoncue.com/'+mediaConfig.folder,
-                                access_key: 'AKIAICAP7UIWM4XZWVBA',
-                                secret_key: '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'
-                            };
-                            // Configure The S3 Object
-                            AWS.config.update({
-                                accessKeyId: creds.access_key,
-                                secretAccessKey: creds.secret_key
-                            });
-                            AWS.config.region = 'us-east-1';
-                            var bucket = new AWS.S3({
-                                params: {
-                                    Bucket: creds.bucket
-                                }
-                            });
-                            var params = {
-                                Key: response.data.assetId + "-" + filename,
-                                ContentType: file.type,
-                                Body: file,
-                                ServerSideEncryption: 'AES256',
-                                Metadata: {
-                                    fileKey: JSON.stringify(response.data.assetId)
-                                }
-                            };
-                            console.dir(params.Metadata.fileKey)
-                            bucket.putObject(params, function (err, data) {
-                                    me.loading = true;
-                                    if (err) {
-                                        // There Was An Error With Your S3 Config
-                                        alert(err.message);
-                                        toastr.error('There was a problem uploading your ad.');
-                                        return false;
-                                    } else {
-
-                                        // Success!
-                                        self.determinateValue = 0;
-                                        var updateMedia = {
-                                            payload: {
-                                                mediaAssetId: mediaAssetId,
-                                                publicUrl: 'https://s3.amazonaws.com/cdn.expertoncue.com/' + mediaConfig.folder + '/' + response.data.assetId + "-" + filename
-                                            }
-                                        };
-                                        console.log(updateMedia);
-                                        $http.put(constants.API_URL +'/media', updateMedia).then(function (response, err) {
-                                            if(err){
-                                                console.log(err)
-                                            }
-                                            else {
-                                                var message = {
-                                                    message: 'New Ad Uploaded Success!',
-                                                    publicUrl: updateMedia.publicUrl,
-                                                    fileName: filename
-                                                };
-                                                defer.resolve(message)
-                                            }
-                                        })
-                                    }
-                                })
-                                .on('httpUploadProgress', function (progress) {
-                                    // Log Progress Information
-                                    console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                                    me.determinate.value = Math.round(progress.loaded / progress.total * 100);
-
-                                });
-                        } else {
-                            // No File Selected
-                            alert('No File Selected');
-                        }
-
-                    });
-
+                    else {
+                        newObject = {
+                            payload: {
+                                type: config.type,
+                                fileType: config.type,
+                                fileName: filename,
+                                userName: Authentication.user.username,
+                                accountId: config.accountId
+                            }
+                        };
+                    }
                 }
+                else {
+                    newObject = {
+                        payload: {
+                            fileName: filename,
+                            userName: Authentication.user.username,
+                            accountId: config.accountId
+                        }
+                    };
+                }
+
+
+                $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
+                    if (err) {
+                        console.log(err);
+                        toastr.error('There was a problem uploading your ad.')
+
+
+                    }
+                    if (response) {
+                        var mediaAssetId = response.data.assetId;
+                        var creds = {
+                            bucket: 'cdn.expertoncue.com/' + config.folder,
+                            access_key: 'AKIAICAP7UIWM4XZWVBA',
+                            secret_key: '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'
+                        };
+                        // Configure The S3 Object
+
+                        var params = {
+                            Key: response.data.assetId + "-" + filename,
+                            ContentType: file.type,
+                            Body: file,
+                            ServerSideEncryption: 'AES256',
+                            Metadata: {
+                                fileKey: JSON.stringify(response.data.assetId)
+                            }
+                        };
+                        console.dir(creds, params)
+                        bucketUpload(creds, params).then(function (err, res) {
+                            self.determinateValue = 0;
+                            var updateMedia = {
+                                payload: {
+                                    mediaAssetId: mediaAssetId,
+                                    publicUrl: 'https://s3.amazonaws.com/cdn.expertoncue.com/' + config.folder + '/' + response.data.assetId + "-" + filename
+                                }
+                            };
+
+                            $http.put(constants.API_URL + '/media', updateMedia).then(function (response, err) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                                else {
+                                    var message = {
+                                        message: 'New Ad Uploaded Success!',
+                                        publicUrl: updateMedia.publicUrl,
+                                        fileName: filename
+                                    };
+                                    messages.push(message);
+                                    defer.resolve(messages)
+                                }
+                            })
+                        })
+                    }
+                })
             }
         }
+
         return defer.promise
     };
 
-
+    function bucketUpload(creds, params) {
+        var defer = $q.defer();
+        AWS.config.update({
+            accessKeyId: creds.access_key,
+            secretAccessKey: creds.secret_key
+        });
+        AWS.config.region = 'us-east-1';
+        var bucket = new AWS.S3({
+            params: {
+                Bucket: creds.bucket
+            }
+        });
+        bucket.putObject(params, function (err, data) {
+            me.loading = true;
+            if (err) {
+                // There Was An Error With Your S3 Config
+                alert(err.message);
+                toastr.error('There was a problem uploading your ad.');
+                defer.reject(false)
+            } else {
+                defer.resolve(data)
+            }
+        })
+        return defer.promise;
+    }
 
     return me;
 });
