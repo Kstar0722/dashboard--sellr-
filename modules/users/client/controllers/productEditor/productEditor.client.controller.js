@@ -20,6 +20,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         socket.send({ message: 'hello world' })
     };
 
+
     $scope.Countries = Countries.allCountries;
     $scope.selectProductType = function (type) {
         productEditorService.currentType = type;
@@ -177,6 +178,36 @@ angular.module('users').controller('productEditorController', function ($scope, 
             }
         }
     });
+
+    $scope.buttonDisplay = function (button, product) {
+        var bool = false;
+        switch (button) {
+            case 'Edit':
+                if (product.status !== 'done' && product.userId == $scope.userId) {
+                    bool = true;
+                }
+                if (product.status == 'approved') {
+                    bool = false;
+                }
+                break;
+            case 'Unassign':
+                if (product.status !== 'done' && product.userId == $scope.userId) {
+                    bool = true;
+                }
+                if (product.status == 'approved') {
+                    bool = false;
+                }
+                break;
+            case 'Claim':
+                if (product.status == 'new' && !product.userId) {
+                    bool = true;
+                }
+                break;
+        }
+
+        return bool
+
+    };
 
 
     init();
