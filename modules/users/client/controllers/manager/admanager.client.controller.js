@@ -218,7 +218,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                     if (response) {
                         toastr.success('New Ad Uploaded', 'Success!');
                         responses.push(response)
-                        if(i == files.length)
+                        if(responses.length == files.length)
                             $scope.getAllMedia();
                     }
                 })
