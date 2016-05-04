@@ -32,7 +32,7 @@ module.exports = {
     }
   },
   app: {
-    title: 'Expert OnCue'
+    title: 'Sellr Dashboard'
   },
   facebook: {
     clientID: process.env.FACEBOOK_ID || 'APP_ID',

@@ -1,87 +1,107 @@
 
 #topNav {
-  .my-active-class {
-    color: @pink;
-
-  }
-  width: 100%;
-  top: 0;
-  position: fixed;
-  left: 0;
-  transition: all .25s;
-  overflow: hidden !important;
-  z-index: 999;
-  background: darken(@dark-grey, 5%);
-  color: white;
-  // background-image: url(@home_bg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-y: 20%;
-
-
-  .brand {
-    background-image: url(@logowhite);
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 100px;
-    width: 180px;
-    opacity: .25;
-  }
-  &:hover {
-    width: 100%;
-  }
-
   .md-toolbar-tools {
-    height: 10vh;
-    max-height: 10vh;
-    margin: 0 auto;
-    padding: 0 ;
-    //background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
-    //background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
-    //background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
-  }
-  .md-menu {
-    right: 0;
-    overflow:visible;
-    z-index: inherit;
-  }
-  #profmenu {
-    right: 0;
-    overflow:visible;
-    z-index: 9999;
-  }
+    font-size: 100%;
+    width: 100%;
+    top: 0;
+    min-height: @navheight;
+    position: fixed;
+    left: 0;
+    transition: all .25s;
+    overflow: hidden !important;
+    z-index: 999;
+    background: darken(@dark-grey, 5%);
+    color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-y: 20%;
 
+    .my-active-class {
+      color: @sellrgreen;
+      background: transparent;
 
-  #profbutton{
-    //height:25vh;
-    padding-top:1.5vh;
-    padding-right:10vh;
-    overflow:visible;
-    z-index: inherit;
-
-    img{
-      height: 50px;
-      width: 50px;
-      border-radius: 50%;
+    }
+    .my-inactive-class {
+      color: white;
+      background: transparent;
     }
 
-  }
-  #pagebutton{
-    margin-top: 3vh;
-    display: inline-block;
 
-    .md-button {
-      text-transform: none;
-      font-size: 16px;
-      margin: 6px 0;
-      &:hover {
-        color: @pink;
-        background-color: transparent;
+    .brand {
+      background-image: url(@logowhite);
+      background-size: contain;
+      background-repeat: no-repeat;
+      height: 100px;
+      width: 180px;
+      opacity: .25;
+    }
+    &:hover {
+      width: 100%;
+    }
+    .md-toolbar-tools {
+
+      margin: 0 auto;
+      padding: ;
+      //background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+      //background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+      //background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+
+
+    }
+    .md-menu {
+      right: 0;
+      overflow: visible;
+      z-index: 9999;
+
+      button {
+        font-size: 1em;
       }
     }
+    #profmenu {
+      right: 0;
+      overflow: visible;
+      z-index: 9999;
+    }
+
+    #profbutton {
+      //height:25vh;
+      padding-top: 25px;
+      padding-right: 10vh;
+      overflow: visible;
+      z-index: inherit;
+
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+
+    }
+    #pagebutton {
+      margin-top: 3vh;
+      display: inline-block;
+
+      .md-button {
+        text-transform: none;
+        font-size: 16px;
+        margin: 6px 0;
+        &:hover {
+          color: @pink;
+          background-color: transparent;
+        }
+      }
+    }
+    md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+      background-color: transparent;
+    }
   }
-  md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar){
-    background-color: transparent;
-  }
+
+
 }
 
+.md-menu-bar-menu {
+  md-menu-item {
+    padding-left: 20px;
+    color: @sellrdark;
+  }
+}

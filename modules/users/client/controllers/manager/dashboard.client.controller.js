@@ -1,9 +1,11 @@
 'use strict';
 
+
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
-		//$scope.file = '  ';
+
+
 		var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');
 		if($stateParams.accountId)
@@ -16,6 +18,13 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			console.log(points, evt);
 		};
 		$scope.chartOptions = {}
+
+
+
+
+
+
+
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];

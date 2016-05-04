@@ -13,7 +13,9 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
             {text: 'owner', id: 1009},
             {text: 'manager', id: 1002},
             {text: 'supplier', id: 1007},
-            {text: 'user', id: 1003}
+            { text: 'user', id: 1003 },
+            { text: 'editor', id: 1010 },
+            { text: 'curator', id: 1011 }
         ];
         $scope.user = {
             accountId: localStorage.getItem('accountId')

@@ -18,22 +18,31 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         envServiceProvider.config({
             domains: {
                 local: [ 'localhost' ],
-                development: [ 'dashdev.expertoncue.com' ],
+                development: [ 'dashdev.expertoncue.com', 'https://blooming-caverns-80586.herokuapp.com' ],
                 staging: [ 'dashqa.expertoncue.com' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ]
             },
             vars: {
                 local: {
-                    API_URL: 'http://localhost:7272'
+                    API_URL: 'http://localhost:7272',
+                    BWS_API: 'http://localhost:7171',
+                    env:'local'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com'
+                    API_URL: 'https://oncue-api.herokuapp.com',
+                    BWS_API: 'https://sellr-bws.herokuapp.com',
+                    env:'dev'
                 },
                 staging: {
-                    API_URL: 'https://apiqa.expertoncue.com'
+                    API_URL: 'https://apiqa.expertoncue.com',
+                    BWS_API: 'https://bwsqa.expertoncue.com',
+                    env:'staging'
                 },
                 production: {
-                    API_URL: 'https://api.expertoncue.com'
+                    API_URL: 'https://api.expertoncue.com',
+                    BWS_API: 'https://bws.expertoncue.com',
+                    env:'production'
+
                 }
             }
         });

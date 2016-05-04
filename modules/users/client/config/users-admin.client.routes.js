@@ -44,5 +44,11 @@ angular.module('users.admin.routes').config(['$stateProvider',
                 controller: 'AdminPricingController'
 
             })
+            .state('admin.device', {
+                url: '/admin/device',
+                templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
+                controller: 'DeviceManagerController'
+
+            })
     }
 ]);

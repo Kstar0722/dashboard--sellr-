@@ -6,7 +6,8 @@ angular.module('core.supplier').run(['Menus',
             title: 'Supplier',
             state: 'supplier',
             type: 'dropdown',
-            roles: ['supplier']
+            roles: ['supplier'],
+            position:2
         });
 
     }

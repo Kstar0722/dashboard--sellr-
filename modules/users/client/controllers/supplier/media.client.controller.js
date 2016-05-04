@@ -1,92 +1,39 @@
 'use strict';
 
-angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
+angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants', 'toastr', 'uploadService',
+    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants,toastr, uploadService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
-        //var files3 = '';
+        var files = [];
         $scope.links = [];
-        function encode(data) {
-            var str = data.reduce(function (a, b) {
-                return a + String.fromCharCode(b)
-            }, '');
-            return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
-        }
 
+        $scope.$watch('files', function () {
+            $scope.upload($scope.files);
+        });
+        $scope.$watch('file', function () {
+            if ($scope.file != null) {
+                $scope.files = [$scope.file];
+            }
+        });
 
-        $scope.upload = function (file) {
-            var obj = {
-                payload: {
-                    fileName: file[0].name,
-                    userName: $scope.authentication.user.username
-                }
-            };
-            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    $scope.creds = {
-                        bucket: 'beta.cdn.expertoncue.com',
-                        access_key: 'AKIAICAP7UIWM4XZWVBA',
-                        secret_key: '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'
+        $scope.upload = function(files) {
+            for (var i = 0; i < files.length; i++) {
+                var mediaConfig = {
+                    mediaRoute: 'ads',
+                    folder: 'supplier',
+                    accountId: localStorage.getItem('accountId')
+                };
+                uploadService.upload(files[i], mediaConfig).then(function (response, err) {
+                    if (response) {
+                        toastr.success('New Ad Uploaded', 'Success!');
                     }
-                    // Configure The S3 Object
-                    AWS.config.update({
-                        accessKeyId: $scope.creds.access_key,
-                        secretAccessKey: $scope.creds.secret_key
-                    });
-                    AWS.config.region = 'us-east-1';
-                    var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-
-                    //if (file) {
-                    var params = {
-                        Key: response.data.assetId + "-" + file[0].name,
-                        ContentType: file[0].type,
-                        Body: file[0],
-                        ServerSideEncryption: 'AES256',
-                        Metadata: {
-                            fileKey: JSON.stringify(response.data.assetId)
-                        }
-                    };
-                    console.dir(params.Metadata.fileKey)
-                            bucket.putObject(params, function (err, data) {
-                                    $scope.loading = true;
-                                    if (err) {
-                                        // There Was An Error With Your S3 Config
-                                        alert(err.message);
-                                        return false;
-                                    }
-                                    else {
-                                        console.dir(data);
-                                        // Success!
-
-
-                                        alert('Upload Done');
-
-                                    }
-                                })
-                                .on('httpUploadProgress', function (progress) {
-                                    // Log Progress Information
-
-                                    console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                                    self.determinateValue = Math.round(progress.loaded / progress.total *100);
-                                    $scope.$apply();
-                                    //$scope.$apply();
-                                    //console.log($scope.data.loading);
-                                    //$scope.loading = (progress.loaded / progress.total *100);
-
-                                });
-                        }
-                        else {
-                            // No File Selected
-                            alert('No File Selected');
-                        }
-            });
-            //}
-
-        };
+                    else {
+                        toastr.error('There was a problem uploading ads')
+                    }
+                })
+            }
+        }
     }
 
 ]);

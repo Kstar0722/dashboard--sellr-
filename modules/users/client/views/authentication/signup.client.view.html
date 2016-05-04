@@ -29,24 +29,18 @@
             </div>
           </md-input-container>
 
-
           <md-input-container class="md-block">
-
             <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
             <div ng-messages="userForm.username.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Username is required.</p>
             </div>
           </md-input-container>
 
-
           <md-input-container class="md-block" >
-
             <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-minlength="6" required>
             <div ng-messages="userForm.password.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Password is required.</p>
-               <!--<div ng-repeat="passwordError in passwordErrors">-->
               <p class="help-block error-text" ng-show="userForm.password.$invalid">Must be greater than 6 characters</p>
-              <!--</div>-->
             </div>
           </md-input-container>
           <div layout="row" layout-align="space-between center">
@@ -56,57 +50,11 @@
         </form>
         <div class="alt-actions" layout="row" layout-align="space-between start">
           <div><a ng-click="reset = !reset">Need Help?</a></div>
-          <div>Already have an account? <a ui-sref="UserRegister">Sign in</a></div>
-
+          <div>Already have an account? <a ui-sref="home">Sign in</a></div>
         </div>
       </div>
     </div>
   </div>
-
-  <!--<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">-->
-    <!--<form name="userForm" ng-submit="signup(userForm.$valid)" class="signin" novalidate autocomplete="off">-->
-      <!--<fieldset>-->
-
-        <!--<div class="form-group" show-errors>-->
-          <!--<label for="regCode">Registration Code</label>-->
-          <!--<input type="text" id="regCode" name="regCode" class="form-control" ng-model="regCode" placeholder="Registration Code" lowercase required>-->
-          <!--<div ng-messages="userForm.regCode.$error" role="alert">-->
-            <!--<p class="help-block error-text" ng-message="required">Registration Code is required.</p>-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="form-group" show-errors>-->
-          <!--<label for="username">Username</label>-->
-          <!--<input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>-->
-          <!--<div ng-messages="userForm.username.$error" role="alert">-->
-            <!--<p class="help-block error-text" ng-message="required">Username is required.</p>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="form-group" show-errors>-->
-          <!--<label for="password">Password</label>-->
-            <!--<input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>-->
-          <!--<div ng-messages="userForm.password.$error" role="alert">-->
-            <!--<p class="help-block error-text" ng-message="required">Password is required.</p>-->
-            <!--<div ng-repeat="passwordError in passwordErrors">-->
-              <!--<p class="help-block error-text" ng-show="userForm.password.$error.requirements">{{passwordError}}</p>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="form-group" ng-show="!userForm.password.$error.required">-->
-          <!--<label>Password Requirements</label>-->
-          <!--<progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap;">{{requirementsProgress}}%</span></progressbar>-->
-        <!--</div>-->
-        <!--<div class="text-center form-group">-->
-          <!--<button type="submit" class="btn btn-primary">Sign up</button>-->
-          <!--&nbsp; or&nbsp;-->
-          <!--<a ui-sref="authentication.signin" class="show-signup">Sign in</a>-->
-        <!--</div>-->
-        <!--<div ng-show="error" class="text-center text-danger">-->
-          <!--<strong ng-bind="error"></strong>-->
-        <!--</div>-->
-      <!--</fieldset>-->
-    <!--</form>-->
-  <!--</div>-->
 </div>
 
 
