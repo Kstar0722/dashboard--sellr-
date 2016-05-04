@@ -15,9 +15,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         loading: true
     };
 
-
-
-
+    
     me.init = function () {
         me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
         me.productStatuses = [
@@ -42,7 +40,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
         me.show.loading = true;
-        console.time('getProductList')
+        console.time('getProductList');
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -71,7 +69,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 });
 
                 me.productList = _.sortBy(response.data, function (p) {
-                    log('sorter', Math.abs(p.userId - me.userId))
+                    log('sorter', Math.abs(p.userId - me.userId));
                     return Math.abs(p.userId - me.userId);
                 })
             }
@@ -166,9 +164,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         log('claiming', payload);
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
+            toastr.info('You claimed product ' + options.productId);
             socket.emit('product-claimed', options);
             me.getStats();
-            // me.updateProductList();
             log('claim response', res)
         })
     };
@@ -187,11 +185,10 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
-            toastr.info('You claimed product ' + options.productId);
             socket.emit('product-unclaimed', options);
             me.currentProduct = {};
         }, function (err) {
-            log('deleteClaim error', err)
+            log('deleteClaim error', err);
             toastr.error('There was an error claiming this product.')
         })
     };
@@ -400,30 +397,34 @@ angular.module('users').service('productEditorService', function ($http, $locati
         return (prod)
     }
 
-    var socket = io.connect(constants.BWS_API);
-    socket.on('update', function (data) {
-        console.log('UPDATING FOR SOCKETS')
-        // me.updateProductList();
-        me.getStats()
-    });
-    
-    socket.on('update-claims', function (data) {
-        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-        var i = _.findIndex(me.productList, function (p) {
-            return p.productId == data.productId
+    var socket;
+    if (window.io) {
+        socket = io.connect(constants.BWS_API);
+        socket.on('update', function (data) {
+            console.log('UPDATING FOR SOCKETS')
+            // me.updateProductList();
+            me.getStats()
         });
-        me.productList[ i ].userId = data.userId;
-        $rootScope.$apply()
-    });
-    
-    socket.on('claim-removed', function (data) {
-        console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-        var i = _.findIndex(me.productList, function (p) {
-            return p.productId == data.productId
+
+        socket.on('update-claims', function (data) {
+            console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+            var i = _.findIndex(me.productList, function (p) {
+                return p.productId == data.productId
+            });
+            me.productList[ i ].userId = data.userId;
+            $rootScope.$apply()
         });
-        me.productList[ i ].userId = null;
-        $rootScope.$apply()
-    })
+
+        socket.on('claim-removed', function (data) {
+            console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+            var i = _.findIndex(me.productList, function (p) {
+                return p.productId == data.productId
+            });
+            me.productList[ i ].userId = null;
+            $rootScope.$apply()
+        })
+    }
+
 
     me.init();
 

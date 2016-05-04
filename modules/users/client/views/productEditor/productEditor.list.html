@@ -5,7 +5,7 @@
   </md-input-container>
   <p ng-show="(pes.productList|filter:search).length==0">No products found that match: "{{ search.$ }}"</p>
 
-  <div class="row " ng-repeat="product in pes.productList|filter:search|limitTo:searchLimit">
+  <div class="row " ng-repeat="product in pes.productList|filter:search|limitTo:searchLimit" ng-show="product.status=='new' || product.userId==userId">
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>
