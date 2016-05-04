@@ -69,7 +69,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'production'
                 },
                 heroku: {
-                    API_URL: 'https://oncue-app.herokuapp.com',
+                    API_URL: 'https://oncue-api.herokuapp.com',
                     BWS_API: 'https://sellr-bws.herokuapp.com',
                     env: 'dev'
                 }
