@@ -19,8 +19,8 @@
 
       <div class="row">
         <div class="col-md-9">
-          <h4><i>Viewing:</i> {{ pes.currentProduct.title }} </h4>
-          <span>Requested by: {{pes.currentProduct.requestedBy}} ( {{ pes.currentProduct.sku }} )</span>
+          <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
+          <span>Requested by: {{pes.currentProduct.requestedBy}}</span>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         </div>
@@ -42,7 +42,7 @@
           <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
             <div class="form-group">
               <label>Title</label>
-              <span name="title" id="title" size="50" maxlength="100">{{ pes.currentProduct.title }}</span>
+              <span name="title" id="title" size="50" maxlength="100">{{ pes.currentProduct.name }}</span>
             </div>
             <div ng-show="pes.currentProduct.audio">
               <label>Audio:</label>

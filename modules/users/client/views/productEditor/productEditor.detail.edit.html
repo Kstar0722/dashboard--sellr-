@@ -12,10 +12,10 @@
 
     <div class="row">
       <div class="col-md-9">
-        <h4><i>Editing:</i> {{ pes.currentProduct.title }} </h4>
+        <h4><i>Editing:</i> {{ pes.currentProduct.name }} </h4>
         <div>Product Id {{ pes.currentProduct.productId }}</div>
         <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
-        <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}} ( {{ pes.currentProduct.sku }} )</span>
+        <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}}</span>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
       </div>
@@ -26,7 +26,7 @@
       <!--show if requested by macs, scan app images-->
       <div class="row">
         <!--repeat 6 times, grab images based on sku and index from cdn -->
-        <a ng-repeat="i in [0,1,2,3,4,5]" href="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png" target="_blank">
+        <a ng-repeat="i in [0,1,2,3,4,5]">
           <img class="reference" ng-src="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png">
         </a>
 
@@ -37,7 +37,7 @@
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
           <div class="form-group">
             <label>Title</label>
-            <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.title">
+            <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.name">
           </div>
         </div>
       </div>

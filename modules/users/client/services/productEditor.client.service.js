@@ -15,7 +15,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         loading: true
     };
 
-    
+
     me.init = function () {
         me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
         me.productStatuses = [
@@ -229,6 +229,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!product.productId) {
             console.error('finishProduct: no productId specified %O', product)
         }
+        product.userId = me.userId;
+
         product.status = 'done';
         var payload = {
             payload: product
@@ -252,6 +254,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!product.productId) {
             console.error('approveProduct: no productId specified %O', product)
         }
+        product.userId = me.userId;
+
         product.status = 'approved';
         var payload = {
             payload: product
@@ -260,9 +264,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
         $http.put(url, payload).then(onApproveSuccess, onApproveError);
         function onApproveSuccess(response) {
             console.log('onApproveSuccess %O', response)
+            toastr.success('Product Approved!')
         }
         function onApproveError(error) {
             console.error('onApproveError %O', error)
+            toastr.error('There was a problem approving product ' + product.productId)
         }
     };
 
@@ -285,11 +291,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     me.formatProductDetail = function (product) {
         var defer = $q.defer()
-        product.title = product.title || product.displayName || product.name;
+        product.name = product.title || product.displayName || product.name;
         product.properties.forEach(function (prop) {
             switch (prop.label) {
+                case 'Requested By':
+                    product.requestedBy = prop.value;
+                    break;
                 case 'Country':
-                    prop.type = 'countryselect'
+                    prop.type = 'countryselect';
                     break;
                 case 'Script':
                     prop.type = 'textarea';
