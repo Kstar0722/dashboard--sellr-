@@ -217,6 +217,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     };
 
+    $scope.showProduct = function (product) {
+        var display = true;
+        if (product.status == 'inprogress') {
+            display = product.userId == $scope.userId;
+        }
+        if (product.status == 'done') {
+            display = (product.userId == $scope.userId || $scope.permissions.curator);
+
+        }
+        return display;
+    };
+
 
     init();
 
