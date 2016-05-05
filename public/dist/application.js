@@ -54,7 +54,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com',
+                    API_URL: 'https://api.expertoncue.com',
                     BWS_API: 'https://bwdev.expertoncue.com',
                     env:'dev'
                 },
@@ -65,7 +65,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bws.expertoncue.com',
+                    BWS_API: 'https://bwsdev.expertoncue.com',
                     env:'production'
                 },
                 heroku: {
