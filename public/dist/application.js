@@ -6375,9 +6375,13 @@ angular.module('users').service('productEditorService', ["$http", "$location", "
             productId: me.currentProduct.productId
         }
         console.log('product config %0', mediaConfig)
-        uploadService.upload(files, mediaConfig).then(function(response, err ){
+        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
             if(response) {
                 toastr.success('Product Image Updated!');
+
+                me.saveProduct(me.currentProduct).then(function(err, response){
+                    me.setCurrentProduct(me.currentProduct);
+                })
             }
             else{
                 toastr.error('Product Image Failed To Update!');
