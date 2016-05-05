@@ -431,9 +431,10 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         //    email: '{{user.email}}', // Email address
         //    created_at:'{{user.created | json | safe}}'// Signup date as a Unix timestamp
         //};
-        //(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ugnow3fn';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-        //
-        //
+        //(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var
+        // d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var
+        // s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ugnow3fn';var
+        // x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
         //
 
 
@@ -445,16 +446,22 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             $mdOpenMenu(ev);
         };
         $scope.signOut = function () {
+            window.localStorage.clear();
+            localStorage.clear();
             $window.localStorage.clear();
-            $http.get('/auth/signout')
-                .success(function () {
-                    $window.localStorage.clear();
+            $window.location.href = '/auth/signout';
 
-                    $window.location.href = '/';
-                })
-                .error(function (err) {
-                    console.log('error', err);
-                })
+            // $http.get('/auth/signout')
+            //     .success(function () {
+            //         window.localStorage.clear();
+            //         localStorage.clear();
+            //         $window.localStorage.clear();
+            //
+            //         $window.location.href = '/';
+            //     })
+            //     .error(function (err) {
+            //         console.log('error', err);
+            //     })
         };
 
         //$scope.$watch('ui.toolbarOpened', function (opened) {
@@ -3414,6 +3421,18 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
 
         return bool
 
+    };
+
+    $scope.showProduct = function (product) {
+        var display = true;
+        if (product.status == 'inprogress') {
+            display = product.userId == $scope.userId;
+        }
+        if (product.status == 'done') {
+            display = (product.userId == $scope.userId || $scope.permissions.curator);
+
+        }
+        return display;
     };
 
 

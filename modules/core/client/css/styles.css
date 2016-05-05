@@ -64,7 +64,7 @@ body.dashboard md-list .md-subheader {
   background-image: url('../img/logo_white.png');
   background-size: contain;
   background-repeat: no-repeat;
-  height: 100px;
+  height: 70px;
   width: 180px;
   opacity: .25;
 }
@@ -116,9 +116,19 @@ body.dashboard md-list .md-subheader {
 #topNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
-.md-menu-bar-menu md-menu-item {
+.md-menu-bar-menu {
+  padding: 0;
+}
+.md-menu-bar-menu.md-dense md-menu-item {
   padding-left: 20px;
   color: #142332;
+  line-height: 48px;
+  height: auto;
+}
+.md-menu-bar-menu.md-dense md-menu-item:hover {
+  color: #2DC89A;
+  background: #DFE3EB;
+  cursor: pointer;
 }
 section.userList .invite {
   background-color: #2DC89A;
@@ -185,11 +195,11 @@ section.userList .userbox {
 }
 .sign-in #login-form .logo,
 .sign-in #reset-form .logo {
-  margin: 1vh auto 2vh auto;
+  margin: 1vh auto 4vh auto;
   display: block;
   background-image: url('../img/logo_black.png');
   background-size: contain;
-  min-height: 160px;
+  min-height: 130px;
   max-height: 15vh;
   background-position: center;
   background-repeat-x: no-repeat;
@@ -644,7 +654,7 @@ section.userList .userbox {
   color: red;
 }
 .productEditor {
-  margin-top: calc(30px + 220px);
+  margin-top: 220px;
 }
 .productEditor .stats {
   text-align: center;
