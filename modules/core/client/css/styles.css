@@ -8,7 +8,9 @@ body.dashboard {
   font-size: 15px;
 }
 body.dashboard .content {
-  margin: 120px 0 0 0;
+  position: absolute;
+  width: 100vw;
+  top: 120px;
 }
 body.dashboard .content .titlebar {
   background: #1f2532;
