@@ -3,15 +3,19 @@
 <section class="stats ">
   <div class="col-xs-4 white ">
 
-    <h1 style="text-transform: capitalize">{{ pes.currentType.name }}</h1>
+    <div class="col-xs-4">
+      <h1 style="text-transform: capitalize">{{ pes.currentType.name }}</h1>
+    </div>
+    <div class="col-xs-8">
     <div class="btn-group" role="group" aria-label="">
       <button class="btn btn-primary" ng-repeat="type in pes.productTypes" ng-click="selectProductType(type)" style="text-transform: capitalize">{{
         type.name }}
       </button>
     </div>
+    </div>
   </div>
   <!--product number for each status type-->
-  <div ng-repeat="status in pes.productStatuses" class="col-xs-2 grey" ng-click="selectProductStatus(status)"
+  <div ng-repeat="status in pes.productStatuses" class="col-xs-2 status grey" ng-click="selectProductStatus(status)"
        ui-sref="editor.products({status:status.value})"
        ui-sref-active="active">
     <md-progress-circular ng-hide="pes.productStats[pes.currentType.productTypeId][status.value]>=0" md-mode="indeterminate"></md-progress-circular>

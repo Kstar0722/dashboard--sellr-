@@ -13,41 +13,66 @@
     -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
     -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
     box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+
+    .status {
+      &:hover {
+        cursor: pointer;
+        background: rgba(137, 137, 137, 0.89);
+        transition: all .5s ease;
+      }
+      &:focus {
+        outline: 0;
+      }
+
+
+    }
+    .btn-group {
+      top: 33px;
+    }
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 0px;
+    }
+    span {
+      font-size: 14px;
+      padding-bottom: 25px;
+      font-weight: bold;
+      display: block;
+    }
+    a:hover {
+      text-decoration: none;
+
+    }
+    .grey a {
+      color: #888;
+    }
+    .orange a {
+      color: #E67E22;
+    }
+    &:nth-child(1) a {
+      color: #fff;
+    }
+    &:nth-child(3) a {
+      color: #3CD669;
+    }
+    .active {
+      background: rgba(255, 255, 255, .22);
+      color: #111921;
+    }
+    md-progress-circular {
+      margin:0 auto;
+    }
+
+    .progressCirculardemoBasicUsage .visible {
+      border-color: @sellrgreen }
+
   }
 
   .productContent {
 
   }
-  .stats h1 {
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 0px;
-  }
-  .stats span {
-    font-size: 14px;
-    padding-bottom: 25px;
-    display: block;
-  }
-  .stats a:hover {
-    text-decoration: none;
 
-  }
-  .stats .grey a {
-    color: #888;
-  }
-  .stats .orange a {
-    color: #E67E22;
-  }
-  .stats .white a {
-    color: #fff;
-  }
-  .stats .green a {
-    color: #3CD669;
-  }
-  .stats .active {
-    background: rgba(255, 255, 255, .22);
-    color: #111921;
-  }
   .reference {
     max-width: 33%;
 
