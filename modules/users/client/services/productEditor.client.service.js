@@ -1,5 +1,5 @@
 'use strict';
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
     var me = this;
     var debugLogs = true;
     var log = function (title, data) {
@@ -195,6 +195,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
 
     me.saveProduct = function (product) {
+        var defer = $q.defer();
         //check productId
         if (!product.productId) {
             console.error('saveProduct: no productId specified %O', product)
@@ -216,6 +217,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             window.scrollTo(0, 0);
             toastr.success('Product saved!')
             socket.emit('product-saved')
+            defer.resolve(true)
 
         }
 
@@ -223,6 +225,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             toastr.error('There was a problem updating this product', 'Could not save');
             console.error('onUpdateError %O', error)
         }
+        return defer.promise;
     };
 
     me.finishProduct = function (product) {
@@ -366,12 +369,18 @@ angular.module('users').service('productEditorService', function ($http, $locati
             accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
-        console.log('product config %0', mediaConfig)
-        uploadService.upload(files, mediaConfig).then(function(response, err ){
+        console.log('product config %0', files)
+        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
             if(response) {
                 toastr.success('Product Audio Updated!');
+
+                me.saveProduct(me.currentProduct).then(function(err, response){
+                    me.setCurrentProduct(me.currentProduct);
+                })
+
             }
             else{
+
                 toastr.error('Product Audio Failed To Update!');
                 console.log(err)
             }
