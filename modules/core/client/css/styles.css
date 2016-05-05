@@ -660,6 +660,17 @@ section.userList .userbox {
   -moz-box-shadow: inset 0px 0px 30px 5px #000000;
   box-shadow: inset 0px 0px 30px 5px #000000;
 }
+.productEditor .stats .status:hover {
+  cursor: pointer;
+  background: rgba(137, 137, 137, 0.89);
+  transition: all .5s ease;
+}
+.productEditor .stats .status:focus {
+  outline: 0;
+}
+.productEditor .stats .btn-group {
+  top: 33px;
+}
 .productEditor .stats h1 {
   font-size: 40px;
   font-weight: 700;
@@ -668,6 +679,7 @@ section.userList .userbox {
 .productEditor .stats span {
   font-size: 14px;
   padding-bottom: 25px;
+  font-weight: bold;
   display: block;
 }
 .productEditor .stats a:hover {
@@ -679,15 +691,21 @@ section.userList .userbox {
 .productEditor .stats .orange a {
   color: #E67E22;
 }
-.productEditor .stats .white a {
+.productEditor .stats:nth-child(1) a {
   color: #fff;
 }
-.productEditor .stats .green a {
+.productEditor .stats:nth-child(3) a {
   color: #3CD669;
 }
 .productEditor .stats .active {
   background: rgba(255, 255, 255, 0.22);
   color: #111921;
+}
+.productEditor .stats md-progress-circular {
+  margin: 0 auto;
+}
+.productEditor .stats .progressCirculardemoBasicUsage .visible {
+  border-color: #2DC89A;
 }
 .productEditor .reference {
   max-width: 33%;
