@@ -1508,7 +1508,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
                     $scope.user.roles = [1010 , 1003];
                     break;
                 case 1011:
-                    $scope.user.roles = [1011 , 1003];
+                    $scope.user.roles = [1011 , 1010, 1003];
                     break;
                 default:
                     $scope.user.roles = [1003];
