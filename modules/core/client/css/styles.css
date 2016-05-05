@@ -191,7 +191,6 @@ section.userList .userbox {
   max-height: 15vh;
   background-position: center;
   background-repeat-x: no-repeat;
-  opacity: .15;
 }
 .sign-in #login-form input[type=text],
 .sign-in #reset-form input[type=text] {

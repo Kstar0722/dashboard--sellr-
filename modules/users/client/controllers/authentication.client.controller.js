@@ -152,9 +152,11 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
                 if (Authentication.user.roles.indexOf('editor') >= 0) {
                     $state.go('editor.products', { type: "wine", status: "new" })
+                    $window.location.reload();
                 }
             } else {
                 $state.go('dashboard', $state.previous.params);
+                $window.location.reload();
             }
 
         }
