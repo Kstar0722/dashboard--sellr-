@@ -1,6 +1,6 @@
 // Karma configuration
 // Generated on Tue May 03 2016 14:50:25 GMT-0400 (EDT)
-
+'use strict';
 module.exports = function (config) {
     config.set({
 
@@ -18,7 +18,8 @@ module.exports = function (config) {
             'public/dist/lib.js',
             'public/dist/application.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'modules/*/tests/client/*Spec.js' ],
+            'modules/*/tests/client/*Spec.js' ,
+             'modules/*/tests/client/*/*Spec.js'], 
 
 
         // list of files to exclude
@@ -34,7 +35,7 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: [ 'progress' ],
+        reporters: [ 'dots' ],
 
 
         // web server port
@@ -56,11 +57,11 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [ 'Chrome' ],
+        browsers: [ 'PhantomJS' ],
 
 
     // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false
-    })
-}
+    });
+};

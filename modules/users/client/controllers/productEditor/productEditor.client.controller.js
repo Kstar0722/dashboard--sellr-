@@ -1,5 +1,6 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
 
+    Authentication.user = Authentication.user || { roles: '' };
     $scope.$state = $state;
     $scope.pes = productEditorService;
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
@@ -44,6 +45,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
             case 'spirits':
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
+            default:
+                type = { name: 'wine', productTypeId: 1 };
+                break;
         }
         var status;
         switch ($stateParams.status) {
@@ -59,6 +63,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
             case 'approved':
                 status = { name: 'Approved', value: 'approved' };
                 break;
+            default:
+                status = { name: 'Available', value: 'new' };
+                break;
+
         }
 
         productEditorService.currentType = type;

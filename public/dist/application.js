@@ -30,19 +30,17 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider',
     function ($locationProvider, $httpProvider, envServiceProvider) {
-        $locationProvider.html5Mode(true).hashPrefix('!');
+        $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!');
 
         $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
         $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-
-
         //SET ENVIRONMENT
 
         // set the domains and variables for each environment
         envServiceProvider.config({
             domains: {
                 local: [ 'localhost' ],
-                development: [ 'dashdev.expertoncue.com', 'https://blooming-caverns-80586.herokuapp.com' ],
+                development: [ 'dashdev.expertoncue.com' ],
                 staging: [ 'dashqa.expertoncue.com' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ]
             },
@@ -53,8 +51,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://oncue-api.herokuapp.com',
-                    BWS_API: 'https://sellr-bws.herokuapp.com',
+                    API_URL: 'https://apidev.expertoncue.com',
+                    BWS_API: 'https://bwdev.expertoncue.com',
                     env:'dev'
                 },
                 staging: {
@@ -64,7 +62,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bws.expertoncue.com',
+                    BWS_API: 'https://bwsdev.expertoncue.com',
                     env:'production'
 
                 }
@@ -2253,12 +2251,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
     accountsService.init();
     $scope.accountsService = accountsService;
-
     $scope.determinateValue = 0;
     $scope.accountLogo = '';
     $scope.account = {
-        createdBy: Authentication.user.username
+        createdBy: ''
     };
+    if (Authentication.user) {
+        $scope.account.createdBy = Authentication.user.username
+    }
     console.log($scope.account);
 
     //changes the view, and sets current edit account
@@ -3179,6 +3179,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ;
 angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
 
+    Authentication.user = Authentication.user || { roles: '' };
     $scope.$state = $state;
     $scope.pes = productEditorService;
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
@@ -3223,6 +3224,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
             case 'spirits':
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
+            default:
+                type = { name: 'wine', productTypeId: 1 };
+                break;
         }
         var status;
         switch ($stateParams.status) {
@@ -3238,6 +3242,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
             case 'approved':
                 status = { name: 'Approved', value: 'approved' };
                 break;
+            default:
+                status = { name: 'Available', value: 'new' };
+                break;
+
         }
 
         productEditorService.currentType = type;
@@ -3444,7 +3452,7 @@ angular.module('users').controller('ChangePasswordController', ['$scope', '$http
 
 angular.module('users').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
   function ($scope, $timeout, $window, Authentication, FileUploader) {
-    $scope.user = Authentication.user;
+      $scope.user = Authentication.user || { profileImageUrl: '' };
     $scope.imageURL = $scope.user.profileImageURL;
 
     // Create file uploader instance
