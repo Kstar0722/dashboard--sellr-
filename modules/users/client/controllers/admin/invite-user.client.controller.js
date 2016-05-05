@@ -7,8 +7,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
         $scope.accountsService = accountsService;
         $scope.authentication = Authentication;
         console.log('authentication %O', $scope.authentication)
-
-        $scope.roles = [
+        $scope.allRoles = [
             {text: 'admin', id: 1004},
             {text: 'owner', id: 1009},
             {text: 'manager', id: 1002},
@@ -17,28 +16,45 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
             { text: 'editor', id: 1010 },
             { text: 'curator', id: 1011 }
         ];
+        $scope.roles = [
+            {text: 'admin', id: 1004},
+            {text: 'owner', id: 1009},
+            {text: 'manager', id: 1002},
+            {text: 'supplier', id: 1007},
+            { text: 'editor', id: 1010 },
+            { text: 'curator', id: 1011 }
+        ];
         $scope.user = {
             accountId: localStorage.getItem('accountId')
         };
 
-
-
-        $scope.toggleRole = function (roleId) {
-            $scope.user.roles = $scope.user.roles || [];
-
-            //if role exists, remove it
-            if ($scope.user.roles.indexOf(roleId) > -1) {
-                $scope.user.roles.splice($scope.user.roles.indexOf(roleId), 1);
-
-            }
-            else {
-                //insert role
-                $scope.user.roles.push(roleId);
-            }
-        }
-        console.log('userRoles %O', $scope.user.roles);
-
         $scope.invite = function (isValid) {
+
+            switch ($scope.selected) {
+                case 1004:
+                    $scope.user.roles = [1004, 1009, 1002, 1007, 1003, 1010, 1011];
+                    break;
+                case 1009:
+                    $scope.user.roles = [1009, 1002, 1003];
+                    break;
+                case 1002:
+                    $scope.user.roles = [1002, 1007, 1003];
+                    break;
+                case 1007:
+                    $scope.user.roles = [1007 , 1003];
+                    break;
+                case 1010:
+                    $scope.user.roles = [1010 , 1003];
+                    break;
+                case 1011:
+                    $scope.user.roles = [1011 , 1010, 1003];
+                    break;
+                default:
+                    $scope.user.roles = [1003];
+            }
+
+
+            console.log('user roes', $scope.user.roles);
             if (!isValid) {
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;

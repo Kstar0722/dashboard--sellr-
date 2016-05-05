@@ -34,10 +34,10 @@
         <form id="reset-form" ng-show="reset" name="forgotPasswordForm"
               ng-submit="askForPasswordReset(forgotPasswordForm.$valid)" autocomplete="off" class="text-center"
               novalidate><img src="/assets/images/logo-300w.png" class="logo"/>
+          <h3>Enter your username below and we'll send a password reset link to the email address we have on file</h3>
           <md-input-container>
             <label>Username</label>
-            <input type="text" id="passuser" name="passuser" class="form-control" ng-model="stuff.passuser"
-                   placeholder="Username" lowercase required/>
+            <input type="text" id="passuser" name="passuser" class="form-control" ng-model="stuff.passuser" lowercase required/>
           </md-input-container>
           <br/>
           <div ng-messages="forgotPasswordForm.passuser.$error" role="alert">

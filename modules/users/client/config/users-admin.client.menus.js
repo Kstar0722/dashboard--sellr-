@@ -3,7 +3,7 @@
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'manager', {
+        Menus.addSubMenuItem('topbar', 'admin', {
             title: 'Account Manager',
             state: 'manager.accounts',
             position: 3

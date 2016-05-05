@@ -30,12 +30,10 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider',
     function ($locationProvider, $httpProvider, envServiceProvider) {
-        $locationProvider.html5Mode(true).hashPrefix('!');
+        $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!');
 
         $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
         $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-
-
         //SET ENVIRONMENT
 
         // set the domains and variables for each environment
@@ -1166,7 +1164,7 @@ angular.module('users.supplier.routes').config(['$stateProvider',
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'manager', {
+        Menus.addSubMenuItem('topbar', 'admin', {
             title: 'Account Manager',
             state: 'manager.accounts',
             position: 3
@@ -1475,8 +1473,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
         $scope.accountsService = accountsService;
         $scope.authentication = Authentication;
         console.log('authentication %O', $scope.authentication)
-
-        $scope.roles = [
+        $scope.allRoles = [
             {text: 'admin', id: 1004},
             {text: 'owner', id: 1009},
             {text: 'manager', id: 1002},
@@ -1485,28 +1482,45 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
             { text: 'editor', id: 1010 },
             { text: 'curator', id: 1011 }
         ];
+        $scope.roles = [
+            {text: 'admin', id: 1004},
+            {text: 'owner', id: 1009},
+            {text: 'manager', id: 1002},
+            {text: 'supplier', id: 1007},
+            { text: 'editor', id: 1010 },
+            { text: 'curator', id: 1011 }
+        ];
         $scope.user = {
             accountId: localStorage.getItem('accountId')
         };
 
-
-
-        $scope.toggleRole = function (roleId) {
-            $scope.user.roles = $scope.user.roles || [];
-
-            //if role exists, remove it
-            if ($scope.user.roles.indexOf(roleId) > -1) {
-                $scope.user.roles.splice($scope.user.roles.indexOf(roleId), 1);
-
-            }
-            else {
-                //insert role
-                $scope.user.roles.push(roleId);
-            }
-        }
-        console.log('userRoles %O', $scope.user.roles);
-
         $scope.invite = function (isValid) {
+
+            switch ($scope.selected) {
+                case 1004:
+                    $scope.user.roles = [1004, 1009, 1002, 1007, 1003, 1010, 1011];
+                    break;
+                case 1009:
+                    $scope.user.roles = [1009, 1002, 1003];
+                    break;
+                case 1002:
+                    $scope.user.roles = [1002, 1007, 1003];
+                    break;
+                case 1007:
+                    $scope.user.roles = [1007 , 1003];
+                    break;
+                case 1010:
+                    $scope.user.roles = [1010 , 1003];
+                    break;
+                case 1011:
+                    $scope.user.roles = [1011 , 1010, 1003];
+                    break;
+                default:
+                    $scope.user.roles = [1003];
+            }
+
+
+            console.log('user roes', $scope.user.roles);
             if (!isValid) {
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
@@ -2076,6 +2090,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 
 angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken',
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken) {
+        $scope.reset = false;
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
@@ -2166,7 +2181,13 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
-                    $state.go('manager.dashboard');
+                    if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
+                        if (Authentication.user.roles.indexOf('editor') >= 0) {
+                            $state.go('editor.products', { type: "wine", status: "new" })
+                        }
+                    } else {
+                        $state.go('dashboard', $state.previous.params);
+                    }
                 })
             }
         }
@@ -2215,8 +2236,16 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             localStorage.setItem('userObject', JSON.stringify({displayName:response.data.displayName, email: response.data.email, created:response.data.created}));
 
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
-
-            $state.go('dashboard', $state.previous.params);
+            console.log('Authetication.user %s', Authentication.user.roles.indexOf('admin'), Authentication.user.roles.indexOf('manager'), Authentication.user.roles.indexOf('owner'))
+            if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
+                if (Authentication.user.roles.indexOf('editor') >= 0) {
+                    $state.go('editor.products', { type: "wine", status: "new" })
+                    $window.location.reload();
+                }
+            } else {
+                $state.go('dashboard', $state.previous.params);
+                $window.location.reload();
+            }
 
         }
         //We could not sign into mongo, so clear everything and show error.
@@ -2242,12 +2271,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 angular.module('users.manager').controller('AccountManagerController', ["$scope", "locationsService", "$state", "accountsService", "CurrentUserService", "Authentication", "$http", "constants", "uploadService", "toastr", function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
     accountsService.init();
     $scope.accountsService = accountsService;
-
     $scope.determinateValue = 0;
     $scope.accountLogo = '';
     $scope.account = {
-        createdBy: Authentication.user.username
+        createdBy: ''
     };
+    if (Authentication.user) {
+        $scope.account.createdBy = Authentication.user.username
+    }
     console.log($scope.account);
 
     //changes the view, and sets current edit account
@@ -3168,6 +3199,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 
 angular.module('users').controller('productEditorController', ["$scope", "Authentication", "productEditorService", "$location", "$state", "$stateParams", "Countries", "$mdMenu", "constants", function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
 
+    Authentication.user = Authentication.user || { roles: '' };
     $scope.$state = $state;
     $scope.pes = productEditorService;
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
@@ -3212,6 +3244,9 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
             case 'spirits':
                 type = { name: 'spirits', productTypeId: 3 };
                 break;
+            default:
+                type = { name: 'wine', productTypeId: 1 };
+                break;
         }
         var status;
         switch ($stateParams.status) {
@@ -3227,6 +3262,10 @@ angular.module('users').controller('productEditorController', ["$scope", "Authen
             case 'approved':
                 status = { name: 'Approved', value: 'approved' };
                 break;
+            default:
+                status = { name: 'Available', value: 'new' };
+                break;
+
         }
 
         productEditorService.currentType = type;
@@ -3433,7 +3472,7 @@ angular.module('users').controller('ChangePasswordController', ['$scope', '$http
 
 angular.module('users').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
   function ($scope, $timeout, $window, Authentication, FileUploader) {
-    $scope.user = Authentication.user;
+      $scope.user = Authentication.user || { profileImageUrl: '' };
     $scope.imageURL = $scope.user.profileImageURL;
 
     // Create file uploader instance

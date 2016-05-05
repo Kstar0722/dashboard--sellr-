@@ -8,7 +8,9 @@ body.dashboard {
   font-size: 15px;
 }
 body.dashboard .content {
-  margin: 120px 0 0 0;
+  position: absolute;
+  width: 100vw;
+  top: 120px;
 }
 body.dashboard .content .titlebar {
   background: #1f2532;
@@ -191,7 +193,6 @@ section.userList .userbox {
   max-height: 15vh;
   background-position: center;
   background-repeat-x: no-repeat;
-  opacity: .15;
 }
 .sign-in #login-form input[type=text],
 .sign-in #reset-form input[type=text] {
@@ -951,4 +952,16 @@ section.userList .userbox {
   -webkit-animation-delay: 1s;
   -o-animation-delay: 1s;
   animation-delay: 1s;
+}
+.drop-box {
+  background: #F8F8F8;
+  border: 5px dashed #DDD;
+  width: 200px;
+  height: 65px;
+  text-align: center;
+  padding-top: 25px;
+  margin: 10px;
+}
+.dragover {
+  border: 5px dashed blue;
 }

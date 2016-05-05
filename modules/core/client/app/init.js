@@ -6,12 +6,10 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider',
     function ($locationProvider, $httpProvider, envServiceProvider) {
-        $locationProvider.html5Mode(true).hashPrefix('!');
+        $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!');
 
         $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
         $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-
-
         //SET ENVIRONMENT
 
         // set the domains and variables for each environment
