@@ -24,10 +24,14 @@
 
     <div class="form-group" show-errors>
       <label>User Role</label>
-      <div id="checks" ng-repeat="role in roles">
-        <md-checkbox ng-click="toggleRole(role.id)">{{role.text}}
-      </div>
-      <div ng-messages="userForm.userRole.$error" role="alert">
+
+      <md-radio-group ng-model="selected" class="md-primary" >
+        <md-radio-button ng-repeat="role in roles" ng-value="role.id"  aria-label="{{ role.text }}" md-no-ink  required>
+          {{ role.text }}
+        </md-radio-button>
+      </md-radio-group>
+
+      <div ng-messages="selected" role="alert">
         <p class="help-block error-text" ng-message="required">User Role is required.</p>
       </div>
     </div>
@@ -39,25 +43,8 @@
       </md-select>
     </div>
 
-
-    <!--<div ng-repeat="location in locations">-->
-    <!--<md-input-container class="md-block">-->
-    <!--<label ng-show="$first" id="location">Locations</label>-->
-    <!--<br>-->
-    <!--<input ng-model="location.name">-->
-
-    <!--<md-button class="md-button md-raised md-primary" ng-show="$last" ng-click="addNewLocation(locs)">Add Another Location</md-button>-->
-    <!--<md-button class="md-button md-raised md-primary" ng-show="removeLocationBox" ng-click="removeLocation()">Remove Location</md-button>-->
-    <!--</md-input-container>-->
-    <!--</div>-->
-
-
     <md-button type="submit" class="md-raised md-primary">Send Invite</md-button>
 
-
-    <!--<div ng-show="error" class="text-danger">-->
-    <!--<strong ng-bind="error"></strong>-->
-    <!--</div>-->
 
   </form>
 </section>
