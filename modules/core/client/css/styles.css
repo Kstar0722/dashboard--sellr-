@@ -677,6 +677,10 @@ section.userList .userbox {
 .productEditor .stats .status:focus {
   outline: 0;
 }
+.productEditor .stats .status.active {
+  background: white;
+  color: #2DC89A;
+}
 .productEditor .stats .btn-group {
   top: 33px;
 }
@@ -705,10 +709,6 @@ section.userList .userbox {
 }
 .productEditor .stats:nth-child(3) a {
   color: #3CD669;
-}
-.productEditor .stats .active {
-  background: rgba(255, 255, 255, 0.22);
-  color: #111921;
 }
 .productEditor .stats md-progress-circular {
   margin: 0 auto;
