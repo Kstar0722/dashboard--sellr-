@@ -64,7 +64,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bws.expertoncue.com',
+                    BWS_API: 'https://bwsdev.expertoncue.com',
                     env:'production'
 
                 }
