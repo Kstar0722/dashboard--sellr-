@@ -92,7 +92,13 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                     toastr.success('Success! User Created. Logging you in now...');
                     // And redirect to the previous or home page
-                    $state.go('manager.dashboard');
+                    if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
+                        if (Authentication.user.roles.indexOf('editor') >= 0) {
+                            $state.go('editor.products', { type: "wine", status: "new" })
+                        }
+                    } else {
+                        $state.go('dashboard', $state.previous.params);
+                    }
                 })
             }
         }
@@ -141,8 +147,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             localStorage.setItem('userObject', JSON.stringify({displayName:response.data.displayName, email: response.data.email, created:response.data.created}));
 
             toastr.success('Welcome to the OnCue Dashboard', 'Success');
-
-            $state.go('dashboard', $state.previous.params);
+            console.log('Authetication.user %s', Authentication.user.roles.indexOf('admin'), Authentication.user.roles.indexOf('manager'), Authentication.user.roles.indexOf('owner'))
+            if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
+                if (Authentication.user.roles.indexOf('editor') >= 0) {
+                    $state.go('editor.products', { type: "wine", status: "new" })
+                }
+            } else {
+                $state.go('dashboard', $state.previous.params);
+            }
 
         }
         //We could not sign into mongo, so clear everything and show error.
