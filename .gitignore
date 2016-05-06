@@ -13,3 +13,4 @@ app/tests/coverage/
 .idea/
 public/fw/prepros.cfg
 public/fw/prepros.cfg
+/*.log

@@ -31,7 +31,6 @@ module.exports.initLocalVariables = function (app) {
   }
   app.locals.keywords = config.app.keywords;
   app.locals.googleAnalyticsTrackingID = config.app.googleAnalyticsTrackingID;
-  app.locals.facebookAppId = config.facebook.clientID;
   app.locals.jsFiles = config.files.client.js;
   app.locals.cssFiles = config.files.client.css;
   app.locals.livereload = config.livereload;
@@ -96,8 +95,8 @@ module.exports.initMiddleware = function (app) {
 module.exports.initViewEngine = function (app) {
   // Set swig as the template engine
   app.engine('server.view.html', consolidate[config.templateEngine]);
-
   // Set views path and view engine
+    app.set('view engine', 'swig')
   app.set('view engine', 'server.view.html');
   app.set('views', './');
 };

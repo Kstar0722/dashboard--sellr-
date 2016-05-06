@@ -26,6 +26,20 @@ module.exports = function (grunt) {
             }
 
         },
+        processhtml: {
+            prod: {
+                options: { data: { title: 'Sellr Dashboard' } },
+                files: {
+                    'modules/core/server/views/layout.server.view.html': [ 'modules/core/server/views/index.process.html' ]
+                }
+            },
+            dev: {
+                options: { data: { title: 'Sellr Dashboard | DEV' } },
+                files: {
+                    'modules/core/server/views/layout.server.view.html': [ 'modules/core/server/views/index.process.html' ]
+                }
+            }
+        },
         watch: {
             serverViews: {
                 files: defaultAssets.server.views,
@@ -272,6 +286,7 @@ module.exports = function (grunt) {
     // Load NPM tasks
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-protractor-coverage');
+    grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-contrib-concat');
     // Make sure upload directory exists
     grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {
@@ -335,23 +350,11 @@ module.exports = function (grunt) {
         console.log(wiredep)
     })
 
-    // Lint project files and minify them into two production files.
-    grunt.registerTask('build', [ 'env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin' ]);
 
-    // Run the project tests
-    grunt.registerTask('test', [ 'env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'server', 'mochaTest', 'karma:unit', 'protractor' ]);
-    grunt.registerTask('test:server', [ 'env:test', 'lint', 'server', 'mochaTest' ]);
-    grunt.registerTask('test:client', [ 'env:test', 'lint', 'karma:unit' ]);
-    grunt.registerTask('test:e2e', [ 'env:test', 'lint', 'dropdb', 'server', 'protractor' ]);
-    // Run project coverage
-    grunt.registerTask('coverage', [ 'env:test', 'lint', 'mocha_istanbul:coverage', 'karma:unit' ]);
-
-    // Run the project in development mode
-    grunt.registerTask('default', [ 'build', 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default', 'watch' ]);
-
-    // Run the project in debug mode
-    grunt.registerTask('debug', [ 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug' ]);
-
+    grunt.registerTask('default', [ 'processhtml:dev', 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default', 'watch' ]);
     // Run the project in production mode
-    grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
+
+    // Lint project files and minify them into two production files.
+    grunt.registerTask('build', [ 'env:dev', 'lint', 'concat', 'uglify', 'cssmin' ]);
+    grunt.registerTask('prod', [ 'processhtml:prod', 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
 };
