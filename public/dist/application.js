@@ -413,12 +413,9 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
         console.log('menus %O', $scope.menu);
-        if($scope.authentication.user) {
-            if(!called)
-                intercomService.intercomActivation();
-            else
-                console.log('already called')
-        }
+        if($scope.authentication.user)
+            intercomService.intercomActivation();
+
         //
         //
         //var user = {{ user | json | safe }};
@@ -5902,8 +5899,9 @@ angular.module('users').service('CurrentUserService', ['Admin', '$state',
 angular.module('users').service('intercomService', function ($http, constants, toastr, Authentication, $q) {
     var me = this;
 
-    console.log('intercom service called!')
+
     me.intercomActivation = function () {
+        console.log('intercom service called!')
         window.Intercom('boot', {
             app_id: 'ugnow3fn',
             name: Authentication.user.username,

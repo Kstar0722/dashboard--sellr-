@@ -11,12 +11,9 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
         console.log('menus %O', $scope.menu);
-        if($scope.authentication.user) {
-            if(!called)
-                intercomService.intercomActivation();
-            else
-                console.log('already called')
-        }
+        if($scope.authentication.user)
+            intercomService.intercomActivation();
+
         //
         //
         //var user = {{ user | json | safe }};
