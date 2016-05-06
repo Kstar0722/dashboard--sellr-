@@ -18,7 +18,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com' ],
                 staging: [ 'dashqa.expertoncue.com' ],
-                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ]
+                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
+                heroku: [ 'sellrdashboard.herokuapp.com' ]
             },
             vars: {
                 local: {
@@ -27,7 +28,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://apidev.expertoncue.com',
+                    API_URL: 'https://api.expertoncue.com',
                     BWS_API: 'https://bwdev.expertoncue.com',
                     env:'dev'
                 },
@@ -40,7 +41,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     API_URL: 'https://api.expertoncue.com',
                     BWS_API: 'https://bwsdev.expertoncue.com',
                     env:'production'
-
+                },
+                heroku: {
+                    API_URL: 'https://oncue-api.herokuapp.com',
+                    BWS_API: 'https://sellr-bws.herokuapp.com',
+                    env: 'dev'
                 }
             }
         });
