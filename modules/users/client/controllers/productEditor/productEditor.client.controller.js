@@ -126,6 +126,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 
+    $scope.quickEdit = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId,
+            status: 'done'
+        };
+        productEditorService.claim(options);
+        productEditorService.setCurrentProduct(product);
+        productEditorService.currentStatus = { name: 'Done', value: 'done' };
+        $state.go('editor.products.detail', {
+            type: productEditorService.currentType.name,
+            status: 'done',
+            productId: product.productId,
+            task: 'edit'
+        });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+
+    }
+
     $scope.sendBack = function (prod, feedback) {
         prod.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
         productEditorService.saveProduct(prod);
@@ -140,8 +159,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         }
         productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
-        $('#submitforapproval').modal('hide')
         $scope.viewProduct(prod)
+        $('#submitforapproval').modal('hide')
     };
 
     $scope.approveProduct = function (prod) {
@@ -211,6 +230,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
                     bool = true;
                 }
                 break;
+            case 'Quick Edit':
+                if ($scope.permissions.curator && product.status == 'done') {
+                    bool = true
+                }
         }
 
         return bool
