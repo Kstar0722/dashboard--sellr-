@@ -40,7 +40,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         envServiceProvider.config({
             domains: {
                 local: [ 'localhost' ],
-                development: [ 'dashdev.expertoncue.com' ],
+                development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io' ],
                 staging: [ 'dashqa.expertoncue.com' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
                 heroku: [ 'sellrdashboard.herokuapp.com' ]
@@ -52,8 +52,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bwdev.expertoncue.com',
+                    API_URL: 'https://apdev.sllr.io',
+                    BWS_API: 'https://bwsdev.sllr.io',
                     env:'dev'
                 },
                 staging: {
