@@ -295,6 +295,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.formatProductDetail = function (product) {
         var defer = $q.defer()
         product.name = product.title || product.displayName || product.name;
+        product.notes = product.notes || product.text;
         product.properties.forEach(function (prop) {
             switch (prop.label) {
                 case 'Requested By':
