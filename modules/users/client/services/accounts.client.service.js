@@ -1,4 +1,4 @@
-angular.module('users').service('accountsService', function ($http, constants, toastr) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
     var me = this;
 
 
@@ -25,6 +25,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
                 }
                 if (account.accountId == me.selectAccountId) {
                     me.currentAccount = account;
+                    intercomService.intercomActivation();
                     console.log('setting current account %O', me.currentAccount)
                 }
             });
