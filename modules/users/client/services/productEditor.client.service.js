@@ -10,7 +10,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
-    me.userId = localStorage.getItem('userId');
+    if (localStorage.getItem('userId')) {
+        me.userId = localStorage.getItem('userId');
+    }
     me.show = {
         loading: true
     };
@@ -24,6 +26,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             { name: 'Done', value: 'done' },
             { name: 'Approved', value: 'approved' }
         ];
+        me.productStorage = {}
         me.productStats = {};
         me.productList = [];
         me.myProducts = [];
@@ -39,6 +42,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     //send in type,status and receive all products (limited to 50)
     me.getProductList = function (options) {
+        me.productList = [];
         me.show.loading = true;
         console.time('getProductList');
         if (!options.type || !options.status) {
@@ -65,11 +69,18 @@ angular.module('users').service('productEditorService', function ($http, $locati
                             product.lastEdit = moment(product.lastEdit).fromNow()
                         }
                     }
+                    // if (product.requested_by) {
+                    //     if (me.stores.indexOf(product.requested_by) < 0) {
+                    //         me.stores.push(product.requested_by);
+                    //         console.log('me stores %O', me.stores)
+                    //         $rootScope.$applyAsync()
+                    //     }
+                    // }
                     return product
                 });
-
+                
+                //sort with myProducts at the top
                 me.productList = _.sortBy(response.data, function (p) {
-                    log('sorter', Math.abs(p.userId - me.userId));
                     return Math.abs(p.userId - me.userId);
                 })
             }
@@ -119,36 +130,36 @@ angular.module('users').service('productEditorService', function ($http, $locati
             console.error('setCurrentProduct: please provide productId')
             return
         }
-        me.getProductDetail(product.productId).then(onGetProductDetailSuccess, onGetProductDetailError);
-        function onGetProductDetailSuccess(res) {
-            if (res.data.length > 0) {
-                me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                    var p = formattedProduct;
-                    log('formattedProduct', formattedProduct);
-                    me.currentProduct = formattedProduct;
-                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
+        if (me.productStorage[ product.productId ]) {
+            //use cached product if exists
+            me.currentProduct = me.productStorage[ product.productId ]
+        } else {
+            //get from api and format
+            var url = constants.BWS_API + '/edit/products/' + product.productId;
+            log('getting product detail for ', url)
+            $http.get(url).then(function (res) {
+                if (res.data.length > 0) {
+                    me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+                        var p = formattedProduct;
+                        log('formattedProduct', formattedProduct);
+                        me.currentProduct = formattedProduct;
 
-                })
-            } else {
+                        //cache current product for comparison
+                        cachedProduct = jQuery.extend(true, {}, formattedProduct);
+
+                        //store product for faster load next time
+                        me.productStorage[ product.productId ] = formattedProduct
+
+                    })
+                } else {
+                    toastr.error('Could not get product detail for ' + product.name)
+                }
+            }, function (error) {
+                console.error(error)
                 toastr.error('Could not get product detail for ' + product.name)
-            }
-        }
-
-        function onGetProductDetailError(err) {
-            console.error('onGetProductDetailError %O', err)
+            });
         }
     };
-
-
-    me.getProductDetail = function (productId) {
-        if (!productId) {
-            console.error('getProductDetail: please provide productId')
-            return
-        }
-        var url = constants.BWS_API + '/edit/products/' + productId;
-        log('getting product detail for ', url)
-        return $http.get(url)
-    }
 
 
     //claim a product
@@ -157,7 +168,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
-        options.status = 'inprogress';
+        if (options.status != 'done') {
+            options.status = 'inprogress';
+        }
         var payload = {
             "payload": options
         };
@@ -196,30 +209,33 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     me.saveProduct = function (product) {
         var defer = $q.defer();
-        //check productId
-        if (!product.productId) {
-            console.error('saveProduct: no productId specified %O', product)
+
+        product.userId = me.userId;
+        //check productId and userId
+        if (!product.productId || !product.userId) {
+            console.error('saveProduct: no productId or userId specified %O', product)
             return
         }
         product = compareToCachedProduct(product);
-        product.status = 'inprogress';
-
-        product.userId = me.userId;
+        if (product.status != 'done') {
+            product.status = 'inprogress';
+        }
         var payload = {
             payload: product
         };
-        log('saveProduct', payload)
+        log('saveProduct', payload);
         var url = constants.BWS_API + '/edit/products/' + product.productId;
-        $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
-
-        function onUpdateSuccess(response) {
-            log('onUpdateSuccess', response)
+        $http.put(url, payload).then(function (response) {
+            log('onUpdateSuccess', response);
             window.scrollTo(0, 0);
-            toastr.success('Product saved!')
-            socket.emit('product-saved')
+            toastr.success('Product saved!');
+            socket.emit('product-saved');
+            me.productStorage[ product.productId ] = product;
             defer.resolve(true)
 
-        }
+        }, onUpdateError);
+
+
 
         function onUpdateError(error) {
             toastr.error('There was a problem updating this product', 'Could not save');

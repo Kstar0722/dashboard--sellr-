@@ -1,11 +1,24 @@
 <div class="list" >
   <md-input-container>
-    <label for="searchProduct">Filter Product List</label>
+    <label for="searchProduct">Filter Name</label>
     <input id="searchProduct" type="text" ng-model="search.$">
   </md-input-container>
+  <div>
+    <label for="searchStore">Filter Store:</label>
+    <select id="searchStore" ng-model="search.requested_by">
+      <option value="" selected>All Stores</option>
+      <option value="MACS">Mac's</option>
+      <option value="JONS">Jon's</option>
+      <option value="sellr">OnCue</option>
+    </select>
+  </div>
+
+  <md-checkbox ng-model="display.myProducts">Only Show My Products</md-checkbox>
+
+
   <p ng-show="(pes.productList|filter:search).length==0">No products found that match: "{{ search.$ }}"</p>
 
-  <div class="row " ng-repeat="product in pes.productList|filter:search|limitTo:searchLimit" ng-show="showProduct(product)">
+  <div class="row " ng-repeat="product in pes.productList|filter:search|filter:search.requested_by|limitTo:searchLimit" ng-if="showProduct(product)">
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>
@@ -20,6 +33,7 @@
     <div class="row" ng-if="permissions.editor || permissions.curator">
       <button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>
       <button ng-show="buttonDisplay('Edit',product)" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>
+      <button ng-show="buttonDisplay('Quick Edit',product)" class="btn btn-info btn-sm" ng-click="quickEdit(product)">Quick Edit</button>
       <button ng-show="buttonDisplay('Unassign',product)" class="btn btn-danger btn-sm" ng-click="removeClaim(product,$index)">Unassign
       </button>
       <button ng-show="buttonDisplay('Claim',product)" class="btn btn-info btn-sm"
