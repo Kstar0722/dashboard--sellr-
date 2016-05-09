@@ -182,6 +182,33 @@
       </div>
     </div>
     <!-- END UNSUBMIT MODAL -->
+
+    <!-- Duplicate  MODAL -->
+    <div class="modal" id="flagasduplicate">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Flag As Duplicate</h4>
+          </div>
+
+          <div class="modal-body">
+            <p>Marking this product as a potential duplicate will remove it from the list and will be reviewed. Please add a comment to explain why you
+              believe this is a duplicate, or the name/productID of the product that it duplicates.</p>
+            <md-input-container>
+              <label for="duplicateComment">Comments:</label>
+              <textarea id="duplicateComment" ng-model="duplicateComment"></textarea>
+            </md-input-container>
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+            <input class="btn btn-primary btn-wide" type="submit" value="Flag As Duplicate" data-dismiss="modal"
+                   ng-click="flagAsDuplicate(pes.currentProduct,duplicateComment)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END UNSUBMIT MODAL -->
     <div class="row">
       <div class="btn-group" role="group" ng-show="permissions.curator && pes.currentProduct.status ==='done'">
         <button class="btn " type="button" style="background-color:#C52424" data-toggle="modal" data-target="#sendback">Send Back</button>
@@ -197,8 +224,11 @@
           <button type="button" class="btn btn-primary" ng-show="pes.currentProduct.status =='done'" data-toggle="modal" data-target="#unsubmitproduct">
             Unsubmit
           </button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#flagasduplicate">
+            Flag As Duplicate
+          </button>
 
-          <button type="button" class="btn btn-success" ng-click="updateProduct(pes.currentProduct)">Save</button>
+          <button type="button" class="btn btn-success" ng-click="save(pes.currentProduct)">Save</button>
         </div>
       </div>
     </div>

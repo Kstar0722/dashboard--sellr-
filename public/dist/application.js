@@ -3191,7 +3191,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     $scope.showMore = function () {
         $scope.searchLimit += 15;
-        socket.send({ message: 'hello world' })
     };
 
 
@@ -3318,37 +3317,47 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     }
 
-    $scope.sendBack = function (prod, feedback) {
-        prod.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
-        productEditorService.saveProduct(prod);
+    $scope.sendBack = function (product, feedback) {
+        product.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
+        product.status = 'inprogress';
+        productEditorService.save(product);
     };
 
-    $scope.submitForApproval = function (prod) {
-        if (prod.description) {
+    $scope.submitForApproval = function (product) {
+        if (product.description) {
             var re = /<.*?>.*$/;
-            prod.description = prod.description.replace(re, '');
+            product.description = product.description.replace(re, '');
             var re2 = /=+.*?.*$/;
-            prod.description = prod.description.replace(re2, '');
+            product.description = product.description.replace(re2, '');
         }
-        productEditorService.saveProduct(prod)
-        productEditorService.finishProduct(prod);
-        $scope.viewProduct(prod)
+        product.status = 'done';
+        productEditorService.save(product);
+        $scope.viewProduct(product)
         $('#submitforapproval').modal('hide')
     };
 
-    $scope.approveProduct = function (prod) {
-        productEditorService.approveProduct(prod);
-        //    TODO:redirect to view screen
+    $scope.approveProduct = function (product) {
+        product.status = 'approved';
+        productEditorService.save(product);
     };
 
-    $scope.unsubmitProduct = function (prod) {
-        //save automatically updates status to 'inprogress'
-        productEditorService.saveProduct(prod)
+    $scope.save = function (product) {
+        product.status = 'inprogress';
+        productEditorService.save(product)
     };
 
-    $scope.updateProduct = function (prod) {
-        productEditorService.saveProduct(prod)
+    $scope.updateProduct = function (product) {
+        if (product.status != 'done') {
+            product.status = 'inprogress';
+        }
+        productEditorService.save(product)
     };
+
+    $scope.flagAsDuplicate = function (product, comments) {
+        product.description += comments;
+        product.status = 'duplicate';
+        productEditorService.save(product)
+    }
 
 
     $scope.playAudio = function () {
@@ -6079,7 +6088,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
         me.getStats();
         me.show.loading = false;
-        // me.updateProductList();
     };
 
     //send in type,status and receive all products (limited to 50)
@@ -6111,20 +6119,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
                             product.lastEdit = moment(product.lastEdit).fromNow()
                         }
                     }
-                    // if (product.requested_by) {
-                    //     if (me.stores.indexOf(product.requested_by) < 0) {
-                    //         me.stores.push(product.requested_by);
-                    //         console.log('me stores %O', me.stores)
-                    //         $rootScope.$applyAsync()
-                    //     }
-                    // }
                     return product
                 });
                 
                 //sort with myProducts at the top
                 me.productList = _.sortBy(response.data, function (p) {
                     return Math.abs(p.userId - me.userId);
-                })
+                });
+                
             }
         }
         function getAvailProdError(error) {
@@ -6145,8 +6147,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 status: me.currentStatus.value,
                 userId: me.userId
             };
-
-            // console.error('getMyProducts: Please add a type, status and userId to get available products %O', options)
         }
         var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId;
         $http.get(url).then(getMyProdSuccess, getMyProdError);
@@ -6163,6 +6163,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
 
 
+    //calls get detail from API and caches product
     me.setCurrentProduct = function (product) {
         me.currentProduct = {};
         cachedProduct = {};
@@ -6175,11 +6176,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (me.productStorage[ product.productId ]) {
             //use cached product if exists
             me.currentProduct = me.productStorage[ product.productId ]
+            cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+
         } else {
             //get from api and format
-            var url = constants.BWS_API + '/edit/products/' + product.productId;
-            log('getting product detail for ', url)
-            $http.get(url).then(function (res) {
+            me.getProductDetail(product).then(function (res) {
                 if (res.data.length > 0) {
                     me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
                         var p = formattedProduct;
@@ -6202,6 +6203,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
             });
         }
     };
+
+
+    //abstracts away remote call for detail
+    me.getProductDetail = function (product) {
+        return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
+    }
 
 
     //claim a product
@@ -6248,89 +6255,34 @@ angular.module('users').service('productEditorService', function ($http, $locati
         })
     };
 
-
-    me.saveProduct = function (product) {
-        var defer = $q.defer();
-
-        product.userId = me.userId;
-        //check productId and userId
-        if (!product.productId || !product.userId) {
-            console.error('saveProduct: no productId or userId specified %O', product)
+    me.save = function (product) {
+        var defer = $q.defer()
+        if (!product.productId) {
+            console.error('save error: no productId specified %O', product)
             return
         }
-        product = compareToCachedProduct(product);
-        if (product.status != 'done') {
-            product.status = 'inprogress';
-        }
+        product.userId = me.userId;
         var payload = {
             payload: product
         };
-        log('saveProduct', payload);
         var url = constants.BWS_API + '/edit/products/' + product.productId;
-        $http.put(url, payload).then(function (response) {
-            log('onUpdateSuccess', response);
+        $http.put(url, payload).then(onSaveSuccess, onSaveError);
+        function onSaveSuccess(response) {
+            console.log('onSaveSuccess %O', response);
             window.scrollTo(0, 0);
-            toastr.success('Product saved!');
             socket.emit('product-saved');
             me.productStorage[ product.productId ] = product;
-            defer.resolve(true)
-
-        }, onUpdateError);
-
-
-
-        function onUpdateError(error) {
-            toastr.error('There was a problem updating this product', 'Could not save');
-            console.error('onUpdateError %O', error)
-        }
-        return defer.promise;
-    };
-
-    me.finishProduct = function (product) {
-        if (!product.productId) {
-            console.error('finishProduct: no productId specified %O', product)
-        }
-        product.userId = me.userId;
-
-        product.status = 'done';
-        var payload = {
-            payload: product
-        };
-        var url = constants.BWS_API + '/edit/products/' + product.productId;
-        $http.put(url, payload).then(onFinishSuccess, onFinishError);
-
-        function onFinishSuccess(response) {
-            console.log('onFinishSuccess %O', response)
-            toastr.success('Product submitted for approval')
+            toastr.success('Product Updated!')
+            defer.resolve()
         }
 
-        function onFinishError(error) {
-            console.error('onFinishError %O', error)
-            toastr.error('There was a problem submitting this product for approval.')
+        function onSaveError(error) {
+            console.error('onSaveError %O', error);
+            toastr.error('There was a problem updating product ' + product.productId)
+            defer.reject()
         }
-    };
 
-
-    me.approveProduct = function (product) {
-        if (!product.productId) {
-            console.error('approveProduct: no productId specified %O', product)
-        }
-        product.userId = me.userId;
-
-        product.status = 'approved';
-        var payload = {
-            payload: product
-        };
-        var url = constants.BWS_API + '/edit/products/' + product.productId;
-        $http.put(url, payload).then(onApproveSuccess, onApproveError);
-        function onApproveSuccess(response) {
-            console.log('onApproveSuccess %O', response)
-            toastr.success('Product Approved!')
-        }
-        function onApproveError(error) {
-            console.error('onApproveError %O', error)
-            toastr.error('There was a problem approving product ' + product.productId)
-        }
+        return defer.promise
     };
 
 
@@ -6411,7 +6363,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             if(response) {
                 toastr.success('Product Image Updated!');
 
-                me.saveProduct(me.currentProduct).then(function(err, response){
+                me.save(me.currentProduct).then(function (err, response) {
                     me.setCurrentProduct(me.currentProduct);
                 })
             }
@@ -6437,7 +6389,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             if(response) {
                 toastr.success('Product Audio Updated!');
 
-                me.saveProduct(me.currentProduct).then(function(err, response){
+                me.save(me.currentProduct).then(function (err, response) {
                     me.setCurrentProduct(me.currentProduct);
                 })
 
