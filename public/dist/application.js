@@ -6181,7 +6181,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         if (me.productStorage[ product.productId ]) {
             //use cached product if exists
-            me.currentProduct = me.productStorage[ product.productId ]
+            me.currentProduct = me.productStorage[ product.productId ];
             cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
 
         } else {
@@ -6269,7 +6269,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         product.userId = me.userId;
         var payload = {
-            payload: product
+            payload: compareToCachedProduct(product)
         };
         var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onSaveSuccess, onSaveError);
@@ -6372,7 +6372,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 toastr.success('Product Image Updated!');
 
                 me.save(me.currentProduct).then(function (err, response) {
-                    me.setCurrentProduct(me.currentProduct);
+                    refreshProduct(me.currentProduct);
+
                 })
             }
             else{
@@ -6398,7 +6399,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 toastr.success('Product Audio Updated!');
 
                 me.save(me.currentProduct).then(function (err, response) {
-                    me.setCurrentProduct(me.currentProduct);
+                    refreshProduct(me.currentProduct);
                 })
 
             }
@@ -6416,22 +6417,22 @@ angular.module('users').service('productEditorService', function ($http, $locati
             $http.delete(url).then(function () {
                 toastr.success('audio removed', 'Success');
 
-                me.saveProduct(me.currentProduct).then(function(err, response){
-                    me.setCurrentProduct(me.currentProduct);
+                me.save(me.currentProduct).then(function (err, response) {
+                    refreshProduct(me.currentProduct);
                 })
             })
-    }
+    };
     me.removeImage= function(currentImage){
         console.log('delete image %O', currentImage)
         var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
         $http.delete(url).then(function () {
             toastr.success('image removed', 'Success');
-            me.saveProduct(me.currentProduct).then(function(err, response){
-                me.setCurrentProduct(me.currentProduct);
+            me.save(me.currentProduct).then(function (err, response) {
+                refreshProduct(me.currentProduct);
             })
         })
 
-    }
+    };
     function compareToCachedProduct(prod) {
         log('updatedProd', prod);
         log('cachedProd', cachedProduct);
@@ -6485,6 +6486,27 @@ angular.module('users').service('productEditorService', function ($http, $locati
             });
             me.productList[ i ].userId = null;
             $rootScope.$apply()
+        })
+    }
+
+    function refreshProduct(product) {
+        me.getProductDetail(product).then(function (res) {
+            if (res.data.length > 0) {
+                me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+                    var p = formattedProduct;
+                    log('formattedProduct', formattedProduct);
+                    me.currentProduct = formattedProduct;
+
+                    //cache current product for comparison
+                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
+
+                    //store product for faster load next time
+                    me.productStorage[ product.productId ] = formattedProduct
+
+                })
+            } else {
+                toastr.error('Could not get product detail for ' + product.name)
+            }
         })
     }
 
