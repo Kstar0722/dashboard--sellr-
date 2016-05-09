@@ -3353,11 +3353,17 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.pauseAudio = function () {
         productEditorService.currentProduct.audio.pause()
     };
+    $scope.removeAudio = function () {
+        var currentAudio = productEditorService.currentProduct.audio.mediaAssetId;
+        productEditorService.removeAudio(currentAudio)
+    };
     $scope.seekAudio = function () {
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     };
-
+    $scope.removeImage = function (current) {
+        productEditorService.removeImage(current)
+    };
     $(window).bind('keydown', function (event) {
         if (event.ctrlKey || event.metaKey) {
             var prod = productEditorService.currentProduct;
@@ -3438,7 +3444,7 @@ angular.module('users').controller('productEditorDetailController', function ($s
         editor: Authentication.user.roles.indexOf('editor') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1
     };
-    console.log('state params %O', type, status)
+    console.log('state params %O', type, status);
 
     console.log('starting product detail controller');
     $scope.productEditorService = productEditorService;
@@ -6372,6 +6378,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     product.description = product.description || m.script;
                     product.audio = document.createElement('AUDIO');
                     product.audio.src = m.publicUrl;
+                    product.audio.mediaAssetId = m.mediaAssetId;
                     product.audio.ontimeupdate = function setProgress() {
                         product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
                     };
@@ -6379,6 +6386,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 case 'IMAGE':
                     product.hasImages = true;
                     product.images = product.images || [];
+                    product.images.mediaAssetId = m.mediaAssetId;
                     product.images.push(m)
             }
         });
@@ -6440,6 +6448,28 @@ angular.module('users').service('productEditorService', function ($http, $locati
         })
 
     };
+    me.removeAudio = function(currentAudio){
+            console.log('delete audio %O', currentAudio)
+            var url = constants.API_URL + '/media/' + currentAudio;
+            $http.delete(url).then(function () {
+                toastr.success('audio removed', 'Success');
+
+                me.saveProduct(me.currentProduct).then(function(err, response){
+                    me.setCurrentProduct(me.currentProduct);
+                })
+            })
+    }
+    me.removeImage= function(currentImage){
+        console.log('delete image %O', currentImage)
+        var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
+        $http.delete(url).then(function () {
+            toastr.success('image removed', 'Success');
+            me.saveProduct(me.currentProduct).then(function(err, response){
+                me.setCurrentProduct(me.currentProduct);
+            })
+        })
+
+    }
     function compareToCachedProduct(prod) {
         log('updatedProd', prod);
         log('cachedProd', cachedProduct);
