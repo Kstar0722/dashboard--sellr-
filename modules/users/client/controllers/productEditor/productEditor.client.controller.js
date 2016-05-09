@@ -22,7 +22,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     $scope.showMore = function () {
         $scope.searchLimit += 15;
-        socket.send({ message: 'hello world' })
     };
 
 
@@ -149,37 +148,47 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     }
 
-    $scope.sendBack = function (prod, feedback) {
-        prod.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
-        productEditorService.saveProduct(prod);
+    $scope.sendBack = function (product, feedback) {
+        product.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
+        product.status = 'inprogress';
+        productEditorService.save(product);
     };
 
-    $scope.submitForApproval = function (prod) {
-        if (prod.description) {
+    $scope.submitForApproval = function (product) {
+        if (product.description) {
             var re = /<.*?>.*$/;
-            prod.description = prod.description.replace(re, '');
+            product.description = product.description.replace(re, '');
             var re2 = /=+.*?.*$/;
-            prod.description = prod.description.replace(re2, '');
+            product.description = product.description.replace(re2, '');
         }
-        productEditorService.saveProduct(prod)
-        productEditorService.finishProduct(prod);
-        $scope.viewProduct(prod)
+        product.status = 'done';
+        productEditorService.save(product);
+        $scope.viewProduct(product)
         $('#submitforapproval').modal('hide')
     };
 
-    $scope.approveProduct = function (prod) {
-        productEditorService.approveProduct(prod);
-        //    TODO:redirect to view screen
+    $scope.approveProduct = function (product) {
+        product.status = 'approved';
+        productEditorService.save(product);
     };
 
-    $scope.unsubmitProduct = function (prod) {
-        //save automatically updates status to 'inprogress'
-        productEditorService.saveProduct(prod)
+    $scope.save = function (product) {
+        product.status = 'inprogress';
+        productEditorService.save(product)
     };
 
-    $scope.updateProduct = function (prod) {
-        productEditorService.saveProduct(prod)
+    $scope.updateProduct = function (product) {
+        if (product.status != 'done') {
+            product.status = 'inprogress';
+        }
+        productEditorService.save(product)
     };
+
+    $scope.flagAsDuplicate = function (product, comments) {
+        product.description += ' | DUPLICATE:' + comments;
+        product.status = 'duplicate';
+        productEditorService.save(product)
+    }
 
 
     $scope.playAudio = function () {
@@ -188,11 +197,17 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.pauseAudio = function () {
         productEditorService.currentProduct.audio.pause()
     };
+    $scope.removeAudio = function () {
+        var currentAudio = productEditorService.currentProduct.audio.mediaAssetId;
+        productEditorService.removeAudio(currentAudio)
+    };
     $scope.seekAudio = function () {
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     };
-
+    $scope.removeImage = function (current) {
+        productEditorService.removeImage(current)
+    };
     $(window).bind('keydown', function (event) {
         if (event.ctrlKey || event.metaKey) {
             var prod = productEditorService.currentProduct;
