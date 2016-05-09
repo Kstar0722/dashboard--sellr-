@@ -8,6 +8,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.detail = {
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
+    $scope.display = {
+        myProducts: false
+    }
+
     $scope.permissions = {
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1 || Authentication.user.roles.indexOf('admin') > -1
@@ -242,12 +246,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     $scope.showProduct = function (product) {
         var display = true;
-        if (product.status == 'inprogress') {
-            display = product.userId == $scope.userId;
-        }
-        if (product.status == 'done') {
+        if (product.status == 'inprogress' || product.status == 'done') {
             display = (product.userId == $scope.userId || $scope.permissions.curator);
-
+        }
+        if ($scope.display.myProducts) {
+            display = product.userId == $scope.userId
         }
         return display;
     };
