@@ -3295,6 +3295,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
     };
 
+    $scope.quickEdit = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId,
+            status: 'done'
+        };
+        productEditorService.claim(options);
+        productEditorService.setCurrentProduct(product);
+        productEditorService.currentStatus = { name: 'Done', value: 'done' };
+        $state.go('editor.products.detail', {
+            type: productEditorService.currentType.name,
+            status: 'done',
+            productId: product.productId,
+            task: 'edit'
+        });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+
+    }
+
     $scope.sendBack = function (prod, feedback) {
         prod.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
         productEditorService.saveProduct(prod);
@@ -3309,8 +3328,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         }
         productEditorService.saveProduct(prod)
         productEditorService.finishProduct(prod);
-        $('#submitforapproval').modal('hide')
         $scope.viewProduct(prod)
+        $('#submitforapproval').modal('hide')
     };
 
     $scope.approveProduct = function (prod) {
@@ -3380,6 +3399,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
                     bool = true;
                 }
                 break;
+            case 'Quick Edit':
+                if ($scope.permissions.curator && product.status == 'done') {
+                    bool = true
+                }
         }
 
         return bool
@@ -6026,7 +6049,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
-    me.userId = localStorage.getItem('userId');
+    if (localStorage.getItem('userId')) {
+        me.userId = localStorage.getItem('userId');
+    }
     me.show = {
         loading: true
     };
@@ -6173,7 +6198,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
-        options.status = 'inprogress';
+        if (options.status != 'done') {
+            options.status = 'inprogress';
+        }
         var payload = {
             "payload": options
         };
@@ -6218,9 +6245,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
             return
         }
         product = compareToCachedProduct(product);
-        product.status = 'inprogress';
-
+        if (product.status != 'done') {
+            product.status = 'inprogress';
+        }
         product.userId = me.userId;
+        console.log('me userId', me.userId)
+        if (!product.userId) {
+            console.error('Cant save, please add userId')
+        }
         var payload = {
             payload: product
         };

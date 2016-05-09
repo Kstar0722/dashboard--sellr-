@@ -10,7 +10,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
     var cachedProduct;
     me.changes = [];
-    me.userId = localStorage.getItem('userId');
+    if (localStorage.getItem('userId')) {
+        me.userId = localStorage.getItem('userId');
+    }
     me.show = {
         loading: true
     };
@@ -157,7 +159,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         if (!options.productId || !options.userId) {
             console.error('could not claim, wrong options')
         }
-        options.status = 'inprogress';
+        if (options.status != 'done') {
+            options.status = 'inprogress';
+        }
         var payload = {
             "payload": options
         };
@@ -202,9 +206,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
             return
         }
         product = compareToCachedProduct(product);
-        product.status = 'inprogress';
-
+        if (product.status != 'done') {
+            product.status = 'inprogress';
+        }
         product.userId = me.userId;
+        console.log('me userId', me.userId)
+        if (!product.userId) {
+            console.error('Cant save, please add userId')
+        }
         var payload = {
             payload: product
         };

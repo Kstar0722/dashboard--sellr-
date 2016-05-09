@@ -20,6 +20,7 @@
     <div class="row" ng-if="permissions.editor || permissions.curator">
       <button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>
       <button ng-show="buttonDisplay('Edit',product)" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>
+      <button ng-show="buttonDisplay('Quick Edit',product)" class="btn btn-info btn-sm" ng-click="quickEdit(product)">Quick Edit</button>
       <button ng-show="buttonDisplay('Unassign',product)" class="btn btn-danger btn-sm" ng-click="removeClaim(product,$index)">Unassign
       </button>
       <button ng-show="buttonDisplay('Claim',product)" class="btn btn-info btn-sm"
