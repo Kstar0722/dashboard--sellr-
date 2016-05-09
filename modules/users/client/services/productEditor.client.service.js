@@ -283,6 +283,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     product.description = product.description || m.script;
                     product.audio = document.createElement('AUDIO');
                     product.audio.src = m.publicUrl;
+                    product.audio.mediaAssetId = m.mediaAssetId;
                     product.audio.ontimeupdate = function setProgress() {
                         product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
                     };
@@ -290,6 +291,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 case 'IMAGE':
                     product.hasImages = true;
                     product.images = product.images || [];
+                    product.images.mediaAssetId = m.mediaAssetId;
                     product.images.push(m)
             }
         });
@@ -348,6 +350,28 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 toastr.error('Product Audio Failed To Update!');
                 console.log(err)
             }
+        })
+
+    };
+    me.removeAudio = function(currentAudio){
+            console.log('delete audio %O', currentAudio)
+            var url = constants.API_URL + '/media/' + currentAudio;
+            $http.delete(url).then(function () {
+                toastr.success('audio removed', 'Success');
+
+                me.saveProduct(me.currentProduct).then(function(err, response){
+                    me.setCurrentProduct(me.currentProduct);
+                })
+            })
+    };
+    me.removeImage= function(currentImage){
+        console.log('delete image %O', currentImage)
+        var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
+        $http.delete(url).then(function () {
+            toastr.success('image removed', 'Success');
+            me.saveProduct(me.currentProduct).then(function(err, response){
+                me.setCurrentProduct(me.currentProduct);
+            })
         })
 
     };

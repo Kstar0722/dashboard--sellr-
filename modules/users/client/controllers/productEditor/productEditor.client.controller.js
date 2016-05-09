@@ -197,11 +197,17 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.pauseAudio = function () {
         productEditorService.currentProduct.audio.pause()
     };
+    $scope.removeAudio = function () {
+        var currentAudio = productEditorService.currentProduct.audio.mediaAssetId;
+        productEditorService.removeAudio(currentAudio)
+    };
     $scope.seekAudio = function () {
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     };
-
+    $scope.removeImage = function (current) {
+        productEditorService.removeImage(current)
+    };
     $(window).bind('keydown', function (event) {
         if (event.ctrlKey || event.metaKey) {
             var prod = productEditorService.currentProduct;

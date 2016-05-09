@@ -8,7 +8,7 @@ angular.module('users').controller('productEditorDetailController', function ($s
         editor: Authentication.user.roles.indexOf('editor') > -1,
         curator: Authentication.user.roles.indexOf('curator') > -1
     };
-    console.log('state params %O', type, status)
+    console.log('state params %O', type, status);
 
     console.log('starting product detail controller');
     $scope.productEditorService = productEditorService;
