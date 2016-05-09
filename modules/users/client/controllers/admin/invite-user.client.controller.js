@@ -56,6 +56,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
 
             console.log('user roes', $scope.user.roles);
             if (!isValid) {
+                console.log('failed')
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
@@ -63,18 +64,21 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
                 var payload = {
                     payload: $scope.user
                 };
-
+                console.log(payload.payload)
                 $http.post(constants.API_URL + '/users', payload).then(onInviteSuccess, onInviteError);
-
+                //onInviteSuccess('true')
             }
         };
         function onInviteSuccess(response) {
+            console.log('success!')
             toastr.success('User Invited', 'Invite Success!');
             console.dir(response);
+            $scope.success = true;
             $state.go($state.previous.state.name || 'home', $state.previous.params);
         }
 
         function onInviteError(err) {
+            console.log('error')
             toastr.error('There was a problem inviting this user.');
             console.error(err)
         }
