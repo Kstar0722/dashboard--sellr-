@@ -205,7 +205,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
 
     me.save = function (product) {
-        var defer = $q.defer()
+        var defer = $q.defer();
         if (!product.productId) {
             console.error('save error: no productId specified %O', product)
             return

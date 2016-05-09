@@ -3354,7 +3354,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
 
     $scope.flagAsDuplicate = function (product, comments) {
-        product.description += comments;
+        product.description += ' | DUPLICATE:' + comments;
         product.status = 'duplicate';
         productEditorService.save(product)
     }
@@ -6262,7 +6262,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
 
     me.save = function (product) {
-        var defer = $q.defer()
+        var defer = $q.defer();
         if (!product.productId) {
             console.error('save error: no productId specified %O', product)
             return
