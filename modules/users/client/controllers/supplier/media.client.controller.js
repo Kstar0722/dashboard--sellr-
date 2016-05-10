@@ -5,7 +5,7 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
-        var files = [];
+        $scope.files = [];
         $scope.links = [];
 
         $scope.$watch('files', function () {

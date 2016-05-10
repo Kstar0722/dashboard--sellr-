@@ -2658,123 +2658,6 @@ angular.module('users.manager').controller('LocationManagerController', function
 ;
 'use strict';
 
-angular.module('users').controller('ManagerUploadController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants) {
-        $scope.authentication = Authentication;
-        //$scope.file = '  ';
-        var self = this;
-        //var files3 = '';
-        $scope.links = [];
-        $scope.list_categories = [];
-        function encode(data) {
-            var str = data.reduce(function (a, b) {
-                return a + String.fromCharCode(b)
-            }, '');
-            return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
-        }
-        $scope.init = function () {
-
-        }
-        $scope.viewImage = function(image){
-            ImageService.image = image;
-            $state.go('supplier.assets',image);
-
-        };
-
-        $scope.getFile = function () {
-            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    for (var i in response.data) {
-                        $scope.links.push(response.data[i].mediaAssetId + "-" + response.data[i].fileName);
-                    }
-                }
-            });
-        }
-
-        $scope.upload = function (file) {
-
-
-            var obj = {
-                payload: {
-                    fileName: file[0].name,
-                    userName: $scope.authentication.user.username
-                }
-            };
-            $http.post(constants.API_URL + '/ads', obj).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    $scope.creds = {
-                        bucket: 'beta.cdn.expertoncue.com',
-                        access_key: 'AKIAICAP7UIWM4XZWVBA',
-                        secret_key: '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'
-                    }
-                    // Configure The S3 Object
-                    AWS.config.update({
-                        accessKeyId: $scope.creds.access_key,
-                        secretAccessKey: $scope.creds.secret_key
-                    });
-                    AWS.config.region = 'us-east-1';
-                    var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-                    console.log(response.data)
-                    //if (file) {
-                    var params = {
-                        Key: response.data.assetId + "-" + file[0].name,
-                        ContentType: file[0].type,
-                        Body: file[0],
-                        ServerSideEncryption: 'AES256',
-                        Metadata: {
-                            fileKey: JSON.stringify(response.data.assetId)
-                        }
-                    };
-                    console.dir(params.Metadata.fileKey)
-                    bucket.putObject(params, function (err, data) {
-                            $scope.loading = true;
-                            if (err) {
-                                // There Was An Error With Your S3 Config
-                                alert(err.message);
-                                return false;
-                            }
-                            else {
-                                console.dir(data);
-                                // Success!
-
-
-                                alert('Upload Done');
-
-                            }
-                        })
-                        .on('httpUploadProgress', function (progress) {
-                            // Log Progress Information
-
-                            console.log(Math.round(progress.loaded / progress.total * 100) + '% done');
-                            self.determinateValue = Math.round(progress.loaded / progress.total *100);
-                            $scope.$apply();
-                            //$scope.$apply();
-                            //console.log($scope.data.loading);
-                            //$scope.loading = (progress.loaded / progress.total *100);
-
-                        });
-                }
-                else {
-                    // No File Selected
-                    alert('No File Selected');
-                }
-            });
-            //}
-
-        };
-    }
-
-]);
-
-;
-'use strict';
-
 angular.module('users.manager').controller('ProfileController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
         $scope.authentication = Authentication;
@@ -3374,6 +3257,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     };
+    //ignore this
     $scope.removeImage = function (current) {
         productEditorService.removeImage(current)
     };
@@ -3744,121 +3628,12 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
 ;
 'use strict';
 
-angular.module('users.supplier').controller('AssetController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav','constants',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav,constants) {
-        $scope.authentication = Authentication;
-        //$scope.file = '  ';
-        var self = this;
-
-        $scope.links = [];
-
-        $scope.toggleLeft = buildDelayedToggler('left');
-
-        function debounce(func, wait, context) {
-            var timer;
-
-            return function debounced() {
-                var context = $scope,
-                    args = Array.prototype.slice.call(arguments);
-                $timeout.cancel(timer);
-                timer = $timeout(function () {
-                    timer = undefined;
-                    func.apply(context, args);
-                }, wait || 10);
-            };
-        }
-        function buildDelayedToggler(navID) {
-            return debounce(function () {
-                $mdSidenav(navID)
-                    .toggle()
-                    .then(function () {
-                        console.log("toggle " + navID + " is done");
-                    });
-            }, 200);
-        }
-        function encode(data) {
-            var str = data.reduce(function (a, b) {
-                return a + String.fromCharCode(b)
-            }, '');
-            return btoa(str).replace(/.{76}(?=.)/g, '$&\n');
-        }
-       $scope.init = function(){
-            $http.get(constants.API_URL + '/media/' + $scope.authentication.user.username).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    for (var i in response.data) {
-                        $scope.links.push(response.data[i].mediaAssetId + "-" + response.data[i].fileName);
-                    }
-                }
-            });
-        }
-
-        $scope.viewFile = function (file) {
-            ImageService.image = file;
-
-            $scope.creds = {
-                bucket: 'beta.cdn.expertoncue.com',
-                access_key: 'AKIAICAP7UIWM4XZWVBA',
-                secret_key: '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',
-
-            };
-            var params = {
-                Key: ImageService.image
-            };
-
-            // Configure The S3 Object
-            AWS.config.update({
-                accessKeyId: $scope.creds.access_key,
-                secretAccessKey: $scope.creds.secret_key
-            });
-            AWS.config.region = 'us-east-1';
-            var bucket = new AWS.S3({params: {Bucket: $scope.creds.bucket}});
-            bucket.getObject(params, function (err, data) {
-                $scope.loading = true;
-                if (err) {
-                    // There Was An Error With Your S3 Config
-                    alert(err.message);
-                    return false;
-                }
-                else {
-
-                    var re = /(?:\.([^.]+))?$/;
-
-                    var ext = re.exec(ImageService.image)[1];
-                    console.log(ext);
-                    ext = ext.toLowerCase();
-                    self.imageName = JSON.stringify(ImageService.image);
-                    if(ext =='jpg' ||ext =='png' ||ext =='svg' ) {
-                        $scope.media = 'image';
-                        self.news3image = "data:image/jpg;base64," + encode(data.Body);
-                        $scope.$apply();
-                    }
-                    else if(ext =='mp4' ||ext =='mov' || ext =='wmv') {
-                        $scope.media = 'video';
-                        self.news3image = $sce.trustAsResourceUrl('http://s3.amazonaws.com/beta.cdn.expertoncue.com/'+ImageService.image);
-                        $scope.$apply();
-                    }
-
-                    // Success!
-
-                }
-            })
-        }
-
-    }
-]);
-
-;
-'use strict';
-
 angular.module('users.supplier').controller('MediaController', ['$scope','$state','$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService','constants', 'toastr', 'uploadService',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService,constants,toastr, uploadService) {
         $scope.authentication = Authentication;
         //$scope.file = '  ';
         var self = this;
-        var files = [];
+        $scope.files = [];
         $scope.links = [];
 
         $scope.$watch('files', function () {
