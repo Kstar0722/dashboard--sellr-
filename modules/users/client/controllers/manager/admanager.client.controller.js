@@ -16,6 +16,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         $scope.profiles = [];
         $scope.myPermissions = localStorage.getItem('roles');
         $scope.accountsService = accountsService;
+        $scope.files = [];
 
         function debounce(func, wait, context) {
             var timer;
