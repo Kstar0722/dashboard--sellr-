@@ -205,6 +205,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
 
     };
+    //ignore this
     $scope.removeImage = function (current) {
         productEditorService.removeImage(current)
     };
