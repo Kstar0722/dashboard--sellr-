@@ -6,7 +6,7 @@ angular.module('users').service('intercomService', function ($http, constants, t
         console.log('intercom service called!')
         window.Intercom('boot', {
             app_id: 'ugnow3fn',
-            name: Authentication.user.username,
+            name: Authentication.user.displayName,
             email: Authentication.user.email,
             created_at: Authentication.user.created,
             widget: {
