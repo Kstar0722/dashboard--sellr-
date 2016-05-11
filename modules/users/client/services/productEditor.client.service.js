@@ -17,6 +17,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
         loading: true
     };
 
+    //ignore - testing
+    try {
+        throw new Error('hello from the other side')
+    } catch (e) {
+        Raygun.send(e, { context: 'Testing Raygun' })
+    }
+
 
     me.init = function () {
         me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
