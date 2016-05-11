@@ -47,6 +47,10 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
+            indexPage: {
+                files: 'modules/core/server/views/index.process.html',
+                tasks: [ 'processhtml:dev' ]
+            },
             serverJS: {
                 files: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS),
                 tasks: [],
