@@ -62,7 +62,7 @@ module.exports = function (grunt) {
             },
             clientJS: {
                 files: defaultAssets.client.js,
-                tasks: [ 'concat:app', 'uglify' ],
+                tasks: [],
                 options: {
                     livereload: true
                 }

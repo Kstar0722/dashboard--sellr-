@@ -10,7 +10,23 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
         $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
         $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+        $httpProvider.interceptors.push('errorInterceptor');     //   Error Interceptor for tracking errors.
+
         //SET ENVIRONMENT
+
+        if (JSON.parse(localStorage.getItem('userObject'))) {
+            var email = JSON.parse(localStorage.getItem('userObject')).email;
+            var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
+        }
+        if (window.rg4js) {
+            rg4js('setUser', {
+                identifier: localStorage.getItem('userId'),
+                isAnonymous: false,
+                email: email,
+                fullName: displayName
+            });
+        }
+
 
         // set the domains and variables for each environment
         envServiceProvider.config({
@@ -28,7 +44,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://apdev.sllr.io',
+                    API_URL: 'https://apidev.sllr.io',
                     BWS_API: 'https://bwsdev.sllr.io',
                     env:'dev'
                 },

@@ -5,8 +5,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
 
-
-		var self = this;
+        var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');
 		if($stateParams.accountId)
 			$scope.selectAccountId = $stateParams.accountId;
@@ -19,12 +18,12 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		};
 		$scope.chartOptions = {}
 
-
-
-
-
-
-
+        try {
+            throw new Error('Raygun error testing')
+        } catch (e) {
+            console.error(e)
+            Raygun.send(e, { context: 'Dashboard error testing', user: Authentication.user })
+        }
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];

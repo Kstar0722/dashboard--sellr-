@@ -59,7 +59,7 @@ describe('inviteUserController', function() {
                 expect($scope.success).toEqual(true);
                 return [200, {}, {}];
             });
-            $httpBackend.flush();
+            // $httpBackend.flush();
             //expect($scope.success).toEqual(true);
         });
     });
