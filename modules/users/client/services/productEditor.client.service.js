@@ -17,7 +17,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         loading: true
     };
 
-    //ignore - testing
     try {
         throw new Error('hello from the other side')
     } catch (e) {
