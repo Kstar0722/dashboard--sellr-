@@ -3,22 +3,13 @@
     <label for="searchProduct">Filter Name</label>
     <input id="searchProduct" type="text" ng-model="search.$">
   </md-input-container>
-  <div>
-    <label for="searchStore">Filter Store:</label>
-    <select id="searchStore" ng-model="search.requested_by">
-      <option value="" selected>All Stores</option>
-      <option value="MACS">Mac's</option>
-      <option value="JONS">Jon's</option>
-      <option value="sellr">OnCue</option>
-    </select>
-  </div>
 
   <md-checkbox ng-model="display.myProducts">Only Show My Products</md-checkbox>
 
 
   <p ng-show="(pes.productList|filter:search).length==0">No products found that match: "{{ search.$ }}"</p>
 
-  <div class="row " ng-repeat="product in pes.productList|filter:search|filter:search.requested_by|limitTo:searchLimit" ng-if="showProduct(product)">
+  <div class="row " ng-repeat="product in pes.productList|filter:search|filter:pes.currentAccount|limitTo:searchLimit" ng-if="showProduct(product)">
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
       <h5 id="sidebar-heading">{{ product.name }}</h5>

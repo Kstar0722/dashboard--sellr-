@@ -10,7 +10,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
     $scope.display = {
         myProducts: false
-    }
+    };
 
     $scope.permissions = {
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
@@ -37,6 +37,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.updateProductList()
     };
     function init() {
+        console.log('init controller. Account is %s', productEditorService.currentAccount)
         var type;
         switch ($stateParams.type) {
             case 'wine':
@@ -188,6 +189,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
         product.description += ' | DUPLICATE:' + comments;
         product.status = 'duplicate';
         productEditorService.save(product)
+    };
+
+    $scope.updateCounts = function () {
+        productEditorService.getStats()
     }
 
 
