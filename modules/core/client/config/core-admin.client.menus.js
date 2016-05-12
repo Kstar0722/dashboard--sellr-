@@ -13,7 +13,7 @@ angular.module('core.admin').run(['Menus',
           title: 'Dashboard',
           state: 'dashboard',
           type: 'button',
-          roles: [ '*' ],
+          roles: [ 'admin', 'manager', 'supplier', 'owner' ],
           position: 0
       });
 
