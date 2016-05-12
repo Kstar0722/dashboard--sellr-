@@ -16,12 +16,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show = {
         loading: true
     };
-
-    try {
-        throw new Error('hello from the other side')
-    } catch (e) {
-        Raygun.send(e, { context: 'Testing Raygun' })
+    if (localStorage.getItem('edit-account')) {
+        me.currentAccount = localStorage.getItem('edit-account');
+    } else {
+        me.currentAccount = '';
     }
+
 
 
     me.init = function () {
@@ -39,14 +39,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.currentProduct = {};
         me.currentType = {};
         me.currentStatus = {};
+        debugger;
         //initialize with new products so list isnt empty
 
         me.getStats();
         me.show.loading = false;
     };
 
-    //send in type,status and receive all products (limited to 50)
+    //send in type,status and receive all products
     me.getProductList = function (options) {
+        debugger;
         me.productList = [];
         me.show.loading = true;
         console.time('getProductList');
@@ -81,7 +83,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 me.productList = _.sortBy(response.data, function (p) {
                     return Math.abs(p.userId - me.userId);
                 });
-                
+                log('getProductList end', me.currentAccount)
+
+
             }
         }
         function getAvailProdError(error) {
@@ -91,6 +95,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     me.updateProductList = function () {
         me.getProductList({ type: me.currentType, status: me.currentStatus })
+        window.scrollTo(0, 0);
     };
 
     //send in type,status,userid, get back list of products
@@ -242,13 +247,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
 
     me.getStats = function () {
-        me.productStats = {};
+        var account = me.currentAccount;
 
         var url = constants.BWS_API + '/edit/count';
+        if (account) {
+            url += '?requested_by=' + account
+        }
         $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
             console.log('onGetStatSuccess %O', response);
             me.productStats = response.data
+            me.currentAccount = account;
         }
 
         function onGetStatError(error) {
@@ -415,7 +424,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         socket = io.connect(constants.BWS_API);
         socket.on('update', function (data) {
             console.log('UPDATING FOR SOCKETS')
-            // me.updateProductList();
             me.getStats()
         });
 
