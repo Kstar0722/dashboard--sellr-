@@ -1,4 +1,4 @@
-#added this for kicks and giggles
+#re-added this for kicks and giggles
 FROM node:4.3
 
 ADD . /oncue/apps/oncue-dashboard
