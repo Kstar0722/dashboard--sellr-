@@ -296,12 +296,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
             switch (m.type) {
                 case 'AUDIO':
                     product.description = product.description || m.script;
-                    product.audio = document.createElement('AUDIO');
-                    product.audio.src = m.publicUrl;
-                    product.audio.mediaAssetId = m.mediaAssetId;
-                    product.audio.ontimeupdate = function setProgress() {
-                        product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
-                    };
+                    if (m.publicUrl.length > 1) {
+                        product.audio = document.createElement('AUDIO');
+                        product.audio.src = m.publicUrl;
+                        product.audio.mediaAssetId = m.mediaAssetId;
+                        product.audio.ontimeupdate = function setProgress() {
+                            product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
+                        };
+                    }
                     break;
                 case 'IMAGE':
                     product.hasImages = true;
