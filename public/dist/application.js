@@ -764,16 +764,19 @@ angular.module('core')
     .factory('errorInterceptor', function ($q, Authentication) {
         return {
             'requestError': function (rejection) {
-                var title = rejection.data.message || JSON.stringify(rejection.data);
+                if (rejection.data) {
+                    var title = rejection.data.message || JSON.stringify(rejection.data);
+                }
                 Raygun.send(new Error(title), { error: rejection, user: Authentication.user });
                 return $q.reject(rejection);
 
             },
             'responseError': function (rejection) {
-                var title = rejection.data.message || JSON.stringify(rejection.data);
+                if (rejection.data) {
+                    var title = rejection.data.message || JSON.stringify(rejection.data);
+                }
                 Raygun.send(new Error(title), { error: rejection, user: Authentication.user });
                 return $q.reject(rejection);
-
             }
         }
     });
@@ -2187,7 +2190,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 }
             };
             var url = constants.API_URL + '/users/' + userInfo.regCode;
-            debugger;
             $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
@@ -5812,7 +5814,6 @@ angular.module('users').service('locationsService', function ($http, constants, 
         var payload = {
             payload: location
         };
-        debugger;
         $http.post(url, payload).then(onCreateLocationSuccess, onCreateLocationFail)
     };
 
@@ -5955,7 +5956,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.currentProduct = {};
         me.currentType = {};
         me.currentStatus = {};
-        debugger;
         //initialize with new products so list isnt empty
 
         me.getStats();
@@ -5964,7 +5964,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     //send in type,status and receive all products
     me.getProductList = function (options) {
-        debugger;
         me.productList = [];
         me.show.loading = true;
         console.time('getProductList');
