@@ -14,3 +14,5 @@ app/tests/coverage/
 public/fw/prepros.cfg
 public/fw/prepros.cfg
 /*.log
+
+/test/*.xml

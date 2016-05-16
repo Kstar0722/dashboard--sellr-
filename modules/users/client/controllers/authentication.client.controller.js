@@ -51,7 +51,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 }
             };
             var url = constants.API_URL + '/users/' + userInfo.regCode;
-            debugger;
             $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }

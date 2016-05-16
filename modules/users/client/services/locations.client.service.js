@@ -23,7 +23,6 @@ angular.module('users').service('locationsService', function ($http, constants, 
         var payload = {
             payload: location
         };
-        debugger;
         $http.post(url, payload).then(onCreateLocationSuccess, onCreateLocationFail)
     };
 

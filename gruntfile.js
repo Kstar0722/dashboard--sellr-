@@ -77,13 +77,6 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
-            clientSCSS: {
-                files: defaultAssets.client.sass,
-                //tasks: ['sass', 'csslint'],
-                options: {
-                    livereload: true
-                }
-            },
             clientLESS: {
                 files: defaultAssets.client.less,
                 tasks: [ 'less' ],
@@ -154,18 +147,6 @@ module.exports = function (grunt) {
                 files: {
                     'public/dist/application.min.css': 'modules/core/client/css/*.css'
                 }
-            }
-        },
-        sass: {
-            dist: {
-                files: [ {
-                    expand: true,
-                    src: defaultAssets.client.sass,
-                    ext: '.css',
-                    rename: function (base, src) {
-                        return src.replace('/scss/', '/css/');
-                    }
-                } ]
             }
         },
         less: {
@@ -347,7 +328,7 @@ module.exports = function (grunt) {
         });
     });
     // Lint CSS and JavaScript files.
-    grunt.registerTask('lint', [ 'sass', 'less' ]);
+    grunt.registerTask('lint', [ 'less' ]);
 
     grunt.registerTask('wiredep', function () {
         var wiredep = require('wiredep')().js
