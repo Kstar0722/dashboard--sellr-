@@ -59,7 +59,6 @@
     "passport-local": "^1.0.0",
     "passport-paypal-openidconnect": "^0.1.1",
     "passport-twitter": "^1.0.2",
-    "phantomjs": ">=1.9.0",
     "raygun4js": "^2.3.2",
     "request": "^2.67.0",
     "serve-favicon": "^2.3.0",
@@ -121,6 +120,8 @@
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "load-grunt-tasks": "^3.2.0",
     "mock-fs": "~3.4.0",
+    "karma-phantomjs-launcher": "^0.2.3",
+
     "phantomjs-prebuilt": "^2.1.7",
     "run-sequence": "^1.1.1",
     "should": "^7.0.1",
