@@ -121,8 +121,8 @@
     "load-grunt-tasks": "^3.2.0",
     "mock-fs": "~3.4.0",
     "karma-phantomjs-launcher": "^0.2.3",
+    "phantomjs": "^1.9.19",
 
-    "phantomjs-prebuilt": "^2.1.7",
     "run-sequence": "^1.1.1",
     "should": "^7.0.1",
     "supertest": "^1.0.1"
