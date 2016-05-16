@@ -7,8 +7,6 @@ ADD bower.json /oncue/apps/oncue-dashboard/bower.json
 
 # Install gem sass for  grunt-contrib-sass
 RUN apt-get update -qq && apt-get install -y build-essential
-RUN apt-get install -y ruby
-RUN gem install sass
 
 WORKDIR /oncue/apps/oncue-dashboard
 
