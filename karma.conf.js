@@ -35,8 +35,14 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: [ 'progress' ],
+        reporters: [ 'junit', 'dots' ],
 
+        junitReporter: {
+            outputDir: 'test', // results will be saved as $outputDir/$browserName.xml
+            suite: 'karma', // suite will become the package name attribute in xml testsuite element
+            useBrowserName: true, // add browser name to report and classes names
+            properties: {} // key value pair of properties to add to the <properties> section of the report
+        },
 
         // web server port
         port: 9876,
@@ -57,7 +63,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [ 'Chrome' ],
+        browsers: [ 'PhantomJS' ],
 
 
         // Continuous Integration mode
@@ -66,6 +72,6 @@ module.exports = function (config) {
 
         // Concurrency level
         // how many browser should be started simultaneous
-        concurrency: Infinity
+        concurrency: 1
     })
 }
