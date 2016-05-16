@@ -39,7 +39,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.currentProduct = {};
         me.currentType = {};
         me.currentStatus = {};
-        debugger;
         //initialize with new products so list isnt empty
 
         me.getStats();
@@ -48,7 +47,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     //send in type,status and receive all products
     me.getProductList = function (options) {
-        debugger;
         me.productList = [];
         me.show.loading = true;
         console.time('getProductList');
