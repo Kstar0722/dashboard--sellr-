@@ -164,8 +164,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
         }
         product.status = 'done';
         productEditorService.save(product);
-        $scope.viewProduct(product)
-        $('#submitforapproval').modal('hide')
+        $scope.viewProduct(product);
+        $('.modal-backdrop').remove()
+
     };
 
     $scope.approveProduct = function (product) {
