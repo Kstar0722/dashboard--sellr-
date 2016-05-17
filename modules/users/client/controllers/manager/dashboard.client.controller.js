@@ -16,14 +16,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		$scope.onClick = function(points, evt) {
 			console.log(points, evt);
 		};
-		$scope.chartOptions = {}
-
-        try {
-            throw new Error('Raygun error testing')
-        } catch (e) {
-            console.error(e)
-            Raygun.send(e, { context: 'Dashboard error testing', user: Authentication.user })
-        }
+		$scope.chartOptions = {};
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
