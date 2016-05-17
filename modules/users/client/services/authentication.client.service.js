@@ -2,9 +2,9 @@
 
 // Authentication service for user variables
 angular.module('users').factory('Authentication', ['$window',
-  function ($window) {
+  function () {
     var auth = {
-      user: $window.user
+      user: JSON.parse(localStorage.getItem('userObject'))
     };
 
     return auth;

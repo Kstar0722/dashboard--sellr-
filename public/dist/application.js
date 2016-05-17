@@ -189,7 +189,7 @@ angular.module('core.admin').run(['Menus',
           title: 'Admin',
           state: 'admin',
           type: 'dropdown',
-          roles: [ 'admin' ],
+          roles: [ 1004 ],
           position: 3
       });
       Menus.addMenuItem('topbar', {
@@ -214,7 +214,7 @@ angular.module('core.admin.routes').config(['$stateProvider',
                 url: '/admin',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['admin']
+                    roles: [1004]
                 }
             });
     }
@@ -228,7 +228,7 @@ angular.module('core.editor').run([ 'Menus',
             title: 'Product Editor',
             state: 'editor',
             type: 'dropdown',
-            roles: [ 'editor', 'curator', 'admin' ],
+            roles: [ 1010, 1011, 1004 ],
             position: 4
         });
     }
@@ -253,7 +253,7 @@ angular.module('core.editor.routes').config(['$stateProvider',
                 templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
                 // template: '<ui-view/>',
                 data: {
-                    roles: [ 'editor', 'curator', 'admin' ]
+                    roles: [ 1010, 1011, 1004 ]
                 }
             });
     }
@@ -267,7 +267,7 @@ angular.module('core.manager').run(['Menus',
             title: 'Manager',
             state: 'manager',
             type: 'dropdown',
-            roles: ['manager'],
+            roles: [1002],
             position:0
         });
 
@@ -285,7 +285,7 @@ angular.module('core.manager.routes').config(['$stateProvider',
                 url: '',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['manager']
+                    roles: [1002]
                 }
             });
     }
@@ -299,7 +299,7 @@ angular.module('core.storeOwner').run(['Menus',
             title: 'Store Owner',
             state: 'storeOwner',
             type: 'dropdown',
-            roles: ['owner'],
+            roles: [1009],
             position:1
         });
 
@@ -317,7 +317,7 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
                 url: '',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['owner']
+                    roles: [1009]
                 }
             });
     }
@@ -331,7 +331,7 @@ angular.module('core.supplier').run(['Menus',
             title: 'Supplier',
             state: 'supplier',
             type: 'dropdown',
-            roles: ['supplier'],
+            roles: [1007],
             position:2
         });
 
@@ -349,7 +349,7 @@ angular.module('core.supplier.routes').config(['$stateProvider',
                 url: '',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['supplier']
+                    roles: [1007]
                 }
             });
     }
@@ -446,9 +446,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.stuff = {};
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
-        if(!$scope.authentication.user != !check){
-            $state.go('dashboard')
-        }
+        //if($scope.authentication.user == check){
+        //    $state.go('dashboard')
+        //}
         $scope.userIsSupplier = function () {
             if (_.contains(Authentication.user.roles, 'supplier')) {
                 return true;
@@ -727,6 +727,7 @@ angular.module('core').service('Menus', [
 
     // A private function for rendering decision
     var shouldRender = function (user) {
+      console.log('user shit %O', user)
       if (!!~this.roles.indexOf('*')) {
         return true;
       } else {
@@ -2038,7 +2039,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
             });
             var user = $scope.user;
             var userBeingEdited = CurrentUserService.userBeingEdited;
-            console.log('userBeingEditied %O', userBeingEdited)
+            console.log('userBeingEditied %O', userBeingEdited);
             var url = constants.API_URL + '/users/' + userBeingEdited.userId;
             var payload = {
                 payload: user
@@ -2059,14 +2060,13 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 ;
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken','intercomService',
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService',
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService) {
         $scope.reset = false;
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
         var userInfo = {};
-
         //read userinfo from URL
         if ($location.search().r)
             userInfo = {
@@ -2074,20 +2074,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 regCode: Number($location.search().u),
                 roles: $location.search().r.split('~')
             };
-
-
-        //switches between roleIds and strings for use in
-        //mongoDB and OncueApi
-        var roleTranslate = {
-            1004: 'admin',
-            1002: 'manager',
-            1007: 'supplier',
-            1003: 'user',
-            1009: 'owner',
-            1010: 'editor',
-            1011: 'curator'
-        };
-
 
         // If user is signed in then redirect back home
         if ($scope.authentication.user) {
@@ -2104,13 +2090,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var userUpdate = {
                 payload: {
                     email: $scope.credentials.email,
+                    firstName:$scope.credentials.firstName,
+                    lastName:$scope.credentials.lastName,
                     username: $scope.credentials.username,
                     password: $scope.credentials.password,
+                    roles:userInfo.roles,
                     userId: userInfo.regCode
                 }
             };
             var url = constants.API_URL + '/users/' + userInfo.regCode;
-            debugger;
             $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
@@ -2126,40 +2114,28 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         function onUpdateSuccess(apiRes) {
             if (apiRes) {
                 $scope.credentials.roles = [];
+                // If successful we assign the response to the global user model
+                $scope.authentication.user = apiRes.data;
+
+                var roles = [];
                 userInfo.roles.forEach(function (role) {
-                    $scope.credentials.roles.push(roleTranslate[role])
+                    roles.push(role)
                 });
-                console.log('$scope credentials', $scope.credentials);
-                $http.post('/api/auth/signup', $scope.credentials).then(function (response, err) {
-                    console.log('mongoAPI says %O', response);
-                    if (err) {
-                        toastr.error('There was an error creating your account');
-                        console.error(err)
+
+                localStorage.setItem('accountId', userInfo.accountId);
+                localStorage.setItem('roles', roles);
+                localStorage.setItem('userId', userInfo.regCode);
+
+                toastr.success('Success! User Created. Logging you in now...');
+                // And redirect to the previous or home page
+                if (Authentication.user.roles.indexOf(1002) < 0 && Authentication.user.roles.indexOf(1009) < 0 && Authentication.user.roles.indexOf(1004) < 0) {
+                    if (Authentication.user.roles.indexOf(1010) >= 0) {
+                        $state.go('editor.products', {type: "wine", status: "new"})
                     }
+                } else {
+                    $state.go('dashboard', $state.previous.params);
+                }
 
-
-                    // If successful we assign the response to the global user model
-                    $scope.authentication.user = response.data;
-
-                    var roles = [];
-                    userInfo.roles.forEach(function (role) {
-                        roles.push(role)
-                    });
-
-                    localStorage.setItem('accountId', userInfo.accountId);
-                    localStorage.setItem('roles', roles);
-                    localStorage.setItem('userId', userInfo.regCode);
-
-                    toastr.success('Success! User Created. Logging you in now...');
-                    // And redirect to the previous or home page
-                    if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
-                        if (Authentication.user.roles.indexOf('editor') >= 0) {
-                            $state.go('editor.products', { type: "wine", status: "new" })
-                        }
-                    } else {
-                        $state.go('dashboard', $state.previous.params);
-                    }
-                })
             }
         }
 
@@ -2170,7 +2146,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         $scope.signin = function (isValid) {
             $scope.error = null;
-
             if (!isValid) {
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
@@ -2179,45 +2154,29 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
+            console.log(payload);
             $http.post(url, payload).then(onSigninSuccess, onSigninError);
-
         };
 
         //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
+
             // If successful we assign the response to the global user model
             authToken.setToken(response.data.token);
-
             //set roles
-
             localStorage.setItem('roles', response.data.roles);
-
             //store account Id in location storage
             localStorage.setItem('accountId', response.data.accountId);
-
             //set userId
+            localStorage.setItem('roles', response.data.roles)
             localStorage.setItem('userId', response.data.userId);
-
-            $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
-        }
-
-        function onApiSuccess(response){
+            localStorage.setItem('userObject', JSON.stringify(response.data));
             $scope.authentication.user = response.data;
-            console.log(response);
-            localStorage.setItem('userObject', JSON.stringify({displayName:response.data.displayName, email: response.data.email, created:response.data.created}));
 
-            toastr.success('Welcome to the OnCue Dashboard', 'Success');
-            intercomService.intercomActivation();
-            console.log('Authetication.user %s', Authentication.user.roles.indexOf('admin'), Authentication.user.roles.indexOf('manager'), Authentication.user.roles.indexOf('owner'))
-            if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
-                if (Authentication.user.roles.indexOf('editor') >= 0) {
-                    $state.go('editor.products', { type: "wine", status: "new" })
-                }
-            } else {
-                $state.go('dashboard', $state.previous.params);
-            }
 
+            $state.go('dashboard', $state.previous.params);
         }
+
         //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
             console.error(err);
@@ -4752,9 +4711,9 @@ angular.module('users.supplier').factory('ImageService', [
 
 // Authentication service for user variables
 angular.module('users').factory('Authentication', ['$window',
-  function ($window) {
+  function () {
     var auth = {
-      user: $window.user
+      user: JSON.parse(localStorage.getItem('userObject'))
     };
 
     return auth;

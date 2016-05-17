@@ -79,7 +79,7 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
             });
             var user = $scope.user;
             var userBeingEdited = CurrentUserService.userBeingEdited;
-            console.log('userBeingEditied %O', userBeingEdited)
+            console.log('userBeingEditied %O', userBeingEdited);
             var url = constants.API_URL + '/users/' + userBeingEdited.userId;
             var payload = {
                 payload: user

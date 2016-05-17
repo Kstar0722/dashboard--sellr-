@@ -9,7 +9,7 @@ angular.module('core.supplier.routes').config(['$stateProvider',
                 url: '',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['supplier']
+                    roles: [1007]
                 }
             });
     }

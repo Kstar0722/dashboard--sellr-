@@ -7,9 +7,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.stuff = {};
         var check = false;
         //PERFECTLY FUNCTIONAL! DO NOT TOUCH
-        if(!$scope.authentication.user != !check){
-            $state.go('dashboard')
-        }
+        //if($scope.authentication.user == check){
+        //    $state.go('dashboard')
+        //}
         $scope.userIsSupplier = function () {
             if (_.contains(Authentication.user.roles, 'supplier')) {
                 return true;
