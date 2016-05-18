@@ -55,9 +55,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         // set the domains and variables for each environment
         envServiceProvider.config({
             domains: {
+                docker: [ 'docker' ],
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.expertoncue.com' ],
+                staging: [ 'dashqa.expertoncue.com', 'dashqa.sellr.io' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
                 heroku: [ 'sellrdashboard.herokuapp.com' ]
             },
@@ -67,19 +68,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     BWS_API: 'http://localhost:7171',
                     env:'local'
                 },
+                docker: {
+                    API_URL: 'docker:7272',
+                    BWS_API: 'docker:7171',
+                    env: 'dev'
+                },
                 development: {
                     API_URL: 'https://apidev.sllr.io',
                     BWS_API: 'https://bwsdev.sllr.io',
                     env:'dev'
                 },
                 staging: {
-                    API_URL: 'https://apiqa.expertoncue.com',
-                    BWS_API: 'https://bwsqa.expertoncue.com',
+                    API_URL: 'https://apiqa.sllr.io',
+                    BWS_API: 'https://bwsqa.sllr.io',
                     env:'staging'
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bwsdev.expertoncue.com',
+                    BWS_API: 'https://bws.expertoncue.com',
                     env:'production'
                 },
                 heroku: {
@@ -212,7 +218,7 @@ angular.module('core.admin').run(['Menus',
           title: 'Dashboard',
           state: 'dashboard',
           type: 'button',
-          roles: [ '*' ],
+          roles: [ 'admin', 'manager', 'supplier', 'owner' ],
           position: 0
       });
 
@@ -246,6 +252,27 @@ angular.module('core.editor').run([ 'Menus',
             type: 'dropdown',
             roles: [ 'editor', 'curator', 'admin' ],
             position: 4
+        });
+        Menus.addMenuItem('editor', {
+            title: 'Beer Editor',
+            state: 'editor.products({type:"beer",status:"new"})',
+            type: 'button',
+            roles: [ 'editor', 'curator', 'admin' ],
+            position: 0
+        });
+        Menus.addMenuItem('editor', {
+            title: 'Spirits Editor',
+            state: 'editor.products({type:"spirits",status:"new"})',
+            type: 'button',
+            roles: [ 'editor', 'curator', 'admin' ],
+            position: 2
+        });
+        Menus.addMenuItem('editor', {
+            title: 'Wine Editor',
+            state: 'editor.products({type:"wine",status:"new"})',
+            type: 'button',
+            roles: [ 'editor', 'curator', 'admin' ],
+            position: 1
         });
     }
 ]);
@@ -424,8 +451,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
 'use strict';
 
-angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state',
-    function ($scope, Authentication, Menus, $http, $window, $state) {
+angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams',
+    function ($scope, Authentication, Menus, $http, $window, $state, $stateParams) {
         $scope.authentication = Authentication;
         $scope.ui = {};
         $scope.$state = $state;
@@ -433,9 +460,8 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         var originatorEv;
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
-        console.log('menus %O', $scope.menu);
-
-
+        $scope.editorMenu = Menus.getMenu('editor');
+        console.log('editor Menu %O', $scope.editorMenu)
         $scope.toggleCollapsibleMenu = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
         };
@@ -443,6 +469,10 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
+        $scope.debugState = function (state) {
+            console.log('current state params %O', $stateParams)
+            console.log($state.includes(state))
+        }
         $scope.signOut = function () {
             window.localStorage.clear();
             localStorage.clear();
@@ -693,17 +723,20 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
   function ($q, $injector) {
     return {
       responseError: function(rejection) {
-        if (!rejection.config.ignoreAuthModule) {
-          switch (rejection.status) {
-            case 401:
-              $injector.get('$state').transitionTo('authentication.signin');
-              break;
-            case 403:
-              $injector.get('$state').transitionTo('forbidden');
-              break;
+          if (rejection.config) {
+              if (!rejection.config.ignoreAuthModule) {
+                  switch (rejection.status) {
+                      case 401:
+                          $injector.get('$state').transitionTo('authentication.signin');
+                          break;
+                      case 403:
+                          $injector.get('$state').transitionTo('forbidden');
+                          break;
+                  }
+              }
           }
-        }
-        // otherwise, default behaviour
+
+          // otherwise, default behaviour
         return $q.reject(rejection);
       }
     };
@@ -734,16 +767,19 @@ angular.module('core')
     .factory('errorInterceptor', function ($q, Authentication) {
         return {
             'requestError': function (rejection) {
-                var title = rejection.data.message || JSON.stringify(rejection.data);
+                if (rejection.data) {
+                    var title = rejection.data.message || JSON.stringify(rejection.data);
+                }
                 Raygun.send(new Error(title), { error: rejection, user: Authentication.user });
                 return $q.reject(rejection);
 
             },
             'responseError': function (rejection) {
-                var title = rejection.data.message || JSON.stringify(rejection.data);
+                if (rejection.data) {
+                    var title = rejection.data.message || JSON.stringify(rejection.data);
+                }
                 Raygun.send(new Error(title), { error: rejection, user: Authentication.user });
                 return $q.reject(rejection);
-
             }
         }
     });
@@ -752,175 +788,178 @@ angular.module('core')
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
-  function () {
-    // Define a set of default roles
-    this.defaultRoles = ['user', 'admin'];
+    function () {
+        // Define a set of default roles
+        this.defaultRoles = [ 'user', 'admin' ];
 
-    // Define the menus object
-    this.menus = {};
+        // Define the menus object
+        this.menus = {};
 
-    // A private function for rendering decision
-    var shouldRender = function (user) {
-      if (!!~this.roles.indexOf('*')) {
-        return true;
-      } else {
-        if(!user) {
-          return false;
-        }
-        for (var userRoleIndex in user.roles) {
-          for (var roleIndex in this.roles) {
-            if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
-              return true;
+        // A private function for rendering decision
+        var shouldRender = function (user) {
+            if (!!~this.roles.indexOf('*')) {
+                return true;
+            } else {
+                if (!user) {
+                    return false;
+                }
+                for (var userRoleIndex in user.roles) {
+                    for (var roleIndex in this.roles) {
+                        if (this.roles[ roleIndex ] === user.roles[ userRoleIndex ]) {
+                            return true;
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
 
-      return false;
-    };
+            return false;
+        };
 
-    // Validate menu existance
-    this.validateMenuExistance = function (menuId) {
-      if (menuId && menuId.length) {
-        if (this.menus[menuId]) {
-          return true;
-        } else {
-          throw new Error('Menu does not exist');
-        }
-      } else {
-        throw new Error('MenuId was not provided');
-      }
+        // Validate menu existance
+        this.validateMenuExistance = function (menuId) {
+            if (menuId && menuId.length) {
+                if (this.menus[ menuId ]) {
+                    return true;
+                } else {
+                    throw new Error('Menu does not exist');
+                }
+            } else {
+                throw new Error('MenuId was not provided');
+            }
 
-      return false;
-    };
+            return false;
+        };
 
-    // Get the menu object by menu id
-    this.getMenu = function (menuId) {
-      // Validate that the menu exists
-      this.validateMenuExistance(menuId);
+        // Get the menu object by menu id
+        this.getMenu = function (menuId) {
+            // Validate that the menu exists
+            this.validateMenuExistance(menuId);
 
-      // Return the menu object
-      return this.menus[menuId];
-    };
+            // Return the menu object
+            return this.menus[ menuId ];
+        };
 
-    // Add new menu object by menu id
-    this.addMenu = function (menuId, options) {
-      options = options || {};
+        // Add new menu object by menu id
+        this.addMenu = function (menuId, options) {
+            options = options || {};
 
-      // Create the new menu
-      this.menus[menuId] = {
-        roles: options.roles || this.defaultRoles,
-        items: options.items || [],
-        shouldRender: shouldRender
-      };
+            // Create the new menu
+            this.menus[ menuId ] = {
+                roles: options.roles || this.defaultRoles,
+                items: options.items || [],
+                shouldRender: shouldRender
+            };
 
-      // Return the menu object
-      return this.menus[menuId];
-    };
+            // Return the menu object
+            return this.menus[ menuId ];
+        };
 
-    // Remove existing menu object by menu id
-    this.removeMenu = function (menuId) {
-      // Validate that the menu exists
-      this.validateMenuExistance(menuId);
+        // Remove existing menu object by menu id
+        this.removeMenu = function (menuId) {
+            // Validate that the menu exists
+            this.validateMenuExistance(menuId);
 
-      // Return the menu object
-      delete this.menus[menuId];
-    };
+            // Return the menu object
+            delete this.menus[ menuId ];
+        };
 
-    // Add menu item object
-    this.addMenuItem = function (menuId, options) {
-      options = options || {};
+        // Add menu item object
+        this.addMenuItem = function (menuId, options) {
+            options = options || {};
 
-      // Validate that the menu exists
-      this.validateMenuExistance(menuId);
+            // Validate that the menu exists
+            this.validateMenuExistance(menuId);
 
-      // Push new menu item
-      this.menus[menuId].items.push({
-        title: options.title || '',
-        state: options.state || '',
-        type: options.type || 'item',
-        class: options.class,
-        roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
-        position: options.position || 0,
-        items: [],
-        shouldRender: shouldRender
-      });
+            // Push new menu item
+            this.menus[ menuId ].items.push({
+                title: options.title || '',
+                state: options.state || '',
+                type: options.type || 'item',
+                class: options.class,
+                roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
+                position: options.position || 0,
+                items: [],
+                shouldRender: shouldRender
+            });
 
-      // Add submenu items
-      if (options.items) {
-        for (var i in options.items) {
-          this.addSubMenuItem(menuId, options.state, options.items[i]);
-        }
-      }
+            // Add submenu items
+            if (options.items) {
+                for (var i in options.items) {
+                    this.addSubMenuItem(menuId, options.state, options.items[ i ]);
+                }
+            }
 
-      // Return the menu object
-      return this.menus[menuId];
-    };
+            // Return the menu object
+            return this.menus[ menuId ];
+        };
 
-    // Add submenu item object
-    this.addSubMenuItem = function (menuId, parentItemState, options) {
-      options = options || {};
+        // Add submenu item object
+        this.addSubMenuItem = function (menuId, parentItemState, options) {
+            options = options || {};
 
-      // Validate that the menu exists
-      this.validateMenuExistance(menuId);
+            // Validate that the menu exists
+            this.validateMenuExistance(menuId);
 
-      // Search for menu item
-      for (var itemIndex in this.menus[menuId].items) {
-        if (this.menus[menuId].items[itemIndex].state === parentItemState) {
-          // Push new submenu item
-          this.menus[menuId].items[itemIndex].items.push({
-            title: options.title || '',
-            state: options.state || '',
-            roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.menus[menuId].items[itemIndex].roles : options.roles),
-            position: options.position || 0,
-            shouldRender: shouldRender
-          });
-        }
-      }
+            // Search for menu item
+            for (var itemIndex in this.menus[ menuId ].items) {
+                if (this.menus[ menuId ].items[ itemIndex ].state === parentItemState) {
+                    // Push new submenu item
+                    this.menus[ menuId ].items[ itemIndex ].items.push({
+                        title: options.title || '',
+                        state: options.state || '',
+                        roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.menus[ menuId ].items[ itemIndex ].roles : options.roles),
+                        position: options.position || 0,
+                        shouldRender: shouldRender
+                    });
+                }
+            }
 
-      // Return the menu object
-      return this.menus[menuId];
-    };
+            // Return the menu object
+            return this.menus[ menuId ];
+        };
 
-    // Remove existing menu object by menu id
-    this.removeMenuItem = function (menuId, menuItemState) {
-      // Validate that the menu exists
-      this.validateMenuExistance(menuId);
+        // Remove existing menu object by menu id
+        this.removeMenuItem = function (menuId, menuItemState) {
+            // Validate that the menu exists
+            this.validateMenuExistance(menuId);
 
-      // Search for menu item to remove
-      for (var itemIndex in this.menus[menuId].items) {
-        if (this.menus[menuId].items[itemIndex].state === menuItemState) {
-          this.menus[menuId].items.splice(itemIndex, 1);
-        }
-      }
+            // Search for menu item to remove
+            for (var itemIndex in this.menus[ menuId ].items) {
+                if (this.menus[ menuId ].items[ itemIndex ].state === menuItemState) {
+                    this.menus[ menuId ].items.splice(itemIndex, 1);
+                }
+            }
 
-      // Return the menu object
-      return this.menus[menuId];
-    };
+            // Return the menu object
+            return this.menus[ menuId ];
+        };
 
-    // Remove existing menu object by menu id
-    this.removeSubMenuItem = function (menuId, submenuItemState) {
-      // Validate that the menu exists
-      this.validateMenuExistance(menuId);
+        // Remove existing menu object by menu id
+        this.removeSubMenuItem = function (menuId, submenuItemState) {
+            // Validate that the menu exists
+            this.validateMenuExistance(menuId);
 
-      // Search for menu item to remove
-      for (var itemIndex in this.menus[menuId].items) {
-        for (var subitemIndex in this.menus[menuId].items[itemIndex].items) {
-          if (this.menus[menuId].items[itemIndex].items[subitemIndex].state === submenuItemState) {
-            this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
-          }
-        }
-      }
+            // Search for menu item to remove
+            for (var itemIndex in this.menus[ menuId ].items) {
+                for (var subitemIndex in this.menus[ menuId ].items[ itemIndex ].items) {
+                    if (this.menus[ menuId ].items[ itemIndex ].items[ subitemIndex ].state === submenuItemState) {
+                        this.menus[ menuId ].items[ itemIndex ].items.splice(subitemIndex, 1);
+                    }
+                }
+            }
 
-      // Return the menu object
-      return this.menus[menuId];
-    };
+            // Return the menu object
+            return this.menus[ menuId ];
+        };
 
-    //Adding the topbar menu
-    this.addMenu('topbar', {
-      roles: ['*']
-    });
-  }
+        //Adding the topbar menu
+        this.addMenu('topbar', {
+            roles: [ 'admin' ]
+        });
+        this.addMenu('editor', {
+            roles: [ 'editor' ]
+        });
+    }
 ]);
 ;
 angular.module('core').config(function ($provide) {
@@ -2154,7 +2193,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 }
             };
             var url = constants.API_URL + '/users/' + userInfo.regCode;
-            debugger;
             $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
@@ -2584,14 +2622,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		$scope.onClick = function(points, evt) {
 			console.log(points, evt);
 		};
-		$scope.chartOptions = {}
-
-        try {
-            throw new Error('Raygun error testing')
-        } catch (e) {
-            console.error(e)
-            Raygun.send(e, { context: 'Dashboard error testing', user: Authentication.user })
-        }
+		$scope.chartOptions = {};
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
@@ -3106,7 +3137,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
     $scope.display = {
         myProducts: false
-    }
+    };
 
     $scope.permissions = {
         editor: Authentication.user.roles.indexOf('editor') > -1 || Authentication.user.roles.indexOf('admin') > -1,
@@ -3133,6 +3164,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         productEditorService.updateProductList()
     };
     function init() {
+        console.log('init controller. Account is %s', productEditorService.currentAccount)
         var type;
         switch ($stateParams.type) {
             case 'wine':
@@ -3259,8 +3291,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
         }
         product.status = 'done';
         productEditorService.save(product);
-        $scope.viewProduct(product)
-        $('#submitforapproval').modal('hide')
+        $scope.viewProduct(product);
+        $('.modal-backdrop').remove()
+
     };
 
     $scope.approveProduct = function (product) {
@@ -3284,6 +3317,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
         product.description += ' | DUPLICATE:' + comments;
         product.status = 'duplicate';
         productEditorService.save(product)
+    };
+
+    $scope.updateCounts = function () {
+        productEditorService.getStats()
     }
 
 
@@ -5774,7 +5811,6 @@ angular.module('users').service('locationsService', function ($http, constants, 
         var payload = {
             payload: location
         };
-        debugger;
         $http.post(url, payload).then(onCreateLocationSuccess, onCreateLocationFail)
     };
 
@@ -5894,6 +5930,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show = {
         loading: true
     };
+    if (localStorage.getItem('edit-account')) {
+        me.currentAccount = localStorage.getItem('edit-account');
+    } else {
+        me.currentAccount = '';
+    }
+
 
 
     me.init = function () {
@@ -5917,7 +5959,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.show.loading = false;
     };
 
-    //send in type,status and receive all products (limited to 50)
+    //send in type,status and receive all products
     me.getProductList = function (options) {
         me.productList = [];
         me.show.loading = true;
@@ -5953,7 +5995,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 me.productList = _.sortBy(response.data, function (p) {
                     return Math.abs(p.userId - me.userId);
                 });
-                
+                log('getProductList end', me.currentAccount)
+
+
             }
         }
         function getAvailProdError(error) {
@@ -5963,6 +6007,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     me.updateProductList = function () {
         me.getProductList({ type: me.currentType, status: me.currentStatus })
+        window.scrollTo(0, 0);
     };
 
     //send in type,status,userid, get back list of products
@@ -6114,13 +6159,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
 
     me.getStats = function () {
-        me.productStats = {};
+        var account = me.currentAccount;
 
         var url = constants.BWS_API + '/edit/count';
+        if (account) {
+            url += '?requested_by=' + account
+        }
         $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
             console.log('onGetStatSuccess %O', response);
             me.productStats = response.data
+            me.currentAccount = account;
         }
 
         function onGetStatError(error) {
@@ -6159,12 +6208,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
             switch (m.type) {
                 case 'AUDIO':
                     product.description = product.description || m.script;
-                    product.audio = document.createElement('AUDIO');
-                    product.audio.src = m.publicUrl;
-                    product.audio.mediaAssetId = m.mediaAssetId;
-                    product.audio.ontimeupdate = function setProgress() {
-                        product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
-                    };
+                    if (m.publicUrl.length > 1) {
+                        product.audio = document.createElement('AUDIO');
+                        product.audio.src = m.publicUrl;
+                        product.audio.mediaAssetId = m.mediaAssetId;
+                        product.audio.ontimeupdate = function setProgress() {
+                            product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
+                        };
+                    }
                     break;
                 case 'IMAGE':
                     product.hasImages = true;
@@ -6287,7 +6338,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         socket = io.connect(constants.BWS_API);
         socket.on('update', function (data) {
             console.log('UPDATING FOR SOCKETS')
-            // me.updateProductList();
             me.getStats()
         });
 
