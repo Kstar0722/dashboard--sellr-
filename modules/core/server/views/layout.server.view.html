@@ -107,10 +107,12 @@
 
 <script type="text/javascript">
   rg4js('apiKey', 'ZHPyJnDQHcXuYk51BE543w==');
-  rg4js('enableCrashReporting', true);
-  rg4js('enablePulse', true);
-  rg4js('excludedUserAgents', [ 'PhantomJS' ])
-  rg4js('excludedHostname', [ 'http://localhost', 'docker', 'dashdev.sllr.io' ])
+  rg4js('options', {
+    disableCrashReporting: false,
+    disablePulse: false,
+    excludedUserAgents: [ 'PhantomJS' ],
+    excludedHostnames: [ '\.local', '\.dashdev' ]
+  })
 </script>
 </body>
 
