@@ -19,7 +19,7 @@ module.exports = function (config) {
             'node_modules/raygun4js/dist/raygun.js',
             'public/dist/application.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'modules/*/tests/client/controllers/*Spec.js'
+            'modules/*/tests/client/**/*Spec.js'
         ],
 
 
