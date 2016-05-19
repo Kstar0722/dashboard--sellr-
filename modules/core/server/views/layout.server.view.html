@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <base href="/"/>
-  <title>Sellr Dashboard</title>
+  <title>Sellr Dashboard | DEV</title>
   <meta name="description" content="{{description}}">
   <meta name="fragment" content="!">
   <!-- Apple META -->
@@ -19,7 +19,11 @@
   <link rel="stylesheet" href="dist/lib.min.css">
 
 
-  <link rel="stylesheet" href="dist/application.min.css"/>
+  <!-- build:css:prod dist/application.min.css -->
+  {% for cssFile in cssFiles %}
+  <link rel="stylesheet" href="{{cssFile}}">
+  {% endfor %}
+  <!-- /build -->
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -90,9 +94,15 @@
 <!--Load The Socket.io File-->
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <!--Minified Libraries (in production)-->
-<script src="dist/lib.js"></script>
+<!-- build:js:prod dist/lib.js -->
+<!-- /build -->
 <!--Application JavaScript Files-->
-<script src="dist/application.min.js"></script>
+<!-- build:js:prod dist/application.min.js -->
+{% for jsFile in jsFiles %}
+<script type="text/javascript" src="{{jsFile}}"></script>
+{% endfor %}
+<script>console.log('THIS IS DEV ENV')</script>
+<!-- /build -->
 
 
 <script type="text/javascript">
