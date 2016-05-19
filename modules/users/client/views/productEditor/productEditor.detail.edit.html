@@ -81,7 +81,6 @@
                 ng-model="prop.value"></select>
       </div>
 
-      <!--TODO: Find somewhere to put research notes-->
       <div class="form-group">
         <label>Research Notes</label>
         <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
@@ -109,8 +108,9 @@
           </div>
           <div class="modal-footer">
             <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-            <input class="btn btn-primary btn-wide" type="submit" style="background-color: #C52424" value="Send back to Editor" data-dismiss="modal"
-                   ng-click="sendBack(feedback)">
+            <button class="btn btn-primary btn-wide" style="background-color: #C52424" data-dismiss="modal"
+                    ng-click="sendBack(feedback)">Send back to Editor
+            </button>
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+            <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true">x</button>
             <h4 class="modal-title">Submit for Approval</h4>
           </div>
 
@@ -134,7 +134,9 @@
           </div>
           <div class="modal-footer">
             <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-            <input class="btn btn-primary btn-wide" type="submit" value="Submit for Approval" ng-click="submitForApproval(pes.currentProduct)">
+            <button class="btn btn-primary btn-wide" data-dismiss="modal"
+                    ng-click="submitForApproval(pes.currentProduct)">Submit for Approval
+            </button>
           </div>
         </div>
       </div>

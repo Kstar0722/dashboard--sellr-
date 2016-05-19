@@ -1,11 +1,11 @@
 'use strict';
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
     var me = this;
-    var debugLogs = true;
+    var debugLogs = false;
     var log = function (title, data) {
         if (debugLogs) {
             title += '%O';
-            console.log(title, data);
+            //log(title, data);
         }
     };
     var cachedProduct;
@@ -49,7 +49,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.getProductList = function (options) {
         me.productList = [];
         me.show.loading = true;
-        console.time('getProductList');
+        //time('getProductList');
         if (!options.type || !options.status) {
             options = {
                 type: me.currentType.productTypeId,
@@ -61,7 +61,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
         function getAvailProdSuccess(response) {
             if (response.status === 200) {
-                console.timeEnd('getProductList');
+                //timeEnd('getProductList');
                 me.show.loading = false;
                 log('getProdList ', response.data);
                 me.getStats();
@@ -87,7 +87,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             }
         }
         function getAvailProdError(error) {
-            console.error('getAvailProdError %O', error)
+            //error('getAvailProdError %O', error)
         }
     };
 
@@ -116,7 +116,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
 
         function getMyProdError(error) {
-            console.error('getMyProdError %O', error)
+            //error('getMyProdError %O', error)
         }
     };
 
@@ -128,7 +128,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.changes = [];
 
         if (!product.productId) {
-            console.error('setCurrentProduct: please provide productId')
+            //error('setCurrentProduct: please provide productId')
             return
         }
         if (me.productStorage[ product.productId ]) {
@@ -156,7 +156,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     toastr.error('Could not get product detail for ' + product.name)
                 }
             }, function (error) {
-                console.error(error)
+                //error(error)
                 toastr.error('Could not get product detail for ' + product.name)
             });
         }
@@ -173,7 +173,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.claim = function (options) {
         //options should have userId and productId
         if (!options.productId || !options.userId) {
-            console.error('could not claim, wrong options')
+            //error('could not claim, wrong options')
         }
         if (options.status != 'done') {
             options.status = 'inprogress';
@@ -195,7 +195,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.removeClaim = function (options) {
         //options should have userId and productId
         if (!options.productId || !options.userId) {
-            console.error('could not claim, wrong options')
+            //error('could not claim, wrong options')
         }
         options.status = 'new';
         var payload = {
@@ -216,7 +216,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.save = function (product) {
         var defer = $q.defer();
         if (!product.productId) {
-            console.error('save error: no productId specified %O', product)
+            //error('save error: no productId specified %O', product)
             return
         }
         product.userId = me.userId;
@@ -226,7 +226,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onSaveSuccess, onSaveError);
         function onSaveSuccess(response) {
-            console.log('onSaveSuccess %O', response);
+            //log('onSaveSuccess %O', response);
             window.scrollTo(0, 0);
             socket.emit('product-saved');
             me.productStorage[ product.productId ] = product;
@@ -235,7 +235,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
 
         function onSaveError(error) {
-            console.error('onSaveError %O', error);
+            //error('onSaveError %O', error);
             toastr.error('There was a problem updating product ' + product.productId)
             defer.reject()
         }
@@ -253,13 +253,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         $http.get(url).then(onGetStatSuccess, onGetStatError);
         function onGetStatSuccess(response) {
-            console.log('onGetStatSuccess %O', response);
+            //log('onGetStatSuccess %O', response);
             me.productStats = response.data
             me.currentAccount = account;
         }
 
         function onGetStatError(error) {
-            console.log('onGetStatError %O', error)
+            //log('onGetStatError %O', error)
             me.productStats = {}
         }
     };
@@ -324,7 +324,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
-        console.log('product config %0', mediaConfig)
+        //log('product config %0', mediaConfig)
         uploadService.upload(files[0], mediaConfig).then(function(response, err ){
             if(response) {
                 toastr.success('Product Image Updated!');
@@ -336,7 +336,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             }
             else{
                 toastr.error('Product Image Failed To Update!');
-                console.log(err)
+                //log(err)
             }
         })
 
@@ -351,7 +351,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
-        console.log('product config %0', files)
+        //log('product config %0', files)
         uploadService.upload(files[0], mediaConfig).then(function(response, err ){
             if(response) {
                 toastr.success('Product Audio Updated!');
@@ -364,13 +364,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
             else{
 
                 toastr.error('Product Audio Failed To Update!');
-                console.log(err)
+                //log(err)
             }
         })
 
     };
     me.removeAudio = function(currentAudio){
-            console.log('delete audio %O', currentAudio)
+        //log('delete audio %O', currentAudio)
             var url = constants.API_URL + '/media/' + currentAudio;
             $http.delete(url).then(function () {
                 toastr.success('audio removed', 'Success');
@@ -381,7 +381,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             })
     };
     me.removeImage= function(currentImage){
-        console.log('delete image %O', currentImage)
+        //log('delete image %O', currentImage)
         var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
         $http.delete(url).then(function () {
             toastr.success('image removed', 'Success');
@@ -423,12 +423,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (window.io) {
         socket = io.connect(constants.BWS_API);
         socket.on('update', function (data) {
-            console.log('UPDATING FOR SOCKETS')
+            //log('UPDATING FOR SOCKETS')
             me.getStats()
         });
 
         socket.on('update-claims', function (data) {
-            console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+            //log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
             var i = _.findIndex(me.productList, function (p) {
                 return p.productId == data.productId
             });
@@ -437,7 +437,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         });
 
         socket.on('claim-removed', function (data) {
-            console.log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
+            //log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
             var i = _.findIndex(me.productList, function (p) {
                 return p.productId == data.productId
             });

@@ -1,7 +1,7 @@
 {
-  "name": "oncue-portal",
-  "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
-  "version": "0.4.2",
+  "name": "sellr-dashboard",
+  "description": "Control center for the OnCue Sellr solution",
+  "version": "0.8.0",
   "meanjs-version": "0.4.2",
   "private": false,
   "author": "Expert OnCuer",

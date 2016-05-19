@@ -1,5 +1,4 @@
-// Karma configuration
-// Generated on Fri May 06 2016 15:37:45 GMT-0400 (EDT)
+
 
 module.exports = function (config) {
     config.set({
@@ -19,7 +18,7 @@ module.exports = function (config) {
             'node_modules/raygun4js/dist/raygun.js',
             'public/dist/application.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'modules/*/tests/client/controllers/*Spec.js'
+            'modules/*/tests/client/**/*Spec.js'
         ],
 
 
@@ -54,7 +53,7 @@ module.exports = function (config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_DEBUG,
 
 
         // enable / disable watching file and executing tests whenever any file changes
