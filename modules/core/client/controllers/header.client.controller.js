@@ -1,8 +1,8 @@
 
 'use strict';
 
-angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state',
-    function ($scope, Authentication, Menus, $http, $window, $state) {
+angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams',
+    function ($scope, Authentication, Menus, $http, $window, $state, $stateParams) {
         $scope.authentication = Authentication;
         $scope.ui = {};
         $scope.$state = $state;
@@ -10,9 +10,8 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         var originatorEv;
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
-        console.log('menus %O', $scope.menu);
-
-
+        $scope.editorMenu = Menus.getMenu('editor');
+        console.log('editor Menu %O', $scope.editorMenu)
         $scope.toggleCollapsibleMenu = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
         };
@@ -20,6 +19,10 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
+        $scope.debugState = function (state) {
+            console.log('current state params %O', $stateParams)
+            console.log($state.includes(state))
+        }
         $scope.signOut = function () {
             window.localStorage.clear();
             localStorage.clear();

@@ -1,10 +1,11 @@
 <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
 
-  <md-toolbar class="md-menu-toolbar md-toolbar-tools">
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="menu.shouldRender(authentication.user)">
     <div class="brand"></div>
 
     <!--non-dropdowns-->
-    <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown'">{{item.title}}
+    <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class"
+               ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)">{{item.title}}
     </md-button>
 
     <div>
@@ -29,18 +30,36 @@
     <md-menu md-position-mode="target-right bottom">
       <div id="profbutton" ng-click="$mdOpenMenu($event)">
         <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image"/>
           <span data-ng-bind="authentication.user.displayName"></span>
           <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
         </md-button>
       </div>
       <md-menu-content width="3" id="profmenu">
         <md-menu-item>
-          <md-button ui-sref="settings.profile">Edit Profile</md-button>
+          <md-button href="/api/auth/signout" target="_self" ng-click="signOut()">SignOut</md-button>
         </md-menu-item>
-        <md-menu-item>
-          <md-button ui-sref="settings.picture">Edit Profile Picture</md-button>
-        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </md-toolbar>
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="editorMenu.shouldRender(authentication.user) && !menu.shouldRender(authentication.user)">
+    <div class="brand"></div>
+
+    <!--non-dropdowns-->
+    <md-button ng-repeat="item in editorMenu.items" ui-sref="{{item.state}}" ui-sref-opts="{reload: true}"
+               ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}"
+               ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" ng-click="debugState(item.state)">{{item.title}}
+    </md-button>
+    <!--add space between menu and profile thing-->
+    <div flex></div>
+
+    <md-menu md-position-mode="target-right bottom">
+      <div id="profbutton" ng-click="$mdOpenMenu($event)">
+        <md-button aria-label="USER ACCOUNT DROPDOWN">
+          <span data-ng-bind="authentication.user.displayName"></span>
+          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
+        </md-button>
+      </div>
+      <md-menu-content width="3" id="profmenu">
         <md-menu-item>
           <md-button href="/api/auth/signout" target="_self" ng-click="signOut()">SignOut</md-button>
         </md-menu-item>

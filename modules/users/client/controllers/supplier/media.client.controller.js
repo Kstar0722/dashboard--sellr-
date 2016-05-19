@@ -17,6 +17,8 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
             }
         });
 
+        
+
         $scope.upload = function(files) {
             for (var i = 0; i < files.length; i++) {
                 var mediaConfig = {

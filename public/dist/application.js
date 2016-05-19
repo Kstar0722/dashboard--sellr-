@@ -34,7 +34,23 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
         $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
         $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+        $httpProvider.interceptors.push('errorInterceptor');     //   Error Interceptor for tracking errors.
+
         //SET ENVIRONMENT
+
+        if (JSON.parse(localStorage.getItem('userObject'))) {
+            var email = JSON.parse(localStorage.getItem('userObject')).email;
+            var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
+        }
+        if (window.rg4js) {
+            rg4js('setUser', {
+                identifier: localStorage.getItem('userId'),
+                isAnonymous: false,
+                email: email,
+                fullName: displayName
+            });
+        }
+
 
         // set the domains and variables for each environment
         envServiceProvider.config({
@@ -52,7 +68,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'local'
                 },
                 development: {
-                    API_URL: 'https://apdev.sllr.io',
+                    API_URL: 'https://apidev.sllr.io',
                     BWS_API: 'https://bwsdev.sllr.io',
                     env:'dev'
                 },
@@ -714,6 +730,24 @@ angular.module('core')
     });
 
 ;
+angular.module('core')
+    .factory('errorInterceptor', function ($q, Authentication) {
+        return {
+            'requestError': function (rejection) {
+                var title = rejection.data.message || JSON.stringify(rejection.data);
+                Raygun.send(new Error(title), { error: rejection, user: Authentication.user });
+                return $q.reject(rejection);
+
+            },
+            'responseError': function (rejection) {
+                var title = rejection.data.message || JSON.stringify(rejection.data);
+                Raygun.send(new Error(title), { error: rejection, user: Authentication.user });
+                return $q.reject(rejection);
+
+            }
+        }
+    });
+;
 'use strict';
 
 //Menu service used for managing  menus
@@ -889,6 +923,16 @@ angular.module('core').service('Menus', [
     });
   }
 ]);
+;
+angular.module('core').config(function ($provide) {
+    $provide.decorator("$exceptionHandler", [ '$delegate', 'Authentication', function ($delegate, Authentication) {
+        return function (exception, cause) {
+            Raygun.send(exception, { cause: cause, user: Authentication.user });
+            $delegate(exception, cause);
+        }
+    } ])
+});
+
 ;
 'use strict';
 
@@ -2488,8 +2532,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
 
-
-		var self = this;
+        var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');
 		if($stateParams.accountId)
 			$scope.selectAccountId = $stateParams.accountId;
@@ -2502,12 +2545,12 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		};
 		$scope.chartOptions = {}
 
-
-
-
-
-
-
+        try {
+            throw new Error('Raygun error testing')
+        } catch (e) {
+            console.error(e)
+            Raygun.send(e, { context: 'Dashboard error testing', user: Authentication.user })
+        }
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
@@ -3604,6 +3647,8 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
                 $scope.files = [$scope.file];
             }
         });
+
+        
 
         $scope.upload = function(files) {
             for (var i = 0; i < files.length; i++) {

@@ -47,6 +47,10 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
+            indexPage: {
+                files: 'modules/core/server/views/index.process.html',
+                tasks: [ 'processhtml:dev' ]
+            },
             serverJS: {
                 files: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS),
                 tasks: [],
@@ -62,20 +66,13 @@ module.exports = function (grunt) {
             },
             clientJS: {
                 files: defaultAssets.client.js,
-                tasks: [ 'concat:app', 'uglify' ],
+                tasks: [],
                 options: {
                     livereload: true
                 }
             },
             clientCSS: {
                 files: defaultAssets.client.css,
-                options: {
-                    livereload: true
-                }
-            },
-            clientSCSS: {
-                files: defaultAssets.client.sass,
-                //tasks: ['sass', 'csslint'],
                 options: {
                     livereload: true
                 }
@@ -150,18 +147,6 @@ module.exports = function (grunt) {
                 files: {
                     'public/dist/application.min.css': 'modules/core/client/css/*.css'
                 }
-            }
-        },
-        sass: {
-            dist: {
-                files: [ {
-                    expand: true,
-                    src: defaultAssets.client.sass,
-                    ext: '.css',
-                    rename: function (base, src) {
-                        return src.replace('/scss/', '/css/');
-                    }
-                } ]
             }
         },
         less: {
@@ -343,7 +328,7 @@ module.exports = function (grunt) {
         });
     });
     // Lint CSS and JavaScript files.
-    grunt.registerTask('lint', [ 'sass', 'less' ]);
+    grunt.registerTask('lint', [ 'less' ]);
 
     grunt.registerTask('wiredep', function () {
         var wiredep = require('wiredep')().js

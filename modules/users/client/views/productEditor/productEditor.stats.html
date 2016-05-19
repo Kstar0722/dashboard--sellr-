@@ -1,17 +1,21 @@
 <!--pes stands for productEditorService-->
 
 <section class="stats ">
-  <div class="col-xs-4 white ">
 
-    <div class="col-xs-4">
-      <h1 style="text-transform: capitalize">{{ pes.currentType.name }}</h1>
-    </div>
-    <div class="col-xs-8">
-    <div class="btn-group" role="group" aria-label="">
-      <button class="btn btn-primary" ng-repeat="type in pes.productTypes" ng-click="selectProductType(type)" style="text-transform: capitalize">{{
-        type.name }}
-      </button>
-    </div>
+  <div class="col-xs-4 white ">
+    <div class="row">
+      <div class="col-xs-4">
+        <h1 style="text-transform: capitalize">{{ pes.currentType.name }}</h1>
+      </div>
+      <select aria-label="selectstore" id="searchStore" data-ng-model="pes.currentAccount" data-ng-change="updateCounts()">
+        <option value="">All Stores</option>
+        <option value="MACS">Mac's</option>
+        <option value="JONS">Jon's</option>
+        <option value="JAX">Jax</option>
+        <option value="sellr">OnCue</option>
+      </select>
+      <div class="col-xs-8">
+      </div>
     </div>
   </div>
   <!--product number for each status type-->

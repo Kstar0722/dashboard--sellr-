@@ -669,6 +669,10 @@ section.userList .userbox {
   -moz-box-shadow: inset 0px 0px 30px 5px #000000;
   box-shadow: inset 0px 0px 30px 5px #000000;
 }
+.productEditor .stats #searchStore {
+  margin-top: 10%;
+  width: 160px;
+}
 .productEditor .stats .status:hover {
   cursor: pointer;
   background: rgba(137, 137, 137, 0.89);

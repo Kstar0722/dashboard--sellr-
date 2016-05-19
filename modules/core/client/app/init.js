@@ -10,14 +10,31 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
         $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
         $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+        $httpProvider.interceptors.push('errorInterceptor');     //   Error Interceptor for tracking errors.
+
         //SET ENVIRONMENT
+
+        if (JSON.parse(localStorage.getItem('userObject'))) {
+            var email = JSON.parse(localStorage.getItem('userObject')).email;
+            var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
+        }
+        if (window.rg4js) {
+            rg4js('setUser', {
+                identifier: localStorage.getItem('userId'),
+                isAnonymous: false,
+                email: email,
+                fullName: displayName
+            });
+        }
+
 
         // set the domains and variables for each environment
         envServiceProvider.config({
             domains: {
+                docker: [ 'docker' ],
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.expertoncue.com' ],
+                staging: [ 'dashqa.expertoncue.com', 'dashqa.sellr.io' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
                 heroku: [ 'sellrdashboard.herokuapp.com' ]
             },
@@ -27,19 +44,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     BWS_API: 'http://localhost:7171',
                     env:'local'
                 },
+                docker: {
+                    API_URL: 'docker:7272',
+                    BWS_API: 'docker:7171',
+                    env: 'dev'
+                },
                 development: {
-                    API_URL: 'https://apdev.sllr.io',
+                    API_URL: 'https://apidev.sllr.io',
                     BWS_API: 'https://bwsdev.sllr.io',
                     env:'dev'
                 },
                 staging: {
-                    API_URL: 'https://apiqa.expertoncue.com',
-                    BWS_API: 'https://bwsqa.expertoncue.com',
+                    API_URL: 'https://apiqa.sllr.io',
+                    BWS_API: 'https://bwsqa.sllr.io',
                     env:'staging'
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bwsdev.expertoncue.com',
+                    BWS_API: 'https://bws.expertoncue.com',
                     env:'production'
                 },
                 heroku: {

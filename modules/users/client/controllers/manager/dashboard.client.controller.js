@@ -5,8 +5,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
 		$scope.authentication = Authentication;
 
-
-		var self = this;
+        var self = this;
 		$scope.myPermissions = localStorage.getItem('roles');
 		if($stateParams.accountId)
 			$scope.selectAccountId = $stateParams.accountId;
@@ -17,14 +16,7 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		$scope.onClick = function(points, evt) {
 			console.log(points, evt);
 		};
-		$scope.chartOptions = {}
-
-
-
-
-
-
-
+		$scope.chartOptions = {};
 		$scope.init = function() {
 			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
