@@ -34,7 +34,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 docker: [ 'docker' ],
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.expertoncue.com', 'dashqa.sellr.io' ],
+                staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
                 heroku: [ 'sellrdashboard.herokuapp.com' ]
             },
