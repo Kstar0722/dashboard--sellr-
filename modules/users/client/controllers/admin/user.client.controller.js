@@ -11,13 +11,13 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 
         $timeout(function () {
             $scope.roles = [
-                {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf('admin') > -1},
-                {text: 'owner', id: 1009, selected: $scope.user.roles.indexOf('owner') > -1},
-                {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
-                {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
-                { text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1 },
-                { text: 'editor', id: 1010, selected: $scope.user.roles.indexOf('editor') > -1 },
-                { text: 'curator', id: 1011, selected: $scope.user.roles.indexOf('curator') > -1 }
+                {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf(1004) > -1},
+                {text: 'owner', id: 1009, selected: $scope.user.roles.indexOf(1009) > -1},
+                {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf(1002) > -1},
+                {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf(1007) > -1},
+                { text: 'user', id: 1003, selected: $scope.user.roles.indexOf(1003) > -1 },
+                { text: 'editor', id: 1010, selected: $scope.user.roles.indexOf(1010) > -1 },
+                { text: 'curator', id: 1011, selected: $scope.user.roles.indexOf(1011) > -1 }
             ];
         }, 500);
 

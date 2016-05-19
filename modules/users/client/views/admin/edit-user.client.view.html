@@ -9,20 +9,13 @@
       <div layout-xs="column" layout-sm="column" layout-align="space-between center">
 
         <md-input-container class="md-block" flex-gt-sm>
-        <label>First Name</label>
-        <input ng-model="user.firstName">
-        <div ng-messages="userForm.firstName.$error" role="alert">
-          <p class="help-block error-text" ng-message="required">First name is required.</p>
+        <label>Display Name</label>
+        <input ng-model="user.displayName">
+        <div ng-messages="userForm.displayName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Display name is required.</p>
         </div>
       </md-input-container>
 
-      <md-input-container class="md-block" flex-gt-sm>
-        <label>Last Name</label>
-        <input ng-model="user.lastName">
-        <div ng-messages="userForm.lastName.$error" role="alert">
-          <p class="help-block error-text" ng-message="required">Last name is required.</p>
-        </div>
-      </md-input-container>
       </div>
       <md-input-container class="md-block">
         <label>Email</label>
