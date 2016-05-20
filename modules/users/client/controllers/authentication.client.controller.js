@@ -38,7 +38,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                     userId: userInfo.regCode
                 }
             };
-            var url = constants.API_URL + '/users/' + userInfo.regCode;
+            var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
             $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
