@@ -80,6 +80,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
 
+    $rootScope.$stateClass = cssClassOf($state.current.name);
+
     // Check authentication before changing state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
@@ -107,6 +109,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     // Record previous state
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         storePreviousState(fromState, fromParams);
+        $rootScope.$stateClass = cssClassOf(toState.name);
     });
 
     // Store previous state
@@ -119,6 +122,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
                 href: $state.href(state, params)
             };
         }
+    }
+
+    function cssClassOf(name) {
+        if (typeof name != 'string') return name;
+        return name.replace(/[^a-z0-9\-]+/gi, '-');
     }
 });
 

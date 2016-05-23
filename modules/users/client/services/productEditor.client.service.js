@@ -310,6 +310,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     product.images.push(m)
             }
         });
+        if (product.description && !product.description.match(/[<>]/)) {
+            product.description = '<p>' + product.description + '</p>';
+        }
         defer.resolve(product);
 
         return defer.promise;
