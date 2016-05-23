@@ -987,6 +987,19 @@ section.userList .userbox {
   -o-animation-delay: 1s;
   animation-delay: 1s;
 }
+.productEditor medium-editor,
+.productEditor [medium-editor] {
+  height: auto;
+  min-height: 150px;
+}
+.productEditor medium-editor a,
+.productEditor [medium-editor] a {
+  cursor: pointer;
+  pointer-events: none;
+}
+body.editor-products-detail .medium-editor-toolbar {
+  margin-top: -220px;
+}
 .drop-box {
   background: #F8F8F8;
   border: 5px dashed #DDD;
