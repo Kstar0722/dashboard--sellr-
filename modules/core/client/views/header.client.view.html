@@ -5,8 +5,8 @@
 
     <!--non-dropdowns-->
     <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class"
-               ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)">{{item.title}}
-    </md-button>
+                             ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)">{{item.title}}
+  </md-button>
 
     <div>
       <!--menu dropdowns-->
