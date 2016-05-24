@@ -23,14 +23,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
 
 
-
     me.init = function () {
-        me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
+        me.productTypes = [{name: 'wine', productTypeId: 1}, {name: 'beer', productTypeId: 2}, {
+            name: 'spirits',
+            productTypeId: 3
+        }];
         me.productStatuses = [
-            { name: 'Available', value: 'new' },
-            { name: 'In Progress', value: 'inprogress' },
-            { name: 'Done', value: 'done' },
-            { name: 'Approved', value: 'approved' }
+            {name: 'Available', value: 'new'},
+            {name: 'In Progress', value: 'inprogress'},
+            {name: 'Done', value: 'done'},
+            {name: 'Approved', value: 'approved'}
         ];
         me.productStorage = {}
         me.productStats = {};
@@ -76,7 +78,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     }
                     return product
                 });
-                
+
                 //sort with myProducts at the top
                 me.productList = _.sortBy(response.data, function (p) {
                     return Math.abs(p.userId - me.userId);
@@ -86,13 +88,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
             }
         }
+
         function getAvailProdError(error) {
             //error('getAvailProdError %O', error)
         }
     };
 
     me.updateProductList = function () {
-        me.getProductList({ type: me.currentType, status: me.currentStatus })
+        me.getProductList({type: me.currentType, status: me.currentStatus})
         window.scrollTo(0, 0);
     };
 
@@ -131,16 +134,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
             //error('setCurrentProduct: please provide productId')
             return
         }
-        if (me.productStorage[ product.productId ]) {
+        if (me.productStorage[product.productId]) {
             //use cached product if exists
-            me.currentProduct = me.productStorage[ product.productId ];
-            cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+            me.currentProduct = me.productStorage[product.productId];
+            cachedProduct = jQuery.extend(true, {}, me.productStorage[product.productId]);
 
         } else {
             //get from api and format
             me.getProductDetail(product).then(function (res) {
                 if (res.data.length > 0) {
-                    me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+                    me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
                         var p = formattedProduct;
                         log('formattedProduct', formattedProduct);
                         me.currentProduct = formattedProduct;
@@ -149,7 +152,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                         cachedProduct = jQuery.extend(true, {}, formattedProduct);
 
                         //store product for faster load next time
-                        me.productStorage[ product.productId ] = formattedProduct
+                        me.productStorage[product.productId] = formattedProduct
 
                     })
                 } else {
@@ -229,7 +232,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             //log('onSaveSuccess %O', response);
             window.scrollTo(0, 0);
             socket.emit('product-saved');
-            me.productStorage[ product.productId ] = product;
+            me.productStorage[product.productId] = product;
             toastr.success('Product Updated!')
             defer.resolve()
         }
@@ -319,44 +322,46 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
 
     me.uploadMedia = function (files) {
+
         var mediaConfig = {
             mediaRoute: 'media',
-            folder:'products',
-            type:'PRODUCT',
-            fileType:'IMAGE',
+            folder: 'products',
+            type: 'PRODUCT',
+            fileType: 'IMAGE',
             accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
-        //log('product config %0', mediaConfig)
-        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
-            if(response) {
-                toastr.success('Product Image Updated!');
+        if (files) {
+            uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+                if (response) {
+                    toastr.success('Product Image Updated!');
 
-                me.save(me.currentProduct).then(function (err, response) {
-                    refreshProduct(me.currentProduct);
+                    me.save(me.currentProduct).then(function (err, response) {
+                        refreshProduct(me.currentProduct);
 
-                })
-            }
-            else{
-                toastr.error('Product Image Failed To Update!');
-                //log(err)
-            }
-        })
+                    })
+                }
+                else {
+                    toastr.error('Product Image Failed To Update!');
+                    //log(err)
+                }
+            })
+        }
 
     };
 
     me.uploadAudio = function (files) {
         var mediaConfig = {
             mediaRoute: 'media',
-            folder:'products',
-            type:'PRODUCT',
-            fileType:'AUDIO',
+            folder: 'products',
+            type: 'PRODUCT',
+            fileType: 'AUDIO',
             accountId: localStorage.getItem('accountId'),
             productId: me.currentProduct.productId
         }
         //log('product config %0', files)
-        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
-            if(response) {
+        uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+            if (response) {
                 toastr.success('Product Audio Updated!');
 
                 me.save(me.currentProduct).then(function (err, response) {
@@ -364,7 +369,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                 })
 
             }
-            else{
+            else {
 
                 toastr.error('Product Audio Failed To Update!');
                 //log(err)
@@ -372,18 +377,18 @@ angular.module('users').service('productEditorService', function ($http, $locati
         })
 
     };
-    me.removeAudio = function(currentAudio){
+    me.removeAudio = function (currentAudio) {
         //log('delete audio %O', currentAudio)
-            var url = constants.API_URL + '/media/' + currentAudio;
-            $http.delete(url).then(function () {
-                toastr.success('audio removed', 'Success');
+        var url = constants.API_URL + '/media/' + currentAudio;
+        $http.delete(url).then(function () {
+            toastr.success('audio removed', 'Success');
 
-                me.save(me.currentProduct).then(function (err, response) {
-                    refreshProduct(me.currentProduct);
-                })
+            me.save(me.currentProduct).then(function (err, response) {
+                refreshProduct(me.currentProduct);
             })
+        })
     };
-    me.removeImage= function(currentImage){
+    me.removeImage = function (currentImage) {
         //log('delete image %O', currentImage)
         var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
         $http.delete(url).then(function () {
@@ -403,8 +408,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
 
         for (var i = 0; i < prod.properties.length; i++) {
-            var updated = prod.properties[ i ];
-            var cached = cachedProduct.properties[ i ];
+            var updated = prod.properties[i];
+            var cached = cachedProduct.properties[i];
 
             if (updated.value !== cached.value) {
                 if (!cached.valueId) {
@@ -435,7 +440,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             var i = _.findIndex(me.productList, function (p) {
                 return p.productId == data.productId
             });
-            me.productList[ i ].userId = data.userId;
+            me.productList[i].userId = data.userId;
             $rootScope.$apply()
         });
 
@@ -444,7 +449,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             var i = _.findIndex(me.productList, function (p) {
                 return p.productId == data.productId
             });
-            me.productList[ i ].userId = null;
+            me.productList[i].userId = null;
             $rootScope.$apply()
         })
     }
@@ -452,7 +457,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     function refreshProduct(product) {
         me.getProductDetail(product).then(function (res) {
             if (res.data.length > 0) {
-                me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+                me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
                     var p = formattedProduct;
                     log('formattedProduct', formattedProduct);
                     me.currentProduct = formattedProduct;
@@ -461,7 +466,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     cachedProduct = jQuery.extend(true, {}, formattedProduct);
 
                     //store product for faster load next time
-                    me.productStorage[ product.productId ] = formattedProduct
+                    me.productStorage[product.productId] = formattedProduct
 
                 })
             } else {
