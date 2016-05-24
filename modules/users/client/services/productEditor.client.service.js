@@ -1,11 +1,11 @@
 'use strict';
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
     var me = this;
-    var debugLogs = false;
+    var debugLogs = true;
     var log = function (title, data) {
         if (debugLogs) {
             title += '%O';
-            //log(title, data);
+            console.log(title, data);
         }
     };
     var cachedProduct;
@@ -294,13 +294,15 @@ angular.module('users').service('productEditorService', function ($http, $locati
             switch (m.type) {
                 case 'AUDIO':
                     product.description = product.description || m.script;
-                    if (m.publicUrl.length > 1) {
-                        product.audio = document.createElement('AUDIO');
-                        product.audio.src = m.publicUrl;
-                        product.audio.mediaAssetId = m.mediaAssetId;
-                        product.audio.ontimeupdate = function setProgress() {
-                            product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
-                        };
+                    if (m.publicUrl) {
+                        if (m.publicUrl.length > 1) {
+                            product.audio = document.createElement('AUDIO');
+                            product.audio.src = m.publicUrl;
+                            product.audio.mediaAssetId = m.mediaAssetId;
+                            product.audio.ontimeupdate = function setProgress() {
+                                product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
+                            };
+                        }
                     }
                     break;
                 case 'IMAGE':
