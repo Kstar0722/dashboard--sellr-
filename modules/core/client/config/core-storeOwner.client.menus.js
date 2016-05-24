@@ -6,7 +6,7 @@ angular.module('core.storeOwner').run(['Menus',
             title: 'Store Owner',
             state: 'storeOwner',
             type: 'dropdown',
-            roles: ['owner'],
+            roles: [1009],
             position:1
         });
 

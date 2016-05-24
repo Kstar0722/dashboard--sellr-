@@ -9,7 +9,7 @@ angular.module('core.admin.routes').config(['$stateProvider',
                 url: '/admin',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['admin']
+                    roles: [1004]
                 }
             });
     }

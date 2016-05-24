@@ -1,13 +1,12 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken','intercomService',
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService',
     function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService) {
         $scope.reset = false;
         $scope.authentication = Authentication;
         $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
         var userInfo = {};
-
         //read userinfo from URL
         if ($location.search().r)
             userInfo = {
@@ -15,20 +14,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                 regCode: Number($location.search().u),
                 roles: $location.search().r.split('~')
             };
-
-
-        //switches between roleIds and strings for use in
-        //mongoDB and OncueApi
-        var roleTranslate = {
-            1004: 'admin',
-            1002: 'manager',
-            1007: 'supplier',
-            1003: 'user',
-            1009: 'owner',
-            1010: 'editor',
-            1011: 'curator'
-        };
-
 
         // If user is signed in then redirect back home
         if ($scope.authentication.user) {
@@ -45,12 +30,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var userUpdate = {
                 payload: {
                     email: $scope.credentials.email,
+                    firstName:$scope.credentials.firstName,
+                    lastName:$scope.credentials.lastName,
                     username: $scope.credentials.username,
                     password: $scope.credentials.password,
+                    roles:userInfo.roles,
                     userId: userInfo.regCode
                 }
             };
-            var url = constants.API_URL + '/users/' + userInfo.regCode;
+            var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
             $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
         }
@@ -66,40 +54,28 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         function onUpdateSuccess(apiRes) {
             if (apiRes) {
                 $scope.credentials.roles = [];
+                // If successful we assign the response to the global user model
+                $scope.authentication.user = apiRes.data;
+
+                var roles = [];
                 userInfo.roles.forEach(function (role) {
-                    $scope.credentials.roles.push(roleTranslate[role])
+                    roles.push(role)
                 });
-                console.log('$scope credentials', $scope.credentials);
-                $http.post('/api/auth/signup', $scope.credentials).then(function (response, err) {
-                    console.log('mongoAPI says %O', response);
-                    if (err) {
-                        toastr.error('There was an error creating your account');
-                        console.error(err)
+
+                localStorage.setItem('accountId', userInfo.accountId);
+                localStorage.setItem('roles', roles);
+                localStorage.setItem('userId', userInfo.regCode);
+
+                toastr.success('Success! User Created. Logging you in now...');
+                // And redirect to the previous or home page
+                if (Authentication.user.roles.indexOf(1002) < 0 && Authentication.user.roles.indexOf(1009) < 0 && Authentication.user.roles.indexOf(1004) < 0) {
+                    if (Authentication.user.roles.indexOf(1010) >= 0) {
+                        $state.go('editor.products', {type: "wine", status: "new"})
                     }
+                } else {
+                    $state.go('dashboard', $state.previous.params);
+                }
 
-
-                    // If successful we assign the response to the global user model
-                    $scope.authentication.user = response.data;
-
-                    var roles = [];
-                    userInfo.roles.forEach(function (role) {
-                        roles.push(role)
-                    });
-
-                    localStorage.setItem('accountId', userInfo.accountId);
-                    localStorage.setItem('roles', roles);
-                    localStorage.setItem('userId', userInfo.regCode);
-
-                    toastr.success('Success! User Created. Logging you in now...');
-                    // And redirect to the previous or home page
-                    if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
-                        if (Authentication.user.roles.indexOf('editor') >= 0) {
-                            $state.go('editor.products', { type: "wine", status: "new" })
-                        }
-                    } else {
-                        $state.go('dashboard', $state.previous.params);
-                    }
-                })
             }
         }
 
@@ -110,7 +86,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         $scope.signin = function (isValid) {
             $scope.error = null;
-
             if (!isValid) {
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
@@ -119,45 +94,29 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             var payload = {
                 payload: $scope.credentials
             };
+            console.log(payload);
             $http.post(url, payload).then(onSigninSuccess, onSigninError);
-
         };
 
         //We've signed into the mongoDB, now lets authenticate with OnCue's API.
         function onSigninSuccess(response) {
+
             // If successful we assign the response to the global user model
             authToken.setToken(response.data.token);
-
             //set roles
-
             localStorage.setItem('roles', response.data.roles);
-
             //store account Id in location storage
             localStorage.setItem('accountId', response.data.accountId);
-
             //set userId
+            localStorage.setItem('roles', response.data.roles)
             localStorage.setItem('userId', response.data.userId);
-
-            $http.post('/api/auth/signin', $scope.credentials).then(onApiSuccess, onSigninError);
-        }
-
-        function onApiSuccess(response){
+            localStorage.setItem('userObject', JSON.stringify(response.data));
             $scope.authentication.user = response.data;
-            console.log(response);
-            localStorage.setItem('userObject', JSON.stringify({displayName:response.data.displayName, email: response.data.email, created:response.data.created}));
 
-            toastr.success('Welcome to the OnCue Dashboard', 'Success');
-            intercomService.intercomActivation();
-            console.log('Authetication.user %s', Authentication.user.roles.indexOf('admin'), Authentication.user.roles.indexOf('manager'), Authentication.user.roles.indexOf('owner'))
-            if (Authentication.user.roles.indexOf('manager') < 0 && Authentication.user.roles.indexOf('owner') < 0 && Authentication.user.roles.indexOf('admin') < 0) {
-                if (Authentication.user.roles.indexOf('editor') >= 0) {
-                    $state.go('editor.products', { type: "wine", status: "new" })
-                }
-            } else {
-                $state.go('dashboard', $state.previous.params);
-            }
 
+            $state.go('dashboard', $state.previous.params);
         }
+
         //We could not sign into mongo, so clear everything and show error.
         function onSigninError(err) {
             console.error(err);

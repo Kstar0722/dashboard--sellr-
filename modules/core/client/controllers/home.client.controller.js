@@ -1,15 +1,12 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http',
-    function ($scope, Authentication, $mdDialog, $state, $http) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http','toastr', 'constants',
+    function ($scope, Authentication, $mdDialog, $state, $http, toastr, constants) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
         $scope.stuff = {};
         var check = false;
-        //PERFECTLY FUNCTIONAL! DO NOT TOUCH
-        if(!$scope.authentication.user != !check){
-            $state.go('dashboard')
-        }
+
         $scope.userIsSupplier = function () {
             if (_.contains(Authentication.user.roles, 'supplier')) {
                 return true;
@@ -25,16 +22,31 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                 return false;
             }
             $scope.stuff.username = $scope.stuff.passuser;
-            $http.post('/api/auth/forgot', $scope.stuff).success(function (response) {
+            var payload={payload:{
+                username:$scope.stuff.username
+            }
+            }
+            $http.post(constants.API_URL+'/users/auth/forgot', payload).then(function (response, err) {
+                if(err)
+                    toastr.error('Can not reset password. Please contact Support')
                 // Show user success message and clear form
                 $scope.credentials = null;
-                $scope.success = response.message;
+                var mailOptions = {payload:{
+                    source:'password',
+                    email: response.data.email,
+                    title: 'Password Reset Success',
+                    body: "<body> <p>Dear "+$scope.stuff.username+",</p> <br /> <p>You have requested to have your password reset for your account at the Sellr Dashboard </p> <p>Please visit this url to reset your password:</p> <p>"+"https://sellrdashboard.com/authentication/reset?token="+response.data.token+"&username="+response.data.username+"</p> <strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
+                }};
+                if(response){
+                    $http.post(constants.API_URL+'/emails', mailOptions).then(function(res, err){
+                        if(err)
+                            toastr.error('Can not reset password. Please contact Support');
+                        $scope.reset =false;
+                        toastr.success("Reset Password Email Sent")
+                    })
+                }
 
-            }).error(function (response) {
-                // Show user error message and clear form
-                $scope.credentials = null;
-                $scope.error = response.message;
-            });
+            })
         };
         $scope.testFunction = function (ev) {
             $mdDialog.show(

@@ -28,7 +28,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
                 if (res) {
                     console.log(res);
                     CurrentUserService.userBeingEdited = res.data[0];
-                    $state.go('admin.users.user-edit', {userId: user._id});
+                    $state.go('admin.users.user-edit', {userId: user.userId});
                     console.log('currentUserService userBeingEdited %O', CurrentUserService.userBeingEdited)
                 }
             })

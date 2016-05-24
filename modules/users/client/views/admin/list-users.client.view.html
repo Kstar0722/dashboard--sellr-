@@ -27,8 +27,6 @@
   <md-content layout="row" layout-align="space-between none">
     <md-list>
       <md-list-item style="min-width: 450px" class="md-3-line" ng-repeat="user in CurrentUserService.userList  | filter: search">
-
-        <img alt="{{ user.profileImageURL }}" ng-src="{{  user.profileImageURL }}" class="md-avatar" />
         <div class="md-list-item-text">
 
           <h3>{{user.firstName}} {{user.lastName}}</h3>

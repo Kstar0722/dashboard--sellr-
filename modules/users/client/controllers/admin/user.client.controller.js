@@ -11,31 +11,17 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 
         $timeout(function () {
             $scope.roles = [
-                {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf('admin') > -1},
-                {text: 'owner', id: 1009, selected: $scope.user.roles.indexOf('owner') > -1},
-                {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf('manager') > -1},
-                {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf('supplier') > -1},
-                { text: 'user', id: 1003, selected: $scope.user.roles.indexOf('user') > -1 },
-                { text: 'editor', id: 1010, selected: $scope.user.roles.indexOf('editor') > -1 },
-                { text: 'curator', id: 1011, selected: $scope.user.roles.indexOf('curator') > -1 }
+                {text: 'admin', id: 1004, selected: $scope.user.roles.indexOf(1004) > -1},
+                {text: 'owner', id: 1009, selected: $scope.user.roles.indexOf(1009) > -1},
+                {text: 'manager', id: 1002, selected: $scope.user.roles.indexOf(1002) > -1},
+                {text: 'supplier', id: 1007, selected: $scope.user.roles.indexOf(1007) > -1},
+                { text: 'user', id: 1003, selected: $scope.user.roles.indexOf(1003) > -1 },
+                { text: 'editor', id: 1010, selected: $scope.user.roles.indexOf(1010) > -1 },
+                { text: 'curator', id: 1011, selected: $scope.user.roles.indexOf(1011) > -1 }
             ];
         }, 500);
 
 
-        $scope.remove = function () {
-            var user = userResolve;
-            if (confirm('Are you sure you want to delete this user?')) {
-                if (user) {
-                    user.$remove();
-                    CurrentUserService.update();
-
-                } else {
-                    $scope.user.$remove(function () {
-                        $state.go('admin.users');
-                    });
-                }
-            }
-        };
 
         $scope.update = function (isValid) {
             console.dir(isValid);
@@ -43,32 +29,10 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 $scope.$broadcast('show-errors-check-validity', 'userForm');
                 return false;
             }
-            updateMongo().then(function () {
+
                 updateAPI();
 
-            })
         };
-
-
-        function updateMongo() {
-            var defer = $q.defer();
-            $scope.user.roles = [];
-            $scope.roles.forEach(function (role) {
-                if (role.selected) {
-                    $scope.user.roles.push(role.text)
-                }
-            });
-            var user = $scope.user;
-            user.$update(function () {
-                $state.go('admin.users.user-edit', {
-                    userId: user._id
-                });
-                defer.resolve()
-            }, function (errorResponse) {
-                $scope.error = errorResponse.data.message;
-            });
-            return defer.promise;
-        }
 
         function updateAPI() {
             $scope.user.roles = [];
@@ -78,9 +42,9 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
                 }
             });
             var user = $scope.user;
-            var userBeingEdited = CurrentUserService.userBeingEdited;
-            console.log('userBeingEditied %O', userBeingEdited)
-            var url = constants.API_URL + '/users/' + userBeingEdited.userId;
+
+            console.log('userBeingEditied %O', user);
+            var url = constants.API_URL + '/users/' + user.userId;
             var payload = {
                 payload: user
             };

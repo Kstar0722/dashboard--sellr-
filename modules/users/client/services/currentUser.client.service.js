@@ -6,7 +6,7 @@ angular.module('users').service('CurrentUserService', ['Admin', '$state',
         me.currentUserRoles=[];
         me.userBeingEdited = {};
         me.myPermissions = localStorage.getItem('roles');
-        Admin.query(function (data) {
+        Admin.query().then(function (data,err) {
             me.userList = data;
             console.log('admin returned %O', data)
         });

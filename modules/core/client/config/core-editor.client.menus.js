@@ -6,7 +6,7 @@ angular.module('core.editor').run([ 'Menus',
             title: 'Product Editor',
             state: 'editor',
             type: 'dropdown',
-            roles: [ 'editor', 'curator', 'admin' ],
+            roles: [ 1010, 1011, 1004 ],
             position: 4
         });
         Menus.addMenuItem('editor', {
