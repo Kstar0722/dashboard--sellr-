@@ -17,6 +17,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
         curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
     };
 
+    $scope.mediumEditorOptions = {
+    };
+
     $scope.search = {};
     $scope.searchLimit = 15;
 

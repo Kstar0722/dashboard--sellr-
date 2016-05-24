@@ -357,5 +357,19 @@
     }
   }
 
+  medium-editor, [medium-editor] {
+    height: auto;
+    min-height: 150px;
 
+    a {
+      cursor: pointer;
+      pointer-events: none;
+    }
+  }
+}
+
+body.editor-products-detail {
+  .medium-editor-toolbar {
+    margin-top: -(@navheight + @subnavheight);
+  }
 }

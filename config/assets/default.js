@@ -9,13 +9,16 @@ module.exports = {
 				'public/lib/angular-material/angular-material.min.css',
 				'public/lib/angular-material/angular-material.layouts.min.css',
 				'public/lib/angular-chart.js/dist/angular-chart.min.css',
-				'public/lib/angular-toastr/dist/angular-toastr.min.css'
+				'public/lib/angular-toastr/dist/angular-toastr.min.css',
+				'public/lib/medium-editor/dist/css/medium-editor.css',
+				'public/lib/medium-editor/dist/css/themes/default.css'
 			],
 			js: [
+                'public/lib/jquery/dist/jquery.js',
+                'public/lib/jquery-ui/jquery-ui.js',
                 'public/lib/angular/angular.js',
                 'public/lib/angular-resource/angular-resource.js',
                 'public/lib/angular-animate/angular-animate.js',
-                'public/lib/angular-mocks/angular-mocks.js',
                 'public/lib/angular-ui-utils/ui-utils.js',
                 'public/lib/angular-ui-router/release/angular-ui-router.js',
                 'public/lib/es5-shim/es5-shim.js',
@@ -28,8 +31,6 @@ module.exports = {
                 'public/lib/ng-file-upload-shim/ng-file-upload-shim.js',
                 'public/lib/aws-sdk/dist/aws-sdk.js',
                 'public/lib/video.js/dist/video.js',
-                'public/lib/jquery/dist/jquery.js',
-                'public/lib/jquery-ui/jquery-ui.js',
                 'public/lib/angular-ui-sortable/sortable.js',
                 'public/lib/checklist-model/checklist-model.js',
                 'public/lib/angularUtils-pagination/dirPagination.js',
@@ -43,7 +44,10 @@ module.exports = {
                 'public/lib/angular-chart.js/dist/angular-chart.js',
                 'public/lib/moment/moment.js',
                 'public/lib/angular-audio/app/angular.audio.js',
-                'public/lib/jasmine-core/lib/jasmine-core/jasmine.js' ]
+                'public/lib/jasmine-core/lib/jasmine-core/jasmine.js',
+                'public/lib/medium-editor/dist/js/medium-editor.js',
+                'public/lib/angular-medium-editor/dist/angular-medium-editor.js'
+			]
 		},
 		css: [
 			'modules/*/client/css/*.css'
