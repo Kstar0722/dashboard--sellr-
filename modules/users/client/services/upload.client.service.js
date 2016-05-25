@@ -93,7 +93,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                             var updateMedia = {
                                 payload: {
                                     mediaAssetId: mediaAssetId,
-                                    publicUrl: 'https://s3.amazonaws.com/cdn.expertoncue.com/' + config.folder + '/' + response.data.assetId + "-" + filename
+                                    publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + response.data.assetId + "-" + filename
                                 }
                             };
 
@@ -104,14 +104,14 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                 else {
                                     var message = {
                                         message: 'New Ad Uploaded Success!',
-                                        publicUrl: updateMedia.publicUrl,
+                                        publicUrl: updateMedia.payload.publicUrl,
                                         fileName: filename
                                     };
                                     messages.push(message);
                                     defer.resolve(messages)
                                 }
                             })
-                        })
+                        }, null, defer.notify)
                     }
                 })
             }
@@ -132,7 +132,8 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                 Bucket: creds.bucket
             }
         });
-        bucket.putObject(params, function (err, data) {
+
+        var request = bucket.putObject(params, function (err, data) {
             me.loading = true;
             if (err) {
                 // There Was An Error With Your S3 Config
@@ -142,7 +143,12 @@ angular.module('users').service('uploadService', function ($http, constants, toa
             } else {
                 defer.resolve(data)
             }
-        })
+        });
+
+        request.on('httpUploadProgress', function (progress) {
+            defer.notify(Math.round(progress.loaded / progress.total * 100));
+        });
+
         return defer.promise;
     }
 

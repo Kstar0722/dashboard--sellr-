@@ -1,4 +1,4 @@
-angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants) {
+angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants, MediumS3ImageUploader) {
 
     Authentication.user = Authentication.user || { roles: '' };
     $scope.$state = $state;
@@ -18,6 +18,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
 
     $scope.mediumEditorOptions = {
+        imageDragging: false,
+        extensions: {
+            's3-image-uploader': new MediumS3ImageUploader()
+        }
     };
 
     $scope.search = {};

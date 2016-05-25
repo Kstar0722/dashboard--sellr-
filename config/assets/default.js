@@ -11,7 +11,8 @@ module.exports = {
 				'public/lib/angular-chart.js/dist/angular-chart.min.css',
 				'public/lib/angular-toastr/dist/angular-toastr.min.css',
 				'public/lib/medium-editor/dist/css/medium-editor.css',
-				'public/lib/medium-editor/dist/css/themes/default.css'
+				'public/lib/medium-editor/dist/css/themes/default.css',
+				'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css'
 			],
 			js: [
                 'public/lib/jquery/dist/jquery.js',
@@ -46,7 +47,13 @@ module.exports = {
                 'public/lib/angular-audio/app/angular.audio.js',
                 'public/lib/jasmine-core/lib/jasmine-core/jasmine.js',
                 'public/lib/medium-editor/dist/js/medium-editor.js',
-                'public/lib/angular-medium-editor/dist/angular-medium-editor.js'
+                'public/lib/angular-medium-editor/dist/angular-medium-editor.js',
+                'public/lib/handlebars/handlebars.runtime.js',
+                'public/lib/jquery-sortable/source/js/jquery-sortable.js',
+                'public/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
+                'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',
+                'public/lib/blueimp-file-upload/js/jquery.fileupload.js',
+                'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js'
 			]
 		},
 		css: [

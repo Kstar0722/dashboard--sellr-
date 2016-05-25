@@ -997,6 +997,41 @@ section.userList .userbox {
   cursor: pointer;
   pointer-events: none;
 }
+.productEditor medium-editor .medium-insert-buttons,
+.productEditor [medium-editor] .medium-insert-buttons {
+  display: none;
+  margin-left: -55px;
+}
+.productEditor medium-editor .medium-insert-buttons a,
+.productEditor [medium-editor] .medium-insert-buttons a {
+  pointer-events: auto;
+}
+.productEditor medium-editor img,
+.productEditor [medium-editor] img {
+  pointer-events: none;
+}
+.productEditor medium-editor .image.uploading,
+.productEditor [medium-editor] .image.uploading {
+  position: relative;
+  vertical-align: top;
+}
+.productEditor medium-editor .image.uploading img,
+.productEditor [medium-editor] .image.uploading img {
+  opacity: 0.3;
+}
+.productEditor medium-editor .image.uploading .progress,
+.productEditor [medium-editor] .image.uploading .progress {
+  background: transparent;
+  box-shadow: none;
+  color: darkgrey;
+  font-size: 16pt;
+  height: 30px;
+  left: 10px;
+  position: absolute;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  top: 5px;
+  width: 200px;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }

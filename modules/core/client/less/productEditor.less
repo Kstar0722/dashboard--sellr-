@@ -365,6 +365,39 @@
       cursor: pointer;
       pointer-events: none;
     }
+
+    .medium-insert-buttons {
+      display: none;
+      margin-left: -55px;
+
+      a {
+        pointer-events: auto;
+      }
+    }
+
+    img { pointer-events: none; }
+
+    .image.uploading {
+      position: relative;
+      vertical-align: top;
+
+      img {
+        opacity: 0.3;
+      }
+
+      .progress {
+        background: transparent;
+        box-shadow: none;
+        color: darkgrey;
+        font-size: 16pt;
+        height: 30px;
+        left: 10px;
+        position: absolute;
+        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+        top: 5px;
+        width: 200px;
+      }
+    }
   }
 }
 

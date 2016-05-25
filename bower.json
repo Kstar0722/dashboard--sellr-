@@ -36,6 +36,7 @@
     "jquery": "^2.2.3",
     "bootstrap": "^3.3.6",
     "medium-editor": "^5.18.0",
+    "medium-editor-insert-plugin": "^2.3.2",
     "angular-medium-editor": "^1.1.1"
   },
   "resolutions": {
