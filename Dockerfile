@@ -2,8 +2,6 @@
 FROM node:4.3
 
 ADD . /oncue/apps/oncue-dashboard
-ADD .bowerrc /oncue/apps/oncue-dashboard/.bowerrc
-ADD bower.json /oncue/apps/oncue-dashboard/bower.json
 
 # Install gem sass for  grunt-contrib-sass
 #RUN apt-get update -qq && apt-get install -y build-essential
@@ -31,9 +29,9 @@ ADD package.json /oncue/apps/oncue-dashboard/package.json
 RUN npm install
 
 # Manually trigger bower. Why doesnt this work via npm install?
-#ADD .bowerrc /oncue/apps/oncue-dashboard/.bowerrc
-#ADD bower.json /oncue/apps/oncue-dashboard/bower.json
-#RUN bower install --config.interactive=false --allow-root
+ADD .bowerrc /oncue/apps/oncue-dashboard/.bowerrc
+ADD bower.json /oncue/apps/oncue-dashboard/bower.json
+RUN bower install --config.interactive=false --allow-root
 
 
 # Set development environment as default
