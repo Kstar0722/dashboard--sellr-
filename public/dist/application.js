@@ -6299,6 +6299,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         product.userId = me.userId;
         if (!product.userId) {
+            if (localStorage.getItem('userId')) {
+                me.userId = localStorage.getItem('userId');
+                product.userId = me.userId;
+            }
+        }
+        if (!product.userId) {
             toastr.error('There was a problem saving this product. Please sign out and sign in again.')
             return
         }
