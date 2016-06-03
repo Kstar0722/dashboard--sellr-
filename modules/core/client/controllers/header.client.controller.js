@@ -3,6 +3,7 @@
 
 angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams',
     function ($scope, Authentication, Menus, $http, $window, $state, $stateParams) {
+        console.log('HELLO FROM THE HEADER')
         $scope.authentication = Authentication;
         $scope.ui = {};
         $scope.$state = $state;

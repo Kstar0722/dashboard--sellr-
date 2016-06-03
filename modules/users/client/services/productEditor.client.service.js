@@ -187,7 +187,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.post(url, payload).then(function (res) {
             toastr.info('You claimed product ' + options.productId);
-            socket.emit('product-claimed', options);
+            //socket.emit('product-claimed', options);
             me.getStats();
             log('claim response', res)
         })
@@ -207,7 +207,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         var url = constants.BWS_API + '/edit/claim';
         $http.put(url, payload).then(function (res) {
             log('claim response', res);
-            socket.emit('product-unclaimed', options);
+            //socket.emit('product-unclaimed', options);
             me.currentProduct = {};
         }, function (err) {
             log('deleteClaim error', err);
@@ -218,27 +218,35 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.save = function (product) {
         var defer = $q.defer();
         if (!product.productId) {
-            //error('save error: no productId specified %O', product)
             return
         }
         product.userId = me.userId;
+        if (!product.userId) {
+            if (localStorage.getItem('userId')) {
+                me.userId = localStorage.getItem('userId');
+                product.userId = me.userId;
+            }
+        }
+        if (!product.userId) {
+            toastr.error('There was a problem saving this product. Please sign out and sign in again.')
+            return
+        }
         var payload = {
             payload: compareToCachedProduct(product)
         };
         var url = constants.BWS_API + '/edit/products/' + product.productId;
         $http.put(url, payload).then(onSaveSuccess, onSaveError);
         function onSaveSuccess(response) {
-            //log('onSaveSuccess %O', response);
             window.scrollTo(0, 0);
-            socket.emit('product-saved');
+            //socket.emit('product-saved');
             me.productStorage[ product.productId ] = product;
             toastr.success('Product Updated!')
             defer.resolve()
         }
 
         function onSaveError(error) {
-            //error('onSaveError %O', error);
-            toastr.error('There was a problem updating product ' + product.productId)
+            console.error('onSaveError %O', error);
+            toastr.error('There was a problem updating product ' + product.productId);
             defer.reject()
         }
 
@@ -335,15 +343,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
         uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
             if (response) {
                 toastr.success('Product Image Updated!');
-
                 me.save(me.currentProduct).then(function (err, response) {
                     refreshProduct(me.currentProduct);
-
                 })
             }
             else {
                 toastr.error('Product Image Failed To Update!');
-                //log(err)
             }
         })
 
@@ -369,9 +374,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
             }
             else {
-
                 toastr.error('Product Audio Failed To Update!');
-                //log(err)
             }
         })
 
@@ -424,33 +427,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
         }
         log('changes added', prod);
         return (prod)
-    }
-
-    var socket;
-    if (window.io) {
-        socket = io.connect(constants.BWS_API);
-        socket.on('update', function (data) {
-            //log('UPDATING FOR SOCKETS')
-            me.getStats()
-        });
-
-        socket.on('update-claims', function (data) {
-            //log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-            var i = _.findIndex(me.productList, function (p) {
-                return p.productId == data.productId
-            });
-            me.productList[ i ].userId = data.userId;
-            $rootScope.$apply()
-        });
-
-        socket.on('claim-removed', function (data) {
-            //log('UPDATING CLAIMS FOR SOCKETS ' + data.userId + data.productId);
-            var i = _.findIndex(me.productList, function (p) {
-                return p.productId == data.productId
-            });
-            me.productList[ i ].userId = null;
-            $rootScope.$apply()
-        })
     }
 
     function refreshProduct(product) {
