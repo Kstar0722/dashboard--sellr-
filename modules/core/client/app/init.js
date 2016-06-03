@@ -108,6 +108,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
     // Record previous state
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        console.log('changed state from %O to %O', fromState, toState)
         storePreviousState(fromState, fromParams);
         $rootScope.$stateClass = cssClassOf(toState.name);
     });

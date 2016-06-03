@@ -9,7 +9,6 @@ var config = require('../config'),
   logger = require('./logger'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
-  MongoStore = require('connect-mongo')(session),
   favicon = require('serve-favicon'),
   compress = require('compression'),
   methodOverride = require('method-override'),
@@ -104,31 +103,31 @@ module.exports.initViewEngine = function (app) {
 /**
  * Configure Express session
  */
-module.exports.initSession = function (app, db) {
-  // Express MongoDB session storage
-  app.use(session({
-    saveUninitialized: true,
-    resave: true,
-    secret: config.sessionSecret,
-    cookie: {
-      maxAge: config.sessionCookie.maxAge,
-      httpOnly: config.sessionCookie.httpOnly,
-      secure: config.sessionCookie.secure && config.secure.ssl
-    },
-    key: config.sessionKey,
-    store: new MongoStore({
-      mongooseConnection: db.connection,
-      collection: config.sessionCollection
-    })
-  }));
-};
+// module.exports.initSession = function (app, db) {
+//   // Express MongoDB session storage
+//   app.use(session({
+//     saveUninitialized: true,
+//     resave: true,
+//     secret: config.sessionSecret,
+//     cookie: {
+//       maxAge: config.sessionCookie.maxAge,
+//       httpOnly: config.sessionCookie.httpOnly,
+//       secure: config.sessionCookie.secure && config.secure.ssl
+//     },
+//     key: config.sessionKey,
+//     store: new MongoStore({
+//       mongooseConnection: db.connection,
+//       collection: config.sessionCollection
+//     })
+//   }));
+// };
 
 /**
  * Invoke modules server configuration
  */
-module.exports.initModulesConfiguration = function (app, db) {
+module.exports.initModulesConfiguration = function (app) {
   config.files.server.configs.forEach(function (configPath) {
-    require(path.resolve(configPath))(app, db);
+      // require(path.resolve(configPath))(app);
   });
 };
 
@@ -166,12 +165,12 @@ module.exports.initModulesClientRoutes = function (app) {
 /**
  * Configure the modules ACL policies
  */
-module.exports.initModulesServerPolicies = function (app) {
-  // Globbing policy files
-  config.files.server.policies.forEach(function (policyPath) {
-    require(path.resolve(policyPath)).invokeRolesPolicies();
-  });
-};
+// module.exports.initModulesServerPolicies = function (app) {
+//   // Globbing policy files
+//   config.files.server.policies.forEach(function (policyPath) {
+//       // require(path.resolve(policyPath)).invokeRolesPolicies();
+//   });
+// };
 
 /**
  * Configure the modules server routes
@@ -179,7 +178,8 @@ module.exports.initModulesServerPolicies = function (app) {
 module.exports.initModulesServerRoutes = function (app) {
   // Globbing routing files
   config.files.server.routes.forEach(function (routePath) {
-    require(path.resolve(routePath))(app);
+      console.log(path.resolve(routePath))
+      require(path.resolve(routePath))(app);
   });
 };
 
@@ -201,21 +201,12 @@ module.exports.initErrorRoutes = function (app) {
   });
 };
 
-/**
- * Configure Socket.io
- */
-module.exports.configureSocketIO = function (app, db) {
-  // Load the Socket.io configuration
-  var server = require('./socket.io')(app, db);
 
-  // Return server object
-  return server;
-};
 
 /**
  * Initialize the Express application
  */
-module.exports.init = function (db) {
+module.exports.init = function () {
   // Initialize express app
   var app = express();
 
@@ -228,9 +219,6 @@ module.exports.init = function (db) {
   // Initialize Express view engine
   this.initViewEngine(app);
 
-  // Initialize Express session
-  this.initSession(app, db);
-
   // Initialize Modules configuration
   this.initModulesConfiguration(app);
 
@@ -240,17 +228,12 @@ module.exports.init = function (db) {
   // Initialize modules static client routes
   this.initModulesClientRoutes(app);
 
-  // Initialize modules server authorization policies
-  this.initModulesServerPolicies(app);
-
   // Initialize modules server routes
   this.initModulesServerRoutes(app);
 
   // Initialize error routes
   this.initErrorRoutes(app);
 
-  // Configure Socket.io
-  app = this.configureSocketIO(app, db);
 
-  return app;
+    return app;
 };
