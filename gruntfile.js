@@ -282,40 +282,7 @@ module.exports = function (grunt) {
 
         done();
     });
-
-    // Connect to the MongoDB instance and load the models
-    grunt.task.registerTask('mongoose', 'Task that connects to the MongoDB instance and loads the application models.', function () {
-        // Get the callback
-        var done = this.async();
-
-        // Use mongoose configuration
-        var mongoose = require('./config/lib/mongoose.js');
-
-        // Connect to database
-        mongoose.connect(function (db) {
-            done();
-        });
-    });
-
-    // Drops the MongoDB database, used in e2e testing
-    grunt.task.registerTask('dropdb', 'drop the database', function () {
-        // async mode
-        var done = this.async();
-
-        // Use mongoose configuration
-        var mongoose = require('./config/lib/mongoose.js');
-
-        mongoose.connect(function (db) {
-            db.connection.db.dropDatabase(function (err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('Successfully dropped db: ', db.connection.db.databaseName);
-                }
-                db.connection.db.close(done);
-            });
-        });
-    });
+    
 
     grunt.task.registerTask('server', 'Starting the server', function () {
         // Get the callback
