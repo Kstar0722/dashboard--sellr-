@@ -132,6 +132,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
     // Record previous state
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        console.log('changed state from %O to %O', fromState, toState)
         storePreviousState(fromState, fromParams);
         $rootScope.$stateClass = cssClassOf(toState.name);
     });
@@ -461,6 +462,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
 angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams',
     function ($scope, Authentication, Menus, $http, $window, $state, $stateParams) {
+        console.log('HELLO FROM THE HEADER')
         $scope.authentication = Authentication;
         $scope.ui = {};
         $scope.$state = $state;
