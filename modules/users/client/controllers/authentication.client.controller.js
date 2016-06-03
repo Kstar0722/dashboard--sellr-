@@ -35,7 +35,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                     username: $scope.credentials.username,
                     password: $scope.credentials.password,
                     roles:userInfo.roles,
-                    userId: userInfo.regCode
+                    userId: userInfo.regCode,
+                    accountId:userInfo.accountId
                 }
             };
             var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
@@ -53,23 +54,27 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
         function onUpdateSuccess(apiRes) {
             if (apiRes) {
-                $scope.credentials.roles = [];
-                // If successful we assign the response to the global user model
+                authToken.setToken(apiRes.data.token);
+                //set roles
+                localStorage.setItem('roles', apiRes.data.roles);
+                //store account Id in location storage
+                localStorage.setItem('accountId', apiRes.data.accountId);
+                //set userId
+                localStorage.setItem('roles', apiRes.data.roles)
+                localStorage.setItem('userId', apiRes.data.userId);
+                localStorage.setItem('userObject', JSON.stringify(apiRes.data));
                 $scope.authentication.user = apiRes.data;
-
-                var roles = [];
-                userInfo.roles.forEach(function (role) {
-                    roles.push(role)
-                });
-
-                localStorage.setItem('accountId', userInfo.accountId);
-                localStorage.setItem('roles', roles);
-                localStorage.setItem('userId', userInfo.regCode);
-
+                userInfo.roles.forEach(function(role){
+                    $scope.authentication.user.roles.push(Number(role))
+                })
+                console.log($scope.authentication)
                 toastr.success('Success! User Created. Logging you in now...');
-                // And redirect to the previous or home page
-                if (Authentication.user.roles.indexOf(1002) < 0 && Authentication.user.roles.indexOf(1009) < 0 && Authentication.user.roles.indexOf(1004) < 0) {
-                    if (Authentication.user.roles.indexOf(1010) >= 0) {
+                 //And redirect to the previous or home page
+
+                if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
+                    console.log('1')
+                    if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
+                        console.log('2')
                         $state.go('editor.products', {type: "wine", status: "new"})
                     }
                 } else {
@@ -114,7 +119,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             $scope.authentication.user = response.data;
 
 
-            $state.go('dashboard', $state.previous.params);
+            if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
+                if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
+                    $state.go('editor.products', {type: "wine", status: "new"})
+                }
+            } else {
+                $state.go('dashboard', $state.previous.params);
+            }
+
         }
 
         //We could not sign into mongo, so clear everything and show error.
