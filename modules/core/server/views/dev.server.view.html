@@ -18,11 +18,9 @@
   <link rel="stylesheet" href="dist/lib.min.css">
 
 
-  <!-- build:css:prod dist/application.min.css -->
   {% for cssFile in cssFiles %}
   <link rel="stylesheet" href="{{cssFile}}">
   {% endfor %}
-  <!-- /build -->
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -46,12 +44,16 @@
 <body class="ng-cloak dashboard" ng-class="$stateClass">
 <header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
 
-{% block content %}{% endblock %}
+<section ui-view></section>
 <script>
 
 </script>
 <script type="text/javascript">
-  var user = {{user | json | safe}}
+  var user = {
+  {
+    user | json | safe
+  }
+  }
 </script>
 
 
@@ -91,16 +93,11 @@
   })()
 </script>
 
-<!--Minified Libraries (in production)-->
-<!-- build:js:prod dist/lib.js -->
-<!-- /build -->
-<!--Application JavaScript Files-->
-<!-- build:js:prod dist/application.min.js -->
+
 {% for jsFile in jsFiles %}
 <script type="text/javascript" src="{{jsFile}}"></script>
 {% endfor %}
 <script>console.log('THIS IS DEV ENV')</script>
-<!-- /build -->
 
 
 <script type="text/javascript">

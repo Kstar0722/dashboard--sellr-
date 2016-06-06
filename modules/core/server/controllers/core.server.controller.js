@@ -4,7 +4,13 @@
  * Render the main application page
  */
 exports.renderIndex = function (req, res) {
-  res.render('modules/core/server/views/index', {
+    var index;
+    if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'QA') {
+        index = 'modules/core/server/views/prod'
+    } else {
+        index = 'modules/core/server/views/dev'
+    }
+    res.render(index, {
     user: req.user || null
   });
 };
