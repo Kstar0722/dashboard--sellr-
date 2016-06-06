@@ -28,7 +28,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             window.localStorage.clear();
             localStorage.clear();
             $window.localStorage.clear();
-            $window.location.href = '/auth/signout';
+            $window.location.href = '/';
         };
 
     }

@@ -30,13 +30,13 @@
     <md-menu md-position-mode="target-right bottom">
       <div id="profbutton" ng-click="$mdOpenMenu($event)">
         <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <span data-ng-bind="authentication.user.displayName"></span>
+          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
           <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
         </md-button>
       </div>
       <md-menu-content width="3" id="profmenu">
         <md-menu-item>
-          <md-button href="/api/auth/signout" target="_self" ng-click="signOut()">SignOut</md-button>
+          <md-button target="_self" ng-click="signOut()">Sign Out</md-button>
         </md-menu-item>
       </md-menu-content>
     </md-menu>
@@ -55,13 +55,13 @@
     <md-menu md-position-mode="target-right bottom">
       <div id="profbutton" ng-click="$mdOpenMenu($event)">
         <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <span data-ng-bind="authentication.user.displayName"></span>
+          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
           <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
         </md-button>
       </div>
       <md-menu-content width="3" id="profmenu">
         <md-menu-item>
-          <md-button href="/api/auth/signout" target="_self" ng-click="signOut()">SignOut</md-button>
+          <md-button target="_self" ng-click="signOut()">Sign Out</md-button>
         </md-menu-item>
       </md-menu-content>
     </md-menu>
