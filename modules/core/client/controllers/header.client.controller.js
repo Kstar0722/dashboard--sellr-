@@ -20,10 +20,6 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
-        $scope.debugState = function (state) {
-            console.log('current state params %O', $stateParams)
-            console.log($state.includes(state))
-        }
         $scope.signOut = function () {
             window.localStorage.clear();
             localStorage.clear();

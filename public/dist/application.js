@@ -266,21 +266,21 @@ angular.module('core.editor').run([ 'Menus',
             title: 'Beer Editor',
             state: 'editor.products({type:"beer",status:"new"})',
             type: 'button',
-            roles: [ 'editor', 'curator', 'admin' ],
+            roles: [ 1010, 1011, 1004 ],
             position: 0
         });
         Menus.addMenuItem('editor', {
             title: 'Spirits Editor',
             state: 'editor.products({type:"spirits",status:"new"})',
             type: 'button',
-            roles: [ 'editor', 'curator', 'admin' ],
+            roles: [ 1010, 1011, 1004 ],
             position: 2
         });
         Menus.addMenuItem('editor', {
             title: 'Wine Editor',
             state: 'editor.products({type:"wine",status:"new"})',
             type: 'button',
-            roles: [ 'editor', 'curator', 'admin' ],
+            roles: [ 1010, 1011, 1004 ],
             position: 1
         });
     }
@@ -479,10 +479,6 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
-        $scope.debugState = function (state) {
-            console.log('current state params %O', $stateParams)
-            console.log($state.includes(state))
-        }
         $scope.signOut = function () {
             window.localStorage.clear();
             localStorage.clear();
