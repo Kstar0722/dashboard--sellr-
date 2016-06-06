@@ -7,11 +7,25 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.stuff = {};
         var check = false;
 
-        $scope.userIsSupplier = function () {
-            if (_.contains(Authentication.user.roles, 'supplier')) {
-                return true;
+        function redirect() {
+            if (hasRole(1002) || hasRole(1004) || hasRole(1007) || hasRole(1009)) {
+                $state.go('dashboard')
+            } else if (hasRole(1010) || hasRole(1011)) {
+                $state.go('editor.products')
+            } else if (hasRole(1012)) {
+                $state.go('supplier.media')
             }
-        };
+        }
+
+        function hasRole(role) {
+            return (_.contains(Authentication.user.roles, role))
+        }
+
+        if(Authentication.user){
+            redirect()
+        }
+
+
         $scope.askForPasswordReset = function (isValid) {
             console.log('ask for password called %O',$scope.stuff )
             $scope.success = $scope.error = null;
