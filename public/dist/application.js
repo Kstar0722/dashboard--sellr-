@@ -487,7 +487,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             window.localStorage.clear();
             localStorage.clear();
             $window.localStorage.clear();
-            $window.location.href = '/auth/signout';
+            $window.location.href = '/';
         };
 
     }
@@ -502,11 +502,25 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.stuff = {};
         var check = false;
 
-        $scope.userIsSupplier = function () {
-            if (_.contains(Authentication.user.roles, 'supplier')) {
-                return true;
+        function redirect() {
+            if (hasRole(1002) || hasRole(1004) || hasRole(1007) || hasRole(1009)) {
+                $state.go('dashboard')
+            } else if (hasRole(1010) || hasRole(1011)) {
+                $state.go('editor.products')
+            } else if (hasRole(1012)) {
+                $state.go('supplier.media')
             }
-        };
+        }
+
+        function hasRole(role) {
+            return (_.contains(Authentication.user.roles, role))
+        }
+
+        if(Authentication.user){
+            redirect()
+        }
+
+
         $scope.askForPasswordReset = function (isValid) {
             console.log('ask for password called %O',$scope.stuff )
             $scope.success = $scope.error = null;
@@ -2167,7 +2181,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
                     username: $scope.credentials.username,
                     password: $scope.credentials.password,
                     roles:userInfo.roles,
-                    userId: userInfo.regCode
+                    userId: userInfo.regCode,
+                    accountId:userInfo.accountId
                 }
             };
             var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
@@ -2185,23 +2200,27 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
         function onUpdateSuccess(apiRes) {
             if (apiRes) {
-                $scope.credentials.roles = [];
-                // If successful we assign the response to the global user model
+                authToken.setToken(apiRes.data.token);
+                //set roles
+                localStorage.setItem('roles', apiRes.data.roles);
+                //store account Id in location storage
+                localStorage.setItem('accountId', apiRes.data.accountId);
+                //set userId
+                localStorage.setItem('roles', apiRes.data.roles)
+                localStorage.setItem('userId', apiRes.data.userId);
+                localStorage.setItem('userObject', JSON.stringify(apiRes.data));
                 $scope.authentication.user = apiRes.data;
-
-                var roles = [];
-                userInfo.roles.forEach(function (role) {
-                    roles.push(role)
-                });
-
-                localStorage.setItem('accountId', userInfo.accountId);
-                localStorage.setItem('roles', roles);
-                localStorage.setItem('userId', userInfo.regCode);
-
+                userInfo.roles.forEach(function(role){
+                    $scope.authentication.user.roles.push(Number(role))
+                })
+                console.log($scope.authentication)
                 toastr.success('Success! User Created. Logging you in now...');
-                // And redirect to the previous or home page
-                if (Authentication.user.roles.indexOf(1002) < 0 && Authentication.user.roles.indexOf(1009) < 0 && Authentication.user.roles.indexOf(1004) < 0) {
-                    if (Authentication.user.roles.indexOf(1010) >= 0) {
+                 //And redirect to the previous or home page
+
+                if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
+                    console.log('1')
+                    if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
+                        console.log('2')
                         $state.go('editor.products', {type: "wine", status: "new"})
                     }
                 } else {
@@ -2246,7 +2265,14 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
             $scope.authentication.user = response.data;
 
 
-            $state.go('dashboard', $state.previous.params);
+            if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
+                if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
+                    $state.go('editor.products', {type: "wine", status: "new"})
+                }
+            } else {
+                $state.go('dashboard', $state.previous.params);
+            }
+
         }
 
         //We could not sign into mongo, so clear everything and show error.
@@ -5916,6 +5942,38 @@ angular.module('users').service('locationsService', function ($http, constants, 
 
     return me;
 });
+;
+'use strict';
+
+(function() {
+    var _createLink = MediumEditor.util.createLink;
+    MediumEditor.util.createLink = function (document, textNodes, href, target) {
+        var anchor = _createLink.apply(this, arguments);
+        anchor.setAttribute('href', '#');
+        anchor.setAttribute('onclick', "window.open('" + url(href) + "', '_system', 'location=yes'); return false;");
+        return anchor;
+    };
+
+    var _createLinkPro = MediumEditor.prototype.createLink;
+    MediumEditor.prototype.createLink = function (opts) {
+        var result = _createLinkPro.apply(this, arguments);
+        var $sel = $(MediumEditor.selection.getSelectedElements(document));
+        var $a = $sel.is('a') ? $sel : $sel.find('a');
+        if ($a.length) {
+            var href = url($a.attr('href'));
+            $a.attr('onclick', "window.open('" + href + "', '_system', 'location=yes'); return false;");
+            $a.attr('href', '#');
+            this.events.enableCustomEvent('editableInput');
+        }
+        return result;
+    };
+
+    function url(addr) {
+        if (typeof addr != 'string') return addr;
+        if (!addr.trim().match(/^(http|#|\/)/)) addr = 'http://' + addr;
+        return addr;
+    }
+})();
 ;
 'use strict';
 
