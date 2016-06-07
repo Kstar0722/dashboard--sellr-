@@ -196,7 +196,10 @@ module.exports = function (grunt) {
                 }
             }
         },
-        clean: ['.build/', 'public/dist/'],
+        clean: {
+            build: '.build/',
+            dist: 'public/dist/'
+        },
         copy: {
             localConfig: {
                 src: 'config/env/local.example.js',
@@ -332,7 +335,7 @@ module.exports = function (grunt) {
     // Run the project in production mode
 
     // Lint project files and minify them into two production files.
-    grunt.registerTask('build', [ 'env:dev', 'clean', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace' ]);
+    grunt.registerTask('build', [ 'env:dev', 'clean', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace', 'clean:build' ]);
     grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
 };
 
