@@ -15,11 +15,10 @@
 
   <!-- Fav Icon -->
   <link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
-  <link rel="stylesheet" href="dist/lib.min.css">
 
-
-  <link rel="stylesheet" href="dist/application.min.css">
-
+  {% for cssFile in cssFiles %}
+  <link rel="stylesheet" href="{{cssFile}}">
+  {% endfor %}
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <!--<script type="text/javascript">getUser()</script>-->
@@ -87,9 +86,9 @@
   })()
 </script>
 
-<script type="text/javascript" src="dist/lib.js"></script>
-<script type="text/javascript" src="dist/application.min.js"></script>
-
+{% for jsFile in jsFiles %}
+<script type="text/javascript" src="{{jsFile}}"></script>
+{% endfor %}
 
 <script type="text/javascript">
   rg4js('apiKey', 'ZHPyJnDQHcXuYk51BE543w==');
