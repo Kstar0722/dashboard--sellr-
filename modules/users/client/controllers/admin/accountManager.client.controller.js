@@ -1,4 +1,4 @@
-angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+angular.module('users.admin').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
     accountsService.init();
     $scope.accountsService = accountsService;
     $scope.determinateValue = 0;
@@ -16,9 +16,9 @@ angular.module('users.manager').controller('AccountManagerController', function 
         console.log('editing account %O', account)
         $scope.currentAccountLogo = '';
         accountsService.editAccount = account;
-        accountsService.editAccount.style = JSON.parse(account.preferences).style
+        //accountsService.editAccount.style = JSON.parse(account.preferences).style
         console.log('editAccount is now %O', accountsService.editAccount)
-        $state.go('manager.accounts.edit', {id: account.accountId})
+        $state.go('admin.accounts.edit', {id: account.accountId})
     }
 
 
@@ -29,9 +29,9 @@ angular.module('users.manager').controller('AccountManagerController', function 
             type:'LOGO',
             accountId: accountId
         }
-        uploadService.upload(files, mediaConfig).then(function(response, err ){
+        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
             if(response) {
-                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response.mediaAssetId + '-' + response.fileName;
+                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response[0].mediaAssetId + '-' + response[0].fileName;
                 $scope.currentAccountLogo = accountsService.editAccount.logo;
                 toastr.success('Logo Updated', 'Success!');
             }

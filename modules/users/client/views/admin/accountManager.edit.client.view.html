@@ -15,9 +15,34 @@
           <p class="help-block error-text" ng-message="required">Account name is required.</p>
         </div>
       </md-input-container>
-      <md-input-container class="md-block" flex-gt-sm>
-        <label>Custom Style Url </label>
-        <input ng-model="accountsService.editAccount.style">
+        <md-input-container class="md-block" flex-gt-sm>
+        <label>Contact Name</label>
+        <input ng-model="accountsService.editAccount.contactName">
+        <div ng-messages="editAccountForm.contactName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Account Contact Name is required.</p>
+        </div>
+        </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+        <label>Address</label>
+        <input ng-model="accountsService.editAccount.address">
+        <div ng-messages="editAccountForm.address.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Account address is required.</p>
+        </div>
+          </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+        <label>City</label>
+        <input ng-model="accountsService.editAccount.city">
+        <div ng-messages="editAccountForm.city.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Account city is required.</p>
+        </div>
+            </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+        <label>State</label>
+        <input ng-model="accountsService.editAccount.state">
+        <div ng-messages="editAccountForm.state.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Account state is required.</p>
+        </div>
+
       </md-input-container>
     </div>
 

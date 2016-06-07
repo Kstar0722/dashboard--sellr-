@@ -97,7 +97,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                 }
                             };
 
-                            $http.put(constants.API_URL + '/media', updateMedia).then(function (response, err) {
+                            $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err) {
                                 if (err) {
                                     console.log(err)
                                 }
@@ -105,7 +105,8 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                     var message = {
                                         message: 'New Ad Uploaded Success!',
                                         publicUrl: updateMedia.payload.publicUrl,
-                                        fileName: filename
+                                        fileName: filename,
+                                        mediaAssetId:updateMedia.payload.mediaAssetId
                                     };
                                     messages.push(message);
                                     defer.resolve(messages)
