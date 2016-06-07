@@ -163,12 +163,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
 
     $scope.submitForApproval = function (product) {
-        if (product.description) {
-            var re = /<.*?>.*$/;
-            product.description = product.description.replace(re, '');
-            var re2 = /=+.*?.*$/;
-            product.description = product.description.replace(re2, '');
-        }
         product.status = 'done';
         productEditorService.save(product);
         $scope.viewProduct(product);
