@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "grunt karma"
+    "test": "grunt test"
   },
   "dependencies": {
     "acl": "~0.4.4",
