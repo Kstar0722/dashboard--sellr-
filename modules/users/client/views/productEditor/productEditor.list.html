@@ -12,7 +12,7 @@
   <div class="row " ng-repeat="product in pes.productList|filter:search|filter:pes.currentAccount|limitTo:searchLimit" ng-if="showProduct(product)">
     <md-divider></md-divider>
     <div class="row" ui-sref="editor.products.detail({productId:product.productId})">
-      <h5 id="sidebar-heading">{{ product.name }}</h5>
+      <h5 id="sidebar-heading">{{ product.displayName || product.name}}</h5>
       <div ng-show="product.lastEdit" id="last-edited">Edited {{ product.lastEdit }}</div>
       <div ng-show="product.username">{{product.username}}</div>
       <div ng-if="product.status == 'inprogress'" class="label label-default">In Progress</div>

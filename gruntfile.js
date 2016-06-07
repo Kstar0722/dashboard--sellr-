@@ -24,7 +24,6 @@ module.exports = function (grunt) {
             prod: {
                 NODE_ENV: 'production'
             }
-
         },
         watch: {
             serverViews: {
@@ -120,7 +119,8 @@ module.exports = function (grunt) {
                     mangle: false
                 },
                 files: {
-                    'public/dist/application.min.js': 'public/dist/application.js'
+                    'public/dist/application.min.js': 'public/dist/application.js',
+                    'public/dist/templates.min.js': 'public/dist/templates.js'
                 }
             }
         },
@@ -196,6 +196,7 @@ module.exports = function (grunt) {
                 }
             }
         },
+        clean: ['.build/', 'public/dist/'],
         copy: {
             localConfig: {
                 src: 'config/env/local.example.js',
@@ -203,6 +204,12 @@ module.exports = function (grunt) {
                 filter: function () {
                     return !fs.existsSync('config/env/local.js');
                 }
+            },
+            build: {
+                files: [
+                    { expand: true, cwd: 'config/assets', src: ['*'], dest: '.build/config' },
+                    { expand: true, cwd: 'public/dist', src: ['*'], dest: '.build/dist' }
+                ]
             }
         },
         concat: {
@@ -215,11 +222,11 @@ module.exports = function (grunt) {
                 dest: 'public/dist/application.js'
             },
             lib: {
-                src: [ defaultAssets.client.lib.js ],
+                src: [ minifiedOrDefaultFiles(defaultAssets.client.lib.js) ],
                 dest: 'public/dist/lib.js'
             },
             styles: {
-                src: [ defaultAssets.client.lib.css ],
+                src: [ minifiedOrDefaultFiles(defaultAssets.client.lib.css) ],
                 dest: 'public/dist/lib.min.css'
             }
         },
@@ -235,6 +242,41 @@ module.exports = function (grunt) {
 
                     // https://github.com/taptapship/wiredep#configuration
                 }
+            }
+        },
+        ngtemplates: {
+            options: {
+                htmlmin: {
+                    collapseWhitespace: true,
+                    removeComments: true
+                },
+                url: function(url) {
+                    return url.replace('public/', '');
+                },
+                prefix: '/'
+            },
+            'mean': {
+                src: ['public/modules/**/**.html', 'modules/*/client/**/**.html'],
+                dest: 'public/dist/templates.js'
+            }
+        },
+        filerev: {
+            options: {
+                algorithm: 'md5',
+                length: 6
+            },
+            production: {
+                files: [
+                    { src: ['public/dist/*.{css,js}'] }
+                ]
+            }
+        },
+        filerev_replace: {
+            options: {
+                assets_root: '.build/config/'
+            },
+            compiled_assets: {
+                src: '.build/**/*.*'
             }
         }
     });
@@ -263,7 +305,6 @@ module.exports = function (grunt) {
 
         done();
     });
-    
 
     grunt.task.registerTask('server', 'Starting the server', function () {
         // Get the callback
@@ -275,6 +316,9 @@ module.exports = function (grunt) {
             done();
         });
     });
+
+    grunt.task.registerTask('serve', ['server']);
+
     // Lint CSS and JavaScript files.
     grunt.registerTask('lint', [ 'less' ]);
 
@@ -288,6 +332,27 @@ module.exports = function (grunt) {
     // Run the project in production mode
 
     // Lint project files and minify them into two production files.
-    grunt.registerTask('build', [ 'env:dev', 'lint', 'concat', 'uglify', 'cssmin' ]);
+    grunt.registerTask('build', [ 'env:dev', 'clean', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace' ]);
     grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
 };
+
+function minifiedOrDefaultFiles(files) {
+    var minFilePatterns = ['$1.min.$2', '$1-min.$2'];
+
+    var result = files.map(function(filePath) {
+        var fileName = _.last(filePath.split('/'));
+        var fileExt = (fileName.match(/\.(.+)$/) || [])[1];
+        var dirPath = filePath.replace(fileName, '');
+
+        for (var i in minFilePatterns) {
+            var minFileName = fileName.replace(new RegExp('^(.+)\.(' + fileExt + ')$', 'i'), minFilePatterns[i]);
+            if (fs.existsSync(dirPath + minFileName)) {
+                return dirPath + minFileName;
+            }
+        }
+
+        return filePath;
+    });
+
+    return result;
+}

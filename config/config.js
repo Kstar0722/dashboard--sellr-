@@ -157,6 +157,20 @@ var initGlobalConfigFiles = function (config, assets) {
   config.files.client.tests = getGlobbedPaths(assets.client.tests);
 };
 
+var safeRequire = function(moduleId) {
+  try {
+    return require(moduleId);
+  }
+  catch (ex) {
+  }
+};
+
+var deepMerge = _.partialRight(_.mergeWith, function customizer(objValue, srcValue) {
+  // overwrite Array if src value defined, otherwise (by default) it overwrites array items by index
+  if (_.isArray(objValue) && srcValue !== undefined) return srcValue;
+  if (_.isArray(srcValue)) return srcValue;
+});
+
 /**
  * Initialize global configuration
  */
@@ -168,10 +182,11 @@ var initGlobalConfig = function () {
   var defaultAssets = require(path.join(process.cwd(), 'config/assets/default'));
 
   // Get the current assets
-  var environmentAssets = require(path.join(process.cwd(), 'config/assets/', process.env.NODE_ENV)) || {};
+  var environmentAssets = (process.env.NODE_ENV == 'production' ? safeRequire(path.join(process.cwd(), '.build/config/', process.env.NODE_ENV)) : null)
+      || require(path.join(process.cwd(), 'config/assets/', process.env.NODE_ENV)) || {};
 
   // Merge assets
-  var assets = _.merge(defaultAssets, environmentAssets);
+  var assets = deepMerge({}, defaultAssets, environmentAssets);
 
   // Get the default config
   var defaultConfig = require(path.join(process.cwd(), 'config/env/default'));
@@ -180,7 +195,7 @@ var initGlobalConfig = function () {
   var environmentConfig = require(path.join(process.cwd(), 'config/env/', process.env.NODE_ENV)) || {};
 
   // Merge config files
-  var config = _.merge(defaultConfig, environmentConfig);
+  var config = deepMerge({}, defaultConfig, environmentConfig);
 
   // read package.json for MEAN.JS project information
   var pkg = require(path.resolve('./package.json'));
@@ -190,7 +205,7 @@ var initGlobalConfig = function () {
   // production or development environment. If test environment is used we don't merge it with local.js
   // to avoid running test suites on a prod/dev environment (which delete records and make modifications)
   if (process.env.NODE_ENV !== 'test') {
-    config = _.merge(config, (fs.existsSync(path.join(process.cwd(), 'config/env/local.js')) && require(path.join(process.cwd(), 'config/env/local.js'))) || {});
+    config = deepMerge(config, (fs.existsSync(path.join(process.cwd(), 'config/env/local.js')) && require(path.join(process.cwd(), 'config/env/local.js'))) || {});
   }
 
   // Initialize global globbed files

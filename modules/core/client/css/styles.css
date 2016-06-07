@@ -130,6 +130,9 @@ body.dashboard md-list .md-subheader {
   background: #DFE3EB;
   cursor: pointer;
 }
+.md-open-menu-container {
+  z-index: 1000;
+}
 section.userList .invite {
   background-color: #2DC89A;
   color: white;
