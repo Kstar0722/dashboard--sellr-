@@ -181,7 +181,7 @@ module.exports = function (grunt) {
         },
         karma: {
             unit: {
-                configFile: 'karma.conf.js'
+                configFile: '_karma.conf.js'
             }
         },
         protractor: {
@@ -198,7 +198,8 @@ module.exports = function (grunt) {
         },
         clean: {
             build: '.build/',
-            dist: 'public/dist/'
+            dist: 'public/dist/',
+            karma: '_karma.conf.js'
         },
         copy: {
             localConfig: {
@@ -212,6 +213,11 @@ module.exports = function (grunt) {
                 files: [
                     { expand: true, cwd: 'config/assets', src: ['*'], dest: '.build/config' },
                     { expand: true, cwd: 'public/dist', src: ['*'], dest: '.build/dist' }
+                ]
+            },
+            karma: {
+                files: [
+                    { src: 'karma.conf.js', dest: '_karma.conf.js' }
                 ]
             }
         },
@@ -279,7 +285,7 @@ module.exports = function (grunt) {
                 assets_root: '.build/config/'
             },
             compiled_assets: {
-                src: '.build/**/*.*'
+                src: ['.build/**/*.*', '_karma.conf.js']
             }
         }
     });
@@ -335,8 +341,10 @@ module.exports = function (grunt) {
     // Run the project in production mode
 
     // Lint project files and minify them into two production files.
-    grunt.registerTask('build', [ 'env:dev', 'clean', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace', 'clean:build' ]);
+    grunt.registerTask('_build', ['env:dev', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace', 'clean:build']);
+    grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ]);
     grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
+    grunt.registerTask('test', [ 'clean', 'copy:karma', '_build', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
 };
 
 function minifiedOrDefaultFiles(files) {

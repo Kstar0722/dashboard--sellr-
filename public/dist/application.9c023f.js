@@ -64,10 +64,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             },
             vars: {
                 local: {
-                    //API_URL: 'http://localhost:7272',
-                    //BWS_API: 'http://localhost:7171',
-                    API_URL: 'https://apidev.sllr.io',
-                    BWS_API: 'https://bwsdev.sllr.io',
+                    API_URL: 'http://localhost:7272',
+                    BWS_API: 'http://localhost:7171',
                     env:'local'
                 },
                 docker: {
@@ -86,10 +84,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     env:'staging'
                 },
                 production: {
-                    //API_URL: 'https://api.expertoncue.com',
-                    //BWS_API: 'https://bws.expertoncue.com',
-                    API_URL: 'https://apidev.sllr.io',
-                    BWS_API: 'https://bwsdev.sllr.io',
+                    API_URL: 'https://api.expertoncue.com',
+                    BWS_API: 'https://bws.expertoncue.com',
                     env:'production'
                 },
                 heroku: {
@@ -1256,7 +1252,7 @@ angular.module('users.admin').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'admin', {
             title: 'Account Manager',
-            state: 'manager.accounts',
+            state: 'admin.accounts',
             position: 3
         });
         Menus.addSubMenuItem('topbar', 'admin', {
@@ -1283,6 +1279,19 @@ angular.module('users.admin').run(['Menus',
 angular.module('users.admin.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
+            .state('admin.accounts', {
+                url: '/accounts',
+                templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
+                controller: 'AccountManagerController'
+            })
+            .state('admin.accounts.edit', {
+                url: '/edit/:id',
+                templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
+            })
+            .state('admin.accounts.create', {
+                url: '/new',
+                templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
+            })
             .state('admin.users', {
                 url: '/users',
                 templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
@@ -1449,6 +1458,48 @@ angular.module('users').config(['$stateProvider',
 
   }
 ]);
+;
+angular.module('users.admin').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+    accountsService.init();
+    $scope.accountsService = accountsService;
+    $scope.determinateValue = 0;
+    $scope.accountLogo = '';
+    $scope.account = {
+        createdBy: ''
+    };
+    if (Authentication.user) {
+        $scope.account.createdBy = Authentication.user.username
+    }
+    console.log($scope.account);
+
+    //changes the view, and sets current edit account
+    $scope.editAccount = function (account) {
+        console.log('editing account %O', account)
+        $scope.currentAccountLogo = '';
+        accountsService.editAccount = account;
+        //accountsService.editAccount.style = JSON.parse(account.preferences).style
+        console.log('editAccount is now %O', accountsService.editAccount)
+        $state.go('admin.accounts.edit', {id: account.accountId})
+    }
+
+
+    $scope.upload = function (files, accountId) {
+        var mediaConfig = {
+            mediaRoute: 'media',
+            folder:'logo',
+            type:'LOGO',
+            accountId: accountId
+        }
+        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
+            if(response) {
+                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response[0].mediaAssetId + '-' + response[0].fileName;
+                $scope.currentAccountLogo = accountsService.editAccount.logo;
+                toastr.success('Logo Updated', 'Success!');
+            }
+        })
+    };
+
+});
 ;
 'use strict';
 
@@ -2298,48 +2349,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         };
     }
 ]);
-;
-angular.module('users.manager').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
-    accountsService.init();
-    $scope.accountsService = accountsService;
-    $scope.determinateValue = 0;
-    $scope.accountLogo = '';
-    $scope.account = {
-        createdBy: ''
-    };
-    if (Authentication.user) {
-        $scope.account.createdBy = Authentication.user.username
-    }
-    console.log($scope.account);
-
-    //changes the view, and sets current edit account
-    $scope.editAccount = function (account) {
-        console.log('editing account %O', account)
-        $scope.currentAccountLogo = '';
-        accountsService.editAccount = account;
-        accountsService.editAccount.style = JSON.parse(account.preferences).style
-        console.log('editAccount is now %O', accountsService.editAccount)
-        $state.go('manager.accounts.edit', {id: account.accountId})
-    }
-
-
-    $scope.upload = function (files, accountId) {
-        var mediaConfig = {
-            mediaRoute: 'media',
-            folder:'logo',
-            type:'LOGO',
-            accountId: accountId
-        }
-        uploadService.upload(files, mediaConfig).then(function(response, err ){
-            if(response) {
-                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response.mediaAssetId + '-' + response.fileName;
-                $scope.currentAccountLogo = accountsService.editAccount.logo;
-                toastr.success('Logo Updated', 'Success!');
-            }
-        })
-    };
-
-});
 ;
 'use strict';
 
@@ -3298,12 +3307,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
 
     $scope.submitForApproval = function (product) {
-        if (product.description) {
-            var re = /<.*?>.*$/;
-            product.description = product.description.replace(re, '');
-            var re2 = /=+.*?.*$/;
-            product.description = product.description.replace(re2, '');
-        }
         product.status = 'done';
         productEditorService.save(product);
         $scope.viewProduct(product);
@@ -6703,7 +6706,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                 }
                             };
 
-                            $http.put(constants.API_URL + '/media', updateMedia).then(function (response, err) {
+                            $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err) {
                                 if (err) {
                                     console.log(err)
                                 }
@@ -6711,7 +6714,8 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                     var message = {
                                         message: 'New Ad Uploaded Success!',
                                         publicUrl: updateMedia.payload.publicUrl,
-                                        fileName: filename
+                                        fileName: filename,
+                                        mediaAssetId:updateMedia.payload.mediaAssetId
                                     };
                                     messages.push(message);
                                     defer.resolve(messages)
