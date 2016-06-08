@@ -157,7 +157,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
 
     $scope.sendBack = function (product, feedback) {
-        product.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
+        product.feedback = feedback;
         product.status = 'inprogress';
         productEditorService.save(product);
     };

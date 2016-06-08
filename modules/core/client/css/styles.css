@@ -1035,6 +1035,11 @@ section.userList .userbox {
   top: 5px;
   width: 200px;
 }
+.productEditor .feedback.alert {
+  background-color: #46c4d4;
+  border: none;
+  color: #ffffff;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }
