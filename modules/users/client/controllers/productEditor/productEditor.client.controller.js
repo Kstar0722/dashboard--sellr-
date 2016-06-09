@@ -9,7 +9,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
     $scope.display = {
-        myProducts: false
+        myProducts: false,
+        feedback: true
     };
 
     $scope.permissions = {
