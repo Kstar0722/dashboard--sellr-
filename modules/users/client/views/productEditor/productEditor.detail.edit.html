@@ -20,6 +20,16 @@
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
       </div>
     </div>
+    <div ng-show="pes.currentProduct.feedback && pes.currentProduct.status != 'approved'">
+      <hr>
+      <div class="feedback alert alert-info" role="alert" ng-show="display.feedback">
+        <h4>Changes requested from product curator:</h4>
+        <h6>{{pes.currentProduct.feedback}}</h6>
+        <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
+      </div>
+      <button class="btn btn-small" ng-show="!display.feedback" ng-click="display.feedback=true">Show Feedback</button>
+
+    </div>
     <hr>
     <form role="form">
 

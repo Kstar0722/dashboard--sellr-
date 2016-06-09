@@ -5,7 +5,7 @@ angular.module('users.admin').run(['Menus',
     function (Menus) {
         Menus.addSubMenuItem('topbar', 'admin', {
             title: 'Account Manager',
-            state: 'manager.accounts',
+            state: 'admin.accounts',
             position: 3
         });
         Menus.addSubMenuItem('topbar', 'admin', {

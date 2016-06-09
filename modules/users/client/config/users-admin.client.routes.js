@@ -4,6 +4,19 @@
 angular.module('users.admin.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
+            .state('admin.accounts', {
+                url: '/accounts',
+                templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
+                controller: 'AccountManagerController'
+            })
+            .state('admin.accounts.edit', {
+                url: '/edit/:id',
+                templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
+            })
+            .state('admin.accounts.create', {
+                url: '/new',
+                templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
+            })
             .state('admin.users', {
                 url: '/users',
                 templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',

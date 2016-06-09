@@ -9,7 +9,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         template: 'modules/users/client/views/productEditor/productEditor.detail.html'
     };
     $scope.display = {
-        myProducts: false
+        myProducts: false,
+        feedback: true
     };
 
     $scope.permissions = {
@@ -157,18 +158,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
 
     $scope.sendBack = function (product, feedback) {
-        product.description += '<br>======== CURATOR FEEDBACK: ========= <br>' + feedback;
+        product.feedback = feedback;
         product.status = 'inprogress';
         productEditorService.save(product);
     };
 
     $scope.submitForApproval = function (product) {
-        if (product.description) {
-            var re = /<.*?>.*$/;
-            product.description = product.description.replace(re, '');
-            var re2 = /=+.*?.*$/;
-            product.description = product.description.replace(re2, '');
-        }
         product.status = 'done';
         productEditorService.save(product);
         $scope.viewProduct(product);

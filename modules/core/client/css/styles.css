@@ -130,6 +130,9 @@ body.dashboard md-list .md-subheader {
   background: #DFE3EB;
   cursor: pointer;
 }
+.md-open-menu-container {
+  z-index: 1000;
+}
 section.userList .invite {
   background-color: #2DC89A;
   color: white;
@@ -1031,6 +1034,11 @@ section.userList .userbox {
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
   top: 5px;
   width: 200px;
+}
+.productEditor .feedback.alert {
+  background-color: #46c4d4;
+  border: none;
+  color: #ffffff;
 }
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
