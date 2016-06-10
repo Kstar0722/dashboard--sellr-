@@ -341,7 +341,7 @@ module.exports = function (grunt) {
     // Run the project in production mode
 
     // Lint project files and minify them into two production files.
-    grunt.registerTask('_build', ['env:dev', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace', 'clean:build']);
+    grunt.registerTask('_build', ['env:dev', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace']);
     grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ]);
     grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
     grunt.registerTask('test', [ 'clean', 'copy:karma', '_build', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
