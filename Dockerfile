@@ -14,10 +14,10 @@ WORKDIR /oncue/apps/oncue-dashboard
 #ADD bower.json /oncue/apps/oncue-dashboard/bower.json
 
 #dale added this
-RUN apt-get update -y
-RUN apt-get install node-gyp -y
-RUN apt-get install gcc-4.8 g++-4.8 -y
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+#RUN apt-get update -y
+#RUN apt-get install node-gyp -y
+#RUN apt-get install gcc-4.8 g++-4.8 -y
+#RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
 
 ## Install Mean.JS Prerequisites
 #RUN npm install -g grunt-cli
