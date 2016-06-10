@@ -217,7 +217,8 @@ module.exports = function (grunt) {
             },
             karma: {
                 files: [
-                    { src: 'karma.conf.js', dest: '_karma.conf.js' }
+                    { src: 'karma.conf.js', dest: '_karma.conf.js' },
+                    { expand: true, cwd: '.build/dist', src: '*', dest: 'public/dist' }
                 ]
             }
         },
@@ -284,8 +285,11 @@ module.exports = function (grunt) {
             options: {
                 assets_root: '.build/config/'
             },
-            compiled_assets: {
-                src: ['.build/**/*.*', '_karma.conf.js']
+            build: {
+                src: '.build/**/*.*'
+            },
+            karma: {
+                src: '_karma.conf.js'
             }
         }
     });
@@ -344,7 +348,7 @@ module.exports = function (grunt) {
     grunt.registerTask('_build', ['env:dev', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace']);
     grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ]);
     grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
-    grunt.registerTask('test', [ 'clean', 'copy:karma', '_build', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
+    grunt.registerTask('test', [ 'clean:karma', 'clean:dist', 'copy:karma', 'filerev', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
 };
 
 function minifiedOrDefaultFiles(files) {
