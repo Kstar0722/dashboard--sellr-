@@ -6,7 +6,7 @@ npm-debug.log
 node_modules/
 
 !public/lib/ace/
-public/lib/
+
 
 app/tests/coverage/
 .bower-*/
