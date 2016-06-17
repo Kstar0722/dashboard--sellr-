@@ -58,7 +58,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 docker: [ 'docker' ],
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io' ],
+                staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io', 'dashboard.sllr.io' ],
                 production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
                 heroku: [ 'sellrdashboard.herokuapp.com' ]
             },
@@ -6417,6 +6417,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     me.formatProductDetail = function (product) {
         var defer = $q.defer()
+        console.log(product)
         product.name = product.title || product.displayName || product.name;
         product.notes = product.notes || product.text;
         product.properties.forEach(function (prop) {
@@ -6442,6 +6443,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
             }
         });
         product.mediaAssets.forEach(function (m) {
+            console.log(m.type)
             switch (m.type) {
                 case 'AUDIO':
                     product.description = product.description || m.script;
@@ -6460,7 +6462,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
                     product.hasImages = true;
                     product.images = product.images || [];
                     product.images.mediaAssetId = m.mediaAssetId;
-                    product.images.push(m)
+                    product.images.push(m);
+                    break;
+                case 'RESEARCH_IMG':
+                    product.hasRearchImg = true;
+                    product.researchImages = product.researchImages || [];
+                    product.researchImages.mediaAssetId = m.mediaAssetId;
+                    product.researchImages.push(m);
+                    break;
             }
         });
         if (product.description && !product.description.match(/[<>]/)) {
