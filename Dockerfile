@@ -27,7 +27,8 @@ WORKDIR /oncue/apps/oncue-dashboard
 ADD package.json /oncue/apps/oncue-dashboard/package.json
 RUN npm install
 
-
+RUN npm install -g bower
+RUN bower install --config.interactive --allow-root
 
 # Port 3000 for server
 # Port 35729 for livereload
