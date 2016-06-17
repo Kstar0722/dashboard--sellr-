@@ -8,8 +8,8 @@ module.exports = {
         },
         css: 'public/dist/application.min.1c0848.css',
         js: [
-            'public/dist/application.min.b114b3.js',
-            'public/dist/templates.min.406384.js'
+            'public/dist/application.min.a31c8b.js',
+            'public/dist/templates.min.ee0154.js'
         ]
     }
 };
