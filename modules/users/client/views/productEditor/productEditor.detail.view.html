@@ -24,7 +24,7 @@
 
       <div ng-show="pes.currentProduct.feedback && pes.currentProduct.status != 'approved'">
         <hr>
-        <div class="feedback alert alert-info" role="alert" ng-show="display.feedback">
+        <div class="feedback alert alert-info" role="alert" ng-show="display.feedback  && pes.currentProduct.feedback != 0">
           <h4>Changes requested from product curator:</h4>
           <h6>{{pes.currentProduct.feedback}}</h6>
           <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
