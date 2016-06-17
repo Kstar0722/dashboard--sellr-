@@ -69,6 +69,10 @@
           <button class="btn"  ng-if="image" ng-click="removeImage(image)">Delete image</button>
 
         </div>
+        <div class="col-md-12" ng-repeat="researchImage in pes.currentProduct.researchImages">RESEARCH/NOFOUND IMAGE
+          <!--insert image from upload-->
+          <img  ng-src="{{researchImage.publicUrl}}" height="200px">
+        </div>
         <button class="btn" ngf-select="pes.uploadMedia($files)">
           Upload Image
         </button>
