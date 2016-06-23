@@ -1,0 +1,9 @@
+deployment:
+  staging:
+    branch: master
+    heroku:
+        appname: sellrdashboard-staging
+  develop:
+    branch: develop
+    heroku:
+        appname: sellrdashboard-dev
