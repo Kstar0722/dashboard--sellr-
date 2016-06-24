@@ -19,6 +19,7 @@
     "test": "grunt test",
     "postinstall": "bower install && grunt build"
   },
+  "cacheDirectories": ["node_modules", "public/lib" ],
   "dependencies": {
     "acl": "~0.4.4",
     "angular-mocks": "1.5.0",
