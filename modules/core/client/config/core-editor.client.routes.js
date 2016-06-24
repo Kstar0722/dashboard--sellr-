@@ -20,5 +20,6 @@ angular.module('core.editor.routes').config(['$stateProvider',
                     roles: [ 1010, 1011, 1004 ]
                 }
             });
+
     }
 ]);

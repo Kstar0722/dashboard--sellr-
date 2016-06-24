@@ -30,5 +30,12 @@ angular.module('core.editor').run([ 'Menus',
             roles: [ 1010, 1011, 1004 ],
             position: 1
         });
+        Menus.addMenuItem('editor', {
+            title: 'Search and Merge',
+            state: 'merge',
+            type: 'button',
+            roles: [ 1010, 1011, 1004 ],
+            position: 1
+        });
     }
 ]);

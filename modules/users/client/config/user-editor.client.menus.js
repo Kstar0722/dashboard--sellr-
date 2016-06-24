@@ -20,7 +20,7 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
         });
         Menus.addSubMenuItem('topbar', 'editor', {
             title: 'Search and Merge',
-            state: 'editor.merge',
+            state: 'merge',
             position: 9
         });
     }
