@@ -102,16 +102,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
     // Check authentication before changing state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
         if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
             var allowed = false;
+            console.log('allowed %O', allowed)
+            console.log('toState %O', toState.data.roles)
+            console.log('Authentication %O',Authentication.user)
             toState.data.roles.forEach(function (role) {
-                if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
+                if (Authentication.user != null && Authentication.user.roles.indexOf(role) !== -1) {
                     allowed = true;
                     return true;
+                }
+                else{
+                    allowed = false;
                 }
             });
 
             if (!allowed) {
+                console.log('second')
                 event.preventDefault();
                 if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
                     $state.go('forbidden');
@@ -1059,6 +1067,11 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
             state: 'editor.products({type:"spirits",status:"new"})',
             position: 9
         });
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Search and Merge',
+            state: 'editor.merge',
+            position: 9
+        });
     }
 ]);
 ;
@@ -1082,6 +1095,12 @@ angular.module('users.editor.routes').config(['$stateProvider',
                         templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
                     }
                 }
+            })
+            .state('editor.merge', {
+                url: '/merge',
+                // controller: 'productEditorController',
+                 templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+
             })
             .state('editor.products.detail', {
                 url: '/:productId/:task',

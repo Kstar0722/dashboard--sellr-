@@ -181,6 +181,11 @@ angular.module('mean').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('/modules/users/client/views/productEditor/productEditor.merge.html',
+    "<body style=\"background: #fbfbfb\"><div class=\"container-fluid\"><div class=\"col-md-10\" style=\"margin-left: 4%; margin-top: 2vh\"><div class=\"form-group\"><label>Description / Script</label><div name=\"beer_script\" id=\"beer_script\" ng-bind-html=\"pes.currentProduct.description\"></div></div></div></div></body>"
+  );
+
+
   $templateCache.put('/modules/users/client/views/productEditor/productEditor.parent.html',
     "<head><link href=\"https://s3.amazonaws.com/cdn.expertoncue.com/static/bootstrap.css\" rel=\"stylesheet\"><link href=\"https://s3.amazonaws.com/cdn.expertoncue.com/static/flat-ui.css\" rel=\"stylesheet\"></head><div class=\"productEditor\" ng-controller=\"productEditorController\"><div><div ui-view=\"stats\"></div><div class=\"row productContent\"><div ng-show=\"pes.show.loading\" class=\"col-md-4 loading-anim\"><div class=\"uil-ripple-css\" style=\"transform:scale(0.81)\"><div></div><div></div></div></div><div ng-show=\"!pes.show.loading\" class=\"col-md-4\" ui-view=\"list\"></div><div class=\"col-md-8\" ng-include=\"detail.template\"></div></div></div></div><script src=\"https://s3.amazonaws.com/cdn.expertoncue.com/static/bootstrap.min.js\"></script>"
   );
