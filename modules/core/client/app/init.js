@@ -50,12 +50,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 development: {
                     API_URL: 'https://apidev.sllr.io',
-                    BWS_API: 'https://sellrbws-dev.herokuapp.com',
+                    BWS_API: 'https://sellr-bws-dev.herokuapp.com',
                     env:'dev'
                 },
                 staging: {
                     API_URL: 'https://apiqa.sllr.io',
-                    BWS_API: 'https://sellrbws-staging.herokuapp.com',
+                    BWS_API: 'https://sellr-bws-staging.herokuapp.com',
                     env:'staging'
                 },
                 production: {
