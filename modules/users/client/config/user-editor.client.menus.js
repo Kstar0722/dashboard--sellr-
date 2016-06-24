@@ -18,10 +18,5 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
             state: 'editor.products({type:"spirits",status:"new"})',
             position: 9
         });
-        Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Search and Merge',
-            state: 'editor.merge',
-            position: 9
-        });
     }
 ]);

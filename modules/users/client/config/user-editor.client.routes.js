@@ -19,12 +19,6 @@ angular.module('users.editor.routes').config(['$stateProvider',
                     }
                 }
             })
-            .state('editor.merge', {
-                url: '/merge',
-                // controller: 'productEditorController',
-                 templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-
-            })
             .state('editor.products.detail', {
                 url: '/:productId/:task',
                 params: {
