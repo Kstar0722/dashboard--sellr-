@@ -57,10 +57,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
             domains: {
                 docker: [ 'docker' ],
                 local: [ 'localhost' ],
-                development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com' ],
-                heroku: [ 'sellrdashboard.herokuapp.com' ]
+                development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io', 'sellrdashboard-dev.herokuapp.com' ],
+                staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io', 'dashboard.sllr.io', 'sellrdashboard-staging.herokuapp.com' ],
+                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
             },
             vars: {
                 local: {
@@ -75,23 +74,18 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 development: {
                     API_URL: 'https://apidev.sllr.io',
-                    BWS_API: 'https://bwsdev.sllr.io',
+                    BWS_API: 'https://sellrbws-dev.herokuapp.com',
                     env:'dev'
                 },
                 staging: {
                     API_URL: 'https://apiqa.sllr.io',
-                    BWS_API: 'https://bwsqa.sllr.io',
+                    BWS_API: 'https://sellrbws-staging.herokuapp.com',
                     env:'staging'
                 },
                 production: {
                     API_URL: 'https://api.expertoncue.com',
-                    BWS_API: 'https://bws.expertoncue.com',
+                    BWS_API: 'https://tv.sllr.io',
                     env:'production'
-                },
-                heroku: {
-                    API_URL: 'https://oncue-api.herokuapp.com',
-                    BWS_API: 'https://sellr-bws.herokuapp.com',
-                    env: 'dev'
                 }
             }
         });
@@ -108,16 +102,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
     // Check authentication before changing state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
         if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
             var allowed = false;
+            console.log('allowed %O', allowed)
+            console.log('toState %O', toState.data.roles)
+            console.log('Authentication %O',Authentication.user)
             toState.data.roles.forEach(function (role) {
-                if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
+                if (Authentication.user != null && Authentication.user.roles.indexOf(role) !== -1) {
                     allowed = true;
                     return true;
+                }
+                else{
+                    allowed = false;
                 }
             });
 
             if (!allowed) {
+                console.log('second')
                 event.preventDefault();
                 if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
                     $state.go('forbidden');
@@ -1065,6 +1067,11 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
             state: 'editor.products({type:"spirits",status:"new"})',
             position: 9
         });
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Search and Merge',
+            state: 'editor.merge',
+            position: 9
+        });
     }
 ]);
 ;
@@ -1088,6 +1095,12 @@ angular.module('users.editor.routes').config(['$stateProvider',
                         templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
                     }
                 }
+            })
+            .state('editor.merge', {
+                url: '/merge',
+                // controller: 'productEditorController',
+                 templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+
             })
             .state('editor.products.detail', {
                 url: '/:productId/:task',
