@@ -28,14 +28,14 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         }
 
 
-        // set the domains and variables for each environment
+        // set the domains and variables for each environme
         envServiceProvider.config({
             domains: {
                 docker: [ 'docker' ],
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io', 'sellrdashboard-dev.herokuapp.com' ],
                 staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io', 'dashboard.sllr.io', 'sellrdashboard-staging.herokuapp.com' ],
-                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+                production: [ 'dashboard.expertoncue.com', 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io', 'sellrdashboard.herokuapp.com'],
             },
             vars: {
                 local: {
