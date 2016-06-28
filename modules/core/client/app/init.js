@@ -28,7 +28,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         }
 
 
-        // set the domains and variables for each environme
+        // set the domains and variables for each environment
         envServiceProvider.config({
             domains: {
                 docker: [ 'docker' ],
