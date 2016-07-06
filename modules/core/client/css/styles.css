@@ -158,9 +158,6 @@ section.userList .userbox {
   top: 0;
   position: absolute;
   background: #43cf07;
-  background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
-  background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
-  background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) );
 }
 .sign-in #login-form,
 .sign-in #reset-form {
@@ -792,6 +789,7 @@ section.userList .userbox {
   height: 80vh;
   overflow-y: scroll;
   background: #f5f5f5;
+  width: 50vw;
 }
 .productEditor .list .btn-primary {
   background: #2DC89A;
@@ -1054,4 +1052,57 @@ body.editor-products-detail .medium-editor-toolbar {
 }
 .dragover {
   border: 5px dashed blue;
+}
+body .productEditor .oncue-grid {
+  transition: all 1s;
+  height: 75vh;
+  width: 80vw;
+}
+body .productEditor .editPanel {
+  z-index: 100;
+  width: 20vw;
+  color: #ffffff;
+  background-color: #1f2532;
+  position: absolute;
+  right: -9999px !important;
+}
+body .productEditor .editPanel.showPanel {
+  padding: 15px;
+  transition: all 0.5s;
+  position: absolute;
+  right: 0 !important;
+}
+body .productEditor .loading-data svg {
+  margin-left: 35%;
+  width: 30%;
+  height: 30%;
+}
+body .productEditor .loading-data .rotate-45 {
+  transform-origin: center;
+  transform: rotate(45deg);
+}
+body .productEditor .loading-data .rotate {
+  transform-origin: center;
+  animation: rotate 1s ease-in-out infinite;
+}
+body .productEditor .loading-data .rotate-back {
+  transform-origin: center;
+  animation: rotate 1s ease-in-out infinite;
+  animation-direction: reverse;
+}
+body .productEditor .loading-data .left {
+  animation: move 1s ease-in-out infinite;
+}
+body .productEditor .loading-data .right {
+  animation: move 1s ease-in-out infinite;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(calc(135deg));
+  }
+}
+@keyframes move {
+  50% {
+    transform: translate(-30px, -30px);
+  }
 }

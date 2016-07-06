@@ -23,5 +23,10 @@ angular.module('users.admin').run(['Menus',
             state: 'admin.device',
             position: 7
         });
+        Menus.addSubMenuItem('topbar', 'admin', {
+            title: 'Store Database Management',
+            state: 'admin.store',
+            position: 7
+        });
     }
 ]);

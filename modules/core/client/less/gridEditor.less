@@ -1,0 +1,63 @@
+body .productEditor {
+
+  .oncue-grid {
+    transition: all 1s;
+    height: 75vh;
+    width: 80vw;
+  }
+
+  .editPanel {
+    z-index: 100;
+    width: 20vw;
+    color: @white;
+    background-color: @dark-grey;
+    position: absolute;
+    right: -9999px !important;
+  }
+
+  .editPanel.showPanel {
+    padding: 15px;
+    transition: all 0.5s;
+    position: absolute;
+    right: 0 !important;
+  }
+
+  .loading-data {
+
+    svg {
+      margin-left: 35%;
+      width: 30%;
+      height: 30%;
+    }
+    .rotate-45 {
+      transform-origin: center;
+      transform: rotate(45deg)
+    }
+    .rotate {
+      transform-origin: center;
+      animation: rotate 1s ease-in-out infinite;
+    }
+    .rotate-back {
+      transform-origin: center;
+      animation: rotate 1s ease-in-out infinite;
+      animation-direction: reverse;
+    }
+    .left {
+      animation: move 1s ease-in-out infinite;
+    }
+    .right {
+      animation: move 1s ease-in-out infinite;
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(calc(90deg + 45deg))
+      }
+    }
+    @keyframes move {
+      50% {
+        transform: translate(-30px, -30px)
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants, MediumS3ImageUploader) {
+angular.module('users').controller('productEditorController', function ($scope, Authentication,$q, $http, productGridData, productEditorService, uiGridConstants,  $location, $state, $stateParams, Countries, $mdMenu, constants, MediumS3ImageUploader) {
 
     Authentication.user = Authentication.user || { roles: '' };
     $scope.$state = $state;
@@ -27,149 +27,111 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
     $scope.search = {};
     $scope.searchLimit = 15;
+    $scope.gridOptions = {
+        //enableSelectAll: true,
+        enableRowSelection: true,
+        //enableGridMenu: true,
+        rowEditWaitInterval: -1,
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.loadingData = false;
+            $scope.gridApi = gridApi;
+            gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
+            gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                //When you select an item, add the keys for that item and add it to the "to edit" array.
+                row.entity.keys = Object.keys(row.entity);
+                $scope.showPanel = true;
+                $scope.editMultipleProducts.push(row.entity);
+                console.dir($scope.editMultipleProducts)
+            });
+
+        },
+        columnDefs: [
+            {field: 'name'}
+        ]
+    };
 
     $scope.showMore = function () {
         $scope.searchLimit += 15;
     };
 
+    $scope.searchProducts = function (searchText) {
+        $scope.loadingData = true;
+        $scope.gridOptions.data = [];
+        var fields = [];
+        var columnNames = [];
 
-    $scope.Countries = Countries.allCountries;
-    $scope.selectProductType = function (type) {
-        productEditorService.currentType = type;
-        $state.go('editor.products', { type: type.name, status: productEditorService.currentStatus.value });
-        productEditorService.updateProductList()
+        productGridData.searchProducts(searchText, productEditorService.currentType).then(function (data) {
+            $scope.loadingData = false;
+            data.forEach(function(data){
+                Object.keys(data).forEach(function(column){
+                    if(columnNames.indexOf(column)  <0 && column != 'properties' && column != 'mediaAssets'  && column != 'feedback' && column != 'notes' && column != 'productId'){
+                        fields.push({field: column});
+
+                    }
+                    columnNames.push(column)
+                })
+
+            })
+
+            $scope.gridOptions.columnDefs = fields;
+            $scope.gridOptions.data = data;
+            $scope.productCount = data.length;
+            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+        })
     };
 
-    $scope.selectProductStatus = function (status) {
-        productEditorService.currentStatus = status;
-        productEditorService.updateProductList()
-    };
-    function init() {
-        console.log('init controller. Account is %s', productEditorService.currentAccount)
-        var type;
-        switch ($stateParams.type) {
-            case 'wine':
-                type = { name: 'wine', productTypeId: 1 };
-                break;
-            case 'beer':
-                type = { name: 'beer', productTypeId: 2 };
-                break;
-            case 'spirits':
-                type = { name: 'spirits', productTypeId: 3 };
-                break;
-            default:
-                type = { name: 'wine', productTypeId: 1 };
-                break;
-        }
-        var status;
-        switch ($stateParams.status) {
-            case 'new':
-                status = { name: 'Available', value: 'new' };
-                break;
-            case 'inprogress':
-                status = { name: 'In Progress', value: 'inprogress' };
-                break;
-            case 'done':
-                status = { name: 'Done', value: 'done' };
-                break;
-            case 'approved':
-                status = { name: 'Approved', value: 'approved' };
-                break;
-            default:
-                status = { name: 'Available', value: 'new' };
-                break;
 
-        }
 
-        productEditorService.currentType = type;
-        productEditorService.currentStatus = status;
-        productEditorService.updateProductList();
-        if ($stateParams.productId) {
-            if ($stateParams.task === 'view') {
-                $scope.viewProduct($stateParams)
-            }
-            if ($stateParams.task === 'edit') {
-                $scope.editProduct($stateParams)
-            }
-        }
-    }
 
-    $scope.claimProduct = function (prod) {
-        var options = {
-            userId: $scope.userId,
-            productId: prod.productId
-        };
-        productEditorService.claim(options);
-        var i = _.findIndex(productEditorService.productList, function (p) {
-            return p.productId === prod.productId
-        });
 
-        productEditorService.productList[ i ].username = Authentication.user.username;
-        productEditorService.productList[ i ].userId = $scope.userId;
-        // $scope.editProduct(prod)
-    };
+        //TODO: update with new side bar selection
+    //$scope.viewProduct = function (product) {
+    //    productEditorService.setCurrentProduct(product);
+    //    $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
+    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+    //};
+        //TODO: update with new side bar selection
+    //$scope.editProduct = function (product) {
+    //    productEditorService.setCurrentProduct(product);
+    //    productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
+    //    console.log('editProduct sees type as ', productEditorService.currentType.name)
+    //    $state.go('editor.products.detail', {
+    //        type: productEditorService.currentType.name,
+    //        status: 'inprogress',
+    //        productId: product.productId,
+    //        task: 'edit'
+    //    });
+    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+    //};
+        //TODO: update with new side bar
+    //$scope.quickEdit = function (product) {
+    //    var options = {
+    //        userId: $scope.userId,
+    //        productId: product.productId,
+    //        status: 'done'
+    //    };
+    //    productEditorService.claim(options);
+    //    productEditorService.setCurrentProduct(product);
+    //    productEditorService.currentStatus = { name: 'Done', value: 'done' };
+    //    $state.go('editor.products.detail', {
+    //        type: productEditorService.currentType.name,
+    //        status: 'done',
+    //        productId: product.productId,
+    //        task: 'edit'
+    //    });
+    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+    //
+    //}
 
-    $scope.removeClaim = function (product, i) {
-        var options = {
-            userId: $scope.userId,
-            productId: product.productId
-        };
-        productEditorService.removeClaim(options);
-        productEditorService.productList[ i ].username = null;
-        productEditorService.productList[ i ].userId = null;
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
-    }
 
-    $scope.viewProduct = function (product) {
-        productEditorService.setCurrentProduct(product);
-        $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-    };
-    $scope.editProduct = function (product) {
-        productEditorService.setCurrentProduct(product);
-        productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
-        console.log('editProduct sees type as ', productEditorService.currentType.name)
-        $state.go('editor.products.detail', {
-            type: productEditorService.currentType.name,
-            status: 'inprogress',
-            productId: product.productId,
-            task: 'edit'
-        });
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-    };
-
-    $scope.quickEdit = function (product) {
-        var options = {
-            userId: $scope.userId,
-            productId: product.productId,
-            status: 'done'
-        };
-        productEditorService.claim(options);
-        productEditorService.setCurrentProduct(product);
-        productEditorService.currentStatus = { name: 'Done', value: 'done' };
-        $state.go('editor.products.detail', {
-            type: productEditorService.currentType.name,
-            status: 'done',
-            productId: product.productId,
-            task: 'edit'
-        });
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-
-    }
-
+    //NOTE: alot of what's below is from old function product editor but might be useful with new editor including ui grid
     $scope.sendBack = function (product, feedback) {
         product.feedback = feedback;
         product.status = 'inprogress';
         productEditorService.save(product);
     };
 
-    $scope.submitForApproval = function (product) {
-        product.status = 'done';
-        productEditorService.save(product);
-        $scope.viewProduct(product);
-        $('.modal-backdrop').remove()
-
-    };
 
     $scope.approveProduct = function (product) {
         product.status = 'approved';
@@ -238,49 +200,21 @@ angular.module('users').controller('productEditorController', function ($scope, 
         var bool = false;
         switch (button) {
             case 'Edit':
-                if (product.status !== 'done' && product.userId == $scope.userId) {
-                    bool = true;
-                }
-                if (product.status == 'approved') {
-                    bool = false;
-                }
+
                 break;
             case 'Unassign':
-                if (product.status !== 'done' && product.userId == $scope.userId) {
-                    bool = true;
-                }
-                if (product.status == 'approved') {
-                    bool = false;
-                }
+
                 break;
             case 'Claim':
-                if (product.status == 'new' && !product.userId) {
-                    bool = true;
-                }
+
                 break;
             case 'Quick Edit':
-                if ($scope.permissions.curator && product.status == 'done') {
-                    bool = true
-                }
+     
         }
 
-        return bool
-
-    };
-
-    $scope.showProduct = function (product) {
-        var display = true;
-        if (product.status == 'inprogress' || product.status == 'done') {
-            display = (product.userId == $scope.userId || $scope.permissions.curator);
-        }
-        if ($scope.display.myProducts) {
-            display = product.userId == $scope.userId
-        }
-        return display;
-    };
+    }
 
 
-    init();
 
 
 

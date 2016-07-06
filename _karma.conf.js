@@ -16,7 +16,7 @@ module.exports = function (config) {
         files: [
             'public/dist/lib.ff3b8f.js',
             'node_modules/raygun4js/dist/raygun.js',
-            'public/dist/application.9fff9b.js',
+            'public/dist/application.b91780.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'modules/*/tests/client/**/*Spec.js'
         ],
