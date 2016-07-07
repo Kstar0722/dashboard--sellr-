@@ -9,27 +9,27 @@
       </div>
       <div flex class="search-button">
         Search 
-        <md-menu>
+        <md-menu md-offset="0 35">
           <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
-          <md-menu-content>
+          <md-menu-content class="product-search-menu">
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?">
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
                 Search All
               </md-checkbox>
             </md-menu-item>
             <md-menu-divider></md-menu-divider>
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?" md-menu-align-target>
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check" md-menu-align-target>
                 Title
               </md-checkbox>
             </md-menu-item>
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?">
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
                 Description
               </md-checkbox>
             </md-menu-item>
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?">
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
                 SKU
               </md-checkbox>
             </md-menu-item>

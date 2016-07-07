@@ -1,5 +1,5 @@
 .productEditor {
-  margin-top:  @navheight;
+  padding-top:  @navheight;
 
   .stats {
     text-align: center;
@@ -434,6 +434,7 @@
         margin: 0px;
         padding: 5px 10px 5px 15px;
         outline: none;
+        border-radius: 3px;
       }
       .search-button{
         border: none; 
@@ -444,6 +445,9 @@
         text-align: center;
         line-height: 52px;
         cursor: pointer;
+        border-radius: 3px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
         .fa{
           font-size: 16px;
         }
@@ -533,8 +537,23 @@
   }
 }
 
+md-menu-content.product-search-menu{
+  padding: 0px 20px;
+  md-menu-item{
+    font-size: 16px;
+    color: @black-text;
+    md-checkbox{
+      &.md-checked.blue-check .md-icon {
+        background-color: @blue;
+      }
+    }
+  }
+}
+
 body.editor-products-detail {
   .medium-editor-toolbar {
     margin-top: -(@navheight + @subnavheight);
   }
 }
+
+
