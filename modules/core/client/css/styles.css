@@ -36,6 +36,14 @@ body.dashboard a:hover {
 body.dashboard md-list .md-subheader {
   font-size: 24px;
 }
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
 #topNav .md-toolbar-tools {
   font-size: 100%;
   width: 100%;
@@ -1028,8 +1036,37 @@ section.userList .userbox {
   border: none;
   color: #ffffff;
 }
+.productEditor .product-editor-list {
+  position: relative;
+}
+.productEditor .product-editor-list .bottom-action-menu {
+  position: fixed;
+  bottom: -100px;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  left: 0px;
+  width: 40%;
+  background-color: #151922;
+  height: 50px;
+  color: #fff;
+  border: 1px solid #95989a;
+}
+.productEditor .product-editor-list .bottom-action-menu.active {
+  bottom: 0px;
+}
+.productEditor .product-editor-list .bottom-action-menu .action-btn {
+  background-color: #549788;
+  float: right;
+  margin-right: 20px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 7px;
+}
 .productEditor .product-editor-list .list-container {
-  padding: 20px;
+  padding: 40px 20px;
 }
 .productEditor .product-editor-list .list-container .search-input {
   height: 40px;
@@ -1045,12 +1082,86 @@ section.userList .userbox {
 .productEditor .product-editor-list .list-container .search-button {
   border: none;
   background-color: #454545;
-  color: #fff;
+  color: #d1d1d1;
   height: 52px;
-  font-size: 22px;
+  font-size: 18px;
   text-align: center;
   line-height: 52px;
   cursor: pointer;
+}
+.productEditor .product-editor-list .list-container .search-button .fa {
+  font-size: 16px;
+}
+.productEditor .product-editor-list .list-container .product-table-container {
+  width: 100%;
+  margin: 30px 0px;
+}
+.productEditor .product-editor-list .list-container .product-table-container table {
+  border-collapse: collapse;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead {
+  border-bottom: 1px solid #95989a;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th {
+  color: #95989a;
+  font-size: 16px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 5px 3px;
+  width: 10%;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th:nth-child(2) {
+  width: 45%;
+  text-align: left;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th:nth-child(3) {
+  width: 15%;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th md-checkbox {
+  margin: 0 auto;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th md-checkbox.md-checked.blue-check .md-icon {
+  background-color: #3299BB;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th .th-title {
+  display: inline-block;
+}
+.productEditor .product-editor-list .list-container .product-table-container table thead th .fa-sort-asc,
+.productEditor .product-editor-list .list-container .product-table-container table thead th .fa-sort-desc {
+  line-height: 12px;
+  cursor: pointer;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody tr:first-child td {
+  padding-top: 25px;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td {
+  font-size: 16px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 12px 3px;
+  width: 10%;
+  color: #5a5c5d;
+  font-weight: bold;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td:nth-child(2) {
+  width: 45%;
+  text-align: left;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td:nth-child(3) {
+  width: 15%;
+  color: #95989a;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td md-checkbox {
+  margin: 0 auto;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td md-checkbox.md-checked.blue-check .md-icon {
+  background-color: #3299BB;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td .fa-check {
+  color: #2DC89A;
+}
+.productEditor .product-editor-list .list-container .product-table-container table tbody td .fa-times {
+  color: #FF0000;
 }
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;

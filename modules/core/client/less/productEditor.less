@@ -395,8 +395,35 @@
   }
 
   .product-editor-list{
+    position: relative;
+    .bottom-action-menu{
+      position: fixed;
+      bottom: -100px;
+      transition: all 0.5s ease;
+      overflow: hidden;
+      left: 0px;
+      width: 40%;
+      background-color: @back-black;
+      height: 50px;
+      color: #fff;
+      border: 1px solid @grey-dark-text;
+      &.active{
+        bottom: 0px;
+      } 
+      .action-btn{
+        background-color: @back-green;
+        float: right;
+        margin-right: 20px;
+        padding: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 3px;
+        margin-top: 7px;
+      }
+    }
     .list-container{
-      padding: 20px;
+      padding: 40px 20px;
       .search-input{
         height: 40px;
         font-size: 22px;
@@ -411,13 +438,97 @@
       .search-button{
         border: none; 
         background-color: @back-grey;
-        color: #fff;
+        color: @grey-text;
         height: 52px;
-        font-size: 22px;
+        font-size: 18px;
         text-align: center;
         line-height: 52px;
         cursor: pointer;
+        .fa{
+          font-size: 16px;
+        }
       }
+      .product-table-container{
+        width: 100%;
+        margin: 30px 0px;
+        table{
+          border-collapse: collapse;
+          thead{
+            border-bottom: 1px solid  @grey-dark-text;
+            th{
+              color: @grey-dark-text;
+              font-size: 16px;
+              vertical-align: middle;
+              text-align: center;
+              padding: 5px 3px;
+              width: 10%;
+              &:nth-child(2){
+                width: 45%;
+                text-align: left;
+              }
+              &:nth-child(3){
+                width: 15%;
+              }
+              md-checkbox{
+                margin: 0 auto;
+                &.md-checked.blue-check .md-icon {
+                  background-color: @blue;
+                }
+              }
+              .th-title{
+                // float: left;
+                // margin-right: 6px;
+                display: inline-block;
+              }
+              .fa-sort-asc,
+              .fa-sort-desc{
+                // float: left;
+                line-height: 12px;
+                cursor: pointer;
+              }
+            }
+          }
+          tbody{
+            tr:first-child{
+              td{
+                padding-top: 25px;
+
+              }
+            }
+
+            td{
+              font-size: 16px;
+              vertical-align: middle;
+              text-align: center;
+              padding: 12px 3px;
+              width: 10%;
+              color: @black-text;
+              font-weight: bold;
+              &:nth-child(2){
+                width: 45%;
+                text-align: left;
+              }
+              &:nth-child(3){
+                width: 15%;
+                color: @grey-dark-text;
+              }
+              md-checkbox{
+                margin: 0 auto;
+                &.md-checked.blue-check .md-icon {
+                  background-color: @blue;
+                }
+              }
+              .fa-check{
+                color: @green;
+              }
+              .fa-times{
+                color: @red;
+              }
+            }
+          }
+        }
+      }
+
     }
   }
 }
