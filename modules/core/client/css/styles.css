@@ -1170,6 +1170,18 @@ section.userList .userbox {
 .productEditor .product-editor-list .list-container .product-table-container table tbody td .fa-times {
   color: #FF0000;
 }
+.productEditor .product-editor-product {
+  padding: 40px 20px;
+}
+.productEditor .product-editor-product .product-container {
+  border: 1px dashed #5a5c5d;
+  text-align: center;
+  min-height: 300px;
+  line-height: 300px;
+  color: #5a5c5d;
+  font-weight: bold;
+  font-size: 22px;
+}
 md-menu-content.product-search-menu {
   padding: 0px 20px;
 }
