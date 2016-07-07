@@ -1260,3 +1260,47 @@ body .productEditor .loading-data .right {
     transform: translate(-30px, -30px);
   }
 }
+.store-client-view {
+  padding-top: 120px;
+  text-align: center;
+  margin: 40px auto;
+  font-size: 16px;
+  color: #5a5c5d;
+}
+.store-client-view .orders-header {
+  text-align: left;
+  border-bottom: 3px solid #95989a;
+  padding-bottom: 10px;
+  margin: 0px 40px;
+}
+.store-client-view .orders-header div {
+  font-weight: bold;
+}
+.store-client-view .orders-header div:first-child {
+  text-align: center;
+}
+.store-client-view .orders-body {
+  text-align: left;
+  padding-top: 20px;
+  margin: 0px 40px;
+}
+.store-client-view .orders-body div {
+  color: #95989a;
+  font-weight: bold;
+}
+.store-client-view .orders-body div:first-child {
+  text-align: center;
+}
+.store-client-view .orders-body div.done {
+  color: #2DC89A;
+}
+.store-client-view .orders-body div.progress-bar-container {
+  background-color: #eaeaea;
+}
+.store-client-view .orders-body div.progress-bar-container .progress-bar {
+  padding: 10px;
+  background-color: #2DC89A;
+  width: 40%;
+  text-align: left;
+  color: #fff;
+}
