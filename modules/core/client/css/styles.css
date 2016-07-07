@@ -1028,6 +1028,30 @@ section.userList .userbox {
   border: none;
   color: #ffffff;
 }
+.productEditor .product-editor-list .list-container {
+  padding: 20px;
+}
+.productEditor .product-editor-list .list-container .search-input {
+  height: 40px;
+  font-size: 22px;
+  color: #8D9AA5;
+  border: 1px solid #DFE3EB;
+  border-right: none;
+  width: 100%;
+  margin: 0px;
+  padding: 5px 10px 5px 15px;
+  outline: none;
+}
+.productEditor .product-editor-list .list-container .search-button {
+  border: none;
+  background-color: #454545;
+  color: #fff;
+  height: 52px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 52px;
+  cursor: pointer;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }

@@ -1,11 +1,11 @@
 <div class="productEditor" ng-controller="productEditorController">
   <div layout>
-    <!-- <div ng-show="pes.show.loading" class="col-md-4 loading-anim">
+    <div ng-show="pes.show.loading" flex=40 class="loading-anim">
       <div class='uil-ripple-css' style='transform:scale(0.81);'>
         <div></div>
         <div></div>
       </div>
-    </div> -->
+    </div>
     <div ng-show="!pes.show.loading" flex=40 ui-view="list"></div>
     <div flex=60 ng-include="detail.template"></div>
   </div>
