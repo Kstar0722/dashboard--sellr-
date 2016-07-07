@@ -656,7 +656,7 @@ section.userList .userbox {
   color: red;
 }
 .productEditor {
-  margin-top: 220px;
+  margin-top: 120px;
 }
 .productEditor .stats {
   text-align: center;
@@ -783,16 +783,6 @@ section.userList .userbox {
   to {
     opacity: 0;
   }
-}
-.productEditor .list {
-  padding: 5vh 0 0 5vw ;
-  height: 80vh;
-  overflow-y: scroll;
-  background: #f5f5f5;
-  width: 50vw;
-}
-.productEditor .list .btn-primary {
-  background: #2DC89A;
 }
 @-webkit-keyframes uil-ripple {
   0% {
