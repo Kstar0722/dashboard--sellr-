@@ -16,3 +16,6 @@ public/fw/prepros.cfg
 /*.log
 
 /test/*.xml
+
+public/build
+.dist
