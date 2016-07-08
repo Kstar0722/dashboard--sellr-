@@ -1,155 +1,113 @@
 .dashboard {
+	.topten{
 
-
-  .topten{
-
-	md-list {
-	  padding-top: 0;
-	  background: white;
-	}
-	md-list-item {
-	  padding: 8px 30px;
-	  font-weight: 400;
-	  color: darken(@med-grey, 20%);
-	}
-   md-toolbar {
-	 background-color: @dark-grey;
-	 color: @light-grey;
-   }
-  }
-  .chartbox {
-	padding: 16px;
-  }
-  .leads {
-
-	@leadheight: 12vh;
-	.leadgen {
-	  background: white;
-	  color: @dark-grey;
-	  width: 48%;
-	  height: @leadheight;
-	  float: left;
-	  text-align: center;
-	  transition: all .3s ease;
-
-	  &:first-of-type {
-		margin-right: 4%;
-	  }
-	  @media (max-width: 480px) {
-		width: 100%;
-		margin: 0 0 2vh !important ;
-	  }
-
-	  .overlay {
-		opacity: 0;
-		height: @leadheight;
-		width: 100%;
-		text-align: center;
-		display: none;
-		background: rgba(0,0,0,.3);
-		line-height: @leadheight;
-		position: fixed;
-	  }
-	  &:hover {
-
-		transition: all .3s ease;
-		cursor: pointer;
-		background: @med-grey;
-		color: white;
-		.overlay {
-		  transition: all .3s ease;
-		  display: inline-block;
-		  opacity: 1;
+		padding-left: 0px;
+		padding-top: 20px;
+		@media @large-up {
+			padding-top: 0px;
+			padding-left: 20px;
 		}
-	  }
 
-	  .icon {
-		background: @blue;
-		display: table;
-		position: relative;
-		float: left;
-		width: 30%;
-		color: white;
-		height: @leadheight;
-
-		i {
-		  font-size: 60px;
-		  vertical-align: middle;
-		  display: table-cell;
-
-		  @media (max-width: 1200px) {
-			font-size: 40px;
-		  }
+		md-list {
+			padding-top: 0;
+			background: white;
 		}
-	  }
-	  .data {
-		  display: table;
-		  height: @leadheight;
-		  width: 70%;
-		  .centerhelp {
+		md-list-item {
+			padding: 8px 30px;
+			font-weight: 400;
+			color: darken(@med-grey, 20%);
+		}
+		md-toolbar {
+			background-color: @dark-grey;
+			color: @light-grey;
+		}
+	}
+	.chartbox {
+		padding: 16px;
+	}
+	.leads {
+
+		@leadheight: 120px;
+		.leadgen {
+			color: @dark-grey;
+			text-align: center;
+			transition: all .4s ease;
 			height: @leadheight;
-			display: table-cell;
-			vertical-align: middle;
-		  }
-		  .number {
-			font-size: 60px;
-			line-height: 60px;
-			left: 65px;
-			font-weight: bold;
-			position: inherit;
-			text-transform: initial;
-		  }
-		  .label {
-			display: block;
-			margin-top: 5px;
-			font-weight: 300;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-		  }
-		}
-	  }
-  }
-  .devices {
-	float: left;
-	.device {
-	  min-width:8vw;
-	  min-height: 9vh;
-	//   background: ;
-	  float: left;
-	  text-align: center;
-	  padding: 2.5%;
-	  max-width: 200px;
-	  min-height: 150px;
+			background-color: #fff;
 
-	  @media (max-width: 768px) {
-		min-width: 26%;
-	  }
-	  @media (max-width: 480px) {
-		min-width: 40%;
-	  }
+			margin-bottom: 20px;
+			@media @large-up {
+				margin-top: 0px;
+			}
 
-	  p {
-		margin-top: 5px;
-		font-size: 14px;
-		font-weight: 200;
-		line-height: 20px;
-		text-transform: capitalize;
-		@media (max-width: 480px) {
-		  font-size: 14px;
+			.icon {
+				background-color: @blue;
+				color: #ffffff;
+				i {
+					font-size: 60px;
+					line-height: @leadheight;
+				}
+			}
+			.data {
+				.centerhelp {
+					padding: 0px 10px;
+				}
+				.number {
+					font-size: 60px;
+					line-height: 60px;
+					font-weight: bold;
+				}
+				.label {
+					display: block;
+					margin-top: 5px;
+					font-weight: bold;
+					text-transform: uppercase;
+					letter-spacing: 2px;
+				}
+			}
 		}
-	  }
-
-	  .icon {
-		width: 100%;
-		height: 80%;
-		margin: 0 auto;
-		font-size: 70px;
-		line-height: 90px;
-		color: @green;
-		&.error {
-		  color: @red;
-		}
-	  }
 	}
-  }
+	.devices {
+		float: left;
+		.device {
+			min-width:8vw;
+			min-height: 9vh;
+			//   background: ;
+			float: left;
+			text-align: center;
+			padding: 2.5%;
+			max-width: 200px;
+			min-height: 150px;
+
+			@media (max-width: 768px) {
+				min-width: 26%;
+			}
+			@media (max-width: 480px) {
+				min-width: 40%;
+			}
+
+			p {
+				margin-top: 5px;
+				font-size: 14px;
+				font-weight: 200;
+				line-height: 20px;
+				text-transform: capitalize;
+				@media (max-width: 480px) {
+					font-size: 14px;
+				}
+			}
+
+			.icon {
+				width: 100%;
+				height: 80%;
+				margin: 0 auto;
+				font-size: 70px;
+				line-height: 90px;
+				color: @green;
+				&.error {
+					color: @red;
+				}
+			}
+		}
+	}
 }
