@@ -4,8 +4,6 @@
     font-size: 100%;
     width: 100%;
     top: 0;
-    min-height: @navheight;
-    position: fixed;
     left: 0;
     transition: all .25s;
     overflow: hidden !important;
@@ -15,6 +13,88 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position-y: 20%;
+    
+    position: relative;
+    min-height: auto;
+    height: auto;
+    max-height: inherit;
+    
+    // Mobile Menu
+    @media @large-up {
+      position: fixed !important;
+      min-height: @navheight;
+      height: @navheight;
+      max-height: @navheight;
+    }
+    .mobile-menu-icon{
+      display: block;
+      padding: 0px 15px;
+      font-size: 30px;
+      cursor: pointer;
+      min-height: @mobileNavheight;
+      height: @mobileNavheight;
+      max-height: @mobileNavheight;
+      line-height: @mobileNavheight;
+      width: 100%;
+      img{
+        width: 70px;
+        float: right;
+        opacity: .25;
+        padding-top: 12px;
+      }
+      @media @large-up {
+        display: none;
+      }
+    }
+    .brand,
+    .profile-menu,
+    .submenus-items,
+    .no-submenu-item{
+      display: none;
+      @media @large-up {
+        display: inline-block;
+      }
+    }
+
+    .no-submenu-item{
+      color: #fff;
+      text-transform: none;
+      font-size: 16px;
+      &.my-active-class {
+        color: @sellrgreen;
+        background: transparent;
+      }
+    }
+    .submenus-items{
+      padding: 0px;
+      .md-menu{
+        font-size: 16px;
+      }
+    }
+
+    &.mobile-menu{
+      .profile-menu,
+      .submenus-items,
+      .no-submenu-item{
+        display: block;        
+      }     
+      .profile-menu{
+        margin: 10px 0px;
+        padding: 10px 0px;
+        margin-left: 6px;
+        border-top: 1px solid @grey-dark-text;
+        .md-button{
+          text-align: left;
+        }
+      }
+      .submenus-items{
+        padding: 0px 6px;
+        .md-menu{
+          display: block;
+          font-size: 16px;
+        }
+      }
+    }
 
     .my-active-class {
       color: @sellrgreen;
@@ -64,19 +144,16 @@
     }
 
     #profbutton {
-      //height:25vh;
-      padding-top: 25px;
       padding-right: 10vh;
       overflow: visible;
       z-index: inherit;
-
       img {
         height: 50px;
         width: 50px;
         border-radius: 50%;
       }
-
     }
+
     #pagebutton {
       margin-top: 3vh;
       display: inline-block;
@@ -101,7 +178,7 @@
 
 .md-menu-bar-menu {
   padding: 0;
- &.md-dense md-menu-item {
+  &.md-dense md-menu-item {
     padding-left: 20px;
     color: @sellrdark;
     line-height: 48px;
