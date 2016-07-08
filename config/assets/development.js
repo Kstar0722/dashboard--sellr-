@@ -45,6 +45,7 @@ module.exports = {
                 'public/lib/Chart.js/Chart.js',
                 'public/lib/angular-chart.js/dist/angular-chart.js',
                 'public/lib/angular-ui-grid/ui-grid.js',
+                'public/lib/angular-location-update/angular-location-update.js',
                 'public/lib/moment/moment.js',
                 'public/lib/angular-audio/app/angular.audio.js',
                 'public/lib/jasmine-core/lib/jasmine-core/jasmine.js',

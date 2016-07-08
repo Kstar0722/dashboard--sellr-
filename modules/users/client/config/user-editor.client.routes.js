@@ -37,7 +37,7 @@ angular.module('users.editor.routes').config(['$stateProvider',
             //    }
             //})
             .state('merge', {
-                url: '/editor/merge',
+                url: '/editor/merge/:variable',
                 controller: 'productEditorMergeController',
                 templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
             })
