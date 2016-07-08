@@ -31,7 +31,6 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         // set the domains and variables for each environment
         envServiceProvider.config({
             domains: {
-                docker: [ 'docker' ],
                 local: [ 'localhost' ],
                 development: [ 'dashdev.expertoncue.com', 'dashdev.sllr.io', 'sellrdashboard-dev.herokuapp.com' ],
                 staging: [ 'dashqa.expertoncue.com', 'dashqa.sllr.io', 'dashboard.sllr.io', 'sellrdashboard-staging.herokuapp.com' ],
@@ -43,11 +42,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                     BWS_API: 'http://localhost:7171',
                     env:'local'
                 },
-                docker: {
-                    API_URL: 'docker:7272',
-                    BWS_API: 'docker:7171',
-                    env: 'dev'
-                },
+
                 development: {
                     API_URL: 'https://apidev.sllr.io',
                     BWS_API: 'https://sellr-bws-dev.herokuapp.com',
