@@ -34,6 +34,7 @@ body.dashboard .content .pagecontent {
   margin: 2vh auto 0;
   max-width: 1200px;
   padding: 0 5vw;
+  padding-bottom: 5vh;
 }
 body.dashboard a {
   color: #2DC89A;
@@ -476,6 +477,16 @@ section.userList .userbox {
   background-position: center;
   float: ;
 }
+.dashboard .topten {
+  padding-left: 0px;
+  padding-top: 20px;
+}
+@media only screen and (min-width:961px) {
+  .dashboard .topten {
+    padding-top: 0px;
+    padding-left: 20px;
+  }
+}
 .dashboard .topten md-list {
   padding-top: 0;
   background: white;
@@ -493,85 +504,38 @@ section.userList .userbox {
   padding: 16px;
 }
 .dashboard .leads .leadgen {
-  background: white;
   color: #1f2532;
-  width: 48%;
-  height: 12vh;
-  float: left;
   text-align: center;
-  transition: all .3s ease;
+  transition: all .4s ease;
+  height: 120px;
+  background-color: #fff;
+  margin-bottom: 20px;
 }
-.dashboard .leads .leadgen:first-of-type {
-  margin-right: 4%;
-}
-@media (max-width: 480px) {
+@media only screen and (min-width:961px) {
   .dashboard .leads .leadgen {
-    width: 100%;
-    margin: 0 0 2vh !important ;
+    margin-top: 0px;
   }
 }
-.dashboard .leads .leadgen .overlay {
-  opacity: 0;
-  height: 12vh;
-  width: 100%;
-  text-align: center;
-  display: none;
-  background: rgba(0, 0, 0, 0.3);
-  line-height: 12vh;
-  position: fixed;
-}
-.dashboard .leads .leadgen:hover {
-  transition: all .3s ease;
-  cursor: pointer;
-  background: #8D9AA5;
-  color: white;
-}
-.dashboard .leads .leadgen:hover .overlay {
-  transition: all .3s ease;
-  display: inline-block;
-  opacity: 1;
-}
 .dashboard .leads .leadgen .icon {
-  background: #3299BB;
-  display: table;
-  position: relative;
-  float: left;
-  width: 30%;
-  color: white;
-  height: 12vh;
+  background-color: #3299BB;
+  color: #ffffff;
 }
 .dashboard .leads .leadgen .icon i {
   font-size: 60px;
-  vertical-align: middle;
-  display: table-cell;
-}
-@media (max-width: 1200px) {
-  .dashboard .leads .leadgen .icon i {
-    font-size: 40px;
-  }
-}
-.dashboard .leads .leadgen .data {
-  display: table;
-  height: 12vh;
-  width: 70%;
+  line-height: 120px;
 }
 .dashboard .leads .leadgen .data .centerhelp {
-  height: 12vh;
-  display: table-cell;
-  vertical-align: middle;
+  padding: 0px 10px;
 }
 .dashboard .leads .leadgen .data .number {
   font-size: 60px;
   line-height: 60px;
-  left: 65px;
   font-weight: bold;
-  position: inherit;
-  text-transform: initial;
 }
 .dashboard .leads .leadgen .data .label {
   display: block;
   margin-top: 5px;
-  font-weight: 300;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
