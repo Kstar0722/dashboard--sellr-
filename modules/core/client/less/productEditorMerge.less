@@ -2,7 +2,10 @@ body.merge{
   background-color: #ffffff;
 }
 .product-editor-merge {
-  padding-top:  @navheight;
+  padding-top:  @mobileNavheight;
+  @media @large-up {
+    padding-top:  @navheight;
+  }
   .grid-container{
     padding: 40px 20px;
     .merge-btn-container{

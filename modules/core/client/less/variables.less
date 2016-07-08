@@ -38,6 +38,13 @@
 @lightgray:#DFE3EB;
 @sellrdark:#142332;
 
+// BREAKPOINTS
+@small-up: ~"only screen";
+@small-only: ~"only screen and (max-width: 600px)";
+@medium-up: ~"only screen and (min-width:601px)";
+@medium-only: ~"only screen and (min-width:601px) and (max-width:960px)";
+@large-up: ~"only screen and (min-width:961px)";
+
 /* BRANDING */
 @logo: '../img/logo_black.png';
 @logowhite: '../img/logo_white.png';
@@ -54,6 +61,7 @@
 @globalwidth:   1200px;
 @globalhpad:    5vw;
 @navheight:     120px;
+@mobileNavheight: 64px;
 @subnavheight:  100px;
 
 
@@ -65,7 +73,10 @@ body.dashboard {
   .content {
     position: absolute;
     width: 100vw;
-    top: @navheight;
+    top:  @mobileNavheight;
+    @media @large-up {
+      top:  @navheight;
+    }
 
 
     .titlebar {
