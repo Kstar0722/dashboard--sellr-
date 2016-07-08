@@ -86,7 +86,6 @@ body.dashboard md-list .md-subheader {
   font-size: 100%;
   width: 100%;
   top: 0;
-  position: fixed !important;
   left: 0;
   transition: all .25s;
   overflow: hidden !important;
@@ -96,12 +95,14 @@ body.dashboard md-list .md-subheader {
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 20%;
+  position: relative;
   min-height: auto;
   height: auto;
   max-height: inherit;
 }
 @media only screen and (min-width:961px) {
   #topNav .md-toolbar-tools {
+    position: fixed !important;
     min-height: 120px;
     height: 120px;
     max-height: 120px;
@@ -782,7 +783,7 @@ section.userList .userbox {
   color: red;
 }
 .productEditor {
-  padding-top: 64px;
+  padding-top: 0px;
 }
 @media only screen and (min-width:961px) {
   .productEditor {
@@ -1291,7 +1292,7 @@ body.merge {
   background-color: #ffffff;
 }
 .product-editor-merge {
-  padding-top: 64px;
+  padding-top: 0px;
 }
 @media only screen and (min-width:961px) {
   .product-editor-merge {
@@ -1419,7 +1420,7 @@ body .productEditor .loading-data .right {
   }
 }
 .store-client-view {
-  padding-top: 64px;
+  padding-top: 0px;
   text-align: center;
   margin: 40px auto;
   font-size: 16px;
