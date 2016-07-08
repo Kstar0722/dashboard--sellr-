@@ -1,99 +1,210 @@
-<div class="list" ng-controller="productEditorController">
-  <!--<md-input-container>-->
-    <!--<label for="searchProduct">Filter Name</label>-->
-    <!--<input id="searchProduct" type="text" ng-model="search.$">-->
-  <!--</md-input-container>-->
-  <div class="loading-data" ng-show="loadingData">
-    <svg
-      width="1000" height="1000" viewBox="0 0 1000 1000"
-      xmlns="http://www.w3.org/2000/svg" version="1.1">
-      <g transform="translate(500,500)">
-        <rect class="rotate-45 rotate-back" x=-5 y=-5 width=10 height=10 stroke="black" stroke-width=20 fill="none"></rect>
-        <rect class="rotate-45 rotate" x=-50 y=-50 width=100 height=100 stroke="black" stroke-width=20 stroke-linejoin="bevel" fill="none"></rect>
-        <g transform="translate(-50,0) rotate(-45)">
-          <polyline class="left" points="40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40" stroke="black" stroke-width=20 fill="none"></polyline>
-        </g>
-        <g transform="translate(50,0) rotate(135)">
-          <polyline class="right" points="40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40" stroke="black" stroke-width=20 fill="none"></polyline>
-        </g>
-        <text y=-140 text-anchor="middle" font-weight="bold" font-size="3em" font-family="sans-serif">loading...</text>
-      </g>
-    </svg>
+<div class="product-editor-list" ng-controller="productEditorController">
+
+  <div class="list-container">
+
+
+    <div layout>
+      <div flex=80>
+        <input type="text" class="search-input">
+      </div>
+      <div flex class="search-button">
+        Search 
+        <md-menu md-offset="0 35">
+          <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
+          <md-menu-content class="product-search-menu">
+            <md-menu-item>
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
+                Search All
+              </md-checkbox>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check" md-menu-align-target>
+                Title
+              </md-checkbox>
+            </md-menu-item>
+            <md-menu-item>
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
+                Description
+              </md-checkbox>
+            </md-menu-item>
+            <md-menu-item>
+              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
+                SKU
+              </md-checkbox>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </div>
+    </div>
+
+
+
+
+    <div class="product-table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
+            </th>
+            <th><div class="th-title">18 Products&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
+            <th><div class="th-title">Skus&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
+            <th><div class="th-title">Script&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
+            <th><div class="th-title">Price&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
+            <th><div class="th-title">Stock&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Tennesse</td>
+            <td>6</td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Fire</td>
+            <td>10</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+          <tr>
+            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
+            <td>Jack Daniels Honey</td>
+            <td>2</td>
+            <td><i class="fa fa-times"></i></td>
+            <td><i class="fa fa-check"></i></td>
+            <td><i class="fa fa-times"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+
   </div>
-  <div class="row" ng-if="permissions.editor || permissions.curator">
-    <button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>
-    <button ng-show="buttonDisplay('Edit',product)" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>
-    <button ng-show="buttonDisplay('Quick Edit',product)" class="btn btn-info btn-sm" ng-click="quickEdit(product)">Quick Edit</button>
-    <button ng-show="buttonDisplay('Unassign',product)" class="btn btn-danger btn-sm" ng-click="removeClaim(product,$index)">Unassign
-    </button>
-    <button ng-show="buttonDisplay('Claim',product)" class="btn btn-info btn-sm"
-            ng-click="claimProduct(product,$index)">Claim
-    </button>
+
+
+  <div ng-class="data.cb1 ? 'bottom-action-menu active' : 'bottom-action-menu'">
+    <div class="action-btn">
+      Merge 3 selected products
+    </div>
   </div>
-  <md-input-container>
-    <label for="searchProduct">search text</label>
-    <input id="searchProduct" type="text"  ng-model="searchText">
-    <button type="button" class="btn btn-lg btn-primary" ng-click="searchProducts(searchText)">Search</button>
-
-  </md-input-container>
-  <div>
-    <span>{{productCount}} products</span>
-  </div>
-  <div class="oncue-grid"
-       ui-grid="gridOptions"
-       ui-grid-resize-columns
-       ui-grid-selection
-       ui-grid-edit
-       ui-grid-row-edit>
-  </div>
-</div>
-  <!--<md-checkbox ng-model="display.myProducts">Only Show My Products</md-checkbox>-->
-
-
-  <!--<p ng-show="(pes.productList|filter:search).length==0">No products found that match: "{{ search.$ }}"</p>-->
-
-  <!--<div class="row " ng-repeat="product in pes.productList|filter:search|filter:pes.currentAccount|limitTo:searchLimit" ng-if="showProduct(product)">-->
-    <!--<md-divider></md-divider>-->
-    <!--<div class="row" ui-sref="editor.products.detail({productId:product.productId})">-->
-      <!--<h5 id="sidebar-heading">{{ product.displayName || product.name}}</h5>-->
-      <!--<div ng-show="product.lastEdit" id="last-edited">Edited {{ product.lastEdit }}</div>-->
-      <!--<div ng-show="product.username">{{product.username}}</div>-->
-      <!--<div ng-if="product.status == 'inprogress'" class="label label-default">In Progress</div>-->
-      <!--<div ng-if="product.status !== 'inprogress'" class="label"-->
-           <!--ng-class="{'label-primary':product.status=='done','label-success':product.status=='approved'}">{{ product.status }}-->
-      <!--</div>-->
-      <!--<small class="label-dark">ProductId: {{ product.productId }}</small>-->
-    <!--</div>-->
-    <!--<div class="row" ng-if="permissions.editor || permissions.curator">-->
-      <!--<button class="btn btn-primary btn-sm" ng-click="viewProduct(product)">View</button>-->
-      <!--<button ng-show="buttonDisplay('Edit',product)" class="btn btn-info btn-sm" ng-click="editProduct(product)">Edit</button>-->
-      <!--<button ng-show="buttonDisplay('Quick Edit',product)" class="btn btn-info btn-sm" ng-click="quickEdit(product)">Quick Edit</button>-->
-      <!--<button ng-show="buttonDisplay('Unassign',product)" class="btn btn-danger btn-sm" ng-click="removeClaim(product,$index)">Unassign-->
-      <!--</button>-->
-      <!--<button ng-show="buttonDisplay('Claim',product)" class="btn btn-info btn-sm"-->
-              <!--ng-click="claimProduct(product,$index)">Claim-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--<md-divider></md-divider>-->
-    <!--<button style="margin-top:8%;" class="btn btn-info" ng-show="$last && pes.productList.length>searchLimit" ng-click="showMore()">Load More</button>-->
-
-    <!--<div class="modal fade" id="modal">-->
-      <!--<div class="modal-dialog">-->
-        <!--<div class="modal-content">-->
-          <!--<div class="modal-header">-->
-            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-            <!--<h4 class="modal-title">Add to my list</h4>-->
-          <!--</div>-->
-          <!--<div class="modal-body">-->
-            <!--<p>By adding this to your list no other editor will be able to work on this product.-->
-          <!--</div>-->
-          <!--<div class="modal-footer">-->
-            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Never Mind</button>-->
-            <!--<button class="btn btn-primary btn-wide" ng-click="claimProduct()">Add to my list</button>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-
 </div>

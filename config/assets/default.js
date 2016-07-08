@@ -13,7 +13,8 @@ module.exports = {
 				'public/lib/angular-ui-grid/ui-grid.css',
 				'public/lib/medium-editor/dist/css/medium-editor.css',
 				'public/lib/medium-editor/dist/css/themes/default.css',
-				'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css'
+				'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
+        'public/lib/font-awesome/css/font-awesome.css'
 			],
 			js: [
                 'public/lib/jquery/dist/jquery.js',

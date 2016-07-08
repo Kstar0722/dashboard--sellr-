@@ -1,0 +1,44 @@
+.store-client-view{
+  padding-top:  @navheight;
+  text-align: center;
+  margin: 40px auto;
+  font-size: 16px;
+  color: @black-text;
+  .orders-header{
+    text-align: left;
+    border-bottom: 3px solid @grey-dark-text;
+    padding-bottom: 10px;
+    margin: 0px 40px; 
+    div{
+      font-weight: bold;
+      &:first-child{
+        text-align: center;
+      }
+    }
+  }
+  .orders-body{
+    text-align: left;
+    padding-top: 20px;
+    margin: 0px 40px; 
+    div{
+      color: @grey-dark-text;
+      font-weight: bold;
+      &:first-child{
+        text-align: center;
+      }
+      &.done{
+        color: @green;
+      }
+      &.progress-bar-container{
+        background-color: @back-grey-light;  
+        .progress-bar{
+          padding: 10px;
+          background-color: @green;
+          width: 40%;
+          text-align: left;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
