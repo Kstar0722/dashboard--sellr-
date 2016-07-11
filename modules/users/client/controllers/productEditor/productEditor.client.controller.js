@@ -6,7 +6,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
     $scope.userId = localStorage.getItem('userId');
     $scope.detail = {
-        template: 'modules/users/client/views/productEditor/productEditor.detail.html'
+        template: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
     };
     $scope.display = {
         myProducts: false,
@@ -51,6 +51,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         ]
     };
 
+    $scope.searchLimit = 15;
+
     $scope.showMore = function () {
         $scope.searchLimit += 15;
     };
@@ -61,23 +63,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
         var fields = [];
         var columnNames = [];
 
-        productGridData.searchProducts(searchText, productEditorService.currentType).then(function (data) {
+        productGridData.searchProducts(searchText).then(function (data) {
             $scope.loadingData = false;
-            data.forEach(function(data){
-                Object.keys(data).forEach(function(column){
-                    if(columnNames.indexOf(column)  <0 && column != 'properties' && column != 'mediaAssets'  && column != 'feedback' && column != 'notes' && column != 'productId'){
-                        fields.push({field: column});
+            $scope.products = data;
 
-                    }
-                    columnNames.push(column)
-                })
 
-            })
-
-            $scope.gridOptions.columnDefs = fields;
-            $scope.gridOptions.data = data;
-            $scope.productCount = data.length;
-            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
         })
     };
 
@@ -86,11 +76,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
 
         //TODO: update with new side bar selection
-    //$scope.viewProduct = function (product) {
-    //    productEditorService.setCurrentProduct(product);
-    //    $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
-    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-    //};
+    $scope.viewProduct = function (product) {
+        console.log('hello')
+        productEditorService.setCurrentProduct(product);
+        $state.go('editor.products', { productId: product.productId, task: 'view' });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+    };
         //TODO: update with new side bar selection
     //$scope.editProduct = function (product) {
     //    productEditorService.setCurrentProduct(product);
