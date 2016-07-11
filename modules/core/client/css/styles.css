@@ -2,6 +2,10 @@
 /* BRANDING */
 /* SHADING / GRADIENTS */
 /* SITE FRAMEWORK */
+html,
+body {
+  overflow-y: auto !important;
+}
 body.dashboard {
   background: #f5f5f5;
   height: auto;
@@ -10,7 +14,12 @@ body.dashboard {
 body.dashboard .content {
   position: absolute;
   width: 100vw;
-  top: 120px;
+  top: 64px;
+}
+@media only screen and (min-width:961px) {
+  body.dashboard .content {
+    top: 120px;
+  }
 }
 body.dashboard .content .titlebar {
   background: #1f2532;
@@ -25,6 +34,7 @@ body.dashboard .content .pagecontent {
   margin: 2vh auto 0;
   max-width: 1200px;
   padding: 0 5vw;
+  padding-bottom: 5vh;
 }
 body.dashboard a {
   color: #2DC89A;
@@ -36,7 +46,7 @@ body.dashboard a:hover {
 body.dashboard md-list .md-subheader {
   font-size: 24px;
 }
-.clearfix:after {
+.clearfix-container:after {
   visibility: hidden;
   display: block;
   font-size: 0;
@@ -44,15 +54,39 @@ body.dashboard md-list .md-subheader {
   clear: both;
   height: 0;
 }
-body {
-  height: auto;
+.search-box-container .search-input {
+  height: 40px;
+  font-size: 22px;
+  color: #8D9AA5;
+  border: 1px solid #DFE3EB;
+  border-right: none;
+  width: 100%;
+  margin: 0px;
+  padding: 5px 10px 5px 15px;
+  outline: none;
+  border-radius: 3px;
+}
+.search-box-container .search-button {
+  border: none;
+  background-color: #454545;
+  color: #d1d1d1;
+  height: 52px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 14px;
+  padding-top: 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.search-box-container .search-button .fa {
+  font-size: 16px;
 }
 #topNav .md-toolbar-tools {
   font-size: 100%;
   width: 100%;
   top: 0;
-  min-height: 120px;
-  position: fixed;
   left: 0;
   transition: all .25s;
   overflow: hidden !important;
@@ -62,6 +96,90 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 20%;
+  position: relative;
+  min-height: auto;
+  height: auto;
+  max-height: inherit;
+}
+@media only screen and (min-width:961px) {
+  #topNav .md-toolbar-tools {
+    position: fixed !important;
+    min-height: 120px;
+    height: 120px;
+    max-height: 120px;
+  }
+}
+#topNav .md-toolbar-tools .mobile-menu-icon {
+  display: block;
+  padding: 0px 15px;
+  font-size: 30px;
+  cursor: pointer;
+  min-height: 64px;
+  height: 64px;
+  max-height: 64px;
+  line-height: 64px;
+  width: 100%;
+}
+#topNav .md-toolbar-tools .mobile-menu-icon img {
+  width: 70px;
+  float: right;
+  opacity: .25;
+  padding-top: 12px;
+}
+@media only screen and (min-width:961px) {
+  #topNav .md-toolbar-tools .mobile-menu-icon {
+    display: none;
+  }
+}
+#topNav .md-toolbar-tools .brand,
+#topNav .md-toolbar-tools .profile-menu,
+#topNav .md-toolbar-tools .submenus-items,
+#topNav .md-toolbar-tools .no-submenu-item {
+  display: none;
+}
+@media only screen and (min-width:961px) {
+  #topNav .md-toolbar-tools .brand,
+  #topNav .md-toolbar-tools .profile-menu,
+  #topNav .md-toolbar-tools .submenus-items,
+  #topNav .md-toolbar-tools .no-submenu-item {
+    display: inline-block;
+  }
+}
+#topNav .md-toolbar-tools .no-submenu-item {
+  color: #fff;
+  text-transform: none;
+  font-size: 16px;
+}
+#topNav .md-toolbar-tools .no-submenu-item.my-active-class {
+  color: #2DC89A;
+  background: transparent;
+}
+#topNav .md-toolbar-tools .submenus-items {
+  padding: 0px;
+}
+#topNav .md-toolbar-tools .submenus-items .md-menu {
+  font-size: 16px;
+}
+#topNav .md-toolbar-tools.mobile-menu .profile-menu,
+#topNav .md-toolbar-tools.mobile-menu .submenus-items,
+#topNav .md-toolbar-tools.mobile-menu .no-submenu-item {
+  display: block;
+}
+#topNav .md-toolbar-tools.mobile-menu .profile-menu {
+  margin: 10px 0px;
+  padding: 10px 0px;
+  margin-left: 6px;
+  border-top: 1px solid #95989a;
+}
+#topNav .md-toolbar-tools.mobile-menu .profile-menu .md-button {
+  text-align: left;
+}
+#topNav .md-toolbar-tools.mobile-menu .submenus-items {
+  padding: 0px 6px;
+}
+#topNav .md-toolbar-tools.mobile-menu .submenus-items .md-menu {
+  display: block;
+  font-size: 16px;
 }
 #topNav .md-toolbar-tools .my-active-class {
   color: #2DC89A;
@@ -100,7 +218,6 @@ body {
   z-index: 9999;
 }
 #topNav .md-toolbar-tools #profbutton {
-  padding-top: 25px;
   padding-right: 10vh;
   overflow: visible;
   z-index: inherit;
@@ -360,6 +477,16 @@ section.userList .userbox {
   background-position: center;
   float: ;
 }
+.dashboard .topten {
+  padding-left: 0px;
+  padding-top: 20px;
+}
+@media only screen and (min-width:961px) {
+  .dashboard .topten {
+    padding-top: 0px;
+    padding-left: 20px;
+  }
+}
 .dashboard .topten md-list {
   padding-top: 0;
   background: white;
@@ -377,85 +504,38 @@ section.userList .userbox {
   padding: 16px;
 }
 .dashboard .leads .leadgen {
-  background: white;
   color: #1f2532;
-  width: 48%;
-  height: 12vh;
-  float: left;
   text-align: center;
-  transition: all .3s ease;
+  transition: all .4s ease;
+  height: 120px;
+  background-color: #fff;
+  margin-bottom: 20px;
 }
-.dashboard .leads .leadgen:first-of-type {
-  margin-right: 4%;
-}
-@media (max-width: 480px) {
+@media only screen and (min-width:961px) {
   .dashboard .leads .leadgen {
-    width: 100%;
-    margin: 0 0 2vh !important ;
+    margin-top: 0px;
   }
 }
-.dashboard .leads .leadgen .overlay {
-  opacity: 0;
-  height: 12vh;
-  width: 100%;
-  text-align: center;
-  display: none;
-  background: rgba(0, 0, 0, 0.3);
-  line-height: 12vh;
-  position: fixed;
-}
-.dashboard .leads .leadgen:hover {
-  transition: all .3s ease;
-  cursor: pointer;
-  background: #8D9AA5;
-  color: white;
-}
-.dashboard .leads .leadgen:hover .overlay {
-  transition: all .3s ease;
-  display: inline-block;
-  opacity: 1;
-}
 .dashboard .leads .leadgen .icon {
-  background: #3299BB;
-  display: table;
-  position: relative;
-  float: left;
-  width: 30%;
-  color: white;
-  height: 12vh;
+  background-color: #3299BB;
+  color: #ffffff;
 }
 .dashboard .leads .leadgen .icon i {
   font-size: 60px;
-  vertical-align: middle;
-  display: table-cell;
-}
-@media (max-width: 1200px) {
-  .dashboard .leads .leadgen .icon i {
-    font-size: 40px;
-  }
-}
-.dashboard .leads .leadgen .data {
-  display: table;
-  height: 12vh;
-  width: 70%;
+  line-height: 120px;
 }
 .dashboard .leads .leadgen .data .centerhelp {
-  height: 12vh;
-  display: table-cell;
-  vertical-align: middle;
+  padding: 0px 10px;
 }
 .dashboard .leads .leadgen .data .number {
   font-size: 60px;
   line-height: 60px;
-  left: 65px;
   font-weight: bold;
-  position: inherit;
-  text-transform: initial;
 }
 .dashboard .leads .leadgen .data .label {
   display: block;
   margin-top: 5px;
-  font-weight: 300;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -667,7 +747,12 @@ section.userList .userbox {
   color: red;
 }
 .productEditor {
-  padding-top: 120px;
+  padding-top: 0px;
+}
+@media only screen and (min-width:961px) {
+  .productEditor {
+    padding-top: 120px;
+  }
 }
 .productEditor .stats {
   text-align: center;
@@ -1071,34 +1156,6 @@ section.userList .userbox {
 .productEditor .product-editor-list .list-container {
   padding: 40px 20px;
 }
-.productEditor .product-editor-list .list-container .search-input {
-  height: 40px;
-  font-size: 22px;
-  color: #8D9AA5;
-  border: 1px solid #DFE3EB;
-  border-right: none;
-  width: 100%;
-  margin: 0px;
-  padding: 5px 10px 5px 15px;
-  outline: none;
-  border-radius: 3px;
-}
-.productEditor .product-editor-list .list-container .search-button {
-  border: none;
-  background-color: #454545;
-  color: #d1d1d1;
-  height: 52px;
-  font-size: 18px;
-  text-align: center;
-  line-height: 52px;
-  cursor: pointer;
-  border-radius: 3px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
-.productEditor .product-editor-list .list-container .search-button .fa {
-  font-size: 16px;
-}
 .productEditor .product-editor-list .list-container .product-table-container {
   width: 100%;
   margin: 30px 0px;
@@ -1195,6 +1252,72 @@ md-menu-content.product-search-menu md-menu-item md-checkbox.md-checked.blue-che
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }
+body.merge {
+  background-color: #ffffff;
+}
+.product-editor-merge {
+  padding-top: 0px;
+}
+@media only screen and (min-width:961px) {
+  .product-editor-merge {
+    padding-top: 120px;
+  }
+}
+.product-editor-merge .grid-container {
+  padding: 40px 20px;
+}
+.product-editor-merge .grid-container .merge-btn-container {
+  text-align: right;
+}
+.product-editor-merge .grid-container .merge-btn-container .action-btn {
+  background-color: #549788;
+  padding: 15px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  color: #fff;
+}
+.product-editor-merge .grid-container .product-grid {
+  margin-top: 30px;
+}
+.product-editor-merge .grid-container .product-grid .product-flex {
+  padding: 10px;
+}
+.product-editor-merge .grid-container .product-grid .product-flex .product-box {
+  border: 1px solid #95989a;
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+}
+.product-editor-merge .grid-container .product-grid .product-flex .product-box .checkmark {
+  display: none;
+}
+.product-editor-merge .grid-container .product-grid .product-flex .product-box.checked .checkmark {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #fff;
+  display: block;
+  color: #3299BB;
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
+  border: 1px solid #d1d1d1;
+  text-align: center;
+  line-height: 35px;
+}
+.product-editor-merge .grid-container .product-grid .product-flex .product-box .product-img {
+  text-align: center;
+}
+.product-editor-merge .grid-container .product-grid .product-flex .product-box .product-text {
+  color: #95989a;
+  font-size: 16px;
+}
+.product-editor-merge .grid-container .product-grid .product-flex .product-box .product-text .title {
+  font-size: 24px;
+  font-weight: bold;
+}
 .drop-box {
   background: #F8F8F8;
   border: 5px dashed #DDD;
@@ -1261,11 +1384,16 @@ body .productEditor .loading-data .right {
   }
 }
 .store-client-view {
-  padding-top: 120px;
+  padding-top: 0px;
   text-align: center;
   margin: 40px auto;
   font-size: 16px;
   color: #5a5c5d;
+}
+@media only screen and (min-width:961px) {
+  .store-client-view {
+    padding-top: 120px;
+  }
 }
 .store-client-view .orders-header {
   text-align: left;
