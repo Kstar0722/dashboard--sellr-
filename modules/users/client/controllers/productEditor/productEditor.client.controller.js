@@ -71,49 +71,28 @@ angular.module('users').controller('productEditorController', function ($scope, 
         })
     };
 
-
-
-
-
-        //TODO: update with new side bar selection
     $scope.viewProduct = function (product) {
         console.log('hello')
         productEditorService.setCurrentProduct(product);
         $state.go('editor.products', { productId: product.productId, task: 'view' });
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
     };
-        //TODO: update with new side bar selection
-    //$scope.editProduct = function (product) {
-    //    productEditorService.setCurrentProduct(product);
-    //    productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
-    //    console.log('editProduct sees type as ', productEditorService.currentType.name)
-    //    $state.go('editor.products.detail', {
-    //        type: productEditorService.currentType.name,
-    //        status: 'inprogress',
-    //        productId: product.productId,
-    //        task: 'edit'
-    //    });
-    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-    //};
-        //TODO: update with new side bar
-    //$scope.quickEdit = function (product) {
-    //    var options = {
-    //        userId: $scope.userId,
-    //        productId: product.productId,
-    //        status: 'done'
-    //    };
-    //    productEditorService.claim(options);
-    //    productEditorService.setCurrentProduct(product);
-    //    productEditorService.currentStatus = { name: 'Done', value: 'done' };
-    //    $state.go('editor.products.detail', {
-    //        type: productEditorService.currentType.name,
-    //        status: 'done',
-    //        productId: product.productId,
-    //        task: 'edit'
-    //    });
-    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-    //
-    //}
+
+    $scope.quickEdit = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId,
+            status: 'inprogress'
+        };
+        productEditorService.claim(options);
+        productEditorService.setCurrentProduct(product);
+        $state.go('editor.products.detail', {
+            productId: product.productId,
+            task: 'edit'
+        });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+
+    }
 
 
     //NOTE: alot of what's below is from old function product editor but might be useful with new editor including ui grid
@@ -187,23 +166,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
         }
     });
 
-    $scope.buttonDisplay = function (button, product) {
-        var bool = false;
-        switch (button) {
-            case 'Edit':
-
-                break;
-            case 'Unassign':
-
-                break;
-            case 'Claim':
-
-                break;
-            case 'Quick Edit':
-     
-        }
-
-    }
 
 
 

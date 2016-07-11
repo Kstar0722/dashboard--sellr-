@@ -1,5 +1,5 @@
 
-angular.module("users").controller("productEditorMergeController", function ($scope,  productFields,Authentication, productGridData,productEditorService, uiGridConstants, $state,$location,$stateParams, $q, $http,constants, $timeout) {
+angular.module("users").controller("productEditorMergeController", function ($scope,productFields,Authentication, productGridData,productEditorService, uiGridConstants, $state,$location,$stateParams, $q, $http,constants, $timeout) {
     "use strict";
     Authentication.user = Authentication.user || { roles: '' };
     $scope.$state = $state;
@@ -11,6 +11,18 @@ angular.module("users").controller("productEditorMergeController", function ($sc
         editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
         curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
     };
+
+    $scope.names = ["new", "inprogress", "available"];
+    $scope.types = ["beer", "wine", "spirits"];
+    var url = '';
+    $scope.$watch('stuff', function(stuff) {
+        if (!stuff) {
+            return;
+        }
+        url += "status="+stuff;
+        console.log(url)
+        $state.transitionTo('.', {variable: url}, { location: true, inherit: false, relative: $state.$current, notify: false })
+    });
 
     $scope.loadingData = true;
     $scope.wd = productGridData;
