@@ -5,12 +5,13 @@
 
     <div layout class="search-box-container">
       <div flex=80>
-        <md-input-container>
+      <!--   <md-input-container>
           <label for="searchProduct">search text</label>
           <input id="searchProduct" type="text"  ng-model="searchText">
 
 
-        </md-input-container>
+        </md-input-container> -->
+          <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
       </div>
       <div flex class="search-button" ng-click="searchProducts(searchText)">
         Search
@@ -46,31 +47,29 @@
 
 
 
-    <div class="product-table-container" ng-show="products ">
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
-            </th>
-            <th><div class="th-title">{{products.length}} Products&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Skus&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Audio&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Image&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <!--<th><div class="th-title">Stock&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>-->
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="product in products|limitTo:searchLimit" ng-click="viewProduct(product)">
-            <td><md-checkbox ng-model="data" aria-label="Checkbox 1" class="blue-check" ></md-checkbox></td>
-            <td>{{product.name}}</td>
-            <td>{{product.sku_count}}</td>
-            <td><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></td>
-            <td><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></td>
-            <!--<td><i class="fa fa-times"></i></td>-->
-          </tr>
-        </tbody>
-      </table>
+    <div class="product-table-container" ng-show="products">
+
+      <div layout class="t-header" layout-align="start center">
+        <div flex>
+          <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
+        </div>
+        <div flex=45>{{products.length}} Products <i class="fa fa-sort-desc"></i></div>
+        <div flex=15>Skus <i class="fa fa-sort-desc"></i></div>
+        <div flex>Audio <i class="fa fa-sort-desc"></i></div>
+        <div flex>Image <i class="fa fa-sort-desc"></i></div>
+      </div>   
+
+      <div layout class="t-body" layout-align="start center" ng-repeat="product in products|limitTo:searchLimit" ng-click="viewProduct(product)">
+        <div flex>
+          <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
+        </div>
+        <div flex=45>{{product.name}}</div>
+        <div flex=15>{{product.sku_count}}</div>
+        <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
+        <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
+      </div>
+
+
     </div>
 
 

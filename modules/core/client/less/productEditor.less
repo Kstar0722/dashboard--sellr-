@@ -1,155 +1,155 @@
 .productEditor {
-   padding-top:  0px;
-  @media @large-up {
-    padding-top:  @navheight;
+ padding-top:  0px;
+ @media @large-up {
+  padding-top:  @navheight;
+}
+
+.stats {
+  text-align: center;
+  background: @brand-dark;
+  width: 100vw;
+  z-index: 50;
+  min-height: @subnavheight;
+  color: white;
+  position: fixed;
+  top: @navheight;
+  -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+  -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+  box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+  #searchStore {
+    margin-top: 10%;
+    width: 160px;
+  }
+  .status {
+    &:hover {
+      cursor: pointer;
+      background: rgba(137, 137, 137, 0.89);
+      transition: all .5s ease;
+    }
+    &:focus {
+      outline: 0;
+    }
+
+    &.active {
+      background: white;
+      color: @sellrgreen;
+    }
+  }
+  .btn-group {
+    top: 33px;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 0px;
+  }
+  span {
+    font-size: 14px;
+    padding-bottom: 25px;
+    font-weight: bold;
+    display: block;
+  }
+  a:hover {
+    text-decoration: none;
+
+  }
+  .grey a {
+    color: #888;
+  }
+  .orange a {
+    color: #E67E22;
+  }
+  &:nth-child(1) a {
+    color: #fff;
+  }
+  &:nth-child(3) a {
+    color: #3CD669;
   }
 
-  .stats {
-    text-align: center;
-    background: @brand-dark;
-    width: 100vw;
-    z-index: 50;
-    min-height: @subnavheight;
-    color: white;
+  md-progress-circular {
+    margin:0 auto;
+  }
+
+  .progressCirculardemoBasicUsage .visible {
+    border-color: @sellrgreen }
+
+  }
+
+
+
+  .reference {
+    max-width: 33%;
+
+  }
+
+  .sidebar-entry {
+    margin-bottom: 30px;
+  }
+  .sidebar-entry a {
+    color: #333;
+
+  }
+
+  #sidebar-heading {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  #last-edited {
+    font-size: 12px;
+  }
+
+  label {
+    opacity: .7;
+  }
+
+  #note {
     position: fixed;
-    top: @navheight;
-    -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-    -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-    box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-    #searchStore {
-      margin-top: 10%;
-      width: 160px;
-    }
-    .status {
-      &:hover {
-        cursor: pointer;
-        background: rgba(137, 137, 137, 0.89);
-        transition: all .5s ease;
-      }
-      &:focus {
-        outline: 0;
-      }
+    z-index: 101;
+    top: 0px;
+    color: white;
+    right: 0px;
+    left: 0px;
+    height: 55px;
+    font-size: 19px;
+    opacity: 0.85;
+    width: 100vw;
+    background: #00AB51;
+    text-align: center;
+    line-height: 2.7;
+    overflow: hidden;
+    display: none;
+    transition: display .3s;
+    animation: note 0.5s 1;
+    -webkit-animation: note 0.5s 1;
+    animation-fill-mode: forwards;
 
-      &.active {
-        background: white;
-        color: @sellrgreen;
-      }
-    }
-    .btn-group {
-      top: 33px;
-    }
-    h1 {
-      font-size: 40px;
-      font-weight: 700;
-      margin-bottom: 0px;
-    }
-    span {
-      font-size: 14px;
-      padding-bottom: 25px;
-      font-weight: bold;
-      display: block;
-    }
-    a:hover {
-      text-decoration: none;
+    animation-delay: 4s;
+    -webkit-animation-delay: 4s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+  }
 
+  @keyframes note {
+    from {
+      opacity: .85;
     }
-    .grey a {
-      color: #888;
+    to {
+      opacity: 0;
     }
-    .orange a {
-      color: #E67E22;
+  }
+
+  @-webkit-keyframes note {
+    from {
+      opacity: .85;
     }
-    &:nth-child(1) a {
-      color: #fff;
+    to {
+      opacity: 0;
     }
-    &:nth-child(3) a {
-      color: #3CD669;
-    }
+  }
 
-    md-progress-circular {
-      margin:0 auto;
-    }
-
-    .progressCirculardemoBasicUsage .visible {
-      border-color: @sellrgreen }
-
-    }
-
-
-
-    .reference {
-      max-width: 33%;
-
-    }
-
-    .sidebar-entry {
-      margin-bottom: 30px;
-    }
-    .sidebar-entry a {
-      color: #333;
-
-    }
-
-    #sidebar-heading {
-      margin-top: 0;
-      margin-bottom: 0;
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    #last-edited {
-      font-size: 12px;
-    }
-
-    label {
-      opacity: .7;
-    }
-
-    #note {
-      position: fixed;
-      z-index: 101;
-      top: 0px;
-      color: white;
-      right: 0px;
-      left: 0px;
-      height: 55px;
-      font-size: 19px;
-      opacity: 0.85;
-      width: 100vw;
-      background: #00AB51;
-      text-align: center;
-      line-height: 2.7;
-      overflow: hidden;
-      display: none;
-      transition: display .3s;
-      animation: note 0.5s 1;
-      -webkit-animation: note 0.5s 1;
-      animation-fill-mode: forwards;
-
-      animation-delay: 4s;
-      -webkit-animation-delay: 4s; /* Safari and Chrome */
-      -webkit-animation-fill-mode: forwards;
-    }
-
-    @keyframes note {
-      from {
-        opacity: .85;
-      }
-      to {
-        opacity: 0;
-      }
-    }
-
-    @-webkit-keyframes note {
-      from {
-        opacity: .85;
-      }
-      to {
-        opacity: 0;
-      }
-    }
-
-    .loading-anim {
+  .loading-anim {
     //margin-left: 40%;
     //width: 100%;
     @-webkit-keyframes uil-ripple {
@@ -430,81 +430,51 @@
       padding: 40px 20px;
 
       .product-table-container{
-        width: 100%;
         margin: 30px 0px;
-        table{
-          border-collapse: collapse;
-          thead{
-            border-bottom: 1px solid  @grey-dark-text;
-            th{
-              color: @grey-dark-text;
-              font-size: 16px;
-              vertical-align: middle;
-              text-align: center;
-              padding: 5px 3px;
-              width: 10%;
-              &:nth-child(2){
-                width: 45%;
-                text-align: left;
+        .t-body,
+        .t-header{
+          border-bottom: 1px solid  @grey-dark-text;
+          margin-bottom: 20px;
+          padding-bottom: 15px;
+          color: @grey-dark-text;
+          font-size: 16px;
+          text-align: center;
+          div{
+            padding: 0px 3px;
+            line-height: 10px;
+            &:nth-child(2){
+              text-align: left;
+            }                     
+            md-checkbox{
+              margin: 0 auto;
+              &.md-checked.blue-check .md-icon {
+                background-color: @blue;
               }
-              &:nth-child(3){
-                width: 15%;
-              }
-              md-checkbox{
-                margin: 0 auto;
-                &.md-checked.blue-check .md-icon {
-                  background-color: @blue;
-                }
-              }
-              .th-title{
-                // float: left;
-                // margin-right: 6px;
-                display: inline-block;
-              }
-              .fa-sort-asc,
-              .fa-sort-desc{
-                // float: left;
-                line-height: 12px;
-                cursor: pointer;
-              }
+            }
+            .fa-sort-asc,
+            .fa-sort-desc{
+              line-height: 10px;
+              cursor: pointer;
             }
           }
-          tbody{
-            tr:first-child{
-              td{
-                padding-top: 25px;
 
-              }
+        }
+
+
+        .t-body{
+          margin-bottom: 0px;
+          border-bottom: none;
+          font-weight: bold;
+          color: @black-text;
+          div{
+            &:nth-child(3){
+              color: @grey-dark-text;
+            } 
+            .fa-check{
+              color: @green;
             }
-
-            td{
-              font-size: 16px;
-              vertical-align: middle;
-              text-align: center;
-              padding: 12px 3px;
-              width: 10%;
-              color: @black-text;
-              font-weight: bold;
-              &:nth-child(2){
-                width: 45%;
-                text-align: left;
-              }
-              &:nth-child(3){
-                width: 15%;
-                color: @grey-dark-text;
-              }
-              md-checkbox{
-                margin: 0 auto;
-                &.md-checked.blue-check .md-icon {
-                  background-color: @blue;
-                }
-              }
-              .fa-check{
-                color: @green;
-              }
-              .fa-times{
-                color: @red;
-              }
+            .fa-times{
+              color: @red;
             }
           }
         }
