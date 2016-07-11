@@ -17,7 +17,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
         curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
     };
-
+   
     $scope.mediumEditorOptions = {
         imageDragging: false,
         extensions: {
@@ -186,6 +186,14 @@ angular.module('users').controller('productEditorController', function ($scope, 
             }
         }
     });
+
+    $scope.productsSelection = {} 
+    $scope.productsSelection.contains = false
+    $scope.people = [
+    {name: 'Diego Fortes', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: true},
+    {name: 'Tom Cruise', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false},
+    {name: 'C3PO Robo', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false}
+    ]
 
     $scope.buttonDisplay = function (button, product) {
         var bool = false;

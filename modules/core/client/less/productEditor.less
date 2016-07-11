@@ -406,8 +406,8 @@
       overflow: hidden;
       left: 0px;
       width: 40%;
+      height: auto;
       background-color: @back-black;
-      height: 50px;
       color: #fff;
       border: 1px solid @grey-dark-text;
       &.active{
@@ -415,14 +415,32 @@
       } 
       .action-btn{
         background-color: @back-green;
-        float: right;
-        margin-right: 20px;
-        padding: 10px;
+        &:hover{
+          background-color: darken(@back-green, 10%);
+        }
+        padding: 5px 7px;
+        display: inline-block;
         font-size: 12px;
         font-weight: bold;
         cursor: pointer;
         border-radius: 3px;
-        margin-top: 7px;
+        margin: 10px 0px 10px 5px;
+        &.right{
+          float: right;
+          margin: 10px 5px 10px 0px;
+          &.approve{
+            background-color: @green; 
+            &:hover{
+              background-color: darken(@green, 10%);
+            }
+          }
+          &.reject{
+            background-color: @red; 
+            &:hover{
+              background-color: darken(@red, 10%);
+            }
+          }
+        }
       }
     }
     
@@ -498,6 +516,14 @@
   }
 }
 
+md-menu-content.user-assign-menu{
+      position: fixed;
+    bottom: 0px;
+  md-list-item:hover{
+    background-color: rgba(158,158,158,0.2);
+    cursor: pointer;
+  }
+}
 md-menu-content.product-search-menu{
   padding: 0px 20px;
   md-menu-item{
