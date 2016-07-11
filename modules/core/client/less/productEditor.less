@@ -1,155 +1,151 @@
-.productEditor {
- padding-top:  0px;
- @media @large-up {
-  padding-top:  @navheight;
-}
+.productEditor { 
 
-.stats {
-  text-align: center;
-  background: @brand-dark;
-  width: 100vw;
-  z-index: 50;
-  min-height: @subnavheight;
-  color: white;
-  position: fixed;
-  top: @navheight;
-  -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-  -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-  box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-  #searchStore {
-    margin-top: 10%;
-    width: 160px;
-  }
-  .status {
-    &:hover {
-      cursor: pointer;
-      background: rgba(137, 137, 137, 0.89);
-      transition: all .5s ease;
-    }
-    &:focus {
-      outline: 0;
-    }
-
-    &.active {
-      background: white;
-      color: @sellrgreen;
-    }
-  }
-  .btn-group {
-    top: 33px;
-  }
-  h1 {
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 0px;
-  }
-  span {
-    font-size: 14px;
-    padding-bottom: 25px;
-    font-weight: bold;
-    display: block;
-  }
-  a:hover {
-    text-decoration: none;
-
-  }
-  .grey a {
-    color: #888;
-  }
-  .orange a {
-    color: #E67E22;
-  }
-  &:nth-child(1) a {
-    color: #fff;
-  }
-  &:nth-child(3) a {
-    color: #3CD669;
-  }
-
-  md-progress-circular {
-    margin:0 auto;
-  }
-
-  .progressCirculardemoBasicUsage .visible {
-    border-color: @sellrgreen }
-
-  }
-
-
-
-  .reference {
-    max-width: 33%;
-
-  }
-
-  .sidebar-entry {
-    margin-bottom: 30px;
-  }
-  .sidebar-entry a {
-    color: #333;
-
-  }
-
-  #sidebar-heading {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 22px;
-    font-weight: 900;
-  }
-
-  #last-edited {
-    font-size: 12px;
-  }
-
-  label {
-    opacity: .7;
-  }
-
-  #note {
-    position: fixed;
-    z-index: 101;
-    top: 0px;
-    color: white;
-    right: 0px;
-    left: 0px;
-    height: 55px;
-    font-size: 19px;
-    opacity: 0.85;
-    width: 100vw;
-    background: #00AB51;
+  .stats {
     text-align: center;
-    line-height: 2.7;
-    overflow: hidden;
-    display: none;
-    transition: display .3s;
-    animation: note 0.5s 1;
-    -webkit-animation: note 0.5s 1;
-    animation-fill-mode: forwards;
-
-    animation-delay: 4s;
-    -webkit-animation-delay: 4s; /* Safari and Chrome */
-    -webkit-animation-fill-mode: forwards;
-  }
-
-  @keyframes note {
-    from {
-      opacity: .85;
+    background: @brand-dark;
+    width: 100vw;
+    z-index: 50;
+    min-height: @subnavheight;
+    color: white;
+    position: fixed;
+    top: @navheight;
+    -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+    -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+    box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
+    #searchStore {
+      margin-top: 10%;
+      width: 160px;
     }
-    to {
-      opacity: 0;
-    }
-  }
+    .status {
+      &:hover {
+        cursor: pointer;
+        background: rgba(137, 137, 137, 0.89);
+        transition: all .5s ease;
+      }
+      &:focus {
+        outline: 0;
+      }
 
-  @-webkit-keyframes note {
-    from {
-      opacity: .85;
+      &.active {
+        background: white;
+        color: @sellrgreen;
+      }
     }
-    to {
-      opacity: 0;
+    .btn-group {
+      top: 33px;
     }
-  }
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 0px;
+    }
+    span {
+      font-size: 14px;
+      padding-bottom: 25px;
+      font-weight: bold;
+      display: block;
+    }
+    a:hover {
+      text-decoration: none;
 
-  .loading-anim {
+    }
+    .grey a {
+      color: #888;
+    }
+    .orange a {
+      color: #E67E22;
+    }
+    &:nth-child(1) a {
+      color: #fff;
+    }
+    &:nth-child(3) a {
+      color: #3CD669;
+    }
+
+    md-progress-circular {
+      margin:0 auto;
+    }
+
+    .progressCirculardemoBasicUsage .visible {
+      border-color: @sellrgreen }
+
+    }
+
+
+
+    .reference {
+      max-width: 33%;
+
+    }
+
+    .sidebar-entry {
+      margin-bottom: 30px;
+    }
+    .sidebar-entry a {
+      color: #333;
+
+    }
+
+    #sidebar-heading {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    #last-edited {
+      font-size: 12px;
+    }
+
+    label {
+      opacity: .7;
+    }
+
+    #note {
+      position: fixed;
+      z-index: 101;
+      top: 0px;
+      color: white;
+      right: 0px;
+      left: 0px;
+      height: 55px;
+      font-size: 19px;
+      opacity: 0.85;
+      width: 100vw;
+      background: #00AB51;
+      text-align: center;
+      line-height: 2.7;
+      overflow: hidden;
+      display: none;
+      transition: display .3s;
+      animation: note 0.5s 1;
+      -webkit-animation: note 0.5s 1;
+      animation-fill-mode: forwards;
+
+      animation-delay: 4s;
+      -webkit-animation-delay: 4s; /* Safari and Chrome */
+      -webkit-animation-fill-mode: forwards;
+    }
+
+    @keyframes note {
+      from {
+        opacity: .85;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @-webkit-keyframes note {
+      from {
+        opacity: .85;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    .loading-anim {
     //margin-left: 40%;
     //width: 100%;
     @-webkit-keyframes uil-ripple {
@@ -397,109 +393,7 @@
     color: @white;
   }
 
-  .product-editor-list{
-    position: relative;
-    .bottom-action-menu{
-      position: fixed;
-      bottom: -100px;
-      transition: all 0.5s ease;
-      overflow: hidden;
-      left: 0px;
-      width: 40%;
-      height: auto;
-      background-color: @back-black;
-      color: #fff;
-      border: 1px solid @grey-dark-text;
-      &.active{
-        bottom: 0px;
-      } 
-      .action-btn{
-        background-color: @back-green;
-        &:hover{
-          background-color: darken(@back-green, 10%);
-        }
-        padding: 5px 7px;
-        display: inline-block;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 3px;
-        margin: 10px 0px 10px 5px;
-        &.right{
-          float: right;
-          margin: 10px 5px 10px 0px;
-          &.approve{
-            background-color: @green; 
-            &:hover{
-              background-color: darken(@green, 10%);
-            }
-          }
-          &.reject{
-            background-color: @red; 
-            &:hover{
-              background-color: darken(@red, 10%);
-            }
-          }
-        }
-      }
-    }
-    
-    .list-container{
-      padding: 40px 20px;
-
-      .product-table-container{
-        margin: 30px 0px;
-        .t-body,
-        .t-header{
-          border-bottom: 1px solid  @grey-dark-text;
-          margin-bottom: 20px;
-          padding-bottom: 15px;
-          color: @grey-dark-text;
-          font-size: 16px;
-          text-align: center;
-          div{
-            padding: 0px 3px;
-            line-height: 10px;
-            &:nth-child(2){
-              text-align: left;
-            }                     
-            md-checkbox{
-              margin: 0 auto;
-              &.md-checked.blue-check .md-icon {
-                background-color: @blue;
-              }
-            }
-            .fa-sort-asc,
-            .fa-sort-desc{
-              line-height: 10px;
-              cursor: pointer;
-            }
-          }
-
-        }
-
-
-        .t-body{
-          margin-bottom: 0px;
-          border-bottom: none;
-          font-weight: bold;
-          color: @black-text;
-          div{
-            &:nth-child(3){
-              color: @grey-dark-text;
-            } 
-            .fa-check{
-              color: @green;
-            }
-            .fa-times{
-              color: @red;
-            }
-          }
-        }
-      }
-
-    }
-  }
+  
 
   .product-editor-product{
     padding: 40px 20px;
@@ -516,26 +410,7 @@
   }
 }
 
-md-menu-content.user-assign-menu{
-      position: fixed;
-    bottom: 0px;
-  md-list-item:hover{
-    background-color: rgba(158,158,158,0.2);
-    cursor: pointer;
-  }
-}
-md-menu-content.product-search-menu{
-  padding: 0px 20px;
-  md-menu-item{
-    font-size: 16px;
-    color: @black-text;
-    md-checkbox{
-      &.md-checked.blue-check .md-icon {
-        background-color: @blue;
-      }
-    }
-  }
-}
+
 
 body.editor-products-detail {
   .medium-editor-toolbar {
