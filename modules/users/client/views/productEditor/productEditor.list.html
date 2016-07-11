@@ -5,10 +5,16 @@
 
     <div layout class="search-box-container">
       <div flex=80>
-        <input type="text" class="search-input">
+      <!--   <md-input-container>
+          <label for="searchProduct">search text</label>
+          <input id="searchProduct" type="text"  ng-model="searchText">
+
+
+        </md-input-container> -->
+          <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
       </div>
-      <div flex class="search-button">
-        Search 
+      <div flex class="search-button" ng-click="searchProducts(searchText)">
+        Search
         <md-menu md-offset="0 35">
           <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
           <md-menu-content class="product-search-menu">
@@ -41,159 +47,29 @@
 
 
 
-    <div class="product-table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
-            </th>
-            <th><div class="th-title">18 Products&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Skus&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Script&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Price&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-            <th><div class="th-title">Stock&nbsp;&nbsp;</div><i class="fa fa-sort-desc"></i></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Tennesse</td>
-            <td>6</td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Fire</td>
-            <td>10</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-          <tr>
-            <td><md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox></td>
-            <td>Jack Daniels Honey</td>
-            <td>2</td>
-            <td><i class="fa fa-times"></i></td>
-            <td><i class="fa fa-check"></i></td>
-            <td><i class="fa fa-times"></i></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="product-table-container" ng-show="products">
+
+      <div layout class="t-header" layout-align="start center">
+        <div flex>
+          <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
+        </div>
+        <div flex=45>{{products.length}} Products <i class="fa fa-sort-desc"></i></div>
+        <div flex=15>Skus <i class="fa fa-sort-desc"></i></div>
+        <div flex>Audio <i class="fa fa-sort-desc"></i></div>
+        <div flex>Image <i class="fa fa-sort-desc"></i></div>
+      </div>   
+
+      <div layout class="t-body" layout-align="start center" ng-repeat="product in products|limitTo:searchLimit" ng-click="viewProduct(product)">
+        <div flex>
+          <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="blue-check"></md-checkbox>
+        </div>
+        <div flex=45>{{product.name}}</div>
+        <div flex=15>{{product.sku_count}}</div>
+        <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
+        <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
+      </div>
+
+
     </div>
 
 

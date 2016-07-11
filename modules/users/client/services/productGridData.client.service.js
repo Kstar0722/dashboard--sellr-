@@ -26,10 +26,10 @@ angular.module('users').factory('productGridData', function ($http, $location, c
         return defer.promise;
     }
 
-    function searchProducts(searchText, type) {
+    function searchProducts(searchText) {
         var defer = $q.defer();
-        console.log(type)
-        $http.get(API_URL + '/edit/search?q=' + searchText + '&type='+type.productTypeId +'&v=sum')
+
+        $http.get(API_URL + '/edit/search?q=' + searchText + '&v=sum')
             .then(function (response) {
                 var searchedProducts = response.data;
                 console.dir(response)

@@ -44,6 +44,7 @@ module.exports = {
                 'public/lib/angular-aria/angular-aria.js',
                 'public/lib/angular-material/angular-material.js',
                 'public/lib/angular-environment/dist/angular-environment.js',
+				'public/lib/angular-location-update/angular-location-update.js',
                 'public/lib/Chart.js/Chart.js',
                 'public/lib/angular-chart.js/dist/angular-chart.js',
                 'public/lib/moment/moment.js',
