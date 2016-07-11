@@ -52,22 +52,26 @@ angular.module('users.admin.routes').config(['$stateProvider',
                 }
             })
             .state('admin.pricing', {
-                url: '/admin/pricing',
+                url: '/pricing',
                 templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
                 controller: 'AdminPricingController'
 
             })
             .state('admin.device', {
-                url: '/admin/device',
+                url: '/device',
                 templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
                 controller: 'DeviceManagerController'
 
             })
             .state('admin.store', {
-                url: '/admin/store',
+                url: '/store',
                 templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
                 controller: 'StoreDbController'
-
+            })
+            .state('admin.match', {
+                url: '/match',
+                templateUrl: 'modules/users/client/views/admin/storeDB-matching.client.view.html',
+                controller: 'StoreDbController'
             })
     }
 ]);
