@@ -1,3 +1,10 @@
+.main-content{
+  padding-top:  0px;
+  @media @large-up {
+    padding-top:  @navheight;
+  }
+}
+
 .clearfix-container:after {
   visibility: hidden;
   display: block;
@@ -7,35 +14,17 @@
   height: 0;
 }
 
-.search-box-container{
-  .search-input{
-    height: 40px;
-    font-size: 22px;
-    color: @med-grey;
-    border: 1px solid @light-grey; 
-    border-right: none;
-    width: 100%;
-    margin: 0px;
-    padding: 5px 10px 5px 15px;
-    outline: none;
-    border-radius: 3px;
-    box-sizing: content-box;
+div.custom-btn{
+  color: #fff;
+  background-color: @green;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  &:hover{
+    background-color: darken(@green, 10%);
   }
-  .search-button{
-    border: none; 
-    background-color: @back-grey;
-    color: @grey-text;
-    height: 52px;
-    font-size: 18px;
-    text-align: center;
-    line-height: 14px;
-    padding-top: 20px;
-    cursor: pointer;
-    border-radius: 3px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    .fa{
-      font-size: 16px;
-    }
-  }
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2),0 5px 8px 0 rgba(0,0,0,.14),0 1px 14px 0 rgba(0,0,0,.12);
 }

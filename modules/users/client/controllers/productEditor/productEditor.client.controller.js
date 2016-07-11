@@ -71,6 +71,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
         })
     };
 
+
+
+
+
+        //TODO: update with new side bar selection
     $scope.viewProduct = function (product) {
         console.log('hello')
         productEditorService.setCurrentProduct(product);
@@ -165,7 +170,31 @@ angular.module('users').controller('productEditorController', function ($scope, 
             }
         }
     });
+    $scope.productsSelection = {}
+    $scope.productsSelection.contains = false
+    $scope.people = [
+        {name: 'Diego Fortes', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: true},
+        {name: 'Tom Cruise', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false},
+        {name: 'C3PO Robo', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false}
+    ]
 
+    $scope.buttonDisplay = function (button, product) {
+        var bool = false;
+        switch (button) {
+            case 'Edit':
+
+                break;
+            case 'Unassign':
+
+                break;
+            case 'Claim':
+
+                break;
+            case 'Quick Edit':
+     
+        }
+
+    }
 
 
 
