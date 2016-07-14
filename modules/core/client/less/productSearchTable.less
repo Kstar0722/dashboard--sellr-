@@ -79,21 +79,29 @@
   }
 
   .list-container{
-    padding: 40px 20px;
+    padding: 40px 20px;    
 
     .product-table-container{
+      text-align: center;
       margin: 30px 0px;
+      .btn-more{        
+        color: @black-text;
+        text-transform: none;
+        font-size: 14px;
+        font-weight: bold;
+
+      }
       .t-body,
       .t-header{
         border-bottom: 1px solid  @grey-dark-text;
         margin-bottom: 20px;
-        padding-bottom: 5px;
+        padding-bottom: 10px;
         color: @grey-dark-text;
         font-size: 16px;
         text-align: center;
         div{
           padding: 0px 3px;
-            line-height: 24px;
+          line-height: 20px;
           &:nth-child(2){
             text-align: left;
           }                     
@@ -110,9 +118,15 @@
         }
 
       }
+      .t-header{
+        div{
+          cursor: pointer;
+        }
+      }
 
 
       .t-body{
+        outline: none;
         margin-bottom: 0px;
         padding-bottom: 15px;
         border-bottom: none;
@@ -127,6 +141,9 @@
           }
           .fa-times{
             color: @red;
+          }
+          &.product-name{
+            cursor: pointer;
           }
         }
       }

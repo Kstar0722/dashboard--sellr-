@@ -1,4 +1,4 @@
-/* globals angular, window */
+/* globals angular, window, $ */
 
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productGridData, productEditorService, uiGridConstants, $location, $state, $stateParams, Countries, $mdMenu, constants, MediumS3ImageUploader, $filter) {
   Authentication.user = Authentication.user || { roles: '' }
@@ -53,10 +53,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.listOptions = {}
   $scope.listOptions.searchLimit = 15
-  $scope.listOptions.orderName = '+name'
-  $scope.listOptions.orderSku = '+sku_count'
-  $scope.listOptions.orderAudio = '+audio'
-  $scope.listOptions.orderImage = '+image'
+  $scope.listOptions.orderBy = '+name'
 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
@@ -66,16 +63,16 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.reOrderList = function (field) {
     switch (field) {
       case 'name':
-        $scope.listOptions.orderName = $scope.listOptions.orderName.substr(0, 1) === '+' ? '-name' : '+name'
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+n' ? '-name' : '+name'
         break
       case 'sku':
-        $scope.listOptions.orderSku = $scope.listOptions.orderSku.substr(0, 1) === '+' ? '-sku_count' : '+sku_count'
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-sku_count' : '+sku_count'
         break
       case 'audio':
-        $scope.listOptions.orderAudio = $scope.listOptions.orderAudio.substr(0, 1) === '+' ? '-audio' : '+audio'
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+a' ? '-audio' : '+audio'
         break
       case 'image':
-        $scope.listOptions.orderImage = $scope.listOptions.orderImage.substr(0, 1) === '+' ? '-image' : '+image'
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+i' ? '-image' : '+image'
         break
       default:
         break
@@ -84,10 +81,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.searchProducts = function (searchText) {
+    $scope.products = false
     $scope.loadingData = true
     $scope.gridOptions.data = []
-    var fields = []
-    var columnNames = []
+    $scope.listOptions.searchLimit = 15
+    // var fields = []
+    // var columnNames = []
 
     productGridData.searchProducts(searchText).then(function (data) {
       $scope.loadingData = false
@@ -97,7 +96,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   var refreshList = function () {
-    $scope.allProducts = $filter('orderBy')($scope.allProducts, [$scope.listOptions.orderName, $scope.listOptions.orderSku, $scope.listOptions.orderAudio, $scope.listOptions.orderImage])
+    $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
     $scope.products = $filter('limitTo')($scope.allProducts, $scope.listOptions.searchLimit)
   }
 
@@ -159,7 +158,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.updateProduct = function (product) {
-    if (product.status != 'done') {
+    if (product.status !== 'done') {
       product.status = 'inprogress'
     }
     productEditorService.save(product)
@@ -218,7 +217,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   ]
 
   $scope.buttonDisplay = function (button, product) {
-    var bool = false
+    // var flag = false
     switch (button) {
       case 'Edit':
 
