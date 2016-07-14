@@ -60,7 +60,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                         }
                     };
                 }
-
+                
 
                 $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
                     if (err) {
@@ -87,7 +87,6 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                 fileKey: JSON.stringify(response.data.assetId)
                             }
                         };
-                        console.dir(creds, params)
                         bucketUpload(creds, params).then(function (err, res) {
                             self.determinateValue = 0;
                             var updateMedia = {
