@@ -53,13 +53,13 @@
         <div flex>
           <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox all" class="blue-check"></md-checkbox>
         </div>
-        <div flex=45>{{products.length}} Products <i class="fa fa-sort-desc"></i></div>
-        <div flex=15>Skus <i class="fa fa-sort-desc"></i></div>
-        <div flex>Audio <i class="fa fa-sort-desc"></i></div>
-        <div flex>Image <i class="fa fa-sort-desc"></i></div>
+        <div ng-click="reOrderList('name')" flex=45>{{products.length}} Products <i ng-class="listOptions.orderName.substr(0,1) === '+' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i></div>
+        <div ng-click="reOrderList('sku')" flex=15>Skus <i ng-class="listOptions.orderSku.substr(0,1) === '+' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i></div>
+        <div ng-click="reOrderList('audio')" flex>Audio <i ng-class="listOptions.orderAudio.substr(0,1) === '+' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i></div>
+        <div ng-click="reOrderList('image')" flex>Image <i ng-class="listOptions.orderImage.substr(0,1) === '+' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i></div>
       </div>   
 
-      <div layout class="t-body" layout-align="start center" ng-repeat="product in products|limitTo:searchLimit" ng-click="viewProduct(product)">
+      <div layout class="t-body" layout-align="start center" ng-repeat="product in products" ng-click="viewProduct(product)">
         <div flex>
           <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox" class="blue-check"></md-checkbox>
         </div>

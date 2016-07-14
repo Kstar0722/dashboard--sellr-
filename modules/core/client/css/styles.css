@@ -1268,7 +1268,7 @@ body.merge {
 .product-search-table-container .list-container .product-table-container .t-header {
   border-bottom: 1px solid #95989a;
   margin-bottom: 20px;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   color: #95989a;
   font-size: 16px;
   text-align: center;
@@ -1276,7 +1276,7 @@ body.merge {
 .product-search-table-container .list-container .product-table-container .t-body div,
 .product-search-table-container .list-container .product-table-container .t-header div {
   padding: 0px 3px;
-  line-height: 10px;
+  line-height: 24px;
 }
 .product-search-table-container .list-container .product-table-container .t-body div:nth-child(2),
 .product-search-table-container .list-container .product-table-container .t-header div:nth-child(2) {
@@ -1294,11 +1294,11 @@ body.merge {
 .product-search-table-container .list-container .product-table-container .t-header div .fa-sort-asc,
 .product-search-table-container .list-container .product-table-container .t-body div .fa-sort-desc,
 .product-search-table-container .list-container .product-table-container .t-header div .fa-sort-desc {
-  line-height: 10px;
   cursor: pointer;
 }
 .product-search-table-container .list-container .product-table-container .t-body {
   margin-bottom: 0px;
+  padding-bottom: 15px;
   border-bottom: none;
   font-weight: bold;
   color: #5a5c5d;
