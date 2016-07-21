@@ -16,7 +16,11 @@
 
 
         </md-input-container> -->
-        <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
+
+        <div flex=80 type="submit" >
+          <form ng-submit="searchProducts(searchText)">
+            <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
+          </form>
       </div>
       <div flex class="search-button" ng-click="searchProducts(searchText)">
         Search

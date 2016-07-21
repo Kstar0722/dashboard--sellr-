@@ -27,6 +27,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
 
     $scope.search = {};
+    $scope.checkbox ={};
+    $scope.checkbox.progress = {};
+    $scope.filter = [];
     $scope.searchLimit = 15;
     $scope.gridOptions = {
         //enableSelectAll: true,
@@ -86,8 +89,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.gridOptions.data = [];
         var fields = [];
         var columnNames = [];
-
-        productGridData.searchProducts(searchText).then(function (data) {
+        console.log($scope.checkbox.progress)
+        productGridData.searchProducts(searchText, {'status':$scope.checkbox.progress, 'types':$scope.filter}).then(function (data) {
             $scope.loadingData = false;
             $scope.products = data;
 
@@ -107,38 +110,38 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $state.go('editor.products', { productId: product.productId, task: 'view' });
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
     };
-        //TODO: update with new side bar selection
-    //$scope.editProduct = function (product) {
-    //    productEditorService.setCurrentProduct(product);
-    //    productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
-    //    console.log('editProduct sees type as ', productEditorService.currentType.name)
-    //    $state.go('editor.products.detail', {
-    //        type: productEditorService.currentType.name,
-    //        status: 'inprogress',
-    //        productId: product.productId,
-    //        task: 'edit'
-    //    });
-    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-    //};
-        //TODO: update with new side bar
-    //$scope.quickEdit = function (product) {
-    //    var options = {
-    //        userId: $scope.userId,
-    //        productId: product.productId,
-    //        status: 'done'
-    //    };
-    //    productEditorService.claim(options);
-    //    productEditorService.setCurrentProduct(product);
-    //    productEditorService.currentStatus = { name: 'Done', value: 'done' };
-    //    $state.go('editor.products.detail', {
-    //        type: productEditorService.currentType.name,
-    //        status: 'done',
-    //        productId: product.productId,
-    //        task: 'edit'
-    //    });
-    //    $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-    //
-    //}
+
+    $scope.quickEdit = function (product) {
+        var options = {
+            userId: $scope.userId,
+            productId: product.productId,
+            status: 'inprogress'
+        };
+        productEditorService.claim(options);
+        productEditorService.setCurrentProduct(product);
+        $state.go('editor.products.detail', {
+            productId: product.productId,
+            task: 'edit'
+        });
+        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+
+    }
+
+    $scope.updateFilter = function(value) {
+
+        $scope.checked = false;
+           for(var i in $scope.filter){
+                if($scope.filter[i].type == value.type) {
+                    $scope.filter.splice(i, 1)
+                    $scope.checked = true;
+                }
+            }
+        if(!$scope.checked){
+            $scope.filter.push(value)
+        }
+        console.log($scope.filter)
+    }
+
 
   // NOTE: alot of what's below is from old function product editor but might be useful with new editor including ui grid
   $scope.sendBack = function (product, feedback) {
