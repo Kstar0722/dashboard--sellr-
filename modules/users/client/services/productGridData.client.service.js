@@ -7,10 +7,7 @@ angular.module('users').factory('productGridData', function ($http, $location, c
 
     var API_URL = constants.BWS_API;
 
-
-    me.addField = addField;
     me.getData = getData;
-    me.updateWidget = updateWidget;
     me.searchProducts = searchProducts;
     return me;
 
@@ -26,10 +23,26 @@ angular.module('users').factory('productGridData', function ($http, $location, c
         return defer.promise;
     }
 
-    function searchProducts(searchText) {
+    function searchProducts(searchText, obj) {
         var defer = $q.defer();
+        var url = '/edit/search?'
+        if(obj.types){
 
-        $http.get(API_URL + '/edit/search?q=' + searchText + '&v=sum')
+            for(var i in obj.types){
+                url += '&type='+obj.types[i].type;
+            }
+        }
+        if(obj.sku){
+            url+='&sku='+obj.sku
+        }
+        if(obj.status){
+            url+='&status='+obj.status;
+        }
+        if(searchText){
+            url += '&q=' + searchText + '&v=sum';
+        }
+        console.log(url);
+        $http.get(API_URL + url )
             .then(function (response) {
                 var searchedProducts = response.data;
                 console.dir(response)

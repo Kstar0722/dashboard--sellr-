@@ -141,6 +141,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         } else {
             //get from api and format
             me.getProductDetail(product).then(function (res) {
+                console.log(res)
                 if (res.data.length > 0) {
                     me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
                         var p = formattedProduct;

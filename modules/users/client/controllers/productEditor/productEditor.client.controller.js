@@ -26,6 +26,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     };
 
     $scope.search = {};
+    $scope.filter = [];
+    $scope.checkbox ={};
+    $scope.checkbox.progress= '';
     $scope.searchLimit = 15;
     $scope.gridOptions = {
         //enableSelectAll: true,
@@ -62,8 +65,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.gridOptions.data = [];
         var fields = [];
         var columnNames = [];
-
-        productGridData.searchProducts(searchText).then(function (data) {
+        console.log($scope.checkbox.progress)
+        productGridData.searchProducts(searchText, {'status':$scope.checkbox.progress, 'types':$scope.filter}).then(function (data) {
             $scope.loadingData = false;
             $scope.products = data;
 
@@ -79,6 +82,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.viewProduct = function (product) {
         console.log('hello')
         productEditorService.setCurrentProduct(product);
+        console.log(product)
         $state.go('editor.products', { productId: product.productId, task: 'view' });
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
     };
@@ -97,6 +101,21 @@ angular.module('users').controller('productEditorController', function ($scope, 
         });
         $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
 
+    }
+
+    $scope.updateFilter = function(value) {
+
+        $scope.checked = false;
+           for(var i in $scope.filter){
+                if($scope.filter[i].type == value.type) {
+                    $scope.filter.splice(i, 1)
+                    $scope.checked = true;
+                }
+            }
+        if(!$scope.checked){
+            $scope.filter.push(value)
+        }
+        console.log($scope.filter)
     }
 
 

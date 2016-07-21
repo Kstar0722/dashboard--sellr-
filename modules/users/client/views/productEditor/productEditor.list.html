@@ -1,17 +1,27 @@
-<div class="product-editor-list" ng-controller="productEditorController">
+<div class="product-search-table-container" ng-controller="productEditorController">
 
   <div class="list-container">
 
 
     <div layout class="search-box-container">
-      <div flex=80>
+      <!--<div flex=80>-->
       <!--   <md-input-container>
           <label for="searchProduct">search text</label>
           <input id="searchProduct" type="text"  ng-model="searchText">
 
+      <div flex=80 type="submit" >
+        <form ng-submit="searchProducts(searchText)">
+          <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
+        </form>
+
 
         </md-input-container> -->
-          <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
+
+        <div flex=80 type="submit" >
+          <form ng-submit="searchProducts(searchText)">
+            <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
+          </form>
+          <!--<input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">-->
       </div>
       <div flex class="search-button" ng-click="searchProducts(searchText)">
         Search
@@ -19,25 +29,38 @@
           <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
           <md-menu-content class="product-search-menu">
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
+              <md-checkbox ng-model="checkbox.all" aria-label="Finished?" class="blue-check">
                 Search All
               </md-checkbox>
             </md-menu-item>
-            <md-menu-divider></md-menu-divider>
+            <md-menu-divider>CATEGORY </md-menu-divider>
+            <br>
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check" md-menu-align-target>
-                Title
+              <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.title" aria-label="Finished?" class="blue-check" md-menu-align-target>
+                Beer
               </md-checkbox>
             </md-menu-item>
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
-                Description
+              <md-checkbox ng-click="updateFilter({'type': 1})" ng-model="checkbox.desc" aria-label="Finished?" class="blue-check">
+                Wine
               </md-checkbox>
             </md-menu-item>
             <md-menu-item>
-              <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
-                SKU
+              <md-checkbox ng-click="updateFilter({'type': 3})" ng-model="checkbox.sku" aria-label="Finished?" class="blue-check">
+                Spirit
               </md-checkbox>
+            </md-menu-item>
+            <md-menu-divider>STATUS </md-menu-divider>
+            <br>
+            <md-menu-item>
+              <md-radio-group ng-model="checkbox.progress" >
+
+                <md-radio-button value="new" class="md-primary">New</md-radio-button>
+                <md-radio-button value="inprogress" class="md-primary">In Progress</md-radio-button>
+                <md-radio-button value="done" class="md-primary"> Done</md-radio-button>
+                <md-radio-button value="approved" class="md-primary">Approved</md-radio-button>
+
+              </md-radio-group>
             </md-menu-item>
           </md-menu-content>
         </md-menu>

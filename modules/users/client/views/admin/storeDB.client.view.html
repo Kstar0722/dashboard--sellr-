@@ -6,58 +6,59 @@
     <div flex=15>Assigned</div>
     <div flex=30>&nbsp;</div>
   </div>
-  <div layout layout-align="center center" class="orders-body" ui-sref="admin.match">
-    <div flex=10>2</div>
-    <div flex=30>Max Wine and Beer</div>
-    <div flex=15>In Progress</div>
-    <div flex=15>Ross Van Zyl</div>
+  {{orders}}
+  <div layout layout-align="center center" class="orders-body"  ng-repeat="order in orders" ng-click="goToMatch(order.id)">
+    <div flex=10>{{order.id}}</div>
+    <div flex=30>{{order.name}}</div>
+    <div flex=15>{{order.progress}}</div>
+    <div flex=15>{{order.assigned}}</div>
     <div flex=30 class="progress-bar-container">
-      <div class="progress-bar">188 items</div>
+      <div class="progress-bar">{{order.total}}</div>
     </div>
   </div>
-  <div layout  layout-align="center center" class="orders-body">
-    <div flex=10>545</div>
-    <div flex=30>John Market</div>
-    <div flex=15>In Progress</div>
-    <div flex=15>Ross Van Zyl</div>
-    <div flex=30 class="progress-bar-container">
-      <div class="progress-bar" style="width: 29%">188 items</div>
-    </div>
-  </div>
-  <div layout  layout-align="center center" class="orders-body">
-    <div flex=10>1099</div>
-    <div flex=30>Ruby Spirit</div>
-    <div flex=15 class="done">Done</div>
-    <div flex=15>Ross Van Zyl</div>
-    <div flex=30 class="progress-bar-container">
-    <div class="progress-bar" style="width: 90%">188 items</div>
-    </div>
-  </div>
-  <div layout  layout-align="center center" class="orders-body">
-    <div flex=10>1099</div>
-    <div flex=30>Ruby Spirit</div>
-    <div flex=15 class="done">Done</div>
-    <div flex=15>Ross Van Zyl</div>
-    <div flex=30 class="progress-bar-container">
-    <div class="progress-bar" style="width: 90%">188 items</div>
-    </div>
-  </div>
-  <div layout  layout-align="center center" class="orders-body">
-    <div flex=10>1099</div>
-    <div flex=30>Ruby Spirit</div>
-    <div flex=15 class="done">Done</div>
-    <div flex=15>Ross Van Zyl</div>
-    <div flex=30 class="progress-bar-container">
-    <div class="progress-bar" style="width: 80%">188 items</div>
-    </div>
-  </div>
-  <div layout  layout-align="center center" class="orders-body">
-    <div flex=10>1099</div>
-    <div flex=30>Ruby Spirit</div>
-    <div flex=15 class="done">Done</div>
-    <div flex=15>Ross Van Zyl</div>
-    <div flex=30 class="progress-bar-container">
-    <div class="progress-bar" style="width: 70%">188 items</div>
-    </div>
-  </div>
+  <!--<div layout  layout-align="center center" class="orders-body">-->
+    <!--<div flex=10>545</div>-->
+    <!--<div flex=30>John Market</div>-->
+    <!--<div flex=15>In Progress</div>-->
+    <!--<div flex=15>Ross Van Zyl</div>-->
+    <!--<div flex=30 class="progress-bar-container">-->
+      <!--<div class="progress-bar" style="width: 29%">188 items</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div layout  layout-align="center center" class="orders-body">-->
+    <!--<div flex=10>1099</div>-->
+    <!--<div flex=30>Ruby Spirit</div>-->
+    <!--<div flex=15 class="done">Done</div>-->
+    <!--<div flex=15>Ross Van Zyl</div>-->
+    <!--<div flex=30 class="progress-bar-container">-->
+    <!--<div class="progress-bar" style="width: 90%">188 items</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div layout  layout-align="center center" class="orders-body">-->
+    <!--<div flex=10>1099</div>-->
+    <!--<div flex=30>Ruby Spirit</div>-->
+    <!--<div flex=15 class="done">Done</div>-->
+    <!--<div flex=15>Ross Van Zyl</div>-->
+    <!--<div flex=30 class="progress-bar-container">-->
+    <!--<div class="progress-bar" style="width: 90%">188 items</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div layout  layout-align="center center" class="orders-body">-->
+    <!--<div flex=10>1099</div>-->
+    <!--<div flex=30>Ruby Spirit</div>-->
+    <!--<div flex=15 class="done">Done</div>-->
+    <!--<div flex=15>Ross Van Zyl</div>-->
+    <!--<div flex=30 class="progress-bar-container">-->
+    <!--<div class="progress-bar" style="width: 80%">188 items</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div layout  layout-align="center center" class="orders-body">-->
+    <!--<div flex=10>1099</div>-->
+    <!--<div flex=30>Ruby Spirit</div>-->
+    <!--<div flex=15 class="done">Done</div>-->
+    <!--<div flex=15>Ross Van Zyl</div>-->
+    <!--<div flex=30 class="progress-bar-container">-->
+    <!--<div class="progress-bar" style="width: 70%">188 items</div>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>

@@ -69,9 +69,9 @@ angular.module('users.admin.routes').config(['$stateProvider',
                 controller: 'StoreDbController'
             })
             .state('admin.match', {
-                url: '/match',
+                url: '/match/:id',
                 templateUrl: 'modules/users/client/views/admin/storeDB-matching.client.view.html',
-                controller: 'StoreDbController'
+                controller:'StoreDbDetailController'
             })
     }
 ]);
