@@ -16,12 +16,7 @@
 
 
         </md-input-container> -->
-
-        <div flex=80 type="submit" >
-          <form ng-submit="searchProducts(searchText)">
-            <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
-          </form>
-          <!--<input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">-->
+        <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
       </div>
       <div flex class="search-button" ng-click="searchProducts(searchText)">
         Search
@@ -69,6 +64,9 @@
 
 
 
+    <div class="spinner-container" ng-show="loadingData">
+      <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+    </div>
 
     <div class="product-table-container" ng-show="products">
 
@@ -82,17 +80,16 @@
         <div flex>Image <i class="fa fa-sort-desc"></i></div>
       </div>
 
-      <div layout class="t-body" layout-align="start center" ng-repeat="product in products|limitTo:searchLimit" ng-click="viewProduct(product)">
+      <div layout class="t-body" layout-align="start center" ng-repeat="product in products" ng-click="viewProduct(product)">
         <div flex>
           <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox" class="blue-check"></md-checkbox>
         </div>
-        <div flex=45>{{product.name}}</div>
+        <div flex=45 class="product-name">{{product.name}}</div>
         <div flex=15>{{product.sku_count}}</div>
         <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
         <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
       </div>
-
-
+      <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">Show More</md-button>
     </div>
 
 
