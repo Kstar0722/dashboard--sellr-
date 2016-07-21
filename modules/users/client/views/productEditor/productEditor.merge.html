@@ -1,49 +1,114 @@
+<body style="background: #fbfbfb;">
 
+<div class="container-fluid">
 
-  <link href="https://s3.amazonaws.com/cdn.expertoncue.com/static/bootstrap.css" rel="stylesheet">
-  <link href="https://s3.amazonaws.com/cdn.expertoncue.com/static/flat-ui.css" rel="stylesheet">
+  <div class="col-md-10 " style="margin-left: 4%; margin-top: 2vh;">
 
-    <div layout layout-align="space-between center">
-      <div layout class="search-box-container" flex=40>
-        <div flex=80>
-          <input type="text" class="search-input">
-        </div>
-        <div flex class="search-button">
-          Search
-          <md-menu md-offset="0 35">
-            <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
-            <md-menu-content class="product-search-menu">
-              <md-menu-item>
-                <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
-                  Search All
-                </md-checkbox>
-              </md-menu-item>
-              <md-menu-divider></md-menu-divider>
-              <md-menu-item>
-                <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check" md-menu-align-target>
-                  Title
-                </md-checkbox>
-              </md-menu-item>
-              <md-menu-item>
-                <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
-                  Description
-                </md-checkbox>
-              </md-menu-item>
-              <md-menu-item>
-                <md-checkbox ng-model="isChecked" aria-label="Finished?" class="blue-check">
-                  SKU
-                </md-checkbox>
-              </md-menu-item>
-            </md-menu-content>
-          </md-menu>
+    <div class="row">
+      <div class="col-md-9">
+        <h4><i>Merging:</i> {{ mergeService.finalProduct.name }} </h4>
+      </div>
+    </div>
+    <hr>
+    <form role="form">
+      <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+          <div class="form-group">
+            <label>Title: </label>
+            <span class="form-control">{{ mergeService.finalProduct.name }}</span>
+
+          </div>
+          <md-radio-group ng-model="mergeService.finalProduct.name">
+            <md-radio-button ng-repeat="name in mergeService.newProduct.name" ng-value="name">{{ name }}</md-radio-button>
+          </md-radio-group>
         </div>
       </div>
-      <div class="merge-btn-container">
-        <div class="action-btn md-whiteframe-5dp">
-          Merge with Selected Products
+
+      <!-- == AUDIO == -->
+      <div class="row" ng-repeat="audio in mergeService.newProduct.audio">
+        <!-- add audio selector-->
+      </div>
+
+
+      <!-- == IMAGES == -->
+      <div class="row" ng-repeat="image in mergeService.newProduct.images">
+        <!-- add image selector-->
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12" ng-repeat="researchImage in mergeService.newProduct.researchImages">RESEARCH/NOFOUND IMAGE
+          <img ng-src="{{researchImage.publicUrl}}" height="200px">
+        </div>
+        <button class="btn" ngf-select="pes.uploadMedia($files)">
+          Upload Image
+        </button>
+      </div>
+
+      <div class="">
+        <label>Description / Script</label>
+
+        <medium-editor medium-insert ng-model="mergeService.finalProduct.description" bind-options="mediumEditorOptions" name="beer_script"
+                       class="form-control"></medium-editor>
+      </div>
+
+
+      <md-radio-group ng-model="mergeService.finalProduct.description">
+        <md-radio-button ng-repeat="desc in mergeService.newProduct.description" ng-value="desc"><span ng-bind-html="desc"></span></md-radio-button>
+      </md-radio-group>
+
+
+      <div ng-repeat="prop in mergeService.newProduct.properties">
+        <div class="form-group">
+          <label for="prop">{{ prop.label }}</label>
+          <span id="prop">{{ prop.value }}</span>
+        </div>
+        <md-radio-group ng-model="mergeService.finalProduct[prop].value">
+          <!--<md-radio-button ng-repeat="val in prop."-->
+        </md-radio-group>
+      </div>
+
+      <div class="form-group">
+        <label>Research Notes</label>
+        <textarea class="form-control" rows="3" ng-model="mergeService.newProduct.notes"></textarea>
+      </div>
+
+    </form>
+
+    <div class="row">
+      <div class="btn-group" role="group" ng-show="permissions.curator && mergeService.newProduct.status ==='done'">
+        <button class="btn " type="button" style="background-color:#C52424" data-toggle="modal" data-target="#sendback">Send Back</button>
+        <button class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="pull-right">
+        <div class="btn-group" role="group">
+          <button class="btn btn-info" type="button" ng-show="mergeService.newProduct.status==='inprogress'" data-toggle="modal"
+                  data-target="#submitforapproval">Mark as Done
+          </button>
+          <button type="button" class="btn btn-primary" ng-show="mergeService.newProduct.status =='done'" data-toggle="modal"
+                  data-target="#unsubmitproduct">
+            Unsubmit
+          </button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#flagasduplicate">
+            Flag As Duplicate
+          </button>
+
+          <button type="button" class="btn btn-success" ng-click="save(mergeService.newProduct)">Save</button>
         </div>
       </div>
     </div>
-    <!-- grid start -->
-    <div layout layout-wrap layout-align="center start" class="product-grid">
+    <div class="row">
+      <p>Keyboard Shortcuts:</p>
+      <div>
+        <small><code>Ctrl + S / ⌘ + S</code> -- Save Product</small>
+      </div>
+      <div>
+        <small><code>Ctrl + D / ⌘ + D</code> -- Mark As Done</small>
+      </div>
+    </div>
+  </div>
+
+</div>
 

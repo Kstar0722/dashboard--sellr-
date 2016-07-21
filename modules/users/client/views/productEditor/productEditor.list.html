@@ -86,7 +86,7 @@
 
       <div layout class="t-body" layout-align="start center" ng-repeat="product in products" ng-click="viewProduct(product)">
         <div flex>
-          <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox" class="blue-check"></md-checkbox>
+          <md-checkbox ng-model="product.selected" ng-click="toggleSelected(product)" aria-label="Checkbox" class="blue-check"></md-checkbox>
         </div>
         <div flex=45 class="product-name">{{product.name}}</div>
         <div flex=15>{{product.sku_count}}</div>
@@ -102,10 +102,8 @@
   </div>
 
 
-  <div ng-class="productsSelection.contains ? 'bottom-action-menu active' : 'bottom-action-menu'">
-    <div class="action-btn">
-      Merge 3 selected products
-    </div>
+  <div ng-class="selected.length>0 ? 'bottom-action-menu active' : 'bottom-action-menu'">
+    <button class="action-btn" ng-click="mergeProducts()">Merge {{ selected.length }} selected products</button>
     <div class="action-btn" ng-if="!permissions.curator">
       Assign to me
     </div>

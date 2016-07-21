@@ -31,8 +31,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
             { name: 'Done', value: 'done' },
             { name: 'Approved', value: 'approved' }
         ];
-
-
         me.productStorage = {}
         me.productStats = {};
         me.productList = [];
@@ -46,57 +44,33 @@ angular.module('users').service('productEditorService', function ($http, $locati
         me.show.loading = false;
     };
 
-    //send in type,status and receive all products
-    me.getProductList = function (options) {
+
+    me.getProductList = function (searchText, options) {
+        var defer = $q.defer();
         me.productList = [];
-        me.show.loading = true;
-        //time('getProductList');
-        if (!options.type || !options.status) {
-            options = {
-                type: me.currentType.productTypeId,
-                status: me.currentStatus.value
-            };
-        }
-        var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
-        $http.get(url).then(getAvailProdSuccess, getAvailProdError);
+        var url = constants.BWS_API + '/edit/search?'
+        if (options.types) {
 
-        function getAvailProdSuccess(response) {
-            if (response.status === 200) {
-                //timeEnd('getProductList');
-                me.show.loading = false;
-                log('getProdList ', response.data);
-                me.getStats();
-                response.data = response.data.map(function (product) {
-                    if (product.lastEdit) {
-                        if (constants.env === 'local') {
-                            product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
-                            log('lastEdit', product.lastEdit)
-                        } else {
-                            product.lastEdit = moment(product.lastEdit).fromNow()
-                        }
-                    }
-                    return product
-                });
-
-                //sort with myProducts at the top
-                me.productList = _.sortBy(response.data, function (p) {
-                    return Math.abs(p.userId - me.userId);
-                });
-                log('getProductList end', me.currentAccount)
-
-
+            for (var i in options.types) {
+                url += '&type=' + options.types[ i ].type;
             }
         }
-
-        function getAvailProdError(error) {
-            //error('getAvailProdError %O', error)
+        if (options.sku) {
+            url += '&sku=' + options.sku
         }
+        if (options.status) {
+            url += '&status=' + options.status;
+        }
+        if (searchText) {
+            url += '&q=' + searchText + '&v=sum';
+        }
+        $http.get(url).then(function (response) {
+            me.productList = response.data;
+            defer.resolve(me.productList)
+        });
+        return defer.promise;
     };
 
-    me.updateProductList = function () {
-        me.getProductList({ type: me.currentType, status: me.currentStatus })
-        window.scrollTo(0, 0);
-    };
 
     //send in type,status,userid, get back list of products
     me.getMyProducts = function (options) {
@@ -123,53 +97,62 @@ angular.module('users').service('productEditorService', function ($http, $locati
     };
 
 
+    //abstracts away remote call for detail
+    me.getProductDetail = function (product) {
+        return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
+    };
+
+    me.getProduct = function (product) {
+        var defer = $q.defer();
+        if (!product.productId) {
+            defer.reject({ message: 'no product Id' })
+        }
+        if (me.productStorage[ product.productId ]) {
+            //use cached product if exists
+            cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+            defer.resolve(me.productStorage[ product.productId ])
+
+        } else {
+
+            //get from api and format
+            me.getProductDetail(product).then(function (res) {
+                if (res.data.length > 0) {
+                    me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+                        log('formattedProduct', formattedProduct);
+                        //store product for faster load next time
+                        me.productStorage[ product.productId ] = formattedProduct
+                        defer.resolve(formattedProduct)
+                    })
+                } else {
+                    var error = { message: 'Could not get product detail for ' + product.name }
+                    toastr.error(error.message)
+                    defer.reject(error)
+                }
+            }, function (error) {
+                //error(error)
+                toastr.error('Could not get product detail for ' + product.name)
+                defer.reject(error)
+            });
+        }
+        return defer.promise;
+    };
+
+
     //calls get detail from API and caches product
     me.setCurrentProduct = function (product) {
         me.currentProduct = {};
         cachedProduct = {};
         me.changes = [];
+        me.getProduct(product).then(function (formattedProduct) {
+            me.currentProduct = formattedProduct;
 
-        if (!product.productId) {
-            //error('setCurrentProduct: please provide productId')
-            return
-        }
-        if (me.productStorage[ product.productId ]) {
-            //use cached product if exists
-            me.currentProduct = me.productStorage[ product.productId ];
-            cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+            //cache current product for comparison
+            cachedProduct = jQuery.extend(true, {}, formattedProduct);
 
-        } else {
-            //get from api and format
-            me.getProductDetail(product).then(function (res) {
-                console.log(res)
-                if (res.data.length > 0) {
-                    me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                        var p = formattedProduct;
-                        log('formattedProduct', formattedProduct);
-                        me.currentProduct = formattedProduct;
+        })
 
-                        //cache current product for comparison
-                        cachedProduct = jQuery.extend(true, {}, formattedProduct);
-
-                        //store product for faster load next time
-                        me.productStorage[ product.productId ] = formattedProduct
-
-                    })
-                } else {
-                    toastr.error('Could not get product detail for ' + product.name)
-                }
-            }, function (error) {
-                //error(error)
-                toastr.error('Could not get product detail for ' + product.name)
-            });
-        }
     };
 
-
-    //abstracts away remote call for detail
-    me.getProductDetail = function (product) {
-        return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
-    }
 
 
     //claim a product
@@ -277,7 +260,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
     me.formatProductDetail = function (product) {
         var defer = $q.defer()
-        console.log(product)
         product.name = product.title || product.displayName || product.name;
         product.notes = product.notes || product.text;
         product.properties.forEach(function (prop) {
@@ -303,7 +285,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
             }
         });
         product.mediaAssets.forEach(function (m) {
-            console.log(m.type)
             switch (m.type) {
                 case 'AUDIO':
                     product.description = product.description || m.script;
@@ -411,6 +392,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
         })
 
     };
+
+
     function compareToCachedProduct(prod) {
         log('updatedProd', prod);
         log('cachedProd', cachedProduct);

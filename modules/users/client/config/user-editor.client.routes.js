@@ -6,41 +6,41 @@ angular.module('users.editor.routes').config(['$stateProvider',
         $stateProvider
             .state('editor.products', {
                 url: '/products',
-                // controller: 'productEditorController',
                 views: {
-                    'list': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
-                    },
-                    'stats': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
-                    },
                     'detail': {
                         templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
                     }
                 }
             })
-            .state('editor.products.detail', {
-                url: '/:productId/:task',
-                params: {
-                    task: 'view'
-                },
+            .state('editor.view', {
+                url: '/view/:productId',
                 views: {
-                    'list': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
-                    },
-                    'stats': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
-                    },
                     'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
                     }
                 }
             })
-            .state('merge', {
-                url: '/editor/merge/:variable',
-                controller: 'productEditorMergeController',
-                templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+            .state('editor.edit', {
+                url: '/edit/:productId',
+                views: {
+                    'detail': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+                    }
+                }
+            })
+            .state('editor.merge', {
+                url: '/merge',
+                views: {
+                    'detail': {
+                        templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+                    }
+                }
             })
 
+            .state('searchGrid', {
+                url: '/editor/searchGrid/:variable',
+                controller: 'productEditorMergeController',
+                templateUrl: 'modules/users/client/views/productEditor/productEditor.searchGrid.html'
+            })
     }
 ]);
