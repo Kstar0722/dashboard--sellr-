@@ -1,6 +1,6 @@
-<body style="background: #fbfbfb;">
+<body>
 
-<div class="container-fluid">
+<div class="container-fluid merge">
 
   <div class="col-md-10 " style="margin-left: 4%; margin-top: 2vh;">
 
@@ -24,26 +24,45 @@
         </div>
       </div>
 
-      <!-- == AUDIO == -->
-      <div class="row" ng-repeat="audio in mergeService.newProduct.audio">
-        <!-- add audio selector-->
-      </div>
 
-
-      <!-- == IMAGES == -->
-      <div class="row" ng-repeat="image in mergeService.newProduct.images">
-        <!-- add image selector-->
-      </div>
-
-
-      <div class="row">
-        <div class="col-md-12" ng-repeat="researchImage in mergeService.newProduct.researchImages">RESEARCH/NOFOUND IMAGE
-          <img ng-src="{{researchImage.publicUrl}}" height="200px">
+      <label>Product Images: </label>
+      <p>
+        <small>Products can have multiple images.</small>
+      </p>
+      <!-- == Product IMAGES == -->
+      <div layout="row">
+        <div flex ng-repeat="img in mergeService.newProduct.images">
+          <div layout="column">
+            <img ng-src="{{ img.publicUrl }}" style="max-height: 500px;display:block;">
+            <button class="btn btn-danger" ng-click="removeMergedImage($index)"><i class="fa fa-trash"> </i>Delete Image</button>
+          </div>
         </div>
-        <button class="btn" ngf-select="pes.uploadMedia($files)">
-          Upload Image
-        </button>
       </div>
+
+      <!-- == AUDIO == -->
+      <label>Audio:</label>
+      <p>
+        <small>Product should only have one audio. If more than one audio, only the first will be used.</small>
+      </p>
+      <div layout="column" ng-repeat="audio in mergeService.newProduct.audio track by $index">
+        <div layout="row" class="audio-buttons">
+          <button class="btn btn-success" ng-click="playMergedAudio($index)"><i class="fa fa-play"></i>Play</button>
+          <button class="btn btn-info" ng-click="pauseMergedAudio()"><i class="fa fa-pause"></i>Pause</button>
+          <button class="btn btn-danger" ng-click="removeMergedAudio($index)"><i class="fa fa-trash"></i>Delete Audio</button>
+        </div>
+      </div>
+
+
+      <!--<div class="row">-->
+      <!--<div class="col-md-12" ng-repeat="researchImage in mergeService.newProduct.researchImages">RESEARCH/NOFOUND IMAGE-->
+      <!--<img ng-src="{{researchImage.publicUrl}}" height="200px">-->
+      <!--</div>-->
+      <!--<button class="btn" ngf-select="pes.uploadMedia($files)">-->
+      <!--Upload Image-->
+      <!--</button>-->
+      <!--</div>-->
+
+      <!-- == Product DESCRIPTION == -->
 
       <div class="">
         <label>Description / Script</label>
@@ -58,15 +77,18 @@
       </md-radio-group>
 
 
-      <div ng-repeat="prop in mergeService.newProduct.properties">
+      <!-- == Product PROPERTIES == -->
+      <div ng-repeat="(propInd,prop) in mergeService.newProduct.properties">
         <div class="form-group">
           <label for="prop">{{ prop.label }}</label>
-          <span id="prop">{{ prop.value }}</span>
+          <input id="prop" class="form-control" ng-model="mergeService.finalProduct.properties[propInd].value">
+
         </div>
-        <md-radio-group ng-model="mergeService.finalProduct[prop].value">
-          <!--<md-radio-button ng-repeat="val in prop."-->
+        <md-radio-group ng-model="mergeService.finalProduct.properties[propInd].value">
+          <md-radio-button ng-repeat="val in prop.value" ng-value="val">{{ val }}</md-radio-button>
         </md-radio-group>
       </div>
+
 
       <div class="form-group">
         <label>Research Notes</label>
@@ -95,7 +117,7 @@
             Flag As Duplicate
           </button>
 
-          <button type="button" class="btn btn-success" ng-click="save(mergeService.newProduct)">Save</button>
+          <button type="button" class="btn btn-success" ng-click="mergeService.save()">Save</button>
         </div>
       </div>
     </div>

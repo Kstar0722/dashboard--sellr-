@@ -1130,9 +1130,6 @@ section.userList .userbox {
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }
-body.merge {
-  background-color: #ffffff;
-}
 .product-editor-merge .grid-container {
   padding: 40px 20px;
 }
@@ -1189,8 +1186,7 @@ body.merge {
   font-weight: bold;
 }
 .merge {
-  background: pink;
-  width: 100%;
+  background-color: #f5f5f5;
 }
 .search-box-container .search-input {
   height: 40px;

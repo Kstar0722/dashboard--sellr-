@@ -125,6 +125,31 @@ angular.module('users').controller('productEditorController', function ($scope, 
         })
     };
 
+    $scope.removeMergedImage = function (i) {
+        mergeService.newProduct.images.splice(i, 1)
+    };
+
+    $scope.playMergedAudio = function (i) {
+        for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
+            mergeService.newProduct.audio[ a ].pause()
+            mergeService.newProduct.audio[ a ].currentTime = 0;
+            if (a == i) {
+                mergeService.newProduct.audio[ i ].play()
+            }
+        }
+    };
+
+    $scope.pauseMergedAudio = function () {
+        mergeService.newProduct.audio.forEach(function (a) {
+            a.pause()
+        })
+    };
+
+    $scope.removeMergedAudio = function (i) {
+        mergeService.newProduct.audio[ i ].pause()
+        mergeService.newProduct.audio.splice(i, 1)
+    };
+
 
     ///
 
