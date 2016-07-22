@@ -78,10 +78,10 @@
         <div flex>
           <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox all" class="blue-check"></md-checkbox>
         </div>
-        <div flex=45>{{products.length}} Products <i class="fa fa-sort-desc"></i></div>
-        <div flex=15>Skus <i class="fa fa-sort-desc"></i></div>
-        <div flex>Audio <i class="fa fa-sort-desc"></i></div>
-        <div flex>Image <i class="fa fa-sort-desc"></i></div>
+          <div ng-click="reOrderList('name')" flex=45>{{allProducts.length}} Products <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('sku')" flex=15>Skus <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('audio')" flex>Audio <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('image')" flex>Image <i class="fa fa-sort"></i></div>
       </div>
 
       <div layout class="t-body" layout-align="start center" ng-repeat="product in products" ng-click="viewProduct(product)">
