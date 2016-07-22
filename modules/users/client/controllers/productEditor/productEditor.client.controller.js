@@ -53,6 +53,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
       case 'image':
         $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+i' ? '-image' : '+image'
         break
+      case 'status':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-status' : '+status'
+        break
+      case 'type':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+p' ? '-productTypeId' : '+productTypeId'
+        break
       default:
         break
     }

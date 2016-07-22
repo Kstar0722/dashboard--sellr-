@@ -1321,7 +1321,7 @@ body.editor-products-detail .medium-editor-toolbar {
   font-weight: bold;
   color: #5a5c5d;
 }
-.product-search-table-container .list-container .product-table-container .t-body div:nth-child(3) {
+.product-search-table-container .list-container .product-table-container .t-body div.grey-text {
   color: #95989a;
 }
 .product-search-table-container .list-container .product-table-container .t-body div .fa-check {
