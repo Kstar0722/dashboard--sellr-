@@ -41,8 +41,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       notes: [],
       productTypeId: [],
       requestedBy: [],
-      skus: [],
-      status: []
+      skus: []
     };
 
     for (var prop in me.newProduct) {
@@ -103,10 +102,12 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
   function buildFinalProduct () {
     //set first item in each array as default
     for (var prop in me.newProduct) {
-      if (prop !== 'properties') {
+      if (prop !== 'properties' && prop !== 'skus') {
         me.finalProduct[ prop ] = me.newProduct[ prop ][ 0 ]
       }
     }
+
+    me.finalProduct.skus = me.newProduct.skus
 
     me.finalProduct.properties = [];
     me.finalProduct.mediaAssets = [];
@@ -149,13 +150,15 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         me.finalProduct.properties.splice(i, 1)
       }
     }
-    me.finalProduct.note = 'Merged with ' + me.prodsToDelete.toString();
+    me.finalProduct.notes = 'Merged with ' + me.prodsToDelete.toString();
 
     me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
 
     me.newProduct.images.forEach(function (img) {
       me.finalProduct.mediaAssets.push(img.mediaAssetId)
     })
+
+    me.finalProduct.status = 'done'
     var url = constants.BWS_API + '/products/merge'
     var payload = {
       payload: {
