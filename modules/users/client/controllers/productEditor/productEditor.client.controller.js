@@ -63,7 +63,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.loadingData = true;
         var options = { status: $scope.checkbox.progress, types: $scope.filter };
         productEditorService.getProductList(searchText, options).then(function (data) {
-            $scope.products = data
+            $scope.allProducts = data
+            console.log(data)
+            refreshList()
             $scope.loadingData = false;
         })
     };
