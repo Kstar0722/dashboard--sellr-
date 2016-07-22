@@ -76,7 +76,7 @@
 
       <div layout class="t-header" layout-align="start center">
         <div flex>
-          <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox all" class="blue-check"></md-checkbox>
+          <md-checkbox ng-model="allSelected" ng-click="toggleAll()" aria-label="Checkbox all" class="blue-check"></md-checkbox>
         </div>
         <div flex=45>{{products.length}} Products <i class="fa fa-sort-desc"></i></div>
         <div flex=15>Skus <i class="fa fa-sort-desc"></i></div>
