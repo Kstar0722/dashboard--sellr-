@@ -1,36 +1,35 @@
+/* globals angular, _,$ */
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
                                                                         $location, $state, $stateParams, Countries, $mdDialog,
                                                                         $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
   Authentication.user = Authentication.user || { roles: '' }
   $scope.$state = $state
-  $scope.pes = productEditorService;
-  $scope.mergeService = mergeService;
-  // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407
+  $scope.pes = productEditorService
+  $scope.mergeService = mergeService
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
     myProducts: false,
     feedback: true
   }
-
-  $scope.allSelected = false;
+  $scope.allSelected = false
 
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
-  };
+  }
 
   $scope.mediumEditorOptions = {
     imageDragging: false,
     extensions: {
       's3-image-uploader': new MediumS3ImageUploader()
     }
-  };
+  }
 
-  $scope.search = {};
-  $scope.checkbox = {};
-  $scope.checkbox.progress = {};
-  $scope.filter = [];
-  $scope.searchLimit = 15;
+  $scope.search = {}
+  $scope.checkbox = {}
+  $scope.checkbox.progress = {}
+  $scope.filter = []
+  $scope.searchLimit = 15
 
   $scope.listOptions = {}
   $scope.listOptions.searchLimit = 15
@@ -55,6 +54,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
       case 'image':
         $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+i' ? '-image' : '+image'
         break
+      case 'status':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-status' : '+status'
+        break
+      case 'type':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+p' ? '-productTypeId' : '+productTypeId'
+        break
       default:
         break
     }
@@ -62,94 +67,94 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.searchProducts = function (searchText) {
-    $scope.loadingData = true;
-    var options = { status: $scope.checkbox.progress, types: $scope.filter };
+    $scope.loadingData = true
+    var options = { status: $scope.checkbox.progress, types: $scope.filter }
     productEditorService.getProductList(searchText, options).then(function (data) {
-      $scope.products = data
-      $scope.loadingData = false;
+      $scope.allProducts = data
+      console.log(data)
+      refreshList()
+      $scope.loadingData = false
     })
-  };
+  }
 
   var refreshList = function () {
     $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
     $scope.products = $filter('limitTo')($scope.allProducts, $scope.listOptions.searchLimit)
-  };
+  }
 
   $scope.toggleSelected = function (product) {
-    $scope.selected = $scope.selected || [];
+    $scope.selected = $scope.selected || []
     var i = _.findIndex($scope.selected, function (selectedProduct) {
-      return selectedProduct.productId == product.productId
-    });
+      return selectedProduct.productId === product.productId
+    })
     if (i < 0) {
       $scope.selected.push(product)
     } else {
       $scope.selected.splice(i, 1)
     }
     console.log('toggleSelected %O', $scope.selected)
-  };
+  }
 
   $scope.viewProduct = function (product) {
-    productEditorService.setCurrentProduct(product);
-    $state.go('editor.view', { productId: product.productId });
-  };
+    productEditorService.setCurrentProduct(product)
+    $state.go('editor.view', { productId: product.productId })
+  }
 
   $scope.quickEdit = function (product) {
     var options = {
       userId: $scope.userId,
       productId: product.productId,
       status: 'inprogress'
-    };
-    productEditorService.claim(options);
-    productEditorService.setCurrentProduct(product);
-    $state.go('editor.edit', { productId: product.productId });
-
+    }
+    productEditorService.claim(options)
+    productEditorService.setCurrentProduct(product)
+    $state.go('editor.edit', { productId: product.productId })
   }
 
   $scope.updateFilter = function (value) {
-
-    $scope.checked = false;
+    $scope.checked = false
     for (var i in $scope.filter) {
-      if ($scope.filter[ i ].type == value.type) {
+      if ($scope.filter[ i ].type === value.type) {
         $scope.filter.splice(i, 1)
-        $scope.checked = true;
+        $scope.checked = true
       }
     }
     if (!$scope.checked) {
       $scope.filter.push(value)
     }
-  };
+  }
 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
       console.log('mergeProducts %O', $scope)
-      $state.go('editor.merge');
+      $state.go('editor.merge')
     })
-  };
+  }
 
   $scope.removeMergedImage = function (i) {
     mergeService.newProduct.images.splice(i, 1)
-  };
+  }
 
   $scope.playMergedAudio = function (i) {
     for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
       mergeService.newProduct.audio[ a ].pause()
-      mergeService.newProduct.audio[ a ].currentTime = 0;
-      if (a == i) {
+      mergeService.newProduct.audio[ a ].currentTime = 0
+      if (a === i) {
         mergeService.newProduct.audio[ i ].play()
       }
     }
-  };
+  }
 
   $scope.pauseMergedAudio = function () {
     mergeService.newProduct.audio.forEach(function (a) {
       a.pause()
     })
-  };
+  }
 
   $scope.removeMergedAudio = function (i) {
     mergeService.newProduct.audio[ i ].pause()
     mergeService.newProduct.audio.splice(i, 1)
-  };
+  }
 
   $scope.types = [
     { productTypeId: 1, name: 'Wine' },
@@ -159,48 +164,42 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.toggleAll = function () {
     var sel = !$scope.allSelected
-    $scope.selected = [];
+    $scope.selected = []
     console.log('length of $scope.selected %O ', $scope.selected)
     _.map($scope.products, function (p) {
       if (sel) {
         $scope.selected.push(p)
       }
-      p.selected = sel;
+      p.selected = sel
       return p
-
     })
-
   }
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
+  //
+  //
 
-  ///
+  //
+  //
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
+  //
 
-  ///
-
-  ///
-
-  ///
-
-  ///
+  //
 
   // NOTE: alot of what's below is from old function product editor but might be useful with new editor including ui grid
   $scope.sendBack = function (product, feedback) {
@@ -268,7 +267,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
       }
     }
-  });
+  })
 
   $scope.productsSelection = {}
   $scope.productsSelection.contains = false

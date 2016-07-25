@@ -78,10 +78,12 @@
         <div flex>
           <md-checkbox ng-model="allSelected" ng-click="toggleAll()" aria-label="Checkbox all" class="blue-check"></md-checkbox>
         </div>
-        <div flex=45>{{products.length}} Products <i class="fa fa-sort-desc"></i></div>
-        <div flex=15>Skus <i class="fa fa-sort-desc"></i></div>
-        <div flex>Audio <i class="fa fa-sort-desc"></i></div>
-        <div flex>Image <i class="fa fa-sort-desc"></i></div>
+          <div ng-click="reOrderList('name')" flex=45>{{allProducts.length}} Products <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('sku')" flex>Skus <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('audio')" flex>Audio <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('image')" flex>Image <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('status')" flex>Status <i class="fa fa-sort"></i></div>
+        <div ng-click="reOrderList('type')" flex>Type <i class="fa fa-sort"></i></div>
       </div>
 
       <div layout class="t-body" layout-align="start center" ng-repeat="product in products" ng-click="viewProduct(product)">
@@ -89,9 +91,11 @@
           <md-checkbox ng-model="product.selected" ng-click="toggleSelected(product)" aria-label="Checkbox" class="blue-check"></md-checkbox>
         </div>
         <div flex=45 class="product-name">{{product.name}}</div>
-        <div flex=15>{{product.sku_count}}</div>
+        <div flex class="grey-text">{{product.sku_count}}</div>
         <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
         <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
+        <div flex class="grey-text">{{product.status}}</div>
+        <div flex class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''}}</div>
       </div>
       <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">Show More</md-button>
     </div>
