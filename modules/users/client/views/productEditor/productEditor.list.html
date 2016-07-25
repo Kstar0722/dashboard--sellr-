@@ -99,10 +99,6 @@
       </div>
       <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">Show More</md-button>
     </div>
-
-
-
-
   </div>
 
 
@@ -125,10 +121,10 @@
 
       </md-menu-content>
     </md-menu>
-    <div class="action-btn right reject" ng-if="permissions.curator">
+    <div class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
       Reject
     </div>
-    <div class="action-btn right approve" ng-if="permissions.curator">
+    <div class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()">
       Approve
     </div>
   </div>
