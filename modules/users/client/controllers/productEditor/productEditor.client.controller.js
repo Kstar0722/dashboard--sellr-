@@ -1,16 +1,21 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+                                                                        $location, $state, $stateParams, Countries, $mdDialog,
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+  // we should probably break this file into smaller files,
+  // it's a catch-all for the entire productEditor
+
   Authentication.user = Authentication.user || { roles: '' }
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
-  // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
     myProducts: false,
     feedback: true
   }
+  $scope.allSelected = false
 
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
@@ -125,7 +130,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.updateFilter = function (value) {
     $scope.checked = false
     for (var i in $scope.filter) {
-      if ($scope.filter[ i ].type == value.type) {
+      if ($scope.filter[ i ].type === value.type) {
         $scope.filter.splice(i, 1)
         $scope.checked = true
       }
@@ -135,73 +140,69 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
   }
 
-  $scope.mergeProducts = function () {
-    mergeService.merge($scope.selected).then(function () {
-      console.log('mergeProducts %O', $scope)
-      $state.go('editor.merge')
+  $scope.types = [
+    { productTypeId: 1, name: 'Wine' },
+    { productTypeId: 2, name: 'Beer' },
+    { productTypeId: 3, name: 'Spirits' }
+  ]
+
+  $scope.toggleSelected = function (product) {
+    $scope.selected = $scope.selected || []
+    var i = _.findIndex($scope.selected, function (selectedProduct) {
+      return selectedProduct.productId === product.productId
     })
-  }
-
-  $scope.removeMergedImage = function (i) {
-    mergeService.newProduct.images.splice(i, 1)
-  }
-
-  $scope.playMergedAudio = function (i) {
-    for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
-      mergeService.newProduct.audio[ a ].pause()
-      mergeService.newProduct.audio[ a ].currentTime = 0
-      if (a == i) {
-        mergeService.newProduct.audio[ i ].play()
-      }
+    if (i < 0) {
+      $scope.selected.push(product)
+    } else {
+      $scope.selected.splice(i, 1)
     }
+    console.log('toggleSelected %O', $scope.selected)
   }
 
-  $scope.pauseMergedAudio = function () {
-    mergeService.newProduct.audio.forEach(function (a) {
-      a.pause()
+  $scope.toggleAll = function () {
+    var sel = !$scope.allSelected
+    $scope.selected = []
+    console.log('length of $scope.selected %O ', $scope.selected)
+    _.map($scope.products, function (p) {
+      if (sel) {
+        $scope.selected.push(p)
+      }
+      p.selected = sel
+      return p
     })
   }
+  // Functions related to changing product status
 
-  $scope.removeMergedAudio = function (i) {
-    mergeService.newProduct.audio[ i ].pause()
-    mergeService.newProduct.audio.splice(i, 1)
+  $scope.issues = [
+    'Problem With Image',
+    'Problem With Text',
+    'Problem With Audio'
+  ]
+
+  $scope.feedback = {
+    issue: '',
+    comments: ''
   }
 
-  // /
+  $scope.selectIssue = function (issue) {
+    $scope.feedback.issue = issue
+  }
 
-  // /
+  $scope.sendBack = function () {
+    var feedback = {
+      issue: $scope.feedback.issue,
+      comments: $scope.feedback.comments,
+      date: new Date()
+    }
+    productEditorService.updateFeedback(feedback)
+  }
 
-  // /
+  $scope.approveSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'approved')
+  }
 
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // /
-
-  // NOTE: alot of what's below is from old function product editor but might be useful with new editor including ui grid
-  $scope.sendBack = function (product, feedback) {
-    product.feedback = feedback
-    product.status = 'inprogress'
-    productEditorService.save(product)
+  $scope.rejectSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'inprogress')
   }
 
   $scope.approveProduct = function (product) {
@@ -221,15 +222,19 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.save(product)
   }
 
-  $scope.flagAsDuplicate = function (product, comments) {
-    product.description += ' | DUPLICATE:' + comments
-    product.status = 'duplicate'
-    productEditorService.save(product)
+  $scope.assignSelectedToUser = function (editor) {
+    $scope.selected.forEach(function (product) {
+      var options = {
+        username: editor.displayName || editor.username || editor.email,
+        userId: $scope.userId,
+        productId: product.productId,
+        status: 'inprogress'
+      }
+      productEditorService.claim(options)
+    })
   }
 
-  $scope.updateCounts = function () {
-    productEditorService.getStats()
-  }
+  // Audio/Image functions
 
   $scope.playAudio = function () {
     productEditorService.currentProduct.audio.play()
@@ -267,26 +272,45 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.productsSelection = {}
   $scope.productsSelection.contains = false
-  $scope.people = [
-    { name: 'Diego Fortes', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: true },
-    { name: 'Tom Cruise', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false },
-    { name: 'C3PO Robo', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false }
-  ]
+  // Functions related to merging //
 
-  $scope.buttonDisplay = function (button, product) {
-    // var flag = false
-    switch (button) {
-      case 'Edit':
+  $scope.mergeProducts = function () {
+    mergeService.merge($scope.selected).then(function () {
+      console.log('mergeProducts %O', $scope)
+      $state.go('editor.merge')
+    })
+  }
 
-        break
-      case 'Unassign':
+  $scope.removeMergedImage = function (i) {
+    mergeService.newProduct.images.splice(i, 1)
+  }
 
-        break
-      case 'Claim':
+  $scope.playMergedAudio = function (i) {
+    for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
+      mergeService.newProduct.audio[ a ].pause()
+      mergeService.newProduct.audio[ a ].currentTime = 0
+      if (a === i) {
+        mergeService.newProduct.audio[ i ].play()
+      }
+    }
+  }
 
-        break
-      case 'Quick Edit':
+  $scope.pauseMergedAudio = function () {
+    mergeService.newProduct.audio.forEach(function (a) {
+      a.pause()
+    })
+  }
 
+  $scope.removeMergedAudio = function (i) {
+    mergeService.newProduct.audio[ i ].pause()
+    mergeService.newProduct.audio.splice(i, 1)
+  }
+
+  $scope.toggleFilterUserId = function () {
+    if ($scope.filterUserId) {
+      $scope.filterUserId = ''
+    } else {
+      $scope.filterUserId = $scope.userId
     }
   }
 })

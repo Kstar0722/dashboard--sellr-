@@ -1,113 +1,152 @@
 <div class="product-search-table-container" ng-controller="productEditorController">
 
-  <div class="list-container">
+    <div class="list-container">
 
 
-    <div layout class="search-box-container">
-      <!--<div flex=80>-->
-      <!--   <md-input-container>
-          <label for="searchProduct">search text</label>
-          <input id="searchProduct" type="text"  ng-model="searchText">
+        <div layout class="search-box-container">
+            <!--<div flex=80>-->
+            <!--   <md-input-container>
+                <label for="searchProduct">search text</label>
+                <input id="searchProduct" type="text"  ng-model="searchText">
 
-      <div flex=80 type="submit" >
-        <form ng-submit="searchProducts(searchText)">
-          <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
-        </form>
-
-
-        </md-input-container> -->
-
-        <div flex=80 type="submit" >
-          <form ng-submit="searchProducts(searchText)">
-            <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
-          </form>
-      </div>
-      <div flex class="search-button" ng-click="searchProducts(searchText)">
-        Search
-        <md-menu md-offset="0 35">
-          <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
-          <md-menu-content class="product-search-menu">
-            <md-menu-item>
-              <md-checkbox ng-model="checkbox.all" aria-label="Finished?" class="blue-check">
-                Search All
-              </md-checkbox>
-            </md-menu-item>
-            <md-menu-divider>CATEGORY </md-menu-divider>
-            <br>
-            <md-menu-item>
-              <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.title" aria-label="Finished?" class="blue-check" md-menu-align-target>
-                Beer
-              </md-checkbox>
-            </md-menu-item>
-            <md-menu-item>
-              <md-checkbox ng-click="updateFilter({'type': 1})" ng-model="checkbox.desc" aria-label="Finished?" class="blue-check">
-                Wine
-              </md-checkbox>
-            </md-menu-item>
-            <md-menu-item>
-              <md-checkbox ng-click="updateFilter({'type': 3})" ng-model="checkbox.sku" aria-label="Finished?" class="blue-check">
-                Spirit
-              </md-checkbox>
-            </md-menu-item>
-            <md-menu-divider>STATUS </md-menu-divider>
-            <br>
-            <md-menu-item>
-              <md-radio-group ng-model="checkbox.progress" >
-
-                <md-radio-button value="new" class="md-primary">New</md-radio-button>
-                <md-radio-button value="inprogress" class="md-primary">In Progress</md-radio-button>
-                <md-radio-button value="done" class="md-primary"> Done</md-radio-button>
-                <md-radio-button value="approved" class="md-primary">Approved</md-radio-button>
-
-              </md-radio-group>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-      </div>
-    </div>
+            <div flex=80 type="submit" >
+              <form ng-submit="searchProducts(searchText)">
+                <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"  ng-model="searchText">
+              </form>
 
 
+              </md-input-container> -->
 
-    <div class="spinner-container" ng-show="loadingData">
-      <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
-    </div>
+            <div flex=80 type="submit">
+                <form ng-submit="searchProducts(searchText)">
+                    <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"
+                           ng-model="searchText">
+                    <md-checkbox ng-click="toggleFilterUserId()">Show My Products</md-checkbox>
+                    {{ filterUserId }}
+                </form>
+            </div>
+            <div flex class="search-button" ng-click="searchProducts(searchText)">
+                Search
+                <md-menu md-offset="0 35">
+                    <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
+                    <md-menu-content class="product-search-menu">
+                        <md-menu-item>
+                            <md-checkbox ng-model="checkbox.all" aria-label="Finished?" class="blue-check">
+                                Search All
+                            </md-checkbox>
+                        </md-menu-item>
+                        <md-menu-divider>CATEGORY</md-menu-divider>
+                        <br>
+                        <md-menu-item>
+                            <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.title"
+                                         aria-label="Finished?" class="blue-check"
+                                         md-menu-align-target>
+                                Beer
+                            </md-checkbox>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-checkbox ng-click="updateFilter({'type': 1})" ng-model="checkbox.desc"
+                                         aria-label="Finished?" class="blue-check">
+                                Wine
+                            </md-checkbox>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-checkbox ng-click="updateFilter({'type': 3})" ng-model="checkbox.sku"
+                                         aria-label="Finished?" class="blue-check">
+                                Spirit
+                            </md-checkbox>
+                        </md-menu-item>
+                        <md-menu-divider>STATUS</md-menu-divider>
+                        <br>
+                        <md-menu-item>
+                            <md-radio-group ng-model="checkbox.progress">
 
-    <div class="product-table-container" ng-show="products">
+                                <md-radio-button value="new" class="md-primary">New</md-radio-button>
+                                <md-radio-button value="inprogress" class="md-primary">In Progress</md-radio-button>
+                                <md-radio-button value="done" class="md-primary"> Done</md-radio-button>
+                                <md-radio-button value="approved" class="md-primary">Approved</md-radio-button>
 
-      <div layout class="t-header" layout-align="start center">
-        <div flex>
-          <md-checkbox ng-model="productsSelection.contains" aria-label="Checkbox all" class="blue-check"></md-checkbox>
+                            </md-radio-group>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
         </div>
-          <div ng-click="reOrderList('name')" flex=45>{{allProducts.length}} Products <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('sku')" flex>Skus <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('audio')" flex>Audio <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('image')" flex>Image <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('status')" flex>Status <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('type')" flex>Type <i class="fa fa-sort"></i></div>
-      </div>
 
-      <div layout class="t-body" layout-align="start center" ng-repeat="product in products" >
-        <div flex>
-          <md-checkbox ng-model="product.selected" ng-click="toggleSelected(product)" aria-label="Checkbox" class="blue-check"></md-checkbox>
+
+        <div class="spinner-container" ng-show="loadingData">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
-        <div flex=45 class="product-name">{{product.name}}</div>
-        <div flex class="grey-text">{{product.sku_count}}</div>
-        <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
-        <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
-        <div flex class="grey-text">{{product.status}}</div>
-        <div flex class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''}}</div>
-      </div>
-      <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">Show More</md-button>
+
+        <div class="product-table-container" ng-show="products">
+
+            <div layout class="t-header" layout-align="start center">
+                <div flex>
+                    <md-checkbox ng-model="allSelected" ng-click="toggleAll()" aria-label="Checkbox all"
+                                 class="blue-check"></md-checkbox>
+                </div>
+                <div ng-click="reOrderList('name')" flex=45>{{allProducts.length}} Products <i class="fa fa-sort"></i>
+                </div>
+                <div ng-click="reOrderList('sku')" flex>Skus <i class="fa fa-sort"></i></div>
+                <div ng-click="reOrderList('audio')" flex>Audio <i class="fa fa-sort"></i></div>
+                <div ng-click="reOrderList('image')" flex>Image <i class="fa fa-sort"></i></div>
+                <div ng-click="reOrderList('status')" flex>Status <i class="fa fa-sort"></i></div>
+                <div ng-click="reOrderList('type')" flex>Type <i class="fa fa-sort"></i></div>
+            </div>
+
+            <div layout class="t-body" layout-align="start center"
+                 ng-repeat="product in products | filter:filterUserId:'userId'"
+                 >
+                <div flex>
+                    <md-checkbox ng-model="product.selected"
+                                 ng-click="toggleSelected(product)" aria-label="Checkbox"
+                                 class="blue-check"></md-checkbox>
+                </div>
+                <div flex=45 class="product-name">{{product.name}}</div>
+                <div flex class="grey-text">{{product.sku_count}}</div>
+                <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
+                <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
+                <div flex class="grey-text">{{product.status}}</div>
+                <div flex class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ?
+                    'Beer' : product.productTypeId === 3 ?
+                    'Spirit' : ''}}
+                </div>
+            </div>
+            <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()"
+                       ng-hide="products.length === allProducts.length">Show More
+            </md-button>
+        </div>
     </div>
-
-
-
-
-  </div>
 
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
+    <div ng-class="selected.length>0 ? 'bottom-action-menu active' : 'bottom-action-menu'">
+        <button class="action-btn" ng-click="mergeProducts()">Merge {{ selected.length }} selected products</button>
+        <div class="action-btn" ng-if="!permissions.curator">
+            Assign to me
+        </div>
+        <md-menu ng-if="permissions.curator" md-position-mode="target-right target">
+            <div class="action-btn" ng-click="$mdOpenMenu($event)">
+                Assign to <i class="fa fa-ellipsis-h"></i>
+            </div>
+            <md-menu-content class="user-assign-menu">
+                <md-list>
+                    <md-list-item ng-repeat="editor in pes.productEditors" ng-click="assignSelectedToUser(editor)">
+                        <!--<img alt="{{ editor.name }}" ng-src="{{ editor.img }}" class="md-avatar"/>-->
+                        {{ editor.displayName || editor.username || editor.email }}
+                        <hr>
+                    </md-list-item>
+                </md-list>
+            </md-menu-content>
+        </md-menu>
+        <button class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
+            Reject
+        </button>
+        <button class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()">
+            Approve
+        </button>
+    </div>
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
