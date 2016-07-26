@@ -12,7 +12,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     $httpProvider.interceptors.push('oncueAuthInterceptor')  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
     $httpProvider.interceptors.push('errorInterceptor')     //   Error Interceptor for tracking errors.
 
-    //SET ENVIRONMENT
+    // SET ENVIRONMENT
 
     if (JSON.parse(localStorage.getItem('userObject'))) {
       var email = JSON.parse(localStorage.getItem('userObject')).email

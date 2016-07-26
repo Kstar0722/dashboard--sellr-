@@ -23,7 +23,10 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.init = function () {
-    me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ]
+    me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, {
+      name: 'spirits',
+      productTypeId: 3
+    } ]
     me.productStatuses = [
       { name: 'Available', value: 'new' },
       { name: 'In Progress', value: 'inprogress' },
@@ -39,7 +42,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.currentStatus = {}
     // initialize with new products so list isnt empty
 
-    me.getStats()
+    getProductEditors()
     me.show.loading = false
   }
 
@@ -158,10 +161,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
     log('claiming', payload)
     var url = constants.BWS_API + '/edit/claim'
     $http.post(url, payload).then(function (res) {
-      toastr.info('You claimed product ' + options.productId)
+      toastr.info('User ' + options.username + ' claimed product ' + options.productId)
       // socket.emit('product-claimed', options)
       me.getStats()
       log('claim response', res)
+    }, function (err) {
+      toastr.error('There was a problem claiming this product')
+      console.error(err)
     })
   }
 
@@ -223,6 +229,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
 
     return defer.promise
+  }
+
+  me.bulkUpdateStatus = function (products, status) {
+    products.forEach(function (product) {
+      product.properties = []
+      product.status = status
+      me.save(product)
+    })
   }
 
   me.getStats = function () {
@@ -392,25 +406,28 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (prod.title !== cachedProduct.title) {
       me.changes.push('Changed title to ' + prod.title)
     }
+    if (prod.properties) {
+      for (var i = 0; i < prod.properties.length; i++) {
+        var updated = prod.properties[ i ]
+        var cached = cachedProduct.properties[ i ]
 
-    for (var i = 0; i < prod.properties.length; i++) {
-      var updated = prod.properties[ i ]
-      var cached = cachedProduct.properties[ i ]
-
-      if (updated.value !== cached.value) {
-        if (!cached.valueId) {
-          updated.changed = 'new'
-          me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+        if (updated.value !== cached.value) {
+          if (!cached.valueId) {
+            updated.changed = 'new'
+            me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+          } else {
+            updated.changed = 'update'
+            me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+          }
         } else {
-          updated.changed = 'update'
-          me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+          updated.changed = 'false'
         }
-      } else {
-        updated.changed = 'false'
       }
+      log('changes added', prod)
+      return (prod)
+    } else {
+      return prod
     }
-    log('changes added', prod)
-    return (prod)
   }
 
   function refreshProduct (product) {
@@ -429,6 +446,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
       } else {
         toastr.error('Could not get product detail for ' + product.name)
       }
+    })
+  }
+
+  function getProductEditors () {
+    var url = constants.API_URL + '/users/editors'
+    $http.get(url).then(function (res) {
+      console.log('gotProductEditors %O', res)
+      me.productEditors = res.data
+    }, function (err) {
+      console.error('Error with getProductEditor: %O', err)
     })
   }
 

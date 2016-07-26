@@ -63,7 +63,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
     me.products.forEach(function (product) {
       product.properties.forEach(function (prop) {
         var i = _.findIndex(properties, function (p) {
-          return p.propId == prop.propId
+          return p.propId === prop.propId
         })
         if (i < 0) {
           properties.push({
@@ -123,7 +123,6 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
   }
 
   function mergeProductMedia () {
-    var media = []
     me.newProduct.mediaAssets = []
     me.newProduct.images = []
     me.newProduct.audio = []
@@ -145,7 +144,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 
   function save () {
     for (var i = 0; i < me.finalProduct.properties.length; i++) {
-      if (me.finalProduct.properties[ i ].value == undefined) {
+      if (me.finalProduct.properties[ i ].value === undefined) {
         me.finalProduct.properties.splice(i, 1)
       }
     }

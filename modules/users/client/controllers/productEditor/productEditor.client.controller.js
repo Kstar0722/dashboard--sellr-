@@ -3,7 +3,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
                                                                         $location, $state, $stateParams, Countries, $mdDialog,
                                                                         $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
   // we should probably break this file into smaller files,
-  // it's become a catch-all for the entire productEditor
+  // it's a catch-all for the entire productEditor
 
   Authentication.user = Authentication.user || { roles: '' }
   $scope.$state = $state
@@ -85,19 +85,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.products = $filter('limitTo')($scope.allProducts, $scope.listOptions.searchLimit)
   }
 
-  $scope.toggleSelected = function (product) {
-    $scope.selected = $scope.selected || []
-    var i = _.findIndex($scope.selected, function (selectedProduct) {
-      return selectedProduct.productId === product.productId
-    })
-    if (i < 0) {
-      $scope.selected.push(product)
-    } else {
-      $scope.selected.splice(i, 1)
-    }
-    console.log('toggleSelected %O', $scope.selected)
-  }
-
   $scope.viewProduct = function (product) {
     productEditorService.setCurrentProduct(product)
     $state.go('editor.view', { productId: product.productId })
@@ -133,6 +120,19 @@ angular.module('users').controller('productEditorController', function ($scope, 
     { productTypeId: 3, name: 'Spirits' }
   ]
 
+  $scope.toggleSelected = function (product) {
+    $scope.selected = $scope.selected || []
+    var i = _.findIndex($scope.selected, function (selectedProduct) {
+      return selectedProduct.productId === product.productId
+    })
+    if (i < 0) {
+      $scope.selected.push(product)
+    } else {
+      $scope.selected.splice(i, 1)
+    }
+    console.log('toggleSelected %O', $scope.selected)
+  }
+
   $scope.toggleAll = function () {
     var sel = !$scope.allSelected
     $scope.selected = []
@@ -154,11 +154,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.approveSelectedProducts = function () {
-    $scope.selected.forEach(function (product) {
-      if (product.status === 'done') {
-        $scope.approveProduct(product)
-      }
-    })
+    productEditorService.bulkUpdateStatus($scope.selected, 'approved')
+  }
+
+  $scope.rejectSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'inprogress')
   }
 
   $scope.approveProduct = function (product) {
@@ -176,6 +176,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
       product.status = 'inprogress'
     }
     productEditorService.save(product)
+  }
+
+  $scope.assignSelectedToUser = function (editor) {
+    $scope.selected.forEach(function (product) {
+      var options = {
+        username: editor.displayName || editor.username || editor.email,
+        userId: $scope.userId,
+        productId: product.productId,
+        status: 'inprogress'
+      }
+      productEditorService.claim(options)
+    })
   }
 
   // Audio/Image functions
@@ -214,11 +226,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.productsSelection = {}
   $scope.productsSelection.contains = false
-  $scope.people = [
-    { name: 'Diego Fortes', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: true },
-    { name: 'Tom Cruise', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false },
-    { name: 'C3PO Robo', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false }
-  ]
   // Functions related to merging //
 
   $scope.mergeProducts = function () {
@@ -251,5 +258,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.removeMergedAudio = function (i) {
     mergeService.newProduct.audio[ i ].pause()
     mergeService.newProduct.audio.splice(i, 1)
+  }
+
+  $scope.toggleFilterUserId = function () {
+    if ($scope.filterUserId) {
+      $scope.filterUserId = ''
+    } else {
+      $scope.filterUserId = $scope.userId
+    }
   }
 })
