@@ -1,8 +1,7 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
-                                                                        $location, $state, $stateParams, Countries, $mdDialog,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
