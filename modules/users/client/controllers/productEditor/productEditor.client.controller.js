@@ -1,5 +1,5 @@
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-  $location, $state, $stateParams, Countries,
+  $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
   Authentication.user = Authentication.user || { roles: '' }
   $scope.$state = $state
@@ -91,14 +91,26 @@ angular.module('users').controller('productEditorController', function ($scope, 
     } else {
       $scope.selected.splice(i, 1)
     }
+    if($state.includes('admin')){
+      orderDataService.storeSelected($scope.selected);
+    }
     console.log('toggleSelected %O', $scope.selected)
   }
 
   $scope.viewProduct = function (product) {
+    product = product[0];
     productEditorService.setCurrentProduct(product)
     $state.go('editor.view', { productId: product.productId })
   }
 
+  $scope.getModalData = function (product) {
+    //productEditorService.setCurrentProduct(product)
+    productEditorService.getProduct(product).then(function (response) {
+      console.log('modal Data %O', response)
+      $scope.modalData = response;
+    }
+    )
+  }
   $scope.quickEdit = function (product) {
     var options = {
       userId: $scope.userId,

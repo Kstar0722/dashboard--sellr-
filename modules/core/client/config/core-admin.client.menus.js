@@ -9,13 +9,7 @@ angular.module('core.admin').run(['Menus',
           roles: [ 1004 ],
           position: 3
       });
-      Menus.addMenuItem('topbar', {
-          title: 'Store Database Manager',
-          state: 'admin.store',
-          type: 'button',
-          roles: [ 1004 ],
-          position: 7
-      });
+
       Menus.addMenuItem('topbar', {
           title: 'Dashboard',
           state: 'dashboard',

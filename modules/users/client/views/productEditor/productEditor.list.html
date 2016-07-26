@@ -86,7 +86,7 @@
         <div ng-click="reOrderList('type')" flex>Type <i class="fa fa-sort"></i></div>
       </div>
 
-      <div layout class="t-body" layout-align="start center" ng-repeat="product in products" ng-click="viewProduct(product)">
+      <div layout class="t-body" layout-align="start center" ng-repeat="product in products" >
         <div flex>
           <md-checkbox ng-model="product.selected" ng-click="toggleSelected(product)" aria-label="Checkbox" class="blue-check"></md-checkbox>
         </div>
@@ -105,8 +105,32 @@
 
   </div>
 
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Product Information </h4>
+        </div>
+        <div class="modal-body">
+          <label>Name: {{modalData.name}}</label>
+          <label ng-bind-html="modalData.description"></label>
+
+          <img  ng-src="{{modalData.mediaAssets[0].publicUrl}}" height="auto" style="max-width: 10%">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
   <div ng-class="selected.length>0 ? 'bottom-action-menu active' : 'bottom-action-menu'">
+    <button class="action-btn" ng-click="viewProduct(selected)">View Product</button>
+    <button class="action-btn" data-toggle="modal" data-target="#myModal" ng-click="getModalData(selected[0])">Preview Product</button>
+
     <button class="action-btn" ng-click="mergeProducts()">Merge {{ selected.length }} selected products</button>
     <div class="action-btn" ng-if="!permissions.curator">
       Assign to me
