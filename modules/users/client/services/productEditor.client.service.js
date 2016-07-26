@@ -263,6 +263,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     var defer = $q.defer()
     product.name = product.title || product.displayName || product.name
     product.notes = product.notes || product.text
+    product.feedback = JSON.parse(product.feedback)
     product.properties.forEach(function (prop) {
       switch (prop.label) {
         case 'Requested By':
@@ -456,6 +457,21 @@ angular.module('users').service('productEditorService', function ($http, $locati
       me.productEditors = res.data
     }, function (err) {
       console.error('Error with getProductEditor: %O', err)
+    })
+  }
+
+  me.updateFeedback = function (feedback) {
+    var url = constants.BWS_API + '/edit/feedback'
+    var payload = {
+      payload: {
+        productId: me.currentProduct.productId,
+        feedback: feedback
+      }
+    }
+    $http.post(url, payload).then(function (res) {
+      console.log(res)
+    }, function (err) {
+      console.error(err)
     })
   }
 

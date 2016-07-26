@@ -23,8 +23,12 @@
         <div ng-show="pes.currentProduct.feedback && pes.currentProduct.status != 'approved'">
             <hr>
             <div class="feedback alert alert-info" role="alert" ng-show="display.feedback && pes.currentProduct.feedback != 0">
-                <h4>Changes requested from product curator:</h4>
-                <h6>{{pes.currentProduct.feedback}}</h6>
+                <h4>Product Feedback:</h4>
+                <div ng-repeat="feedback in pes.currentProduct.feedback" layout="row">
+                    <span>{{ feedback.issue }} - </span>
+                    <span>{{ feedback.comments }} - </span>
+                    <span>{{feedback.date|date}}</span>
+                </div>
                 <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
             </div>
             <button class="btn btn-small" ng-show="!display.feedback" ng-click="display.feedback=true">Show Feedback</button>
@@ -80,9 +84,6 @@
 
             <div class="form-group">
                 <label>Description / Script</label>
-                <div>
-                    <small>Any curator feedback will be automatically removed when the product is submitted for approval.</small>
-                </div>
                 <medium-editor medium-insert ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions" name="beer_script"
                                class="form-control"></medium-editor>
             </div>
@@ -117,15 +118,23 @@
                             necessary
                             changes.</p>
                         <div class="form-group">
-                            <label>Comments</label>
-                            <textarea class="form-control" name="beer_feedback" ng-model="feedback"></textarea>
+                            <div class="row">
+                                <button ng-repeat="issue in issues" class="btn"
+                                        ng-class="{'btn-info':issue===feedback.issue}" ng-click="selectIssue(issue)">
+                                    {{issue}}
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="feedbackComments">Comments</label>
+                                <input id="feedbackComments" class="form-control" placeholder="Add comments here..."
+                                       ng-model="feedback.comments">
+                            </div>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
                         <button class="btn btn-primary btn-wide" style="background-color: #C52424" data-dismiss="modal"
-                                ng-click="sendBack(feedback)">Send back to Editor
+                                ng-click="sendBack()">Send back to Editor
                         </button>
                     </div>
                 </div>

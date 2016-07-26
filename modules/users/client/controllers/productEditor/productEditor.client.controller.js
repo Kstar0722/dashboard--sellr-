@@ -147,10 +147,28 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   // Functions related to changing product status
 
-  $scope.sendBack = function (product, feedback) {
-    product.feedback = feedback
-    product.status = 'inprogress'
-    productEditorService.save(product)
+  $scope.issues = [
+    'Problem With Image',
+    'Problem With Text',
+    'Problem With Audio'
+  ]
+
+  $scope.feedback = {
+    issue: '',
+    comments: ''
+  }
+
+  $scope.selectIssue = function (issue) {
+    $scope.feedback.issue = issue
+  }
+
+  $scope.sendBack = function () {
+    var feedback = {
+      issue: $scope.feedback.issue,
+      comments: $scope.feedback.comments,
+      date: new Date()
+    }
+    productEditorService.updateFeedback(feedback)
   }
 
   $scope.approveSelectedProducts = function () {
