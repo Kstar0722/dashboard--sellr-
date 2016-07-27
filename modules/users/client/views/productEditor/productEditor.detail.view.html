@@ -46,7 +46,6 @@
                                     ng-show="permissions.curator || pes.currentProduct.userId == userId || !pes.currentProduct.userId"
                                     ng-click="quickEdit(pes.currentProduct)">Edit
                             </button>
-                            {{ pes.currentProduct.userId }} === {{ userId }} : {{pes.currentProduct.userId == userId }}
                         </div>
                         <div ng-show="pes.currentProduct.audio">
                             <label>Audio:</label>
