@@ -36,17 +36,6 @@
         </div>
         <hr>
         <form role="form">
-
-            <!--show if requested by macs, scan app images-->
-            <div class="row">
-                <!--repeat 6 times, grab images based on sku and index from cdn -->
-                <a ng-repeat="i in [0,1,2,3,4,5]">
-                    <img class="reference" ng-src="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png">
-                </a>
-
-            </div>
-
-
             <div class="row">
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     <div class="form-group">

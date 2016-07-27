@@ -170,7 +170,9 @@
     <button class="action-btn" ng-click="viewProduct(selected)">View Product</button>
     <button class="action-btn" data-toggle="modal" data-target="#myModal" ng-click="getModalData(selected[0])">Preview Product</button>
 
-    <button class="action-btn" ng-click="mergeProducts()">Merge {{ selected.length }} selected products</button>
+      <button ng-show="selected.length>1" class="action-btn" ng-click="mergeProducts()">Merge {{ selected.length }}
+          selected products
+      </button>
     <div class="action-btn" ng-if="!permissions.curator">
       Assign to me
     </div>
