@@ -58,9 +58,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.sku) {
       url += '&sku=' + options.sku
     }
-    if (options.status) {
-      url += '&status=' + options.status
-    }
+    // if (options.status) {
+    //   url += '&status=' + options.status
+    // }
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }

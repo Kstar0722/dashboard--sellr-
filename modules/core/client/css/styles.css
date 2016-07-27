@@ -782,46 +782,38 @@ section.userList .userbox {
     opacity: 0;
   }
 }
-
 .productEditor medium-editor,
 .productEditor [medium-editor] {
     height: auto;
     min-height: 150px;
 }
-
 .productEditor medium-editor a,
 .productEditor [medium-editor] a {
     cursor: pointer;
     pointer-events: none;
 }
-
 .productEditor medium-editor .medium-insert-buttons,
 .productEditor [medium-editor] .medium-insert-buttons {
     display: none;
     margin-left: -55px;
 }
-
 .productEditor medium-editor .medium-insert-buttons a,
 .productEditor [medium-editor] .medium-insert-buttons a {
     pointer-events: auto;
 }
-
 .productEditor medium-editor img,
 .productEditor [medium-editor] img {
     pointer-events: none;
 }
-
 .productEditor medium-editor .image.uploading,
 .productEditor [medium-editor] .image.uploading {
     position: relative;
     vertical-align: top;
 }
-
 .productEditor medium-editor .image.uploading img,
 .productEditor [medium-editor] .image.uploading img {
     opacity: 0.3;
 }
-
 .productEditor medium-editor .image.uploading .progress,
 .productEditor [medium-editor] .image.uploading .progress {
     background: transparent;
@@ -835,17 +827,14 @@ section.userList .userbox {
     top: 5px;
     width: 200px;
 }
-
 .productEditor .feedback.alert {
     background-color: #46c4d4;
     border: none;
     color: #ffffff;
 }
-
 .productEditor .product-editor-product {
     padding: 40px 20px;
 }
-
 .productEditor .product-editor-product .product-container {
     border: 1px dashed #5a5c5d;
     text-align: center;
@@ -855,11 +844,9 @@ section.userList .userbox {
     font-weight: bold;
     font-size: 22px;
 }
-
 .productEditor .product-image {
     max-height: 35vh;
 }
-
 body.editor-products-detail .medium-editor-toolbar {
     margin-top: -220px;
 }
@@ -1023,14 +1010,12 @@ body.editor-products-detail .medium-editor-toolbar {
     opacity: 0;
   }
 }
-
 .loading-anim .uil-ripple-css {
   background: none;
   position: relative;
   width: 200px;
   height: 200px;
 }
-
 .loading-anim .uil-ripple-css div {
   position: absolute;
   top: 50%;
@@ -1048,11 +1033,9 @@ body.editor-products-detail .medium-editor-toolbar {
   -o-animation: uil-ripple 2s ease-out 5;
   animation: uil-ripple 2s ease-out 5;
 }
-
 .loading-anim .uil-ripple-css div:nth-of-type(1) {
   border-color: #2dc89a;
 }
-
 .loading-anim .uil-ripple-css div:nth-of-type(2) {
   border-color: #142332;
   -ms-animation-delay: 1s;
