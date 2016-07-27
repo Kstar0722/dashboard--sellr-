@@ -1,151 +1,52 @@
 .productEditor {
 
-  .stats {
-    text-align: center;
-    background: @brand-dark;
-    width: 100vw;
-    z-index: 50;
-    min-height: @subnavheight;
-    color: white;
-    position: fixed;
-    top: @navheight;
-    -webkit-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-    -moz-box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-    box-shadow: inset 0px 0px 30px 5px rgba(0, 0, 0, 1);
-    #searchStore {
-      margin-top: 10%;
-      width: 160px;
-    }
-    .status {
-      &:hover {
-        cursor: pointer;
-        background: rgba(137, 137, 137, 0.89);
-        transition: all .5s ease;
-      }
-      &:focus {
-        outline: 0;
-      }
+  .reference {
+    max-width: 33%;
 
-      &.active {
-        background: white;
-        color: @sellrgreen;
-      }
-    }
-    .btn-group {
-      top: 33px;
-    }
-    h1 {
-      font-size: 40px;
-      font-weight: 700;
-      margin-bottom: 0px;
-    }
-    span {
-      font-size: 14px;
-      padding-bottom: 25px;
-      font-weight: bold;
-      display: block;
-    }
-    a:hover {
-      text-decoration: none;
+  }
 
+  .sidebar-entry {
+    margin-bottom: 30px;
+  }
+  .sidebar-entry a {
+    color: #333;
+
+  }
+
+  #sidebar-heading {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  #last-edited {
+    font-size: 12px;
+  }
+
+  label {
+    opacity: .7;
+  }
+
+  @keyframes note {
+    from {
+      opacity: .85;
     }
-    .grey a {
-      color: #888;
+    to {
+      opacity: 0;
     }
-    .orange a {
-      color: #E67E22;
+  }
+
+  @-webkit-keyframes note {
+    from {
+      opacity: .85;
     }
-    &:nth-child(1) a {
-      color: #fff;
+    to {
+      opacity: 0;
     }
-    &:nth-child(3) a {
-      color: #3CD669;
-    }
+  }
 
-    md-progress-circular {
-      margin:0 auto;
-    }
-
-    .progressCirculardemoBasicUsage .visible {
-      border-color: @sellrgreen }
-
-    }
-
-
-
-    .reference {
-      max-width: 33%;
-
-    }
-
-    .sidebar-entry {
-      margin-bottom: 30px;
-    }
-    .sidebar-entry a {
-      color: #333;
-
-    }
-
-    #sidebar-heading {
-      margin-top: 0;
-      margin-bottom: 0;
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    #last-edited {
-      font-size: 12px;
-    }
-
-    label {
-      opacity: .7;
-    }
-
-    #note {
-      position: fixed;
-      z-index: 101;
-      top: 0px;
-      color: white;
-      right: 0px;
-      left: 0px;
-      height: 55px;
-      font-size: 19px;
-      opacity: 0.85;
-      width: 100vw;
-      background: #00AB51;
-      text-align: center;
-      line-height: 2.7;
-      overflow: hidden;
-      display: none;
-      transition: display .3s;
-      animation: note 0.5s 1;
-      -webkit-animation: note 0.5s 1;
-      animation-fill-mode: forwards;
-
-      animation-delay: 4s;
-      -webkit-animation-delay: 4s; /* Safari and Chrome */
-      -webkit-animation-fill-mode: forwards;
-    }
-
-    @keyframes note {
-      from {
-        opacity: .85;
-      }
-      to {
-        opacity: 0;
-      }
-    }
-
-    @-webkit-keyframes note {
-      from {
-        opacity: .85;
-      }
-      to {
-        opacity: 0;
-      }
-    }
-
-    .loading-anim {
+  .loading-anim {
     //margin-left: 40%;
     //width: 100%;
     @-webkit-keyframes uil-ripple {
@@ -362,7 +263,9 @@
       }
     }
 
-    img { pointer-events: none; }
+    img {
+      pointer-events: none;
+    }
 
     .image.uploading {
       position: relative;
@@ -393,11 +296,9 @@
     color: @white;
   }
 
-
-
-  .product-editor-product{
+  .product-editor-product {
     padding: 40px 20px;
-    .product-container{
+    .product-container {
       border: 1px dashed @black-text;
       text-align: center;
       min-height: 300px;
@@ -408,9 +309,11 @@
 
     }
   }
+
+  .product-image {
+    max-height: 35vh;
+  }
 }
-
-
 
 body.editor-products-detail {
   .medium-editor-toolbar {

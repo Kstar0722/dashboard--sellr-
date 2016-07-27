@@ -745,70 +745,6 @@ section.userList .userbox {
 .stats .devices .device .icon.error {
   color: red;
 }
-.productEditor .stats {
-  text-align: center;
-  background: #142332;
-  width: 100vw;
-  z-index: 50;
-  min-height: 100px;
-  color: white;
-  position: fixed;
-  top: 120px;
-  -webkit-box-shadow: inset 0px 0px 30px 5px #000000;
-  -moz-box-shadow: inset 0px 0px 30px 5px #000000;
-  box-shadow: inset 0px 0px 30px 5px #000000;
-}
-.productEditor .stats #searchStore {
-  margin-top: 10%;
-  width: 160px;
-}
-.productEditor .stats .status:hover {
-  cursor: pointer;
-  background: rgba(137, 137, 137, 0.89);
-  transition: all .5s ease;
-}
-.productEditor .stats .status:focus {
-  outline: 0;
-}
-.productEditor .stats .status.active {
-  background: white;
-  color: #2DC89A;
-}
-.productEditor .stats .btn-group {
-  top: 33px;
-}
-.productEditor .stats h1 {
-  font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 0px;
-}
-.productEditor .stats span {
-  font-size: 14px;
-  padding-bottom: 25px;
-  font-weight: bold;
-  display: block;
-}
-.productEditor .stats a:hover {
-  text-decoration: none;
-}
-.productEditor .stats .grey a {
-  color: #888;
-}
-.productEditor .stats .orange a {
-  color: #E67E22;
-}
-.productEditor .stats:nth-child(1) a {
-  color: #fff;
-}
-.productEditor .stats:nth-child(3) a {
-  color: #3CD669;
-}
-.productEditor .stats md-progress-circular {
-  margin: 0 auto;
-}
-.productEditor .stats .progressCirculardemoBasicUsage .visible {
-  border-color: #2DC89A;
-}
 .productEditor .reference {
   max-width: 33%;
 }
@@ -829,31 +765,6 @@ section.userList .userbox {
 }
 .productEditor label {
   opacity: .7;
-}
-.productEditor #note {
-  position: fixed;
-  z-index: 101;
-  top: 0px;
-  color: white;
-  right: 0px;
-  left: 0px;
-  height: 55px;
-  font-size: 19px;
-  opacity: 0.85;
-  width: 100vw;
-  background: #00AB51;
-  text-align: center;
-  line-height: 2.7;
-  overflow: hidden;
-  display: none;
-  transition: display .3s;
-  animation: note 0.5s 1;
-  -webkit-animation: note 0.5s 1;
-  animation-fill-mode: forwards;
-  animation-delay: 4s;
-  -webkit-animation-delay: 4s;
-  /* Safari and Chrome */
-  -webkit-animation-fill-mode: forwards;
 }
 @keyframes note {
   from {
@@ -1127,6 +1038,10 @@ section.userList .userbox {
   font-weight: bold;
   font-size: 22px;
 }
+
+.productEditor .product-image {
+    max-height: 35vh;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }
@@ -1221,7 +1136,6 @@ body.editor-products-detail .medium-editor-toolbar {
 .product-search-table-container {
   position: relative;
 }
-
 .product-search-table-container .view-button {
     font-size: 10px;
     padding: 5%;
