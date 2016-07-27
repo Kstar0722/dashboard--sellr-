@@ -8,6 +8,10 @@
 
             <div class="row">
                 <div class="col-md-9">
+                    <button class="btn btn-info btn-sm fa fa-pencil"
+                            ng-show="permissions.curator || pes.currentProduct.userId == userId || !pes.currentProduct.userId"
+                            ng-click="quickEdit(pes.currentProduct)">Edit This Product
+                    </button>
                     <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
                     <div>Product Id {{ pes.currentProduct.productId }}</div>
                     <span>Requested by: {{pes.currentProduct.requestedBy}}</span>
@@ -42,10 +46,7 @@
                         <div class="form-group">
                             <label>Title</label>
                             <span name="title" id="title" size="50" maxlength="100">{{ pes.currentProduct.name }}</span>
-                            <button class="btn btn-info btn-sm"
-                                    ng-show="permissions.curator || pes.currentProduct.userId == userId || !pes.currentProduct.userId"
-                                    ng-click="quickEdit(pes.currentProduct)">Edit
-                            </button>
+
                         </div>
                         <div ng-show="pes.currentProduct.audio">
                             <label>Audio:</label>
@@ -70,7 +71,7 @@
                 </div>
 
 
-                <div class="form-group" ng-repeat="prop in pes.currentProduct.properties">
+                <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-show="prop.visibility">
                     <label ng-show="prop.value.length>0" for="prop">{{ prop.label }}<span ng-show="prop.info">({{ prop.info }})</span></label>
                     <span id="prop">{{ prop.value }}</span>
                 </div>

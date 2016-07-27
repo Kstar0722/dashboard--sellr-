@@ -104,7 +104,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.viewProduct = function (product) {
-    product = product[ 0 ]
     productEditorService.setCurrentProduct(product)
     $state.go('editor.view', { productId: product.productId })
   }

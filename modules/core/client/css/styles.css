@@ -1221,6 +1221,12 @@ body.editor-products-detail .medium-editor-toolbar {
 .product-search-table-container {
   position: relative;
 }
+
+.product-search-table-container .view-button {
+    font-size: 10px;
+    padding: 5%;
+    color: #2DC89A;
+}
 .product-search-table-container .bottom-action-menu {
   position: fixed;
   bottom: -100px;
