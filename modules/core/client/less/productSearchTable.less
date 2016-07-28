@@ -137,18 +137,20 @@
         border-bottom: none;
         font-weight: bold;
         color: @black-text;
-        div{
+
+        & > div{
+          overflow-wrap: break-word;
           &.grey-text          {
             color: @grey-dark-text;
           } 
+          &.product-name{
+            cursor: pointer;
+          }
           .fa-check{
             color: @green;
           }
           .fa-times{
             color: @red;
-          }
-          &.product-name{
-            cursor: pointer;
           }
         }
       }

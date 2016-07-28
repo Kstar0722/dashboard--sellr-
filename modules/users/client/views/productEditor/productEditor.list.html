@@ -111,8 +111,8 @@
                 <div flex class="grey-text">{{product.sku_count}}</div>
                 <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
                 <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
-                <div flex class="grey-text">{{product.status}}</div>
-                <div flex class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ?
+                <div flex=10 class="grey-text">{{product.status}}</div>
+                <div flex=10 class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ?
                     'Beer' : product.productTypeId === 3 ?
                     'Spirit' : ''}}
                 </div>
