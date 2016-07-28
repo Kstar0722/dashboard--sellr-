@@ -26,6 +26,7 @@ angular.module('users').factory('productGridData', function ($http, $location, c
     function searchProducts(searchText, obj) {
         var defer = $q.defer();
         var url = '/edit/search?'
+
         if(obj.types){
 
             for(var i in obj.types){

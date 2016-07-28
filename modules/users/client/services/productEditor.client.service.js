@@ -59,11 +59,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
       url += '&sku=' + options.sku
     }
     if (options.status) {
-      url += '&status=' + options.status
+      url += '&status=' + JSON.stringify(options.status).replace(/"/g, "")
     }
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }
+    console.log(url)
     $http.get(url).then(function (response) {
       me.productList = response.data
       defer.resolve(me.productList)

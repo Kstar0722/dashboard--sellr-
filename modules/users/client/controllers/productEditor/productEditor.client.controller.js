@@ -27,7 +27,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
       's3-image-uploader': new MediumS3ImageUploader()
     }
   }
-
+  console.log($stateParams.productId)
+  if($stateParams.productId){
+    productEditorService.setCurrentProduct($stateParams)
+    $state.go('editor.view', { productId: $stateParams.productId })
+  }
   $scope.search = {}
   $scope.checkbox = {}
   $scope.checkbox.progress = {}
