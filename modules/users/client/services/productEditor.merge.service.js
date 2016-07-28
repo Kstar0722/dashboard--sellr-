@@ -62,37 +62,39 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
     me.newProduct.properties = []
     me.products.forEach(function (product) {
       product.properties.forEach(function (prop) {
-        var i = _.findIndex(properties, function (p) {
-          return p.propId === prop.propId
-        })
-        if (i < 0) {
-          properties.push({
-            label: prop.label,
-            propId: prop.propId,
-            type: prop.type,
-            value: []
+        if (prop.visibility) {
+          var i = _.findIndex(properties, function (p) {
+            return p.propId === prop.propId
           })
-          i = (properties.length - 1)
-        }
-        if (prop.value.length > 0) {
-          switch (prop.value.toLowerCase()) {
-            case 'na':
-              break
-            case 'not-applicable':
-              break
-            case 'not applicable':
-              break
-            case 'not-vintage':
-              break
-            case 'n/a':
-              break
-            default:
-              properties[ i ].value.push(prop.value)
-              break
+          if (i < 0) {
+            properties.push({
+              label: prop.label,
+              propId: prop.propId,
+              type: prop.type,
+              visibility: prop.visibility,
+              value: []
+            })
+            i = (properties.length - 1)
           }
+          if (prop.value.length > 0) {
+            switch (prop.value.toLowerCase()) {
+              case 'na':
+                break
+              case 'not-applicable':
+                break
+              case 'not applicable':
+                break
+              case 'not-vintage':
+                break
+              case 'n/a':
+                break
+              default:
+                properties[ i ].value.push(prop.value)
+                break
+            }
+          }
+          properties[ i ].value = _.uniq(properties[ i ].value)
         }
-
-        properties[ i ].value = _.uniq(properties[ i ].value)
       })
     })
     me.newProduct.properties = properties

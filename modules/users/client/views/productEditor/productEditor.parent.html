@@ -9,14 +9,15 @@
 
   <div>
 
-    <div class="row productContent">
-      <div ng-show="pes.show.loading" class="col-md-4 loading-anim">
+      <div layout="row productContent">
+          <div ng-show="pes.show.loading" class="loading-anim">
         <div class='uil-ripple-css' style='transform:scale(0.81);'>
           <div></div>
           <div></div>
         </div>
       </div>
-      <div ng-show="!pes.show.loading" class="col-md-4" ng-include="'modules/users/client/views/productEditor/productEditor.list.html'"></div>
+          <div ng-show="!pes.show.loading" class=""
+               ng-include="'modules/users/client/views/productEditor/productEditor.list.html'"></div>
       <!--<div class="col-md-8" ng-include="detail.template"></div>-->
       <div class="col-md-8" ui-view="detail"></div>
     </div>

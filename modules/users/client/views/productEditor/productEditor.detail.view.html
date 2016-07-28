@@ -4,21 +4,35 @@
     <div class="container-fluid">
 
         <div class="col-md-10 " style="margin-left: 4%; margin-top: 2vh;">
-
-
+            <div class="row">
+                <div class="pull-left">
+                    <button class="btn btn-info btn-sm fa fa-pencil"
+                            ng-show="permissions.curator || pes.currentProduct.userId == userId || (!pes.currentProduct.userId && pes.currentProduct.status=='new')"
+                            ng-click="quickEdit(pes.currentProduct)">Edit This Product
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-warning" type="button"
+                                ng-show="pes.currentProduct.status==='inprogress' && pes.currentProduct.userId==userId"
+                                data-toggle="modal"
+                                data-target="#submitforapproval">Mark as Done
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-9">
+
                     <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
+                    <div>Product Id {{ pes.currentProduct.productId }}</div>
                     <span>Requested by: {{pes.currentProduct.requestedBy}}</span>
-                    <button ng-if="buttonDisplay('Quick Edit',pes.currentProduct)"
-                            ng-click="quickEdit(pes.currentProduct)">Quick Edit
-                    </button>
 
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
             </div>
 
-            <div ng-show="pes.currentProduct.feedback && pes.currentProduct.status != 'approved'">
+            <div ng-show="pes.currentProduct.feedback && pes.currentProduct.feedback.length>0">
                 <hr>
                 <div class="feedback alert alert-info" role="alert"
                      ng-show="display.feedback  && pes.currentProduct.feedback !== 0">
@@ -39,40 +53,41 @@
             <hr>
 
             <form role="form">
-                <!--show if requested by macs, scan app images-->
-                <div class="row">
-                    <!--repeat 6 times, grab images based on sku and index from cdn -->
-                    <a ng-show="pes.currentProduct.description =='MACS'" ng-repeat="i in [0,1,2,3,4,5]"
-                       href="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png"
-                       target="_blank">
-                        <img class="reference"
-                             ng-src="http://macs-scan-images.s3.amazonaws.com/images/{{pes.currentProduct.sku}}_{{ i }}.png">
-                    </a>
-                </div>
-
-
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                         <div class="form-group">
                             <label>Title</label>
                             <span name="title" id="title" size="50" maxlength="100">{{ pes.currentProduct.name }}</span>
-                            <button class="btn btn-info btn-sm" ng-click="quickEdit(pes.currentProduct)">Edit</button>
-                        </div>
-                        <div ng-show="pes.currentProduct.audio">
-                            <label>Audio:</label>
-                            <button class="btn" ng-click="playAudio()">Play</button>
-                            <button class="btn" ng-click="pauseAudio()">Pause</button>
+
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <img ng-repeat="image in pes.currentProduct.images" ng-src="{{image.publicUrl}}" height="auto"
-                             style="max-width: 100%">
+                </div>
+                <div layout="row" layout-align="space-between">
+                    <label>Audio:</label>
+                    <div layout="row" ng-show="pes.currentProduct.audio">
+                        <button class="btn btn-success" ng-click="playAudio()"><i class="fa fa-play"></i>Play</button>
+                        <button class="btn btn-info" ng-click="pauseAudio()"><i class="fa fa-pause"></i>Pause</button>
+                        <button class="btn btn-danger" ng-click="removeAudio()"><i class="fa fa-trash"></i>Remove
+                        </button>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"
-                         ng-repeat="researchImages in pes.currentProduct.researchImages">RESEARCH/NOFOUND IMAGE
-                        <img ng-src="{{researchImages.publicUrl}}" height="auto" style="max-width: 100%">
+                </div>
+
+                <h4 ng-show="pes.currentProduct.hasImages">Product Images:</h4>
+                <div layout="row" layout-align="space-between center">
+                    <div layout="column" ng-repeat="image in pes.currentProduct.images">
+                        <a ng-href="{{ image.publicUrl }}" target="_blank">
+                            <img ng-src="{{image.publicUrl}}" class="product-image"></a>
                     </div>
 
+                </div>
+
+                <h4 ng-show="pes.currentProduct.researchImages.length>0">Research Images:</h4>
+                <div layout="row">
+                    <div layout="column" ng-repeat="researchImage in pes.currentProduct.researchImages">
+                        <!--insert image from upload-->
+                        <a ng-href="{{ researchImage.publicUrl }}" target="_blank"><img
+                                ng-src="{{researchImage.publicUrl}}" class="product-image"></a>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -81,7 +96,7 @@
                 </div>
 
 
-                <div class="form-group" ng-repeat="prop in pes.currentProduct.properties">
+                <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-show="prop.visibility">
                     <label ng-show="prop.value.length>0" for="prop">{{ prop.label }}<span ng-show="prop.info">({{ prop.info }})</span></label>
                     <span id="prop">{{ prop.value }}</span>
                 </div>
@@ -219,27 +234,6 @@
                     </button>
                     <button class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve</button>
                 </div>
-            </div>
-            <div class="row">
-
-                <div class="">
-                    <br><br>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary"
-                                ng-show="pes.currentProduct.status =='done' && pes.currentProduct.userId==userId"
-                                data-toggle="modal" data-target="#unsubmitproduct">
-                            Unsubmit
-                        </button>
-                        <button class="btn btn-default" type="button" ng-show="pes.currentProduct.status==='inprogress'"
-                                data-toggle="modal"
-                                data-target="#submitforapproval">Mark as Done
-                        </button>
-                    </div>
-
-
-                </div>
-
-
             </div>
         </div>
     </div>

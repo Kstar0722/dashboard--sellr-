@@ -745,70 +745,6 @@ section.userList .userbox {
 .stats .devices .device .icon.error {
   color: red;
 }
-.productEditor .stats {
-  text-align: center;
-  background: #142332;
-  width: 100vw;
-  z-index: 50;
-  min-height: 100px;
-  color: white;
-  position: fixed;
-  top: 120px;
-  -webkit-box-shadow: inset 0px 0px 30px 5px #000000;
-  -moz-box-shadow: inset 0px 0px 30px 5px #000000;
-  box-shadow: inset 0px 0px 30px 5px #000000;
-}
-.productEditor .stats #searchStore {
-  margin-top: 10%;
-  width: 160px;
-}
-.productEditor .stats .status:hover {
-  cursor: pointer;
-  background: rgba(137, 137, 137, 0.89);
-  transition: all .5s ease;
-}
-.productEditor .stats .status:focus {
-  outline: 0;
-}
-.productEditor .stats .status.active {
-  background: white;
-  color: #2DC89A;
-}
-.productEditor .stats .btn-group {
-  top: 33px;
-}
-.productEditor .stats h1 {
-  font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 0px;
-}
-.productEditor .stats span {
-  font-size: 14px;
-  padding-bottom: 25px;
-  font-weight: bold;
-  display: block;
-}
-.productEditor .stats a:hover {
-  text-decoration: none;
-}
-.productEditor .stats .grey a {
-  color: #888;
-}
-.productEditor .stats .orange a {
-  color: #E67E22;
-}
-.productEditor .stats:nth-child(1) a {
-  color: #fff;
-}
-.productEditor .stats:nth-child(3) a {
-  color: #3CD669;
-}
-.productEditor .stats md-progress-circular {
-  margin: 0 auto;
-}
-.productEditor .stats .progressCirculardemoBasicUsage .visible {
-  border-color: #2DC89A;
-}
 .productEditor .reference {
   max-width: 33%;
 }
@@ -830,31 +766,6 @@ section.userList .userbox {
 .productEditor label {
   opacity: .7;
 }
-.productEditor #note {
-  position: fixed;
-  z-index: 101;
-  top: 0px;
-  color: white;
-  right: 0px;
-  left: 0px;
-  height: 55px;
-  font-size: 19px;
-  opacity: 0.85;
-  width: 100vw;
-  background: #00AB51;
-  text-align: center;
-  line-height: 2.7;
-  overflow: hidden;
-  display: none;
-  transition: display .3s;
-  animation: note 0.5s 1;
-  -webkit-animation: note 0.5s 1;
-  animation-fill-mode: forwards;
-  animation-delay: 4s;
-  -webkit-animation-delay: 4s;
-  /* Safari and Chrome */
-  -webkit-animation-fill-mode: forwards;
-}
 @keyframes note {
   from {
     opacity: .85;
@@ -870,6 +781,74 @@ section.userList .userbox {
   to {
     opacity: 0;
   }
+}
+.productEditor medium-editor,
+.productEditor [medium-editor] {
+    height: auto;
+    min-height: 150px;
+}
+.productEditor medium-editor a,
+.productEditor [medium-editor] a {
+    cursor: pointer;
+    pointer-events: none;
+}
+.productEditor medium-editor .medium-insert-buttons,
+.productEditor [medium-editor] .medium-insert-buttons {
+    display: none;
+    margin-left: -55px;
+}
+.productEditor medium-editor .medium-insert-buttons a,
+.productEditor [medium-editor] .medium-insert-buttons a {
+    pointer-events: auto;
+}
+.productEditor medium-editor img,
+.productEditor [medium-editor] img {
+    pointer-events: none;
+}
+.productEditor medium-editor .image.uploading,
+.productEditor [medium-editor] .image.uploading {
+    position: relative;
+    vertical-align: top;
+}
+.productEditor medium-editor .image.uploading img,
+.productEditor [medium-editor] .image.uploading img {
+    opacity: 0.3;
+}
+.productEditor medium-editor .image.uploading .progress,
+.productEditor [medium-editor] .image.uploading .progress {
+    background: transparent;
+    box-shadow: none;
+    color: darkgrey;
+    font-size: 16pt;
+    height: 30px;
+    left: 10px;
+    position: absolute;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    top: 5px;
+    width: 200px;
+}
+.productEditor .feedback.alert {
+    background-color: #46c4d4;
+    border: none;
+    color: #ffffff;
+}
+.productEditor .product-editor-product {
+    padding: 40px 20px;
+}
+.productEditor .product-editor-product .product-container {
+    border: 1px dashed #5a5c5d;
+    text-align: center;
+    min-height: 300px;
+    line-height: 300px;
+    color: #5a5c5d;
+    font-weight: bold;
+    font-size: 22px;
+}
+.productEditor .product-image {
+    max-height: 35vh;
+}
+body.editor-products-detail .medium-editor-toolbar {
+    margin-top: -220px;
 }
 @-webkit-keyframes uil-ripple {
   0% {
@@ -1031,13 +1010,13 @@ section.userList .userbox {
     opacity: 0;
   }
 }
-.productEditor .loading-anim .uil-ripple-css {
+.loading-anim .uil-ripple-css {
   background: none;
   position: relative;
   width: 200px;
   height: 200px;
 }
-.productEditor .loading-anim .uil-ripple-css div {
+.loading-anim .uil-ripple-css div {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1054,81 +1033,16 @@ section.userList .userbox {
   -o-animation: uil-ripple 2s ease-out 5;
   animation: uil-ripple 2s ease-out 5;
 }
-.productEditor .loading-anim .uil-ripple-css div:nth-of-type(1) {
+.loading-anim .uil-ripple-css div:nth-of-type(1) {
   border-color: #2dc89a;
 }
-.productEditor .loading-anim .uil-ripple-css div:nth-of-type(2) {
+.loading-anim .uil-ripple-css div:nth-of-type(2) {
   border-color: #142332;
   -ms-animation-delay: 1s;
   -moz-animation-delay: 1s;
   -webkit-animation-delay: 1s;
   -o-animation-delay: 1s;
   animation-delay: 1s;
-}
-.productEditor medium-editor,
-.productEditor [medium-editor] {
-  height: auto;
-  min-height: 150px;
-}
-.productEditor medium-editor a,
-.productEditor [medium-editor] a {
-  cursor: pointer;
-  pointer-events: none;
-}
-.productEditor medium-editor .medium-insert-buttons,
-.productEditor [medium-editor] .medium-insert-buttons {
-  display: none;
-  margin-left: -55px;
-}
-.productEditor medium-editor .medium-insert-buttons a,
-.productEditor [medium-editor] .medium-insert-buttons a {
-  pointer-events: auto;
-}
-.productEditor medium-editor img,
-.productEditor [medium-editor] img {
-  pointer-events: none;
-}
-.productEditor medium-editor .image.uploading,
-.productEditor [medium-editor] .image.uploading {
-  position: relative;
-  vertical-align: top;
-}
-.productEditor medium-editor .image.uploading img,
-.productEditor [medium-editor] .image.uploading img {
-  opacity: 0.3;
-}
-.productEditor medium-editor .image.uploading .progress,
-.productEditor [medium-editor] .image.uploading .progress {
-  background: transparent;
-  box-shadow: none;
-  color: darkgrey;
-  font-size: 16pt;
-  height: 30px;
-  left: 10px;
-  position: absolute;
-  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
-  top: 5px;
-  width: 200px;
-}
-.productEditor .feedback.alert {
-  background-color: #46c4d4;
-  border: none;
-  color: #ffffff;
-}
-.productEditor .product-editor-product {
-  padding: 40px 20px;
-}
-.productEditor .product-editor-product .product-container {
-  border: 1px dashed #5a5c5d;
-  text-align: center;
-  min-height: 300px;
-  line-height: 300px;
-  color: #5a5c5d;
-  font-weight: bold;
-  font-size: 22px;
-}
-body.editor-products-detail .medium-editor-toolbar {
-  margin-top: -220px;
 }
 .product-editor-merge .grid-container {
   padding: 40px 20px;
@@ -1220,6 +1134,11 @@ body.editor-products-detail .medium-editor-toolbar {
 }
 .product-search-table-container {
   position: relative;
+}
+.product-search-table-container .view-button {
+    font-size: 10px;
+    padding: 5%;
+    color: #2DC89A;
 }
 .product-search-table-container .bottom-action-menu {
   position: fixed;

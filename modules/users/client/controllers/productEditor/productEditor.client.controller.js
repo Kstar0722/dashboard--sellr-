@@ -1,7 +1,7 @@
+/* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
-
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -74,6 +74,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.searchProducts = function (searchText) {
+    $scope.allProducts = []
+    $scope.selected = []
     $scope.loadingData = true
     var options = { status: $scope.checkbox.progress, types: $scope.filter }
     productEditorService.getProductList(searchText, options).then(function (data) {
@@ -99,23 +101,21 @@ angular.module('users').controller('productEditorController', function ($scope, 
     } else {
       $scope.selected.splice(i, 1)
     }
-    if($state.includes('admin')){
-      orderDataService.storeSelected($scope.selected);
+    if ($state.includes('admin')) {
+      orderDataService.storeSelected($scope.selected)
     }
     console.log('toggleSelected %O', $scope.selected)
   }
 
   $scope.viewProduct = function (product) {
-    product = product[0];
     productEditorService.setCurrentProduct(product)
     $state.go('editor.view', { productId: product.productId })
   }
 
   $scope.getModalData = function (product) {
-    //productEditorService.setCurrentProduct(product)
     productEditorService.getProduct(product).then(function (response) {
       console.log('modal Data %O', response)
-      $scope.modalData = response;
+        $scope.modalData = response
     }
     )
   }

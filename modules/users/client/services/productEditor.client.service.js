@@ -64,7 +64,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }
-    console.log(url)
     $http.get(url).then(function (response) {
       me.productList = response.data
       defer.resolve(me.productList)
@@ -140,8 +139,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
     cachedProduct = {}
     me.changes = []
     me.getProduct(product).then(function (formattedProduct) {
+      formattedProduct.userId = product.userId
       me.currentProduct = formattedProduct
-
       //  cache current product for comparison
       cachedProduct = jQuery.extend(true, {}, formattedProduct)
     })
@@ -264,7 +263,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
     var defer = $q.defer()
     product.name = product.title || product.displayName || product.name
     product.notes = product.notes || product.text
-    product.feedback = JSON.parse(product.feedback)
+    try {
+      product.feedback = JSON.parse(product.feedback)
+    } catch (e) {
+      product.feedback = []
+    }
     product.properties.forEach(function (prop) {
       switch (prop.label) {
         case 'Requested By':
