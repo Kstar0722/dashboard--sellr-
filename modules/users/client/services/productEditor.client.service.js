@@ -233,6 +233,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
   me.bulkUpdateStatus = function (products, status) {
     products.forEach(function (product) {
+      cachedProduct = jQuery.extend(true, {}, product)
       product.properties = []
       product.status = status
       me.save(product)
@@ -408,8 +409,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
     log('updatedProd', prod)
     log('cachedProd', cachedProduct)
     me.changes = []
-    if (prod.title !== cachedProduct.title) {
+    if (prod.title && prod.title !== cachedProduct.title) {
       me.changes.push('Changed title to ' + prod.title)
+    }
+    if (prod.status && prod.status !== cachedProduct.status) {
+      me.changes.push('Changed status to ' + prod.status)
     }
     if (prod.properties) {
       for (var i = 0; i < prod.properties.length; i++) {
