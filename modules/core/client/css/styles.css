@@ -1221,10 +1221,6 @@ body.editor-products-detail .medium-editor-toolbar {
 .product-search-table-container .list-container .product-table-container .t-header div md-checkbox {
   margin: 0 auto;
 }
-.product-search-table-container .list-container .product-table-container .t-body div md-checkbox.md-checked.blue-check .md-icon,
-.product-search-table-container .list-container .product-table-container .t-header div md-checkbox.md-checked.blue-check .md-icon {
-  background-color: #3299BB;
-}
 .product-search-table-container .list-container .product-table-container .t-body div .fa-sort-asc,
 .product-search-table-container .list-container .product-table-container .t-header div .fa-sort-asc,
 .product-search-table-container .list-container .product-table-container .t-body div .fa-sort-desc,
@@ -1272,7 +1268,7 @@ md-menu-content.product-search-menu md-menu-item {
   font-size: 16px;
   color: #5a5c5d;
 }
-md-menu-content.product-search-menu md-menu-item md-checkbox.md-checked.blue-check .md-icon {
+md-checkbox.md-checked.blue-check .md-icon {
   background-color: #3299BB;
 }
 .order-match-page .match-number,

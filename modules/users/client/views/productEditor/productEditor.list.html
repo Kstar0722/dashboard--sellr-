@@ -21,7 +21,7 @@
                 <form ng-submit="searchProducts(searchText)">
                     <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"
                            ng-model="searchText">
-                    <md-checkbox ng-click="toggleFilterUserId()">Show My Products</md-checkbox>
+                    <md-checkbox class="blue-check" ng-model="listOptions.filterByUserId" ng-change="toggleFilterUserId()">Show My Products</md-checkbox>
                     {{ filterUserId }}
                 </form>
             </div>
@@ -95,7 +95,7 @@
             </div>
 
             <div layout class="t-body" layout-align="start center"
-                 ng-repeat="product in products | filter:filterUserId:'userId'">
+                 ng-repeat="product in products">
                 <div flex>
                     <md-checkbox ng-model="product.selected"
                                  ng-click="toggleSelected(product)" aria-label="Checkbox"

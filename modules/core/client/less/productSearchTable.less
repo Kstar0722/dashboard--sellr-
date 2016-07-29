@@ -112,10 +112,8 @@
           }                     
           md-checkbox{
             margin: 0 auto;
-            &.md-checked.blue-check .md-icon {
-              background-color: @blue;
-            }
           }
+
           .fa-sort-asc,
           .fa-sort-desc{
             cursor: pointer;
@@ -173,10 +171,12 @@ md-menu-content.product-search-menu{
   md-menu-item{
     font-size: 16px;
     color: @black-text;
-    md-checkbox{
-      &.md-checked.blue-check .md-icon {
-        background-color: @blue;
-      }
-    }
+  }
+}
+
+// Blue Checkbox 
+md-checkbox{
+  &.md-checked.blue-check .md-icon {
+    background-color: @blue;
   }
 }
