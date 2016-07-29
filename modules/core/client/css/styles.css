@@ -279,12 +279,14 @@ section.userList .userbox {
   background-repeat: no-repeat;
 }
 .sign-in .shading {
-  background: rgba(0, 0, 0, 0.3);
   width: 100vw;
   min-height: 100vh;
   top: 0;
   position: absolute;
-  background: #43cf07;
+  background: rgba(0, 0, 0, 0.3);
+  background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+  background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+  background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
 }
 .sign-in #login-form,
 .sign-in #reset-form {
@@ -1240,17 +1242,20 @@ body.editor-products-detail .medium-editor-toolbar {
   font-weight: bold;
   color: #5a5c5d;
 }
-.product-search-table-container .list-container .product-table-container .t-body div.grey-text {
+.product-search-table-container .list-container .product-table-container .t-body > div {
+  overflow-wrap: break-word;
+}
+.product-search-table-container .list-container .product-table-container .t-body > div.grey-text {
   color: #95989a;
 }
-.product-search-table-container .list-container .product-table-container .t-body div .fa-check {
+.product-search-table-container .list-container .product-table-container .t-body > div.product-name {
+  cursor: pointer;
+}
+.product-search-table-container .list-container .product-table-container .t-body > div .fa-check {
   color: #2DC89A;
 }
-.product-search-table-container .list-container .product-table-container .t-body div .fa-times {
+.product-search-table-container .list-container .product-table-container .t-body > div .fa-times {
   color: #FF0000;
-}
-.product-search-table-container .list-container .product-table-container .t-body div.product-name {
-  cursor: pointer;
 }
 md-menu-content.user-assign-menu {
   position: fixed;
