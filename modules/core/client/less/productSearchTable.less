@@ -112,10 +112,8 @@
           }                     
           md-checkbox{
             margin: 0 auto;
-            &.md-checked.blue-check .md-icon {
-              background-color: @blue;
-            }
           }
+
           .fa-sort-asc,
           .fa-sort-desc{
             cursor: pointer;
@@ -137,18 +135,20 @@
         border-bottom: none;
         font-weight: bold;
         color: @black-text;
-        div{
+
+        & > div{
+          overflow-wrap: break-word;
           &.grey-text          {
             color: @grey-dark-text;
           } 
+          &.product-name{
+            cursor: pointer;
+          }
           .fa-check{
             color: @green;
           }
           .fa-times{
             color: @red;
-          }
-          &.product-name{
-            cursor: pointer;
           }
         }
       }
@@ -171,10 +171,12 @@ md-menu-content.product-search-menu{
   md-menu-item{
     font-size: 16px;
     color: @black-text;
-    md-checkbox{
-      &.md-checked.blue-check .md-icon {
-        background-color: @blue;
-      }
-    }
+  }
+}
+
+// Blue Checkbox
+md-checkbox{
+  &.md-checked.blue-check .md-icon {
+    background-color: @blue;
   }
 }

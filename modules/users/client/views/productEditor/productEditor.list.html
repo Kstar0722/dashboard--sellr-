@@ -21,7 +21,7 @@
                 <form ng-submit="searchProducts(searchText)">
                     <input id="searchProduct" class="search-input" placeholder="Search Text" type="text"
                            ng-model="searchText">
-                    <md-checkbox ng-click="toggleFilterUserId()">Show My Products</md-checkbox>
+                    <md-checkbox class="blue-check" ng-model="listOptions.filterByUserId" ng-change="toggleFilterUserId()">Show My Products</md-checkbox>
                     {{ filterUserId }}
                 </form>
             </div>
@@ -95,7 +95,7 @@
             </div>
 
             <div layout class="t-body" layout-align="start center"
-                 ng-repeat="product in products | filter:filterUserId:'userId'">
+                 ng-repeat="product in products">
                 <div flex>
                     <md-checkbox ng-model="product.selected"
                                  ng-click="toggleSelected(product)" aria-label="Checkbox"
@@ -111,8 +111,8 @@
                 <div flex class="grey-text">{{product.sku_count}}</div>
                 <div flex><i ng-class="{'fa fa-check': product.audio ==1, 'fa fa-times': product.audio ==0}"></i></div>
                 <div flex><i ng-class="{'fa fa-check': product.image ==1, 'fa fa-times': product.image ==0}"></i></div>
-                <div flex class="grey-text">{{product.status}}</div>
-                <div flex class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ?
+                <div flex=10 class="grey-text">{{product.status}}</div>
+                <div flex=10 class="grey-text">{{product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ?
                     'Beer' : product.productTypeId === 3 ?
                     'Spirit' : ''}}
                 </div>
@@ -194,10 +194,10 @@
 
       </md-menu-content>
     </md-menu>
-    <div class="action-btn right reject" ng-if="permissions.curator">
+    <div class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
       Reject
     </div>
-    <div class="action-btn right approve" ng-if="permissions.curator">
+    <div class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()"> 
       Approve
     </div>
   </div>

@@ -5,11 +5,16 @@
   <div class="col-md-12">
     <div ng-controller="MediaController as vm">
       Drop File:
-      <div ngf-drop ngf-select ng-model="files" class="drop-box"
-           ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-           accept="image/*,application/pdf"
-           ngf-pattern="'image/*,application/pdf'">images here or click to upload</div>
+      <div ng-hide="files.length>0" ngf-drop ngf-select ng-model="files" class="drop-box"
+           ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true">images here or click to upload
+      </div>
+      <div class="spinner" ng-show="files.length>0 && !uploadedFile">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
       <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+      <h1> {{ uploadedFile.fileName }}</h1>
       <!--OR:<br>-->
       <!--<md-button class="md-button md-raised md-primary" ngf-select="upload($files)" ngf-multiple="true">-->
         <!--UPLOAD FILES-->

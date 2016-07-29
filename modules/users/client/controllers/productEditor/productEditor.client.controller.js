@@ -41,6 +41,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.listOptions = {}
   $scope.listOptions.searchLimit = 15
   $scope.listOptions.orderBy = '+name'
+  if (window.localStorage.getItem('filterByUserId')) {
+    $scope.listOptions.filterByUserId = true
+  }else {
+    $scope.listOptions.filterByUserId = false
+  }
 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
@@ -88,7 +93,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   var refreshList = function () {
     $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
-    $scope.products = $filter('limitTo')($scope.allProducts, $scope.listOptions.searchLimit)
+    $scope.products = $scope.allProducts
+    if ($scope.listOptions.filterByUserId) {
+      $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
+    }
+    $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
+    console.log($scope.products)
   }
 
   $scope.toggleSelected = function (product) {
@@ -115,7 +125,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function (product) {
     productEditorService.getProduct(product).then(function (response) {
       console.log('modal Data %O', response)
-        $scope.modalData = response
+      $scope.modalData = response
     }
     )
   }
@@ -310,10 +320,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.toggleFilterUserId = function () {
-    if ($scope.filterUserId) {
-      $scope.filterUserId = ''
+    if ($scope.listOptions.filterByUserId) {
+      window.localStorage.setItem('filterByUserId', 'true')
     } else {
-      $scope.filterUserId = $scope.userId
+      window.localStorage.removeItem('filterByUserId')
     }
+    refreshList()
   }
 })
