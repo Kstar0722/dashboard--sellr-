@@ -27,38 +27,38 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       })
     }
 
-    // set the domains and variables for each environment
-    envServiceProvider.config({
-      domains: {
-        local: [ 'localhost' ],
-        development: [ 'dashdev.sllr.io' ],
-        staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ]
-      },
-      vars: {
-        local: {
-          API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171',
-          env: 'local'
-        },
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                local: [ 'localhost' ],
+                development: [ 'dashdev.sllr.io' ],
+                staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
+                production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+            },
+            vars: {
+                local: {
+                    API_URL: 'http://localhost:7272',
+                    BWS_API: 'http://localhost:7171',
+                    env:'local'
+                },
 
-        development: {
-          API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io',
-          env: 'dev'
-        },
-        staging: {
-          API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://dashqa.sllr.io',
-          env: 'staging'
-        },
-        production: {
-          API_URL: 'https://api.sllr.io',
-          BWS_API: 'https://bws.sllr.io',
-          env: 'production'
-        }
-      }
-    })
+                development: {
+                    API_URL: 'https://apidev.sllr.io',
+                    BWS_API: 'https://bwsdev.sllr.io',
+                    env:'dev'
+                },
+                staging: {
+                    API_URL: 'https://apiqa.sllr.io',
+                    BWS_API: 'https://dashqa.sllr.io',
+                    env:'staging'
+                },
+                production: {
+                    API_URL: 'https://api.sllr.io',
+                    BWS_API: 'https://bws.sllr.io',
+                    env:'production'
+                }
+            }
+        });
 
     // run the environment check, so the comprobation is made
     // before controllers and services are built

@@ -17,18 +17,21 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
             }
         });
 
-        
-
         $scope.upload = function(files) {
+
             for (var i = 0; i < files.length; i++) {
                 var mediaConfig = {
-                    mediaRoute: 'ads',
+                    mediaRoute: 'media',
+                    type: 'SUPPLIER',
                     folder: 'supplier',
                     accountId: localStorage.getItem('accountId')
                 };
                 uploadService.upload(files[i], mediaConfig).then(function (response, err) {
+                    console.log('mediaController::upload response %O', response);
                     if (response) {
-                        toastr.success('New Ad Uploaded', 'Success!');
+                        toastr.success('New File Uploaded', 'Success!');
+                        $scope.uploadedFile = response[ 0 ]
+                        $scope.files = [];
                     }
                     else {
                         toastr.error('There was a problem uploading ads')

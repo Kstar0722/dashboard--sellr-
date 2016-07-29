@@ -36,7 +36,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     $httpProvider.interceptors.push('oncueAuthInterceptor')  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
     $httpProvider.interceptors.push('errorInterceptor')     //   Error Interceptor for tracking errors.
 
-    //SET ENVIRONMENT
+    // SET ENVIRONMENT
 
     if (JSON.parse(localStorage.getItem('userObject'))) {
       var email = JSON.parse(localStorage.getItem('userObject')).email
@@ -51,38 +51,38 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       })
     }
 
-    // set the domains and variables for each environment
-    envServiceProvider.config({
-      domains: {
-        local: [ 'localhost' ],
-        development: [ 'dashdev.sllr.io' ],
-        staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ]
-      },
-      vars: {
-        local: {
-          API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171',
-          env: 'local'
-        },
+        // set the domains and variables for each environment
+        envServiceProvider.config({
+            domains: {
+                local: [ 'localhost' ],
+                development: [ 'dashdev.sllr.io' ],
+                staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
+                production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+            },
+            vars: {
+                local: {
+                    API_URL: 'http://localhost:7272',
+                    BWS_API: 'http://localhost:7171',
+                    env:'local'
+                },
 
-        development: {
-          API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io',
-          env: 'dev'
-        },
-        staging: {
-          API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://dashqa.sllr.io',
-          env: 'staging'
-        },
-        production: {
-          API_URL: 'https://api.sllr.io',
-          BWS_API: 'https://bws.sllr.io',
-          env: 'production'
-        }
-      }
-    })
+                development: {
+                    API_URL: 'https://apidev.sllr.io',
+                    BWS_API: 'https://bwsdev.sllr.io',
+                    env:'dev'
+                },
+                staging: {
+                    API_URL: 'https://apiqa.sllr.io',
+                    BWS_API: 'https://dashqa.sllr.io',
+                    env:'staging'
+                },
+                production: {
+                    API_URL: 'https://api.sllr.io',
+                    BWS_API: 'https://bws.sllr.io',
+                    env:'production'
+                }
+            }
+        });
 
     // run the environment check, so the comprobation is made
     // before controllers and services are built
@@ -210,13 +210,7 @@ angular.module('core.admin').run(['Menus',
           roles: [ 1004 ],
           position: 3
       });
-      Menus.addMenuItem('topbar', {
-          title: 'Store Database Manager',
-          state: 'admin.store',
-          type: 'button',
-          roles: [ 1004 ],
-          position: 7
-      });
+
       Menus.addMenuItem('topbar', {
           title: 'Dashboard',
           state: 'dashboard',
@@ -1003,7 +997,7 @@ angular.module('core').service('Menus', [
 
     //Adding the topbar menu
     this.addMenu('topbar', {
-      roles: [ 1004 ]
+      roles: [ 1004, 1003 ]
     });
     this.addMenu('editor', {
       roles: [ 1010 ]
@@ -1080,52 +1074,51 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
     }
 ]);
 ;
-'use strict';
-
+'use strict'
+/* globals angular*/
 // Setting up route
-angular.module('users.editor.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('editor.products', {
-                url: '/products',
-                views: {
-                    'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
-                    }
-                }
-            })
-            .state('editor.view', {
-                url: '/view/:productId',
-                views: {
-                    'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-                    }
-                }
-            })
-            .state('editor.edit', {
-                url: '/edit/:productId',
-                views: {
-                    'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-                    }
-                }
-            })
-            .state('editor.merge', {
-                url: '/merge',
-                views: {
-                    'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-                    }
-                }
-            })
+angular.module('users.editor.routes').config([ '$stateProvider',
+  function ($stateProvider) {
+    $stateProvider
+      .state('editor.products', {
+        url: '/products',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+          }
+        }
+      })
+      .state('editor.view', {
+        url: '/view/:productId',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+          }
+        }
+      })
+      .state('editor.edit', {
+        url: '/edit/:productId',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+          }
+        }
+      })
+      .state('editor.merge', {
+        url: '/merge',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+          }
+        }
+      })
 
-            .state('searchGrid', {
-                url: '/editor/searchGrid/:variable',
-                controller: 'productEditorMergeController',
-                templateUrl: 'modules/users/client/views/productEditor/productEditor.searchGrid.html'
-            })
-    }
-]);
+      .state('searchGrid', {
+        url: '/editor/searchGrid/:variable',
+        templateUrl: 'modules/users/client/views/productEditor/productEditor.searchGrid.html'
+      })
+  }
+])
 ;
 'use strict';
 
@@ -1286,7 +1279,7 @@ angular.module('users.admin').run(['Menus',
         Menus.addSubMenuItem('topbar', 'admin', {
             title: 'Store Database Management',
             state: 'admin.store',
-            position: 7
+            position: 8
         });
     }
 ]);
@@ -2194,7 +2187,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
 });
 ;
-angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, locationsService, orderDataService, productGridData, $state, accountsService, CurrentUserService, Authentication, $stateParams, constants, uploadService, toastr) {
+angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog,$mdMedia, locationsService, orderDataService, productGridData, $state, accountsService, CurrentUserService, Authentication, $stateParams, constants, uploadService, toastr) {
 
     if (Authentication.user) {
         $scope.account = {createdBy: Authentication.user.username}
@@ -2215,15 +2208,30 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
         $scope.searchLimit += 15;
     };
     $scope.searchSku = function (sku) {
-        $scope.searchLimit += 15;
+        orderDataService.searchSku(sku).then(function(data){
+            $scope.products = data;
+        })
     };
+    $scope.markAsNew = function (prod){
 
-    $scope.updateFilter = function(value) {
+        orderDataService.createNewProduct(prod).then(function(data){
+            toastr.success('New Product Created')
+            $scope.displayIndex += 1;
+        })
+    }
+    $scope.markDuplicate = function (prod, selected){
+
+        orderDataService.markDuplicate(prod, selected).then(function(data){
+            toastr.success('Products Merged')
+            $scope.displayIndex += 1;
+        })
+    }
+    $scope.updateFilter = function (value) {
 
         $scope.checked = false;
         for(var i in $scope.filter){
             if($scope.filter[i].type == value.type) {
-                $scope.filter.splice(i, 1)
+                $scope.filter.splice(i, 1);
                 $scope.checked = true;
             }
         }
@@ -2245,6 +2253,8 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
         })
     };
+
+
 
 });
 ;
@@ -2314,153 +2324,151 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 ;
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService',
-    function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService) {
-        $scope.reset = false;
-        $scope.authentication = Authentication;
-        $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService',
+  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService) {
+    $scope.reset = false;
+    $scope.authentication = Authentication;
+    $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
-        var userInfo = {};
-        //read userinfo from URL
-        if ($location.search().r)
-            userInfo = {
-                accountId: Number($location.search().a),
-                regCode: Number($location.search().u),
-                roles: $location.search().r.split('~')
-            };
+    var userInfo = {};
+    //read userinfo from URL
+    if ($location.search().r)
+      userInfo = {
+        accountId: Number($location.search().a),
+        regCode: Number($location.search().u),
+        roles: $location.search().r.split('~')
+      };
 
-        // If user is signed in then redirect back home
-        if ($scope.authentication.user) {
-            $location.path('/');
-        }
-
-        $scope.signup = function () {
-            $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
-        };
-
-
-        //Reg code (userId) exists in database, continue with creation
-        function onValidReg(response) {
-            var userUpdate = {
-                payload: {
-                    email: $scope.credentials.email,
-                    firstName:$scope.credentials.firstName,
-                    lastName:$scope.credentials.lastName,
-                    username: $scope.credentials.username,
-                    password: $scope.credentials.password,
-                    roles:userInfo.roles,
-                    userId: userInfo.regCode,
-                    accountId:userInfo.accountId
-                }
-            };
-            var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
-            $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
-
-        }
-
-        //Reg code (userId) was invalid. Show error and reset credentials.
-        function onInvalidReg(err) {
-            toastr.error('User is not a valid user. Please contact support.');
-            console.error(err);
-            $scope.credentials = {}
-        }
-
-        //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
-        function onUpdateSuccess(apiRes) {
-            if (apiRes) {
-                authToken.setToken(apiRes.data.token);
-                //set roles
-                localStorage.setItem('roles', apiRes.data.roles);
-                //store account Id in location storage
-                localStorage.setItem('accountId', apiRes.data.accountId);
-                //set userId
-                localStorage.setItem('roles', apiRes.data.roles)
-                localStorage.setItem('userId', apiRes.data.userId);
-                localStorage.setItem('userObject', JSON.stringify(apiRes.data));
-                $scope.authentication.user = apiRes.data;
-                userInfo.roles.forEach(function(role){
-                    $scope.authentication.user.roles.push(Number(role))
-                })
-                console.log($scope.authentication)
-                toastr.success('Success! User Created. Logging you in now...');
-                 //And redirect to the previous or home page
-
-                if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
-                    console.log('1')
-                    if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
-                        console.log('2')
-                        $state.go('editor.products', {type: "wine", status: "new"})
-                    }
-                } else {
-                    $state.go('dashboard', $state.previous.params);
-                }
-
-            }
-        }
-
-        function onUpdateError(err) {
-            toastr.error(err.message);
-            console.error(err)
-        }
-
-        $scope.signin = function (isValid) {
-            $scope.error = null;
-            if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'userForm');
-                return false;
-            }
-            var url = constants.API_URL + "/users/login";
-            var payload = {
-                payload: $scope.credentials
-            };
-            console.log(payload);
-            $http.post(url, payload).then(onSigninSuccess, onSigninError);
-        };
-
-        //We've signed into the mongoDB, now lets authenticate with OnCue's API.
-        function onSigninSuccess(response) {
-
-            // If successful we assign the response to the global user model
-            authToken.setToken(response.data.token);
-            //set roles
-            localStorage.setItem('roles', response.data.roles);
-            //store account Id in location storage
-            localStorage.setItem('accountId', response.data.accountId);
-            //set userId
-            localStorage.setItem('roles', response.data.roles)
-            localStorage.setItem('userId', response.data.userId);
-            localStorage.setItem('userObject', JSON.stringify(response.data));
-            $scope.authentication.user = response.data;
-
-
-            if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
-                if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
-                    $state.go('editor.products', {type: "wine", status: "new"})
-                }
-            } else {
-                $state.go('dashboard', $state.previous.params);
-            }
-
-        }
-
-        //We could not sign into mongo, so clear everything and show error.
-        function onSigninError(err) {
-            console.error(err);
-            toastr.error('Failed To Connect, Please Contact Support.');
-            $scope.error = err.message;
-            $scope.credentials = {};
-        }
-
-        // OAuth provider request
-        $scope.callOauthProvider = function (url) {
-            if ($state.previous && $state.previous.href) {
-                url += '?redirect_to=' + encodeURIComponent($state.previous.href);
-            }
-
-            // Effectively call OAuth authentication route:
-            $window.location.href = url;
-        };
+    // If user is signed in then redirect back home
+    if ($scope.authentication.user) {
+      $location.path('/');
     }
+
+    $scope.signup = function () {
+      $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
+    };
+
+    //Reg code (userId) exists in database, continue with creation
+    function onValidReg (response) {
+      var userUpdate = {
+        payload: {
+          email: $scope.credentials.email,
+          firstName: $scope.credentials.firstName,
+          lastName: $scope.credentials.lastName,
+          username: $scope.credentials.username,
+          password: $scope.credentials.password,
+          roles: userInfo.roles,
+          userId: userInfo.regCode,
+          accountId: userInfo.accountId
+        }
+      };
+      var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
+      $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
+
+    }
+
+    //Reg code (userId) was invalid. Show error and reset credentials.
+    function onInvalidReg (err) {
+      toastr.error('User is not a valid user. Please contact support.');
+      console.error(err);
+      $scope.credentials = {}
+    }
+
+    //User updated users table in API successfully (registered in OnCue db) Update Mongo DB and sign in.
+    function onUpdateSuccess (apiRes) {
+      if (apiRes) {
+        authToken.setToken(apiRes.data.token);
+        //set roles
+        localStorage.setItem('roles', apiRes.data.roles);
+        //store account Id in location storage
+        localStorage.setItem('accountId', apiRes.data.accountId);
+        //set userId
+        localStorage.setItem('roles', apiRes.data.roles)
+        localStorage.setItem('userId', apiRes.data.userId);
+        localStorage.setItem('userObject', JSON.stringify(apiRes.data));
+        $scope.authentication.user = apiRes.data;
+        userInfo.roles.forEach(function (role) {
+          $scope.authentication.user.roles.push(Number(role))
+        })
+        console.log($scope.authentication)
+        toastr.success('Success! User Created. Logging you in now...');
+        //And redirect to the previous or home page
+
+        if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
+          console.log('1')
+          if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
+            console.log('2')
+            $state.go('editor.products', { type: "wine", status: "new" })
+          }
+        } else {
+          $state.go('dashboard', $state.previous.params);
+        }
+
+      }
+    }
+
+    function onUpdateError (err) {
+      toastr.error(err.message);
+      console.error(err)
+    }
+
+    $scope.signin = function (isValid) {
+      $scope.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'userForm');
+        return false;
+      }
+      var url = constants.API_URL + "/users/login";
+      var payload = {
+        payload: $scope.credentials
+      };
+      console.log(payload);
+      $http.post(url, payload).then(onSigninSuccess, onSigninError);
+    };
+
+    //We've signed into the mongoDB, now lets authenticate with OnCue's API.
+    function onSigninSuccess (response) {
+
+      // If successful we assign the response to the global user model
+      authToken.setToken(response.data.token);
+      //set roles
+      localStorage.setItem('roles', response.data.roles);
+      //store account Id in location storage
+      localStorage.setItem('accountId', response.data.accountId);
+      //set userId
+      localStorage.setItem('roles', response.data.roles)
+      localStorage.setItem('userId', response.data.userId);
+      localStorage.setItem('userObject', JSON.stringify(response.data));
+      $scope.authentication.user = response.data;
+
+      if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
+        if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
+          $state.go('editor.products', { type: "wine", status: "new" })
+        }
+      } else {
+        $state.go('dashboard', $state.previous.params);
+      }
+
+    }
+
+    //We could not sign into mongo, so clear everything and show error.
+    function onSigninError (err) {
+      console.error(err);
+      toastr.error('Failed To Connect, Please Contact Support.');
+      $scope.error = err.message;
+      $scope.credentials = {};
+    }
+
+    // OAuth provider request
+    $scope.callOauthProvider = function (url) {
+      if ($state.previous && $state.previous.href) {
+        url += '?redirect_to=' + encodeURIComponent($state.previous.href);
+      }
+
+      // Effectively call OAuth authentication route:
+      $window.location.href = url;
+    };
+  }
 ]);
 ;
 'use strict';
@@ -3256,8 +3264,11 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ]);
 ;
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-                                                                        $location, $state, $stateParams, Countries, $mdDialog,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+  $location, $state, $stateParams, Countries, orderDataService,
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+  // we should probably break this file into smaller files,
+  // it's a catch-all for the entire productEditor
+
   Authentication.user = Authentication.user || { roles: '' }
   $scope.$state = $state
   $scope.pes = productEditorService
@@ -3323,6 +3334,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.searchProducts = function (searchText) {
+    $scope.allProducts = []
+    $scope.selected = []
     $scope.loadingData = true
     var options = { status: $scope.checkbox.progress, types: $scope.filter }
     productEditorService.getProductList(searchText, options).then(function (data) {
@@ -3348,6 +3361,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     } else {
       $scope.selected.splice(i, 1)
     }
+    if ($state.includes('admin')) {
+      orderDataService.storeSelected($scope.selected)
+    }
     console.log('toggleSelected %O', $scope.selected)
   }
 
@@ -3356,6 +3372,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $state.go('editor.view', { productId: product.productId })
   }
 
+  $scope.getModalData = function (product) {
+    productEditorService.getProduct(product).then(function (response) {
+      console.log('modal Data %O', response)
+        $scope.modalData = response
+    }
+    )
+  }
   $scope.quickEdit = function (product) {
     var options = {
       userId: $scope.userId,
@@ -3380,43 +3403,24 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
   }
 
-  $scope.mergeProducts = function () {
-    mergeService.merge($scope.selected).then(function () {
-      console.log('mergeProducts %O', $scope)
-      $state.go('editor.merge')
-    })
-  }
-
-  $scope.removeMergedImage = function (i) {
-    mergeService.newProduct.images.splice(i, 1)
-  }
-
-  $scope.playMergedAudio = function (i) {
-    for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
-      mergeService.newProduct.audio[ a ].pause()
-      mergeService.newProduct.audio[ a ].currentTime = 0
-      if (a === i) {
-        mergeService.newProduct.audio[ i ].play()
-      }
-    }
-  }
-
-  $scope.pauseMergedAudio = function () {
-    mergeService.newProduct.audio.forEach(function (a) {
-      a.pause()
-    })
-  }
-
-  $scope.removeMergedAudio = function (i) {
-    mergeService.newProduct.audio[ i ].pause()
-    mergeService.newProduct.audio.splice(i, 1)
-  }
-
   $scope.types = [
     { productTypeId: 1, name: 'Wine' },
     { productTypeId: 2, name: 'Beer' },
     { productTypeId: 3, name: 'Spirits' }
   ]
+
+  $scope.toggleSelected = function (product) {
+    $scope.selected = $scope.selected || []
+    var i = _.findIndex($scope.selected, function (selectedProduct) {
+      return selectedProduct.productId === product.productId
+    })
+    if (i < 0) {
+      $scope.selected.push(product)
+    } else {
+      $scope.selected.splice(i, 1)
+    }
+    console.log('toggleSelected %O', $scope.selected)
+  }
 
   $scope.toggleAll = function () {
     var sel = !$scope.allSelected
@@ -3430,38 +3434,38 @@ angular.module('users').controller('productEditorController', function ($scope, 
       return p
     })
   }
+  // Functions related to changing product status
 
-  //
+  $scope.issues = [
+    'Problem With Image',
+    'Problem With Text',
+    'Problem With Audio'
+  ]
 
-  //
+  $scope.feedback = {
+    issue: '',
+    comments: ''
+  }
 
-  //
+  $scope.selectIssue = function (issue) {
+    $scope.feedback.issue = issue
+  }
 
-  //
-  //
+  $scope.sendBack = function () {
+    var feedback = {
+      issue: $scope.feedback.issue,
+      comments: $scope.feedback.comments,
+      date: new Date()
+    }
+    productEditorService.updateFeedback(feedback)
+  }
 
-  //
-  //
+  $scope.approveSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'approved')
+  }
 
-  //
-
-  //
-
-  //
-
-  //
-
-  //
-
-  //
-
-  //
-
-  // NOTE: alot of what's below is from old function product editor but might be useful with new editor including ui grid
-  $scope.sendBack = function (product, feedback) {
-    product.feedback = feedback
-    product.status = 'inprogress'
-    productEditorService.save(product)
+  $scope.rejectSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'inprogress')
   }
 
   $scope.approveProduct = function (product) {
@@ -3481,15 +3485,19 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.save(product)
   }
 
-  $scope.flagAsDuplicate = function (product, comments) {
-    product.description += ' | DUPLICATE:' + comments
-    product.status = 'duplicate'
-    productEditorService.save(product)
+  $scope.assignSelectedToUser = function (editor) {
+    $scope.selected.forEach(function (product) {
+      var options = {
+        username: editor.displayName || editor.username || editor.email,
+        userId: $scope.userId,
+        productId: product.productId,
+        status: 'inprogress'
+      }
+      productEditorService.claim(options)
+    })
   }
 
-  $scope.updateCounts = function () {
-    productEditorService.getStats()
-  }
+  // Audio/Image functions
 
   $scope.playAudio = function () {
     productEditorService.currentProduct.audio.play()
@@ -3527,26 +3535,45 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.productsSelection = {}
   $scope.productsSelection.contains = false
-  $scope.people = [
-    { name: 'Diego Fortes', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: true },
-    { name: 'Tom Cruise', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false },
-    { name: 'C3PO Robo', img: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50', selected: false }
-  ]
+  // Functions related to merging //
 
-  $scope.buttonDisplay = function (button, product) {
-    // var flag = false
-    switch (button) {
-      case 'Edit':
+  $scope.mergeProducts = function () {
+    mergeService.merge($scope.selected).then(function () {
+      console.log('mergeProducts %O', $scope)
+      $state.go('editor.merge')
+    })
+  }
 
-        break
-      case 'Unassign':
+  $scope.removeMergedImage = function (i) {
+    mergeService.newProduct.images.splice(i, 1)
+  }
 
-        break
-      case 'Claim':
+  $scope.playMergedAudio = function (i) {
+    for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
+      mergeService.newProduct.audio[ a ].pause()
+      mergeService.newProduct.audio[ a ].currentTime = 0
+      if (a === i) {
+        mergeService.newProduct.audio[ i ].play()
+      }
+    }
+  }
 
-        break
-      case 'Quick Edit':
+  $scope.pauseMergedAudio = function () {
+    mergeService.newProduct.audio.forEach(function (a) {
+      a.pause()
+    })
+  }
 
+  $scope.removeMergedAudio = function (i) {
+    mergeService.newProduct.audio[ i ].pause()
+    mergeService.newProduct.audio.splice(i, 1)
+  }
+
+  $scope.toggleFilterUserId = function () {
+    if ($scope.filterUserId) {
+      $scope.filterUserId = ''
+    } else {
+      $scope.filterUserId = $scope.userId
     }
   }
 })
@@ -3565,234 +3592,6 @@ angular.module('users').controller('productEditorDetailController', function ($s
 
     console.log('starting product detail controller');
     $scope.productEditorService = productEditorService;
-});
-;
-
-angular.module("users").controller("productEditorMergeController", function ($scope,productFields,Authentication, productGridData,productEditorService, uiGridConstants, $state,$location,$stateParams, $q, $http,constants, $timeout) {
-    "use strict";
-    Authentication.user = Authentication.user || { roles: '' };
-    $scope.$state = $state;
-    $scope.pes = productEditorService;
-    // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
-    $scope.userId = localStorage.getItem('userId');
-
-    $scope.permissions = {
-        editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
-        curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
-    };
-
-    $scope.names = ["new", "inprogress", "available"];
-    $scope.types = ["beer", "wine", "spirits"];
-    var url = '';
-    $scope.$watch('stuff', function(stuff) {
-        if (!stuff) {
-            return;
-        }
-        url += "status="+stuff;
-        console.log(url)
-        $state.transitionTo('.', {variable: url}, { location: true, inherit: false, relative: $state.$current, notify: false })
-    });
-
-    $scope.loadingData = true;
-    $scope.wd = productGridData;
-    $scope.showPanel = false;
-    $scope.showEdit = true;
-    $scope.editProductsIndex = 0;
-    $scope.editOneProduct = null;
-    $scope.editMultipleProducts = [];
-    $scope.newProduct = {};
-
-    $scope.gridOptions = {
-        //enableSelectAll: true,
-        enableRowSelection: true,
-        //enableGridMenu: true,
-        rowEditWaitInterval: -1,
-        enableFiltering: true,
-        onRegisterApi: function (gridApi) {
-            $scope.loadingData = false;
-            $scope.gridApi = gridApi;
-            gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
-            gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                //When you select an item, add the keys for that item and add it to the "to edit" array.
-                row.entity.keys = Object.keys(row.entity);
-                $scope.showPanel = true;
-                $scope.editMultipleProducts.push(row.entity);
-                console.dir($scope.editMultipleProducts)
-            });
-
-        },
-        columnDefs: [
-            {field: 'name'}
-        ]
-    };
-
-
-    $scope.getData = function (type) {
-        $scope.loadingData = true;
-        $scope.gridOptions.data = [];
-        //$scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        productGridData.getData(type).then(function (data) {
-            if (type == 1) {
-                $scope.productType = 'Wine';
-                $scope.gridOptions.columnDefs = productFields.wine;
-            }
-            if (type == 2) {
-                $scope.productType = 'Beer';
-                $scope.gridOptions.columnDefs = productFields.beer;
-            }
-            if (type == 3) {
-                $scope.productType = 'Spirits';
-                $scope.gridOptions.columnDefs = productFields.spirits;
-            }
-            $scope.loadingData = false;
-            $scope.gridOptions.data = data;
-            $scope.productCount = data.length;
-            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-            $timeout(function () {
-                //$scope.removeExtraColumns()
-            }, 0)
-        })
-    };
-
-    $scope.removeExtraColumns = function () {
-        console.dir($scope.gridOptions.columnDefs);
-        for (var i = 0; i < $scope.gridOptions.columnDefs.length; i++) {
-            if ($scope.gridOptions.columnDefs[i].name === "_typeInfo") {
-                console.dir($scope.gridOptions.columnDefs[i]);
-                $scope.gridOptions.columnDefs[i].visible = false;
-                $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-            } else if ($scope.gridOptions.columnDefs[i].name === "_original") {
-                $scope.gridOptions.columnDefs[i].visible = false;
-                $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-            }
-        }
-    };
-
-    $scope.saveRow = function (rowEntity) {
-        var defer = $q.defer();
-        $scope.gridApi.rowEdit.setSavePromise(rowEntity, defer.promise);
-        productGridData.updateWidget(rowEntity).then(function (res) {
-            console.dir(res)
-            defer.resolve()
-        })
-        return defer.promise;
-    };
-
-    $scope.searchProducts = function () {
-        $scope.loadingData = true;
-        $scope.gridOptions.data = [];
-        var fields = [];
-        var columnNames = [];
-        console.log('search products called')
-        productGridData.searchProducts($scope.searchText).then(function (data) {
-            console.log(data)
-            $scope.loadingData = false;
-            data.forEach(function(data){
-                Object.keys(data).forEach(function(column){
-                    if(columnNames.indexOf(column)  <0 && column != 'properties' && column != 'mediaAssets'  && column != 'feedback' && column != 'notes' ){
-                        fields.push({field: column});
-
-                    }
-                    columnNames.push(column)
-                })
-               data["properties"].forEach(function(label){
-                    if(columnNames.indexOf(label.label)  <0 ){
-                        fields.push({field: label.label});
-                        data[label.label] = label.value;
-                    }
-                    columnNames.push(label.label)
-                })
-                data["mediaAssets"].forEach(function(label){
-
-                    if(columnNames.indexOf(label.type)  <0 ){
-                        fields.push({field: label.type});
-                        data[label.type] = label.publicUrl;
-                    }
-                    columnNames.push(label.type)
-                })
-            })
-            $scope.gridOptions.columnDefs = fields;
-            $scope.gridOptions.data = data;
-            $scope.productCount = data.length;
-            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        })
-    };
-
-    $scope.saveEditedRows = function () {
-        $scope.gridApi.rowEdit.flushDirtyRows();
-        $scope.editOneProduct = null;
-        $scope.editMultipleProducts = [];
-    };
-
-    $scope.saveModalEdits = function () {
-        var products = [];
-        products.push($scope.editOneProduct);
-        products.push($scope.editMultipleProducts);
-        products.forEach(function (product) {
-            productGridData.updateWidget(product).then(function (res) {
-                console.dir(res);
-                defer.resolve()
-            })
-        })
-    };
-
-    $scope.nextEditProduct = function () {
-        if ($scope.editProductsIndex < ($scope.editMultipleProducts.length - 1)) {
-            $scope.editProductsIndex++;
-        } else {
-            $scope.editProductsIndex = 0;
-        }
-    };
-
-    $scope.panelSaveProduct = function () {
-        var product = $scope.editMultipleProducts[$scope.editProductsIndex];
-        delete product.$$hashKey;
-        productGridData.updateWidget(product).then(function (res) {
-            alert('product saved: ' + res.data);
-            $scope.editMultipleProducts.splice($scope.editProductsIndex, 1)
-            if ($scope.editMultipleProducts.length < 1) {
-                $scope.showPanel = false;
-            }
-        })
-    };
-
-    $scope.setNewProductProperties = function () {
-        if ($scope.newProduct.type == 1) {
-            $scope.newProduct.properties = [];
-            productFields.wine.forEach(function (field) {
-                $scope.newProduct.properties.push({key: field.field, value: ''});
-                $scope.newProductGrid.data = $scope.newProduct.properties
-
-            })
-        } else if ($scope.newProduct.type == 2) {
-            $scope.newProduct.properties = [];
-            productFields.beer.forEach(function (field) {
-                $scope.newProduct.properties.push({key: field.field, value: ''})
-            })
-        } else if ($scope.newProduct.type == 3) {
-            $scope.newProduct.properties = [];
-            productFields.spirits.forEach(function (field) {
-                $scope.newProduct.properties.push({key: field.field, value: ''})
-            })
-        }
-    };
-
-    $scope.createProduct = function () {
-        console.dir($scope.newProduct)
-    }
-
-    $scope.newProductGrid = {
-        //enableSelectAll: true,
-        //enableGridMenu: true,
-        rowEditWaitInterval: -1,
-        enableFiltering: true,
-        onRegisterApi: function (gridApi) {
-            $scope.gridApi = gridApi;
-            gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
-        }
-    };
-
-
 });
 ;
 'use strict';
@@ -4094,18 +3893,21 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
             }
         });
 
-        
-
         $scope.upload = function(files) {
+
             for (var i = 0; i < files.length; i++) {
                 var mediaConfig = {
-                    mediaRoute: 'ads',
+                    mediaRoute: 'media',
+                    type: 'SUPPLIER',
                     folder: 'supplier',
                     accountId: localStorage.getItem('accountId')
                 };
                 uploadService.upload(files[i], mediaConfig).then(function (response, err) {
+                    console.log('mediaController::upload response %O', response);
                     if (response) {
-                        toastr.success('New Ad Uploaded', 'Success!');
+                        toastr.success('New File Uploaded', 'Success!');
+                        $scope.uploadedFile = response[ 0 ]
+                        $scope.files = [];
                     }
                     else {
                         toastr.error('There was a problem uploading ads')
@@ -6482,15 +6284,16 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var API_URL = constants.BWS_API;
 
     me.allItems = {};
+    me.selected =[];
     me.getData = getData;
-
-
+    me.searchSku = searchSku;
+    me.createNewProduct = createNewProduct;
+    me.markDuplicate = markDuplicate;
+    me.storeSelected = storeSelected;
     return me;
 
 
-    function getData(id) {
-
-        //back back
+    function getData (id) {
         var defer = $q.defer();
         console.log(id)
         var orderUrl = API_URL + '/edit/orders/'+id;
@@ -6501,7 +6304,77 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
         });
         return defer.promise;
     }
+    function storeSelected (selected) {
+            me.selected = selected;
+        return me.selected;
+    }
+    function searchSku (sku) {
+        var defer = $q.defer();
+        console.log('orderdata %O',sku)
+        var skuUrl = API_URL + '/edit/search?v=sum&sku='+sku;
+        $http.get(skuUrl).then(function (skuItems) {
+            me.skuData = skuItems.data;
+            console.log('orderdata %O',skuItems)
+            defer.resolve( me.skuData)
+        });
+        return defer.promise;
+    }
+    function markDuplicate (prod, selected){
+        var defer = $q.defer();
+        var skuUrl = API_URL + '/edit/duplicates';
+        var payload =
+        {"payload":{
+            "duplicates": [
 
+            ],
+            "skus":[
+                prod.upc
+            ]
+        }
+        }
+        for(var i in selected){
+            payload.payload.duplicates.push(selected[i].productId)
+        }
+        $http.post(skuUrl, payload).then(function (skuItems) {
+            console.log(payload)
+
+            if (skuItems)
+                defer.resolve( skuItems)
+        });
+        return defer.promise;
+    }
+    function createNewProduct (prod) {
+        var defer = $q.defer();
+        var skuUrl = API_URL + '/edit/products';
+        var payload = {
+            'payload':{
+                    "name": prod.name,
+                    "description": "New Discription Needed",
+                    "notes": "",
+                    "productTypeId": prod.type,
+                    "requestedBy": "sellr",
+                    "feedback": "0",
+                    "properties": [ ],
+                    "mediaAssets": [
+                        {
+                            "type": "RESEARCH_IMG",
+                            "fileName": "",
+                            "script": null,
+                            "publicUrl": prod.url
+                        }
+                    ],
+                    "skus": [
+                        prod.upc
+                    ]
+            }
+        }
+        console.log(payload)
+        $http.post(skuUrl, payload).then(function (skuItems) {
+            if (skuItems)
+                defer.resolve( skuItems)
+        });
+        return defer.promise;
+    }
 
 });
 ;
@@ -6531,457 +6404,490 @@ angular.module('users').factory('PasswordValidator', ['$window',
   }
 ]);
 ;
-'use strict';
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
-    var me = this;
-    var debugLogs = false;
-    var log = function (title, data) {
-        if (debugLogs) {
-            title += '%O';
-            console.log(title, data);
-        }
-    };
-    var cachedProduct;
-    me.changes = [];
-    if (localStorage.getItem('userId')) {
-        me.userId = localStorage.getItem('userId');
+  var me = this
+  var debugLogs = false
+  var log = function (title, data) {
+    if (debugLogs) {
+      title += '%O'
+      console.log(title, data)
     }
-    me.show = {
-        loading: true
-    };
-    if (localStorage.getItem('edit-account')) {
-        me.currentAccount = localStorage.getItem('edit-account');
+  }
+  var cachedProduct
+  me.changes = []
+  if (localStorage.getItem('userId')) {
+    me.userId = localStorage.getItem('userId')
+  }
+  me.show = {
+    loading: true
+  }
+  if (localStorage.getItem('edit-account')) {
+    me.currentAccount = localStorage.getItem('edit-account')
+  } else {
+    me.currentAccount = ''
+  }
+
+  me.init = function () {
+    me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, {
+      name: 'spirits',
+      productTypeId: 3
+    } ]
+    me.productStatuses = [
+      { name: 'Available', value: 'new' },
+      { name: 'In Progress', value: 'inprogress' },
+      { name: 'Done', value: 'done' },
+      { name: 'Approved', value: 'approved' }
+    ]
+    me.productStorage = {}
+    me.productStats = {}
+    me.productList = []
+    me.myProducts = []
+    me.currentProduct = {}
+    me.currentType = {}
+    me.currentStatus = {}
+    // initialize with new products so list isnt empty
+
+    getProductEditors()
+    me.show.loading = false
+  }
+
+  me.getProductList = function (searchText, options) {
+    var defer = $q.defer()
+    me.productList = []
+    var url = constants.BWS_API + '/edit/search?'
+    if (options.types) {
+      for (var i in options.types) {
+        url += '&type=' + options.types[ i ].type
+      }
+    }
+    if (options.sku) {
+      url += '&sku=' + options.sku
+    }
+    // if (options.status) {
+    //   url += '&status=' + options.status
+    // }
+    if (searchText) {
+      url += '&q=' + searchText + '&v=sum'
+    }
+    $http.get(url).then(function (response) {
+      me.productList = response.data
+      defer.resolve(me.productList)
+    })
+    return defer.promise
+  }
+
+  // send in type,status,userid, get back list of products
+  me.getMyProducts = function (options) {
+    options = options | {}
+    if (!options.type || !options.status || !options.userId) {
+      options = {
+        type: me.currentType.productTypeId,
+        status: me.currentStatus.value,
+        userId: me.userId
+      }
+    }
+    var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId
+    $http.get(url).then(getMyProdSuccess, getMyProdError)
+
+    function getMyProdSuccess (response) {
+      if (response.status === 200) {
+        me.productList = response.data
+      }
+    }
+
+    function getMyProdError (error) {
+      console.error('getMyProdError %O', error)
+    }
+  }
+
+  //  abstracts away remote call for detail
+  me.getProductDetail = function (product) {
+    return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
+  }
+
+  me.getProduct = function (product) {
+    var defer = $q.defer()
+    if (!product.productId) {
+      defer.reject({ message: 'no product Id' })
+    }
+    if (me.productStorage[ product.productId ]) {
+      //  use cached product if exists
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
+      defer.resolve(me.productStorage[ product.productId ])
     } else {
-        me.currentAccount = '';
-    }
-
-
-    me.init = function () {
-        me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, { name: 'spirits', productTypeId: 3 } ];
-        me.productStatuses = [
-            { name: 'Available', value: 'new' },
-            { name: 'In Progress', value: 'inprogress' },
-            { name: 'Done', value: 'done' },
-            { name: 'Approved', value: 'approved' }
-        ];
-        me.productStorage = {}
-        me.productStats = {};
-        me.productList = [];
-        me.myProducts = [];
-        me.currentProduct = {};
-        me.currentType = {};
-        me.currentStatus = {};
-        //initialize with new products so list isnt empty
-
-        me.getStats();
-        me.show.loading = false;
-    };
-
-
-    me.getProductList = function (searchText, options) {
-        var defer = $q.defer();
-        me.productList = [];
-        var url = constants.BWS_API + '/edit/search?'
-        if (options.types) {
-
-            for (var i in options.types) {
-                url += '&type=' + options.types[ i ].type;
-            }
-        }
-        if (options.sku) {
-            url += '&sku=' + options.sku
-        }
-        if (options.status) {
-            url += '&status=' + options.status;
-        }
-        if (searchText) {
-            url += '&q=' + searchText + '&v=sum';
-        }
-        $http.get(url).then(function (response) {
-            me.productList = response.data;
-            defer.resolve(me.productList)
-        });
-        return defer.promise;
-    };
-
-
-    //send in type,status,userid, get back list of products
-    me.getMyProducts = function (options) {
-        options = options | {};
-        if (!options.type || !options.status || !options.userId) {
-            options = {
-                type: me.currentType.productTypeId,
-                status: me.currentStatus.value,
-                userId: me.userId
-            };
-        }
-        var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId;
-        $http.get(url).then(getMyProdSuccess, getMyProdError);
-
-        function getMyProdSuccess(response) {
-            if (response.status === 200) {
-                me.productList = response.data
-            }
-        }
-
-        function getMyProdError(error) {
-            //error('getMyProdError %O', error)
-        }
-    };
-
-
-    //abstracts away remote call for detail
-    me.getProductDetail = function (product) {
-        return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
-    };
-
-    me.getProduct = function (product) {
-        var defer = $q.defer();
-        if (!product.productId) {
-            defer.reject({ message: 'no product Id' })
-        }
-        if (me.productStorage[ product.productId ]) {
-            //use cached product if exists
-            cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
-            defer.resolve(me.productStorage[ product.productId ])
-
+      //  get from api and format
+      me.getProductDetail(product).then(function (res) {
+        if (res.data.length > 0) {
+          me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+            log('formattedProduct', formattedProduct)
+            // store product for faster load next time
+            me.productStorage[ product.productId ] = formattedProduct
+            defer.resolve(formattedProduct)
+          })
         } else {
-
-            //get from api and format
-            me.getProductDetail(product).then(function (res) {
-                if (res.data.length > 0) {
-                    me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                        log('formattedProduct', formattedProduct);
-                        //store product for faster load next time
-                        me.productStorage[ product.productId ] = formattedProduct
-                        defer.resolve(formattedProduct)
-                    })
-                } else {
-                    var error = { message: 'Could not get product detail for ' + product.name }
-                    toastr.error(error.message)
-                    defer.reject(error)
-                }
-            }, function (error) {
-                //error(error)
-                toastr.error('Could not get product detail for ' + product.name)
-                defer.reject(error)
-            });
+          var error = { message: 'Could not get product detail for ' + product.name }
+          toastr.error(error.message)
+          defer.reject(error)
         }
-        return defer.promise;
-    };
+      }, function (error) {
+        // error(error)
+        toastr.error('Could not get product detail for ' + product.name)
+        defer.reject(error)
+      })
+    }
+    return defer.promise
+  }
 
+  // calls get detail from API and caches product
+  me.setCurrentProduct = function (product) {
+    me.currentProduct = {}
+    cachedProduct = {}
+    me.changes = []
+    me.getProduct(product).then(function (formattedProduct) {
+      formattedProduct.userId = product.userId
+      me.currentProduct = formattedProduct
+      //  cache current product for comparison
+      cachedProduct = jQuery.extend(true, {}, formattedProduct)
+    })
+  }
 
-    //calls get detail from API and caches product
-    me.setCurrentProduct = function (product) {
-        me.currentProduct = {};
-        cachedProduct = {};
-        me.changes = [];
-        me.getProduct(product).then(function (formattedProduct) {
-            me.currentProduct = formattedProduct;
+  //  claim a product
+  me.claim = function (options) {
+    // options should have userId and productId
+    if (!options.productId || !options.userId) {
+      // error('could not claim, wrong options')
+    }
+    if (options.status !== 'done') {
+      options.status = 'inprogress'
+    }
+    var payload = {
+      'payload': options
+    }
+    log('claiming', payload)
+    var url = constants.BWS_API + '/edit/claim'
+    $http.post(url, payload).then(function (res) {
+      toastr.info('User ' + options.username + ' claimed product ' + options.productId)
+      // socket.emit('product-claimed', options)
+      me.getStats()
+      log('claim response', res)
+    }, function (err) {
+      toastr.error('There was a problem claiming this product')
+      console.error(err)
+    })
+  }
 
-            //cache current product for comparison
-            cachedProduct = jQuery.extend(true, {}, formattedProduct);
+  // remove a claim on a product
+  me.removeClaim = function (options) {
+    // options should have userId and productId
+    if (!options.productId || !options.userId) {
+      // error('could not claim, wrong options')
+    }
+    options.status = 'new'
+    var payload = {
+      'payload': options
+    }
+    log('removing claim', payload)
+    var url = constants.BWS_API + '/edit/claim'
+    $http.put(url, payload).then(function (res) {
+      log('claim response', res)
+      // socket.emit('product-unclaimed', options)
+      me.currentProduct = {}
+    }, function (err) {
+      log('deleteClaim error', err)
+      toastr.error('There was an error claiming this product.')
+    })
+  }
 
-        })
-
-    };
-
-
-
-    //claim a product
-    me.claim = function (options) {
-        //options should have userId and productId
-        if (!options.productId || !options.userId) {
-            //error('could not claim, wrong options')
-        }
-        if (options.status != 'done') {
-            options.status = 'inprogress';
-        }
-        var payload = {
-            "payload": options
-        };
-        log('claiming', payload);
-        var url = constants.BWS_API + '/edit/claim';
-        $http.post(url, payload).then(function (res) {
-            toastr.info('You claimed product ' + options.productId);
-            //socket.emit('product-claimed', options);
-            me.getStats();
-            log('claim response', res)
-        })
-    };
-
-    //remove a claim on a product
-    me.removeClaim = function (options) {
-        //options should have userId and productId
-        if (!options.productId || !options.userId) {
-            //error('could not claim, wrong options')
-        }
-        options.status = 'new';
-        var payload = {
-            "payload": options
-        };
-        log('removing claim', payload);
-        var url = constants.BWS_API + '/edit/claim';
-        $http.put(url, payload).then(function (res) {
-            log('claim response', res);
-            //socket.emit('product-unclaimed', options);
-            me.currentProduct = {};
-        }, function (err) {
-            log('deleteClaim error', err);
-            toastr.error('There was an error claiming this product.')
-        })
-    };
-
-    me.save = function (product) {
-        var defer = $q.defer();
-        if (!product.productId) {
-            return
-        }
-        product.userId = me.userId;
-        if (!product.userId) {
-            if (localStorage.getItem('userId')) {
-                me.userId = localStorage.getItem('userId');
-                product.userId = me.userId;
-            }
-        }
-        if (!product.userId) {
-            toastr.error('There was a problem saving this product. Please sign out and sign in again.')
-            return
-        }
-        var payload = {
-            payload: compareToCachedProduct(product)
-        };
-        var url = constants.BWS_API + '/edit/products/' + product.productId;
-        $http.put(url, payload).then(onSaveSuccess, onSaveError);
-        function onSaveSuccess(response) {
-            window.scrollTo(0, 0);
-            //socket.emit('product-saved');
-            me.productStorage[ product.productId ] = product;
-            toastr.success('Product Updated!')
-            defer.resolve()
-        }
-
-        function onSaveError(error) {
-            console.error('onSaveError %O', error);
-            toastr.error('There was a problem updating product ' + product.productId);
-            defer.reject()
-        }
-
-        return defer.promise
-    };
-
-
-    me.getStats = function () {
-        var account = me.currentAccount;
-
-        var url = constants.BWS_API + '/edit/count';
-        if (account) {
-            url += '?requested_by=' + account
-        }
-        $http.get(url).then(onGetStatSuccess, onGetStatError);
-        function onGetStatSuccess(response) {
-            //log('onGetStatSuccess %O', response);
-            me.productStats = response.data
-            me.currentAccount = account;
-        }
-
-        function onGetStatError(error) {
-            //log('onGetStatError %O', error)
-            me.productStats = {}
-        }
-    };
-
-    me.formatProductDetail = function (product) {
-        var defer = $q.defer()
-        product.name = product.title || product.displayName || product.name;
-        product.notes = product.notes || product.text;
-        product.properties.forEach(function (prop) {
-            switch (prop.label) {
-                case 'Requested By':
-                    product.requestedBy = prop.value;
-                    break;
-                case 'Country':
-                    prop.type = 'countryselect';
-                    break;
-                case 'Script':
-                    prop.type = 'textarea';
-                    break;
-                case 'Description':
-                    prop.type = 'textarea';
-                    break;
-                case 'foodpairing':
-                    prop.type = 'textarea';
-                    break;
-                default:
-                    prop.type = 'input';
-                    break;
-            }
-        });
-        product.mediaAssets.forEach(function (m) {
-            switch (m.type) {
-                case 'AUDIO':
-                    product.description = product.description || m.script;
-                    if (m.publicUrl) {
-                        if (m.publicUrl.length > 1) {
-                            product.audio = document.createElement('AUDIO');
-                            product.audio.src = m.publicUrl;
-                            product.audio.mediaAssetId = m.mediaAssetId;
-                            product.audio.ontimeupdate = function setProgress() {
-                                product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
-                            };
-                        }
-                    }
-                    break;
-                case 'IMAGE':
-                    product.hasImages = true;
-                    product.images = product.images || [];
-                    product.images.mediaAssetId = m.mediaAssetId;
-                    product.images.push(m);
-                    break;
-                case 'RESEARCH_IMG':
-                    product.hasRearchImg = true;
-                    product.researchImages = product.researchImages || [];
-                    product.researchImages.mediaAssetId = m.mediaAssetId;
-                    product.researchImages.push(m);
-                    break;
-            }
-        });
-        if (product.description && !product.description.match(/[<>]/)) {
-            product.description = '<p>' + product.description + '</p>';
-        }
-        defer.resolve(product);
-
-        return defer.promise;
-    };
-
-    me.uploadMedia = function (files) {
-        var mediaConfig = {
-            mediaRoute: 'media',
-            folder: 'products',
-            type: 'PRODUCT',
-            fileType: 'IMAGE',
-            accountId: localStorage.getItem('accountId'),
-            productId: me.currentProduct.productId
-        }
-        //log('product config %0', mediaConfig)
-        uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
-            if (response) {
-                toastr.success('Product Image Updated!');
-                me.save(me.currentProduct).then(function (err, response) {
-                    refreshProduct(me.currentProduct);
-                })
-            }
-            else {
-                toastr.error('Product Image Failed To Update!');
-            }
-        })
-
-    };
-
-    me.uploadAudio = function (files) {
-        var mediaConfig = {
-            mediaRoute: 'media',
-            folder: 'products',
-            type: 'PRODUCT',
-            fileType: 'AUDIO',
-            accountId: localStorage.getItem('accountId'),
-            productId: me.currentProduct.productId
-        }
-        //log('product config %0', files)
-        uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
-            if (response) {
-                toastr.success('Product Audio Updated!');
-
-                me.save(me.currentProduct).then(function (err, response) {
-                    refreshProduct(me.currentProduct);
-                })
-
-            }
-            else {
-                toastr.error('Product Audio Failed To Update!');
-            }
-        })
-
-    };
-    me.removeAudio = function (currentAudio) {
-        //log('delete audio %O', currentAudio)
-        var url = constants.API_URL + '/media/' + currentAudio;
-        $http.delete(url).then(function () {
-            toastr.success('audio removed', 'Success');
-
-            me.save(me.currentProduct).then(function (err, response) {
-                refreshProduct(me.currentProduct);
-            })
-        })
-    };
-    me.removeImage = function (currentImage) {
-        //log('delete image %O', currentImage)
-        var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
-        $http.delete(url).then(function () {
-            toastr.success('image removed', 'Success');
-            me.save(me.currentProduct).then(function (err, response) {
-                refreshProduct(me.currentProduct);
-            })
-        })
-
-    };
-
-
-    function compareToCachedProduct(prod) {
-        log('updatedProd', prod);
-        log('cachedProd', cachedProduct);
-        me.changes = [];
-        if (prod.title !== cachedProduct.title) {
-            me.changes.push('Changed title to ' + prod.title)
-        }
-
-        for (var i = 0; i < prod.properties.length; i++) {
-            var updated = prod.properties[ i ];
-            var cached = cachedProduct.properties[ i ];
-
-            if (updated.value !== cached.value) {
-                if (!cached.valueId) {
-                    updated.changed = 'new';
-                    me.changes.push('Added ' + updated.label + ' as ' + updated.value)
-                } else {
-                    updated.changed = 'update';
-                    me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
-                }
-            } else {
-                updated.changed = 'false';
-            }
-        }
-        log('changes added', prod);
-        return (prod)
+  me.save = function (product) {
+    var defer = $q.defer()
+    if (!product.productId) {
+      return
+    }
+    product.userId = me.userId
+    if (!product.userId) {
+      if (localStorage.getItem('userId')) {
+        me.userId = localStorage.getItem('userId')
+        product.userId = me.userId
+      }
+    }
+    if (!product.userId) {
+      toastr.error('There was a problem saving this product. Please sign out and sign in again.')
+      return
+    }
+    var payload = {
+      payload: compareToCachedProduct(product)
+    }
+    var url = constants.BWS_API + '/edit/products/' + product.productId
+    $http.put(url, payload).then(onSaveSuccess, onSaveError)
+    function onSaveSuccess (response) {
+      window.scrollTo(0, 0)
+      // socket.emit('product-saved')
+      me.productStorage[ product.productId ] = product
+      toastr.success('Product Updated!')
+      defer.resolve()
     }
 
-    function refreshProduct(product) {
-        me.getProductDetail(product).then(function (res) {
-            if (res.data.length > 0) {
-                me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-                    var p = formattedProduct;
-                    log('formattedProduct', formattedProduct);
-                    me.currentProduct = formattedProduct;
-
-                    //cache current product for comparison
-                    cachedProduct = jQuery.extend(true, {}, formattedProduct);
-
-                    //store product for faster load next time
-                    me.productStorage[ product.productId ] = formattedProduct
-
-                })
-            } else {
-                toastr.error('Could not get product detail for ' + product.name)
-            }
-        })
+    function onSaveError (error) {
+      console.error('onSaveError %O', error)
+      toastr.error('There was a problem updating product ' + product.productId)
+      defer.reject()
     }
 
+    return defer.promise
+  }
 
-    me.init();
+  me.bulkUpdateStatus = function (products, status) {
+    products.forEach(function (product) {
+      product.properties = []
+      product.status = status
+      me.save(product)
+    })
+  }
 
+  me.getStats = function () {
+    var account = me.currentAccount
 
-    return me;
-});
+    var url = constants.BWS_API + '/edit/count'
+    if (account) {
+      url += '?requested_by=' + account
+    }
+    $http.get(url).then(onGetStatSuccess, onGetStatError)
+    function onGetStatSuccess (response) {
+      // log('onGetStatSuccess %O', response)
+      me.productStats = response.data
+      me.currentAccount = account
+    }
+
+    function onGetStatError (error) {
+      console.error('onGetStatError %O', error)
+      me.productStats = {}
+    }
+  }
+
+  me.formatProductDetail = function (product) {
+    var defer = $q.defer()
+    product.name = product.title || product.displayName || product.name
+    product.notes = product.notes || product.text
+    try {
+      product.feedback = JSON.parse(product.feedback)
+    } catch (e) {
+      product.feedback = []
+    }
+    product.properties.forEach(function (prop) {
+      switch (prop.label) {
+        case 'Requested By':
+          product.requestedBy = prop.value
+          break
+        case 'Country':
+          prop.type = 'countryselect'
+          break
+        case 'Script':
+          prop.type = 'textarea'
+          break
+        case 'Description':
+          prop.type = 'textarea'
+          break
+        case 'foodpairing':
+          prop.type = 'textarea'
+          break
+        default:
+          prop.type = 'input'
+          break
+      }
+    })
+    product.mediaAssets.forEach(function (m) {
+      switch (m.type) {
+        case 'AUDIO':
+          product.description = product.description || m.script
+          if (m.publicUrl) {
+            if (m.publicUrl.length > 1) {
+              product.audio = document.createElement('AUDIO')
+              product.audio.src = m.publicUrl
+              product.audio.mediaAssetId = m.mediaAssetId
+              product.audio.ontimeupdate = function setProgress () {
+                product.audio.progress = Number(product.audio.currentTime / product.audio.duration)
+              }
+            }
+          }
+          break
+        case 'IMAGE':
+          product.hasImages = true
+          product.images = product.images || []
+          product.images.mediaAssetId = m.mediaAssetId
+          product.images.push(m)
+          break
+        case 'RESEARCH_IMG':
+          product.hasRearchImg = true
+          product.researchImages = product.researchImages || []
+          product.researchImages.mediaAssetId = m.mediaAssetId
+          product.researchImages.push(m)
+          break
+      }
+    })
+    if (product.description && !product.description.match(/[<>]/)) {
+      product.description = '<p>' + product.description + '</p>'
+    }
+    defer.resolve(product)
+
+    return defer.promise
+  }
+
+  me.uploadMedia = function (files) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'products',
+      type: 'PRODUCT',
+      fileType: 'IMAGE',
+      accountId: localStorage.getItem('accountId'),
+      productId: me.currentProduct.productId
+    }
+    // log('product config %0', mediaConfig)
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        toastr.success('Product Image Updated!')
+        me.save(me.currentProduct).then(function (err, response) {
+          if (err) {
+            toastr.error('There was a problem uploading this image.')
+          }
+          refreshProduct(me.currentProduct)
+        })
+      } else {
+        toastr.error('Product Image Failed To Update!')
+      }
+    })
+  }
+
+  me.uploadAudio = function (files) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'products',
+      type: 'PRODUCT',
+      fileType: 'AUDIO',
+      accountId: localStorage.getItem('accountId'),
+      productId: me.currentProduct.productId
+    }
+    // log('product config %0', files)
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        toastr.success('Product Audio Updated!')
+
+        me.save(me.currentProduct).then(function (err, response) {
+          if (err) {
+            toastr.error('There was a problem uploading audio')
+          }
+          refreshProduct(me.currentProduct)
+        })
+      } else {
+        toastr.error('Product Audio Failed To Update!')
+      }
+    })
+  }
+  me.removeAudio = function (currentAudio) {
+    // log('delete audio %O', currentAudio)
+    var url = constants.API_URL + '/media/' + currentAudio
+    $http.delete(url).then(function () {
+      toastr.success('audio removed', 'Success')
+      me.save(me.currentProduct).then(function (err, response) {
+        if (err) {
+          toastr.error('There was a problem removing audio')
+        }
+        refreshProduct(me.currentProduct)
+      })
+    })
+  }
+  me.removeImage = function (currentImage) {
+    // log('delete image %O', currentImage)
+    var url = constants.API_URL + '/media/' + currentImage.mediaAssetId
+    $http.delete(url).then(function () {
+      toastr.success('image removed', 'Success')
+      me.save(me.currentProduct).then(function (err, response) {
+        if (err) {
+          toastr.error('There was a problem removing image')
+        }
+        refreshProduct(me.currentProduct)
+      })
+    })
+  }
+
+  function compareToCachedProduct (prod) {
+    log('updatedProd', prod)
+    log('cachedProd', cachedProduct)
+    me.changes = []
+    if (prod.title !== cachedProduct.title) {
+      me.changes.push('Changed title to ' + prod.title)
+    }
+    if (prod.properties) {
+      for (var i = 0; i < prod.properties.length; i++) {
+        var updated = prod.properties[ i ]
+        var cached = cachedProduct.properties[ i ]
+
+        if (updated.value !== cached.value) {
+          if (!cached.valueId) {
+            updated.changed = 'new'
+            me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+          } else {
+            updated.changed = 'update'
+            me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+          }
+        } else {
+          updated.changed = 'false'
+        }
+      }
+      log('changes added', prod)
+      return (prod)
+    } else {
+      return prod
+    }
+  }
+
+  function refreshProduct (product) {
+    me.getProductDetail(product).then(function (res) {
+      if (res.data.length > 0) {
+        me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+          log('formattedProduct', formattedProduct)
+          me.currentProduct = formattedProduct
+
+          // cache current product for comparison
+          cachedProduct = jQuery.extend(true, {}, formattedProduct)
+
+          // store product for faster load next time
+          me.productStorage[ product.productId ] = formattedProduct
+        })
+      } else {
+        toastr.error('Could not get product detail for ' + product.name)
+      }
+    })
+  }
+
+  function getProductEditors () {
+    var url = constants.API_URL + '/users/editors'
+    $http.get(url).then(function (res) {
+      console.log('gotProductEditors %O', res)
+      me.productEditors = res.data
+    }, function (err) {
+      console.error('Error with getProductEditor: %O', err)
+    })
+  }
+
+  me.updateFeedback = function (feedback) {
+    var url = constants.BWS_API + '/edit/feedback'
+    var payload = {
+      payload: {
+        productId: me.currentProduct.productId,
+        feedback: feedback
+      }
+    }
+    $http.post(url, payload).then(function (res) {
+      console.log(res)
+    }, function (err) {
+      console.error(err)
+    })
+  }
+
+  me.init()
+
+  return me
+})
 ;
 angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http) {
   var me = this
@@ -7046,37 +6952,39 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
     me.newProduct.properties = []
     me.products.forEach(function (product) {
       product.properties.forEach(function (prop) {
-        var i = _.findIndex(properties, function (p) {
-          return p.propId == prop.propId
-        })
-        if (i < 0) {
-          properties.push({
-            label: prop.label,
-            propId: prop.propId,
-            type: prop.type,
-            value: []
+        if (prop.visibility) {
+          var i = _.findIndex(properties, function (p) {
+            return p.propId === prop.propId
           })
-          i = (properties.length - 1)
-        }
-        if (prop.value.length > 0) {
-          switch (prop.value.toLowerCase()) {
-            case 'na':
-              break
-            case 'not-applicable':
-              break
-            case 'not applicable':
-              break
-            case 'not-vintage':
-              break
-            case 'n/a':
-              break
-            default:
-              properties[ i ].value.push(prop.value)
-              break
+          if (i < 0) {
+            properties.push({
+              label: prop.label,
+              propId: prop.propId,
+              type: prop.type,
+              visibility: prop.visibility,
+              value: []
+            })
+            i = (properties.length - 1)
           }
+          if (prop.value.length > 0) {
+            switch (prop.value.toLowerCase()) {
+              case 'na':
+                break
+              case 'not-applicable':
+                break
+              case 'not applicable':
+                break
+              case 'not-vintage':
+                break
+              case 'n/a':
+                break
+              default:
+                properties[ i ].value.push(prop.value)
+                break
+            }
+          }
+          properties[ i ].value = _.uniq(properties[ i ].value)
         }
-
-        properties[ i ].value = _.uniq(properties[ i ].value)
       })
     })
     me.newProduct.properties = properties
@@ -7107,7 +7015,6 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
   }
 
   function mergeProductMedia () {
-    var media = []
     me.newProduct.mediaAssets = []
     me.newProduct.images = []
     me.newProduct.audio = []
@@ -7129,7 +7036,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 
   function save () {
     for (var i = 0; i < me.finalProduct.properties.length; i++) {
-      if (me.finalProduct.properties[ i ].value == undefined) {
+      if (me.finalProduct.properties[ i ].value === undefined) {
         me.finalProduct.properties.splice(i, 1)
       }
     }
@@ -7163,60 +7070,6 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 function onError (error) {
   console.error('Merge Service :: error :', error)
 }
-;
-angular.module('users').factory('productFields', function () {
-    var me = this;
-
-    me.wine = [
-        {field: 'id'},
-        {field: 'description'},
-        {field: 'name'},
-        {field: 'winery'},
-        {field: 'appellation'},
-        {field: 'description'},
-        {field: 'country'},
-        {field: 'region'},
-        {field: 'size'},
-        {field: 'varietal'},
-        {field: 'vintage'}
-    ];
-    me.beer = [
-        {field: 'id', enableCellEdit: false, width: '10%'},
-        {field: 'description'},
-        {field: 'name'},
-        {field: 'appellation'},
-        {field: 'brew'},
-        {field: 'brewery'},
-        {field: 'type'},
-        {field: 'abv', name: 'ABV %'},
-        {field: 'style'},
-        {field: 'country'},
-        {field: 'vintage'},
-        {field: 'packaging'},
-        {field: 'size'}
-    ];
-    me.spirits = [
-        {field: 'id', enableCellEdit: false, width: '10%'},
-        {field: 'skus'},
-        {field: 'description'},
-
-    ];
-    me.generic = [
-        {field: 'id', enableCellEdit: false, width: '10%'},
-        {field: 'name'},
-        {field: 'brewery', name: 'Manufacturer - beer'},
-        {field: 'winery', name: 'Manufacturer - winery'},
-        {field: 'distillery', name: 'Manufacturer - spirits'},
-        {field: 'description'}
-
-
-    ];
-
-
-    return me;
-});/**
- * Created by mac4rpalmer on 6/27/16.
- */
 ;
 angular.module('users').factory('productGridData', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
     "use strict";
@@ -7337,7 +7190,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                         }
                     };
                 }
-
+                
 
                 $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
                     if (err) {
@@ -7364,7 +7217,6 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                                 fileKey: JSON.stringify(response.data.assetId)
                             }
                         };
-                        console.dir(creds, params)
                         bucketUpload(creds, params).then(function (err, res) {
                             self.determinateValue = 0;
                             var updateMedia = {
