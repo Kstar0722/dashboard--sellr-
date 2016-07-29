@@ -6,10 +6,10 @@ module.exports = {
             css: 'public/dist/lib.min.1a8eea.css',
             js: 'public/dist/lib.ff3b8f.js'
         },
-        css: 'public/dist/application.min.1c0848.css',
+        css: 'public/dist/application.min.8f66ec.css',
         js: [
-            'public/dist/application.min.5413d5.js',
-            'public/dist/templates.min.c940c8.js'
+            'public/dist/application.min.dd450e.js',
+            'public/dist/templates.min.17ad0d.js'
         ]
     }
 };
