@@ -3,17 +3,19 @@
     <div flex=10>#</div>
     <div flex=30>Account</div>
     <div flex=15>Status</div>
-    <div flex=15>Assigned</div>
     <div flex=30>&nbsp;</div>
   </div>
   {{orders}}
   <div layout layout-align="center center" class="orders-body"  ng-repeat="order in orders" ng-click="goToMatch(order.id)">
     <div flex=10>{{order.id}}</div>
     <div flex=30>{{order.name}}</div>
-    <div flex=15>{{order.progress}}</div>
-    <div flex=15>{{order.assigned}}</div>
     <div flex=30 class="progress-bar-container">
-      <div class="progress-bar">{{order.total}}</div>
+      <ol class="progtrckr" data-progtrckr-steps="3">
+        <li ng-class="{'progtrckr-done': order.status.received === order.status.total || order.status.processed || order.status.done || order.status.approved}">Received</li>
+        <li ng-class="{'progtrckr-done': order.status.processed === order.status.total || order.status.done || order.status.approved}">Processed</li>
+        <li ng-class="{'progtrckr-done': order.status.done === order.status.total || order.status.approved}">Done</li>
+        <li ng-class="{'progtrckr-done': order.status.approved === order.status.total }">Approved</li>
+      </ol>
     </div>
   </div>
   <!--<div layout  layout-align="center center" class="orders-body">-->

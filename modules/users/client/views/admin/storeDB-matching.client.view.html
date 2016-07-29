@@ -21,7 +21,7 @@
     <div class="custom-btn" ng-click="searchSku(orderItem.upc)">search sku</div>
     {{orderItem}}
 
-    <div class="match-image"><img src="img/match.jpg" alt=""></div>
+    <div class="match-image"><img ng-src="{{ orderItem.url }}" alt=""></div>
     <div class="match-buttons" layout  layout-align="center center">
 
       <div class="custom-btn" ng-click="markDuplicate(orderItem, orderDataService.selected )">Merge with Selected Product</div>
