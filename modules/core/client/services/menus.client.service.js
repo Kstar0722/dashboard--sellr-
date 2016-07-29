@@ -168,7 +168,7 @@ angular.module('core').service('Menus', [
 
     //Adding the topbar menu
     this.addMenu('topbar', {
-      roles: [ 1004 ]
+      roles: [ 1004, 1003 ]
     });
     this.addMenu('editor', {
       roles: [ 1010 ]
