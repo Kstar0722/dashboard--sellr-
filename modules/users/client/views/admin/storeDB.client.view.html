@@ -1,23 +1,40 @@
 <div class="store-client-view">
   <div layout class="orders-header">
-    <div flex=10>#</div>
+    <div flex=10 class="align-center">#</div>
     <div flex=30>Account</div>
-    <div flex=15>Status</div>
-    <div flex=30>&nbsp;</div>
+    <div flex=10 class="align-center">Received</div>
+    <div flex=10 class="align-center">Processed</div>
+    <div flex=10 class="align-center">Done</div>
+    <div flex=10 class="align-center">Approved</div>
+    <div flex=10 class="align-center">Total</div>
+    <div flex=10 class="align-center">Status</div>
   </div>
-  {{orders}}
   <div layout layout-align="center center" class="orders-body"  ng-repeat="order in orders" ng-click="goToMatch(order.id)">
-    <div flex=10>{{order.id}}</div>
+    <div flex=10 class="align-center">{{order.id}}</div>
     <div flex=30>{{order.name}}</div>
-    <div flex=30 class="progress-bar-container">
+    <div flex=10 class="align-center">{{order.status.received}}</div>
+    <div flex=10 class="align-center">{{order.status.processed}}</div>
+    <div flex=10 class="align-center">{{order.status.done}}</div>
+    <div flex=10 class="align-center">{{order.status.approved}}</div>
+    <div flex=10 class="align-center">{{order.status.total}}</div>
+    <div flex=10 class="align-center"><div ng-class="'status-bar ' + order.status.barClass"></div></div>
+  </div>
+</div>
+
+
+    <!-- Old Status Tracker -->
+  <!--   <div flex=30 class="progress-bar-container">
       <ol class="progtrckr" data-progtrckr-steps="3">
-        <li ng-class="{'progtrckr-done': order.status.received === order.status.total || order.status.processed || order.status.done || order.status.approved}">Received</li>
+        <li ng-class="{'progtrckr-done': order.status.received === order.status.total || order.status.Done || order.status.done || order.status.approved}">Received</li>
+        <li ng-class="{'progtrckr-done': order.status.received === order.status.total || order.status.Done || order.status.done || order.status.approved}">Received</li>
         <li ng-class="{'progtrckr-done': order.status.processed === order.status.total || order.status.done || order.status.approved}">Processed</li>
         <li ng-class="{'progtrckr-done': order.status.done === order.status.total || order.status.approved}">Done</li>
         <li ng-class="{'progtrckr-done': order.status.approved === order.status.total }">Approved</li>
       </ol>
-    </div>
-  </div>
+    </div> -->
+
+
+    <!-- Reference Layout -->
   <!--<div layout  layout-align="center center" class="orders-body">-->
     <!--<div flex=10>545</div>-->
     <!--<div flex=30>John Market</div>-->
@@ -27,40 +44,3 @@
       <!--<div class="progress-bar" style="width: 29%">188 items</div>-->
     <!--</div>-->
   <!--</div>-->
-  <!--<div layout  layout-align="center center" class="orders-body">-->
-    <!--<div flex=10>1099</div>-->
-    <!--<div flex=30>Ruby Spirit</div>-->
-    <!--<div flex=15 class="done">Done</div>-->
-    <!--<div flex=15>Ross Van Zyl</div>-->
-    <!--<div flex=30 class="progress-bar-container">-->
-    <!--<div class="progress-bar" style="width: 90%">188 items</div>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<div layout  layout-align="center center" class="orders-body">-->
-    <!--<div flex=10>1099</div>-->
-    <!--<div flex=30>Ruby Spirit</div>-->
-    <!--<div flex=15 class="done">Done</div>-->
-    <!--<div flex=15>Ross Van Zyl</div>-->
-    <!--<div flex=30 class="progress-bar-container">-->
-    <!--<div class="progress-bar" style="width: 90%">188 items</div>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<div layout  layout-align="center center" class="orders-body">-->
-    <!--<div flex=10>1099</div>-->
-    <!--<div flex=30>Ruby Spirit</div>-->
-    <!--<div flex=15 class="done">Done</div>-->
-    <!--<div flex=15>Ross Van Zyl</div>-->
-    <!--<div flex=30 class="progress-bar-container">-->
-    <!--<div class="progress-bar" style="width: 80%">188 items</div>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<div layout  layout-align="center center" class="orders-body">-->
-    <!--<div flex=10>1099</div>-->
-    <!--<div flex=30>Ruby Spirit</div>-->
-    <!--<div flex=15 class="done">Done</div>-->
-    <!--<div flex=15>Ross Van Zyl</div>-->
-    <!--<div flex=30 class="progress-bar-container">-->
-    <!--<div class="progress-bar" style="width: 70%">188 items</div>-->
-    <!--</div>-->
-  <!--</div>-->
-</div>

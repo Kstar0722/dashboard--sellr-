@@ -10,9 +10,6 @@
     margin: 0px 40px; 
     div{
       font-weight: bold;
-      &:first-child{
-        text-align: center;
-      }
     }
   }
   .orders-body{
@@ -22,9 +19,6 @@
     div{
       color: @grey-dark-text;
       font-weight: bold;
-      &:first-child{
-        text-align: center;
-      }
       &.done{
         color: @green;
       }
@@ -36,6 +30,22 @@
           width: 40%;
           text-align: left;
           color: #fff;
+        }
+      }
+      .status-bar{
+        background-color: @grey-dark-text;
+        width: 35px;
+        height: 25px;
+        margin: 0 auto;
+        border-radius: 3px;
+        &.red{
+          background-color: @red;
+        }
+        &.orange{
+          background-color: @orange;
+        }
+        &.green{
+          background-color: @green;
         }
       }
     }
