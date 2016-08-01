@@ -82,6 +82,11 @@ div.custom-btn:hover {
 .spinner-container .fa {
   color: #95989a;
 }
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 #topNav .md-toolbar-tools {
   font-size: 100%;
   width: 100%;
@@ -1625,9 +1630,6 @@ body .productEditor .loading-data .right {
 .store-client-view .orders-header div {
   font-weight: bold;
 }
-.store-client-view .orders-header div:first-child {
-  text-align: center;
-}
 .store-client-view .orders-body {
   text-align: left;
   padding-top: 20px;
@@ -1636,9 +1638,6 @@ body .productEditor .loading-data .right {
 .store-client-view .orders-body div {
   color: #95989a;
   font-weight: bold;
-}
-.store-client-view .orders-body div:first-child {
-  text-align: center;
 }
 .store-client-view .orders-body div.done {
   color: #2DC89A;
@@ -1652,6 +1651,22 @@ body .productEditor .loading-data .right {
   width: 40%;
   text-align: left;
   color: #fff;
+}
+.store-client-view .orders-body div .status-bar {
+  background-color: #95989a;
+  width: 35px;
+  height: 25px;
+  margin: 0 auto;
+  border-radius: 3px;
+}
+.store-client-view .orders-body div .status-bar.red {
+  background-color: #FF0000;
+}
+.store-client-view .orders-body div .status-bar.orange {
+  background-color: #FFA500;
+}
+.store-client-view .orders-body div .status-bar.green {
+  background-color: #2DC89A;
 }
 .store-client-view ol.progtrckr {
   display: table;
