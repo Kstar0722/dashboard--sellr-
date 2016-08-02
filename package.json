@@ -1,10 +1,10 @@
 {
   "name": "sellr-dashboard",
   "description": "Control center for the OnCue Sellr solution",
-  "version": "0.8.2",
+  "version": "0.8.4",
   "meanjs-version": "0.4.2",
   "private": false,
-  "author": "Expert OnCuer",
+  "author": "Sellr",
   "license": "MIT",
   "repository": {
     "type": "git",
