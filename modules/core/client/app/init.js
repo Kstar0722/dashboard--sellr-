@@ -50,7 +50,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 staging: {
                     API_URL: 'https://apiqa.sllr.io',
-                    BWS_API: 'https://dashqa.sllr.io',
+                    BWS_API: 'https://bwsqa.sllr.io',
                     env:'staging'
                 },
                 production: {
