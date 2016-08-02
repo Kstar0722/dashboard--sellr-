@@ -1,103 +1,110 @@
-/**
- * Created by mac4rpalmer on 6/27/16.
- */
-angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
-    "use strict";
-    var me = this;
+/* globals angular */
+angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService) {
+  var me = this
+  var API_URL = constants.BWS_API
+  me.allItems = []
+  me.selected = []
+  me.getData = getData
+  me.createNewProduct = createNewProduct
+  me.matchProduct = matchProduct
+  me.storeSelected = storeSelected
+  me.increaseIndex = increaseIndex
+  return me
 
-    var API_URL = constants.BWS_API;
+  function getData (id) {
+    var defer = $q.defer()
+    me.currentIndex = 0
+    console.log(id)
+    var orderUrl = API_URL + '/edit/orders/' + id
+    $http.get(orderUrl).then(function (response) {
+      me.allItems = response.data[ 0 ].items
+      me.currentItem = me.allItems[ me.currentIndex ]
+      console.log('orderDataService::getData response %O', me.allItems)
+      defer.resolve(me.allItems)
+    })
+    return defer.promise
+  }
 
-    me.allItems = {};
-    me.selected =[];
-    me.getData = getData;
-    me.searchSku = searchSku;
-    me.createNewProduct = createNewProduct;
-    me.markDuplicate = markDuplicate;
-    me.storeSelected = storeSelected;
-    return me;
-
-
-    function getData (id) {
-        var defer = $q.defer();
-        console.log(id)
-        var orderUrl = API_URL + '/edit/orders/'+id;
-        $http.get(orderUrl).then(function (orderItems) {
-            console.log(orderItems);
-            me.allItems = orderItems.data;
-            defer.resolve( me.allItems)
-        });
-        return defer.promise;
+  function increaseIndex () {
+    me.selected = []
+    if (me.currentIndex + 1 === me.allItems.length) {
+      me.currentIndex = 0
+    } else {
+      me.currentIndex++
     }
-    function storeSelected (selected) {
-            me.selected = selected;
-        return me.selected;
-    }
-    function searchSku (sku) {
-        var defer = $q.defer();
-        console.log('orderdata %O',sku)
-        var skuUrl = API_URL + '/edit/search?v=sum&sku='+sku;
-        $http.get(skuUrl).then(function (skuItems) {
-            me.skuData = skuItems.data;
-            console.log('orderdata %O',skuItems)
-            defer.resolve( me.skuData)
-        });
-        return defer.promise;
-    }
-    function markDuplicate (prod, selected){
-        var defer = $q.defer();
-        var skuUrl = API_URL + '/edit/duplicates';
-        var payload =
-        {"payload":{
-            "duplicates": [
+    me.currentItem = me.allItems[ me.currentIndex ]
+  }
 
-            ],
-            "skus":[
-                prod.upc
-            ]
-        }
-        }
-        for(var i in selected){
-            payload.payload.duplicates.push(selected[i].productId)
-        }
-        $http.post(skuUrl, payload).then(function (skuItems) {
-            console.log(payload)
+  function storeSelected (selected) {
+    me.selected = selected
+    return me.selected
+  }
 
-            if (skuItems)
-                defer.resolve( skuItems)
-        });
-        return defer.promise;
+  function matchProduct () {
+    var prod = me.currentItem
+    var selected = me.selected
+    var defer = $q.defer()
+    var skuUrl = API_URL + '/edit/sku'
+    var payload = {
+      'payload': {
+        'duplicates': [],
+        'sku': prod.upc,
+        'publicUrl': prod.url
+      }
     }
-    function createNewProduct (prod) {
-        var defer = $q.defer();
-        var skuUrl = API_URL + '/edit/products';
-        var payload = {
-            'payload':{
-                    "name": prod.name,
-                    "description": "New Discription Needed",
-                    "notes": "",
-                    "productTypeId": prod.type,
-                    "requestedBy": "sellr",
-                    "feedback": "0",
-                    "properties": [ ],
-                    "mediaAssets": [
-                        {
-                            "type": "RESEARCH_IMG",
-                            "fileName": "",
-                            "script": null,
-                            "publicUrl": prod.url
-                        }
-                    ],
-                    "skus": [
-                        prod.upc
-                    ]
-            }
-        }
-        console.log(payload)
-        $http.post(skuUrl, payload).then(function (skuItems) {
-            if (skuItems)
-                defer.resolve( skuItems)
-        });
-        return defer.promise;
+    for (var i in selected) {
+      payload.payload.duplicates.push(selected[ i ].productId)
     }
+    $http.post(skuUrl, payload).then(function (results) {
+      // now update product status in mongo
+      var updateUrl = constants.BWS_API + '/choose/orders/product/status'
+      var updatePayload = {
+        id: me.currentOrderId || $stateParams.id,
+        upc: prod.upc,
+        status: 'processed'
+      }
+      $http.put(updateUrl, { payload: updatePayload }).then(function (updateResults) {
+        defer.resolve(results.data)
+      }, function (err) {
+        console.error(err)
+      })
+    }, function (err) {
+      console.error('could not mark duplicate %O', err)
+    })
+    return defer.promise
+  }
 
-});
+  function createNewProduct (prod) {
+    var defer = $q.defer()
+    var skuUrl = API_URL + '/edit/products'
+    var payload = {
+      'payload': {
+        'name': prod.name,
+        'description': prod.description,
+        'notes': '',
+        'productTypeId': prod.type,
+        'requestedBy': 'sellr',
+        'feedback': '0',
+        'properties': [],
+        'mediaAssets': [
+          {
+            'type': 'RESEARCH_IMG',
+            'fileName': '',
+            'script': null,
+            'publicUrl': prod.url
+          }
+        ],
+        'skus': [
+          prod.upc
+        ]
+      }
+    }
+    console.log(payload)
+    $http.post(skuUrl, payload).then(function (skuItems) {
+      if (skuItems) {
+        defer.resolve(skuItems)
+      }
+    })
+    return defer.promise
+  }
+})

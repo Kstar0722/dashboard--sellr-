@@ -1,0 +1,18 @@
+<div>
+    <form>
+        <md-input-container>
+            <label>Product Name</label>
+            <input ng-model="pes.newProduct.name">
+        </md-input-container>
+        <md-radio-group ng-model="pes.newProduct.type">
+            <md-radio-button value="2"> Beer</md-radio-button>
+            <md-radio-button value="1"> Wine</md-radio-button>
+            <md-radio-button value="3"> Spirits</md-radio-button>
+        </md-radio-group>
+        <md-input-container>
+            <label>Product Description</label>
+            <textarea ng-model="pes.newProduct.description"></textarea>
+        </md-input-container>
+        <md-button ng-click="save()">Save</md-button>
+    </form>
+</div>

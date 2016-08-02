@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http) {
+angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr) {
   var me = this
 
   me.merge = merge
@@ -11,6 +11,10 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 
   function merge (products) {
     var defer = $q.defer()
+    me.products = [] //  array of products to be merged
+    me.newProduct = {} //  temporary object that combines all products
+    me.finalProduct = {} //  what the final product should look like
+    me.prodsToDelete = [] //  array of productIDs for API to delete
     buildProductList(products).then(function (detailedProducts) {
       buildNewProduct(detailedProducts)
       mergeProductProperties()
@@ -166,11 +170,15 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         product: me.finalProduct
       }
     }
-    console.log('MERGE SERVICE %O', payload)
     $http.post(url, payload).then(function (res) {
-      console.log('ROB SAYS %O', res)
+      if (res.data.productId) {
+        toastr.success('Product Merged!')
+        $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+      } else {
+        toastr.error('There was a problem with merging')
+      }
     }, function (err) {
-      console.log('ROB SAYS OH NO!!! %O', err)
+      console.error(err)
     })
   }
 

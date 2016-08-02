@@ -1,4 +1,4 @@
-/* globals angular, localStorage,jQuery */
+/* globals angular, localStorage,jQuery,_ */
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
   var me = this
   var debugLogs = false
@@ -40,6 +40,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.currentProduct = {}
     me.currentType = {}
     me.currentStatus = {}
+    me.newProduct = {}
+
     // initialize with new products so list isnt empty
 
     getProductEditors()
@@ -47,6 +49,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.getProductList = function (searchText, options) {
+    me.show.loading = true
     var defer = $q.defer()
     me.productList = []
     var url = constants.BWS_API + '/edit/search?'
@@ -58,14 +61,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.sku) {
       url += '&sku=' + options.sku
     }
+
     if (options.status) {
-      url += '&status=' + JSON.stringify(options.status).replace(/"/g, "")
+      url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
     }
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }
     $http.get(url).then(function (response) {
       me.productList = response.data
+      me.show.loading = false
       defer.resolve(me.productList)
     })
     return defer.promise
@@ -481,6 +486,41 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }, function (err) {
       console.error(err)
     })
+  }
+
+  me.searchSkuResults = function (sku) {
+    var defer = $q.defer()
+    me.show.loading = true
+    var skuUrl = constants.BWS_API + '/edit/search?v=sum&q=' + sku
+    $http.get(skuUrl).then(function (skuResult) {
+      var remainingQueries = skuResult.data.length
+      if (remainingQueries) {
+        console.log('I have to query %s names', remainingQueries)
+        for (var i in skuResult.data) {
+          var url = constants.BWS_API + '/edit/search?v=sum&q=' + skuResult.data[ i ].name
+          $http.get(url).then(function (results2) {
+            me.productList = me.productList.concat(results2.data)
+            me.productList = _.uniq(me.productList, function (p) {
+              return p.productId
+            })
+            remainingQueries--
+            console.log('1 down, %s to go', remainingQueries)
+            if (remainingQueries <= 0) {
+              me.show.loading = false
+              defer.resolve(me.productList)
+            }
+          })
+        }
+      } else {
+        me.show.loading = false;
+        defer.resolve()
+      }
+    })
+    return defer.promise
+  }
+
+  me.createNewProduct = function (product) {
+    me.newProduct = product
   }
 
   me.init()

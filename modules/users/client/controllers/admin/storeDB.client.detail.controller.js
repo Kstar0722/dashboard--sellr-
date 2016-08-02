@@ -1,70 +1,63 @@
-angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog,$mdMedia, locationsService, orderDataService, productGridData, $state, accountsService, CurrentUserService, Authentication, $stateParams, constants, uploadService, toastr) {
-
-    if (Authentication.user) {
-        $scope.account = {createdBy: Authentication.user.username}
-    }
-    $scope.orderDataService = orderDataService;
-    $scope.productGridData = productGridData;
-    $scope.orders = {};
-    $scope.displayIndex = 0;
-    $scope.checkbox = {};
-    $scope.checkbox.progress= '';
-    var id = $stateParams.id;
-    orderDataService.getData(id).then(function(response){
-        $scope.orderItems = response[0].items;
+/* globals angular */
+angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
+                                                                              orderDataService, $state, accountsService, CurrentUserService,
+                                                                              productEditorService, Authentication, $stateParams, constants, uploadService, toastr) {
+  if (Authentication.user) {
+    $scope.account = { createdBy: Authentication.user.username }
+  }
+  console.log('stateParams %O', orderDataService.allItems.length === 0)
+  onInit()
+  $scope.orderDataService = orderDataService
+  $scope.orders = {}
+  $scope.displayIndex = 0
+  function onProductLoad () {
+    productEditorService.productList = []
+    var name = orderDataService.currentItem.name
+    var sku = orderDataService.currentItem.upc
+    productEditorService.getProductList(name, {}).then(function () {
+      productEditorService.searchSkuResults(sku)
     })
-    $scope.searchLimit = 15;
+  }
 
-    $scope.showMore = function () {
-        $scope.searchLimit += 15;
-    };
-    $scope.searchSku = function (sku) {
-        orderDataService.searchSku(sku).then(function(data){
-            $scope.products = data;
-        })
-    };
-    $scope.markAsNew = function (prod){
+  $scope.increaseIndex = function () {
+    productEditorService.productList = []
+    orderDataService.increaseIndex()
+    onProductLoad()
+  }
 
-        orderDataService.createNewProduct(prod).then(function(data){
-            toastr.success('New Product Created')
-            $scope.displayIndex += 1;
-        })
+  $scope.markAsNew = function (prod) {
+    orderDataService.createNewProduct(prod).then(function (data) {
+      toastr.success('New Product Created')
+      $scope.displayIndex += 1
+    })
+  }
+  $scope.matchProduct = function () {
+    orderDataService.matchProduct().then(function (data) {
+      var message = data.message || ''
+      toastr.success(message, 'Product Matched')
+      $scope.increaseIndex()
+    })
+  }
+  $scope.updateFilter = function (value) {
+    $scope.checked = false
+    for (var i in $scope.filter) {
+      if ($scope.filter[ i ].type === value.type) {
+        $scope.filter.splice(i, 1)
+        $scope.checked = true
+      }
     }
-    $scope.markDuplicate = function (prod, selected){
-
-        orderDataService.markDuplicate(prod, selected).then(function(data){
-            toastr.success('Products Merged')
-            $scope.displayIndex += 1;
-        })
+    if (!$scope.checked) {
+      $scope.filter.push(value)
     }
-    $scope.updateFilter = function (value) {
+    console.log($scope.filter)
+  }
 
-        $scope.checked = false;
-        for(var i in $scope.filter){
-            if($scope.filter[i].type == value.type) {
-                $scope.filter.splice(i, 1);
-                $scope.checked = true;
-            }
-        }
-        if(!$scope.checked){
-            $scope.filter.push(value)
-        }
-        console.log($scope.filter)
+  function onInit () {
+    if (orderDataService.allItems.length === 0 && $stateParams.id) {
+      orderDataService.getData($stateParams.id).then(function () {
+        onProductLoad()
+      })
     }
+  }
+})
 
-    $scope.searchProducts = function (searchText) {
-        $scope.loadingData = true;
-
-
-
-        productGridData.searchProducts(searchText, {'status':$scope.checkbox.progress, 'types':$scope.filter}).then(function (data) {
-            $scope.loadingData = false;
-            $scope.products = data;
-
-
-        })
-    };
-
-
-
-});

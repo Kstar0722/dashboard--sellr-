@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-  $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+                                                                        $location, $state, $stateParams, Countries, orderDataService,
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -12,7 +12,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
     myProducts: false,
-    feedback: true
+    feedback: true,
+    template: ''
   }
   $scope.allSelected = false
 
@@ -27,14 +28,14 @@ angular.module('users').controller('productEditorController', function ($scope, 
       's3-image-uploader': new MediumS3ImageUploader()
     }
   }
-  console.log($stateParams.productId)
-  if($stateParams.productId){
+  if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
     $state.go('editor.view', { productId: $stateParams.productId })
   }
   $scope.search = {}
-  $scope.checkbox = {}
-  $scope.checkbox.progress = {}
+  $scope.checkbox = {
+    progress: ''
+  }
   $scope.filter = []
   $scope.searchLimit = 15
 
@@ -43,7 +44,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.listOptions.orderBy = '+name'
   if (window.localStorage.getItem('filterByUserId')) {
     $scope.listOptions.filterByUserId = true
-  }else {
+  } else {
     $scope.listOptions.filterByUserId = false
   }
 
@@ -85,7 +86,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     var options = { status: $scope.checkbox.progress, types: $scope.filter }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
-      console.log(data)
       refreshList()
       $scope.loadingData = false
     })
@@ -98,7 +98,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
       $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
     }
     $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
-    console.log($scope.products)
   }
 
   $scope.toggleSelected = function (product) {
@@ -111,23 +110,26 @@ angular.module('users').controller('productEditorController', function ($scope, 
     } else {
       $scope.selected.splice(i, 1)
     }
-    if ($state.includes('admin')) {
+    if ($state.includes('editor.match')) {
       orderDataService.storeSelected($scope.selected)
     }
-    console.log('toggleSelected %O', $scope.selected)
   }
 
   $scope.viewProduct = function (product) {
     productEditorService.setCurrentProduct(product)
-    $state.go('editor.view', { productId: product.productId })
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.view', { productId: product.productId })
+    } else {
+      $state.go('editor.view', { productId: product.productId })
+    }
   }
 
-  $scope.getModalData = function (product) {
-    productEditorService.getProduct(product).then(function (response) {
-      console.log('modal Data %O', response)
-      $scope.modalData = response
-    }
-    )
+  $scope.getModalData = function () {
+    productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
+      .then(function (response) {
+          $scope.modalData = response
+        }
+      )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -137,7 +139,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
     productEditorService.claim(options)
     productEditorService.setCurrentProduct(product)
-    $state.go('editor.edit', { productId: product.productId })
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.edit', { productId: product.productId })
+    } else {
+      $state.go('editor.edit', { productId: product.productId })
+    }
   }
 
   $scope.updateFilter = function (value) {
@@ -158,24 +164,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     { productTypeId: 2, name: 'Beer' },
     { productTypeId: 3, name: 'Spirits' }
   ]
-
-  $scope.toggleSelected = function (product) {
-    $scope.selected = $scope.selected || []
-    var i = _.findIndex($scope.selected, function (selectedProduct) {
-      return selectedProduct.productId === product.productId
-    })
-    if (i < 0) {
-      $scope.selected.push(product)
-    } else {
-      $scope.selected.splice(i, 1)
-    }
-    console.log('toggleSelected %O', $scope.selected)
-  }
-
   $scope.toggleAll = function () {
     var sel = !$scope.allSelected
     $scope.selected = []
-    console.log('length of $scope.selected %O ', $scope.selected)
     _.map($scope.products, function (p) {
       if (sel) {
         $scope.selected.push(p)
@@ -289,8 +280,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
-      console.log('mergeProducts %O', $scope)
-      $state.go('editor.merge')
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.merge')
+        $scope.selected = []
+      } else {
+        $state.go('editor.merge')
+      }
     })
   }
 
@@ -326,5 +321,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
       window.localStorage.removeItem('filterByUserId')
     }
     refreshList()
+  }
+
+  $scope.createNewProduct = function () {
+    var product = orderDataService.currentItem
+    productEditorService.createNewProduct(product)
+    $state.go('editor.match.new')
   }
 })
