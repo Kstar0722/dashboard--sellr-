@@ -48,19 +48,23 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show.loading = false
   }
 
-  me.getProductList = function (searchText, options) {
-    me.show.loading = true
-    var defer = $q.defer()
-    me.productList = []
-    var url = constants.BWS_API + '/edit/search?'
-    if (options.types) {
-      for (var i in options.types) {
-        url += '&type=' + options.types[ i ].type
-      }
-    }
-    if (options.sku) {
-      url += '&sku=' + options.sku
-    }
+    function getAvailProdSuccess (response) {
+      if (response.status === 200) {
+        //timeEnd('getProductList');
+        me.show.loading = false;
+        log('getProdList ', response.data);
+        me.getStats();
+        response.data = _.map(response.data, function (product) {
+          if (product.lastEdit) {
+            if (constants.env === 'local') {
+              product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
+              log('lastEdit', product.lastEdit)
+            } else {
+              product.lastEdit = moment(product.lastEdit).fromNow()
+            }
+          }
+          return product
+        });
 
     if (options.status) {
       url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
