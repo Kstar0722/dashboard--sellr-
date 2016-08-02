@@ -223,6 +223,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       window.scrollTo(0, 0)
       // socket.emit('product-saved')
       me.productStorage[ product.productId ] = product
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
       toastr.success('Product Updated!')
       defer.resolve()
     }
