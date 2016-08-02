@@ -73,7 +73,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
                 },
                 staging: {
                     API_URL: 'https://apiqa.sllr.io',
-                    BWS_API: 'https://dashqa.sllr.io',
+                    BWS_API: 'https://bwsqa.sllr.io',
                     env:'staging'
                 },
                 production: {
@@ -256,28 +256,7 @@ angular.module('core.editor').run([ 'Menus',
             type: 'button',
             roles: [ 1010, 1011, 1004 ],
             position: 0
-        });
-        //Menus.addMenuItem('editor', {
-        //    title: 'Spirits Editor',
-        //    state: 'editor.products({type:"spirits",status:"new"})',
-        //    type: 'button',
-        //    roles: [ 1010, 1011, 1004 ],
-        //    position: 2
-        //});
-        //Menus.addMenuItem('editor', {
-        //    title: 'Wine Editor',
-        //    state: 'editor.products({type:"wine",status:"new"})',
-        //    type: 'button',
-        //    roles: [ 1010, 1011, 1004 ],
-        //    position: 1
-        //});
-        //Menus.addMenuItem('editor', {
-        //    title: 'Search and Merge',
-        //    state: 'merge',
-        //    type: 'button',
-        //    roles: [ 1010, 1011, 1004 ],
-        //    position: 1
-        //});
+        })
     }
 ]);
 ;
@@ -1065,12 +1044,7 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
             title: 'Beer Wine & Spirits',
             state: 'editor.products',
             position: 9
-        });
-        Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Search and Merge',
-            state: 'merge',
-            position: 9
-        });
+        })
     }
 ]);
 ;
@@ -1112,10 +1086,46 @@ angular.module('users.editor.routes').config([ '$stateProvider',
           }
         }
       })
-
-      .state('searchGrid', {
-        url: '/editor/searchGrid/:variable',
-        templateUrl: 'modules/users/client/views/productEditor/productEditor.searchGrid.html'
+      .state('editor.match', {
+        url: '/match/:id',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
+          }
+        }
+      })
+      .state('editor.match.view', {
+        url: '/view/:productId',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+          }
+        }
+      })
+      .state('editor.match.edit', {
+        url: '/edit/:productId',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+          }
+        }
+      })
+      .state('editor.match.merge', {
+        url: '/merge',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+          }
+        }
+      })
+      .state('editor.match.new', {
+        url: '/new',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.new.html',
+            controller: 'newProductController'
+          }
+        }
       })
   }
 ])
@@ -1133,7 +1143,6 @@ angular.module('users.manager').run(['Menus',
             title: 'Location Manager',
             state: 'manager.locations'
         });
-        
     }
 ]);
 ;
@@ -1287,80 +1296,75 @@ angular.module('users.admin').run(['Menus',
 'use strict';
 
 // Setting up route
-angular.module('users.admin.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('admin.accounts', {
-                url: '/accounts',
-                templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
-                controller: 'AccountManagerController'
-            })
-            .state('admin.accounts.edit', {
-                url: '/edit/:id',
-                templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
-            })
-            .state('admin.accounts.create', {
-                url: '/new',
-                templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
-            })
-            .state('admin.users', {
-                url: '/users',
-                templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-                controller: 'UserListController'
-            })
-            .state('admin.users.edit', {
-                url: '/:userId',
-                templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
-                controller: 'UserController',
-                resolve: {
-                    userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-                        return Admin.get({
-                            userId: $stateParams.userId
-                        });
-                    }]
-                }
-            })
-            .state('admin.users.store', {
-                templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
-                controller: 'inviteUserController'
+angular.module('users.admin.routes').config([ '$stateProvider',
+  function ($stateProvider) {
+    $stateProvider
+      .state('admin.accounts', {
+        url: '/accounts',
+        templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
+        controller: 'AccountManagerController'
+      })
+      .state('admin.accounts.edit', {
+        url: '/edit/:id',
+        templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
+      })
+      .state('admin.accounts.create', {
+        url: '/new',
+        templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
+      })
+      .state('admin.users', {
+        url: '/users',
+        templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
+        controller: 'UserListController'
+      })
+      .state('admin.users.edit', {
+        url: '/:userId',
+        templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
+        controller: 'UserController',
+        resolve: {
+          userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
+            return Admin.get({
+              userId: $stateParams.userId
+            });
+          } ]
+        }
+      })
+      .state('admin.users.store', {
+        templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
+        controller: 'inviteUserController'
 
+      })
+      .state('admin.users.user-edit', {
+        url: '/:userId/edit',
+        templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
+        controller: 'UserController',
+        resolve: {
+          userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
+            return Admin.get({
+              userId: $stateParams.userId
             })
-            .state('admin.users.user-edit', {
-                url: '/:userId/edit',
-                templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
-                controller: 'UserController',
-                resolve: {
-                    userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-                        return Admin.get({
-                            userId: $stateParams.userId
-                        });
-                    }]
-                }
-            })
-            .state('admin.pricing', {
-                url: '/pricing',
-                templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
-                controller: 'AdminPricingController'
+          } ]
+        }
+      })
+      .state('admin.pricing', {
+        url: '/pricing',
+        templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
+        controller: 'AdminPricingController'
 
-            })
-            .state('admin.device', {
-                url: '/device',
-                templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
-                controller: 'DeviceManagerController'
+      })
+      .state('admin.device', {
+        url: '/device',
+        templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
+        controller: 'DeviceManagerController'
 
-            })
-            .state('admin.store', {
-                url: '/store',
-                templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
-                controller: 'StoreDbController'
-            })
-            .state('admin.match', {
-                url: '/match/:id',
-                templateUrl: 'modules/users/client/views/admin/storeDB-matching.client.view.html',
-                controller:'StoreDbDetailController'
-            })
-    }
-]);
+      })
+      .state('admin.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
+        controller: 'StoreDbController'
+      })
+  }
+])
 ;
 'use strict';
 
@@ -2156,107 +2160,108 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 ]);
 
 ;
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, productGridData, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+  if (Authentication.user) {
+    $scope.account = {createdBy: Authentication.user.username}
+  }
 
-    if (Authentication.user) {
-        $scope.account = {createdBy: Authentication.user.username}
-    }
+  $scope.orders = {}
+  $scope.orderItems = []
+  var url = constants.BWS_API + '/choose/orders'
+  $http.get(url).then(getAvailOrderSuccess, getAvailOrderError)
 
-    $scope.template = 'modules/users/client/views/productEditor/productEditor.list.html'
-    $scope.orders = {};
-    $scope.orderItems = [];
-    $scope.hello = '';
-    var url = constants.BWS_API + '/choose/orders';
-    $http.get(url).then(getAvailOrderSuccess, getAvailOrderError);
-
-    function getAvailOrderSuccess(response) {
-        if (response.status === 200) {
-            //timeEnd('getProductList');
-            $scope.orders = response.data;
-
+  function getAvailOrderSuccess (response) {
+    if (response.status === 200) {
+      // timeEnd('getProductList')
+      $scope.orders = response.data
+      console.log($scope.orders)
+      _.each($scope.orders, function (elm, ind, orders) {
+        if (elm.status.received > 0) {
+          elm.status.barClass = 'red'
+        } else {
+          if (elm.status.processed > 0 || elm.status.done > 0) {
+            elm.status.barClass = 'orange'
+          } else {
+            elm.status.barClass = 'green'
+          }
         }
+      })
     }
+  }
 
-    function getAvailOrderError(error) {
-        error('getAvailOrderError %O', error)
-    }
-    $scope.goToMatch = function(id){
-      $state.go('admin.match', {id:id})
-    }
-
-
-});
-;
-angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog,$mdMedia, locationsService, orderDataService, productGridData, $state, accountsService, CurrentUserService, Authentication, $stateParams, constants, uploadService, toastr) {
-
-    if (Authentication.user) {
-        $scope.account = {createdBy: Authentication.user.username}
-    }
-    $scope.orderDataService = orderDataService;
-    $scope.productGridData = productGridData;
-    $scope.orders = {};
-    $scope.displayIndex = 0;
-    $scope.checkbox = {};
-    $scope.checkbox.progress= '';
-    var id = $stateParams.id;
-    orderDataService.getData(id).then(function(response){
-        $scope.orderItems = response[0].items;
+  function getAvailOrderError (error) {
+    error('getAvailOrderError %O', error)
+  }
+  $scope.goToMatch = function (id) {
+    orderDataService.currentOrderId = id
+    orderDataService.getData(id).then(function (response) {
+      $state.go('editor.match', { id: id })
     })
-    $scope.searchLimit = 15;
+  }
+})
+;
+angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
+                                                                              orderDataService, $state, accountsService, CurrentUserService,
+                                                                              productEditorService, Authentication, $stateParams, constants, uploadService, toastr) {
+  if (Authentication.user) {
+    $scope.account = { createdBy: Authentication.user.username }
+  }
+  console.log('stateParams %O', orderDataService.allItems.length === 0)
+  onInit()
+  $scope.orderDataService = orderDataService
+  $scope.orders = {}
+  $scope.displayIndex = 0
+  function onProductLoad () {
+    productEditorService.productList = []
+    var name = orderDataService.currentItem.name
+    var sku = orderDataService.currentItem.upc
+    productEditorService.getProductList(name, {}).then(function () {
+      productEditorService.searchSkuResults(sku)
+    })
+  }
 
-    $scope.showMore = function () {
-        $scope.searchLimit += 15;
-    };
-    $scope.searchSku = function (sku) {
-        orderDataService.searchSku(sku).then(function(data){
-            $scope.products = data;
-        })
-    };
-    $scope.markAsNew = function (prod){
+  $scope.increaseIndex = function () {
+    productEditorService.productList = []
+    orderDataService.increaseIndex()
+    onProductLoad()
+  }
 
-        orderDataService.createNewProduct(prod).then(function(data){
-            toastr.success('New Product Created')
-            $scope.displayIndex += 1;
-        })
+  $scope.markAsNew = function (prod) {
+    orderDataService.createNewProduct(prod).then(function (data) {
+      toastr.success('New Product Created')
+      $scope.displayIndex += 1
+    })
+  }
+  $scope.matchProduct = function () {
+    orderDataService.matchProduct().then(function (data) {
+      var message = data.message || ''
+      toastr.success(message, 'Product Matched')
+      $scope.increaseIndex()
+    })
+  }
+  $scope.updateFilter = function (value) {
+    $scope.checked = false
+    for (var i in $scope.filter) {
+      if ($scope.filter[ i ].type === value.type) {
+        $scope.filter.splice(i, 1)
+        $scope.checked = true
+      }
     }
-    $scope.markDuplicate = function (prod, selected){
-
-        orderDataService.markDuplicate(prod, selected).then(function(data){
-            toastr.success('Products Merged')
-            $scope.displayIndex += 1;
-        })
+    if (!$scope.checked) {
+      $scope.filter.push(value)
     }
-    $scope.updateFilter = function (value) {
+    console.log($scope.filter)
+  }
 
-        $scope.checked = false;
-        for(var i in $scope.filter){
-            if($scope.filter[i].type == value.type) {
-                $scope.filter.splice(i, 1);
-                $scope.checked = true;
-            }
-        }
-        if(!$scope.checked){
-            $scope.filter.push(value)
-        }
-        console.log($scope.filter)
+  function onInit () {
+    if (orderDataService.allItems.length === 0 && $stateParams.id) {
+      orderDataService.getData($stateParams.id).then(function () {
+        onProductLoad()
+      })
     }
+  }
+})
 
-    $scope.searchProducts = function (searchText) {
-        $scope.loadingData = true;
-
-
-
-        productGridData.searchProducts(searchText, {'status':$scope.checkbox.progress, 'types':$scope.filter}).then(function (data) {
-            $scope.loadingData = false;
-            $scope.products = data;
-
-
-        })
-    };
-
-
-
-});
 ;
 'use strict';
 
@@ -3264,8 +3269,8 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ]);
 ;
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-  $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+                                                                        $location, $state, $stateParams, Countries, orderDataService,
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -3276,7 +3281,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
     myProducts: false,
-    feedback: true
+    feedback: true,
+    template: ''
   }
   $scope.allSelected = false
 
@@ -3291,16 +3297,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
       's3-image-uploader': new MediumS3ImageUploader()
     }
   }
-
+  if ($stateParams.productId) {
+    productEditorService.setCurrentProduct($stateParams)
+    $state.go('editor.view', { productId: $stateParams.productId })
+  }
   $scope.search = {}
-  $scope.checkbox = {}
-  $scope.checkbox.progress = {}
+  $scope.checkbox = {
+    progress: ''
+  }
   $scope.filter = []
   $scope.searchLimit = 15
 
   $scope.listOptions = {}
   $scope.listOptions.searchLimit = 15
   $scope.listOptions.orderBy = '+name'
+  if (window.localStorage.getItem('filterByUserId')) {
+    $scope.listOptions.filterByUserId = true
+  } else {
+    $scope.listOptions.filterByUserId = false
+  }
 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
@@ -3340,7 +3355,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     var options = { status: $scope.checkbox.progress, types: $scope.filter }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
-      console.log(data)
       refreshList()
       $scope.loadingData = false
     })
@@ -3348,7 +3362,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   var refreshList = function () {
     $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
-    $scope.products = $filter('limitTo')($scope.allProducts, $scope.listOptions.searchLimit)
+    $scope.products = $scope.allProducts
+    if ($scope.listOptions.filterByUserId) {
+      $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
+    }
+    $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
   }
 
   $scope.toggleSelected = function (product) {
@@ -3361,23 +3379,26 @@ angular.module('users').controller('productEditorController', function ($scope, 
     } else {
       $scope.selected.splice(i, 1)
     }
-    if ($state.includes('admin')) {
+    if ($state.includes('editor.match')) {
       orderDataService.storeSelected($scope.selected)
     }
-    console.log('toggleSelected %O', $scope.selected)
   }
 
   $scope.viewProduct = function (product) {
     productEditorService.setCurrentProduct(product)
-    $state.go('editor.view', { productId: product.productId })
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.view', { productId: product.productId })
+    } else {
+      $state.go('editor.view', { productId: product.productId })
+    }
   }
 
-  $scope.getModalData = function (product) {
-    productEditorService.getProduct(product).then(function (response) {
-      console.log('modal Data %O', response)
-        $scope.modalData = response
-    }
-    )
+  $scope.getModalData = function () {
+    productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
+      .then(function (response) {
+          $scope.modalData = response
+        }
+      )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -3387,7 +3408,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
     productEditorService.claim(options)
     productEditorService.setCurrentProduct(product)
-    $state.go('editor.edit', { productId: product.productId })
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.edit', { productId: product.productId })
+    } else {
+      $state.go('editor.edit', { productId: product.productId })
+    }
   }
 
   $scope.updateFilter = function (value) {
@@ -3408,24 +3433,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     { productTypeId: 2, name: 'Beer' },
     { productTypeId: 3, name: 'Spirits' }
   ]
-
-  $scope.toggleSelected = function (product) {
-    $scope.selected = $scope.selected || []
-    var i = _.findIndex($scope.selected, function (selectedProduct) {
-      return selectedProduct.productId === product.productId
-    })
-    if (i < 0) {
-      $scope.selected.push(product)
-    } else {
-      $scope.selected.splice(i, 1)
-    }
-    console.log('toggleSelected %O', $scope.selected)
-  }
-
   $scope.toggleAll = function () {
     var sel = !$scope.allSelected
     $scope.selected = []
-    console.log('length of $scope.selected %O ', $scope.selected)
     _.map($scope.products, function (p) {
       if (sel) {
         $scope.selected.push(p)
@@ -3539,8 +3549,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
-      console.log('mergeProducts %O', $scope)
-      $state.go('editor.merge')
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.merge')
+        $scope.selected = []
+      } else {
+        $state.go('editor.merge')
+      }
     })
   }
 
@@ -3570,11 +3584,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.toggleFilterUserId = function () {
-    if ($scope.filterUserId) {
-      $scope.filterUserId = ''
+    if ($scope.listOptions.filterByUserId) {
+      window.localStorage.setItem('filterByUserId', 'true')
     } else {
-      $scope.filterUserId = $scope.userId
+      window.localStorage.removeItem('filterByUserId')
     }
+    refreshList()
+  }
+
+  $scope.createNewProduct = function () {
+    var product = orderDataService.currentItem
+    productEditorService.createNewProduct(product)
+    $state.go('editor.match.new')
   }
 })
 ;
@@ -3593,6 +3614,11 @@ angular.module('users').controller('productEditorDetailController', function ($s
     console.log('starting product detail controller');
     $scope.productEditorService = productEditorService;
 });
+;
+angular.module('users').controller('newProductController', function ($scope, productEditorService, orderDataService) {
+  $scope.pes = productEditorService
+  $scope.save = orderDataService.createNewProduct(productEditorService.newProduct)
+})
 ;
 'use strict';
 
@@ -6277,106 +6303,115 @@ angular.module('users').factory('MediumS3ImageUploader', ['$window', 'uploadServ
     });
 }]);
 ;
-angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
-    "use strict";
-    var me = this;
+angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService) {
+  var me = this
+  var API_URL = constants.BWS_API
+  me.allItems = []
+  me.selected = []
+  me.getData = getData
+  me.createNewProduct = createNewProduct
+  me.matchProduct = matchProduct
+  me.storeSelected = storeSelected
+  me.increaseIndex = increaseIndex
+  return me
 
-    var API_URL = constants.BWS_API;
+  function getData (id) {
+    var defer = $q.defer()
+    me.currentIndex = 0
+    console.log(id)
+    var orderUrl = API_URL + '/edit/orders/' + id
+    $http.get(orderUrl).then(function (response) {
+      me.allItems = response.data[ 0 ].items
+      me.currentItem = me.allItems[ me.currentIndex ]
+      console.log('orderDataService::getData response %O', me.allItems)
+      defer.resolve(me.allItems)
+    })
+    return defer.promise
+  }
 
-    me.allItems = {};
-    me.selected =[];
-    me.getData = getData;
-    me.searchSku = searchSku;
-    me.createNewProduct = createNewProduct;
-    me.markDuplicate = markDuplicate;
-    me.storeSelected = storeSelected;
-    return me;
-
-
-    function getData (id) {
-        var defer = $q.defer();
-        console.log(id)
-        var orderUrl = API_URL + '/edit/orders/'+id;
-        $http.get(orderUrl).then(function (orderItems) {
-            console.log(orderItems);
-            me.allItems = orderItems.data;
-            defer.resolve( me.allItems)
-        });
-        return defer.promise;
+  function increaseIndex () {
+    me.selected = []
+    if (me.currentIndex + 1 === me.allItems.length) {
+      me.currentIndex = 0
+    } else {
+      me.currentIndex++
     }
-    function storeSelected (selected) {
-            me.selected = selected;
-        return me.selected;
-    }
-    function searchSku (sku) {
-        var defer = $q.defer();
-        console.log('orderdata %O',sku)
-        var skuUrl = API_URL + '/edit/search?v=sum&sku='+sku;
-        $http.get(skuUrl).then(function (skuItems) {
-            me.skuData = skuItems.data;
-            console.log('orderdata %O',skuItems)
-            defer.resolve( me.skuData)
-        });
-        return defer.promise;
-    }
-    function markDuplicate (prod, selected){
-        var defer = $q.defer();
-        var skuUrl = API_URL + '/edit/duplicates';
-        var payload =
-        {"payload":{
-            "duplicates": [
+    me.currentItem = me.allItems[ me.currentIndex ]
+  }
 
-            ],
-            "skus":[
-                prod.upc
-            ]
-        }
-        }
-        for(var i in selected){
-            payload.payload.duplicates.push(selected[i].productId)
-        }
-        $http.post(skuUrl, payload).then(function (skuItems) {
-            console.log(payload)
+  function storeSelected (selected) {
+    me.selected = selected
+    return me.selected
+  }
 
-            if (skuItems)
-                defer.resolve( skuItems)
-        });
-        return defer.promise;
+  function matchProduct () {
+    var prod = me.currentItem
+    var selected = me.selected
+    var defer = $q.defer()
+    var skuUrl = API_URL + '/edit/sku'
+    var payload = {
+      'payload': {
+        'duplicates': [],
+        'sku': prod.upc,
+        'publicUrl': prod.url
+      }
     }
-    function createNewProduct (prod) {
-        var defer = $q.defer();
-        var skuUrl = API_URL + '/edit/products';
-        var payload = {
-            'payload':{
-                    "name": prod.name,
-                    "description": "New Discription Needed",
-                    "notes": "",
-                    "productTypeId": prod.type,
-                    "requestedBy": "sellr",
-                    "feedback": "0",
-                    "properties": [ ],
-                    "mediaAssets": [
-                        {
-                            "type": "RESEARCH_IMG",
-                            "fileName": "",
-                            "script": null,
-                            "publicUrl": prod.url
-                        }
-                    ],
-                    "skus": [
-                        prod.upc
-                    ]
-            }
-        }
-        console.log(payload)
-        $http.post(skuUrl, payload).then(function (skuItems) {
-            if (skuItems)
-                defer.resolve( skuItems)
-        });
-        return defer.promise;
+    for (var i in selected) {
+      payload.payload.duplicates.push(selected[ i ].productId)
     }
+    $http.post(skuUrl, payload).then(function (results) {
+      // now update product status in mongo
+      var updateUrl = constants.BWS_API + '/choose/orders/product/status'
+      var updatePayload = {
+        id: me.currentOrderId || $stateParams.id,
+        upc: prod.upc,
+        status: 'processed'
+      }
+      $http.put(updateUrl, { payload: updatePayload }).then(function (updateResults) {
+        defer.resolve(results.data)
+      }, function (err) {
+        console.error(err)
+      })
+    }, function (err) {
+      console.error('could not mark duplicate %O', err)
+    })
+    return defer.promise
+  }
 
-});
+  function createNewProduct (prod) {
+    var defer = $q.defer()
+    var skuUrl = API_URL + '/edit/products'
+    var payload = {
+      'payload': {
+        'name': prod.name,
+        'description': prod.description,
+        'notes': '',
+        'productTypeId': prod.type,
+        'requestedBy': 'sellr',
+        'feedback': '0',
+        'properties': [],
+        'mediaAssets': [
+          {
+            'type': 'RESEARCH_IMG',
+            'fileName': '',
+            'script': null,
+            'publicUrl': prod.url
+          }
+        ],
+        'skus': [
+          prod.upc
+        ]
+      }
+    }
+    console.log(payload)
+    $http.post(skuUrl, payload).then(function (skuItems) {
+      if (skuItems) {
+        defer.resolve(skuItems)
+      }
+    })
+    return defer.promise
+  }
+})
 ;
 'use strict';
 
@@ -6445,32 +6480,41 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.currentProduct = {}
     me.currentType = {}
     me.currentStatus = {}
+    me.newProduct = {}
+
     // initialize with new products so list isnt empty
 
     getProductEditors()
     me.show.loading = false
   }
 
-  me.getProductList = function (searchText, options) {
-    var defer = $q.defer()
-    me.productList = []
-    var url = constants.BWS_API + '/edit/search?'
-    if (options.types) {
-      for (var i in options.types) {
-        url += '&type=' + options.types[ i ].type
-      }
+    function getAvailProdSuccess (response) {
+      if (response.status === 200) {
+        //timeEnd('getProductList');
+        me.show.loading = false;
+        log('getProdList ', response.data);
+        me.getStats();
+        response.data = _.map(response.data, function (product) {
+          if (product.lastEdit) {
+            if (constants.env === 'local') {
+              product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
+              log('lastEdit', product.lastEdit)
+            } else {
+              product.lastEdit = moment(product.lastEdit).fromNow()
+            }
+          }
+          return product
+        });
+
+    if (options.status) {
+      url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
     }
-    if (options.sku) {
-      url += '&sku=' + options.sku
-    }
-    // if (options.status) {
-    //   url += '&status=' + options.status
-    // }
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }
     $http.get(url).then(function (response) {
       me.productList = response.data
+      me.show.loading = false
       defer.resolve(me.productList)
     })
     return defer.promise
@@ -6623,6 +6667,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       window.scrollTo(0, 0)
       // socket.emit('product-saved')
       me.productStorage[ product.productId ] = product
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
       toastr.success('Product Updated!')
       defer.resolve()
     }
@@ -6638,6 +6683,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
   me.bulkUpdateStatus = function (products, status) {
     products.forEach(function (product) {
+      cachedProduct = jQuery.extend(true, {}, product)
       product.properties = []
       product.status = status
       me.save(product)
@@ -6813,8 +6859,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
     log('updatedProd', prod)
     log('cachedProd', cachedProduct)
     me.changes = []
-    if (prod.title !== cachedProduct.title) {
+    if (prod.title && prod.title !== cachedProduct.title) {
       me.changes.push('Changed title to ' + prod.title)
+    }
+    if (prod.status && prod.status !== cachedProduct.status) {
+      me.changes.push('Changed status to ' + prod.status)
     }
     if (prod.properties) {
       for (var i = 0; i < prod.properties.length; i++) {
@@ -6884,12 +6933,47 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
   }
 
+  me.searchSkuResults = function (sku) {
+    var defer = $q.defer()
+    me.show.loading = true
+    var skuUrl = constants.BWS_API + '/edit/search?v=sum&q=' + sku
+    $http.get(skuUrl).then(function (skuResult) {
+      var remainingQueries = skuResult.data.length
+      if (remainingQueries) {
+        console.log('I have to query %s names', remainingQueries)
+        for (var i in skuResult.data) {
+          var url = constants.BWS_API + '/edit/search?v=sum&q=' + skuResult.data[ i ].name
+          $http.get(url).then(function (results2) {
+            me.productList = me.productList.concat(results2.data)
+            me.productList = _.uniq(me.productList, function (p) {
+              return p.productId
+            })
+            remainingQueries--
+            console.log('1 down, %s to go', remainingQueries)
+            if (remainingQueries <= 0) {
+              me.show.loading = false
+              defer.resolve(me.productList)
+            }
+          })
+        }
+      } else {
+        me.show.loading = false;
+        defer.resolve()
+      }
+    })
+    return defer.promise
+  }
+
+  me.createNewProduct = function (product) {
+    me.newProduct = product
+  }
+
   me.init()
 
   return me
 })
 ;
-angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http) {
+angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr) {
   var me = this
 
   me.merge = merge
@@ -6901,6 +6985,10 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 
   function merge (products) {
     var defer = $q.defer()
+    me.products = [] //  array of products to be merged
+    me.newProduct = {} //  temporary object that combines all products
+    me.finalProduct = {} //  what the final product should look like
+    me.prodsToDelete = [] //  array of productIDs for API to delete
     buildProductList(products).then(function (detailedProducts) {
       buildNewProduct(detailedProducts)
       mergeProductProperties()
@@ -7056,11 +7144,15 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         product: me.finalProduct
       }
     }
-    console.log('MERGE SERVICE %O', payload)
     $http.post(url, payload).then(function (res) {
-      console.log('ROB SAYS %O', res)
+      if (res.data.productId) {
+        toastr.success('Product Merged!')
+        $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+      } else {
+        toastr.error('There was a problem with merging')
+      }
     }, function (err) {
-      console.log('ROB SAYS OH NO!!! %O', err)
+      console.error(err)
     })
   }
 
@@ -7071,56 +7163,60 @@ function onError (error) {
   console.error('Merge Service :: error :', error)
 }
 ;
-angular.module('users').factory('productGridData', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
-    "use strict";
-    var me = this;
-
-    var API_URL = constants.BWS_API;
-
-    me.getData = getData;
-    me.searchProducts = searchProducts;
-    return me;
-
-
-    function getData(type) {
-        var defer = $q.defer();
-        console.log(type)
-        $http.get(API_URL + '/edit/search?type=' + type).then(function (products) {
-            console.log(products);
-            me.allProducts = products.data;
-            defer.resolve(me.allProducts)
-        });
-        return defer.promise;
-    }
-
-    function searchProducts(searchText, obj) {
-        var defer = $q.defer();
-        var url = '/edit/search?'
-        if(obj.types){
-
-            for(var i in obj.types){
-                url += '&type='+obj.types[i].type;
-            }
-        }
-        if(obj.sku){
-            url+='&sku='+obj.sku
-        }
-        if(obj.status){
-            url+='&status='+obj.status;
-        }
-        if(searchText){
-            url += '&q=' + searchText + '&v=sum';
-        }
-        console.log(url);
-        $http.get(API_URL + url )
-            .then(function (response) {
-                me.allProducts = response.data;
-                defer.resolve(me.allProducts)
-            });
-        return defer.promise;
-    }
-
-});
+// /**
+//  * Created by mac4rpalmer on 6/27/16.
+//  */
+// angular.module('users').factory('productGridData', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
+//     "use strict";
+//     var me = this;
+//
+//     var API_URL = constants.BWS_API;
+//
+//     me.getData = getData;
+//     me.searchProducts = searchProducts;
+//     return me;
+//
+//
+//     function getData(type) {
+//         var defer = $q.defer();
+//         console.log(type)
+//         $http.get(API_URL + '/edit/search?type=' + type).then(function (products) {
+//             console.log(products);
+//             me.allProducts = products.data;
+//             defer.resolve(me.allProducts)
+//         });
+//         return defer.promise;
+//     }
+//
+//     function searchProducts(searchText, obj) {
+//         var defer = $q.defer();
+//         var url = '/edit/search?'
+//
+//         if(obj.types){
+//
+//             for(var i in obj.types){
+//                 url += '&type='+obj.types[i].type;
+//             }
+//         }
+//         if(obj.sku){
+//             url+='&sku='+obj.sku
+//         }
+//         if(obj.status){
+//             url+='&status='+obj.status;
+//         }
+//         if(searchText){
+//             url += '&q=' + searchText + '&v=sum';
+//         }
+//         console.log(url);
+//         $http.get(API_URL + url )
+//             .then(function (response) {
+//                 me.allProducts = response.data;
+//                 defer.resolve(me.allProducts)
+//             });
+//         return defer.promise;
+//     }
+//
+// });
 ;
 angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
     return function (recordingUrl) {
