@@ -48,37 +48,36 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show.loading = false
   }
 
-  function getAvailProdSuccess (response) {
-    if (response.status === 200) {
-      //timeEnd('getProductList');
-      me.show.loading = false;
-      log('getProdList ', response.data);
-      me.getStats();
-      response.data = _.map(response.data, function (product) {
-        if (product.lastEdit) {
-          if (constants.env === 'local') {
-            product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
-            log('lastEdit', product.lastEdit)
-          } else {
-            product.lastEdit = moment(product.lastEdit).fromNow()
-          }
-        }
-        return product
-      });
-
-      if (options.status) {
-        url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
+  me.getProductList = function (searchText, options) {
+    me.show.loading = true
+    var defer = $q.defer()
+    me.productList = []
+    var url = constants.BWS_API + '/edit/search?'
+    if (options.types) {
+      for (var i in options.types) {
+        url += '&type=' + options.types[ i ].type
       }
-      if (searchText) {
-        url += '&q=' + searchText + '&v=sum'
-      }
-      $http.get(url).then(function (response) {
-        me.productList = response.data
-        me.show.loading = false
-        defer.resolve(me.productList)
-      })
-      return defer.promise
     }
+    if (options.sku) {
+      url += '&sku=' + options.sku
+    }
+
+    if (options.status) {
+      url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
+    }
+    if (searchText) {
+      url += '&q=' + searchText + '&v=sum'
+    }
+    $http.get(url).then(function (response) {
+      me.productList = response.data
+      me.show.loading = false
+      defer.resolve(me.productList)
+    }, function (err) {
+      console.error('could not get product list %O', err)
+      defer.reject(err)
+      me.show.loading = false
+    })
+    return defer.promise
   }
 
   // send in type,status,userid, get back list of products
@@ -90,7 +89,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         status: me.currentStatus.value,
         userId: me.userId
       }
-      }
+    }
     var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId
     $http.get(url).then(getMyProdSuccess, getMyProdError)
 
@@ -98,17 +97,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
       if (response.status === 200) {
         me.productList = response.data
       }
-      }
+    }
 
     function getMyProdError (error) {
       console.error('getMyProdError %O', error)
     }
-    }
+  }
 
   //  abstracts away remote call for detail
   me.getProductDetail = function (product) {
     return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
-    }
+  }
 
   me.getProduct = function (product) {
     var defer = $q.defer()
@@ -137,11 +136,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
       }, function (error) {
         // error(error)
         toastr.error('Could not get product detail for ' + product.name)
-          defer.reject(error)
+        defer.reject(error)
       })
     }
     return defer.promise
-    }
+  }
 
   // calls get detail from API and caches product
   me.setCurrentProduct = function (product) {
@@ -154,7 +153,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       //  cache current product for comparison
       cachedProduct = jQuery.extend(true, {}, formattedProduct)
     })
-    }
+  }
 
   //  claim a product
   me.claim = function (options) {
@@ -179,14 +178,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
       toastr.error('There was a problem claiming this product')
       console.error(err)
     })
-    }
+  }
 
   // remove a claim on a product
   me.removeClaim = function (options) {
     // options should have userId and productId
     if (!options.productId || !options.userId) {
       // error('could not claim, wrong options')
-      }
+    }
     options.status = 'new'
     var payload = {
       'payload': options
@@ -201,7 +200,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       log('deleteClaim error', err)
       toastr.error('There was an error claiming this product.')
     })
-    }
+  }
 
   me.save = function (product) {
     var defer = $q.defer()
@@ -240,7 +239,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
 
     return defer.promise
-    }
+  }
 
   me.bulkUpdateStatus = function (products, status) {
     products.forEach(function (product) {
@@ -249,7 +248,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       product.status = status
       me.save(product)
     })
-    }
+  }
 
   me.getStats = function () {
     var account = me.currentAccount
@@ -269,7 +268,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       console.error('onGetStatError %O', error)
       me.productStats = {}
     }
-    }
+  }
 
   me.formatProductDetail = function (product) {
     var defer = $q.defer()
@@ -279,7 +278,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       product.feedback = JSON.parse(product.feedback)
     } catch (e) {
       product.feedback = []
-      }
+    }
     product.properties.forEach(function (prop) {
       switch (prop.label) {
         case 'Requested By':
@@ -314,8 +313,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
               product.audio.ontimeupdate = function setProgress () {
                 product.audio.progress = Number(product.audio.currentTime / product.audio.duration)
               }
-              }
             }
+          }
           break
         case 'IMAGE':
           product.hasImages = true
@@ -333,11 +332,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
     if (product.description && !product.description.match(/[<>]/)) {
       product.description = '<p>' + product.description + '</p>'
-      }
+    }
     defer.resolve(product)
 
     return defer.promise
-    }
+  }
 
   me.uploadMedia = function (files) {
     var mediaConfig = {
@@ -388,33 +387,33 @@ angular.module('users').service('productEditorService', function ($http, $locati
         toastr.error('Product Audio Failed To Update!')
       }
     })
-    }
+  }
   me.removeAudio = function (currentAudio) {
     // log('delete audio %O', currentAudio)
     var url = constants.API_URL + '/media/' + currentAudio
     $http.delete(url).then(function () {
       toastr.success('audio removed', 'Success')
-        me.save(me.currentProduct).then(function (err, response) {
-          if (err) {
-            toastr.error('There was a problem removing audio')
-          }
-          refreshProduct(me.currentProduct)
-        })
+      me.save(me.currentProduct).then(function (err, response) {
+        if (err) {
+          toastr.error('There was a problem removing audio')
+        }
+        refreshProduct(me.currentProduct)
+      })
     })
-    }
+  }
   me.removeImage = function (currentImage) {
     // log('delete image %O', currentImage)
     var url = constants.API_URL + '/media/' + currentImage.mediaAssetId
     $http.delete(url).then(function () {
       toastr.success('image removed', 'Success')
-        me.save(me.currentProduct).then(function (err, response) {
-          if (err) {
-            toastr.error('There was a problem removing image')
-          }
-          refreshProduct(me.currentProduct)
-        })
+      me.save(me.currentProduct).then(function (err, response) {
+        if (err) {
+          toastr.error('There was a problem removing image')
+        }
+        refreshProduct(me.currentProduct)
       })
-    }
+    })
+  }
 
   function compareToCachedProduct (prod) {
     log('updatedProd', prod)
@@ -439,16 +438,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
             updated.changed = 'update'
             me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
           }
-          } else {
+        } else {
           updated.changed = 'false'
-          }
         }
+      }
       log('changes added', prod)
       return (prod)
     } else {
       return prod
-      }
     }
+  }
 
   function refreshProduct (product) {
     me.getProductDetail(product).then(function (res) {
@@ -486,13 +485,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
         productId: me.currentProduct.productId,
         feedback: feedback
       }
-      }
+    }
     $http.post(url, payload).then(function (res) {
       console.log(res)
     }, function (err) {
       console.error(err)
     })
-    }
+  }
 
   me.searchSkuResults = function (sku) {
     var defer = $q.defer()
@@ -515,12 +514,15 @@ angular.module('users').service('productEditorService', function ($http, $locati
               me.show.loading = false
               defer.resolve(me.productList)
             }
-            })
+          })
         }
       } else {
-        me.show.loading = false;
+        me.show.loading = false
         defer.resolve()
-        }
+      }
+    }, function (err) {
+      console.error('Could not search sku results %O', err)
+      defer.reject(err)
     })
     return defer.promise
   }

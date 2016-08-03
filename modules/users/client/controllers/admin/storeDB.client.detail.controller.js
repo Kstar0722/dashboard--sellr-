@@ -19,6 +19,11 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     })
   }
 
+  $scope.searchDatabase = function () {
+    productEditorService.productList = []
+    onProductLoad()
+  }
+
   $scope.increaseIndex = function () {
     productEditorService.productList = []
     orderDataService.increaseIndex()
