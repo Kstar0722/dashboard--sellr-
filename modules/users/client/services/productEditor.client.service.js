@@ -68,6 +68,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }
+    debugger
     $http.get(url).then(function (response) {
       me.productList = response.data
       me.show.loading = false
@@ -493,13 +494,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
   }
 
-  me.searchSkuResults = function (sku) {
+  me.searchSkuResults = function (sku, productList) {
     var defer = $q.defer()
+    me.productList = []
+    console.log('searching sku %s', sku)
     me.show.loading = true
     var skuUrl = constants.BWS_API + '/edit/search?v=sum&q=' + sku
     $http.get(skuUrl).then(function (skuResult) {
       var remainingQueries = skuResult.data.length
-      if (remainingQueries) {
+      if (remainingQueries > 0) {
+        me.productList = productList || []
         console.log('I have to query %s names', remainingQueries)
         for (var i in skuResult.data) {
           var url = constants.BWS_API + '/edit/search?v=sum&q=' + skuResult.data[ i ].name
@@ -517,6 +521,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
           })
         }
       } else {
+        me.productList = productList
         me.show.loading = false
         defer.resolve()
       }

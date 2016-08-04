@@ -30,7 +30,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
-    $state.go('editor.view', { productId: $stateParams.productId })
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.view', { productId: $stateParams.productId })
+    } else {
+      $state.go('editor.view', { productId: $stateParams.productId })
+    }
   }
   $scope.search = {}
   $scope.checkbox = {

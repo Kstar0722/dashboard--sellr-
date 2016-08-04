@@ -14,9 +14,13 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     productEditorService.productList = []
     var name = orderDataService.currentItem.name
     var sku = orderDataService.currentItem.upc
-    productEditorService.getProductList(name, {}).then(function () {
+    if (name) {
+      productEditorService.getProductList(name, {}).then(function (productList) {
+        productEditorService.searchSkuResults(sku, productList)
+      })
+    } else {
       productEditorService.searchSkuResults(sku)
-    })
+    }
   }
 
   $scope.searchDatabase = function () {
@@ -27,7 +31,9 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   $scope.increaseIndex = function () {
     productEditorService.productList = []
     orderDataService.increaseIndex()
-    onProductLoad()
+    if (orderDataService.currentItem.productId === '0') {
+      onProductLoad()
+    }
   }
 
   $scope.markAsNew = function (prod) {
