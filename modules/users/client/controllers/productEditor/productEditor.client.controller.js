@@ -9,6 +9,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
+  $scope.Countries = Countries
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
     myProducts: false,
@@ -109,7 +110,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     var selectedStores = _.filter($scope.allStores, function (st) {
       return st.selected
     })
-    debugger
     var options = { status: $scope.checkbox.progress, types: $scope.filter, stores: selectedStores }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data

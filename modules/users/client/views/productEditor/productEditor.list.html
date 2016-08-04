@@ -1,4 +1,4 @@
-<div class="product-search-table-container" ng-controller="productEditorController">
+<div class="product-search-table-container">
 
     <div class="list-container">
 
@@ -30,10 +30,12 @@
                 <md-menu md-offset="0 35">
                     <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
                     <md-menu-content class="product-search-menu">
+                        <i class="fa fa-times" ng-click="$mdMenu.hide()"></i>
                         <md-menu-divider>STORE</md-menu-divider>
                         <br>
                         <md-menu-item>
                             <md-checkbox ng-repeat="store in allStores" ng-checked="isStoreSelected(store)"
+                                         md-prevent-menu-close="md-prevent-menu-close"
                                          ng-click="toggleSearchStore(store)">{{ store.name }}
                             </md-checkbox>
                         </md-menu-item>
