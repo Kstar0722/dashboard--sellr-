@@ -30,11 +30,18 @@
                 <md-menu md-offset="0 35">
                     <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
                     <md-menu-content class="product-search-menu">
+                        <md-menu-divider>STORE</md-menu-divider>
+                        <br>
                         <md-menu-item>
-                            <md-checkbox ng-model="checkbox.all" aria-label="Finished?" class="blue-check">
-                                Search All
+                            <md-checkbox ng-repeat="store in allStores" ng-checked="isStoreSelected(store)"
+                                         ng-click="toggleSearchStore(store)">{{ store.name }}
                             </md-checkbox>
                         </md-menu-item>
+                        <!--<md-menu-item>-->
+                        <!--<md-checkbox ng-model="checkbox.all" aria-label="Finished?" class="blue-check">-->
+                        <!--Search All-->
+                        <!--</md-checkbox>-->
+                        <!--</md-menu-item>-->
                         <md-menu-divider>CATEGORY</md-menu-divider>
                         <br>
                         <md-menu-item>

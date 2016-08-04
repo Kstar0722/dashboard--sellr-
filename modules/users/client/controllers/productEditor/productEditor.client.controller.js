@@ -17,6 +17,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.allSelected = false
 
+  $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
+    console.log('allStores %O', res.data)
+    $scope.allStores = res.data
+  })
+
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
@@ -56,6 +61,20 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.listOptions.searchLimit += 15
     refreshList()
   }
+  $scope.isStoreSelected = function (store) {
+    var i = _.findIndex($scope.allStores, function (s) {
+      return s.id === store.id
+    })
+    return $scope.allStores[ i ].selected
+  }
+
+  $scope.toggleSearchStore = function (store) {
+    $scope.allStores = $scope.allStores || []
+    var i = _.findIndex($scope.allStores, function (s) {
+      return s.id === store.id
+    })
+    $scope.allStores[ i ].selected = !$scope.allStores[ i ].selected
+  }
 
   $scope.reOrderList = function (field) {
     switch (field) {
@@ -87,7 +106,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
-    var options = { status: $scope.checkbox.progress, types: $scope.filter }
+    var selectedStores = _.filter($scope.allStores, function (st) {
+      return st.selected
+    })
+    debugger
+    var options = { status: $scope.checkbox.progress, types: $scope.filter, stores: selectedStores }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
       refreshList()
