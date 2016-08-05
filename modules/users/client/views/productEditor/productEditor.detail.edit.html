@@ -87,7 +87,8 @@
       </div>
 
 
-      <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type">
+      <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type"
+           ng-show="prop.visibility">
         <label for="prop">{{ prop.label }}<span ng-show="prop.info"> - ({{ prop.info }})</span></label>
         <textarea class="form-control" id="prop" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{prop.info}}"></textarea>
         <input class="form-control" id="prop" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
