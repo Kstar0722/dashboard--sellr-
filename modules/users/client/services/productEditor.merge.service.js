@@ -173,7 +173,11 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
     $http.post(url, payload).then(function (res) {
       if (res.data.productId) {
         toastr.success('Product Merged!')
-        $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+        if ($state.includes('editor.match.merge')) {
+          $state.go('editor.match.view', { productId: res.data.productId }, { reload: true })
+        } else {
+          $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+        }
       } else {
         toastr.error('There was a problem with merging')
       }

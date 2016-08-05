@@ -1311,6 +1311,15 @@ md-checkbox.md-checked.blue-check .md-icon {
 .order-match-page .match-buttons div.custom-btn:last-child {
   margin-right: 0px;
 }
+.match .current-item-container {
+    background: #34495e;
+    color: #ecf0f1;
+    padding-left: 5%;
+}
+.match .match-image {
+    margin-left: 10%;
+    max-height: 20vh;
+}
 .drop-box {
   background: #F8F8F8;
   border: 5px dashed #DDD;
@@ -1739,4 +1748,8 @@ body .productEditor .loading-data .right {
   background-color: white;
   font-size: 1.5em;
   bottom: -1.6em;
+}
+
+.createProduct {
+    padding: 8%;
 }

@@ -102,7 +102,8 @@
                 <label for="prop">{{ prop.label }}<span ng-show="prop.info"> - ({{ prop.info }})</span></label>
                 <textarea class="form-control" id="prop" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{prop.info}}"></textarea>
                 <input class="form-control" id="prop" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
-                <select ng-switch-when="countryselect" class="form-control" ng-options="country.name as country.name for country in Countries"
+                <select ng-switch-when="countryselect" class="form-control"
+                        ng-options="country.name as country.name for country in Countries.allCountries"
                         ng-model="prop.value"></select>
             </div>
 

@@ -9,7 +9,9 @@
     <div flex=10 class="align-center">Total</div>
     <div flex=10 class="align-center">Status</div>
   </div>
-  <div layout layout-align="center center" class="orders-body"  ng-repeat="order in orders" ng-click="goToMatch(order.id)">
+    <div layout layout-align="center center" class="orders-body"
+         ng-repeat="order in orders | orderBy:'-status.received'"
+         ng-click="goToMatch(order.id)">
     <div flex=10 class="align-center">{{order.id}}</div>
     <div flex=30>{{order.name}}</div>
     <div flex=10 class="align-center">{{order.status.received}}</div>
