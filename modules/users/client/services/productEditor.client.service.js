@@ -65,10 +65,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.status) {
       url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
     }
-    if (options.stores[ 0 ]) {
-      url += '&store=' + options.stores[ 0 ].id
-      for (var k = 1; k < options.stores.length; k++) {
-        url += '~' + options.stores[ k ].id
+    if (options.stores) {
+      if (options.stores[ 0 ]) {
+        url += '&store=' + options.stores[ 0 ].id
+        for (var k = 1; k < options.stores.length; k++) {
+          url += '~' + options.stores[ k ].id
+        }
       }
     }
     if (searchText) {

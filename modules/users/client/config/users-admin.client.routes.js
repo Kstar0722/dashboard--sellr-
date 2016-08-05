@@ -30,7 +30,7 @@ angular.module('users.admin.routes').config([ '$stateProvider',
           userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
             return Admin.get({
               userId: $stateParams.userId
-            });
+            })
           } ]
         }
       })
