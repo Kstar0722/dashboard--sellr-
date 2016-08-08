@@ -1752,6 +1752,10 @@ body .productEditor .loading-data .right {
 .createProduct {
   padding: 8%;
 }
+body.storeOwner-orders {
+  background-color: #fff;
+  color: #142332;
+}
 .orders-view {
   padding: 10vh 15vw;
 }
@@ -1785,4 +1789,111 @@ body .productEditor .loading-data .right {
 .orders-view .orders-column .orders-title .right-action {
   text-align: right;
   font-size: 22px;
+}
+.orders-view .orders-column .order-container {
+  background-color: #fafafb;
+  margin: 3vh 0;
+  position: relative;
+}
+.orders-view .orders-column .order-container .checkmark {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid #142332;
+  top: -5px;
+  right: -5px;
+}
+.orders-view .orders-column .order-container .checkmark .fa {
+  color: #2DC89A;
+  top: -10px;
+  position: relative;
+  font-size: 40px;
+}
+.orders-view .orders-column .order-container .left-column {
+  padding-bottom: 30px;
+}
+.orders-view .orders-column .order-container .left-column .pickup-time {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 30px;
+}
+.orders-view .orders-column .order-container .left-column .pickup-time .pickup-label {
+  margin-bottom: 10px;
+}
+.orders-view .orders-column .order-container .left-column .pickup-time .time {
+  padding: 9px 0px 0px 0px;
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  border: 2px solid #142332;
+  margin: 0 auto;
+  font-size: 24px;
+  line-height: 24px;
+  box-sizing: border-box;
+}
+.orders-view .orders-column .order-container .left-column .pickup-time .time .subtime {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 14px;
+}
+.orders-view .orders-column .order-container .left-column .order-total {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 26px;
+  font-weight: bold;
+}
+.orders-view .orders-column .order-container .left-column .order-total .total {
+  padding-top: 20px;
+}
+.orders-view .orders-column .order-container .order-items {
+  border-left: 2px solid #eeeef0;
+  margin: 30px 0;
+  padding: 0 20px;
+}
+.orders-view .orders-column .order-container .order-items .orders-user {
+  font-size: 30px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-weight: bold;
+}
+.orders-view .orders-column .order-container .order-items .orders-user .date {
+  font-size: 16px;
+  font-weight: normal;
+  text-align: right;
+  color: #9ba2a8;
+}
+.orders-view .orders-column .order-container .order-items .product-line {
+  margin: 30px auto;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+}
+.orders-view .orders-column .order-container .order-items .product-line:last-child {
+  margin-bottom: 0px;
+}
+.orders-view .orders-column .order-container .order-items .product-line .item-slot {
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background-color: #FF0000;
+  border-radius: 40px;
+  line-height: 40px;
+  text-align: center;
+  margin: 0 auto;
+  font-weight: bold;
+  font-size: 20px;
+}
+.orders-view .orders-column .order-container .order-items .product-line .item-qty {
+  font-size: 30px;
+}
+.orders-view .orders-column .order-container .order-items .product-line .item-title {
+  font-weight: bold;
+  line-height: 15px;
+  font-size: 18px;
+  padding-left: 20px;
+}
+.orders-view .orders-column .order-container .order-items .product-line .item-description {
+  padding-left: 20px;
+  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-size: 12px;
+  color: #9ba2a8;
+  line-height: 16px;
 }
