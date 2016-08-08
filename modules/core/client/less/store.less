@@ -1,6 +1,6 @@
 .store-client-view{
   text-align: center;
-  margin: 40px auto;
+  margin: 20px auto 40px;
   font-size: 16px;
   color: @black-text;
   .orders-header{
@@ -108,5 +108,22 @@
     background-color: white;
     font-size: 1.5em;
     bottom: -1.6em;
+  }
+
+  .header {
+    border-bottom: 1px solid @med-grey;
+    margin-bottom: 40px;
+    padding: 0 10vw 10px;
+    text-align: right;
+  }
+
+  #storeCsv { display: none; }
+  .upload-csv.md-button {
+    background: @med-grey;
+    border-radius: 0;
+    color: @white;
+    line-height: 25px;
+    min-height: initial;
+    text-transform: none;
   }
 }

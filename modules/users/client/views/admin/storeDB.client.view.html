@@ -1,4 +1,16 @@
 <div class="store-client-view">
+  <div class="header">
+    <md-button class="md-button upload-csv" ng-click="selectCsvImport('#storeCsv')">
+      + Upload
+    </md-button>
+    <ng-csv-import id="storeCsv"
+                   result="storeImport"
+                   header="true"
+                   separator="','"
+                   accept="'.csv'"
+                   acceptSize="4194304"
+                   callback="submitStore"></ng-csv-import>
+  </div>
   <div layout class="orders-header">
     <div flex=10 class="align-center">#</div>
     <div flex=30>Account</div>

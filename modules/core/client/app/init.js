@@ -65,6 +65,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     envServiceProvider.check()
   }
 ])
+    .value('ProductTypes', [
+        { productTypeId: 1, name: 'Wine' },
+        { productTypeId: 2, name: 'Beer' },
+        { productTypeId: 3, name: 'Spirits' }
+    ]);
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
   $rootScope.$stateClass = cssClassOf($state.current.name)

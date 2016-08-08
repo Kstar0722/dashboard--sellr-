@@ -1626,7 +1626,7 @@ body .productEditor .loading-data .right {
 }
 .store-client-view {
   text-align: center;
-  margin: 40px auto;
+  margin: 20px auto 40px;
   font-size: 16px;
   color: #5a5c5d;
 }
@@ -1748,6 +1748,23 @@ body .productEditor .loading-data .right {
   background-color: white;
   font-size: 1.5em;
   bottom: -1.6em;
+}
+.store-client-view .header {
+  border-bottom: 1px solid #8D9AA5;
+  margin-bottom: 40px;
+  padding: 0 10vw 10px;
+  text-align: right;
+}
+.store-client-view #storeCsv {
+  display: none;
+}
+.store-client-view .upload-csv.md-button {
+  background: #8D9AA5;
+  border-radius: 0;
+  color: #ffffff;
+  line-height: 25px;
+  min-height: initial;
+  text-transform: none;
 }
 .createProduct {
   padding: 8%;
