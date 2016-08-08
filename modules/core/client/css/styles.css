@@ -1312,13 +1312,13 @@ md-checkbox.md-checked.blue-check .md-icon {
   margin-right: 0px;
 }
 .match .current-item-container {
-    background: #34495e;
-    color: #ecf0f1;
-    padding-left: 5%;
+  background: #34495e;
+  color: #ecf0f1;
+  padding-left: 5%;
 }
 .match .match-image {
-    margin-left: 10%;
-    max-height: 20vh;
+  margin-left: 10%;
+  max-height: 20vh;
 }
 .drop-box {
   background: #F8F8F8;
@@ -1749,7 +1749,40 @@ body .productEditor .loading-data .right {
   font-size: 1.5em;
   bottom: -1.6em;
 }
-
 .createProduct {
-    padding: 8%;
+  padding: 8%;
+}
+.orders-view {
+  padding: 10vh 15vw;
+}
+.orders-view .orders-stats,
+.orders-view .orders-column {
+  padding: 0 1vw;
+}
+.orders-view .orders-column .orders-title {
+  color: #142332;
+  font-family: "brandon-grotesque", sans-serif;
+  padding-bottom: 0.5vh;
+  border-bottom: 1px solid #142332;
+}
+.orders-view .orders-column .orders-title .title,
+.orders-view .orders-column .orders-title .today-count {
+  float: left;
+}
+.orders-view .orders-column .orders-title .title {
+  font-size: 42px;
+}
+.orders-view .orders-column .orders-title .today-count {
+  font-size: 24px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  line-height: 30px;
+  text-align: center;
+  background-color: #FF0000;
+  color: #fff;
+}
+.orders-view .orders-column .orders-title .right-action {
+  text-align: right;
+  font-size: 22px;
 }
