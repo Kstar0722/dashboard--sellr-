@@ -1755,16 +1755,32 @@ body .productEditor .loading-data .right {
   padding: 0 10vw 10px;
   text-align: right;
 }
-.store-client-view #storeCsv {
-  display: none;
-}
-.store-client-view .upload-csv.md-button {
-  background: #8D9AA5;
+.store-client-view .header .md-button {
   border-radius: 0;
-  color: #ffffff;
   line-height: 25px;
   min-height: initial;
   text-transform: none;
+}
+.store-client-view .header #storeCsv {
+  display: none;
+}
+.store-client-view .header .upload-csv.md-button {
+  background: #8D9AA5;
+  color: #ffffff;
+}
+.store-client-view .header .cancel.md-button {
+  background: #DFE3EB;
+}
+.store-client-view .header .selectize-control {
+  display: inline-block;
+  margin-right: 20px;
+  text-align: left;
+  width: 220px;
+}
+.store-client-view .header .selectize-input {
+  line-height: 25px;
+  padding: 0 5px;
+  top: 8px;
 }
 .createProduct {
   padding: 8%;

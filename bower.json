@@ -41,7 +41,8 @@
     "angular-ui-grid": "^3.1.1",
     "font-awesome": "^4.6.3",
     "angular-location-update": "^0.0.2",
-    "angular-csv-import": "^0.0.36"
+    "angular-csv-import": "^0.0.36",
+    "angular-selectize2": "^3.0.1"
   },
   "resolutions": {
     "angular": "1.4.x",

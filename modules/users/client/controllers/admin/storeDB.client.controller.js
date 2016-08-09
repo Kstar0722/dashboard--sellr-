@@ -2,19 +2,51 @@
 angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, csvStoreMapper, $q) {
   $scope.account = undefined
   $scope.orders = []
+  $scope.ordersDropdown = []
   $scope.orderItems = []
+
+  // selectize control options
+  $scope.selectStoreConfig = {
+    create: true,
+    createOnBlur: true,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'id',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: ['name', 'id']
+  };
 
   $scope.selectCsvImport = function (selector) {
     $(selector).find('input[type="file"]').click();
   };
 
+  $scope.cancelCsvImport = function (selector) {
+    $scope.storeImport = null;
+    var $input = $(selector).find('input[type="file"]');
+    $input.replaceWith($input.val('').clone(true)); // reset selected file
+  };
+
+  // callback for csv import plugin
+  $scope.selectStore = function (e) {
+    console.log('csv file selected');
+  };
+
   $scope.submitStore = function (e) {
-    var storeDb = csvStoreMapper.map($scope.storeImport);
-    importStoreDb(storeDb).then(function (order) {
-      $scope.orders.push(order);
-      toastr.success('Order csv file imported');
-    }, function (error) {
-      toastr.error(error && error.toString() || 'Failed to import csv file');
+    if (!$scope.selectedStore) {
+      toastr.info('select store from the dropdown');
+      return;
+    }
+
+    selectOrCreateStore($scope.selectedStore).then(function (storeDb) {
+      var items = csvStoreMapper.map($scope.storeImport);
+      importStoreDb(storeDb, items).then(function (order) {
+        $scope.orders.push(order);
+        $scope.storeImport = null;
+        toastr.success('Order csv file imported');
+      }, function (error) {
+        toastr.error(error && error.toString() || 'Failed to import csv file');
+      });
     });
   };
 
@@ -45,6 +77,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     if (response.status === 200) {
       // timeEnd('getProductList')
       $scope.orders = response.data
+      $scope.ordersDropdown = angular.copy($scope.orders);
       console.log($scope.orders)
       _.each($scope.orders, function (elm, ind, orders) {
         if (elm.status.received > 0) {
@@ -65,24 +98,41 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     error('getAvailOrderError %O', error)
   }
 
-  function importStoreDb(storeDb) {
+  function importStoreDb(storeDb, storeItems) {
     var payload = {
-      items: storeDb
+      id: storeDb.id,
+      items: storeItems
     };
 
     if (!storeDb || storeDb.length == 0) {
       return $q.reject('no store db found in csv file');
     }
 
-    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload })
-      .then(function (response) {
-        if (response.status !== 200) throw Error(response.statusText);
-        var data = response.data;
-        if (data.error) {
-          console.error(data.error);
-          throw Error(data.message || data.error);
-        }
-        return data;
-      });
+    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse);
+  }
+
+  function handleResponse(response) {
+    if (response.status !== 200) throw Error(response.statusText);
+    var data = response.data;
+    if (data.error) {
+      console.error(data.error);
+      throw Error(data.message || data.error);
+    }
+    return data;
+  }
+
+  function selectOrCreateStore(storeId) {
+    var storeDb = _.find($scope.orders, { id: parseInt(storeId, 10) });
+    if (storeDb) return $q.when(storeDb);
+
+    var storeName = storeId;
+    var payload = {
+      accountId: localStorage.getItem('accountId'),
+      name: storeName
+    };
+
+    return $http.post(constants.BWS_API + '/storedb/stores', { payload: payload }).then(handleResponse).then(function (data) {
+      return { id: data.storeId, name: storeName };
+    });
   }
 });

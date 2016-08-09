@@ -115,15 +115,36 @@
     margin-bottom: 40px;
     padding: 0 10vw 10px;
     text-align: right;
-  }
 
-  #storeCsv { display: none; }
-  .upload-csv.md-button {
-    background: @med-grey;
-    border-radius: 0;
-    color: @white;
-    line-height: 25px;
-    min-height: initial;
-    text-transform: none;
+    .md-button {
+      border-radius: 0;
+      line-height: 25px;
+      min-height: initial;
+      text-transform: none;
+    }
+
+    #storeCsv { display: none; }
+
+    .upload-csv.md-button {
+      background: @med-grey;
+      color: @white;
+    }
+
+    .cancel.md-button {
+      background: @light-grey;
+    }
+
+    .selectize-control {
+      display: inline-block;
+      margin-right: 20px;
+      text-align: left;
+      width: 220px;
+    }
+
+    .selectize-input {
+      line-height: 25px;
+      padding: 0 5px;
+      top: 8px;
+    }
   }
 }

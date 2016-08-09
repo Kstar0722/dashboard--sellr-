@@ -1,5 +1,5 @@
 <div class="store-client-view">
-  <div class="header">
+  <div class="header" ng-hide="storeImport">
     <md-button class="md-button upload-csv" ng-click="selectCsvImport('#storeCsv')">
       + Upload
     </md-button>
@@ -9,8 +9,14 @@
                    separator="','"
                    accept="'.csv'"
                    acceptSize="4194304"
-                   callback="submitStore"></ng-csv-import>
+                   callback="selectStore"></ng-csv-import>
   </div>
+  <div class="header" ng-show="storeImport">
+    <selectize config="selectStoreConfig" options="ordersDropdown" ng-model="selectedStore" placeholder="Select or create store"></selectize>
+    <md-button class="md-button upload-csv" ng-click="submitStore(store)">Submit</md-button>
+    <md-button class="md-button md-warn cancel" ng-click="cancelCsvImport('#storeCsv')">Cancel</md-button>
+  </div>
+
   <div layout class="orders-header">
     <div flex=10 class="align-center">#</div>
     <div flex=30>Account</div>

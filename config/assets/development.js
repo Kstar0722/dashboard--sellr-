@@ -13,7 +13,9 @@ module.exports = {
                 'public/lib/angular-ui-grid/ui-grid.css',
                 'public/lib/medium-editor/dist/css/medium-editor.css',
                 'public/lib/medium-editor/dist/css/themes/default.css',
-                'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css'
+                'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
+                'public/lib/font-awesome/css/font-awesome.css',
+                'public/lib/selectize/dist/css/selectize.default.css'
             ],
             js: [
                 'public/lib/jquery/dist/jquery.js',
@@ -57,7 +59,9 @@ module.exports = {
                 'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',
                 'public/lib/blueimp-file-upload/js/jquery.fileupload.js',
                 'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js',
-                'public/lib/angular-csv-import/dist/angular-csv-import.js'
+                'public/lib/angular-csv-import/dist/angular-csv-import.js',
+                'public/lib/selectize/dist/js/standalone/selectize.js',
+                'public/lib/angular-selectize2/dist/angular-selectize.js'
             ]
         },
         css: [
