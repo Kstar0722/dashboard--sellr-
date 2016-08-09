@@ -1,24 +1,26 @@
 <div class="store-client-view">
-  <div layout class="orders-header">
-    <div flex=10 class="align-center">#</div>
-    <div flex=30>Account</div>
-    <div flex=10 class="align-center">Received</div>
-    <div flex=10 class="align-center">Processed</div>
-    <div flex=10 class="align-center">Done</div>
-    <div flex=10 class="align-center">Approved</div>
-    <div flex=10 class="align-center">Total</div>
-    <div flex=10 class="align-center">Status</div>
-  </div>
+    <div layout class="orders-header">
+        <div flex=10 class="align-center">#</div>
+        <div flex=30>Account</div>
+        <div flex=10 class="align-center">Received</div>
+        <div flex=10 class="align-center">Processed</div>
+        <div flex=10 class="align-center">Done</div>
+        <div flex=10 class="align-center">Approved</div>
+        <div flex=10 class="align-center">Total</div>
+        <div flex=10 class="align-center">Status</div>
+    </div>
     <div layout layout-align="center center" class="orders-body"
-         ng-repeat="order in orders | orderBy:'-status.received'"
-         ng-click="goToMatch(order.id)">
-    <div flex=10 class="align-center">{{order.id}}</div>
-    <div flex=30>{{order.name}}</div>
-    <div flex=10 class="align-center">{{order.status.received}}</div>
-    <div flex=10 class="align-center">{{order.status.processed}}</div>
-    <div flex=10 class="align-center">{{order.status.done}}</div>
-    <div flex=10 class="align-center">{{order.status.approved}}</div>
-    <div flex=10 class="align-center">{{order.status.total}}</div>
-    <div flex=10 class="align-center"><div ng-class="'status-bar ' + order.status.barClass"></div></div>
-  </div>
+         ng-repeat="store in orders | orderBy:'-status.received'"
+         ng-click="goToMatch(store.storeId)">
+        <div flex=10 class="align-center">{{store.storeId}}</div>
+        <div flex=30>{{store.name}}</div>
+        <div flex=10 class="align-center">{{store.status.received}}</div>
+        <div flex=10 class="align-center">{{store.status.processed}}</div>
+        <div flex=10 class="align-center">{{store.status.done}}</div>
+        <div flex=10 class="align-center">{{store.status.approved}}</div>
+        <div flex=10 class="align-center">{{store.status.total}}</div>
+        <div flex=10 class="align-center">
+            <div ng-class="'status-bar ' + store.status.barClass"></div>
+        </div>
+    </div>
 </div>

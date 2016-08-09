@@ -1,18 +1,24 @@
 <div layout="column" style="height:100vh" class="match">
     <div flex="25" class="current-item-container" ng-controller="StoreDbDetailController">
-        <div layout="row">
-            <md-button class="md-raised" ng-click="increaseIndex()">Next</md-button>
-            <md-button class="md-raised" ng-show="orderDataService.selected.length>0" ng-click="matchProduct()">Match
+        <div layout="row" layout-align="space-between">
+            <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i>Search Database
+            </md-button>
+
+            <md-button class="md-raised" ng-show="orderDataService.selected.length>0" ng-click="matchProduct($event)">
+                <i class="fa fa-link"></i>
+                Match
                 Product
             </md-button>
-            <md-button class="md-raised" ng-click="searchDatabase()">Search Database</md-button>
-            <span>Item Processed: <i class="fa fa-check"
-                                     ng-show="orderDataService.currentItem.productId != '0'"></i></span>
+
+            <md-button class="md-raised" ng-click="increaseIndex()"><i class="fa fa-arrow-right"></i></md-button>
+
         </div>
         <div layout="row">
             <div><p>Product {{ orderDataService.currentIndex+1 }}/{{ orderDataService.allItems.length }}</p>
-                <h3>Name: {{ orderDataService.currentItem.name }}</h3>
-                <h3>Sku: {{ orderDataService.currentItem.upc }}</h3>
+                <h4>Name: {{ orderDataService.currentItem.name }}</h4>
+                <h4>Sku: {{ orderDataService.currentItem.upc }}</h4>
+                <span>Item Processed: <i class="fa fa-check"
+                                         ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
             </div>
             <a ng-href="{{ orderDataService.currentItem.url }}" target="_blank"
                ng-show="orderDataService.currentItem.url">
