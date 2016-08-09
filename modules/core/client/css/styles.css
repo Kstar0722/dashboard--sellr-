@@ -1782,6 +1782,17 @@ body .productEditor .loading-data .right {
   padding: 0 5px;
   top: 8px;
 }
+.store-client-view .header[disabled] {
+  cursor: progress;
+}
+.store-client-view .header[disabled] > * {
+  pointer-events: none;
+}
+.store-client-view .header[disabled] a,
+.store-client-view .header[disabled] button,
+.store-client-view .header[disabled] .md-button {
+  opacity: 0.7;
+}
 .createProduct {
   padding: 8%;
 }

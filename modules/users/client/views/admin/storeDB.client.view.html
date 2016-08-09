@@ -11,11 +11,11 @@
                    acceptSize="4194304"
                    callback="selectStore"></ng-csv-import>
   </div>
-  <div class="header" ng-show="storeImport">
+  <form class="header" ng-show="storeImport" ng-disabled="storeSubmitBusy" novalidate autocomplete="off">
     <selectize config="selectStoreConfig" options="ordersDropdown" ng-model="selectedStore" placeholder="Select or create store"></selectize>
-    <md-button class="md-button upload-csv" ng-click="submitStore(store)">Submit</md-button>
-    <md-button class="md-button md-warn cancel" ng-click="cancelCsvImport('#storeCsv')">Cancel</md-button>
-  </div>
+    <md-button class="md-button upload-csv" ng-click="!storeSubmitBusy && submitStore(selectedStore)">Submit</md-button>
+    <md-button class="md-button md-warn cancel" ng-click="!storeSubmitBusy && cancelCsvImport('#storeCsv')">Cancel</md-button>
+  </form>
 
   <div layout class="orders-header">
     <div flex=10 class="align-center">#</div>
@@ -29,8 +29,8 @@
   </div>
     <div layout layout-align="center center" class="orders-body"
          ng-repeat="order in orders | orderBy:'-status.received'"
-         ng-click="goToMatch(order.id)">
-    <div flex=10 class="align-center">{{order.id}}</div>
+         ng-click="goToMatch(order.storeId)">
+    <div flex=10 class="align-center">{{order.storeId}}</div>
     <div flex=30>{{order.name}}</div>
     <div flex=10 class="align-center">{{order.status.received}}</div>
     <div flex=10 class="align-center">{{order.status.processed}}</div>
