@@ -3,28 +3,30 @@
   <div layout class="">
 
     <div flex=65 class="orders-column">
-     
+
 
 
       <div class="orders-title" layout layout-align="start end">
         <div flex>
-          <div class="title">Today's Orders</div>
-          <div class="today-count">{{todayOrders.length || 0}}</div>
+          <div class="title">{{showPastOrders ? 'Past Orders' : 'Today\'s Orders'}}</div>
+          <div class="today-count" ng-if="!showPastOrders">{{todayOrders.length || 0}}</div>
+          <div class="today-count" ng-if="showPastOrders">{{pastOrders.length || 0}}</div>
         </div>
-        <div class="right-action" flex>See Past Orders ({{pastOrders.length || 0}})</div>
+        <div class="right-action" flex ng-click="changeDisplayedOrders()" ng-if="!showPastOrders">See Past Orders ({{pastOrders.length || 0}})</div>
+        <div class="right-action" flex ng-click="changeDisplayedOrders()" ng-if="showPastOrders">See Today's Orders ({{todayOrders.length || 0}})</div>
       </div>
       
 
 
 
-      <div class="order-container" layout ng-repeat="order in todayOrders">
-        <div class="checkmark"><i class="fa fa-check"></i></div>
+      <div class="order-container" layout ng-repeat="order in displayOrders">
+        <div class="checkmark" ng-click="markOrder(order)"><i class="fa fa-check" ng-if="order.status === 'pickedup'"></i></div>
         <div flex=20 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
             <div class="pickup-label">PICKUP</div>
             <div class="time">
-              {{order.uiHour}}
-              <div class="subtime">{{order.uiTime}}</div>
+              {{ order.pickupTime | hour }}
+              <div class="subtime">{{ order.pickupTime | time }}</div>
             </div>
           </div>
           <div flex class="order-total" layout="column"   layout-align="end center">
@@ -36,7 +38,7 @@
             <div flex>
               {{order.user.email}}
             </div>
-            <div class="date" flex>{{order.uiCreated}}</div>
+            <div class="date" flex>{{ order.created_at | customDate }}</div>
           </div>
 
           <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
@@ -53,7 +55,7 @@
           
         </div>
       </div>
-   
+
 
 
     </div>
@@ -63,30 +65,49 @@
           Order's Stats
         </div>
         <div class="right-action" flex>
-          Last 7 days <i class="fa fa-chevron-down"></i>
+          <md-menu>
+          <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button ng-click="changeOrderStatsScope(7)">
+                  Last 7 days
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="changeOrderStatsScope(15)">
+                  Last 15 days
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="changeOrderStatsScope(30)">
+                  Last 30 days
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
         </div>
       </div>
 
       <div class="stat-count">
-        18
+        {{uiStatOrders.count}}
       </div>
       <div class="stat-label">
         Online Orders
       </div>
       <div class="stat-count">
-        15
+        {{uiStatOrders.shoppersCount}}
       </div>
       <div class="stat-label">
         Online Shoppr
       </div>
       <div class="stat-count">
-        $541
+        {{ uiStatOrders.salesTotal | currency:"$" }}
       </div>
       <div class="stat-label">
         Total Sales
       </div>
 
-      
+
 
     </div>
   </div>

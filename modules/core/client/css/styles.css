@@ -1801,6 +1801,7 @@ body.storeOwner-orders {
   position: absolute;
   width: 30px;
   height: 30px;
+  outline: none;
   border-radius: 5px;
   border: 2px solid #142332;
   top: -5px;
