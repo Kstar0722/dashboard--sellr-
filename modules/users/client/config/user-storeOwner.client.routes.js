@@ -11,7 +11,8 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
       })
       .state('storeOwner.orders', {
         url: '/orders',
-        templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html'
+        templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
+        controller: 'StoreOwnerOrdersController'
       })
   }
 ])
