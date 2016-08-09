@@ -1,15 +1,15 @@
 /* globals angular, _ */
 angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
   if (Authentication.user) {
-    $scope.account = {createdBy: Authentication.user.username}
+    $scope.account = { createdBy: Authentication.user.username }
   }
 
   $scope.orders = {}
   $scope.orderItems = []
-  var url = constants.BWS_API + '/choose/orders'
-  $http.get(url).then(getAvailOrderSuccess, getAvailOrderError)
+  var url = constants.BWS_API + '/storedb/stores'
+  $http.get(url).then(getStoresSuccess, getStoresError)
 
-  function getAvailOrderSuccess (response) {
+  function getStoresSuccess (response) {
     if (response.status === 200) {
       // timeEnd('getProductList')
       $scope.orders = response.data
@@ -28,9 +28,10 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     }
   }
 
-  function getAvailOrderError (error) {
-    error('getAvailOrderError %O', error)
+  function getStoresError (error) {
+    console.error('getAvailOrderError %O', error)
   }
+
   $scope.goToMatch = function (id) {
     orderDataService.currentOrderId = id
     orderDataService.getData(id).then(function (response) {
