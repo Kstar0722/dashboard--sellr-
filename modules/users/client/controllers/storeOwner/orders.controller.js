@@ -26,7 +26,6 @@ angular.module('users.admin')
       function getOrders () {
         var ordersUrl = API_URL + '/mobile/reservations/store/' + 1269
         $http.get(ordersUrl).then(function (response) {
-          console.log('Response Orders From Store', response.data)
           var allOrders = response.data
           allOrders = _.sortBy(allOrders, 'pickupTime')
           $scope.allOrders = allOrders
@@ -34,6 +33,7 @@ angular.module('users.admin')
           $scope.pastOrders = _.filter(allOrders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
           $scope.displayOrders = $scope.todayOrders
           $scope.uiStatOrders.orders = getFilteredOrders(7)
+          console.log($scope.todayOrders )
           refreshStats()
         })
       }
