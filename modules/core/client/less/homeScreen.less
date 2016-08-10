@@ -12,15 +12,14 @@
 
 
   .shading {
-    background: rgba(0,0,0,.3);
     width: 100vw;
     min-height: 100vh;
     top: 0;
     position: absolute;
-    background: #43cf07;
-    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
-    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
-    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    background: rgba(0,0,0,.3);
+    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-stop);
+    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-stop);
+    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-stop);
   }
 
   #login-form,

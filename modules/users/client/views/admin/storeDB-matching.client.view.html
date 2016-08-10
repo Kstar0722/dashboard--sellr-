@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<div ng-controller="StoreDbDetailController" style="height:90vh;">
+    <button ng-click="previousItem()">Previous</button>
+    <button ng-click="nextItem()">Next</button>
+    <div ng-repeat="orderItem in orderDataService.allItems" ng-show="$index == displayIndex">
+        <h2>Product {{ $index+1 }}/{{ orderDataService.allItems.length }}</h2>
+
+        <div class="custom-btn" ng-click="searchSku(orderItem.upc)">search sku</div>
+        <!--{{orderItem}}-->
+        <div class="match-buttons" layout layout-align="center center">
+
+            <div class="custom-btn" ng-click="markDuplicate(orderItem, orderDataService.selected )">Merge with Selected
+                Product
+            </div>
+            <div class="custom-btn" data-toggle="modal" data-target="#createProductModal">Create new Product</div>
+        </div>
+        <div class="match-image"><img ng-src="{{ orderItem.url }}" alt=""></div>
+
+    </div>
+
+    <div id="createProductModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Product Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Title:</label>
+                        <input type="text" class="form-control" id="name" ng-model="orderItem.name" required>
+                    </div>
+                    <md-radio-group ng-model="orderItem.type">
+                        <md-radio-button value="2"> Beer</md-radio-button>
+                        <md-radio-button value="1"> Wine</md-radio-button>
+                        <md-radio-button value="3"> Spirits</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="markAsNew(orderItem)">
+                        Create Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--I wish everyone all the best. I'll be signing off now. Ross P.-->
+

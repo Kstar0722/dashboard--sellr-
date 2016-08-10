@@ -13,7 +13,7 @@ var ApplicationConfiguration = (function () {
 
     // Add the module to the AngularJS configuration file
     angular.module(applicationModuleName).requires.push(moduleName);
-  };
+  }
 
   return {
     applicationModuleName: applicationModuleName,
@@ -22,155 +22,153 @@ var ApplicationConfiguration = (function () {
   };
 })();
 ;
-'use strict';
-
-//Start by defining the main module and adding the module dependencies
-angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
+'use strict'
+/* globals angular,localStorage,history, ApplicationConfiguration, rg4js*/
+// Start by defining the main module and adding the module dependencies
+angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies)
 
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider',
-    function ($locationProvider, $httpProvider, envServiceProvider) {
-        $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!');
+  function ($locationProvider, $httpProvider, envServiceProvider) {
+    $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
 
-        $httpProvider.interceptors.push('authInterceptor');       //  MEANJS/Mongo interceptor
-        $httpProvider.interceptors.push('oncueAuthInterceptor');  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-        $httpProvider.interceptors.push('errorInterceptor');     //   Error Interceptor for tracking errors.
+    $httpProvider.interceptors.push('authInterceptor')       //  MEANJS/Mongo interceptor
+    $httpProvider.interceptors.push('oncueAuthInterceptor')  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+    $httpProvider.interceptors.push('errorInterceptor')     //   Error Interceptor for tracking errors.
 
-        //SET ENVIRONMENT
+    // SET ENVIRONMENT
 
-        if (JSON.parse(localStorage.getItem('userObject'))) {
-            var email = JSON.parse(localStorage.getItem('userObject')).email;
-            var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
-        }
-        if (window.rg4js) {
-            rg4js('setUser', {
-                identifier: localStorage.getItem('userId'),
-                isAnonymous: false,
-                email: email,
-                fullName: displayName
-            });
-        }
-
-
-        // set the domains and variables for each environment
-        envServiceProvider.config({
-            domains: {
-                local: [ 'localhost' ],
-                development: [ 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-                production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
-            },
-            vars: {
-                local: {
-                    API_URL: 'http://localhost:7272',
-                    BWS_API: 'http://localhost:7171',
-                    env:'local'
-                },
-
-                development: {
-                    API_URL: 'https://apidev.sllr.io',
-                    BWS_API: 'https://bwsdev.sllr.io',
-                    env:'dev'
-                },
-                staging: {
-                    API_URL: 'https://apiqa.sllr.io',
-                    BWS_API: 'https://bwsqa.sllr.io',
-                    env:'staging'
-                },
-                production: {
-                    API_URL: 'https://api.sllr.io',
-                    BWS_API: 'https://bws.sllr.io',
-                    env:'production'
-                }
-            }
-        });
-
-        // run the environment check, so the comprobation is made
-        // before controllers and services are built
-        envServiceProvider.check();
+    if (JSON.parse(localStorage.getItem('userObject'))) {
+      var email = JSON.parse(localStorage.getItem('userObject')).email
+      var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
     }
-]);
+    if (window.rg4js) {
+      rg4js('setUser', {
+        identifier: localStorage.getItem('userId'),
+        isAnonymous: false,
+        email: email,
+        fullName: displayName
+      })
+    }
+
+    // set the domains and variables for each environment
+    envServiceProvider.config({
+      domains: {
+        local: [ 'localhost' ],
+        development: [ 'dashdev.sllr.io' ],
+        staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
+        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+      },
+      vars: {
+        local: {
+          API_URL: 'http://localhost:7272',
+          BWS_API: 'http://localhost:7171',
+          env: 'local'
+        },
+
+        development: {
+          API_URL: 'https://apidev.sllr.io',
+          BWS_API: 'https://bwsdev.sllr.io',
+          env: 'dev'
+        },
+        staging: {
+          API_URL: 'https://apiqa.sllr.io',
+          BWS_API: 'https://bwsqa.sllr.io',
+          env: 'staging'
+        },
+        production: {
+          API_URL: 'https://api.sllr.io',
+          BWS_API: 'https://bws.sllr.io',
+          env: 'production'
+        }
+      }
+    });
+
+    // run the environment check, so the comprobation is made
+    // before controllers and services are built
+    envServiceProvider.check()
+  }
+])
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
+  $rootScope.$stateClass = cssClassOf($state.current.name)
 
-    $rootScope.$stateClass = cssClassOf($state.current.name);
-
-    // Check authentication before changing state
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
-            var allowed = false;
-            toState.data.roles.forEach(function (role) {
-                if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
-                    allowed = true;
-                    return true;
-                }
-            });
-
-            if (!allowed) {
-                event.preventDefault();
-                if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
-                    $state.go('forbidden');
-                } else {
-                    $state.go('authentication.signin').then(function () {
-                        storePreviousState(toState, toParams);
-                    });
-                }
-            }
+  // Check authentication before changing state
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
+      var allowed = false
+      toState.data.roles.forEach(function (role) {
+        if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
+          allowed = true
+          return true
         }
-    });
+      })
 
-    // Record previous state
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        console.log('changed state from %O to %O', fromState, toState)
-        storePreviousState(fromState, fromParams);
-        $rootScope.$stateClass = cssClassOf(toState.name);
-    });
-
-    // Store previous state
-    function storePreviousState(state, params) {
-        // only store this state if it shouldn't be ignored
-        if (!state.data || !state.data.ignoreState) {
-            $state.previous = {
-                state: state,
-                params: params,
-                href: $state.href(state, params)
-            };
-        }
-    }
-
-    function cssClassOf(name) {
-        if (typeof name != 'string') return name;
-        return name.replace(/[^a-z0-9\-]+/gi, '-');
-    }
-});
-
-//Then define the init function for starting up the application
-angular.element(document).ready(function () {
-    //Fixing facebook bug with redirect
-    if (window.location.hash && window.location.hash === '#_=_') {
-        if (window.history && history.pushState) {
-            window.history.pushState('', document.title, window.location.pathname);
+      if (!allowed) {
+        event.preventDefault()
+        if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
+          $state.go('forbidden')
         } else {
-            // Prevent scrolling by storing the page's current scroll offset
-            var scroll = {
-                top: document.body.scrollTop,
-                left: document.body.scrollLeft
-            };
-            window.location.hash = '';
-            // Restore the scroll offset, should be flicker free
-            document.body.scrollTop = scroll.top;
-            document.body.scrollLeft = scroll.left;
+          $state.go('authentication.signin').then(function () {
+            storePreviousState(toState, toParams)
+          })
         }
+      }
     }
+  })
 
-    //Then init the app
-    angular.bootstrap(document, [ ApplicationConfiguration.applicationModuleName ]);
-});
+  // Record previous state
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    console.log('changed state from %O to %O', fromState, toState)
+    storePreviousState(fromState, fromParams)
+    $rootScope.$stateClass = cssClassOf(toState.name)
+  })
+
+  // Store previous state
+  function storePreviousState (state, params) {
+    // only store this state if it shouldn't be ignored
+    if (!state.data || !state.data.ignoreState) {
+      $state.previous = {
+        state: state,
+        params: params,
+        href: $state.href(state, params)
+      }
+    }
+  }
+
+  function cssClassOf (name) {
+    if (typeof name !== 'string') return name
+    return name.replace(/[^a-z0-9\-]+/gi, '-')
+  }
+})
+
+// Then define the init function for starting up the application
+angular.element(document).ready(function () {
+  // Fixing facebook bug with redirect
+  if (window.location.hash && window.location.hash === '#_=_') {
+    if (window.history && history.pushState) {
+      window.history.pushState('', document.title, window.location.pathname)
+    } else {
+      // Prevent scrolling by storing the page's current scroll offset
+      var scroll = {
+        top: document.body.scrollTop,
+        left: document.body.scrollLeft
+      }
+      window.location.hash = ''
+      // Restore the scroll offset, should be flicker free
+      document.body.scrollTop = scroll.top
+      document.body.scrollLeft = scroll.left
+    }
+  }
+
+  // Then init the app
+  angular.bootstrap(document, [ ApplicationConfiguration.applicationModuleName ])
+})
 ;
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('core', [ 'ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js', 'angular-medium-editor' ]);
+ApplicationConfiguration.registerModule('core', [ 'ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ui.grid', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js', 'angular-medium-editor','ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.rowEdit' ]);
 ApplicationConfiguration.registerModule('core.admin', ['core']);
 ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.supplier', ['core']);
@@ -212,6 +210,7 @@ angular.module('core.admin').run(['Menus',
           roles: [ 1004 ],
           position: 3
       });
+
       Menus.addMenuItem('topbar', {
           title: 'Dashboard',
           state: 'dashboard',
@@ -252,26 +251,12 @@ angular.module('core.editor').run([ 'Menus',
             position: 4
         });
         Menus.addMenuItem('editor', {
-            title: 'Beer Editor',
-            state: 'editor.products({type:"beer",status:"new"})',
+            title: 'Adult Beverage',
+            state: 'editor.products',
             type: 'button',
             roles: [ 1010, 1011, 1004 ],
             position: 0
-        });
-        Menus.addMenuItem('editor', {
-            title: 'Spirits Editor',
-            state: 'editor.products({type:"spirits",status:"new"})',
-            type: 'button',
-            roles: [ 1010, 1011, 1004 ],
-            position: 2
-        });
-        Menus.addMenuItem('editor', {
-            title: 'Wine Editor',
-            state: 'editor.products({type:"wine",status:"new"})',
-            type: 'button',
-            roles: [ 1010, 1011, 1004 ],
-            position: 1
-        });
+        })
     }
 ]);
 ;
@@ -283,20 +268,12 @@ angular.module('core.editor.routes').config(['$stateProvider',
         $stateProvider
             .state('editor', {
                 url: '/editor',
-                // resolve: {
-                //     type: [ '$stateParams', function ($stateParams) {
-                //         return $stateParams.type
-                //     } ],
-                //     status: [ '$stateParams', function ($stateParams) {
-                //         return $stateParams.status
-                //     } ]
-                // },
                 templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
-                // template: '<ui-view/>',
                 data: {
                     roles: [ 1010, 1011, 1004 ]
                 }
             });
+
     }
 ]);
 ;
@@ -622,6 +599,30 @@ angular.module('core').controller('statsController', function ($scope, $http, $s
 
 
 });
+;
+'use strict'
+
+angular.module('core')
+  .directive('enterKeyHandler', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.bind('keydown keypress keyup', function (event) {
+          handleKey(event, 13, attrs.enterKeyHandler)
+        })
+
+        function handleKey (event, keyCode, handlerAttr) {
+          if (event.which === keyCode) {
+            scope.$apply(function () {
+              scope.$eval(handlerAttr)
+            })
+
+            event.preventDefault()
+          }
+        }
+      }
+    }
+  })
 ;
 'use strict';
 
@@ -1040,64 +1041,94 @@ angular.module('core').service('Socket', ['Authentication', '$state', '$timeout'
 angular.module('users.editor').run([ 'Menus', 'productEditorService',
     function (Menus, productEditorService) {
         Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Wine',
-            state: 'editor.products({type:"wine",status:"new"})',
+            title: 'Beer Wine & Spirits',
+            state: 'editor.products',
             position: 9
-        });
-        Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Beer',
-            state: 'editor.products({type:"beer",status:"new"})',
-            position: 9
-        });
-        Menus.addSubMenuItem('topbar', 'editor', {
-            title: 'Spirits',
-            state: 'editor.products({type:"spirits",status:"new"})',
-            position: 9
-        });
+        })
     }
 ]);
 ;
-'use strict';
-
+'use strict'
+/* globals angular*/
 // Setting up route
-angular.module('users.editor.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('editor.products', {
-                url: '/:type/:status',
-                // controller: 'productEditorController',
-                views: {
-                    'list': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
-                    },
-                    'stats': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
-                    },
-                    'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
-                    }
-                }
-            })
-            .state('editor.products.detail', {
-                url: '/:productId/:task',
-                params: {
-                    task: 'view'
-                },
-                views: {
-                    'list': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.list.html'
-                    },
-                    'stats': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.stats.html'
-                    },
-                    'detail': {
-                        templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
-                    }
-                }
-            })
-
-    }
-]);
+angular.module('users.editor.routes').config([ '$stateProvider',
+  function ($stateProvider) {
+    $stateProvider
+      .state('editor.products', {
+        url: '/products',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+          }
+        }
+      })
+      .state('editor.view', {
+        url: '/view/:productId',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+          }
+        }
+      })
+      .state('editor.edit', {
+        url: '/edit/:productId',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+          }
+        }
+      })
+      .state('editor.merge', {
+        url: '/merge',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+          }
+        }
+      })
+      .state('editor.match', {
+        url: '/match/:id',
+        views: {
+          'detail': {
+            templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
+          }
+        }
+      })
+      .state('editor.match.view', {
+        url: '/view/:productId',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+          }
+        }
+      })
+      .state('editor.match.edit', {
+        url: '/edit/:productId',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+          }
+        }
+      })
+      .state('editor.match.merge', {
+        url: '/merge',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+          }
+        }
+      })
+      .state('editor.match.new', {
+        url: '/new',
+        views: {
+          'rightSide': {
+            templateUrl: 'modules/users/client/views/productEditor/productEditor.new.html',
+            controller: 'newProductController'
+          }
+        }
+      })
+  }
+])
 ;
 'use strict';
 
@@ -1112,7 +1143,6 @@ angular.module('users.manager').run(['Menus',
             title: 'Location Manager',
             state: 'manager.locations'
         });
-        
     }
 ]);
 ;
@@ -1167,36 +1197,42 @@ angular.module('users.manager.routes').config(['$stateProvider',
     }
 ]);
 ;
-'use strict';
+'use strict'
 
-// Configuring the Articles module
+/* global angular */
 angular.module('users.storeOwner').run(['Menus',
-    function (Menus) {
-        Menus.addSubMenuItem('topbar', 'storeOwner', {
-            title: 'Invite User',
-            state: 'storeOwner.inviteUser',
-            position:8
-        });
-
-    }
-]);
+  function (Menus) {
+    Menus.addSubMenuItem('topbar', 'storeOwner', {
+      title: 'Invite User',
+      state: 'storeOwner.inviteUser',
+      position: 8
+    })
+    Menus.addSubMenuItem('topbar', 'storeOwner', {
+      title: 'Orders',
+      state: 'storeOwner.orders',
+      position: 0
+    })
+  }
+])
 ;
-'use strict';
+'use strict'
 
-// Setting up route
+/* global angular */
 angular.module('users.storeOwner.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('storeOwner.inviteUser', {
-                url: '/invite',
-                templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
-                controller:'StoreOwnerInviteController'
-            })
-
-
-
-    }
-]);
+  function ($stateProvider) {
+    $stateProvider
+      .state('storeOwner.inviteUser', {
+        url: '/invite',
+        templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
+        controller: 'StoreOwnerInviteController'
+      })
+      .state('storeOwner.orders', {
+        url: '/orders',
+        templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
+        controller: 'StoreOwnerOrdersController'
+      })
+  }
+])
 ;
 'use strict';
 
@@ -1230,101 +1266,106 @@ angular.module('users.supplier.routes').config(['$stateProvider',
     }
 ]);
 ;
-'use strict';
-
+'use strict'
+/* globals angular*/
 // Configuring the Articles module
-angular.module('users.admin').run(['Menus',
-    function (Menus) {
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Account Manager',
-            state: 'admin.accounts',
-            position: 3
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'User Management',
-            state: 'admin.users',
-            position: 5
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Pricing Calculator',
-            state: 'admin.pricing',
-            position: 6
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Device Management',
-            state: 'admin.device',
-            position: 7
-        });
-    }
-]);
+angular.module('users.admin').run([ 'Menus',
+  function (Menus, ord) {
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Account Manager',
+      state: 'admin.accounts',
+      position: 3
+    })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'User Management',
+      state: 'admin.users',
+      position: 5
+    })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Pricing Calculator',
+      state: 'admin.pricing',
+      position: 6
+    })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Store Database Management',
+      state: 'admin.store',
+      position: 8
+    })
+  }
+])
 ;
 'use strict';
 
 // Setting up route
-angular.module('users.admin.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('admin.accounts', {
-                url: '/accounts',
-                templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
-                controller: 'AccountManagerController'
+angular.module('users.admin.routes').config([ '$stateProvider',
+  function ($stateProvider) {
+    $stateProvider
+      .state('admin.accounts', {
+        url: '/accounts',
+        templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
+        controller: 'AccountManagerController'
+      })
+      .state('admin.accounts.edit', {
+        url: '/edit/:id',
+        templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
+      })
+      .state('admin.accounts.create', {
+        url: '/new',
+        templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
+      })
+      .state('admin.users', {
+        url: '/users',
+        templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
+        controller: 'UserListController'
+      })
+      .state('admin.users.edit', {
+        url: '/:userId',
+        templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
+        controller: 'UserController',
+        resolve: {
+          userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
+            return Admin.get({
+              userId: $stateParams.userId
             })
-            .state('admin.accounts.edit', {
-                url: '/edit/:id',
-                templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
-            })
-            .state('admin.accounts.create', {
-                url: '/new',
-                templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
-            })
-            .state('admin.users', {
-                url: '/users',
-                templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-                controller: 'UserListController'
-            })
-            .state('admin.users.edit', {
-                url: '/:userId',
-                templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
-                controller: 'UserController',
-                resolve: {
-                    userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-                        return Admin.get({
-                            userId: $stateParams.userId
-                        });
-                    }]
-                }
-            })
-            .state('admin.users.store', {
-                templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
-                controller: 'inviteUserController'
+          } ]
+        }
+      })
+      .state('admin.users.store', {
+        templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
+        controller: 'inviteUserController'
 
+      })
+      .state('admin.users.user-edit', {
+        url: '/:userId/edit',
+        templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
+        controller: 'UserController',
+        resolve: {
+          userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
+            return Admin.get({
+              userId: $stateParams.userId
             })
-            .state('admin.users.user-edit', {
-                url: '/:userId/edit',
-                templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
-                controller: 'UserController',
-                resolve: {
-                    userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-                        return Admin.get({
-                            userId: $stateParams.userId
-                        });
-                    }]
-                }
-            })
-            .state('admin.pricing', {
-                url: '/admin/pricing',
-                templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
-                controller: 'AdminPricingController'
+          } ]
+        }
+      })
+      .state('admin.pricing', {
+        url: '/pricing',
+        templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
+        controller: 'AdminPricingController'
 
-            })
-            .state('admin.device', {
-                url: '/admin/device',
-                templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
-                controller: 'DeviceManagerController'
+      })
+      .state('admin.device', {
+        url: '/device',
+        templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
+        controller: 'DeviceManagerController'
 
-            })
-    }
-]);
+      })
+      .state('admin.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
+        controller: 'StoreDbController'
+      })
+  }
+])
 ;
 'use strict';
 
@@ -1445,46 +1486,46 @@ angular.module('users').config(['$stateProvider',
 ]);
 ;
 angular.module('users.admin').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
-    accountsService.init();
-    $scope.accountsService = accountsService;
-    $scope.determinateValue = 0;
-    $scope.accountLogo = '';
-    $scope.account = {
-        createdBy: ''
-    };
-    if (Authentication.user) {
-        $scope.account.createdBy = Authentication.user.username
+  accountsService.init()
+  $scope.accountsService = accountsService
+  $scope.determinateValue = 0
+  $scope.accountLogo = ''
+  $scope.account = {
+    createdBy: ''
+  }
+  if (Authentication.user) {
+    $scope.account.createdBy = Authentication.user.username
+  }
+  console.log($scope.account)
+
+  // changes the view, and sets current edit account
+  $scope.editAccount = function (account) {
+    console.log('editing account %O', account)
+    $scope.currentAccountLogo = ''
+    accountsService.editAccount = account
+    accountsService.editAccount.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
+    console.log('editAccount is now %O', accountsService.editAccount)
+    $state.go('admin.accounts.edit', { id: account.accountId })
+    window.scrollTo(0, 0)
+  }
+
+  $scope.upload = function (files, accountId) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'logo',
+      type: 'LOGO',
+      accountId: accountId
     }
-    console.log($scope.account);
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        accountsService.editAccount.logo = constants.ADS_URL + 'logo/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName
+        $scope.currentAccountLogo = accountsService.editAccount.logo
+        toastr.success('Logo Updated', 'Success!')
+      }
+    })
+  }
 
-    //changes the view, and sets current edit account
-    $scope.editAccount = function (account) {
-        console.log('editing account %O', account)
-        $scope.currentAccountLogo = '';
-        accountsService.editAccount = account;
-        //accountsService.editAccount.style = JSON.parse(account.preferences).style
-        console.log('editAccount is now %O', accountsService.editAccount)
-        $state.go('admin.accounts.edit', {id: account.accountId})
-    }
-
-
-    $scope.upload = function (files, accountId) {
-        var mediaConfig = {
-            mediaRoute: 'media',
-            folder:'logo',
-            type:'LOGO',
-            accountId: accountId
-        }
-        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
-            if(response) {
-                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response[0].mediaAssetId + '-' + response[0].fileName;
-                $scope.currentAccountLogo = accountsService.editAccount.logo;
-                toastr.success('Logo Updated', 'Success!');
-            }
-        })
-    };
-
-});
+})
 ;
 'use strict';
 
@@ -2118,6 +2159,148 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
 
 ]);
+
+;
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+  if (Authentication.user) {
+    $scope.account = { createdBy: Authentication.user.username }
+  }
+
+  $scope.orders = {}
+  $scope.orderItems = []
+  var url = constants.BWS_API + '/storedb/stores'
+  $http.get(url).then(getStoresSuccess, getStoresError)
+
+  function getStoresSuccess (response) {
+    if (response.status === 200) {
+      // timeEnd('getProductList')
+      $scope.orders = response.data
+      console.log($scope.orders)
+      _.each($scope.orders, function (elm, ind, orders) {
+        if (elm.status.received > 0) {
+          elm.status.barClass = 'red'
+        } else {
+          if (elm.status.processed > 0 || elm.status.done > 0) {
+            elm.status.barClass = 'orange'
+          } else {
+            elm.status.barClass = 'green'
+          }
+        }
+      })
+    }
+  }
+
+  function getStoresError (error) {
+    console.error('getAvailOrderError %O', error)
+  }
+
+  $scope.goToMatch = function (id) {
+    orderDataService.currentOrderId = id
+    orderDataService.getData(id).then(function (response) {
+      $state.go('editor.match', { id: id })
+    })
+  }
+})
+;
+angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
+                                                                              orderDataService, $state, accountsService, CurrentUserService,
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q) {
+  if (Authentication.user) {
+    $scope.account = { createdBy: Authentication.user.username }
+  }
+  console.log('stateParams %O', orderDataService.allItems.length === 0)
+  onInit()
+  $scope.orderDataService = orderDataService
+  $scope.orders = {}
+  $scope.displayIndex = 0
+  function onProductLoad () {
+    productEditorService.productList = []
+    var name = orderDataService.currentItem.name
+    var upc = orderDataService.currentItem.upc
+    var type = orderDataService.currentItem.productTypeId
+    if (name) {
+      productEditorService.getProductList(name, { types: [ { type: type } ] }).then(function (productList) {
+        productEditorService.searchSkuResults({ upc: upc, productList: productList, type: type })
+      })
+    } else {
+      productEditorService.searchSkuResults({ upc: upc, type: type })
+    }
+  }
+
+  $scope.searchDatabase = function () {
+    productEditorService.productList = []
+    onProductLoad()
+  }
+
+  $scope.increaseIndex = function () {
+    productEditorService.clearProductList()
+    orderDataService.increaseIndex()
+    if (!orderDataService.currentItem.productId) {
+      onProductLoad()
+    }
+  }
+
+  $scope.markAsNew = function (prod) {
+    orderDataService.createNewProduct(prod).then(function (data) {
+      toastr.success('New Product Created')
+      $scope.displayIndex += 1
+    })
+  }
+
+  $scope.showConfirm = function (ev) {
+    var defer = $q.defer()
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+      .title('Would you like to delete your debt?')
+      .textContent('All of the banks have agreed to forgive you your debts.')
+      .ariaLabel('Lucky day')
+      .targetEvent(ev)
+      .ok('Mark as New')
+      .cancel('Mark as Done')
+    $mdDialog.show(confirm).then(function () {
+      $scope.status = 'You decided to get rid of your debt.'
+      defer.resolve('new')
+    }, function () {
+      $scope.status = 'You decided to keep your debt.'
+      defer.resolve('done')
+    })
+    return defer.promise
+  }
+
+  $scope.matchProduct = function (ev) {
+    $scope.showConfirm(ev).then(function (status) {
+      orderDataService.matchProduct().then(function (selected) {
+        productEditorService.getProduct(selected).then(function (product) {
+          product.status = status
+          productEditorService.save(product)
+          toastr.success('Product Matched')
+          $scope.increaseIndex()
+        })
+      })
+    })
+  }
+  $scope.updateFilter = function (value) {
+    $scope.checked = false
+    for (var i in $scope.filter) {
+      if ($scope.filter[ i ].type === value.type) {
+        $scope.filter.splice(i, 1)
+        $scope.checked = true
+      }
+    }
+    if (!$scope.checked) {
+      $scope.filter.push(value)
+    }
+    console.log($scope.filter)
+  }
+
+  function onInit () {
+    if (orderDataService.allItems.length === 0 && $stateParams.id) {
+      orderDataService.getData($stateParams.id).then(function () {
+        onProductLoad()
+      })
+    }
+  }
+})
 
 ;
 'use strict';
@@ -3125,293 +3308,367 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
     }
 ]);
 ;
-angular.module('users').controller('productEditorController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, Countries, $mdMenu, constants, MediumS3ImageUploader) {
+angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
+                                                                        $location, $state, $stateParams, Countries, orderDataService,
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
+  // we should probably break this file into smaller files,
+  // it's a catch-all for the entire productEditor
 
-    Authentication.user = Authentication.user || { roles: '' };
-    $scope.$state = $state;
-    $scope.pes = productEditorService;
-    // $scope.userId = Authentication.userId || localStorage.getItem('userId') || 407;
-    $scope.userId = localStorage.getItem('userId');
-    $scope.detail = {
-        template: 'modules/users/client/views/productEditor/productEditor.detail.html'
-    };
-    $scope.display = {
-        myProducts: false,
-        feedback: true
-    };
+  Authentication.user = Authentication.user || { roles: '' }
+  $scope.$state = $state
+  $scope.pes = productEditorService
+  $scope.mergeService = mergeService
+  $scope.Countries = Countries
+  $scope.userId = window.localStorage.getItem('userId')
+  $scope.display = {
+    myProducts: false,
+    feedback: true,
+    template: ''
+  }
+  $scope.allSelected = false
 
-    $scope.permissions = {
-        editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
-        curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
-    };
+  $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
+    console.log('allStores %O', res.data)
+    $scope.allStores = res.data
+  })
 
-    $scope.mediumEditorOptions = {
-        imageDragging: false,
-        extensions: {
-            's3-image-uploader': new MediumS3ImageUploader()
-        }
-    };
+  $scope.permissions = {
+    editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
+    curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
+  }
 
-    $scope.search = {};
-    $scope.searchLimit = 15;
-
-    $scope.showMore = function () {
-        $scope.searchLimit += 15;
-    };
-
-
-    $scope.Countries = Countries.allCountries;
-    $scope.selectProductType = function (type) {
-        productEditorService.currentType = type;
-        $state.go('editor.products', { type: type.name, status: productEditorService.currentStatus.value });
-        productEditorService.updateProductList()
-    };
-
-    $scope.selectProductStatus = function (status) {
-        productEditorService.currentStatus = status;
-        productEditorService.updateProductList()
-    };
-    function init() {
-        console.log('init controller. Account is %s', productEditorService.currentAccount)
-        var type;
-        switch ($stateParams.type) {
-            case 'wine':
-                type = { name: 'wine', productTypeId: 1 };
-                break;
-            case 'beer':
-                type = { name: 'beer', productTypeId: 2 };
-                break;
-            case 'spirits':
-                type = { name: 'spirits', productTypeId: 3 };
-                break;
-            default:
-                type = { name: 'wine', productTypeId: 1 };
-                break;
-        }
-        var status;
-        switch ($stateParams.status) {
-            case 'new':
-                status = { name: 'Available', value: 'new' };
-                break;
-            case 'inprogress':
-                status = { name: 'In Progress', value: 'inprogress' };
-                break;
-            case 'done':
-                status = { name: 'Done', value: 'done' };
-                break;
-            case 'approved':
-                status = { name: 'Approved', value: 'approved' };
-                break;
-            default:
-                status = { name: 'Available', value: 'new' };
-                break;
-
-        }
-
-        productEditorService.currentType = type;
-        productEditorService.currentStatus = status;
-        productEditorService.updateProductList();
-        if ($stateParams.productId) {
-            if ($stateParams.task === 'view') {
-                $scope.viewProduct($stateParams)
-            }
-            if ($stateParams.task === 'edit') {
-                $scope.editProduct($stateParams)
-            }
-        }
+  $scope.mediumEditorOptions = {
+    imageDragging: false,
+    extensions: {
+      's3-image-uploader': new MediumS3ImageUploader()
     }
-
-    $scope.claimProduct = function (prod) {
-        var options = {
-            userId: $scope.userId,
-            productId: prod.productId
-        };
-        productEditorService.claim(options);
-        var i = _.findIndex(productEditorService.productList, function (p) {
-            return p.productId === prod.productId
-        });
-
-        productEditorService.productList[ i ].username = Authentication.user.username;
-        productEditorService.productList[ i ].userId = $scope.userId;
-        // $scope.editProduct(prod)
-    };
-
-    $scope.removeClaim = function (product, i) {
-        var options = {
-            userId: $scope.userId,
-            productId: product.productId
-        };
-        productEditorService.removeClaim(options);
-        productEditorService.productList[ i ].username = null;
-        productEditorService.productList[ i ].userId = null;
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.html'
+  }
+  if ($stateParams.productId) {
+    productEditorService.setCurrentProduct($stateParams)
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.view', { productId: $stateParams.productId })
+    } else {
+      $state.go('editor.view', { productId: $stateParams.productId })
     }
+  }
+  $scope.search = {}
+  $scope.checkbox = {
+    progress: ''
+  }
+  $scope.filter = []
+  $scope.searchLimit = 15
 
-    $scope.viewProduct = function (product) {
-        productEditorService.setCurrentProduct(product);
-        $state.go('editor.products.detail', { productId: product.productId, task: 'view' });
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-    };
-    $scope.editProduct = function (product) {
-        productEditorService.setCurrentProduct(product);
-        productEditorService.currentStatus = { name: 'In Progress', value: 'inprogress' };
-        console.log('editProduct sees type as ', productEditorService.currentType.name)
-        $state.go('editor.products.detail', {
-            type: productEditorService.currentType.name,
-            status: 'inprogress',
-            productId: product.productId,
-            task: 'edit'
-        });
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-    };
+  $scope.listOptions = {}
+  $scope.listOptions.searchLimit = 15
+  $scope.listOptions.orderBy = '+name'
+  if (window.localStorage.getItem('filterByUserId')) {
+    $scope.listOptions.filterByUserId = true
+  } else {
+    $scope.listOptions.filterByUserId = false
+  }
 
-    $scope.quickEdit = function (product) {
-        var options = {
-            userId: $scope.userId,
-            productId: product.productId,
-            status: 'done'
-        };
-        productEditorService.claim(options);
-        productEditorService.setCurrentProduct(product);
-        productEditorService.currentStatus = { name: 'Done', value: 'done' };
-        $state.go('editor.products.detail', {
-            type: productEditorService.currentType.name,
-            status: 'done',
-            productId: product.productId,
-            task: 'edit'
-        });
-        $scope.detail.template = 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+  $scope.showMore = function () {
+    $scope.listOptions.searchLimit += 15
+    refreshList()
+  }
+  $scope.isStoreSelected = function (store) {
+    var i = _.findIndex($scope.allStores, function (s) {
+      return s.id === store.id
+    })
+    return $scope.allStores[ i ].selected
+  }
 
+  $scope.toggleSearchStore = function (store) {
+    $scope.allStores = $scope.allStores || []
+    var i = _.findIndex($scope.allStores, function (s) {
+      return s.id === store.id
+    })
+    $scope.allStores[ i ].selected = !$scope.allStores[ i ].selected
+  }
+
+  $scope.reOrderList = function (field) {
+    switch (field) {
+      case 'name':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+n' ? '-name' : '+name'
+        break
+      case 'sku':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-sku_count' : '+sku_count'
+        break
+      case 'audio':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+a' ? '-audio' : '+audio'
+        break
+      case 'image':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+i' ? '-image' : '+image'
+        break
+      case 'status':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-status' : '+status'
+        break
+      case 'type':
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+p' ? '-productTypeId' : '+productTypeId'
+        break
+      default:
+        break
     }
+    refreshList()
+  }
 
-    $scope.sendBack = function (product, feedback) {
-        product.feedback = feedback;
-        product.status = 'inprogress';
-        productEditorService.save(product);
-    };
+  $scope.searchProducts = function (searchText) {
+    $scope.allProducts = []
+    $scope.selected = []
+    $scope.loadingData = true
+    var selectedStores = _.filter($scope.allStores, function (st) {
+      return st.selected
+    })
+    var options = { status: $scope.checkbox.progress, types: $scope.filter, stores: selectedStores }
+    productEditorService.getProductList(searchText, options).then(function (data) {
+      $scope.allProducts = data
+      refreshList()
+      $scope.loadingData = false
+    })
+  }
 
-    $scope.submitForApproval = function (product) {
-        product.status = 'done';
-        productEditorService.save(product);
-        $scope.viewProduct(product);
-        $('.modal-backdrop').remove()
-
-    };
-
-    $scope.approveProduct = function (product) {
-        product.status = 'approved';
-        productEditorService.save(product);
-    };
-
-    $scope.save = function (product) {
-        product.status = 'inprogress';
-        productEditorService.save(product)
-    };
-
-    $scope.updateProduct = function (product) {
-        if (product.status != 'done') {
-            product.status = 'inprogress';
-        }
-        productEditorService.save(product)
-    };
-
-    $scope.flagAsDuplicate = function (product, comments) {
-        product.description += ' | DUPLICATE:' + comments;
-        product.status = 'duplicate';
-        productEditorService.save(product)
-    };
-
-    $scope.updateCounts = function () {
-        productEditorService.getStats()
+  var refreshList = function () {
+    $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
+    $scope.products = $scope.allProducts
+    if ($scope.listOptions.filterByUserId) {
+      $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
     }
+    $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
+  }
 
+  $scope.toggleSelected = function (product) {
+    $scope.selected = $scope.selected || []
+    var i = _.findIndex($scope.selected, function (selectedProduct) {
+      return selectedProduct.productId === product.productId
+    })
+    if (i < 0) {
+      $scope.selected.push(product)
+    } else {
+      $scope.selected.splice(i, 1)
+    }
+    if ($state.includes('editor.match')) {
+      orderDataService.storeSelected($scope.selected)
+    }
+  }
 
-    $scope.playAudio = function () {
-        productEditorService.currentProduct.audio.play()
-    };
-    $scope.pauseAudio = function () {
-        productEditorService.currentProduct.audio.pause()
-    };
-    $scope.removeAudio = function () {
-        var currentAudio = productEditorService.currentProduct.audio.mediaAssetId;
-        productEditorService.removeAudio(currentAudio)
-    };
-    $scope.seekAudio = function () {
-        productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
+  $scope.viewProduct = function (product) {
+    productEditorService.setCurrentProduct(product)
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.view', { productId: product.productId })
+    } else {
+      $state.go('editor.view', { productId: product.productId })
+    }
+  }
 
-    };
-    //ignore this
-    $scope.removeImage = function (current) {
-        productEditorService.removeImage(current)
-    };
-    $(window).bind('keydown', function (event) {
-        if (event.ctrlKey || event.metaKey) {
-            var prod = productEditorService.currentProduct;
-
-            switch (String.fromCharCode(event.which).toLowerCase()) {
-                case 's':
-                    event.preventDefault();
-                    $scope.updateProduct(prod);
-                    break;
-                case 'd':
-                    event.preventDefault();
-                    $scope.submitForApproval(prod)
-
-            }
+  $scope.getModalData = function () {
+    productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
+      .then(function (response) {
+          $scope.modalData = response
         }
-    });
+      )
+  }
+  $scope.quickEdit = function (product) {
+    var options = {
+      userId: $scope.userId,
+      productId: product.productId,
+      status: 'inprogress'
+    }
+    productEditorService.claim(options)
+    productEditorService.setCurrentProduct(product)
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.edit', { productId: product.productId })
+    } else {
+      $state.go('editor.edit', { productId: product.productId })
+    }
+  }
 
-    $scope.buttonDisplay = function (button, product) {
-        var bool = false;
-        switch (button) {
-            case 'Edit':
-                if (product.status !== 'done' && product.userId == $scope.userId) {
-                    bool = true;
-                }
-                if (product.status == 'approved') {
-                    bool = false;
-                }
-                break;
-            case 'Unassign':
-                if (product.status !== 'done' && product.userId == $scope.userId) {
-                    bool = true;
-                }
-                if (product.status == 'approved') {
-                    bool = false;
-                }
-                break;
-            case 'Claim':
-                if (product.status == 'new' && !product.userId) {
-                    bool = true;
-                }
-                break;
-            case 'Quick Edit':
-                if ($scope.permissions.curator && product.status == 'done') {
-                    bool = true
-                }
-        }
+  $scope.updateFilter = function (value) {
+    $scope.checked = false
+    for (var i in $scope.filter) {
+      if ($scope.filter[ i ].type === value.type) {
+        $scope.filter.splice(i, 1)
+        $scope.checked = true
+      }
+    }
+    if (!$scope.checked) {
+      $scope.filter.push(value)
+    }
+  }
 
-        return bool
+  $scope.types = [
+    { productTypeId: 1, name: 'Wine' },
+    { productTypeId: 2, name: 'Beer' },
+    { productTypeId: 3, name: 'Spirits' }
+  ]
+  $scope.toggleAll = function () {
+    var sel = !$scope.allSelected
+    $scope.selected = []
+    _.map($scope.products, function (p) {
+      if (sel) {
+        $scope.selected.push(p)
+      }
+      p.selected = sel
+      return p
+    })
+  }
+  // Functions related to changing product status
 
-    };
+  $scope.issues = [
+    'Problem With Image',
+    'Problem With Text',
+    'Problem With Audio'
+  ]
 
-    $scope.showProduct = function (product) {
-        var display = true;
-        if (product.status == 'inprogress' || product.status == 'done') {
-            display = (product.userId == $scope.userId || $scope.permissions.curator);
-        }
-        if ($scope.display.myProducts) {
-            display = product.userId == $scope.userId
-        }
-        return display;
-    };
+  $scope.feedback = {
+    issue: '',
+    comments: ''
+  }
 
+  $scope.selectIssue = function (issue) {
+    $scope.feedback.issue = issue
+  }
 
-    init();
+  $scope.sendBack = function () {
+    var feedback = {
+      issue: $scope.feedback.issue,
+      comments: $scope.feedback.comments,
+      date: new Date()
+    }
+    productEditorService.updateFeedback(feedback)
+  }
 
+  $scope.approveSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'approved')
+  }
 
+  $scope.rejectSelectedProducts = function () {
+    productEditorService.bulkUpdateStatus($scope.selected, 'inprogress')
+  }
 
-});
+  $scope.approveProduct = function (product) {
+    product.status = 'approved'
+    productEditorService.save(product)
+  }
+
+  $scope.save = function (product) {
+    product.status = 'inprogress'
+    productEditorService.save(product)
+  }
+
+  $scope.updateProduct = function (product) {
+    if (product.status !== 'done') {
+      product.status = 'inprogress'
+    }
+    productEditorService.save(product)
+  }
+
+  $scope.assignSelectedToUser = function (editor) {
+    $scope.selected.forEach(function (product) {
+      var options = {
+        username: editor.displayName || editor.username || editor.email,
+        userId: $scope.userId,
+        productId: product.productId,
+        status: 'inprogress'
+      }
+      productEditorService.claim(options)
+    })
+  }
+
+  // Audio/Image functions
+
+  $scope.playAudio = function () {
+    productEditorService.currentProduct.audio.play()
+  }
+  $scope.pauseAudio = function () {
+    productEditorService.currentProduct.audio.pause()
+  }
+  $scope.removeAudio = function () {
+    var currentAudio = productEditorService.currentProduct.audio.mediaAssetId
+    productEditorService.removeAudio(currentAudio)
+  }
+  $scope.seekAudio = function () {
+    productEditorService.currentProduct.audio.currentTime = productEditorService.currentProduct.audio.progress * productEditorService.currentProduct.audio.duration
+  }
+  // ignore this
+  $scope.removeImage = function (current) {
+    productEditorService.removeImage(current)
+  }
+  $(window).bind('keydown', function (event) {
+    if (event.ctrlKey || event.metaKey) {
+      var prod = productEditorService.currentProduct
+
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+          event.preventDefault()
+          $scope.updateProduct(prod)
+          break
+        case 'd':
+          event.preventDefault()
+          $scope.submitForApproval(prod)
+
+      }
+    }
+  })
+
+  $scope.productsSelection = {}
+  $scope.productsSelection.contains = false
+  // Functions related to merging //
+
+  $scope.mergeProducts = function () {
+    mergeService.merge($scope.selected).then(function () {
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.merge')
+        $scope.selected = []
+      } else {
+        $state.go('editor.merge')
+      }
+    })
+  }
+
+  $scope.removeMergedImage = function (i) {
+    mergeService.newProduct.images.splice(i, 1)
+  }
+
+  $scope.playMergedAudio = function (i) {
+    for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
+      mergeService.newProduct.audio[ a ].pause()
+      mergeService.newProduct.audio[ a ].currentTime = 0
+      if (a === i) {
+        mergeService.newProduct.audio[ i ].play()
+      }
+    }
+  }
+
+  $scope.pauseMergedAudio = function () {
+    mergeService.newProduct.audio.forEach(function (a) {
+      a.pause()
+    })
+  }
+
+  $scope.removeMergedAudio = function (i) {
+    mergeService.newProduct.audio[ i ].pause()
+    mergeService.newProduct.audio.splice(i, 1)
+  }
+
+  $scope.toggleFilterUserId = function () {
+    if ($scope.listOptions.filterByUserId) {
+      window.localStorage.setItem('filterByUserId', 'true')
+    } else {
+      window.localStorage.removeItem('filterByUserId')
+    }
+    refreshList()
+  }
+
+  $scope.createNewProduct = function () {
+    var product = orderDataService.currentItem
+    productEditorService.createNewProduct(product)
+    $state.go('editor.match.new')
+  }
+
+  $rootScope.$on('clearProductList', function () {
+    $scope.selected = []
+  })
+})
 ;
 angular.module('users').controller('productEditorDetailController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
 
@@ -3428,6 +3685,13 @@ angular.module('users').controller('productEditorDetailController', function ($s
     console.log('starting product detail controller');
     $scope.productEditorService = productEditorService;
 });
+;
+angular.module('users').controller('newProductController', function ($scope, productEditorService, orderDataService) {
+  $scope.pes = productEditorService
+  $scope.saveProduct = function () {
+    orderDataService.createNewProduct(productEditorService.newProduct)
+  }
+})
 ;
 'use strict';
 
@@ -3569,6 +3833,100 @@ angular.module('users').controller('SettingsController', ['$scope', 'Authenticat
     $scope.user = Authentication.user;
   }
 ]);
+;
+'use strict'
+/* global angular, moment, _ */
+angular.module('users.admin')
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr',
+    function ($scope, $http, $state, constants, toastr) {
+      var API_URL = constants.API_URL
+      $scope.todayOrders = []
+      $scope.pastOrders = []
+      $scope.showPastOrders = false
+      $scope.uiStatOrders = {
+        orders: [],
+        count: 0,
+        salesTotal: 0
+      }
+      $scope.statsScopeLabel = 'Last 7 days'
+
+      $scope.changeDisplayedOrders = function () {
+        $scope.showPastOrders = !$scope.showPastOrders
+        if ($scope.showPastOrders) {
+          $scope.displayOrders = $scope.pastOrders
+        } else {
+          $scope.displayOrders = $scope.todayOrders
+        }
+      }
+
+      function getOrders () {
+        var ordersUrl = API_URL + '/mobile/reservations/store/' + 1269
+        $http.get(ordersUrl).then(function (response) {
+          console.log('Response Orders From Store', response.data)
+          var allOrders = response.data
+          allOrders = _.sortBy(allOrders, 'pickupTime')
+          $scope.allOrders = allOrders
+          $scope.todayOrders = _.filter(allOrders, function (order) { return moment().isSame(order.pickupTime, 'day') })
+          $scope.pastOrders = _.filter(allOrders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
+          $scope.displayOrders = $scope.todayOrders
+          $scope.uiStatOrders.orders = getFilteredOrders(7)
+          refreshStats()
+        })
+      }
+
+      function getFilteredOrders (days) {
+        return _.filter($scope.allOrders, function (order) {
+          var flag = true
+          // Is Past
+          flag = moment().isAfter(order.pickupTime, 'day')
+          // AND is After days Filter
+          flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
+          return flag
+        })
+      }
+
+      $scope.changeOrderStatsScope = function (days) {
+        $scope.uiStatOrders.orders = getFilteredOrders(days)
+        $scope.statsScopeLabel = 'Last ' + days + ' days'
+        refreshStats()
+      }
+
+      function refreshStats () {
+        $scope.uiStatOrders.count = $scope.uiStatOrders.orders.length
+        $scope.uiStatOrders.shoppersCount = _.uniq(_.pluck(_.pluck($scope.uiStatOrders.orders, 'user'), '_id')).length
+        $scope.uiStatOrders.salesTotal = _.reduce($scope.uiStatOrders.orders, function (memo, order) {
+          return memo + parseFloat(order.total)
+        }, 0)
+      }
+
+      $scope.markOrder = function (order) {
+        switch (order.status) {
+          case 'submitted':
+          case 'In Progress':
+            order.status = 'pickedup'
+            break
+          case 'pickedup':
+            order.status = 'submitted'
+            break
+          default:
+            return
+        }
+        updateOrder(order)
+      }
+      function updateOrder (order) {
+        var url = constants.API_URL + '/mobile/reservations/' + order._id
+        $http.put(url, order).then(function (result) {
+          if (result.data.status === 'pickedup') {
+            toastr.success('Order Marked as Picked Up')
+          } else {
+            toastr.warning('Order Marked as not picked up yet')
+          }
+        })
+      }
+
+      getOrders()
+    }
+  ])
 ;
 'use strict';
 
@@ -3754,6 +4112,16 @@ angular.module('users.supplier').controller('MediaController', ['$scope','$state
 
 ]);
 
+;
+angular.module('users').directive('backgroundImage', function () {
+    return function (scope, element, attrs) {
+        attrs.$observe('backgroundImage', function (value) {
+            element.css({
+                'background-image': 'url(' + value + ')'
+            });
+        });
+    };
+});
 ;
 (function () {
     var indexOf = [].indexOf || function (item) {
@@ -4749,124 +5117,139 @@ angular.module('users').directive('lowercase', function () {
   };
 });
 ;
-angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
-    var me = this;
-
-
-    me.init = function () {
-        me.selectAccountId = localStorage.getItem('accountId');
-        me.accounts = [];
-        me.editAccount = {};
-        me.currentAccount = {};
-        getAccounts();
-    };
-
-    me.init()
-
-
-    function getAccounts() {
-        me.accounts = [];
-        console.log('selectAccountId %O', me.selectAccountId)
-        $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError);
-        function onGetAccountSuccess(res) {
-            me.accounts = [];
-            res.data.forEach(function (account) {
-                if (account.preferences != "undefined") {
-                    account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
-                }
-                if (account.accountId == me.selectAccountId) {
-                    me.currentAccount = account;
-                    intercomService.intercomActivation();
-                    console.log('setting current account %O', me.currentAccount)
-                }
-            });
-            me.accounts = res.data;
-        }
-
-        function onGetAccountError(err) {
-            toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-            console.error(err)
-        }
+angular.module('users')
+  .filter('hour', function () {
+    return function (momentDate) {
+      return moment(momentDate).format('h')
     }
-    me.deleteAccount = function (account) {
-        var url = constants.API_URL + '/accounts/deactivate/'+account;
+  })
+  .filter('time', function () {
+    return function (momentDate) {
+      return moment(momentDate).format('A')
+    }
+  })
+  .filter('customDate', function () {
+    return function (momentDate) {
+      return moment(momentDate).format('MMMM D, YYYY h:mm A')
+    }
+  })
+;
+angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
+  var me = this
 
+  me.init = function () {
+    me.selectAccountId = localStorage.getItem('accountId')
+    me.accounts = []
+    me.editAccount = {}
+    me.currentAccount = {}
+    getAccounts()
+  }
 
-        $http.put(url).then(onCreateAccountSuccess, onCreateAccountError);
-        function onCreateAccountSuccess(res) {
-            toastr.success('Account Deactivated!');
-            console.log('accounts Service, createAccount %O', res)
-            getAccounts()
+  me.init()
+
+  function getAccounts () {
+    me.accounts = []
+    console.log('selectAccountId %O', me.selectAccountId)
+    $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
+    function onGetAccountSuccess (res) {
+      me.accounts = []
+      res.data.forEach(function (account) {
+        if (account.preferences !== "undefined") {
+          account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
         }
-
-        function onCreateAccountError(err) {
-            toastr.error('There was a problem deactivating this account');
-            console.error(err)
+        if (account.accountId === me.selectAccountId) {
+          me.currentAccount = account
+          intercomService.intercomActivation()
+          console.log('setting current account %O', me.currentAccount)
         }
-    };
-    me.createAccount = function (account) {
-        var url = constants.API_URL + '/accounts';
-        account.status = 1;
-        var payload = {
-            payload: account
-        };
-        $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
-        function onCreateAccountSuccess(res) {
-            toastr.success('New Account Created!');
-            console.log('accounts Service, createAccount %O', res)
-            getAccounts()
-        }
+      })
+      me.accounts = res.data
+    }
 
-        function onCreateAccountError(err) {
-            toastr.error('There was a problem creating this account');
-            console.error(err)
-        }
-    };
+    function onGetAccountError (err) {
+      toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+      console.error(err)
+    }
+  }
 
-    me.updateAccount = function () {
-        me.editAccount.preferences = {
-            logo: me.editAccount.logo,
-            style: me.editAccount.style
-        };
-        var payload = {
-            payload: me.editAccount
-        };
-        console.log('about to update %O', me.editAccount);
-        var url = constants.API_URL + '/accounts/' + me.editAccount.accountId;
-        console.log('putting to ' + url);
-        $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
-        function onUpdateSuccess(res) {
-            console.log('updated account response %O', res)
-            toastr.success('Account Updated!')
-        }
+  me.deleteAccount = function (account) {
+    var url = constants.API_URL + '/accounts/deactivate/' + account
 
-        function onUpdateError(err) {
-            console.error('Error updating account %O', err)
-            toastr.error('There was a problem updating this account')
-        }
-    };
+    $http.put(url).then(onCreateAccountSuccess, onCreateAccountError)
+    function onCreateAccountSuccess (res) {
+      toastr.success('Account Deactivated!')
+      console.log('accounts Service, createAccount %O', res)
+      getAccounts()
+    }
 
-    me.generateAuthCode = function (authCode) {
-        var url = constants.API_URL + '/accounts/auth';
-        var payload = {
-            payload: {
-                accountId: me.editAccount.accountId,
-                authCode: authCode
-            }
-        };
-        console.log('authCode Payload %O', payload)
-        $http.post(url, payload).then(function (res, err) {
-            if (err) {
-                console.error(err)
-            } else {
-                me.editAccount.authCode = res.data.authCode;
-            }
-        })
-    };
+    function onCreateAccountError (err) {
+      toastr.error('There was a problem deactivating this account')
+      console.error(err)
+    }
+  }
+  me.createAccount = function (account) {
+    var url = constants.API_URL + '/accounts'
+    account.status = 1
+    var payload = {
+      payload: account
+    }
+    $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError)
+    function onCreateAccountSuccess (res) {
+      toastr.success('New Account Created!')
+      console.log('accounts Service, createAccount %O', res)
+      getAccounts()
+    }
 
+    function onCreateAccountError (err) {
+      toastr.error('There was a problem creating this account')
+      console.error(err)
+    }
+  }
 
-    return me;
-});
+  me.updateAccount = function () {
+    me.editAccount.preferences = {
+      logo: me.editAccount.logo,
+      style: me.editAccount.style,
+      shoppr: me.editAccount.shoppr
+    }
+    var payload = {
+      payload: me.editAccount
+    }
+    console.log('about to update %O', me.editAccount)
+    var url = constants.API_URL + '/accounts/' + me.editAccount.accountId
+    console.log('putting to ' + url)
+    $http.put(url, payload).then(onUpdateSuccess, onUpdateError)
+    function onUpdateSuccess (res) {
+      console.log('updated account response %O', res)
+      toastr.success('Account Updated!')
+    }
+
+    function onUpdateError (err) {
+      console.error('Error updating account %O', err)
+      toastr.error('There was a problem updating this account')
+    }
+  }
+
+  me.generateAuthCode = function (authCode) {
+    var url = constants.API_URL + '/accounts/auth'
+    var payload = {
+      payload: {
+        accountId: me.editAccount.accountId,
+        authCode: authCode
+      }
+    }
+    console.log('authCode Payload %O', payload)
+    $http.post(url, payload).then(function (res, err) {
+      if (err) {
+        console.error(err)
+      } else {
+        me.editAccount.authCode = res.data.authCode
+      }
+    })
+  }
+
+  return me
+})
 
 ;
 'use strict';
@@ -5015,776 +5398,775 @@ angular.module('core').service('chartService', function ($http, $q, constants) {
 });
 ;
 angular.module('core').service('constants', function (envService) {
-    var me = this;
+  var me = this
 
+  me.API_URL = envService.read('API_URL')
+  me.BWS_API = envService.read('BWS_API')
+  me.env = envService.read('env')
+  me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/'
+  console.log('constants %O', me)
 
-    me.API_URL = envService.read('API_URL');
-    me.BWS_API=envService.read('BWS_API');
-    me.env=envService.read('env');
-    me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/';
-    console.log('constants %O', me)
-
-    return me;
-});
+  return me
+})
 ;
 angular.module('users').service('Countries', function () {
-    var me = this;
-    me.allCountries = [
-        {
-            code: 'AF',
-            name: 'Afghanistan'
-        }, {
-            code: 'AL',
-            name: 'Albania'
-        }, {
-            code: 'DZ',
-            name: 'Algeria'
-        }, {
-            code: 'AS',
-            name: 'American Samoa'
-        }, {
-            code: 'AD',
-            name: 'Andorre'
-        }, {
-            code: 'AO',
-            name: 'Angola'
-        }, {
-            code: 'AI',
-            name: 'Anguilla'
-        }, {
-            code: 'AQ',
-            name: 'Antarctica'
-        }, {
-            code: 'AG',
-            name: 'Antigua and Barbuda'
-        }, {
-            code: 'AR',
-            name: 'Argentina'
-        }, {
-            code: 'AM',
-            name: 'Armenia'
-        }, {
-            code: 'AW',
-            name: 'Aruba'
-        }, {
-            code: 'AU',
-            name: 'Australia'
-        }, {
-            code: 'AT',
-            name: 'Austria'
-        }, {
-            code: 'AZ',
-            name: 'Azerbaijan'
-        }, {
-            code: 'BS',
-            name: 'Bahamas'
-        }, {
-            code: 'BH',
-            name: 'Bahrain'
-        }, {
-            code: 'BD',
-            name: 'Bangladesh'
-        }, {
-            code: 'BB',
-            name: 'Barbade'
-        }, {
-            code: 'BY',
-            name: 'Belarus'
-        }, {
-            code: 'BE',
-            name: 'Belgium'
-        }, {
-            code: 'BZ',
-            name: 'Belize'
-        }, {
-            code: 'BJ',
-            name: 'Benin'
-        }, {
-            code: 'BM',
-            name: 'Bermuda'
-        }, {
-            code: 'BT',
-            name: 'Bhutan'
-        }, {
-            code: 'BO',
-            name: 'Bolivia'
-        }, {
-            code: 'BQ',
-            name: 'Bonaire, Sint Eustatius and Saba'
-        }, {
-            code: 'BA',
-            name: 'Bosnia and Herzegovina'
-        }, {
-            code: 'BW',
-            name: 'Botswana'
-        }, {
-            code: 'BV',
-            name: 'Bouvet Island'
-        }, {
-            code: 'BR',
-            name: 'Brazil'
-        }, {
-            code: 'IO',
-            name: 'British Indian Ocean Territory'
-        }, {
-            code: 'VG',
-            name: 'British Virgin Islands'
-        }, {
-            code: 'BN',
-            name: 'Brunei'
-        }, {
-            code: 'BG',
-            name: 'Bulgaria'
-        }, {
-            code: 'BF',
-            name: 'Burkina Faso'
-        }, {
-            code: 'BI',
-            name: 'Burundi'
-        }, {
-            code: 'KH',
-            name: 'Cambodia'
-        }, {
-            code: 'CM',
-            name: 'Cameroon'
-        }, {
-            code: 'CA',
-            name: 'Canada'
-        }, {
-            code: 'CV',
-            name: 'Cape Verde'
-        }, {
-            code: 'KY',
-            name: 'Cayman Islands'
-        }, {
-            code: 'CF',
-            name: 'Central African Republic'
-        }, {
-            code: 'TD',
-            name: 'Chad'
-        }, {
-            code: 'CL',
-            name: 'Chile'
-        }, {
-            code: 'CN',
-            name: 'China'
-        }, {
-            code: 'CX',
-            name: 'Christmas Island'
-        }, {
-            code: 'CC',
-            name: 'Cocos (Keeling) Islands'
-        }, {
-            code: 'CO',
-            name: 'Colombia'
-        }, {
-            code: 'KM',
-            name: 'Comoros'
-        }, {
-            code: 'CG',
-            name: 'Congo'
-        }, {
-            code: 'CD',
-            name: 'Congo (Dem. Rep.)'
-        }, {
-            code: 'CK',
-            name: 'Cook Islands'
-        }, {
-            code: 'CR',
-            name: 'Costa Rica'
-        }, {
-            code: 'ME',
-            name: 'Crna Gora'
-        }, {
-            code: 'HR',
-            name: 'Croatia'
-        }, {
-            code: 'CU',
-            name: 'Cuba'
-        }, {
-            code: 'CW',
-            name: 'Curaçao'
-        }, {
-            code: 'CY',
-            name: 'Cyprus'
-        }, {
-            code: 'CZ',
-            name: 'Czech Republic'
-        }, {
-            code: 'CI',
-            name: "Côte D'Ivoire"
-        }, {
-            code: 'DK',
-            name: 'Denmark'
-        }, {
-            code: 'DJ',
-            name: 'Djibouti'
-        }, {
-            code: 'DM',
-            name: 'Dominica'
-        }, {
-            code: 'DO',
-            name: 'Dominican Republic'
-        }, {
-            code: 'TL',
-            name: 'East Timor'
-        }, {
-            code: 'EC',
-            name: 'Ecuador'
-        }, {
-            code: 'EG',
-            name: 'Egypt'
-        }, {
-            code: 'SV',
-            name: 'El Salvador'
-        }, {
-            code: 'GQ',
-            name: 'Equatorial Guinea'
-        }, {
-            code: 'ER',
-            name: 'Eritrea'
-        }, {
-            code: 'EE',
-            name: 'Estonia'
-        }, {
-            code: 'ET',
-            name: 'Ethiopia'
-        }, {
-            code: 'FK',
-            name: 'Falkland Islands'
-        }, {
-            code: 'FO',
-            name: 'Faroe Islands'
-        }, {
-            code: 'FJ',
-            name: 'Fiji'
-        }, {
-            code: 'FI',
-            name: 'Finland'
-        }, {
-            code: 'FR',
-            name: 'France'
-        }, {
-            code: 'GF',
-            name: 'French Guiana'
-        }, {
-            code: 'PF',
-            name: 'French Polynesia'
-        }, {
-            code: 'TF',
-            name: 'French Southern Territories'
-        }, {
-            code: 'GA',
-            name: 'Gabon'
-        }, {
-            code: 'GM',
-            name: 'Gambia'
-        }, {
-            code: 'GE',
-            name: 'Georgia'
-        }, {
-            code: 'DE',
-            name: 'Germany'
-        }, {
-            code: 'GH',
-            name: 'Ghana'
-        }, {
-            code: 'GI',
-            name: 'Gibraltar'
-        }, {
-            code: 'GR',
-            name: 'Greece'
-        }, {
-            code: 'GL',
-            name: 'Greenland'
-        }, {
-            code: 'GD',
-            name: 'Grenada'
-        }, {
-            code: 'GP',
-            name: 'Guadeloupe'
-        }, {
-            code: 'GU',
-            name: 'Guam'
-        }, {
-            code: 'GT',
-            name: 'Guatemala'
-        }, {
-            code: 'GG',
-            name: 'Guernsey and Alderney'
-        }, {
-            code: 'GN',
-            name: 'Guinea'
-        }, {
-            code: 'GW',
-            name: 'Guinea-Bissau'
-        }, {
-            code: 'GY',
-            name: 'Guyana'
-        }, {
-            code: 'HT',
-            name: 'Haiti'
-        }, {
-            code: 'HM',
-            name: 'Heard and McDonald Islands'
-        }, {
-            code: 'HN',
-            name: 'Honduras'
-        }, {
-            code: 'HK',
-            name: 'Hong Kong'
-        }, {
-            code: 'HU',
-            name: 'Hungary'
-        }, {
-            code: 'IS',
-            name: 'Iceland'
-        }, {
-            code: 'IN',
-            name: 'India'
-        }, {
-            code: 'ID',
-            name: 'Indonesia'
-        }, {
-            code: 'IR',
-            name: 'Iran'
-        }, {
-            code: 'IQ',
-            name: 'Iraq'
-        }, {
-            code: 'IE',
-            name: 'Ireland'
-        }, {
-            code: 'IM',
-            name: 'Isle of Man'
-        }, {
-            code: 'IL',
-            name: 'Israel'
-        }, {
-            code: 'IT',
-            name: 'Italy'
-        }, {
-            code: 'JM',
-            name: 'Jamaica'
-        }, {
-            code: 'JP',
-            name: 'Japan'
-        }, {
-            code: 'JE',
-            name: 'Jersey'
-        }, {
-            code: 'JO',
-            name: 'Jordan'
-        }, {
-            code: 'KZ',
-            name: 'Kazakhstan'
-        }, {
-            code: 'KE',
-            name: 'Kenya'
-        }, {
-            code: 'KI',
-            name: 'Kiribati'
-        }, {
-            code: 'KP',
-            name: 'Korea (North)'
-        }, {
-            code: 'KR',
-            name: 'Korea (South)'
-        }, {
-            code: 'KW',
-            name: 'Kuwait'
-        }, {
-            code: 'KG',
-            name: 'Kyrgyzstan'
-        }, {
-            code: 'LA',
-            name: 'Laos'
-        }, {
-            code: 'LV',
-            name: 'Latvia'
-        }, {
-            code: 'LB',
-            name: 'Lebanon'
-        }, {
-            code: 'LS',
-            name: 'Lesotho'
-        }, {
-            code: 'LR',
-            name: 'Liberia'
-        }, {
-            code: 'LY',
-            name: 'Libya'
-        }, {
-            code: 'LI',
-            name: 'Liechtenstein'
-        }, {
-            code: 'LT',
-            name: 'Lithuania'
-        }, {
-            code: 'LU',
-            name: 'Luxembourg'
-        }, {
-            code: 'MO',
-            name: 'Macao'
-        }, {
-            code: 'MK',
-            name: 'Macedonia'
-        }, {
-            code: 'MG',
-            name: 'Madagascar'
-        }, {
-            code: 'MW',
-            name: 'Malawi'
-        }, {
-            code: 'MY',
-            name: 'Malaysia'
-        }, {
-            code: 'MV',
-            name: 'Maldives'
-        }, {
-            code: 'ML',
-            name: 'Mali'
-        }, {
-            code: 'MT',
-            name: 'Malta'
-        }, {
-            code: 'MH',
-            name: 'Marshall Islands'
-        }, {
-            code: 'MQ',
-            name: 'Martinique'
-        }, {
-            code: 'MR',
-            name: 'Mauritania'
-        }, {
-            code: 'MU',
-            name: 'Mauritius'
-        }, {
-            code: 'YT',
-            name: 'Mayotte'
-        }, {
-            code: 'MX',
-            name: 'Mexico'
-        }, {
-            code: 'FM',
-            name: 'Micronesia'
-        }, {
-            code: 'MD',
-            name: 'Moldova'
-        }, {
-            code: 'MC',
-            name: 'Monaco'
-        }, {
-            code: 'MN',
-            name: 'Mongolia'
-        }, {
-            code: 'MS',
-            name: 'Montserrat'
-        }, {
-            code: 'MA',
-            name: 'Morocco'
-        }, {
-            code: 'MZ',
-            name: 'Mozambique'
-        }, {
-            code: 'MM',
-            name: 'Myanmar'
-        }, {
-            code: 'NA',
-            name: 'Namibia'
-        }, {
-            code: 'NR',
-            name: 'Nauru'
-        }, {
-            code: 'NP',
-            name: 'Nepal'
-        }, {
-            code: 'NL',
-            name: 'Netherlands'
-        }, {
-            code: 'AN',
-            name: 'Netherlands Antilles'
-        }, {
-            code: 'NC',
-            name: 'New Caledonia'
-        }, {
-            code: 'NZ',
-            name: 'New Zealand'
-        }, {
-            code: 'NI',
-            name: 'Nicaragua'
-        }, {
-            code: 'NE',
-            name: 'Niger'
-        }, {
-            code: 'NG',
-            name: 'Nigeria'
-        }, {
-            code: 'NU',
-            name: 'Niue'
-        }, {
-            code: 'NF',
-            name: 'Norfolk Island'
-        }, {
-            code: 'MP',
-            name: 'Northern Mariana Islands'
-        }, {
-            code: 'NO',
-            name: 'Norway'
-        }, {
-            code: 'OM',
-            name: 'Oman'
-        }, {
-            code: 'PK',
-            name: 'Pakistan'
-        }, {
-            code: 'PW',
-            name: 'Palau'
-        }, {
-            code: 'PS',
-            name: 'Palestine'
-        }, {
-            code: 'PA',
-            name: 'Panama'
-        }, {
-            code: 'PG',
-            name: 'Papua New Guinea'
-        }, {
-            code: 'PY',
-            name: 'Paraguay'
-        }, {
-            code: 'PE',
-            name: 'Peru'
-        }, {
-            code: 'PH',
-            name: 'Philippines'
-        }, {
-            code: 'PN',
-            name: 'Pitcairn'
-        }, {
-            code: 'PL',
-            name: 'Poland'
-        }, {
-            code: 'PT',
-            name: 'Portugal'
-        }, {
-            code: 'PR',
-            name: 'Puerto Rico'
-        }, {
-            code: 'QA',
-            name: 'Qatar'
-        }, {
-            code: 'RO',
-            name: 'Romania'
-        }, {
-            code: 'RU',
-            name: 'Russia'
-        }, {
-            code: 'RW',
-            name: 'Rwanda'
-        }, {
-            code: 'RE',
-            name: 'Réunion'
-        }, {
-            code: 'BL',
-            name: 'Saint Barthélemy'
-        }, {
-            code: 'SH',
-            name: 'Saint Helena'
-        }, {
-            code: 'KN',
-            name: 'Saint Kitts and Nevis'
-        }, {
-            code: 'LC',
-            name: 'Saint Lucia'
-        }, {
-            code: 'MF',
-            name: 'Saint Martin'
-        }, {
-            code: 'PM',
-            name: 'Saint Pierre and Miquelon'
-        }, {
-            code: 'VC',
-            name: 'Saint Vincent and the Grenadines'
-        }, {
-            code: 'WS',
-            name: 'Samoa'
-        }, {
-            code: 'SM',
-            name: 'San Marino'
-        }, {
-            code: 'SA',
-            name: 'Saudi Arabia'
-        }, {
-            code: 'SN',
-            name: 'Senegal'
-        }, {
-            code: 'RS',
-            name: 'Serbia'
-        }, {
-            code: 'SC',
-            name: 'Seychelles'
-        }, {
-            code: 'SL',
-            name: 'Sierra Leone'
-        }, {
-            code: 'SG',
-            name: 'Singapore'
-        }, {
-            code: 'SX',
-            name: 'Sint Maarten'
-        }, {
-            code: 'SK',
-            name: 'Slovakia'
-        }, {
-            code: 'SI',
-            name: 'Slovenia'
-        }, {
-            code: 'SB',
-            name: 'Solomon Islands'
-        }, {
-            code: 'SO',
-            name: 'Somalia'
-        }, {
-            code: 'ZA',
-            name: 'South Africa'
-        }, {
-            code: 'GS',
-            name: 'South Georgia and the South Sandwich Islands'
-        }, {
-            code: 'SS',
-            name: 'South Sudan'
-        }, {
-            code: 'ES',
-            name: 'Spain'
-        }, {
-            code: 'LK',
-            name: 'Sri Lanka'
-        }, {
-            code: 'SD',
-            name: 'Sudan'
-        }, {
-            code: 'SR',
-            name: 'Suriname'
-        }, {
-            code: 'SJ',
-            name: 'Svalbard and Jan Mayen'
-        }, {
-            code: 'SZ',
-            name: 'Swaziland'
-        }, {
-            code: 'SE',
-            name: 'Sweden'
-        }, {
-            code: 'CH',
-            name: 'Switzerland'
-        }, {
-            code: 'SY',
-            name: 'Syria'
-        }, {
-            code: 'ST',
-            name: 'São Tomé and Príncipe'
-        }, {
-            code: 'TW',
-            name: 'Taiwan'
-        }, {
-            code: 'TJ',
-            name: 'Tajikistan'
-        }, {
-            code: 'TZ',
-            name: 'Tanzania'
-        }, {
-            code: 'TH',
-            name: 'Thailand'
-        }, {
-            code: 'TG',
-            name: 'Togo'
-        }, {
-            code: 'TK',
-            name: 'Tokelau'
-        }, {
-            code: 'TO',
-            name: 'Tonga'
-        }, {
-            code: 'TT',
-            name: 'Trinidad and Tobago'
-        }, {
-            code: 'TN',
-            name: 'Tunisia'
-        }, {
-            code: 'TR',
-            name: 'Turkey'
-        }, {
-            code: 'TM',
-            name: 'Turkmenistan'
-        }, {
-            code: 'TC',
-            name: 'Turks and Caicos Islands'
-        }, {
-            code: 'TV',
-            name: 'Tuvalu'
-        }, {
-            code: 'UG',
-            name: 'Uganda'
-        }, {
-            code: 'UA',
-            name: 'Ukraine'
-        }, {
-            code: 'AE',
-            name: 'United Arab Emirates'
-        }, {
-            code: 'GB',
-            name: 'United Kingdom'
-        }, {
-            code: 'UM',
-            name: 'United States Minor Outlying Islands'
-        }, {
-            code: 'US',
-            name: 'United States'
-        }, {
-            code: 'UY',
-            name: 'Uruguay'
-        }, {
-            code: 'UZ',
-            name: 'Uzbekistan'
-        }, {
-            code: 'VU',
-            name: 'Vanuatu'
-        }, {
-            code: 'VA',
-            name: 'Vatican City'
-        }, {
-            code: 'VE',
-            name: 'Venezuela'
-        }, {
-            code: 'VN',
-            name: 'Vietnam'
-        }, {
-            code: 'VI',
-            name: 'Virgin Islands of the United States'
-        }, {
-            code: 'WF',
-            name: 'Wallis and Futuna'
-        }, {
-            code: 'EH',
-            name: 'Western Sahara'
-        }, {
-            code: 'YE',
-            name: 'Yemen'
-        }, {
-            code: 'ZM',
-            name: 'Zambia'
-        }, {
-            code: 'ZW',
-            name: 'Zimbabwe'
-        }, {
-            code: 'AX',
-            name: 'Åland Islands'
-        }
-    ];
+  var me = this
+  me.allCountries = [
+    {
+      code: 'AF',
+      name: 'Afghanistan'
+    }, {
+      code: 'AL',
+      name: 'Albania'
+    }, {
+      code: 'DZ',
+      name: 'Algeria'
+    }, {
+      code: 'AS',
+      name: 'American Samoa'
+    }, {
+      code: 'AD',
+      name: 'Andorre'
+    }, {
+      code: 'AO',
+      name: 'Angola'
+    }, {
+      code: 'AI',
+      name: 'Anguilla'
+    }, {
+      code: 'AQ',
+      name: 'Antarctica'
+    }, {
+      code: 'AG',
+      name: 'Antigua and Barbuda'
+    }, {
+      code: 'AR',
+      name: 'Argentina'
+    }, {
+      code: 'AM',
+      name: 'Armenia'
+    }, {
+      code: 'AW',
+      name: 'Aruba'
+    }, {
+      code: 'AU',
+      name: 'Australia'
+    }, {
+      code: 'AT',
+      name: 'Austria'
+    }, {
+      code: 'AZ',
+      name: 'Azerbaijan'
+    }, {
+      code: 'BS',
+      name: 'Bahamas'
+    }, {
+      code: 'BH',
+      name: 'Bahrain'
+    }, {
+      code: 'BD',
+      name: 'Bangladesh'
+    }, {
+      code: 'BB',
+      name: 'Barbade'
+    }, {
+      code: 'BY',
+      name: 'Belarus'
+    }, {
+      code: 'BE',
+      name: 'Belgium'
+    }, {
+      code: 'BZ',
+      name: 'Belize'
+    }, {
+      code: 'BJ',
+      name: 'Benin'
+    }, {
+      code: 'BM',
+      name: 'Bermuda'
+    }, {
+      code: 'BT',
+      name: 'Bhutan'
+    }, {
+      code: 'BO',
+      name: 'Bolivia'
+    }, {
+      code: 'BQ',
+      name: 'Bonaire, Sint Eustatius and Saba'
+    }, {
+      code: 'BA',
+      name: 'Bosnia and Herzegovina'
+    }, {
+      code: 'BW',
+      name: 'Botswana'
+    }, {
+      code: 'BV',
+      name: 'Bouvet Island'
+    }, {
+      code: 'BR',
+      name: 'Brazil'
+    }, {
+      code: 'IO',
+      name: 'British Indian Ocean Territory'
+    }, {
+      code: 'VG',
+      name: 'British Virgin Islands'
+    }, {
+      code: 'BN',
+      name: 'Brunei'
+    }, {
+      code: 'BG',
+      name: 'Bulgaria'
+    }, {
+      code: 'BF',
+      name: 'Burkina Faso'
+    }, {
+      code: 'BI',
+      name: 'Burundi'
+    }, {
+      code: 'KH',
+      name: 'Cambodia'
+    }, {
+      code: 'CM',
+      name: 'Cameroon'
+    }, {
+      code: 'CA',
+      name: 'Canada'
+    }, {
+      code: 'CV',
+      name: 'Cape Verde'
+    }, {
+      code: 'KY',
+      name: 'Cayman Islands'
+    }, {
+      code: 'CF',
+      name: 'Central African Republic'
+    }, {
+      code: 'TD',
+      name: 'Chad'
+    }, {
+      code: 'CL',
+      name: 'Chile'
+    }, {
+      code: 'CN',
+      name: 'China'
+    }, {
+      code: 'CX',
+      name: 'Christmas Island'
+    }, {
+      code: 'CC',
+      name: 'Cocos (Keeling) Islands'
+    }, {
+      code: 'CO',
+      name: 'Colombia'
+    }, {
+      code: 'KM',
+      name: 'Comoros'
+    }, {
+      code: 'CG',
+      name: 'Congo'
+    }, {
+      code: 'CD',
+      name: 'Congo (Dem. Rep.)'
+    }, {
+      code: 'CK',
+      name: 'Cook Islands'
+    }, {
+      code: 'CR',
+      name: 'Costa Rica'
+    }, {
+      code: 'ME',
+      name: 'Crna Gora'
+    }, {
+      code: 'HR',
+      name: 'Croatia'
+    }, {
+      code: 'CU',
+      name: 'Cuba'
+    }, {
+      code: 'CW',
+      name: 'Curaçao'
+    }, {
+      code: 'CY',
+      name: 'Cyprus'
+    }, {
+      code: 'CZ',
+      name: 'Czech Republic'
+    }, {
+      code: 'CI',
+      name: "Côte D'Ivoire"
+    }, {
+      code: 'DK',
+      name: 'Denmark'
+    }, {
+      code: 'DJ',
+      name: 'Djibouti'
+    }, {
+      code: 'DM',
+      name: 'Dominica'
+    }, {
+      code: 'DO',
+      name: 'Dominican Republic'
+    }, {
+      code: 'TL',
+      name: 'East Timor'
+    }, {
+      code: 'EC',
+      name: 'Ecuador'
+    }, {
+      code: 'EG',
+      name: 'Egypt'
+    }, {
+      code: 'SV',
+      name: 'El Salvador'
+    }, {
+      code: 'GQ',
+      name: 'Equatorial Guinea'
+    }, {
+      code: 'ER',
+      name: 'Eritrea'
+    }, {
+      code: 'EE',
+      name: 'Estonia'
+    }, {
+      code: 'ET',
+      name: 'Ethiopia'
+    }, {
+      code: 'FK',
+      name: 'Falkland Islands'
+    }, {
+      code: 'FO',
+      name: 'Faroe Islands'
+    }, {
+      code: 'FJ',
+      name: 'Fiji'
+    }, {
+      code: 'FI',
+      name: 'Finland'
+    }, {
+      code: 'FR',
+      name: 'France'
+    }, {
+      code: 'GF',
+      name: 'French Guiana'
+    }, {
+      code: 'PF',
+      name: 'French Polynesia'
+    }, {
+      code: 'TF',
+      name: 'French Southern Territories'
+    }, {
+      code: 'GA',
+      name: 'Gabon'
+    }, {
+      code: 'GM',
+      name: 'Gambia'
+    }, {
+      code: 'GE',
+      name: 'Georgia'
+    }, {
+      code: 'DE',
+      name: 'Germany'
+    }, {
+      code: 'GH',
+      name: 'Ghana'
+    }, {
+      code: 'GI',
+      name: 'Gibraltar'
+    }, {
+      code: 'GR',
+      name: 'Greece'
+    }, {
+      code: 'GL',
+      name: 'Greenland'
+    }, {
+      code: 'GD',
+      name: 'Grenada'
+    }, {
+      code: 'GP',
+      name: 'Guadeloupe'
+    }, {
+      code: 'GU',
+      name: 'Guam'
+    }, {
+      code: 'GT',
+      name: 'Guatemala'
+    }, {
+      code: 'GG',
+      name: 'Guernsey and Alderney'
+    }, {
+      code: 'GN',
+      name: 'Guinea'
+    }, {
+      code: 'GW',
+      name: 'Guinea-Bissau'
+    }, {
+      code: 'GY',
+      name: 'Guyana'
+    }, {
+      code: 'HT',
+      name: 'Haiti'
+    }, {
+      code: 'HM',
+      name: 'Heard and McDonald Islands'
+    }, {
+      code: 'HN',
+      name: 'Honduras'
+    }, {
+      code: 'HK',
+      name: 'Hong Kong'
+    }, {
+      code: 'HU',
+      name: 'Hungary'
+    }, {
+      code: 'IS',
+      name: 'Iceland'
+    }, {
+      code: 'IN',
+      name: 'India'
+    }, {
+      code: 'ID',
+      name: 'Indonesia'
+    }, {
+      code: 'IR',
+      name: 'Iran'
+    }, {
+      code: 'IQ',
+      name: 'Iraq'
+    }, {
+      code: 'IE',
+      name: 'Ireland'
+    }, {
+      code: 'IM',
+      name: 'Isle of Man'
+    }, {
+      code: 'IL',
+      name: 'Israel'
+    }, {
+      code: 'IT',
+      name: 'Italy'
+    }, {
+      code: 'JM',
+      name: 'Jamaica'
+    }, {
+      code: 'JP',
+      name: 'Japan'
+    }, {
+      code: 'JE',
+      name: 'Jersey'
+    }, {
+      code: 'JO',
+      name: 'Jordan'
+    }, {
+      code: 'KZ',
+      name: 'Kazakhstan'
+    }, {
+      code: 'KE',
+      name: 'Kenya'
+    }, {
+      code: 'KI',
+      name: 'Kiribati'
+    }, {
+      code: 'KP',
+      name: 'Korea (North)'
+    }, {
+      code: 'KR',
+      name: 'Korea (South)'
+    }, {
+      code: 'KW',
+      name: 'Kuwait'
+    }, {
+      code: 'KG',
+      name: 'Kyrgyzstan'
+    }, {
+      code: 'LA',
+      name: 'Laos'
+    }, {
+      code: 'LV',
+      name: 'Latvia'
+    }, {
+      code: 'LB',
+      name: 'Lebanon'
+    }, {
+      code: 'LS',
+      name: 'Lesotho'
+    }, {
+      code: 'LR',
+      name: 'Liberia'
+    }, {
+      code: 'LY',
+      name: 'Libya'
+    }, {
+      code: 'LI',
+      name: 'Liechtenstein'
+    }, {
+      code: 'LT',
+      name: 'Lithuania'
+    }, {
+      code: 'LU',
+      name: 'Luxembourg'
+    }, {
+      code: 'MO',
+      name: 'Macao'
+    }, {
+      code: 'MK',
+      name: 'Macedonia'
+    }, {
+      code: 'MG',
+      name: 'Madagascar'
+    }, {
+      code: 'MW',
+      name: 'Malawi'
+    }, {
+      code: 'MY',
+      name: 'Malaysia'
+    }, {
+      code: 'MV',
+      name: 'Maldives'
+    }, {
+      code: 'ML',
+      name: 'Mali'
+    }, {
+      code: 'MT',
+      name: 'Malta'
+    }, {
+      code: 'MH',
+      name: 'Marshall Islands'
+    }, {
+      code: 'MQ',
+      name: 'Martinique'
+    }, {
+      code: 'MR',
+      name: 'Mauritania'
+    }, {
+      code: 'MU',
+      name: 'Mauritius'
+    }, {
+      code: 'YT',
+      name: 'Mayotte'
+    }, {
+      code: 'MX',
+      name: 'Mexico'
+    }, {
+      code: 'FM',
+      name: 'Micronesia'
+    }, {
+      code: 'MD',
+      name: 'Moldova'
+    }, {
+      code: 'MC',
+      name: 'Monaco'
+    }, {
+      code: 'MN',
+      name: 'Mongolia'
+    }, {
+      code: 'MS',
+      name: 'Montserrat'
+    }, {
+      code: 'MA',
+      name: 'Morocco'
+    }, {
+      code: 'MZ',
+      name: 'Mozambique'
+    }, {
+      code: 'MM',
+      name: 'Myanmar'
+    }, {
+      code: 'NA',
+      name: 'Namibia'
+    }, {
+      code: 'NR',
+      name: 'Nauru'
+    }, {
+      code: 'NP',
+      name: 'Nepal'
+    }, {
+      code: 'NL',
+      name: 'Netherlands'
+    }, {
+      code: 'AN',
+      name: 'Netherlands Antilles'
+    }, {
+      code: 'NC',
+      name: 'New Caledonia'
+    }, {
+      code: 'NZ',
+      name: 'New Zealand'
+    }, {
+      code: 'NI',
+      name: 'Nicaragua'
+    }, {
+      code: 'NE',
+      name: 'Niger'
+    }, {
+      code: 'NG',
+      name: 'Nigeria'
+    }, {
+      code: 'NU',
+      name: 'Niue'
+    }, {
+      code: 'NF',
+      name: 'Norfolk Island'
+    }, {
+      code: 'MP',
+      name: 'Northern Mariana Islands'
+    }, {
+      code: 'NO',
+      name: 'Norway'
+    }, {
+      code: 'OM',
+      name: 'Oman'
+    }, {
+      code: 'PK',
+      name: 'Pakistan'
+    }, {
+      code: 'PW',
+      name: 'Palau'
+    }, {
+      code: 'PS',
+      name: 'Palestine'
+    }, {
+      code: 'PA',
+      name: 'Panama'
+    }, {
+      code: 'PG',
+      name: 'Papua New Guinea'
+    }, {
+      code: 'PY',
+      name: 'Paraguay'
+    }, {
+      code: 'PE',
+      name: 'Peru'
+    }, {
+      code: 'PH',
+      name: 'Philippines'
+    }, {
+      code: 'PN',
+      name: 'Pitcairn'
+    }, {
+      code: 'PL',
+      name: 'Poland'
+    }, {
+      code: 'PT',
+      name: 'Portugal'
+    }, {
+      code: 'PR',
+      name: 'Puerto Rico'
+    }, {
+      code: 'QA',
+      name: 'Qatar'
+    }, {
+      code: 'RO',
+      name: 'Romania'
+    }, {
+      code: 'RU',
+      name: 'Russia'
+    }, {
+      code: 'RW',
+      name: 'Rwanda'
+    }, {
+      code: 'RE',
+      name: 'Réunion'
+    }, {
+      code: 'BL',
+      name: 'Saint Barthélemy'
+    }, {
+      code: 'SH',
+      name: 'Saint Helena'
+    }, {
+      code: 'KN',
+      name: 'Saint Kitts and Nevis'
+    }, {
+      code: 'LC',
+      name: 'Saint Lucia'
+    }, {
+      code: 'MF',
+      name: 'Saint Martin'
+    }, {
+      code: 'PM',
+      name: 'Saint Pierre and Miquelon'
+    }, {
+      code: 'VC',
+      name: 'Saint Vincent and the Grenadines'
+    }, {
+      code: 'WS',
+      name: 'Samoa'
+    }, {
+      code: 'SM',
+      name: 'San Marino'
+    }, {
+      code: 'SA',
+      name: 'Saudi Arabia'
+    }, {
+      code: 'SN',
+      name: 'Senegal'
+    }, {
+      code: 'RS',
+      name: 'Serbia'
+    }, {
+      code: 'SC',
+      name: 'Seychelles'
+    }, {
+      code: 'SL',
+      name: 'Sierra Leone'
+    }, {
+      code: 'SG',
+      name: 'Singapore'
+    }, {
+      code: 'SX',
+      name: 'Sint Maarten'
+    }, {
+      code: 'SK',
+      name: 'Slovakia'
+    }, {
+      code: 'SI',
+      name: 'Slovenia'
+    }, {
+      code: 'SB',
+      name: 'Solomon Islands'
+    }, {
+      code: 'SO',
+      name: 'Somalia'
+    }, {
+      code: 'ZA',
+      name: 'South Africa'
+    }, {
+      code: 'GS',
+      name: 'South Georgia and the South Sandwich Islands'
+    }, {
+      code: 'SS',
+      name: 'South Sudan'
+    }, {
+      code: 'ES',
+      name: 'Spain'
+    }, {
+      code: 'LK',
+      name: 'Sri Lanka'
+    }, {
+      code: 'SD',
+      name: 'Sudan'
+    }, {
+      code: 'SR',
+      name: 'Suriname'
+    }, {
+      code: 'SJ',
+      name: 'Svalbard and Jan Mayen'
+    }, {
+      code: 'SZ',
+      name: 'Swaziland'
+    }, {
+      code: 'SE',
+      name: 'Sweden'
+    }, {
+      code: 'CH',
+      name: 'Switzerland'
+    }, {
+      code: 'SY',
+      name: 'Syria'
+    }, {
+      code: 'ST',
+      name: 'São Tomé and Príncipe'
+    }, {
+      code: 'TW',
+      name: 'Taiwan'
+    }, {
+      code: 'TJ',
+      name: 'Tajikistan'
+    }, {
+      code: 'TZ',
+      name: 'Tanzania'
+    }, {
+      code: 'TH',
+      name: 'Thailand'
+    }, {
+      code: 'TG',
+      name: 'Togo'
+    }, {
+      code: 'TK',
+      name: 'Tokelau'
+    }, {
+      code: 'TO',
+      name: 'Tonga'
+    }, {
+      code: 'TT',
+      name: 'Trinidad and Tobago'
+    }, {
+      code: 'TN',
+      name: 'Tunisia'
+    }, {
+      code: 'TR',
+      name: 'Turkey'
+    }, {
+      code: 'TM',
+      name: 'Turkmenistan'
+    }, {
+      code: 'TC',
+      name: 'Turks and Caicos Islands'
+    }, {
+      code: 'TV',
+      name: 'Tuvalu'
+    }, {
+      code: 'UG',
+      name: 'Uganda'
+    }, {
+      code: 'UA',
+      name: 'Ukraine'
+    }, {
+      code: 'AE',
+      name: 'United Arab Emirates'
+    }, {
+      code: 'GB',
+      name: 'United Kingdom'
+    }, {
+      code: 'UM',
+      name: 'United States Minor Outlying Islands'
+    }, {
+      code: 'US',
+      name: 'United States'
+    }, {
+      code: 'UY',
+      name: 'Uruguay'
+    }, {
+      code: 'UZ',
+      name: 'Uzbekistan'
+    }, {
+      code: 'VU',
+      name: 'Vanuatu'
+    }, {
+      code: 'VA',
+      name: 'Vatican City'
+    }, {
+      code: 'VE',
+      name: 'Venezuela'
+    }, {
+      code: 'VN',
+      name: 'Vietnam'
+    }, {
+      code: 'VI',
+      name: 'Virgin Islands of the United States'
+    }, {
+      code: 'WF',
+      name: 'Wallis and Futuna'
+    }, {
+      code: 'EH',
+      name: 'Western Sahara'
+    }, {
+      code: 'YE',
+      name: 'Yemen'
+    }, {
+      code: 'ZM',
+      name: 'Zambia'
+    }, {
+      code: 'ZW',
+      name: 'Zimbabwe'
+    }, {
+      code: 'AX',
+      name: 'Åland Islands'
+    }
+  ]
 
-    return me;
-});
+  return me
+})
 ;
 angular.module('users').service('CurrentUserService', ['Admin', '$state',
     function (Admin, $state) {
@@ -6103,6 +6485,112 @@ angular.module('users').factory('MediumS3ImageUploader', ['$window', 'uploadServ
     });
 }]);
 ;
+angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService) {
+  var me = this
+  var API_URL = constants.BWS_API
+  me.allItems = []
+  me.selected = []
+  me.getData = getData
+  me.createNewProduct = createNewProduct
+  me.matchProduct = matchProduct
+  me.storeSelected = storeSelected
+  me.increaseIndex = increaseIndex
+
+  $rootScope.$on('clearProductList', function () {
+    me.selected = []
+  })
+
+  function getData (id) {
+    var defer = $q.defer()
+    me.currentIndex = 0
+    console.log(id)
+    var orderUrl = API_URL + '/storedb/stores/products?id=' + id
+    $http.get(orderUrl).then(function (response) {
+      me.allItems = response.data
+      me.currentItem = me.allItems[ me.currentIndex ]
+      console.log('orderDataService::getData response %O', me.allItems)
+      defer.resolve(me.allItems)
+    })
+    return defer.promise
+  }
+
+  function increaseIndex () {
+    me.selected = []
+    if (me.currentIndex + 1 === me.allItems.length) {
+      me.currentIndex = 0
+    } else {
+      me.currentIndex++
+    }
+    me.currentItem = me.allItems[ me.currentIndex ]
+  }
+
+  function storeSelected (selected) {
+    me.selected = selected
+    return me.selected
+  }
+
+  function matchProduct () {
+    var prod = me.currentItem
+    var selected = me.selected
+    var defer = $q.defer()
+    var skuUrl = API_URL + '/edit/sku'
+    var payload = {
+      duplicates: [],
+      sku: prod.upc
+    }
+    if (prod.url) {
+      payload.publicUrl = prod.url
+    }
+    for (var i in selected) {
+      payload.duplicates.push(selected[ i ].productId)
+    }
+    $http.post(skuUrl, { payload: payload }).then(function (results) {
+      console.log('orderDataService[matchProduct] %O', results)
+      defer.resolve(me.selected[ 0 ])
+    }, function (err) {
+      console.error('could not mark duplicate %O', err)
+    })
+    return defer.promise
+  }
+
+  function createNewProduct (prod) {
+    var defer = $q.defer()
+    var skuUrl = API_URL + '/edit/products'
+    var payload = {
+      name: prod.name,
+      description: prod.description,
+      notes: '',
+      productTypeId: prod.type,
+      requestedBy: 'sellr',
+      feedback: '0',
+      properties: [],
+      mediaAssets: [],
+      'skus': [
+        prod.upc
+      ]
+    }
+    if (prod.url) {
+      payload.mediaAssets.push({
+        'type': 'RESEARCH_IMG',
+        'fileName': '',
+        'script': null,
+        'publicUrl': prod.url
+      })
+    }
+    console.log(payload)
+    $http.post(skuUrl, { payload: payload }).then(function (response) {
+      console.log('orderDataService[createNewProduct] %O', response)
+      defer.resolve(response)
+    }, function (err) {
+      console.error('orderDataService[createNewProduct] %O', err)
+      defer.reject(err)
+    })
+    return defer.promise
+  }
+
+  return me
+})
+;
 'use strict';
 
 // PasswordValidator service used for testing the password strength
@@ -6129,118 +6617,107 @@ angular.module('users').factory('PasswordValidator', ['$window',
   }
 ]);
 ;
-'use strict';
 angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
-  var me = this;
-  var debugLogs = false;
+  var me = this
+  var debugLogs = false
   var log = function (title, data) {
     if (debugLogs) {
-      title += '%O';
-      console.log(title, data);
+      title += '%O'
+      console.log(title, data)
     }
-  };
-  var cachedProduct;
-  me.changes = [];
+  }
+  var cachedProduct
+  me.changes = []
   if (localStorage.getItem('userId')) {
-    me.userId = localStorage.getItem('userId');
+    me.userId = localStorage.getItem('userId')
   }
   me.show = {
     loading: true
-  };
+  }
   if (localStorage.getItem('edit-account')) {
-    me.currentAccount = localStorage.getItem('edit-account');
+    me.currentAccount = localStorage.getItem('edit-account')
   } else {
-    me.currentAccount = '';
+    me.currentAccount = ''
   }
 
   me.init = function () {
     me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, {
       name: 'spirits',
       productTypeId: 3
-    } ];
+    } ]
     me.productStatuses = [
       { name: 'Available', value: 'new' },
       { name: 'In Progress', value: 'inprogress' },
       { name: 'Done', value: 'done' },
       { name: 'Approved', value: 'approved' }
-    ];
-
+    ]
     me.productStorage = {}
-    me.productStats = {};
-    me.productList = [];
-    me.myProducts = [];
-    me.currentProduct = {};
-    me.currentType = {};
-    me.currentStatus = {};
-    //initialize with new products so list isnt empty
+    me.productStats = {}
+    me.productList = []
+    me.myProducts = []
+    me.currentProduct = {}
+    me.currentType = {}
+    me.currentStatus = {}
+    me.newProduct = {}
 
-    me.getStats();
-    me.show.loading = false;
-  };
+    // initialize with new products so list isnt empty
 
-  //send in type,status and receive all products
-  me.getProductList = function (options) {
-    me.productList = [];
-    me.show.loading = true;
-    //time('getProductList');
-    if (!options.type || !options.status) {
-      options = {
-        type: me.currentType.productTypeId,
-        status: me.currentStatus.value
-      };
-    }
-    var url = constants.BWS_API + '/edit?status=' + options.status.value + '&type=' + options.type.productTypeId;
-    $http.get(url).then(getAvailProdSuccess, getAvailProdError);
+    getProductEditors()
+    me.show.loading = false
+  }
 
-    function getAvailProdSuccess (response) {
-      if (response.status === 200) {
-        //timeEnd('getProductList');
-        me.show.loading = false;
-        log('getProdList ', response.data);
-        me.getStats();
-        response.data = _.map(response.data, function (product) {
-          if (product.lastEdit) {
-            if (constants.env === 'local') {
-              product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
-              log('lastEdit', product.lastEdit)
-            } else {
-              product.lastEdit = moment(product.lastEdit).fromNow()
-            }
-          }
-          return product
-        });
-
-        //sort with myProducts at the top
-        me.productList = _.sortBy(response.data, function (p) {
-          return Math.abs(p.userId - me.userId);
-        });
-        log('getProductList end', me.currentAccount)
-
+  me.getProductList = function (searchText, options) {
+    me.show.loading = true
+    var defer = $q.defer()
+    me.productList = []
+    var url = constants.BWS_API + '/edit/search?'
+    if (options.types) {
+      for (var i in options.types) {
+        url += '&type=' + options.types[ i ].type
       }
     }
-
-    function getAvailProdError (error) {
-      //error('getAvailProdError %O', error)
+    if (options.sku) {
+      url += '&sku=' + options.sku
     }
-  };
 
-  me.updateProductList = function () {
-    me.getProductList({ type: me.currentType, status: me.currentStatus })
-    window.scrollTo(0, 0);
-  };
+    if (options.status) {
+      url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
+    }
+    if (options.stores) {
+      if (options.stores[ 0 ]) {
+        url += '&store=' + options.stores[ 0 ].id
+        for (var k = 1; k < options.stores.length; k++) {
+          url += '~' + options.stores[ k ].id
+        }
+      }
+    }
+    if (searchText) {
+      url += '&q=' + searchText + '&v=sum'
+    }
+    $http.get(url).then(function (response) {
+      me.productList = response.data
+      me.show.loading = false
+      defer.resolve(me.productList)
+    }, function (err) {
+      console.error('could not get product list %O', err)
+      defer.reject(err)
+      me.show.loading = false
+    })
+    return defer.promise
+  }
 
-  //send in type,status,userid, get back list of products
+  // send in type,status,userid, get back list of products
   me.getMyProducts = function (options) {
-    options = options | {};
+    options = options | {}
     if (!options.type || !options.status || !options.userId) {
       options = {
         type: me.currentType.productTypeId,
         status: me.currentStatus.value,
         userId: me.userId
-      };
+      }
     }
-    var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId;
-    $http.get(url).then(getMyProdSuccess, getMyProdError);
+    var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId
+    $http.get(url).then(getMyProdSuccess, getMyProdError)
 
     function getMyProdSuccess (response) {
       if (response.status === 200) {
@@ -6249,110 +6726,123 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
 
     function getMyProdError (error) {
-      //error('getMyProdError %O', error)
+      console.error('getMyProdError %O', error)
     }
-  };
+  }
 
-  //calls get detail from API and caches product
-  me.setCurrentProduct = function (product) {
-    me.currentProduct = {};
-    cachedProduct = {};
-    me.changes = [];
-
-    if (!product.productId) {
-      //error('setCurrentProduct: please provide productId')
-      return
-    }
-    if (me.productStorage[ product.productId ]) {
-      //use cached product if exists
-      me.currentProduct = me.productStorage[ product.productId ];
-      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
-
-    } else {
-      //get from api and format
-      me.getProductDetail(product).then(function (res) {
-        if (res.data.length > 0) {
-          me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-            var p = formattedProduct;
-            log('formattedProduct', formattedProduct);
-            me.currentProduct = formattedProduct;
-
-            //cache current product for comparison
-            cachedProduct = jQuery.extend(true, {}, formattedProduct);
-
-            //store product for faster load next time
-            me.productStorage[ product.productId ] = formattedProduct
-
-          })
-        } else {
-          toastr.error('Could not get product detail for ' + product.name)
-        }
-      }, function (error) {
-        //error(error)
-        toastr.error('Could not get product detail for ' + product.name)
-      });
-    }
-  };
-
-  //abstracts away remote call for detail
+  //  abstracts away remote call for detail
   me.getProductDetail = function (product) {
     return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
   }
 
-  //claim a product
-  me.claim = function (options) {
-    //options should have userId and productId
-    if (!options.productId || !options.userId) {
-      //error('could not claim, wrong options')
+  me.getProduct = function (product) {
+    var defer = $q.defer()
+    if (!product.productId) {
+      defer.reject({ message: 'no product Id' })
     }
-    if (options.status != 'done') {
-      options.status = 'inprogress';
+    if (me.productStorage[ product.productId ]) {
+      //  use cached product if exists
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
+      defer.resolve(me.productStorage[ product.productId ])
+    } else {
+      //  get from api and format
+      me.getProductDetail(product).then(function (res) {
+        if (res.data.length > 0) {
+          me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+            log('formattedProduct', formattedProduct)
+            // store product for faster load next time
+            me.productStorage[ product.productId ] = formattedProduct
+            //  cache current product for comparison
+            cachedProduct = jQuery.extend(true, {}, formattedProduct)
+            defer.resolve(formattedProduct)
+          })
+        } else {
+          var error = { message: 'Could not get product detail for ' + product.name }
+          toastr.error(error.message)
+          defer.reject(error)
+        }
+      }, function (error) {
+        // error(error)
+        toastr.error('Could not get product detail for ' + product.name)
+        defer.reject(error)
+      })
     }
-    var payload = {
-      "payload": options
-    };
-    log('claiming', payload);
-    var url = constants.BWS_API + '/edit/claim';
-    $http.post(url, payload).then(function (res) {
-      toastr.info('You claimed product ' + options.productId);
-      //socket.emit('product-claimed', options);
-      me.getStats();
-      log('claim response', res)
-    })
-  };
+    return defer.promise
+  }
 
-  //remove a claim on a product
-  me.removeClaim = function (options) {
-    //options should have userId and productId
+  // calls get detail from API and caches product
+  me.setCurrentProduct = function (product) {
+    me.currentProduct = {}
+    cachedProduct = {}
+    me.changes = []
+    me.getProduct(product).then(function (formattedProduct) {
+      formattedProduct.userId = product.userId
+      me.currentProduct = formattedProduct
+    })
+  }
+
+  //  claim a product
+  me.claim = function (options) {
+    // options should have userId and productId
     if (!options.productId || !options.userId) {
-      //error('could not claim, wrong options')
+      // error('could not claim, wrong options')
     }
-    options.status = 'new';
+    if (options.status !== 'done') {
+      options.status = 'inprogress'
+    }
     var payload = {
-      "payload": options
-    };
-    log('removing claim', payload);
-    var url = constants.BWS_API + '/edit/claim';
-    $http.put(url, payload).then(function (res) {
-      log('claim response', res);
-      //socket.emit('product-unclaimed', options);
-      me.currentProduct = {};
+      'payload': options
+    }
+    log('claiming', payload)
+    var url = constants.BWS_API + '/edit/claim'
+    $http.post(url, payload).then(function (res) {
+      toastr.info('User ' + options.username + ' claimed product ' + options.productId)
+      // socket.emit('product-claimed', options)
+      me.getStats()
+      log('claim response', res)
     }, function (err) {
-      log('deleteClaim error', err);
+      toastr.error('There was a problem claiming this product')
+      console.error(err)
+    })
+  }
+
+  me.clearProductList = function () {
+    me.productList = []
+    $rootScope.$broadcast('clearProductList')
+  }
+
+  // remove a claim on a product
+  me.removeClaim = function (options) {
+    // options should have userId and productId
+    if (!options.productId || !options.userId) {
+      // error('could not claim, wrong options')
+    }
+    options.status = 'new'
+    var payload = {
+      'payload': options
+    }
+    log('removing claim', payload)
+    var url = constants.BWS_API + '/edit/claim'
+    $http.put(url, payload).then(function (res) {
+      log('claim response', res)
+      // socket.emit('product-unclaimed', options)
+      me.currentProduct = {}
+    }, function (err) {
+      log('deleteClaim error', err)
       toastr.error('There was an error claiming this product.')
     })
-  };
+  }
 
   me.save = function (product) {
-    var defer = $q.defer();
+    var defer = $q.defer()
     if (!product.productId) {
       return
     }
-    product.userId = me.userId;
+    product.userId = me.userId
     if (!product.userId) {
       if (localStorage.getItem('userId')) {
-        me.userId = localStorage.getItem('userId');
-        product.userId = me.userId;
+        me.userId = localStorage.getItem('userId')
+        product.userId = me.userId
       }
     }
     if (!product.userId) {
@@ -6361,111 +6851,123 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
     var payload = {
       payload: compareToCachedProduct(product)
-    };
-    var url = constants.BWS_API + '/edit/products/' + product.productId;
-    $http.put(url, payload).then(onSaveSuccess, onSaveError);
+    }
+    var url = constants.BWS_API + '/edit/products/' + product.productId
+    $http.put(url, payload).then(onSaveSuccess, onSaveError)
     function onSaveSuccess (response) {
-      window.scrollTo(0, 0);
-      //socket.emit('product-saved');
-      me.productStorage[ product.productId ] = product;
+      window.scrollTo(0, 0)
+      // socket.emit('product-saved')
+      me.productStorage[ product.productId ] = product
       cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
       toastr.success('Product Updated!')
       defer.resolve()
     }
 
     function onSaveError (error) {
-      console.error('onSaveError %O', error);
-      toastr.error('There was a problem updating product ' + product.productId);
+      console.error('onSaveError %O', error)
+      toastr.error('There was a problem updating product ' + product.productId)
       defer.reject()
     }
 
     return defer.promise
-  };
+  }
+
+  me.bulkUpdateStatus = function (products, status) {
+    products.forEach(function (product) {
+      cachedProduct = jQuery.extend(true, {}, product)
+      product.properties = []
+      product.status = status
+      me.save(product)
+    })
+  }
 
   me.getStats = function () {
-    var account = me.currentAccount;
+    var account = me.currentAccount
 
-    var url = constants.BWS_API + '/edit/count';
+    var url = constants.BWS_API + '/edit/count'
     if (account) {
       url += '?requested_by=' + account
     }
-    $http.get(url).then(onGetStatSuccess, onGetStatError);
+    $http.get(url).then(onGetStatSuccess, onGetStatError)
     function onGetStatSuccess (response) {
-      //log('onGetStatSuccess %O', response);
+      // log('onGetStatSuccess %O', response)
       me.productStats = response.data
-      me.currentAccount = account;
+      me.currentAccount = account
     }
 
     function onGetStatError (error) {
-      //log('onGetStatError %O', error)
+      console.error('onGetStatError %O', error)
       me.productStats = {}
     }
-  };
+  }
 
   me.formatProductDetail = function (product) {
     var defer = $q.defer()
-    console.log(product)
-    product.name = product.title || product.displayName || product.name;
-    product.notes = product.notes || product.text;
+    product.name = product.title || product.displayName || product.name
+    product.notes = product.notes || product.text
+    try {
+      product.feedback = JSON.parse(product.feedback)
+    } catch (e) {
+      product.feedback = []
+    }
     product.properties.forEach(function (prop) {
       switch (prop.label) {
         case 'Requested By':
-          product.requestedBy = prop.value;
-          break;
+          product.requestedBy = prop.value
+          break
         case 'Country':
-          prop.type = 'countryselect';
-          break;
+          prop.type = 'countryselect'
+          break
         case 'Script':
-          prop.type = 'textarea';
-          break;
+          prop.type = 'textarea'
+          break
         case 'Description':
-          prop.type = 'textarea';
-          break;
+          prop.type = 'textarea'
+          break
         case 'foodpairing':
-          prop.type = 'textarea';
-          break;
+          prop.type = 'textarea'
+          break
         default:
-          prop.type = 'input';
-          break;
+          prop.type = 'input'
+          break
       }
-    });
+    })
     product.mediaAssets.forEach(function (m) {
-      console.log(m.type)
       switch (m.type) {
         case 'AUDIO':
-          product.description = product.description || m.script;
+          product.description = product.description || m.script
           if (m.publicUrl) {
             if (m.publicUrl.length > 1) {
-              product.audio = document.createElement('AUDIO');
-              product.audio.src = m.publicUrl;
-              product.audio.mediaAssetId = m.mediaAssetId;
+              product.audio = document.createElement('AUDIO')
+              product.audio.src = m.publicUrl
+              product.audio.mediaAssetId = m.mediaAssetId
               product.audio.ontimeupdate = function setProgress () {
-                product.audio.progress = Number(product.audio.currentTime / product.audio.duration);
-              };
+                product.audio.progress = Number(product.audio.currentTime / product.audio.duration)
+              }
             }
           }
-          break;
+          break
         case 'IMAGE':
-          product.hasImages = true;
-          product.images = product.images || [];
-          product.images.mediaAssetId = m.mediaAssetId;
-          product.images.push(m);
-          break;
+          product.hasImages = true
+          product.images = product.images || []
+          product.images.mediaAssetId = m.mediaAssetId
+          product.images.push(m)
+          break
         case 'RESEARCH_IMG':
-          product.hasRearchImg = true;
-          product.researchImages = product.researchImages || [];
-          product.researchImages.mediaAssetId = m.mediaAssetId;
-          product.researchImages.push(m);
-          break;
+          product.hasRearchImg = true
+          product.researchImages = product.researchImages || []
+          product.researchImages.mediaAssetId = m.mediaAssetId
+          product.researchImages.push(m)
+          break
       }
-    });
+    })
     if (product.description && !product.description.match(/[<>]/)) {
-      product.description = '<p>' + product.description + '</p>';
+      product.description = '<p>' + product.description + '</p>'
     }
-    defer.resolve(product);
+    defer.resolve(product)
 
-    return defer.promise;
-  };
+    return defer.promise
+  }
 
   me.uploadMedia = function (files) {
     var mediaConfig = {
@@ -6476,20 +6978,21 @@ angular.module('users').service('productEditorService', function ($http, $locati
       accountId: localStorage.getItem('accountId'),
       productId: me.currentProduct.productId
     }
-    //log('product config %0', mediaConfig)
+    // log('product config %0', mediaConfig)
     uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
       if (response) {
-        toastr.success('Product Image Updated!');
+        toastr.success('Product Image Updated!')
         me.save(me.currentProduct).then(function (err, response) {
-          refreshProduct(me.currentProduct);
+          if (err) {
+            toastr.error('There was a problem uploading this image.')
+          }
+          refreshProduct(me.currentProduct)
         })
-      }
-      else {
-        toastr.error('Product Image Failed To Update!');
+      } else {
+        toastr.error('Product Image Failed To Update!')
       }
     })
-
-  };
+  }
 
   me.uploadAudio = function (files) {
     var mediaConfig = {
@@ -6500,87 +7003,95 @@ angular.module('users').service('productEditorService', function ($http, $locati
       accountId: localStorage.getItem('accountId'),
       productId: me.currentProduct.productId
     }
-    //log('product config %0', files)
+    // log('product config %0', files)
     uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
       if (response) {
-        toastr.success('Product Audio Updated!');
+        toastr.success('Product Audio Updated!')
 
         me.save(me.currentProduct).then(function (err, response) {
-          refreshProduct(me.currentProduct);
+          if (err) {
+            toastr.error('There was a problem uploading audio')
+          }
+          refreshProduct(me.currentProduct)
         })
-
-      }
-      else {
-        toastr.error('Product Audio Failed To Update!');
+      } else {
+        toastr.error('Product Audio Failed To Update!')
       }
     })
-
-  };
+  }
   me.removeAudio = function (currentAudio) {
-    //log('delete audio %O', currentAudio)
-    var url = constants.API_URL + '/media/' + currentAudio;
+    // log('delete audio %O', currentAudio)
+    var url = constants.API_URL + '/media/' + currentAudio
     $http.delete(url).then(function () {
-      toastr.success('audio removed', 'Success');
-
+      toastr.success('audio removed', 'Success')
       me.save(me.currentProduct).then(function (err, response) {
-        refreshProduct(me.currentProduct);
+        if (err) {
+          toastr.error('There was a problem removing audio')
+        }
+        refreshProduct(me.currentProduct)
       })
     })
-  };
+  }
   me.removeImage = function (currentImage) {
-    //log('delete image %O', currentImage)
-    var url = constants.API_URL + '/media/' + currentImage.mediaAssetId;
+    // log('delete image %O', currentImage)
+    var url = constants.API_URL + '/media/' + currentImage.mediaAssetId
     $http.delete(url).then(function () {
-      toastr.success('image removed', 'Success');
+      toastr.success('image removed', 'Success')
       me.save(me.currentProduct).then(function (err, response) {
-        refreshProduct(me.currentProduct);
+        if (err) {
+          toastr.error('There was a problem removing image')
+        }
+        refreshProduct(me.currentProduct)
       })
     })
+  }
 
-  };
   function compareToCachedProduct (prod) {
-    log('updatedProd', prod);
-    log('cachedProd', cachedProduct);
-    me.changes = [];
-    if (prod.title !== cachedProduct.title) {
+    log('updatedProd', prod)
+    log('cachedProd', cachedProduct)
+    me.changes = []
+    if (prod.title && prod.title !== cachedProduct.title) {
       me.changes.push('Changed title to ' + prod.title)
     }
-
-    for (var i = 0; i < prod.properties.length; i++) {
-      var updated = prod.properties[ i ];
-      var cached = cachedProduct.properties[ i ];
-
-      if (updated.value !== cached.value) {
-        if (!cached.valueId) {
-          updated.changed = 'new';
-          me.changes.push('Added ' + updated.label + ' as ' + updated.value)
-        } else {
-          updated.changed = 'update';
-          me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
-        }
-      } else {
-        updated.changed = 'false';
-      }
+    if (prod.status && prod.status !== cachedProduct.status) {
+      me.changes.push('Changed status to ' + prod.status)
     }
-    debugger
-    log('changes added', prod);
-    return (prod)
+    if (prod.properties) {
+      for (var i = 0; i < prod.properties.length; i++) {
+        var updated = prod.properties[ i ]
+        var cached = cachedProduct.properties[ i ]
+
+        if (updated.value !== cached.value) {
+          if (!cached.valueId) {
+            updated.changed = 'new'
+            me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+          } else {
+            updated.changed = 'update'
+            me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+          }
+        } else {
+          updated.changed = 'false'
+        }
+      }
+      log('changes added', prod)
+      return (prod)
+    } else {
+      return prod
+    }
   }
 
   function refreshProduct (product) {
     me.getProductDetail(product).then(function (res) {
       if (res.data.length > 0) {
         me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
-          var p = formattedProduct;
-          log('formattedProduct', formattedProduct);
-          me.currentProduct = formattedProduct;
+          log('formattedProduct', formattedProduct)
+          me.currentProduct = formattedProduct
 
-          //cache current product for comparison
-          cachedProduct = jQuery.extend(true, {}, formattedProduct);
+          // cache current product for comparison
+          cachedProduct = jQuery.extend(true, {}, formattedProduct)
 
-          //store product for faster load next time
+          // store product for faster load next time
           me.productStorage[ product.productId ] = formattedProduct
-
         })
       } else {
         toastr.error('Could not get product detail for ' + product.name)
@@ -6588,10 +7099,331 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
   }
 
-  me.init();
+  function getProductEditors () {
+    var url = constants.API_URL + '/users/editors'
+    $http.get(url).then(function (res) {
+      console.log('gotProductEditors %O', res)
+      me.productEditors = res.data
+    }, function (err) {
+      console.error('Error with getProductEditor: %O', err)
+    })
+  }
 
-  return me;
-});
+  me.updateFeedback = function (feedback) {
+    var url = constants.BWS_API + '/edit/feedback'
+    var payload = {
+      payload: {
+        productId: me.currentProduct.productId,
+        feedback: feedback
+      }
+    }
+    $http.post(url, payload).then(function (res) {
+      console.log(res)
+    }, function (err) {
+      console.error(err)
+    })
+  }
+
+  me.searchSkuResults = function (options) {
+    var defer = $q.defer()
+    var sku = options.upc
+    var productList = options.productList
+    var type = options.type
+    me.productList = []
+    console.log('searching sku %s', sku)
+    me.show.loading = true
+    var skuUrl = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + sku
+    $http.get(skuUrl).then(function (skuResult) {
+      var remainingQueries = skuResult.data.length
+      if (remainingQueries > 0) {
+        me.productList = productList || []
+        console.log('I have to query %s names', remainingQueries)
+        for (var i in skuResult.data) {
+          var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + skuResult.data[ i ].name
+          $http.get(url).then(function (results2) {
+            me.productList = me.productList.concat(results2.data)
+            me.productList = _.uniq(me.productList, function (p) {
+              return p.productId
+            })
+            remainingQueries--
+            console.log('1 down, %s to go', remainingQueries)
+            if (remainingQueries <= 0) {
+              me.show.loading = false
+              defer.resolve(me.productList)
+            }
+          })
+        }
+      } else {
+        me.productList = productList
+        me.show.loading = false
+        defer.resolve()
+      }
+    }, function (err) {
+      console.error('Could not search sku results %O', err)
+      defer.reject(err)
+    })
+    return defer.promise
+  }
+
+  me.createNewProduct = function (product) {
+    me.newProduct = product
+  }
+
+  me.init()
+
+  return me
+})
+
+
+;
+angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr) {
+  var me = this
+
+  me.merge = merge
+  me.save = save
+  me.products = [] //  array of products to be merged
+  me.newProduct = {} //  temporary object that combines all products
+  me.finalProduct = {} //  what the final product should look like
+  me.prodsToDelete = [] //  array of productIDs for API to delete
+
+  function merge (products) {
+    var defer = $q.defer()
+    me.products = [] //  array of products to be merged
+    me.newProduct = {} //  temporary object that combines all products
+    me.finalProduct = {} //  what the final product should look like
+    me.prodsToDelete = [] //  array of productIDs for API to delete
+    buildProductList(products).then(function (detailedProducts) {
+      buildNewProduct(detailedProducts)
+      mergeProductProperties()
+      mergeProductMedia()
+      buildFinalProduct()
+      defer.resolve(me.newProduct)
+    })
+    return defer.promise
+  }
+
+  function buildProductList (products) {
+    var defer = $q.defer()
+    products.forEach(function (p) {
+      productEditorService.getProduct(p).then(function (productWithDetail) {
+        me.products.push(productWithDetail)
+        me.prodsToDelete.push(productWithDetail.productId)
+      })
+    }, onError)
+    console.log('mergeService::me.products %O', me.products)
+    defer.resolve(me.products)
+    return defer.promise
+  }
+
+  function buildNewProduct (products) {
+    me.newProduct = {
+      name: [],
+      description: [],
+      feedback: [],
+      notes: [],
+      productTypeId: [],
+      requestedBy: [],
+      skus: []
+    }
+
+    for (var prop in me.newProduct) {
+      products.forEach(function (product) {
+        if (product[ prop ]) {
+          if (me.newProduct[ prop ].indexOf(product[ prop ]) < 0) {
+            me.newProduct[ prop ].push(product[ prop ])
+          }
+        }
+      })
+    }
+    me.newProduct.skus = _.flatten(me.newProduct.skus)
+  }
+
+  function mergeProductProperties () {
+    var properties = []
+    me.newProduct.properties = []
+    me.products.forEach(function (product) {
+      product.properties.forEach(function (prop) {
+        if (prop.visibility) {
+          var i = _.findIndex(properties, function (p) {
+            return p.propId === prop.propId
+          })
+          if (i < 0) {
+            properties.push({
+              label: prop.label,
+              propId: prop.propId,
+              type: prop.type,
+              visibility: prop.visibility,
+              value: []
+            })
+            i = (properties.length - 1)
+          }
+          if (prop.value.length > 0) {
+            switch (prop.value.toLowerCase()) {
+              case 'na':
+                break
+              case 'not-applicable':
+                break
+              case 'not applicable':
+                break
+              case 'not-vintage':
+                break
+              case 'n/a':
+                break
+              default:
+                properties[ i ].value.push(prop.value)
+                break
+            }
+          }
+          properties[ i ].value = _.uniq(properties[ i ].value)
+        }
+      })
+    })
+    me.newProduct.properties = properties
+    console.log('mergeProductProperties : %O', me.newProduct)
+  }
+
+  function buildFinalProduct () {
+    // set first item in each array as default
+    for (var prop in me.newProduct) {
+      if (prop !== 'properties' && prop !== 'skus') {
+        me.finalProduct[ prop ] = me.newProduct[ prop ][ 0 ]
+      }
+    }
+
+    me.finalProduct.skus = me.newProduct.skus
+
+    me.finalProduct.properties = []
+    me.finalProduct.mediaAssets = []
+
+    for (var i = 0; i < me.newProduct.properties.length; i++) {
+      me.finalProduct.properties.push({
+        label: me.newProduct.properties[ i ].label,
+        propId: me.newProduct.properties[ i ].propId,
+        type: me.newProduct.properties[ i ].type,
+        value: me.newProduct.properties[ i ].value[ 0 ]
+      })
+    }
+  }
+
+  function mergeProductMedia () {
+    me.newProduct.mediaAssets = []
+    me.newProduct.images = []
+    me.newProduct.audio = []
+
+    me.products.forEach(function (product) {
+      if (product.hasImages) {
+        product.images.forEach(function (img) {
+          if (img.publicUrl) {
+            me.newProduct.images.push(img)
+          }
+        })
+      }
+      if (product.audio) {
+        me.newProduct.audio.push(product.audio)
+      }
+    })
+    console.log('mergeProductMedia %O', me.newProduct)
+  }
+
+  function save () {
+    for (var i = 0; i < me.finalProduct.properties.length; i++) {
+      if (me.finalProduct.properties[ i ].value === undefined) {
+        me.finalProduct.properties.splice(i, 1)
+      }
+    }
+    me.finalProduct.notes = 'Merged with ' + me.prodsToDelete.toString()
+
+    me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
+
+    me.newProduct.images.forEach(function (img) {
+      me.finalProduct.mediaAssets.push(img.mediaAssetId)
+    })
+
+    me.finalProduct.status = 'done'
+    var url = constants.BWS_API + '/products/merge'
+    var payload = {
+      payload: {
+        prodsToDelete: me.prodsToDelete,
+        product: me.finalProduct
+      }
+    }
+    $http.post(url, payload).then(function (res) {
+      if (res.data.productId) {
+        toastr.success('Product Merged!')
+        if ($state.includes('editor.match.merge')) {
+          $state.go('editor.match.view', { productId: res.data.productId }, { reload: true })
+        } else {
+          $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+        }
+      } else {
+        toastr.error('There was a problem with merging')
+      }
+    }, function (err) {
+      console.error(err)
+    })
+  }
+
+  return me
+})
+
+function onError (error) {
+  console.error('Merge Service :: error :', error)
+}
+;
+// /**
+//  * Created by mac4rpalmer on 6/27/16.
+//  */
+// angular.module('users').factory('productGridData', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
+//     "use strict";
+//     var me = this;
+//
+//     var API_URL = constants.BWS_API;
+//
+//     me.getData = getData;
+//     me.searchProducts = searchProducts;
+//     return me;
+//
+//
+//     function getData(type) {
+//         var defer = $q.defer();
+//         console.log(type)
+//         $http.get(API_URL + '/edit/search?type=' + type).then(function (products) {
+//             console.log(products);
+//             me.allProducts = products.data;
+//             defer.resolve(me.allProducts)
+//         });
+//         return defer.promise;
+//     }
+//
+//     function searchProducts(searchText, obj) {
+//         var defer = $q.defer();
+//         var url = '/edit/search?'
+//
+//         if(obj.types){
+//
+//             for(var i in obj.types){
+//                 url += '&type='+obj.types[i].type;
+//             }
+//         }
+//         if(obj.sku){
+//             url+='&sku='+obj.sku
+//         }
+//         if(obj.status){
+//             url+='&status='+obj.status;
+//         }
+//         if(searchText){
+//             url += '&q=' + searchText + '&v=sum';
+//         }
+//         console.log(url);
+//         $http.get(API_URL + url )
+//             .then(function (response) {
+//                 me.allProducts = response.data;
+//                 defer.resolve(me.allProducts)
+//             });
+//         return defer.promise;
+//     }
+//
+// });
 ;
 angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
     return function (recordingUrl) {

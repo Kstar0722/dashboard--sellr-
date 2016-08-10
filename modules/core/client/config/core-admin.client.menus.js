@@ -9,6 +9,7 @@ angular.module('core.admin').run(['Menus',
           roles: [ 1004 ],
           position: 3
       });
+
       Menus.addMenuItem('topbar', {
           title: 'Dashboard',
           state: 'dashboard',

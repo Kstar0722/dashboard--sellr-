@@ -1,0 +1,158 @@
+<body>
+
+<div class="container-fluid merge">
+
+    <div class="col-md-10 " style="margin-left: 4%; margin-top: 2vh;">
+
+        <div class="row">
+            <div class="col-md-9">
+                <h4><i>Merging:</i> {{ mergeService.finalProduct.name }} </h4>
+            </div>
+        </div>
+        <hr>
+        <form role="form">
+            <div class="row">
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                    <div class="form-group">
+                        <label>Title: </label>
+                        <input class="form-control" ng-model="mergeService.finalProduct.name">
+
+                    </div>
+                    <md-radio-group ng-model="mergeService.finalProduct.name">
+                        <md-radio-button ng-repeat="name in mergeService.newProduct.name" ng-value="name">{{ name }}</md-radio-button>
+                    </md-radio-group>
+                </div>
+            </div>
+
+            <div layout="row">
+                <label>Product Type: </label>
+                <md-select ng-model="mergeService.finalProduct.productTypeId">
+                    <md-option ng-repeat="type in types" ng-value="type.productTypeId">{{ type.name }}</md-option>
+                </md-select>
+            </div>
+
+
+            <label>Product Images: </label>
+            <p>
+                <small>Products can have multiple images.</small>
+            </p>
+            <!-- == Product IMAGES == -->
+            <div layout="row" layout-align="space-around">
+                <md-card ng-repeat="img in mergeService.newProduct.images">
+                    <md-card-title>
+                        <md-card-title-media>
+                            <a class="md-media-lg card-media" ng-href="{{ img.publicUrl }}" target="_blank">
+                                <img ng-src="{{ img.publicUrl }}">
+                            </a>
+                        </md-card-title-media>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="md-raised" ng-click="removeMergedImage($index)"><i class="fa fa-trash"> </i>Delete
+                            Image
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+                <!--<div flex ng-repeat="img in mergeService.newProduct.images">-->
+                <!--<div layout="column">-->
+                <!--<img ng-src="{{ img.publicUrl }}" style="max-height: 500px;display:block;">-->
+                <!--<button class="btn btn-danger" ng-click="removeMergedImage($index)"><i class="fa fa-trash"> </i>Delete Image</button>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+
+
+            <!-- == AUDIO == -->
+            <label>Audio:</label>
+            <p>
+                <small>Product should only have one audio. If more than one audio, only the first will be used.</small>
+            </p>
+            <div layout="column" ng-repeat="audio in mergeService.newProduct.audio track by $index">
+                <div layout="row" class="audio-buttons">
+                    <button class="btn btn-success" ng-click="playMergedAudio($index)"><i class="fa fa-play"></i>Play</button>
+                    <button class="btn btn-info" ng-click="pauseMergedAudio()"><i class="fa fa-pause"></i>Pause</button>
+                    <button class="btn btn-danger" ng-click="removeMergedAudio($index)"><i class="fa fa-trash"></i>Delete Audio</button>
+                </div>
+            </div>
+
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-12" ng-repeat="researchImage in mergeService.newProduct.researchImages">RESEARCH/NOFOUND IMAGE-->
+            <!--<img ng-src="{{researchImage.publicUrl}}" height="200px">-->
+            <!--</div>-->
+            <!--<button class="btn" ngf-select="pes.uploadMedia($files)">-->
+            <!--Upload Image-->
+            <!--</button>-->
+            <!--</div>-->
+
+            <!-- == Product DESCRIPTION == -->
+
+            <div class="">
+                <label>Description / Script</label>
+
+                <medium-editor medium-insert ng-model="mergeService.finalProduct.description" bind-options="mediumEditorOptions" name="beer_script"
+                               class="form-control"></medium-editor>
+            </div>
+
+
+            <md-radio-group ng-model="mergeService.finalProduct.description">
+                <md-radio-button ng-repeat="desc in mergeService.newProduct.description" ng-value="desc"><span ng-bind-html="desc"></span>
+                </md-radio-button>
+            </md-radio-group>
+
+
+            <!-- == Product PROPERTIES == -->
+            <div ng-repeat="(propInd,prop) in mergeService.newProduct.properties">
+                <div class="form-group">
+                    <label for="prop">{{ prop.label }}</label>
+                    <input id="prop" class="form-control" ng-model="mergeService.finalProduct.properties[propInd].value">
+
+                </div>
+                <md-radio-group ng-model="mergeService.finalProduct.properties[propInd].value">
+                    <md-radio-button ng-repeat="val in prop.value" ng-value="val">{{ val }}</md-radio-button>
+                </md-radio-group>
+            </div>
+
+
+            <div class="form-group">
+                <label>Research Notes</label>
+                <textarea class="form-control" rows="3" ng-model="mergeService.newProduct.notes"></textarea>
+            </div>
+
+        </form>
+
+        <div class="row">
+            <div class="btn-group" role="group" ng-show="permissions.curator && mergeService.newProduct.status ==='done'">
+                <button class="btn " type="button" style="background-color:#C52424" data-toggle="modal" data-target="#sendback">Send Back</button>
+                <button class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pull-right">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-info" type="button" ng-show="mergeService.newProduct.status==='inprogress'" data-toggle="modal"
+                            data-target="#submitforapproval">Mark as Done
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-show="mergeService.newProduct.status =='done'" data-toggle="modal"
+                            data-target="#unsubmitproduct">
+                        Unsubmit
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#flagasduplicate">
+                        Flag As Duplicate
+                    </button>
+
+                    <button type="button" class="btn btn-success" ng-click="mergeService.save()">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <p>Keyboard Shortcuts:</p>
+            <div>
+                <small><code>Ctrl + S / ⌘ + S</code> -- Save Product</small>
+            </div>
+            <div>
+                <small><code>Ctrl + D / ⌘ + D</code> -- Mark As Done</small>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -11,6 +11,5 @@ angular.module('users.manager').run(['Menus',
             title: 'Location Manager',
             state: 'manager.locations'
         });
-        
     }
 ]);

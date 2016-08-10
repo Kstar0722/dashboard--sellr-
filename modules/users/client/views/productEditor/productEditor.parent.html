@@ -8,17 +8,18 @@
 <div class="productEditor" ng-controller="productEditorController">
 
   <div>
-    <div ui-view="stats"></div>
 
-    <div class="row productContent">
-      <div ng-show="pes.show.loading" class="col-md-4 loading-anim">
+    <div layout="row productContent" layout-wrap>
+      <div ng-show="pes.show.loading" class="loading-anim" flex=100 flex-gt-sm=40>
         <div class='uil-ripple-css' style='transform:scale(0.81);'>
           <div></div>
           <div></div>
         </div>
       </div>
-      <div ng-show="!pes.show.loading" class="col-md-4" ui-view="list"></div>
-      <div class="col-md-8" ng-include="detail.template"></div>
+      <div ng-show="!pes.show.loading" class=""
+           ng-include="'modules/users/client/views/productEditor/productEditor.list.html'" flex=100 flex-gt-sm=40></div>
+      <!--<div class="col-md-8" ng-include="detail.template"></div>-->
+      <div flex=100 flex-gt-sm=60 ui-view="detail"></div>
     </div>
   </div>
 </div>

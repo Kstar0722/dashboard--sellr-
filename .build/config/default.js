@@ -10,9 +10,11 @@ module.exports = {
 				'public/lib/angular-material/angular-material.layouts.min.css',
 				'public/lib/angular-chart.js/dist/angular-chart.min.css',
 				'public/lib/angular-toastr/dist/angular-toastr.min.css',
+				'public/lib/angular-ui-grid/ui-grid.css',
 				'public/lib/medium-editor/dist/css/medium-editor.css',
 				'public/lib/medium-editor/dist/css/themes/default.css',
-				'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css'
+				'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
+        'public/lib/font-awesome/css/font-awesome.css'
 			],
 			js: [
                 'public/lib/jquery/dist/jquery.js',
@@ -32,6 +34,7 @@ module.exports = {
                 'public/lib/ng-file-upload-shim/ng-file-upload-shim.js',
                 'public/lib/aws-sdk/dist/aws-sdk.js',
                 'public/lib/video.js/dist/video.js',
+				'public/lib/angular-ui-grid/ui-grid.js',
                 'public/lib/angular-ui-sortable/sortable.js',
                 'public/lib/checklist-model/checklist-model.js',
                 'public/lib/angularUtils-pagination/dirPagination.js',
@@ -41,6 +44,7 @@ module.exports = {
                 'public/lib/angular-aria/angular-aria.js',
                 'public/lib/angular-material/angular-material.js',
                 'public/lib/angular-environment/dist/angular-environment.js',
+				'public/lib/angular-location-update/angular-location-update.js',
                 'public/lib/Chart.js/Chart.js',
                 'public/lib/angular-chart.js/dist/angular-chart.js',
                 'public/lib/moment/moment.js',
