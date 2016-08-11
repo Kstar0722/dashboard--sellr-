@@ -351,7 +351,6 @@ div.custom-btn:hover {
   z-index: 1000;
 }
 .md-open-menu-container #profmenu {
-  background: #fafafa;
   border-radius: 3px;
   border: 1px solid #8D9AA5;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(255, 255, 255, 0.7);
@@ -360,6 +359,10 @@ div.custom-btn:hover {
   position: relative;
   right: 22px;
   left: -8px;
+}
+.md-open-menu-container #profmenu,
+.md-open-menu-container #profmenu .md-focused {
+  background: #fafafa;
 }
 .md-open-menu-container #profmenu md-menu-item {
   height: 40px;

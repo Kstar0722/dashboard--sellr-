@@ -295,7 +295,6 @@
   z-index: 1000;
 
   #profmenu {
-    background: #fafafa;
     border-radius: 3px;
     border: 1px solid @med-grey;
     box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 0 4px 0 rgba(255,255,255,0.7);
@@ -304,6 +303,10 @@
     position: relative;
     right: 22px;
     left: -8px;
+
+    &, .md-focused {
+      background: #fafafa;
+    }
 
     md-menu-item {
       height: 40px;
