@@ -127,6 +127,7 @@ div.custom-btn:hover {
   max-height: 64px;
   line-height: 64px;
   width: 100%;
+  outline: none !important;
 }
 #topNav .md-toolbar-tools .mobile-menu-icon img {
   width: 70px;
@@ -150,14 +151,13 @@ div.custom-btn:hover {
   #topNav .md-toolbar-tools .profile-menu,
   #topNav .md-toolbar-tools .submenus-items,
   #topNav .md-toolbar-tools .no-submenu-item {
-    display: inline-block;
+    display: flex;
   }
 }
 #topNav .md-toolbar-tools .no-submenu-item {
   border-radius: 0;
   box-shadow: none;
   color: #8D9AA5;
-  display: flex;
   fill: #8D9AA5;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   font-size: 17px;
@@ -217,6 +217,9 @@ div.custom-btn:hover {
   display: block;
   font-size: 16px;
 }
+#topNav .md-toolbar-tools.mobile-menu .no-submenu-item::after {
+  display: none;
+}
 #topNav .md-toolbar-tools .my-active-class {
   color: #2DC89A;
   background: transparent;
@@ -268,7 +271,6 @@ div.custom-btn:hover {
   border-radius: 50%;
 }
 #topNav .md-toolbar-tools #accountMenu {
-  background: #37434f;
   border-radius: 0;
   box-shadow: none;
   color: #8D9AA5;
@@ -283,7 +285,6 @@ div.custom-btn:hover {
   outline: none !important;
   overflow: visible;
   padding-right: 3vw;
-  text-align: right;
   width: 252px;
   z-index: inherit;
 }
@@ -301,6 +302,12 @@ div.custom-btn:hover {
   height: 50px;
   width: 50px;
   border-radius: 50%;
+}
+@media only screen and (min-width:961px) {
+  #topNav .md-toolbar-tools #accountMenu {
+    background: #37434f;
+    text-align: right;
+  }
 }
 #topNav .md-toolbar-tools #pagebutton {
   margin-top: 3vh;

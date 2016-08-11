@@ -40,6 +40,7 @@
       max-height: @mobileNavheight;
       line-height: @mobileNavheight;
       width: 100%;
+      outline: none !important;
       img{
         width: 70px;
         float: right;
@@ -56,7 +57,7 @@
     .no-submenu-item{
       display: none;
       @media @large-up {
-        display: inline-block;
+        display: flex;
       }
     }
 
@@ -64,7 +65,6 @@
       border-radius: 0;
       box-shadow: none;
       color: @med-grey;
-      display: flex;
       fill: @med-grey;
       font-family: @avenir;
       font-size: 17px;
@@ -130,6 +130,12 @@
         .md-menu{
           display: block;
           font-size: 16px;
+        }
+      }
+      .no-submenu-item {
+        // remove triangle
+        &::after {
+          display: none;
         }
       }
     }
@@ -198,7 +204,6 @@
     }
 
     #accountMenu {
-      background: @navactiveback;
       border-radius: 0;
       box-shadow: none;
       color: @med-grey;
@@ -213,7 +218,6 @@
       outline: none !important;
       overflow: visible;
       padding-right: 3vw;
-      text-align: right;
       width: 1.8 * @navitemwidth;
       z-index: inherit;
 
@@ -233,6 +237,11 @@
         height: 50px;
         width: 50px;
         border-radius: 50%;
+      }
+
+      @media @large-up {
+        background: @navactiveback;
+        text-align: right;
       }
     }
 
