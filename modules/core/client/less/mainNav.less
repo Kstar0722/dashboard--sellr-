@@ -17,6 +17,7 @@
     transition: all .25s;
     width: 100%;
     z-index: 999;
+    display: none;
 
     > * {
       height: 100%;
@@ -24,6 +25,7 @@
 
     // Mobile Menu
     @media @large-up {
+      display: flex;
       position: fixed !important;
       min-height: @mainnavheight;
       height: @mainnavheight;
