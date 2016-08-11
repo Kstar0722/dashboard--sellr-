@@ -87,6 +87,7 @@ angular.module('core').service('Menus', [
       // Push new menu item
       this.menus[ menuId ].items.push({
         title: options.title || '',
+        icon: options.icon || '',
         state: options.state || '',
         type: options.type || 'item',
         class: options.class,
@@ -171,6 +172,14 @@ angular.module('core').service('Menus', [
       roles: [ 1004, 1003 ]
     });
     this.addMenu('editor', {
+      roles: [ 1010 ]
+    });
+
+    // redesigned menus
+    this.addMenu('main', {
+      roles: [ 1004, 1003 ]
+    });
+    this.addMenu('top', {
       roles: [ 1010 ]
     });
   }

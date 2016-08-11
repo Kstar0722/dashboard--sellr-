@@ -18,5 +18,14 @@ angular.module('core.admin').run(['Menus',
           position: 0
       });
 
+      Menus.addMenuItem('main', {
+          title: 'Stats',
+          icon: '/img/navbar/stats_icon.svg',
+          state: 'dashboard',
+          type: 'button',
+          roles: [ 1004, 1003, 1007, 1009 ],
+          position: 0
+      });
+
   }
 ]);

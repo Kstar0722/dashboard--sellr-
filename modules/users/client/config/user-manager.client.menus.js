@@ -11,5 +11,14 @@ angular.module('users.manager').run(['Menus',
             title: 'Location Manager',
             state: 'manager.locations'
         });
+
+        Menus.addMenuItem('main', {
+            title: 'Ads',
+            icon: '/img/navbar/tv_icon.svg',
+            state: 'manager.ads',
+            type: 'button',
+            roles: [1002],
+            position: 1
+        });
     }
 ]);

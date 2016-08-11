@@ -1,3 +1,4 @@
+<!--
 <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
 
   <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)">
@@ -9,14 +10,92 @@
 
     <div class="brand"></div>
 
-    <!--non-dropdowns-->
+    &lt;!&ndash;non-dropdowns&ndash;&gt;
     <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">
       {{item.title}}
     </md-button>
 
-    <!--menu dropdowns-->
+    &lt;!&ndash;menu dropdowns&ndash;&gt;
     <md-menu-bar class="submenus-items">
       <md-menu ng-repeat="item in menu.items |orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
+        <button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}">{{ item.title }}
+        </button>
+        <md-menu-content>
+          <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class" ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}" ng-click="mobileMenuActive.open = false;">
+            {{ subitem.title }}
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </md-menu-bar>
+
+    &lt;!&ndash;add space between menu and profile thing&ndash;&gt;
+    &lt;!&ndash; <div flex></div> &ndash;&gt;
+
+    <md-menu md-position-mode="target-right bottom" class="profile-menu">
+      <div id="profbutton" ng-click="$mdOpenMenu($event)">
+        <md-button aria-label="USER ACCOUNT DROPDOWN">
+          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
+          &lt;!&ndash;<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">&ndash;&gt;
+        </md-button>
+      </div>
+      <md-menu-content width="3" id="profmenu">
+        <md-menu-item>
+          <md-button target="_self" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+  </md-toolbar>
+
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="editorMenu.shouldRender(authentication.user) && !menu.shouldRender(authentication.user)">
+    <div class="brand"></div>
+
+    &lt;!&ndash;non-dropdowns&ndash;&gt;
+    <md-button ng-repeat="item in editorMenu.items" ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" ng-click="debugState(item.state)">{{item.title}}
+    </md-button>
+    &lt;!&ndash;add space between menu and profile thing&ndash;&gt;
+    <div flex></div>
+
+    <md-menu md-position-mode="target-right bottom">
+      <div id="profbutton" ng-click="$mdOpenMenu($event)">
+        <md-button aria-label="USER ACCOUNT DROPDOWN">
+          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
+          &lt;!&ndash;<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">&ndash;&gt;
+        </md-button>
+      </div>
+      <md-menu-content width="3" id="profmenu">
+        <md-menu-item>
+          <md-button target="_self" ng-click="signOut()">Sign Out</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </md-toolbar>
+
+</div>
+-->
+
+<div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
+
+  <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="mainMenu.shouldRender(authentication.user)">
+
+    <div class="mobile-menu-icon" flex ng-click="mobileMenuActive.open = !mobileMenuActive.open">
+      <i class="fa fa-bars"></i>
+      <img src="../img/logo_white.png" alt="logo">
+    </div>
+
+    <a href="/">
+      <div class="brand"></div>
+    </a>
+
+    <!--non-dropdowns-->
+    <md-button ng-repeat="item in mainMenu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;" layout="column">
+      <img ng-src="{{item.icon}}" ng-if="item.icon" class="icon svg inline-svg">
+      <div>{{item.title}}</div>
+    </md-button>
+
+    <!--menu dropdowns-->
+    <md-menu-bar class="submenus-items">
+      <md-menu ng-repeat="item in mainMenu.items |orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
         <button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}">{{ item.title }}
         </button>
         <md-menu-content>
@@ -30,11 +109,16 @@
     <!--add space between menu and profile thing-->
     <!-- <div flex></div> -->
 
-    <md-menu md-position-mode="target-right bottom" class="profile-menu">
+    <!--<md-menu md-position-mode="target-right bottom" class="profile-menu">
       <div id="profbutton" ng-click="$mdOpenMenu($event)">
         <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
-          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
+          <span class="header" ng-if="authentication.user.displayName">
+            Hello, {{authentication.user.displayName.split(' ')[0]}}
+          </span>
+          <span ng-if="!authentication.user.displayName">
+            Settings
+          </span>
+          &lt;!&ndash;<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">&ndash;&gt;
         </md-button>
       </div>
       <md-menu-content width="3" id="profmenu">
@@ -42,35 +126,37 @@
           <md-button target="_self" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
         </md-menu-item>
       </md-menu-content>
-    </md-menu>
+    </md-menu>-->
 
-
-  </md-toolbar>
-
-
-  <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="editorMenu.shouldRender(authentication.user) && !menu.shouldRender(authentication.user)">
-    <div class="brand"></div>
-
-    <!--non-dropdowns-->
-    <md-button ng-repeat="item in editorMenu.items" ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" ng-click="debugState(item.state)">{{item.title}}
-    </md-button>
-    <!--add space between menu and profile thing-->
-    <div flex></div>
-
-    <md-menu md-position-mode="target-right bottom">
-      <div id="profbutton" ng-click="$mdOpenMenu($event)">
-        <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
-          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
-        </md-button>
+    <md-menu md-position-mode="target-right bottom" class="profile-menu">
+      <div id="accountMenu">
+        <div class="greetings" ng-if="authentication.user.displayName">
+          Hello, {{authentication.user.displayName.split(' ')[0]}}
+        </div>
+        <div class="pull-right">
+          <md-button class="user-account" aria-label="USER ACCOUNT DROPDOWN" ng-click="$mdOpenMenu($event)">
+            My Account
+            <i class="fa fa-chevron-down"></i>
+          </md-button>
+        </div>
       </div>
       <md-menu-content width="3" id="profmenu">
         <md-menu-item>
-          <md-button target="_self" ng-click="signOut()">Sign Out</md-button>
+          <md-button>Edit Account</md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button>Do this other thing</md-button>
+        </md-menu-item>
+
+        <div class="divider"></div>
+
+        <md-menu-item class="signout">
+          <md-button ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
         </md-menu-item>
       </md-menu-content>
     </md-menu>
-  </md-toolbar>
 
+  </md-toolbar>
 
 </div>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2975 474 73 73">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-stats_icon);
+      }
+
+      .cls-2 {
+/*        fill: #fff;*/
+      }
+    </style>
+    <clipPath id="clip-stats_icon">
+      <rect x="-2975" y="474" width="73" height="73"/>
+    </clipPath>
+  </defs>
+  <g id="stats_icon" class="cls-1">
+    <g id="bar-chart" transform="translate(-2958.826 489.652)">
+      <path id="path" class="cls-2" d="M0,15H40.027v2.668H0Z" transform="translate(0 25.027)"/>
+      <path id="path-2" data-name="path" class="cls-2" d="M0,11H8.005v8.005H0Z" transform="translate(0 18.353)"/>
+      <path id="path-3" data-name="path" class="cls-2" d="M4,9h8.005V22.342H4Z" transform="translate(6.674 15.016)"/>
+      <path id="path-4" data-name="path" class="cls-2" d="M8,5h8.005V29.016H8Z" transform="translate(13.348 8.342)"/>
+      <path id="path-5" data-name="path" class="cls-2" d="M12,0h8.005V37.358H12Z" transform="translate(20.021)"/>
+    </g>
+  </g>
+</svg>

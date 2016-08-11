@@ -9,6 +9,5 @@ angular.module('core.manager').run(['Menus',
             roles: [1002],
             position:0
         });
-
     }
 ]);

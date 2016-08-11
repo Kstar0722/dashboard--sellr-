@@ -1,4 +1,3 @@
-
 'use strict';
 
 angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams',
@@ -10,6 +9,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
 
         var originatorEv;
         $scope.isCollapsed = false;
+        $scope.mainMenu = Menus.getMenu('main');
         $scope.menu = Menus.getMenu('topbar');
         $scope.editorMenu = Menus.getMenu('editor');
         console.log('editor Menu %O', $scope.editorMenu)

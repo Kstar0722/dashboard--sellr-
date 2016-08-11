@@ -88,22 +88,26 @@ div.custom-btn:hover {
   margin-right: auto;
 }
 #topNav .md-toolbar-tools {
-  font-size: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  transition: all .25s;
-  overflow: hidden !important;
-  z-index: 999;
-  background: #151922;
-  color: white;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #151922;
   background-position-y: 20%;
-  position: relative;
-  min-height: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  font-size: 100%;
   height: auto;
+  left: 0;
   max-height: inherit;
+  min-height: auto;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  top: 0;
+  transition: all .25s;
+  width: 100%;
+  z-index: 999;
+}
+#topNav .md-toolbar-tools > * {
+  height: 100%;
 }
 @media only screen and (min-width:961px) {
   #topNav .md-toolbar-tools {
@@ -150,13 +154,41 @@ div.custom-btn:hover {
   }
 }
 #topNav .md-toolbar-tools .no-submenu-item {
-  color: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  color: #8D9AA5;
+  display: flex;
+  fill: #8D9AA5;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+  overflow: visible;
+  position: relative;
   text-transform: none;
-  font-size: 16px;
+  width: 140px;
 }
 #topNav .md-toolbar-tools .no-submenu-item.my-active-class {
-  color: #2DC89A;
-  background: transparent;
+  background: #37434f;
+  color: #ffffff;
+  fill: #ffffff;
+}
+#topNav .md-toolbar-tools .no-submenu-item.my-active-class::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: -20px;
+  border-style: solid;
+  border-width: 20px 70px 0 70px;
+  border-color: #37434f transparent transparent transparent;
+}
+#topNav .md-toolbar-tools .icon {
+  height: 50px;
+  margin-bottom: -5px;
+  width: 50px;
 }
 #topNav .md-toolbar-tools .submenus-items {
   padding: 0px;
@@ -194,12 +226,13 @@ div.custom-btn:hover {
   background: transparent;
 }
 #topNav .md-toolbar-tools .brand {
-  background-image: url('../img/logo_white.png');
-  background-size: contain;
+  background-color: #2DC89A;
+  background-image: url('https://s3.amazonaws.com/s3.teamplanner.io/client/oncue/C35PzZbF-SLLR_Icon_White-attachment.svg');
+  background-position: -13px -1px;
   background-repeat: no-repeat;
-  height: 70px;
-  width: 180px;
-  opacity: .25;
+  background-size: cover;
+  height: 120px;
+  width: 120px;
 }
 #topNav .md-toolbar-tools:hover {
   width: 100%;
@@ -226,7 +259,45 @@ div.custom-btn:hover {
   overflow: visible;
   z-index: inherit;
 }
+#topNav .md-toolbar-tools #profbutton .md-button {
+  text-transform: none;
+}
 #topNav .md-toolbar-tools #profbutton img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+#topNav .md-toolbar-tools #accountMenu {
+  background: #37434f;
+  border-radius: 0;
+  box-shadow: none;
+  color: #8D9AA5;
+  display: flex;
+  fill: #8D9AA5;
+  flex-direction: column;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  height: 100%;
+  justify-content: center;
+  outline: none !important;
+  overflow: visible;
+  padding-right: 3vw;
+  text-align: right;
+  width: 252px;
+  z-index: inherit;
+}
+#topNav .md-toolbar-tools #accountMenu .greetings {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+#topNav .md-toolbar-tools #accountMenu .user-account {
+  font-weight: bold;
+  margin: 0 -7px;
+  text-transform: none;
+}
+#topNav .md-toolbar-tools #accountMenu img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -263,7 +334,31 @@ div.custom-btn:hover {
   cursor: pointer;
 }
 .md-open-menu-container {
+  box-shadow: none;
   z-index: 1000;
+}
+.md-open-menu-container #profmenu {
+  background: #fafafa;
+  border-radius: 3px;
+  border: 1px solid #8D9AA5;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(255, 255, 255, 0.7);
+  margin-top: 35px;
+  padding: 15px;
+  position: relative;
+  right: 22px;
+  left: -8px;
+}
+.md-open-menu-container #profmenu md-menu-item {
+  height: 40px;
+  min-height: 40px;
+}
+.md-open-menu-container #profmenu .divider {
+  border-top: 1px solid #DFE3EB;
+  margin: 10px 5px;
+}
+.md-open-menu-container #profmenu .signout {
+  color: #8D9AA5;
+  font-style: italic;
 }
 section.userList .invite {
   background-color: #2DC89A;
