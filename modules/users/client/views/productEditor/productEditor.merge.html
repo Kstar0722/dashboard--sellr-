@@ -15,7 +15,7 @@
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     <div class="form-group">
                         <label>Title: </label>
-                        <span class="form-control">{{ mergeService.finalProduct.name }}</span>
+                        <input class="form-control" ng-model="mergeService.finalProduct.name">
 
                     </div>
                     <md-radio-group ng-model="mergeService.finalProduct.name">
@@ -37,14 +37,29 @@
                 <small>Products can have multiple images.</small>
             </p>
             <!-- == Product IMAGES == -->
-            <div layout="row">
-                <div flex ng-repeat="img in mergeService.newProduct.images">
-                    <div layout="column">
-                        <img ng-src="{{ img.publicUrl }}" style="max-height: 500px;display:block;">
-                        <button class="btn btn-danger" ng-click="removeMergedImage($index)"><i class="fa fa-trash"> </i>Delete Image</button>
-                    </div>
-                </div>
+            <div layout="row" layout-align="space-around">
+                <md-card ng-repeat="img in mergeService.newProduct.images">
+                    <md-card-title>
+                        <md-card-title-media>
+                            <a class="md-media-lg card-media" ng-href="{{ img.publicUrl }}" target="_blank">
+                                <img ng-src="{{ img.publicUrl }}">
+                            </a>
+                        </md-card-title-media>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="md-raised" ng-click="removeMergedImage($index)"><i class="fa fa-trash"> </i>Delete
+                            Image
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+                <!--<div flex ng-repeat="img in mergeService.newProduct.images">-->
+                <!--<div layout="column">-->
+                <!--<img ng-src="{{ img.publicUrl }}" style="max-height: 500px;display:block;">-->
+                <!--<button class="btn btn-danger" ng-click="removeMergedImage($index)"><i class="fa fa-trash"> </i>Delete Image</button>-->
+                <!--</div>-->
+                <!--</div>-->
             </div>
+
 
             <!-- == AUDIO == -->
             <label>Audio:</label>

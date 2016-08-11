@@ -2082,6 +2082,7 @@ body.storeOwner-orders {
   position: absolute;
   width: 30px;
   height: 30px;
+  outline: none;
   border-radius: 5px;
   border: 2px solid #142332;
   top: -5px;
@@ -2157,7 +2158,7 @@ body.storeOwner-orders {
   width: 40px;
   height: 40px;
   color: #fff;
-  background-color: #FF0000;
+  background-color: #ccc;
   border-radius: 40px;
   line-height: 40px;
   text-align: center;

@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
                                                                         $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -355,4 +355,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.createNewProduct(product)
     $state.go('editor.match.new')
   }
+
+  $rootScope.$on('clearProductList', function () {
+    $scope.selected = []
+  })
 })

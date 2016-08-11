@@ -134,6 +134,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
             log('formattedProduct', formattedProduct)
             // store product for faster load next time
             me.productStorage[ product.productId ] = formattedProduct
+            //  cache current product for comparison
+            cachedProduct = jQuery.extend(true, {}, formattedProduct)
             defer.resolve(formattedProduct)
           })
         } else {
@@ -158,8 +160,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.getProduct(product).then(function (formattedProduct) {
       formattedProduct.userId = product.userId
       me.currentProduct = formattedProduct
-      //  cache current product for comparison
-      cachedProduct = jQuery.extend(true, {}, formattedProduct)
     })
   }
 
@@ -186,6 +186,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
       toastr.error('There was a problem claiming this product')
       console.error(err)
     })
+  }
+
+  me.clearProductList = function () {
+    me.productList = []
+    $rootScope.$broadcast('clearProductList')
   }
 
   // remove a claim on a product
@@ -501,19 +506,22 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
   }
 
-  me.searchSkuResults = function (sku, productList) {
+  me.searchSkuResults = function (options) {
     var defer = $q.defer()
+    var sku = options.upc
+    var productList = options.productList
+    var type = options.type
     me.productList = []
     console.log('searching sku %s', sku)
     me.show.loading = true
-    var skuUrl = constants.BWS_API + '/edit/search?v=sum&q=' + sku
+    var skuUrl = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + sku
     $http.get(skuUrl).then(function (skuResult) {
       var remainingQueries = skuResult.data.length
       if (remainingQueries > 0) {
         me.productList = productList || []
         console.log('I have to query %s names', remainingQueries)
         for (var i in skuResult.data) {
-          var url = constants.BWS_API + '/edit/search?v=sum&q=' + skuResult.data[ i ].name
+          var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + skuResult.data[ i ].name
           $http.get(url).then(function (results2) {
             me.productList = me.productList.concat(results2.data)
             me.productList = _.uniq(me.productList, function (p) {
