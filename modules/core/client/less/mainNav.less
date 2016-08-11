@@ -1,0 +1,315 @@
+#mainNav {
+  .md-toolbar-tools {
+    background-color: darken(@dark-grey, 5%);
+    background-position-y: 20%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    font-size: 100%;
+    height: auto;
+    left: 0;
+    max-height: inherit;
+    min-height: auto;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    top: @topnavheight;
+    transition: all .25s;
+    width: 100%;
+    z-index: 999;
+
+    > * {
+      height: 100%;
+    }
+
+    // Mobile Menu
+    @media @large-up {
+      position: fixed !important;
+      min-height: @mainnavheight;
+      height: @mainnavheight;
+      max-height: @mainnavheight;
+    }
+    .mobile-menu-icon{
+      display: block;
+      padding: 0px 15px;
+      font-size: 30px;
+      cursor: pointer;
+      min-height: @mobileNavheight;
+      height: @mobileNavheight;
+      max-height: @mobileNavheight;
+      line-height: @mobileNavheight;
+      width: 100%;
+      outline: none !important;
+      img{
+        width: 70px;
+        float: right;
+        opacity: .25;
+        padding-top: 12px;
+      }
+      @media @large-up {
+        display: none;
+      }
+    }
+    .brand,
+    .profile-menu,
+    .submenus-items,
+    .no-submenu-item{
+      display: none;
+      @media @large-up {
+        display: flex;
+      }
+    }
+
+    .no-submenu-item{
+      border-radius: 0;
+      box-shadow: none;
+      color: @med-grey;
+      fill: @med-grey;
+      font-family: @avenir;
+      font-size: 17px;
+      font-weight: bold;
+      height: 100%;
+      justify-content: center;
+      margin: 0;
+      overflow: visible;
+      position: relative;
+      text-transform: none;
+      width: @navitemwidth;
+
+      &.my-active-class {
+        background: @navactiveback;
+        color: @white;
+        fill: @white;
+
+        // triangle below
+        &::after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          bottom: -20px;
+
+          border-style: solid;
+          border-width: 20px (@navitemwidth/2) 0 (@navitemwidth/2);
+          border-color: @navactiveback transparent transparent transparent;
+        }
+      }
+    }
+
+    .icon {
+      height: 50px;
+      margin-bottom: -5px;
+      width: 50px;
+    }
+
+    .submenus-items{
+      padding: 0px;
+      .md-menu{
+        font-size: 16px;
+      }
+    }
+
+    &.mobile-menu{
+      .profile-menu,
+      .submenus-items,
+      .no-submenu-item{
+        display: block;        
+      }     
+      .profile-menu{
+        margin: 10px 0px;
+        padding: 10px 0px;
+        margin-left: 6px;
+        border-top: 1px solid @grey-dark-text;
+        .md-button{
+          text-align: left;
+        }
+      }
+      .submenus-items{
+        padding: 0px 6px;
+        .md-menu{
+          display: block;
+          font-size: 16px;
+        }
+      }
+      .no-submenu-item {
+        // remove triangle
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    .my-active-class {
+      color: @sellrgreen;
+      background: transparent;
+    }
+
+    .my-inactive-class {
+      color: white;
+      background: transparent;
+    }
+
+    .brand {
+      background-color: @sellrgreen;
+      background-image: url(@logo_nav);
+      background-position: -13px -1px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: @mainnavheight;
+      width: @mainnavheight;
+    }
+    &:hover {
+      width: 100%;
+    }
+    .md-toolbar-tools {
+
+      margin: 0 auto;
+      padding: 0;
+      //background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+      //background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+      //background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+
+
+    }
+    .md-menu {
+      right: 0;
+      overflow: visible;
+      z-index: 9999;
+
+      button {
+        font-size: 1em;
+      }
+    }
+    #profmenu {
+      right: 0;
+      overflow: visible;
+      z-index: 9999;
+    }
+
+    #profbutton {
+      padding-right: 10vh;
+      overflow: visible;
+      z-index: inherit;
+
+      .md-button {
+        text-transform: none;
+      }
+
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+    }
+
+    #accountMenu {
+      border-radius: 0;
+      box-shadow: none;
+      color: @med-grey;
+      display: flex;
+      fill: @med-grey;
+      flex-direction: column;
+      font-family: @avenir;
+      font-size: 17px;
+      font-weight: bold;
+      height: 100%;
+      justify-content: center;
+      outline: none !important;
+      overflow: visible;
+      padding-right: 3vw;
+      width: 1.8 * @navitemwidth;
+      z-index: inherit;
+
+      .greetings {
+        color: @white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .user-account {
+        font-weight: bold;
+        margin: 0 -7px;
+        text-transform: none;
+      }
+
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+
+      @media @large-up {
+        background: @navactiveback;
+        text-align: right;
+      }
+    }
+
+    #pagebutton {
+      margin-top: 3vh;
+      display: inline-block;
+
+      .md-button {
+        text-transform: none;
+        font-size: 16px;
+        margin: 6px 0;
+        &:hover {
+          color: @pink;
+          background-color: transparent;
+        }
+      }
+    }
+    md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+      background-color: transparent;
+    }
+  }
+
+
+}
+
+.md-menu-bar-menu {
+  padding: 0;
+  &.md-dense md-menu-item {
+    padding-left: 20px;
+    color: @sellrdark;
+    line-height: 48px;
+    height: auto;
+
+    &:hover {
+      color: @sellrgreen;
+      background: @light-grey;
+      cursor: pointer;
+    }
+  }
+}
+
+.md-open-menu-container {
+  box-shadow: none;
+  z-index: 1000;
+
+  #profmenu {
+    background: #fafafa;
+    border-radius: 3px;
+    border: 1px solid @med-grey;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 0 4px 0 rgba(255,255,255,0.7);
+    margin-top: 35px;
+    padding: 15px;
+    position: relative;
+    right: 22px;
+    left: -8px;
+
+    md-menu-item {
+      height: 40px;
+      min-height: 40px;
+    }
+
+    .divider {
+      border-top: 1px solid @light-grey;
+      margin: 10px 5px;
+    }
+
+    .signout {
+      color: @med-grey;
+      font-style: italic;
+    }
+  }
+}
