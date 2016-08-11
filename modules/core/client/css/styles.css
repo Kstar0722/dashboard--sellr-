@@ -461,7 +461,7 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools .mobile-only {
   display: none;
 }
-#topNav .md-toolbar-tools .mobile-only.signout {
+#topNav .md-toolbar-tools .mobile-only .signout {
   margin-bottom: 15px;
 }
 #topNav .md-toolbar-tools.mobile-menu .profile-menu,
@@ -479,7 +479,12 @@ div.custom-btn:hover {
   text-align: left;
 }
 #topNav .md-toolbar-tools.mobile-menu .mobile-only {
+  display: block;
+}
+#topNav .md-toolbar-tools.mobile-menu .mobile-only .md-button {
   display: inline-block;
+  min-width: initial;
+  padding: 0 10px;
 }
 #topNav .md-toolbar-tools.mobile-menu .submenus-items {
   padding: 0px 6px;

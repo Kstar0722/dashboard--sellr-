@@ -75,11 +75,10 @@
         font-size: 16px;
       }
     }
-
     .mobile-only {
       display: none;
 
-      &.signout {
+      .signout {
         margin-bottom: 15px;
       }
     }
@@ -100,7 +99,12 @@
         }
       }
       .mobile-only {
-        display: inline-block;
+        display: block;
+        .md-button {
+          display: inline-block;
+          min-width: initial;
+          padding: 0 10px;
+        }
       }
       .submenus-items{
         padding: 0px 6px;
