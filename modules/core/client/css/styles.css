@@ -158,7 +158,6 @@ div.custom-btn:hover {
   border-radius: 0;
   box-shadow: none;
   color: #8D9AA5;
-  fill: #8D9AA5;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   font-size: 17px;
   font-weight: bold;
@@ -170,10 +169,17 @@ div.custom-btn:hover {
   text-transform: none;
   width: 140px;
 }
+#mainNav .md-toolbar-tools .no-submenu-item .svg * {
+  fill: #8D9AA5;
+  stroke: #8D9AA5;
+}
 #mainNav .md-toolbar-tools .no-submenu-item.my-active-class {
   background: #37434f;
   color: #ffffff;
-  fill: #ffffff;
+}
+#mainNav .md-toolbar-tools .no-submenu-item.my-active-class .svg * {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
 }
 #mainNav .md-toolbar-tools .no-submenu-item.my-active-class::after {
   content: "";

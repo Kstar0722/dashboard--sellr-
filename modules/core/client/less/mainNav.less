@@ -64,7 +64,6 @@
       border-radius: 0;
       box-shadow: none;
       color: @med-grey;
-      fill: @med-grey;
       font-family: @avenir;
       font-size: 17px;
       font-weight: bold;
@@ -76,10 +75,19 @@
       text-transform: none;
       width: @navitemwidth;
 
+      .svg * {
+        fill: @med-grey;
+        stroke: @med-grey;
+      }
+
       &.my-active-class {
         background: @navactiveback;
         color: @white;
-        fill: @white;
+
+        .svg * {
+          fill: @white !important;
+          stroke: @white !important;
+        }
 
         // triangle below
         &::after {
