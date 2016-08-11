@@ -10,13 +10,6 @@
         ng-model="currentProfile"
         ng-options="profile.profileId as profile.profileName for profile in profiles"></select>
 
-      <div class="form-group" ng-show="myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
-        <label>Account: </label>
-        <md-select ng-model="selectAccountId" ng-change="init()">
-          <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
-        </md-select>
-      </div>
-
         <div class="live ">
           <div class="tab">
             LIVE ADS

@@ -34,7 +34,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('stats', {
-                url: '/stats/{account}',
+                url: '/stats/:accountId?',
                 templateUrl: 'modules/core/client/views/stats.client.view.html',
                 controller: 'statsController'
             })

@@ -1,8 +1,8 @@
 'use strict'
 /* global angular, moment, _, localStorage*/
 angular.module('users.admin')
-  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams',
-    function ($scope, $http, $state, constants, toastr, $stateParams) {
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'accountsService',
+    function ($scope, $http, $state, constants, toastr, $stateParams, accountsService) {
       var API_URL = constants.API_URL
       $scope.todayOrders = []
       $scope.pastOrders = []
@@ -12,13 +12,13 @@ angular.module('users.admin')
         count: 0,
         salesTotal: 0
       }
+
+      accountsService.bindSelectedAccount($scope);
+      $scope.$watch('selectAccountId', function () {
+        $scope.init();
+      });
+
       $scope.statsScopeLabel = 'Last 7 days'
-      var accountId = null
-      if ($stateParams.accountId) {
-        accountId = $stateParams.accountId
-      } else {
-        accountId = localStorage.getItem('accountId')
-      }
 
       $scope.changeDisplayedOrders = function () {
         $scope.showPastOrders = !$scope.showPastOrders
@@ -30,7 +30,7 @@ angular.module('users.admin')
       }
 
       function getOrders () {
-        var ordersUrl = API_URL + '/mobile/reservations/store/' + accountId
+        var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.selectAccountId
         $http.get(ordersUrl).then(function (response) {
           var allOrders = response.data
           allOrders = _.sortBy(allOrders, 'pickupTime')
@@ -94,6 +94,8 @@ angular.module('users.admin')
         })
       }
 
-      getOrders()
+      $scope.init = function () {
+        getOrders();
+      };
     }
   ])

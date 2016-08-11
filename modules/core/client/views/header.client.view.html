@@ -25,6 +25,10 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
+
+      <md-select ng-model="$root.selectAccountId" ng-show="authentication.user.roles.indexOf(1004) > -1" placeholder="Select Account" class="account-selector">
+        <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
+      </md-select>
     </md-menu-bar>
   </md-toolbar>
 
@@ -38,7 +42,7 @@
 
 </div>
 
-<div id="mainNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
+<div id="mainNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !$root.selectAccountId">
 
   <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="mainMenu.shouldRender(authentication.user)">
 

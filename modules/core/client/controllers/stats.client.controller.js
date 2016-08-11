@@ -1,7 +1,7 @@
 angular.module('core').controller('statsController', function ($scope, $http, $stateParams, constants, chartService, $timeout) {
     $scope.chartService = chartService;
     $scope.locations = [];
-    var accountId = $stateParams.account;       //set by the URL
+    var accountId = $stateParams.accountId;       //set by the URL
     var refreshInterval = 60;                   //how often data refreshes, in seconds;
 
     function refreshData() {

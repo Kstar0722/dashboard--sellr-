@@ -143,6 +143,7 @@
 
       button {
         font-size: 1em;
+        margin-right: 1vw;
       }
     }
     #profmenu {
@@ -179,9 +180,18 @@
     md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
       background-color: transparent;
     }
+
+    .account-selector {
+      display: inline-block;
+      margin: 0;
+      position: relative;
+      top: -2px;
+
+      .md-select-value {
+        color: @white;
+      }
+    }
   }
-
-
 }
 
 .md-menu-bar-menu {
@@ -201,5 +211,9 @@
 }
 
 .md-open-menu-container {
+  z-index: 1000;
+}
+
+.md-select-menu-container {
   z-index: 1000;
 }

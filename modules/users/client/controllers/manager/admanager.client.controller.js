@@ -2,8 +2,9 @@
 
 angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService) {
-        $scope.authentication = Authentication;
         var self = this;
+
+        $scope.authentication = Authentication;
         $scope.activeAds = [];
         $scope.allMedia = [];
         $scope.allAccountMedia = [];
@@ -11,12 +12,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         $scope.ads = false;
         $scope.activeAds = false;
         $scope.storeDevices = false;
-        $scope.selectAccountId = localStorage.getItem('accountId');
         $scope.toggleLeft = buildDelayedToggler('left');
         $scope.profiles = [];
         $scope.myPermissions = localStorage.getItem('roles');
         $scope.accountsService = accountsService;
         $scope.files = [];
+
+        accountsService.bindSelectedAccount($scope);
+        $scope.$watch('selectAccountId', function () {
+            $scope.init();
+        });
 
         function debounce(func, wait, context) {
             var timer;
@@ -86,7 +91,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
-                        ext = ext.toLowerCase();
+                        ext = (ext || '').toLowerCase();
                         if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
                             myData = {
                                 name: response.data[i].fileName,
@@ -134,7 +139,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         };
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
-                        ext = ext.toLowerCase();
+                        ext = (ext || '').toLowerCase();
                         if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
                             myData = {
                                 name: response.data[i].fileName,
@@ -236,6 +241,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             })
         }
 
+        // set up two-way binding to parent property
+        function bindRootProperty($scope, name) {
+            $scope.$watch('$root.' + name, function (value) {
+                $scope[name] = value;
+            });
+
+            $scope.$watch(name, function (value) {
+                $scope.$root[name] = value;
+            });
+        }
     }
 ]);
 

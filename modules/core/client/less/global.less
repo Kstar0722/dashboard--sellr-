@@ -1,7 +1,11 @@
 .main-content{
   padding-top:  0px;
   @media @large-up {
-    padding-top: @topnavheight + @mainnavheight;
+    padding-top: @topnavheight;
+
+    &.main-menu-shown {
+      padding-top: @topnavheight + @mainnavheight;
+    }
   }
 }
 
