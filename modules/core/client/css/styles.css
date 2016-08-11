@@ -14,12 +14,6 @@ body.dashboard {
 body.dashboard .content {
   position: absolute;
   width: 100vw;
-  top: 64px;
-}
-@media only screen and (min-width:961px) {
-  body.dashboard .content {
-    top: 170px;
-  }
 }
 body.dashboard .content .titlebar {
   background: #1f2532;
@@ -383,6 +377,7 @@ div.custom-btn:hover {
 }
 #topNav .md-toolbar-tools {
   font-size: 100%;
+  display: block;
   width: 100%;
   top: 0;
   left: 0;
@@ -405,6 +400,7 @@ div.custom-btn:hover {
     min-height: 50px;
     height: 50px;
     max-height: 50px;
+    display: flex;
   }
 }
 #topNav .md-toolbar-tools .mobile-menu-icon {
@@ -417,6 +413,7 @@ div.custom-btn:hover {
   max-height: 64px;
   line-height: 64px;
   width: 100%;
+  outline: none !important;
 }
 #topNav .md-toolbar-tools .mobile-menu-icon img {
   width: 70px;
@@ -443,6 +440,9 @@ div.custom-btn:hover {
     display: inline-block;
   }
 }
+#topNav .md-toolbar-tools > .md-button {
+  background: transparent;
+}
 #topNav .md-toolbar-tools .no-submenu-item {
   color: #fff;
   text-transform: none;
@@ -458,6 +458,12 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools .submenus-items .md-menu {
   font-size: 16px;
 }
+#topNav .md-toolbar-tools .mobile-only {
+  display: none;
+}
+#topNav .md-toolbar-tools .mobile-only.signout {
+  margin-bottom: 15px;
+}
 #topNav .md-toolbar-tools.mobile-menu .profile-menu,
 #topNav .md-toolbar-tools.mobile-menu .submenus-items,
 #topNav .md-toolbar-tools.mobile-menu .no-submenu-item {
@@ -471,6 +477,9 @@ div.custom-btn:hover {
 }
 #topNav .md-toolbar-tools.mobile-menu .profile-menu .md-button {
   text-align: left;
+}
+#topNav .md-toolbar-tools.mobile-menu .mobile-only {
+  display: inline-block;
 }
 #topNav .md-toolbar-tools.mobile-menu .submenus-items {
   padding: 0px 6px;
@@ -546,12 +555,17 @@ div.custom-btn:hover {
 }
 #topNav .md-toolbar-tools .account-selector {
   display: inline-block;
+  height: 40px;
   margin: 0;
+  padding-left: 10px;
+  padding-top: 5px;
   position: relative;
   top: -2px;
 }
 #topNav .md-toolbar-tools .account-selector .md-select-value {
+  border-bottom: none !important;
   color: #ffffff;
+  font-size: 16px;
 }
 .md-menu-bar-menu {
   padding: 0;

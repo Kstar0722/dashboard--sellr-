@@ -26,10 +26,14 @@
         </md-menu-content>
       </md-menu>
 
-      <md-select ng-model="$root.selectAccountId" ng-show="authentication.user.roles.indexOf(1004) > -1" placeholder="Select Account" class="account-selector">
-        <md-option ng-repeat="account in accountsService.accounts" value="{{ account.accountId}}">{{ account.name }}:{{ account.address }}</md-option>
+      <md-select ng-model="$root.selectAccountId" ng-show="authentication.user.roles.indexOf(1004) > -1" placeholder="Select Account" class="account-selector" ng-change="mobileMenuActive.open = false;">
+        <md-option ng-repeat="account in accountsService.accounts | orderBy:['name', 'address']" value="{{ account.accountId}}">
+          {{ account.name }}<span ng-if="account.address">: {{account.address }}</span>
+        </md-option>
       </md-select>
     </md-menu-bar>
+
+    <md-button class="no-submenu-item mobile-only signout" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
   </md-toolbar>
 
   <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="editorMenu.shouldRender(authentication.user) && !menu.shouldRender(authentication.user)">

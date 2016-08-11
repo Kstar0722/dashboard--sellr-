@@ -1,6 +1,7 @@
 #topNav {
   .md-toolbar-tools {
     font-size: 100%;
+    display: block;
     width: 100%;
     top: 0;
     left: 0;
@@ -24,6 +25,7 @@
       min-height: @topnavheight;
       height: @topnavheight;
       max-height: @topnavheight;
+      display: flex;
     }
     .mobile-menu-icon{
       display: block;
@@ -35,6 +37,7 @@
       max-height: @mobileNavheight;
       line-height: @mobileNavheight;
       width: 100%;
+      outline: none !important;
       img{
         width: 70px;
         float: right;
@@ -54,7 +57,9 @@
         display: inline-block;
       }
     }
-
+    > .md-button {
+      background: transparent;
+    }
     .no-submenu-item{
       color: #fff;
       text-transform: none;
@@ -68,6 +73,14 @@
       padding: 0px;
       .md-menu{
         font-size: 16px;
+      }
+    }
+
+    .mobile-only {
+      display: none;
+
+      &.signout {
+        margin-bottom: 15px;
       }
     }
 
@@ -85,6 +98,9 @@
         .md-button{
           text-align: left;
         }
+      }
+      .mobile-only {
+        display: inline-block;
       }
       .submenus-items{
         padding: 0px 6px;
@@ -183,12 +199,17 @@
 
     .account-selector {
       display: inline-block;
+      height: 40px;
       margin: 0;
+      padding-left: 10px;
+      padding-top: 5px;
       position: relative;
       top: -2px;
 
       .md-select-value {
+        border-bottom: none !important;
         color: @white;
+        font-size: 16px;
       }
     }
   }
