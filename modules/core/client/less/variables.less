@@ -68,6 +68,8 @@
 /* SITE FRAMEWORK */
 @globalwidth:   1200px;
 @globalhpad:    5vw;
+@topnavheight:  50px;
+@mainnavheight: 120px;
 @navheight:     120px;
 @navitemwidth:  140px;
 @mobileNavheight: 64px;
@@ -87,7 +89,7 @@ body.dashboard {
     width: 100vw;
     top:  @mobileNavheight;
     @media @large-up {
-      top:  @navheight;
+      top: @topnavheight + @mainnavheight;
     }
 
 

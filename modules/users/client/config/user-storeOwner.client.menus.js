@@ -13,5 +13,14 @@ angular.module('users.storeOwner').run(['Menus',
       state: 'storeOwner.orders',
       position: 0
     })
+
+    Menus.addMenuItem('main', {
+      title: 'Orders',
+      icon: '/img/navbar/shopping_icon.svg',
+      state: 'storeOwner.orders',
+      type: 'button',
+      roles: [1002],
+      position: 1
+    });
   }
 ])

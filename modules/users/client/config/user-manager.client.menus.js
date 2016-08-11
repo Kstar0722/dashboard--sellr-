@@ -18,7 +18,7 @@ angular.module('users.manager').run(['Menus',
             state: 'manager.ads',
             type: 'button',
             roles: [1002],
-            position: 1
+            position: 2
         });
     }
 ]);
