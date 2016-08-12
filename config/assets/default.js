@@ -57,7 +57,9 @@ module.exports = {
                 'public/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
                 'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',
                 'public/lib/blueimp-file-upload/js/jquery.fileupload.js',
-                'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js'
+                'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js',
+                'public/lib/socket.io-client/socket.io.js',
+                'public/lib/angular-socket-io/socket.js'
 			]
 		},
 		css: [

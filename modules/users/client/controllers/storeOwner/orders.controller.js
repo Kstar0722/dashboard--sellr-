@@ -1,8 +1,8 @@
 'use strict'
 /* global angular, moment, _, localStorage*/
 angular.module('users.admin')
-  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams',
-    function ($scope, $http, $state, constants, toastr, $stateParams) {
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI',
+    function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI) {
       var API_URL = constants.API_URL
       $scope.todayOrders = []
       $scope.pastOrders = []
@@ -12,6 +12,17 @@ angular.module('users.admin')
         count: 0,
         salesTotal: 0
       }
+
+      SocketAPI = SocketAPI.bindTo($scope);
+
+      SocketAPI.on('reservation.created', function (order) {
+        console.log('reservation.created', order);
+      });
+
+      SocketAPI.on('reservation.updated', function (order) {
+        console.log('reservation.updated', order);
+      });
+
       $scope.statsScopeLabel = 'Last 7 days'
       var accountId = null
       if ($stateParams.accountId) {
