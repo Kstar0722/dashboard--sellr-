@@ -13,8 +13,8 @@
     overflow: visible;
     padding: 0;
     position: relative;
-    top: @topnavheight;
-    transition: all .25s;
+    top: 0;
+    //transition: all .25s;
     width: 100%;
     z-index: 999;
     display: none;
@@ -273,7 +273,11 @@
     }
   }
 
-
+  &.top-menu-shown {
+    .md-toolbar-tools {
+      top: @topnavheight;
+    }
+  }
 }
 
 .md-menu-bar-menu {

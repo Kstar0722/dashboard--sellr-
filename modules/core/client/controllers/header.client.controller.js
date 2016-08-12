@@ -7,6 +7,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
         $scope.ui = {};
         $scope.$state = $state;
         $scope.accountsService = accountsService;
+        $scope.renderTopMenu = true;
 
         var originatorEv;
         $scope.isCollapsed = false;
@@ -28,7 +29,13 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             $window.location.href = '/';
         };
 
-        init();
+        $scope.$watch('authentication.user', function (user) {
+            updateMenuVisibility(user, $scope.$root.selectAccountId);
+        });
+
+        $scope.$watch('$root.selectAccountId', function (accountId) {
+            updateMenuVisibility($scope.authentication.user, accountId);
+        });
 
         $scope.$watch('$root.selectAccountId', function (accountId) {
             $stateParams.accountId = accountId;
@@ -47,11 +54,28 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
             }
         });
 
+        init();
+
+        //
+        // PRIVATE FUNCTIONS
+        //
+
         function init() {
             if ($stateParams.accountId)
                 $scope.$root.selectAccountId = $stateParams.accountId;
             else
                 $scope.$root.selectAccountId = $scope.$root.selectAccountId || localStorage.getItem('accountId');
+        }
+
+        function shouldRenderMenu(menu, user) {
+            user = user || $scope.authentication.user;
+            var result = _.some(menu.items, function (item) { return item.shouldRender(user); });
+            return result;
+        }
+
+        function updateMenuVisibility(user, accountId) {
+            $scope.renderTopMenu = shouldRenderMenu($scope.menu, user) || !accountId;
+            $scope.$root.renderTopMenu = $scope.renderTopMenu;
         }
     }
 ]);

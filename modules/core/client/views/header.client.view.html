@@ -1,4 +1,4 @@
-<div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
+<div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !renderTopMenu">
 
   <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)">
 
@@ -39,7 +39,7 @@
       </md-select>
     </md-menu-bar>
 
-    <div class="mobile-only" ng-class="{ 'force-display': !$root.selectAccountId }">
+    <div class="signout-container mobile-only" ng-class="{ 'force-display': !$root.selectAccountId }">
       <md-button class="no-submenu-item signout" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
     </div>
   </md-toolbar>
@@ -54,7 +54,7 @@
 
 </div>
 
-<div id="mainNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !$root.selectAccountId">
+<div id="mainNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !$root.selectAccountId" ng-class="{ 'top-menu-shown': renderTopMenu }">
 
   <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="mainMenu.shouldRender(authentication.user)">
 

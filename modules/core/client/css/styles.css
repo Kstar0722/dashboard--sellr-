@@ -41,13 +41,16 @@ body.dashboard md-list .md-subheader {
   font-size: 24px;
 }
 .main-content {
-  padding-top: 0px;
+  padding-top: 0;
 }
 @media only screen and (min-width:961px) {
-  .main-content {
+  .main-content.top-menu-shown {
     padding-top: 50px;
   }
   .main-content.main-menu-shown {
+    padding-top: 120px;
+  }
+  .main-content.main-menu-shown.top-menu-shown {
     padding-top: 170px;
   }
 }
@@ -98,8 +101,7 @@ div.custom-btn:hover {
   overflow: visible;
   padding: 0;
   position: relative;
-  top: 50px;
-  transition: all .25s;
+  top: 0;
   width: 100%;
   z-index: 999;
   display: none;
@@ -331,6 +333,9 @@ div.custom-btn:hover {
 #mainNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
+#mainNav.top-menu-shown .md-toolbar-tools {
+  top: 50px;
+}
 .md-menu-bar-menu {
   padding: 0;
 }
@@ -458,7 +463,7 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools .submenus-items .md-menu {
   font-size: 16px;
 }
-#topNav .md-toolbar-tools .signout {
+#topNav .md-toolbar-tools .signout-container {
   margin-left: auto;
 }
 #topNav .md-toolbar-tools .mobile-only {
@@ -489,9 +494,11 @@ div.custom-btn:hover {
   min-width: initial;
   padding: 0 10px;
 }
+#topNav .md-toolbar-tools.mobile-menu .signout-container {
+  margin-left: 8px;
+}
 #topNav .md-toolbar-tools.mobile-menu .signout {
   margin-bottom: 15px;
-  margin-left: 8px;
 }
 #topNav .md-toolbar-tools.mobile-menu .submenus-items {
   padding: 0px 6px;
