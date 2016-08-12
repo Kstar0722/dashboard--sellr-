@@ -1,8 +1,8 @@
 'use strict'
-/* global angular, moment, _ */
+/* global angular, moment, _, localStorage*/
 angular.module('users.admin')
-  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr',
-    function ($scope, $http, $state, constants, toastr) {
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams',
+    function ($scope, $http, $state, constants, toastr, $stateParams) {
       var API_URL = constants.API_URL
       $scope.todayOrders = []
       $scope.pastOrders = []
@@ -13,6 +13,12 @@ angular.module('users.admin')
         salesTotal: 0
       }
       $scope.statsScopeLabel = 'Last 7 days'
+      var accountId = null
+      if ($stateParams.accountId) {
+        accountId = $stateParams.accountId
+      } else {
+        accountId = localStorage.getItem('accountId')
+      }
 
       $scope.changeDisplayedOrders = function () {
         $scope.showPastOrders = !$scope.showPastOrders
@@ -24,9 +30,8 @@ angular.module('users.admin')
       }
 
       function getOrders () {
-        var ordersUrl = API_URL + '/mobile/reservations/store/' + 1269
+        var ordersUrl = API_URL + '/mobile/reservations/store/' + accountId
         $http.get(ordersUrl).then(function (response) {
-          console.log('Response Orders From Store', response.data)
           var allOrders = response.data
           allOrders = _.sortBy(allOrders, 'pickupTime')
           $scope.allOrders = allOrders
@@ -34,6 +39,7 @@ angular.module('users.admin')
           $scope.pastOrders = _.filter(allOrders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
           $scope.displayOrders = $scope.todayOrders
           $scope.uiStatOrders.orders = getFilteredOrders(7)
+          console.log($scope.todayOrders)
           refreshStats()
         })
       }
