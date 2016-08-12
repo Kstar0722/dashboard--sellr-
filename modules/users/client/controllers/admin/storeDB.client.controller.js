@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
   $scope.account = undefined
   $scope.orders = []
   $scope.ordersDropdown = []
@@ -44,6 +44,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       return importStoreDb(storeDb, items).then(function (order) {
         $scope.orders.push(order);
         $scope.storeImport = null;
+        $scope.cancelCsvImport('#storeCsv');
         toastr.success('Order csv file imported');
       }, function (error) {
         toastr.error(error && error.toString() || 'Failed to import csv file');
@@ -53,33 +54,14 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     });
   };
 
-  init();
-
-  //
-  // PRIVATE FUNCTIONS
-  //
-
-  function init() {
-    var url = constants.BWS_API + '/storedb/stores'
-    $http.get(url).then(getStoresSuccess, getStoresError)
-
-    if (Authentication.user) {
-      $scope.account = {createdBy: Authentication.user.username}
-    }
-
-    //var url = constants.BWS_API + '/choose/orders';
-    //$http.get(url).then(getAvailOrderSuccess, getAvailOrderError)
-
-    var url = constants.BWS_API + '/storedb/stores';
-    $http.get(url).then(getAvailOrderSuccess, getAvailOrderError)
-  }
-
   $scope.goToMatch = function (id) {
     orderDataService.currentOrderId = id
     orderDataService.getData(id).then(function (response) {
       $state.go('editor.match', { id: id })
     })
   }
+
+  init();
 
   //
   // PRIVATE FUNCTIONS
@@ -132,7 +114,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   function selectOrCreateStore(storeId) {
-    var storeDb = _.find($scope.orders, { id: parseInt(storeId, 10) });
+    var storeDb = _.find($scope.orders, { storeId: parseInt(storeId, 10) }) || _.find($scope.orders, { name: storeId });
     if (storeDb) return $q.when(storeDb);
 
     var storeName = storeId;
@@ -146,5 +128,18 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
         return data instanceof Array ? data[0] : data;
       });
     });
+  }
+
+  function importStoreDb(storeDb, storeItems) {
+    var payload = {
+      id: storeDb.storeId,
+      items: storeItems
+    };
+
+    if (!storeDb || storeDb.length == 0) {
+      return $q.reject('no store db found in csv file');
+    }
+
+    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse);
   }
 });
