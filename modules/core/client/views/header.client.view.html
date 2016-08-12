@@ -39,7 +39,7 @@
       </md-select>
     </md-menu-bar>
 
-    <div class="mobile-only">
+    <div class="mobile-only" ng-class="{ 'force-display': !$root.selectAccountId }">
       <md-button class="no-submenu-item signout" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
     </div>
   </md-toolbar>

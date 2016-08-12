@@ -32,7 +32,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
 
         $scope.$watch('$root.selectAccountId', function (accountId) {
             $stateParams.accountId = accountId;
-            if (accountId) $state.go('.', $stateParams, {notify: false});
+            if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false});
         });
 
         $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {

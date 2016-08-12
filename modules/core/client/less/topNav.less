@@ -75,14 +75,16 @@
         font-size: 16px;
       }
     }
+    .signout {
+      margin-left: auto;
+    }
     .mobile-only {
       display: none;
 
-      .signout {
-        margin-bottom: 15px;
+      &.force-display {
+        display: block !important;
       }
     }
-
     &.mobile-menu{
       .profile-menu,
       .submenus-items,
@@ -105,6 +107,10 @@
           min-width: initial;
           padding: 0 10px;
         }
+      }
+      .signout {
+        margin-bottom: 15px;
+        margin-left: 8px;
       }
       .submenus-items{
         padding: 0px 6px;
@@ -166,6 +172,7 @@
         margin-right: 1vw;
       }
     }
+
     #profmenu {
       right: 0;
       overflow: visible;
@@ -204,7 +211,7 @@
     .account-selector {
       display: inline-block;
       height: 40px;
-      margin: 0;
+      margin: 0 1vw 0 0;
       padding-left: 10px;
       padding-top: 5px;
       position: relative;

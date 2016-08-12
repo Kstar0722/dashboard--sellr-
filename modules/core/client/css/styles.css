@@ -458,11 +458,14 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools .submenus-items .md-menu {
   font-size: 16px;
 }
+#topNav .md-toolbar-tools .signout {
+  margin-left: auto;
+}
 #topNav .md-toolbar-tools .mobile-only {
   display: none;
 }
-#topNav .md-toolbar-tools .mobile-only .signout {
-  margin-bottom: 15px;
+#topNav .md-toolbar-tools .mobile-only.force-display {
+  display: block !important;
 }
 #topNav .md-toolbar-tools.mobile-menu .profile-menu,
 #topNav .md-toolbar-tools.mobile-menu .submenus-items,
@@ -485,6 +488,10 @@ div.custom-btn:hover {
   display: inline-block;
   min-width: initial;
   padding: 0 10px;
+}
+#topNav .md-toolbar-tools.mobile-menu .signout {
+  margin-bottom: 15px;
+  margin-left: 8px;
 }
 #topNav .md-toolbar-tools.mobile-menu .submenus-items {
   padding: 0px 6px;
@@ -561,7 +568,7 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools .account-selector {
   display: inline-block;
   height: 40px;
-  margin: 0;
+  margin: 0 1vw 0 0;
   padding-left: 10px;
   padding-top: 5px;
   position: relative;
