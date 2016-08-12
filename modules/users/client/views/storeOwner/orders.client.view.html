@@ -2,88 +2,114 @@
 
   <div layout class="">
 
-    <div flex=70 class="orders-column">
+    <div flex=65 class="orders-column">
+
+
+
       <div class="orders-title" layout layout-align="start end">
         <div flex>
-          <div class="title">Today's Orders</div>
-          <div class="today-count">3</div>
+          <div class="title">{{showPastOrders ? 'Past Orders' : 'Today\'s Orders'}}</div>
+          <div class="today-count" ng-if="!showPastOrders">{{todayOrders.length || 0}}</div>
+          <div class="today-count" ng-if="showPastOrders">{{pastOrders.length || 0}}</div>
         </div>
-        <div class="right-action" flex>See Past Orders (18)</div>
+        <div class="right-action" flex ng-click="changeDisplayedOrders()" ng-if="!showPastOrders">See Past Orders ({{pastOrders.length || 0}})</div>
+        <div class="right-action" flex ng-click="changeDisplayedOrders()" ng-if="showPastOrders">See Today's Orders ({{todayOrders.length || 0}})</div>
       </div>
-      <div class="order-container" layout>
-        <div class="checkmark"><i class="fa fa-check"></i></div>
+      
+
+
+
+      <div class="order-container" layout ng-repeat="order in displayOrders">
+        <div class="checkmark" ng-click="markOrder(order)"><i class="fa fa-check" ng-if="order.status === 'pickedup'"></i></div>
         <div flex=20 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
             <div class="pickup-label">PICKUP</div>
             <div class="time">
-              2
-              <div class="subtime">PM</div>
+              {{ order.pickupTime | hour }}
+              <div class="subtime">{{ order.pickupTime | time }}</div>
             </div>
           </div>
           <div flex class="order-total" layout="column"   layout-align="end center">
-            <div class="total">$122.99</div>
+            <div class="total">{{ order.total | currency:"$" }}</div>
           </div>
         </div>
         <div flex=80 class="order-items"> 
           <div class="orders-user" layout layout-align="start end">
             <div flex>
-              Bruce Van Zyl
+              {{order.user.email}}
             </div>
-            <div class="date" flex>July 29, 2016 8:51 PM</div>
-          </div>
-    
-      
-      
-         
-          <div layout class="product-line" layout-align="start center">
-            <div flex=10 class="align-center">
-              <div class="item-slot">C2</div>
-            </div>
-            <div flex=10 class="item-qty align-center">x 3</div>
-            <div flex>
-              <div class="item-title">Chateau Mirefleur</div>
-              <div class="item-description">$12.99</div>
-            </div>          
-          </div>  
-          <div layout class="product-line" layout-align="start center">
-            <div flex=10 class="align-center">
-              <div class="item-slot">C2</div>
-            </div>
-            <div flex=10 class="item-qty align-center">x 3</div>
-            <div flex>
-              <div class="item-title">Chateau Mirefleur</div>
-              <div class="item-description">$12.99</div>
-            </div>          
-          </div>  
-          <div layout class="product-line" layout-align="start center">
-            <div flex=10 class="align-center">
-              <div class="item-slot">C2</div>
-            </div>
-            <div flex=10 class="item-qty align-center">x 3</div>
-            <div flex>
-              <div class="item-title">Chateau Mirefleur</div>
-              <div class="item-description">$12.99</div>
-            </div>          
-          </div>  
-          <div layout class="product-line" layout-align="start center">
-            <div flex=10 class="align-center">
-              <div class="item-slot">C2</div>
-            </div>
-            <div flex=10 class="item-qty align-center">x 3</div>
-            <div flex>
-              <div class="item-title">Chateau Mirefleur</div>
-              <div class="item-description">$12.99</div>
-            </div>          
+            <div class="date" flex>{{ order.created_at | customDate }}</div>
           </div>
 
-
-
+          <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
+            <div flex=10 class="align-center">
+              <div class="item-slot" ng-style="{'background-color': product.planHexColor}">{{product.slot}}</div>
+            </div>
+            <div flex=10 class="item-qty align-center">x {{product.quantity}}</div>
+            <div flex>
+              <div class="item-title">{{product.name}}</div>
+              <div class="item-description">{{ product.price | currency:"$" }}</div>
+            </div>          
+          </div>  
 
           
         </div>
       </div>
+
+
+
     </div>
-    <div flex=30 class="orders-stats">asd</div>
+    <div flex=35 class="orders-stats">
+      <div class="stats-title" layout layout-align="start end">
+        <div flex class="title">
+          Order's Stats
+        </div>
+        <div class="right-action" flex>
+          <md-menu>
+          <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button ng-click="changeOrderStatsScope(7)">
+                  Last 7 days
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="changeOrderStatsScope(15)">
+                  Last 15 days
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="changeOrderStatsScope(30)">
+                  Last 30 days
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </div>
+      </div>
+
+      <div class="stat-count">
+        {{uiStatOrders.count}}
+      </div>
+      <div class="stat-label">
+        Online Orders
+      </div>
+      <div class="stat-count">
+        {{uiStatOrders.shoppersCount}}
+      </div>
+      <div class="stat-label">
+        Online Shoppr
+      </div>
+      <div class="stat-count">
+        {{ uiStatOrders.salesTotal | currency:"$" }}
+      </div>
+      <div class="stat-label">
+        Total Sales
+      </div>
+
+
+
+    </div>
   </div>
 </section>
 

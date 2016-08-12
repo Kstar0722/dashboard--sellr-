@@ -3,14 +3,13 @@ body.storeOwner-orders{
   color: @sellrdark;
 }  
 .orders-view{
-  padding: 10vh 15vw;
+  padding: 10vh 12vw;
   .orders-stats,
   .orders-column{
-    padding: 0 1vw;
+    padding: 0 3vw;
   }
   .orders-column{
     .orders-title{  
-      color: @sellrdark;
       font-family: @brandon;
       padding-bottom: 0.5vh;
       border-bottom: 1px solid @sellrdark;      
@@ -34,20 +33,25 @@ body.storeOwner-orders{
       .right-action{
         text-align: right;
         font-size: 22px;
+        cursor: pointer;
+        line-height: 42px;
       }
     }
     .order-container{
       background-color: #fafafb;
-      margin: 3vh 0;
-      position: relative;   
+      margin: 4vh 0;
+      position: relative;  
+      border: 1px solid #f6f7f7; 
       .checkmark{
         position: absolute;
         width: 30px;
         height: 30px;
+        outline: none;
         border-radius: 5px;
         border: 2px solid @sellrdark;
         top: -5px;
         right: -5px;
+        cursor: pointer;
         .fa{
           color: @sellrgreen;
           top: -10px;
@@ -119,7 +123,7 @@ body.storeOwner-orders{
             width: 40px;
             height: 40px;
             color: #fff;
-            background-color: @red;
+            background-color: #ccc;
             border-radius: 40px;
             line-height: 40px;
             text-align: center;
@@ -146,6 +150,38 @@ body.storeOwner-orders{
           }
         }
       }
+    }
+  }
+  .orders-stats{
+    .stats-title{  
+      font-family: @brandon;
+      padding-bottom: 0.5vh;
+      line-height: 42px;
+      border-bottom: 1px solid @sellrdark;
+      padding-top: 18px;      
+      .title{
+        font-size: 32px;
+      }
+      .right-action{
+        text-align: right;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+    .stat-count{
+      font-family: @brandon;
+      font-size: 72px;
+      color: #4f5a65;
+      font-weight: bold;
+      line-height: 72px;
+      margin-top: 30px;
+    }
+    .stat-label{
+      font-size: 24px;
+      color: #4f5a65;
+      font-family: @helvetica;
+      line-height: 24px;
     }
   }
 }

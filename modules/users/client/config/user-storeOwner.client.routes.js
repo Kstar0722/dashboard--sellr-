@@ -10,8 +10,9 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
         controller: 'StoreOwnerInviteController'
       })
       .state('storeOwner.orders', {
-        url: '/orders',
-        templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html'
+        url: '/orders/:accountId',
+        templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
+        controller: 'StoreOwnerOrdersController'
       })
   }
 ])

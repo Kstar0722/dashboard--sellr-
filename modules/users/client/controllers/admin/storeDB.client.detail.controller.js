@@ -1,7 +1,7 @@
 /* globals angular */
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
-                                                                              productEditorService, Authentication, $stateParams, constants, uploadService, toastr) {
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q) {
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
@@ -13,13 +13,14 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   function onProductLoad () {
     productEditorService.productList = []
     var name = orderDataService.currentItem.name
-    var sku = orderDataService.currentItem.upc
+    var upc = orderDataService.currentItem.upc
+    var type = orderDataService.currentItem.productTypeId
     if (name) {
-      productEditorService.getProductList(name, {}).then(function (productList) {
-        productEditorService.searchSkuResults(sku, productList)
+      productEditorService.getProductList(name, { types: [ { type: type } ] }).then(function (productList) {
+        productEditorService.searchSkuResults({ upc: upc, productList: productList, type: type })
       })
     } else {
-      productEditorService.searchSkuResults(sku)
+      productEditorService.searchSkuResults({ upc: upc, type: type })
     }
   }
 
@@ -29,9 +30,9 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   }
 
   $scope.increaseIndex = function () {
-    productEditorService.productList = []
+    productEditorService.clearProductList()
     orderDataService.increaseIndex()
-    if (orderDataService.currentItem.productId === '0') {
+    if (!orderDataService.currentItem.productId) {
       onProductLoad()
     }
   }
@@ -42,11 +43,37 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
       $scope.displayIndex += 1
     })
   }
-  $scope.matchProduct = function () {
-    orderDataService.matchProduct().then(function (data) {
-      var message = data.message || ''
-      toastr.success(message, 'Product Matched')
-      $scope.increaseIndex()
+
+  $scope.showConfirm = function (ev) {
+    var defer = $q.defer()
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+      .title('Would you like to delete your debt?')
+      .textContent('All of the banks have agreed to forgive you your debts.')
+      .ariaLabel('Lucky day')
+      .targetEvent(ev)
+      .ok('Mark as New')
+      .cancel('Mark as Done')
+    $mdDialog.show(confirm).then(function () {
+      $scope.status = 'You decided to get rid of your debt.'
+      defer.resolve('new')
+    }, function () {
+      $scope.status = 'You decided to keep your debt.'
+      defer.resolve('done')
+    })
+    return defer.promise
+  }
+
+  $scope.matchProduct = function (ev) {
+    $scope.showConfirm(ev).then(function (status) {
+      orderDataService.matchProduct().then(function (selected) {
+        productEditorService.getProduct(selected).then(function (product) {
+          product.status = status
+          productEditorService.save(product)
+          toastr.success('Product Matched')
+          $scope.increaseIndex()
+        })
+      })
     })
   }
   $scope.updateFilter = function (value) {

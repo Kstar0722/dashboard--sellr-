@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, csvStoreMapper, $q) {
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
   $scope.account = undefined
   $scope.orders = []
   $scope.ordersDropdown = []
@@ -53,13 +53,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     });
   };
 
-  $scope.goToMatch = function (id) {
-    orderDataService.currentOrderId = id
-    orderDataService.getData(id).then(function (response) {
-      $state.go('editor.match', { id: id })
-    })
-  }
-
   init();
 
   //
@@ -67,6 +60,9 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   //
 
   function init() {
+    var url = constants.BWS_API + '/storedb/stores'
+    $http.get(url).then(getStoresSuccess, getStoresError)
+
     if (Authentication.user) {
       $scope.account = {createdBy: Authentication.user.username}
     }
@@ -78,7 +74,30 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     $http.get(url).then(getAvailOrderSuccess, getAvailOrderError)
   }
 
-  function getAvailOrderSuccess (response) {
+  $scope.goToMatch = function (id) {
+    orderDataService.currentOrderId = id
+    orderDataService.getData(id).then(function (response) {
+      $state.go('editor.match', { id: id })
+    })
+  }
+
+  //
+  // PRIVATE FUNCTIONS
+  //
+
+  function init() {
+    if (Authentication.user) {
+      $scope.account = {createdBy: Authentication.user.username}
+    }
+
+    //var url = constants.BWS_API + '/choose/orders';
+    //$http.get(url).then(getStoresSuccess, getStoresError)
+
+    var url = constants.BWS_API + '/storedb/stores';
+    $http.get(url).then(getStoresSuccess, getStoresError)
+  }
+
+  function getStoresSuccess (response) {
     if (response.status === 200) {
       // timeEnd('getProductList')
       $scope.orders = response.data
@@ -98,25 +117,8 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     }
   }
 
-  function getAvailOrderError (error) {
-    // #warning error is not a function
-    error('getAvailOrderError %O', error)
-  }
-
-  function importStoreDb(storeDb, storeItems) {
-    var payload = {
-      id: storeDb.id || storeDb.storeId,
-      items: storeItems
-    };
-
-    if (!storeDb || storeDb.length == 0) {
-      return $q.reject('no store db found in csv file');
-    }
-
-    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse).then(function () {
-      storeDb.storeId = storeDb.storeId || storeDb.id;
-      return storeDb;
-    });
+  function getStoresError (error) {
+    console.error('getAvailOrderError %O', error)
   }
 
   function handleResponse(response) {

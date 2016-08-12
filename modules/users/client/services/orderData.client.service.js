@@ -9,15 +9,18 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
-  return me
+
+  $rootScope.$on('clearProductList', function () {
+    me.selected = []
+  })
 
   function getData (id) {
     var defer = $q.defer()
     me.currentIndex = 0
     console.log(id)
-    var orderUrl = API_URL + '/edit/orders/' + id
+    var orderUrl = API_URL + '/storedb/stores/products?id=' + id
     $http.get(orderUrl).then(function (response) {
-      me.allItems = response.data[ 0 ].items
+      me.allItems = response.data
       me.currentItem = me.allItems[ me.currentIndex ]
       console.log('orderDataService::getData response %O', me.allItems)
       defer.resolve(me.allItems)
@@ -46,28 +49,18 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var defer = $q.defer()
     var skuUrl = API_URL + '/edit/sku'
     var payload = {
-      'payload': {
-        'duplicates': [],
-        'sku': prod.upc,
-        'publicUrl': prod.url
-      }
+      duplicates: [],
+      sku: prod.upc
+    }
+    if (prod.url) {
+      payload.publicUrl = prod.url
     }
     for (var i in selected) {
-      payload.payload.duplicates.push(selected[ i ].productId)
+      payload.duplicates.push(selected[ i ].productId)
     }
-    $http.post(skuUrl, payload).then(function (results) {
-      // now update product status in mongo
-      var updateUrl = constants.BWS_API + '/choose/orders/product/status'
-      var updatePayload = {
-        id: me.currentOrderId || $stateParams.id,
-        upc: prod.upc,
-        status: 'processed'
-      }
-      $http.put(updateUrl, { payload: updatePayload }).then(function (updateResults) {
-        defer.resolve(results.data)
-      }, function (err) {
-        console.error(err)
-      })
+    $http.post(skuUrl, { payload: payload }).then(function (results) {
+      console.log('orderDataService[matchProduct] %O', results)
+      defer.resolve(me.selected[ 0 ])
     }, function (err) {
       console.error('could not mark duplicate %O', err)
     })
@@ -78,33 +71,36 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var defer = $q.defer()
     var skuUrl = API_URL + '/edit/products'
     var payload = {
-      'payload': {
-        'name': prod.name,
-        'description': prod.description,
-        'notes': '',
-        'productTypeId': prod.type,
-        'requestedBy': 'sellr',
-        'feedback': '0',
-        'properties': [],
-        'mediaAssets': [
-          {
-            'type': 'RESEARCH_IMG',
-            'fileName': '',
-            'script': null,
-            'publicUrl': prod.url
-          }
-        ],
-        'skus': [
-          prod.upc
-        ]
-      }
+      name: prod.name,
+      description: prod.description,
+      notes: '',
+      productTypeId: prod.type,
+      requestedBy: 'sellr',
+      feedback: '0',
+      properties: [],
+      mediaAssets: [],
+      'skus': [
+        prod.upc
+      ]
+    }
+    if (prod.url) {
+      payload.mediaAssets.push({
+        'type': 'RESEARCH_IMG',
+        'fileName': '',
+        'script': null,
+        'publicUrl': prod.url
+      })
     }
     console.log(payload)
-    $http.post(skuUrl, payload).then(function (skuItems) {
-      if (skuItems) {
-        defer.resolve(skuItems)
-      }
+    $http.post(skuUrl, { payload: payload }).then(function (response) {
+      console.log('orderDataService[createNewProduct] %O', response)
+      defer.resolve(response)
+    }, function (err) {
+      console.error('orderDataService[createNewProduct] %O', err)
+      defer.reject(err)
     })
     return defer.promise
   }
+
+  return me
 })
