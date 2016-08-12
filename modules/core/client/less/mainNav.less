@@ -5,6 +5,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     color: white;
+    display: none;
     font-size: 100%;
     height: auto;
     left: 0;
@@ -14,16 +15,14 @@
     padding: 0;
     position: relative;
     top: 0;
-    //transition: all .25s;
     width: 100%;
     z-index: 999;
-    display: none;
 
     > * {
       height: 100%;
     }
 
-    // Mobile Menu
+    // Desktop Menu
     @media @large-up {
       display: flex;
       position: fixed !important;
@@ -31,38 +30,18 @@
       height: @mainnavheight;
       max-height: @mainnavheight;
     }
-    .mobile-menu-icon{
-      display: block;
-      padding: 0px 15px;
-      font-size: 30px;
-      cursor: pointer;
-      min-height: @mobileNavheight;
-      height: @mobileNavheight;
-      max-height: @mobileNavheight;
-      line-height: @mobileNavheight;
-      width: 100%;
-      outline: none !important;
-      img{
-        width: 70px;
-        float: right;
-        opacity: .25;
-        padding-top: 12px;
-      }
-      @media @large-up {
-        display: none;
-      }
-    }
+    
     .brand,
     .profile-menu,
     .submenus-items,
-    .no-submenu-item{
+    .no-submenu-item {
       display: none;
       @media @large-up {
         display: flex;
       }
     }
 
-    .no-submenu-item{
+    .no-submenu-item {
       border-radius: 0;
       box-shadow: none;
       color: @med-grey;
@@ -112,40 +91,10 @@
       width: 50px;
     }
 
-    .submenus-items{
-      padding: 0px;
-      .md-menu{
+    .submenus-items {
+      padding: 0;
+      .md-menu {
         font-size: 16px;
-      }
-    }
-
-    &.mobile-menu{
-      .profile-menu,
-      .submenus-items,
-      .no-submenu-item{
-        display: block;        
-      }     
-      .profile-menu{
-        margin: 10px 0px;
-        padding: 10px 0px;
-        margin-left: 6px;
-        border-top: 1px solid @grey-dark-text;
-        .md-button{
-          text-align: left;
-        }
-      }
-      .submenus-items{
-        padding: 0px 6px;
-        .md-menu{
-          display: block;
-          font-size: 16px;
-        }
-      }
-      .no-submenu-item {
-        // remove triangle
-        &::after {
-          display: none;
-        }
       }
     }
 
@@ -168,19 +117,19 @@
       height: @mainnavheight;
       width: @mainnavheight;
     }
+
     &:hover {
       width: 100%;
     }
-    .md-toolbar-tools {
 
+    .md-toolbar-tools {
       margin: 0 auto;
       padding: 0;
       //background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
       //background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
       //background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
-
-
     }
+
     .md-menu {
       right: 0;
       overflow: visible;
@@ -190,27 +139,12 @@
         font-size: 1em;
       }
     }
-    #profmenu {
-      right: 0;
-      overflow: visible;
-      z-index: 9999;
-    }
 
-    #profbutton {
-      padding-right: 10vh;
-      overflow: visible;
-      z-index: inherit;
-
-      .md-button {
-        text-transform: none;
-      }
-
-      img {
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-      }
-    }
+    //#profmenu {
+    //  right: 0;
+    //  overflow: visible;
+    //  z-index: 9999;
+    //}
 
     #accountMenu {
       border-radius: 0;
@@ -254,20 +188,6 @@
       }
     }
 
-    #pagebutton {
-      margin-top: 3vh;
-      display: inline-block;
-
-      .md-button {
-        text-transform: none;
-        font-size: 16px;
-        margin: 6px 0;
-        &:hover {
-          color: @pink;
-          background-color: transparent;
-        }
-      }
-    }
     md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
       background-color: transparent;
     }
@@ -280,35 +200,18 @@
   }
 }
 
-.md-menu-bar-menu {
-  padding: 0;
-  &.md-dense md-menu-item {
-    padding-left: 20px;
-    color: @sellrdark;
-    line-height: 48px;
-    height: auto;
-
-    &:hover {
-      color: @sellrgreen;
-      background: @light-grey;
-      cursor: pointer;
-    }
-  }
-}
-
 .md-open-menu-container {
   box-shadow: none;
-  z-index: 1000;
 
   #profmenu {
     border-radius: 3px;
     border: 1px solid @med-grey;
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 0 4px 0 rgba(255,255,255,0.7);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 0 4px 0 rgba(255, 255, 255, 0.7);
+    left: -8px;
     margin-top: 35px;
     padding: 15px;
     position: relative;
     right: 22px;
-    left: -8px;
 
     &, .md-focused {
       background: #fafafa;
