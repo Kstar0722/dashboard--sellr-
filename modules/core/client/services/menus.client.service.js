@@ -174,13 +174,8 @@ angular.module('core').service('Menus', [
     this.addMenu('editor', {
       roles: [ 1010 ]
     });
-
-    // redesigned menus
     this.addMenu('main', {
       roles: [ 1004, 1003 ]
-    });
-    this.addMenu('top', {
-      roles: [ 1010 ]
     });
   }
 ]);
