@@ -2,8 +2,9 @@
 angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
   $scope.account = undefined
   $scope.orders = []
-  $scope.ordersDropdown = []
   $scope.orderItems = []
+  $scope.storesDropdown = []
+  $scope.importCsvView = null;
 
   // selectize control options
   $scope.selectStoreConfig = {
@@ -17,6 +18,25 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     searchField: ['name', 'storeId']
   };
 
+  // selectize control options
+  $scope.selectStoreFieldConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'code',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: ['name']
+  };
+
+  $scope.csvColumns = ['col1', 'description', 'sku', 'name'];
+  $scope.storeFields = ['name', 'type', 'upc', 'description'].map(function (v) {
+    return { name: toPascalCase(v), code: v };
+  });
+  $scope.storeFields.unshift({ name: '- Ignore Field', code: '-' });
+
+  //storeFieldsDropdown
+
   $scope.selectCsvImport = function (selector) {
     $(selector).find('input[type="file"]').click();
   };
@@ -29,7 +49,8 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
   // callback for csv import plugin
   $scope.selectStore = function (e) {
-    console.log('csv file selected');
+    $scope.importCsvView = 'select-store';
+    //console.log('csv file selected');
   };
 
   $scope.submitStore = function (selectedStore) {
@@ -83,7 +104,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     if (response.status === 200) {
       // timeEnd('getProductList')
       $scope.orders = response.data
-      $scope.ordersDropdown = angular.copy($scope.orders);
+      $scope.storesDropdown = angular.copy($scope.orders);
       console.log($scope.orders)
       _.each($scope.orders, function (elm, ind, orders) {
         if (elm.status.received > 0) {
@@ -141,5 +162,12 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     }
 
     return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse);
+  }
+
+  function toPascalCase(str) {
+    if (!str) return str;
+    var words = _.compact(str.split(/\s+/));
+    var result = words.map(function (w) { return w[0].toUpperCase() + w.substr(1); }).join(' ');
+    return result;
   }
 });

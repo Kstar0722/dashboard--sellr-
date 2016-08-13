@@ -1625,10 +1625,12 @@ body .productEditor .loading-data .right {
   }
 }
 .store-client-view {
-  text-align: center;
   margin: 20px auto 40px;
   font-size: 16px;
   color: #5a5c5d;
+}
+.store-client-view .orders-container {
+  text-align: center;
 }
 .store-client-view .orders-header {
   text-align: left;
@@ -1774,7 +1776,6 @@ body .productEditor .loading-data .right {
 .store-client-view .header .selectize-control {
   display: inline-block;
   margin-right: 20px;
-  text-align: left;
   width: 220px;
 }
 .store-client-view .header .selectize-input {
@@ -1792,6 +1793,124 @@ body .productEditor .loading-data .right {
 .store-client-view .header[disabled] button,
 .store-client-view .header[disabled] .md-button {
   opacity: 0.7;
+}
+.store-client-view .import-wizard {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
+  max-width: 800px;
+  text-align: center;
+}
+.store-client-view .import-wizard[disabled] {
+  cursor: progress;
+}
+.store-client-view .import-wizard[disabled] > * {
+  pointer-events: none;
+}
+.store-client-view .import-wizard[disabled] a,
+.store-client-view .import-wizard[disabled] button,
+.store-client-view .import-wizard[disabled] .md-button {
+  opacity: 0.7;
+}
+.store-client-view .import-wizard > * {
+  text-align: left;
+  display: inline-block;
+}
+.store-client-view .import-wizard .toolbar {
+  margin: 40px -8px;
+}
+.store-client-view .import-wizard .toolbar .md-button {
+  padding: 2px 15px;
+}
+.store-client-view .import-wizard .md-button {
+  background: #8D9AA5;
+  border-radius: 0;
+  color: #ffffff;
+  line-height: 25px;
+  min-height: initial;
+  text-transform: none;
+}
+.store-client-view .import-wizard .md-button.green {
+  background: #2DC89A;
+  border: 1px solid #2DC89A;
+}
+.store-client-view .import-wizard .md-button.cancel {
+  background: transparent;
+  border: 1px solid #8D9AA5;
+  color: #8D9AA5;
+  float: left;
+}
+.store-client-view .import-wizard .md-button.next {
+  background: #2DC89A;
+  float: right;
+}
+.store-client-view .import-wizard .upload-file {
+  text-align: center;
+}
+.store-client-view .import-wizard .upload-file h2,
+.store-client-view .import-wizard .upload-file h3 {
+  color: #9e9e9e;
+}
+.store-client-view .import-wizard .upload-file .select-file.md-button {
+  background: #9e9e9e;
+  color: #ffffff;
+}
+.store-client-view .import-wizard .upload-file .selectize-control {
+  text-align: left;
+}
+.store-client-view .import-wizard .upload-file .selectize-control .selectize-input {
+  padding: 4px;
+}
+.store-client-view .import-wizard .upload-file #storeCsv {
+  display: none;
+}
+.store-client-view .import-wizard .configure .step-header {
+  color: #8D9AA5;
+  left: 50px;
+  max-width: 280px;
+  position: absolute;
+  top: 200px;
+}
+.store-client-view .import-wizard .configure .step-header div {
+  font-size: 0.9em;
+}
+.store-client-view .import-wizard .configure .first-row {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.store-client-view .import-wizard .configure .column-mapping > * {
+  display: inline-block;
+  height: 30px;
+  margin-bottom: 10px;
+}
+.store-client-view .import-wizard .configure .column-mapping .col-name {
+  min-width: 180px;
+  position: relative;
+  text-align: center;
+  top: -5px;
+}
+.store-client-view .import-wizard .configure .column-mapping i.fa {
+  margin-right: 20px;
+}
+.store-client-view .import-wizard .configure .column-mapping .selectize-control {
+  top: 2px;
+  width: 200px;
+}
+.store-client-view .import-wizard .configure .column-mapping .selectize-control .selectize-input {
+  padding: 4px;
+}
+.store-client-view .import-wizard .confirm {
+  color: #9e9e9e;
+  margin: auto;
+  max-width: 400px;
+  text-align: center;
+}
+.store-client-view .import-wizard .confirm .toolbar {
+  display: inline-block;
+  margin: 0 -8px;
+}
+.store-client-view .import-wizard .confirm .toolbar .green {
+  margin-left: 30px;
 }
 .createProduct {
   padding: 8%;
