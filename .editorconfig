@@ -10,8 +10,6 @@ root = true
 [**]
 end_of_line = lf
 insert_final_newline = true
-indent_style = space
-indent_size = 4
 
 # Standard at: https://github.com/felixge/node-style-guide
 [**.js, **.json]
@@ -26,7 +24,7 @@ space_after_anonymous_functions = false
 spaces_in_brackets = false
 
 # No Standard.  Please document a standard if different from .js
-[**.yml, **.html, **.css]
+[**.yml, **.html, **.css, **.less]
 trim_trailing_whitespace = true
 indent_size = 4
 

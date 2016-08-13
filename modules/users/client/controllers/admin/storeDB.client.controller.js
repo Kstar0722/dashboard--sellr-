@@ -1,10 +1,15 @@
 /* globals angular, _ */
 angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
+  var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME;
+  var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS;
+
   $scope.account = undefined
   $scope.orders = []
   $scope.orderItems = []
   $scope.storesDropdown = []
-  $scope.importCsvView = null;
+  $scope.importView = null;
+  $scope.storeFields = null;
+  $scope.csv = { header: true };
 
   // selectize control options
   $scope.selectStoreConfig = {
@@ -23,50 +28,46 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     create: false,
     maxItems: 1,
     allowEmptyOption: false,
-    valueField: 'code',
-    labelField: 'name',
-    sortField: 'name',
-    searchField: ['name']
+    valueField: 'name',
+    labelField: 'displayName',
+    sortField: 'displayName',
+    searchField: ['displayName'],
+    onDropdownOpen: function ($dropdown) {
+      console.log($dropdown);
+    }
   };
-
-  $scope.csvColumns = ['col1', 'description', 'sku', 'name'];
-  $scope.storeFields = ['name', 'type', 'upc', 'description'].map(function (v) {
-    return { name: toPascalCase(v), code: v };
-  });
-  $scope.storeFields.unshift({ name: '- Ignore Field', code: '-' });
-
-  //storeFieldsDropdown
 
   $scope.selectCsvImport = function (selector) {
     $(selector).find('input[type="file"]').click();
   };
 
   $scope.cancelCsvImport = function (selector) {
-    $scope.storeImport = null;
+    $scope.csv = { header: true };
     var $input = $(selector).find('input[type="file"]');
     $input.replaceWith($input.val('').clone(true)); // reset selected file
   };
 
   // callback for csv import plugin
-  $scope.selectStore = function (e) {
-    $scope.importCsvView = 'select-store';
-    //console.log('csv file selected');
+  $scope.initCsvImport = function (e) {
+    $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[0]));
+    $scope.csv.loaded = true;
+    console.log('csv file selected', $scope.csv);
   };
 
   $scope.submitStore = function (selectedStore) {
     if (!selectedStore) {
-      toastr.info('select store from the dropdown');
+      toastr.error('store not selected');
       return;
     }
 
     $scope.storeSubmitBusy = true;
-    selectOrCreateStore(selectedStore).then(function (storeDb) {
-      var items = csvStoreMapper.map($scope.storeImport);
-      return importStoreDb(storeDb, items).then(function (order) {
-        $scope.orders.push(order);
-        $scope.storeImport = null;
-        $scope.cancelCsvImport('#storeCsv');
-        toastr.success('Order csv file imported');
+    selectOrCreateStore(selectedStore).then(function (store) {
+      var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns);
+      return importStoreProducts(store, products).then(function (store) {
+        debugger;
+        $scope.orders.push(store);
+        $scope.cancelImport();
+        toastr.success('Store csv file imported');
       }, function (error) {
         toastr.error(error && error.toString() || 'Failed to import csv file');
       });
@@ -75,12 +76,28 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     });
   };
 
+  $scope.cancelImport = function () {
+    $scope.selectedStore = null;
+    $scope.importView = null;
+    $scope.cancelCsvImport('#storeCsv');
+  };
+
   $scope.goToMatch = function (id) {
     orderDataService.currentOrderId = id
     orderDataService.getData(id).then(function (response) {
       $state.go('editor.match', { id: id })
     })
   }
+
+  $scope.$watch('csv.header', function () {
+    $scope.csv.loaded = false;
+    // trigger csv.result recalculating out of digest cycle (specific to angular-csv-import flow)
+    setTimeout(function () {
+      $('#storeCsv').find('.separator-input').triggerHandler('keyup');
+      $scope.csv.loaded = true;
+      $scope.$digest();
+    });
+  });
 
   init();
 
@@ -93,11 +110,13 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $scope.account = {createdBy: Authentication.user.username}
     }
 
-    //var url = constants.BWS_API + '/choose/orders';
-    //$http.get(url).then(getStoresSuccess, getStoresError)
+    $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS);
+    $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' });
+
+    $scope.csv.columns = initCsvColumns(['col1', 'description', 'sku', 'name']);
 
     var url = constants.BWS_API + '/storedb/stores';
-    $http.get(url).then(getStoresSuccess, getStoresError)
+    $http.get(url).then(getStoresSuccess, getStoresError);
   }
 
   function getStoresSuccess (response) {
@@ -121,7 +140,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   function getStoresError (error) {
-    console.error('getAvailOrderError %O', error)
+    console.error('getStoresError %O', error)
   }
 
   function handleResponse(response) {
@@ -141,17 +160,15 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     var storeName = storeId;
     var payload = {
       accountId: localStorage.getItem('accountId'),
-      name: storeName
+      name: storeName.trim()
     };
 
     return $http.post(constants.BWS_API + '/storedb/stores', { payload: payload }).then(handleResponse).then(function (data) {
-      return $http.get(constants.BWS_API + '/storedb/stores/' + data.storeId).then(handleResponse).then(function (data) {
-        return data instanceof Array ? data[0] : data;
-      });
+      return getStoreById(data.storeId);
     });
   }
 
-  function importStoreDb(storeDb, storeItems) {
+  function importStoreProducts(storeDb, storeItems) {
     var payload = {
       id: storeDb.storeId,
       items: storeItems
@@ -161,7 +178,15 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       return $q.reject('no store db found in csv file');
     }
 
-    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse);
+    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse).then(function () {
+      return getStoreById(storeDb.storeId);
+    });
+  }
+
+  function getStoreById(id) {
+    return $http.get(constants.BWS_API + '/storedb/stores/' + id).then(handleResponse).then(function (data) {
+      return data instanceof Array ? data[0] : data;
+    });
   }
 
   function toPascalCase(str) {
@@ -169,5 +194,28 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     var words = _.compact(str.split(/\s+/));
     var result = words.map(function (w) { return w[0].toUpperCase() + w.substr(1); }).join(' ');
     return result;
+  }
+
+  function initCsvColumns(columns) {
+    columns = wrapFields(columns);
+    _.each(columns, function (col) {
+      col.selectConfig = angular.copy($scope.selectStoreFieldConfig);
+      col.mapping = mapStoreField(col.name).name;
+    });
+    return columns;
+  }
+
+  function mapStoreField(column) {
+    var cUpper = column && column.toUpperCase();
+    var field = cUpper && _.find($scope.storeFields, function (f) {
+      return cUpper == f.name.toUpperCase() || cUpper == f.displayName.toUpperCase();
+    });
+    return field || _.findWhere($scope.storeFields, { name: EMPTY_FIELD_NAME });
+  }
+
+  function wrapFields(fields) {
+    return _.map(fields, function (v) {
+      return { name: v, displayName: toPascalCase(v) };
+    });
   }
 });

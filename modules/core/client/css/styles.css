@@ -1751,84 +1751,40 @@ body .productEditor .loading-data .right {
   font-size: 1.5em;
   bottom: -1.6em;
 }
+.store-client-view .md-button {
+  border-radius: 0;
+  line-height: 25px;
+  min-height: initial;
+  text-transform: none;
+}
+.store-client-view .md-button.upload-csv {
+  background: #8D9AA5;
+  color: #ffffff;
+}
 .store-client-view .header {
   border-bottom: 1px solid #8D9AA5;
   margin-bottom: 40px;
   padding: 0 10vw 10px;
   text-align: right;
 }
-.store-client-view .header .md-button {
-  border-radius: 0;
-  line-height: 25px;
-  min-height: initial;
-  text-transform: none;
-}
-.store-client-view .header #storeCsv {
-  display: none;
-}
-.store-client-view .header .upload-csv.md-button {
-  background: #8D9AA5;
-  color: #ffffff;
-}
-.store-client-view .header .cancel.md-button {
-  background: #DFE3EB;
-}
-.store-client-view .header .selectize-control {
-  display: inline-block;
-  margin-right: 20px;
-  width: 220px;
-}
-.store-client-view .header .selectize-input {
-  line-height: 25px;
-  padding: 0 5px;
-  top: 8px;
-}
-.store-client-view .header[disabled] {
-  cursor: progress;
-}
-.store-client-view .header[disabled] > * {
-  pointer-events: none;
-}
-.store-client-view .header[disabled] a,
-.store-client-view .header[disabled] button,
-.store-client-view .header[disabled] .md-button {
-  opacity: 0.7;
-}
 .store-client-view .import-wizard {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 15vh;
   max-width: 800px;
   text-align: center;
 }
-.store-client-view .import-wizard[disabled] {
-  cursor: progress;
-}
-.store-client-view .import-wizard[disabled] > * {
-  pointer-events: none;
-}
-.store-client-view .import-wizard[disabled] a,
-.store-client-view .import-wizard[disabled] button,
-.store-client-view .import-wizard[disabled] .md-button {
-  opacity: 0.7;
+@media only screen and (min-width:961px) {
+  .store-client-view .import-wizard {
+    margin-top: 15vh;
+  }
 }
 .store-client-view .import-wizard > * {
   text-align: left;
   display: inline-block;
 }
-.store-client-view .import-wizard .toolbar {
-  margin: 40px -8px;
-}
-.store-client-view .import-wizard .toolbar .md-button {
-  padding: 2px 15px;
-}
 .store-client-view .import-wizard .md-button {
   background: #8D9AA5;
-  border-radius: 0;
   color: #ffffff;
-  line-height: 25px;
-  min-height: initial;
-  text-transform: none;
 }
 .store-client-view .import-wizard .md-button.green {
   background: #2DC89A;
@@ -1844,6 +1800,15 @@ body .productEditor .loading-data .right {
   background: #2DC89A;
   float: right;
 }
+.store-client-view .import-wizard .md-button[disabled] {
+  background: #DFE3EB;
+}
+.store-client-view .import-wizard .toolbar {
+  margin: 40px -8px;
+}
+.store-client-view .import-wizard .toolbar .md-button {
+  padding: 2px 15px;
+}
 .store-client-view .import-wizard .upload-file {
   text-align: center;
 }
@@ -1854,6 +1819,7 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .upload-file .select-file.md-button {
   background: #9e9e9e;
   color: #ffffff;
+  margin-bottom: 40px;
 }
 .store-client-view .import-wizard .upload-file .selectize-control {
   text-align: left;
@@ -1866,13 +1832,21 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .import-wizard .configure .step-header {
   color: #8D9AA5;
-  left: 50px;
   max-width: 280px;
-  position: absolute;
-  top: 200px;
+  margin: 0 auto 40px auto;
+  text-align: center;
 }
 .store-client-view .import-wizard .configure .step-header div {
   font-size: 0.9em;
+}
+@media only screen and (min-width:961px) {
+  .store-client-view .import-wizard .configure .step-header {
+    left: 50px;
+    margin: 0;
+    position: absolute;
+    text-align: left;
+    top: 200px;
+  }
 }
 .store-client-view .import-wizard .configure .first-row {
   margin-bottom: 30px;
@@ -1911,6 +1885,17 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .import-wizard .confirm .toolbar .green {
   margin-left: 30px;
+}
+.store-client-view .import-wizard[disabled] {
+  cursor: progress;
+}
+.store-client-view .import-wizard[disabled] > * {
+  pointer-events: none;
+}
+.store-client-view .import-wizard[disabled] a,
+.store-client-view .import-wizard[disabled] button,
+.store-client-view .import-wizard[disabled] .md-button {
+  opacity: 0.7;
 }
 .createProduct {
   padding: 8%;

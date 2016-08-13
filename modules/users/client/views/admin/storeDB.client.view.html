@@ -1,94 +1,14 @@
 <div class="store-client-view">
-  <!--<div class="header" ng-hide="importCsvView">
-    <md-button class="upload-csv" ng-click="selectCsvImport('#storeCsv')">
-      + Upload
-    </md-button>
-    <ng-csv-import id="storeCsv"
-                   result="storeImport"
-                   header="true"
-                   separator="','"
-                   accept="'.csv'"
-                   acceptSize="4194304"
-                   callback="selectStore"></ng-csv-import>
-  </div>
-  <form class="header" ng-show="storeImport" ng-disabled="storeSubmitBusy" novalidate autocomplete="off">
-    <selectize config="selectStoreConfig" options="ordersDropdown" ng-model="selectedStore" placeholder="Select or create store"></selectize>
-    <md-button class="upload-csv" ng-click="!storeSubmitBusy && submitStore(selectedStore)">Submit</md-button>
-    <md-button class="md-warn cancel" ng-click="!storeSubmitBusy && cancelCsvImport('#storeCsv')">Cancel</md-button>
-  </form>-->
-
     <div class="header">
-        <md-button class="upload-csv" ng-click="importView = 'upload_file'">
+        <md-button class="upload-csv" ng-click="cancelImport(); importView = 'upload_file'">
             + Upload
         </md-button>
     </div>
 
-    <div class="import-wizard" ng-show="importView" ng-disabled="storeSubmitBusy">
-        <div class="upload-file" ng-show="importView == 'upload_file'">
-            <h2>Upload a CSV of your products</h2>
-            <div ng-if="storeImport">
-                {{storeImport.filename}} ({{storeImport.length}} items)
-            </div>
-            <md-button class="select-file" ng-click="selectCsvImport('#storeCsv')">
-                Select File
-            </md-button>
-            <ng-csv-import id="storeCsv"
-                           result="storeImport"
-                           header="true"
-                           separator="','"
-                           accept="'.csv'"
-                           acceptSize="4194304"
-                           callback="selectStore"></ng-csv-import>
-
-            <br><br>
-            <h2>To the following store:</h2>
-            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store"></selectize>
-
-            <div class="toolbar">
-                <md-button class="next" ng-click="importView = 'configure'">
-                    Next Step
-                </md-button>
-            </div>
-        </div>
-        <div class="configure" ng-show="importView == 'configure'">
-            <div class="step-header">
-                <h1>Configure your Import</h1>
-                <div>Tell us which fields you would like to match and which you would like to create.</div>
-            </div>
-            <form novalidate autocomplete="off">
-                <div class="form-group first-row">
-                    <input type="checkbox" class="form-control" id="firstRowTitles">
-                    <label for="firstRowTitles">First row is used for titles</label>
-                </div>
-                <div class="column-mapping form-group" ng-repeat="column in csvColumns">
-                    <span class="col-name">{{column}}</span>
-                    <i class="fa fa-long-arrow-right fa-2x"></i>
-                    <selectize config="selectStoreFieldConfig" options="storeFields" ng-model="column.mapping">
-                        <!--<option value="">- Ignore Field</option>-->
-                    </selectize>
-                </div>
-                <div class="toolbar">
-                    <md-button class="cancel" ng-click="importView = null">Cancel Import</md-button>
-                    <md-button class="next" ng-click="importView = 'confirm'">Next Step</md-button>
-                </div>
-            </form>
-        </div>
-        <div class="confirm" ng-show="importView == 'confirm'">
-            <h1>
-                Confirm Import
-                <span ng-if="storeImport.length">of {{storeImport.length}} items</span>
-            </h1>
-            <div class="toolbar">
-                <md-button class="cancel" ng-click="importView = null">Cancel Import</md-button>
-                <md-button class="green" ng-click="submitStore(selectedStore)">Import Items</md-button>
-            </div>
-        </div>
-    </div>
-
-    <div class="orders-container">
-        <div layout class="orders-header" ng-show="!importView">
+    <div class="orders-container" ng-show="!importView">
+        <div layout class="orders-header">
             <div flex=10 class="align-center">#</div>
-            <div flex=30>Account</div>
+            <div flex=30>Store</div>
             <div flex=10 class="align-center">Received</div>
             <div flex=10 class="align-center">Processed</div>
             <div flex=10 class="align-center">Done</div>
@@ -97,7 +17,6 @@
             <div flex=10 class="align-center">Status</div>
         </div>
         <div layout layout-align="center center" class="orders-body"
-             ng-show="!importView"
              ng-repeat="store in orders | orderBy:'-status.received'"
              ng-click="goToMatch(store.storeId)">
             <div flex=10 class="align-center">{{store.storeId}}</div>
@@ -109,6 +28,66 @@
             <div flex=10 class="align-center">{{store.status.total}}</div>
             <div flex=10 class="align-center">
                 <div ng-class="'status-bar ' + store.status.barClass"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="import-wizard" ng-show="importView" ng-disabled="storeSubmitBusy">
+        <div class="upload-file" ng-show="importView == 'upload_file'">
+            <h2>Upload a CSV of your products</h2>
+            <div ng-if="csv.result">
+                {{csv.result.filename}} ({{csv.result.length}} items)
+            </div>
+            <md-button class="select-file" ng-click="selectCsvImport('#storeCsv')">
+                Select File
+            </md-button>
+            <ng-csv-import id="storeCsv"
+                           result="csv.result"
+                           header="csv.header"
+                           separator="','"
+                           accept="'.csv'"
+                           acceptSize="4194304"
+                           callback="initCsvImport"></ng-csv-import>
+
+            <h2>To the following store:</h2>
+            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store">
+            </selectize>
+
+            <div class="toolbar">
+                <md-button class="next" ng-click="importView = 'configure'" ng-disabled="!csv.result || !selectedStore">
+                    Next Step
+                </md-button>
+            </div>
+        </div>
+        <div class="configure" ng-show="importView == 'configure'">
+            <div class="step-header">
+                <h1>Configure your Import</h1>
+                <div>Tell us which fields you would like to match and which you would like to create.</div>
+            </div>
+            <form novalidate autocomplete="off">
+                <div class="form-group first-row">
+                    <input type="checkbox" class="form-control" id="firstRowTitles" ng-model="csv.header">
+                    <label for="firstRowTitles">First row is used for titles</label>
+                </div>
+                <div class="column-mapping form-group" ng-repeat="column in csv.columns">
+                    <span class="col-name">{{csv.header && csv.loaded ? column.name : 'Column' + ($index+1)}}</span>
+                    <i class="fa fa-long-arrow-right fa-2x"></i>
+                    <selectize config="column.selectConfig || selectStoreFieldConfig" options="storeFields" ng-model="column.mapping"></selectize>
+                </div>
+                <div class="toolbar">
+                    <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
+                    <md-button class="next" ng-click="importView = 'confirm'">Next Step</md-button>
+                </div>
+            </form>
+        </div>
+        <div class="confirm" ng-show="importView == 'confirm'">
+            <h1>
+                Confirm Import
+                <span ng-if="csv.result.length">of {{csv.result.length}} items</span>
+            </h1>
+            <div class="toolbar">
+                <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
+                <md-button class="green" ng-click="submitStore(selectedStore)">Import Items</md-button>
             </div>
         </div>
     </div>
