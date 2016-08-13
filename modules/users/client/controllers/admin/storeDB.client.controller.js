@@ -32,8 +32,8 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     labelField: 'displayName',
     sortField: 'displayName',
     searchField: ['displayName'],
-    onDropdownOpen: function ($dropdown) {
-      console.log($dropdown);
+    onChange: function () {
+      populateMappingDropdowns($scope.csv.columns);
     }
   };
 
@@ -50,6 +50,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   // callback for csv import plugin
   $scope.initCsvImport = function (e) {
     $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[0]));
+    populateMappingDropdowns($scope.csv.columns);
     $scope.csv.loaded = true;
     console.log('csv file selected', $scope.csv);
   };
@@ -64,7 +65,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     selectOrCreateStore(selectedStore).then(function (store) {
       var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns);
       return importStoreProducts(store, products).then(function (store) {
-        debugger;
         $scope.orders.push(store);
         $scope.cancelImport();
         toastr.success('Store csv file imported');
@@ -113,8 +113,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS);
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' });
 
-    $scope.csv.columns = initCsvColumns(['col1', 'description', 'sku', 'name']);
-
     var url = constants.BWS_API + '/storedb/stores';
     $http.get(url).then(getStoresSuccess, getStoresError);
   }
@@ -123,7 +121,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     if (response.status === 200) {
       // timeEnd('getProductList')
       $scope.orders = response.data
-      $scope.storesDropdown = angular.copy($scope.orders);
+      $scope.storesDropdown = $scope.orders.slice();
       console.log($scope.orders)
       _.each($scope.orders, function (elm, ind, orders) {
         if (elm.status.received > 0) {
@@ -198,10 +196,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
   function initCsvColumns(columns) {
     columns = wrapFields(columns);
-    _.each(columns, function (col) {
-      col.selectConfig = angular.copy($scope.selectStoreFieldConfig);
-      col.mapping = mapStoreField(col.name).name;
-    });
+    _.each(columns, function (col) { col.mapping = mapStoreField(col.name).name; });
     return columns;
   }
 
@@ -217,5 +212,19 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     return _.map(fields, function (v) {
       return { name: v, displayName: toPascalCase(v) };
     });
+  }
+
+  function populateMappingDropdowns(columns) {
+    var selectedMappings = _.pluck(columns, 'mapping');
+    var availableFields = _.filter($scope.storeFields, function (f) {
+      return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name);
+    });
+    _.each(columns, function (column) {
+      column.availableFields = availableFields.slice();
+      var field = _.findWhere($scope.storeFields, { name: column.mapping });
+      column.availableFields.push(field);
+    });
+    if (!$scope.$$phase) $scope.$digest();
+    return availableFields;
   }
 });
