@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService) {
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI',
+  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI) {
     $scope.reset = false;
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
@@ -116,6 +116,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('userObject', JSON.stringify(response.data));
       $scope.authentication.user = response.data;
+      SocketAPI.connect();
 
       if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
         if ($scope.authentication.user.roles.indexOf(1010) >= 0) {

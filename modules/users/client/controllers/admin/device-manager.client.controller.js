@@ -27,7 +27,6 @@ angular.module('users.admin').controller('DeviceManagerController', ['$scope', '
             $scope.specificLoc = [];
 
             console.log('state params %O', $stateParams)
-            //$scope.selectAccountId = $stateParams.accountId;
             $scope.sources = [];
             $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function (res, err) {
                 if (err) {

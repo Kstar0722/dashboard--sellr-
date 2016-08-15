@@ -1,4 +1,4 @@
-<section class="orders-view">
+<section class="orders-view" ng-init="init()">
 
   <div layout class="">
 
@@ -20,7 +20,10 @@
 
 
       <div class="order-container" layout ng-repeat="order in displayOrders">
-        <div class="checkmark" ng-click="markOrder(order)"><i class="fa fa-check" ng-if="order.status === 'pickedup'"></i></div>
+        <div class="checkmark" ng-click="markOrder(order)">
+        <i class="fa fa-check" ng-if="order.status === 'Complete'"></i>
+        <i class="fa fa-shopping-basket" ng-if="order.status === 'Ready for Pickup'"></i>
+        </div>
         <div flex=20 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
             <div class="pickup-label">PICKUP</div>

@@ -14,12 +14,6 @@ body.dashboard {
 body.dashboard .content {
   position: absolute;
   width: 100vw;
-  top: 64px;
-}
-@media only screen and (min-width:961px) {
-  body.dashboard .content {
-    top: 120px;
-  }
 }
 body.dashboard .content .titlebar {
   background: #1f2532;
@@ -47,11 +41,17 @@ body.dashboard md-list .md-subheader {
   font-size: 24px;
 }
 .main-content {
-  padding-top: 0px;
+  padding-top: 0;
 }
 @media only screen and (min-width:961px) {
-  .main-content {
+  .main-content.top-menu-shown {
+    padding-top: 50px;
+  }
+  .main-content.main-menu-shown {
     padding-top: 120px;
+  }
+  .main-content.main-menu-shown.top-menu-shown {
+    padding-top: 170px;
   }
 }
 .clearfix-container:after {
@@ -87,8 +87,209 @@ div.custom-btn:hover {
   margin-left: auto;
   margin-right: auto;
 }
+#mainNav .md-toolbar-tools {
+  background-color: #151922;
+  background-position-y: 20%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  display: none;
+  font-size: 100%;
+  height: auto;
+  left: 0;
+  max-height: inherit;
+  min-height: auto;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+#mainNav .md-toolbar-tools > * {
+  height: 100%;
+}
+@media only screen and (min-width:961px) {
+  #mainNav .md-toolbar-tools {
+    display: flex;
+    position: fixed !important;
+    min-height: 120px;
+    height: 120px;
+    max-height: 120px;
+  }
+}
+#mainNav .md-toolbar-tools .brand,
+#mainNav .md-toolbar-tools .profile-menu,
+#mainNav .md-toolbar-tools .submenus-items,
+#mainNav .md-toolbar-tools .no-submenu-item {
+  display: none;
+}
+@media only screen and (min-width:961px) {
+  #mainNav .md-toolbar-tools .brand,
+  #mainNav .md-toolbar-tools .profile-menu,
+  #mainNav .md-toolbar-tools .submenus-items,
+  #mainNav .md-toolbar-tools .no-submenu-item {
+    display: flex;
+  }
+}
+#mainNav .md-toolbar-tools .no-submenu-item {
+  border-radius: 0;
+  box-shadow: none;
+  color: #8D9AA5;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+  overflow: visible;
+  position: relative;
+  text-transform: none;
+  width: 140px;
+}
+#mainNav .md-toolbar-tools .no-submenu-item .svg * {
+  fill: #8D9AA5;
+  stroke: #8D9AA5;
+}
+#mainNav .md-toolbar-tools .no-submenu-item.my-active-class {
+  background: #37434f;
+  color: #ffffff;
+}
+#mainNav .md-toolbar-tools .no-submenu-item.my-active-class .svg * {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+#mainNav .md-toolbar-tools .no-submenu-item.my-active-class::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: -20px;
+  border-style: solid;
+  border-width: 20px 70px 0 70px;
+  border-color: #37434f transparent transparent transparent;
+}
+#mainNav .md-toolbar-tools .icon {
+  height: 50px;
+  margin-bottom: -5px;
+  width: 50px;
+}
+#mainNav .md-toolbar-tools .submenus-items {
+  padding: 0;
+}
+#mainNav .md-toolbar-tools .submenus-items .md-menu {
+  font-size: 16px;
+}
+#mainNav .md-toolbar-tools .my-active-class {
+  color: #2DC89A;
+  background: transparent;
+}
+#mainNav .md-toolbar-tools .my-inactive-class {
+  color: white;
+  background: transparent;
+}
+#mainNav .md-toolbar-tools .brand {
+  background-color: #2DC89A;
+  background-image: url('https://s3.amazonaws.com/s3.teamplanner.io/client/oncue/C35PzZbF-SLLR_Icon_White-attachment.svg');
+  background-position: -13px -1px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 120px;
+  width: 120px;
+}
+#mainNav .md-toolbar-tools:hover {
+  width: 100%;
+}
+#mainNav .md-toolbar-tools .md-toolbar-tools {
+  margin: 0 auto;
+  padding: 0;
+}
+#mainNav .md-toolbar-tools .md-menu {
+  right: 0;
+  overflow: visible;
+  z-index: 9999;
+}
+#mainNav .md-toolbar-tools .md-menu button {
+  font-size: 1em;
+}
+#mainNav .md-toolbar-tools #accountMenu {
+  border-radius: 0;
+  box-shadow: none;
+  color: #8D9AA5;
+  display: flex;
+  fill: #8D9AA5;
+  flex-direction: column;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  height: 100%;
+  justify-content: center;
+  outline: none !important;
+  overflow: visible;
+  padding-right: 3vw;
+  width: 252px;
+  z-index: inherit;
+}
+#mainNav .md-toolbar-tools #accountMenu .greetings {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+#mainNav .md-toolbar-tools #accountMenu .user-account {
+  font-weight: bold;
+  margin: 0 -7px;
+  text-transform: none;
+}
+#mainNav .md-toolbar-tools #accountMenu img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+@media only screen and (min-width:961px) {
+  #mainNav .md-toolbar-tools #accountMenu {
+    background: #37434f;
+    text-align: right;
+  }
+}
+#mainNav .md-toolbar-tools md-toolbar.md-default-theme:not(.md-menu-toolbar),
+#mainNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
+  background-color: transparent;
+}
+#mainNav.top-menu-shown .md-toolbar-tools {
+  top: 50px;
+}
+.md-open-menu-container {
+  box-shadow: none;
+}
+.md-open-menu-container #profmenu {
+  border-radius: 3px;
+  border: 1px solid #8D9AA5;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(255, 255, 255, 0.7);
+  left: -8px;
+  margin-top: 35px;
+  padding: 15px;
+  position: relative;
+  right: 22px;
+}
+.md-open-menu-container #profmenu,
+.md-open-menu-container #profmenu .md-focused {
+  background: #fafafa;
+}
+.md-open-menu-container #profmenu md-menu-item {
+  height: 40px;
+  min-height: 40px;
+}
+.md-open-menu-container #profmenu .divider {
+  border-top: 1px solid #DFE3EB;
+  margin: 10px 5px;
+}
+.md-open-menu-container #profmenu .signout {
+  color: #8D9AA5;
+  font-style: italic;
+}
 #topNav .md-toolbar-tools {
   font-size: 100%;
+  display: block;
   width: 100%;
   top: 0;
   left: 0;
@@ -108,9 +309,10 @@ div.custom-btn:hover {
 @media only screen and (min-width:961px) {
   #topNav .md-toolbar-tools {
     position: fixed !important;
-    min-height: 120px;
-    height: 120px;
-    max-height: 120px;
+    min-height: 50px;
+    height: 50px;
+    max-height: 50px;
+    display: flex;
   }
 }
 #topNav .md-toolbar-tools .mobile-menu-icon {
@@ -123,6 +325,7 @@ div.custom-btn:hover {
   max-height: 64px;
   line-height: 64px;
   width: 100%;
+  outline: none !important;
 }
 #topNav .md-toolbar-tools .mobile-menu-icon img {
   width: 70px;
@@ -149,6 +352,9 @@ div.custom-btn:hover {
     display: inline-block;
   }
 }
+#topNav .md-toolbar-tools > .md-button {
+  background: transparent;
+}
 #topNav .md-toolbar-tools .no-submenu-item {
   color: #fff;
   text-transform: none;
@@ -164,6 +370,15 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools .submenus-items .md-menu {
   font-size: 16px;
 }
+#topNav .md-toolbar-tools .signout-container {
+  margin-left: auto;
+}
+#topNav .md-toolbar-tools .mobile-only {
+  display: none;
+}
+#topNav .md-toolbar-tools .mobile-only.force-display {
+  display: block !important;
+}
 #topNav .md-toolbar-tools.mobile-menu .profile-menu,
 #topNav .md-toolbar-tools.mobile-menu .submenus-items,
 #topNav .md-toolbar-tools.mobile-menu .no-submenu-item {
@@ -177,6 +392,20 @@ div.custom-btn:hover {
 }
 #topNav .md-toolbar-tools.mobile-menu .profile-menu .md-button {
   text-align: left;
+}
+#topNav .md-toolbar-tools.mobile-menu .mobile-only {
+  display: block;
+}
+#topNav .md-toolbar-tools.mobile-menu .mobile-only .md-button {
+  display: inline-block;
+  min-width: initial;
+  padding: 0 10px;
+}
+#topNav .md-toolbar-tools.mobile-menu .signout-container {
+  margin-left: 0;
+}
+#topNav .md-toolbar-tools.mobile-menu .signout {
+  margin-bottom: 15px;
 }
 #topNav .md-toolbar-tools.mobile-menu .submenus-items {
   padding: 0px 6px;
@@ -194,12 +423,13 @@ div.custom-btn:hover {
   background: transparent;
 }
 #topNav .md-toolbar-tools .brand {
-  background-image: url('../img/logo_white.png');
-  background-size: contain;
+  background-image: url('https://s3.amazonaws.com/s3.teamplanner.io/client/oncue/C35PzZbF-SLLR_Icon_White-attachment.svg');
+  background-position: -13px -1px;
   background-repeat: no-repeat;
-  height: 70px;
-  width: 180px;
-  opacity: .25;
+  background-size: contain;
+  height: 60px;
+  width: 80px;
+  margin-left: 20px;
 }
 #topNav .md-toolbar-tools:hover {
   width: 100%;
@@ -215,38 +445,25 @@ div.custom-btn:hover {
 }
 #topNav .md-toolbar-tools .md-menu button {
   font-size: 1em;
-}
-#topNav .md-toolbar-tools #profmenu {
-  right: 0;
-  overflow: visible;
-  z-index: 9999;
-}
-#topNav .md-toolbar-tools #profbutton {
-  padding-right: 10vh;
-  overflow: visible;
-  z-index: inherit;
-}
-#topNav .md-toolbar-tools #profbutton img {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-}
-#topNav .md-toolbar-tools #pagebutton {
-  margin-top: 3vh;
-  display: inline-block;
-}
-#topNav .md-toolbar-tools #pagebutton .md-button {
-  text-transform: none;
-  font-size: 16px;
-  margin: 6px 0;
-}
-#topNav .md-toolbar-tools #pagebutton .md-button:hover {
-  color: #FE3A6D;
-  background-color: transparent;
+  margin-right: 1vw;
 }
 #topNav .md-toolbar-tools md-toolbar.md-default-theme:not(.md-menu-toolbar),
 #topNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
+}
+#topNav .md-toolbar-tools .account-selector {
+  display: inline-block;
+  height: 40px;
+  margin: 0 1vw 0 0;
+  padding-left: 10px;
+  padding-top: 5px;
+  position: relative;
+  top: -2px;
+}
+#topNav .md-toolbar-tools .account-selector .md-select-value {
+  border-bottom: none !important;
+  color: #ffffff;
+  font-size: 16px;
 }
 .md-menu-bar-menu {
   padding: 0;
@@ -263,6 +480,9 @@ div.custom-btn:hover {
   cursor: pointer;
 }
 .md-open-menu-container {
+  z-index: 1000;
+}
+.md-select-menu-container {
   z-index: 1000;
 }
 section.userList .invite {
@@ -687,71 +907,6 @@ section.userList .userbox {
 .pricingcalc .bottomrow .total h4 {
   margin-right: 2.5vw;
 }
-.stats .left {
-  width: 50vw;
-  height: 100vw;
-  float: left;
-}
-.stats .left .deviceframe {
-  transform: scale(0.3);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 150px;
-  height: 150px;
-}
-.stats .right {
-  width: 50vw;
-  height: 100vw;
-  float: left;
-  padding: 5%;
-}
-.stats .devices {
-  float: left;
-  position: absolute;
-  top: 50vw;
-  padding: 0 2%;
-}
-.stats .devices .device {
-  width: 25%;
-  height: 15vh;
-  float: left;
-  text-align: center;
-  padding: 2.5%;
-}
-@media (max-width: 768px) {
-  .stats .devices .device {
-    width: 33%;
-  }
-}
-@media (max-width: 480px) {
-  .stats .devices .device {
-    width: 50%;
-  }
-}
-.stats .devices .device p {
-  margin-top: 0px;
-  font-size: 14px;
-  font-weight: 200;
-  line-height: 20px;
-  text-transform: capitalize;
-}
-@media (max-width: 480px) {
-  .stats .devices .device p {
-    font-size: 14px;
-  }
-}
-.stats .devices .device .icon {
-  width: 100%;
-  height: 80%;
-  margin: 0 auto;
-  font-size: 50px;
-  line-height: 50px;
-  color: #00AB51;
-}
-.stats .devices .device .icon.error {
-  color: red;
-}
 .productEditor .reference {
   max-width: 33%;
 }
@@ -855,7 +1010,7 @@ section.userList .userbox {
   max-height: 35vh;
 }
 body.editor-products-detail .medium-editor-toolbar {
-  margin-top: -220px;
+  margin-top: -150px;
 }
 @-webkit-keyframes uil-ripple {
   0% {
@@ -1809,10 +1964,17 @@ body.storeOwner-orders {
   cursor: pointer;
 }
 .orders-view .orders-column .order-container .checkmark .fa {
-  color: #2DC89A;
-  top: -10px;
   position: relative;
+}
+.orders-view .orders-column .order-container .checkmark .fa.fa-check {
+  top: -10px;
   font-size: 40px;
+  color: #2DC89A;
+}
+.orders-view .orders-column .order-container .checkmark .fa.fa-shopping-basket {
+  top: 2px;
+  color: #FFA500;
+  font-size: 26px;
 }
 .orders-view .orders-column .order-container .left-column {
   padding-bottom: 30px;
