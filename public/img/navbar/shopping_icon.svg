@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2975 606 73 73">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-shopping_icon);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-shopping_icon">
+      <rect x="-2975" y="606" width="73" height="73"/>
+    </clipPath>
+  </defs>
+  <g id="shopping_icon" class="cls-1">
+    <path id="shopping-cart" class="cls-2" d="M39.51,35.148v-3.1H12.982l1.693-3.1L40.639,26.4,45.154,9.466H10.442L8.466,1H0V3.822H6.209l5.926,23.706L8.466,34.866V39.1A4.34,4.34,0,0,0,12.7,43.332a4.233,4.233,0,0,0,0-8.466H33.866V39.1a4.233,4.233,0,0,0,8.466,0A3.985,3.985,0,0,0,39.51,35.148ZM11.289,12.289h30.2l-3.1,11.289-23.706,2.54L11.289,12.289Z" transform="translate(-2960.953 620.439)"/>
+  </g>
+</svg>

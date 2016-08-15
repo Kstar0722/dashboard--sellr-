@@ -1,4 +1,4 @@
-<div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
+<div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !renderTopMenu">
 
   <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)">
 
@@ -9,8 +9,14 @@
 
     <div class="brand"></div>
 
+    <div ng-repeat="item in mainMenu.items | orderBy:'position'" class="mainmenu-items mobile-only">
+      <md-button ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">
+        {{item.title}}
+      </md-button>
+    </div>
+
     <!--non-dropdowns-->
-    <md-button ng-repeat="item in menu.items" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">
+    <md-button ng-repeat="item in menu.items | orderBy:'position'" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">
       {{item.title}}
     </md-button>
 
@@ -20,7 +26,55 @@
         <button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}">{{ item.title }}
         </button>
         <md-menu-content>
-          <md-menu-item ng-repeat="subitem in item.items" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class" ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}" ng-click="mobileMenuActive.open = false;">
+          <md-menu-item ng-repeat="subitem in item.items | orderBy:'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class" ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}" ng-click="mobileMenuActive.open = false;">
+            {{ subitem.title }}
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <md-select ng-model="$root.selectAccountId" ng-show="authentication.user.roles.indexOf(1004) > -1" placeholder="Select Account" class="account-selector" ng-change="mobileMenuActive.open = false;">
+        <md-option ng-repeat="account in accountsService.accounts | orderBy:['name', 'address']" value="{{ account.accountId}}">
+          {{ account.name }}<span ng-if="account.address">: {{account.address }}</span>
+        </md-option>
+      </md-select>
+    </md-menu-bar>
+
+    <div class="signout-container mobile-only" ng-class="{ 'force-display': !$root.selectAccountId }">
+      <md-button class="no-submenu-item signout" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
+    </div>
+  </md-toolbar>
+
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="editorMenu.shouldRender(authentication.user) && !menu.shouldRender(authentication.user)">
+    <div class="brand"></div>
+
+    <!--non-dropdowns-->
+    <md-button ng-repeat="item in editorMenu.items | orderBy:'position'" ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" ng-click="debugState(item.state)">{{item.title}}
+    </md-button>
+  </md-toolbar>
+
+</div>
+
+<div id="mainNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !$root.selectAccountId" ng-class="{ 'top-menu-shown': renderTopMenu }">
+
+  <md-toolbar class="md-menu-toolbar md-toolbar-tools" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="mainMenu.shouldRender(authentication.user)">
+
+    <a href="/">
+      <div class="brand"></div>
+    </a>
+
+    <!--non-dropdowns-->
+    <md-button ng-repeat="item in mainMenu.items | orderBy:'position'" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" layout="column">
+      <img ng-src="{{item.icon}}" ng-if="item.icon" class="icon svg inline-svg">
+      <div>{{item.title}}</div>
+    </md-button>
+
+    <!--menu dropdowns-->
+    <md-menu-bar class="submenus-items">
+      <md-menu ng-repeat="item in mainMenu.items | orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
+        <button ng-click="$mdOpenMenu($event)" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}">{{ item.title }}
+        </button>
+        <md-menu-content>
+          <md-menu-item ng-repeat="subitem in item.items | orderBy:'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="my-active-class" ui-sref="{{subitem.state}}" ui-sref-opts="{reload: true}">
             {{ subitem.title }}
           </md-menu-item>
         </md-menu-content>
@@ -28,49 +82,33 @@
     </md-menu-bar>
 
     <!--add space between menu and profile thing-->
-    <!-- <div flex></div> -->
-
-    <md-menu md-position-mode="target-right bottom" class="profile-menu">
-      <div id="profbutton" ng-click="$mdOpenMenu($event)">
-        <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
-          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
-        </md-button>
-      </div>
-      <md-menu-content width="3" id="profmenu">
-        <md-menu-item>
-          <md-button target="_self" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
-
-
-  </md-toolbar>
-
-
-  <md-toolbar class="md-menu-toolbar md-toolbar-tools" ng-if="editorMenu.shouldRender(authentication.user) && !menu.shouldRender(authentication.user)">
-    <div class="brand"></div>
-
-    <!--non-dropdowns-->
-    <md-button ng-repeat="item in editorMenu.items" ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-class="{ 'my-active-class': $state.includes(item.state),'my-inactive-class':!$state.includes(item.state)}" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" ng-click="debugState(item.state)">{{item.title}}
-    </md-button>
-    <!--add space between menu and profile thing-->
     <div flex></div>
 
-    <md-menu md-position-mode="target-right bottom">
-      <div id="profbutton" ng-click="$mdOpenMenu($event)">
-        <md-button aria-label="USER ACCOUNT DROPDOWN">
-          <span data-ng-bind="authentication.user.displayName || 'Settings'"></span>
-          <!--<img src="lib/material-design-icons/navigation/1x_web/ic_arrow_downward_white_48dp.png">-->
-        </md-button>
+    <md-menu md-position-mode="target-right bottom" class="profile-menu">
+      <div id="accountMenu">
+        <div class="greetings" ng-if="authentication.user.displayName">
+          Hello, {{authentication.user.displayName.split(' ')[0]}}
+        </div>
+        <div class="pull-right">
+          <md-button class="user-account" aria-label="USER ACCOUNT DROPDOWN" ng-click="$mdOpenMenu($event)">
+            My Account
+            <i class="fa fa-chevron-down"></i>
+          </md-button>
+        </div>
       </div>
       <md-menu-content width="3" id="profmenu">
-        <md-menu-item>
-          <md-button target="_self" ng-click="signOut()">Sign Out</md-button>
+        <!--<md-menu-item>
+          <md-button>Edit Account</md-button>
+        </md-menu-item>
+
+        <div class="divider"></div>-->
+
+        <md-menu-item class="signout">
+          <md-button ng-click="signOut()">Sign Out</md-button>
         </md-menu-item>
       </md-menu-content>
     </md-menu>
-  </md-toolbar>
 
+  </md-toolbar>
 
 </div>

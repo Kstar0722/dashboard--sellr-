@@ -3,14 +3,16 @@
 
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
+		var self = this;
 		$scope.authentication = Authentication;
 
-        var self = this;
+		accountsService.bindSelectedAccount($scope);
+		$scope.$watch('selectAccountId', function () {
+			$scope.init();
+		});
+
 		$scope.myPermissions = localStorage.getItem('roles');
-		if($stateParams.accountId)
-			$scope.selectAccountId = $stateParams.accountId;
-		else
-			$scope.selectAccountId = localStorage.getItem('accountId');
+
 		$scope.chartService = chartService;
 		$scope.accountsService = accountsService;
 		$scope.onClick = function(points, evt) {
@@ -18,7 +20,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		};
 		$scope.chartOptions = {};
 		$scope.init = function() {
-			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
 			$scope.phones = [];
 			$scope.loyalty = [];
@@ -28,7 +29,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			$scope.specificLoc = [];
 			chartService.groupAndFormatDate($scope.selectAccountId)
 			console.log('state params %O', $stateParams)
-			//$scope.selectAccountId = $stateParams.accountId;
 			$scope.sources = [];
 			$http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function(res, err) {
 					if (err) {

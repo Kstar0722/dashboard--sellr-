@@ -113,6 +113,21 @@ angular.module('users').service('accountsService', function ($http, constants, t
     })
   }
 
+  me.bindSelectedAccount = function (scope) {
+    bindRootProperty(scope, 'selectAccountId');
+  };
+
+  // set up two-way binding to parent property
+  function bindRootProperty($scope, name) {
+    $scope.$watch('$root.' + name, function (value) {
+      $scope[name] = value;
+    });
+
+    $scope.$watch(name, function (value) {
+      $scope.$root[name] = value;
+    });
+  }
+
   return me
 })
 
