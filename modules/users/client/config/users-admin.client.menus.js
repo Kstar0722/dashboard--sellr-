@@ -12,16 +12,26 @@ angular.module('users.admin').run([ 'Menus',
       title: 'User Management',
       state: 'admin.users',
       position: 5
-    })
+    });
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Invite User',
+      state: 'storeOwner.inviteUser',
+      position: 6
+    });
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Pricing Calculator',
       state: 'admin.pricing',
-      position: 6
+      position: 7
     })
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Store Database Management',
       state: 'admin.store',
       position: 8
     })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Location Manager',
+      state: 'manager.locations',
+      position: 10
+    });
   }
 ])

@@ -47,7 +47,7 @@
 <body class="ng-cloak dashboard" ng-class="$stateClass">
 <header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
 
-<section ui-view class="main-content"></section>
+<section ui-view class="main-content" ng-class="{ 'main-menu-shown': $root.selectAccountId, 'top-menu-shown': renderTopMenu }"></section>
 <script>
 
 </script>
