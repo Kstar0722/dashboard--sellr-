@@ -12,20 +12,23 @@ angular.module('users.admin')
         count: 0,
         salesTotal: 0
       }
-      accountsService.bindSelectedAccount($scope);
+      $scope.init = function () {
+        getOrders()
+      }
+      accountsService.bindSelectedAccount($scope)
       $scope.$watch('selectAccountId', function () {
-        $scope.init();
-      });
-      SocketAPI = SocketAPI.bindTo($scope);
+        $scope.init()
+      })
+      SocketAPI = SocketAPI.bindTo($scope)
 
       SocketAPI.on('reservation.created', function (order) {
-        loadOrders($scope.allOrders.concat(order));
-      });
+        loadOrders($scope.allOrders.concat(order))
+      })
 
       SocketAPI.on('reservation.updated', function (order) {
-        replaceItem($scope.allOrders, order);
-        loadOrders($scope.allOrders);
-      });
+        replaceItem($scope.allOrders, order)
+        loadOrders($scope.allOrders)
+      })
       $scope.statsScopeLabel = 'Last 7 days'
 
       $scope.changeDisplayedOrders = function () {
@@ -40,25 +43,25 @@ angular.module('users.admin')
       function getOrders () {
         var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.selectAccountId
         $http.get(ordersUrl).then(function (response) {
-          loadOrders(response.data);
+          loadOrders(response.data)
           $scope.displayOrders = $scope.todayOrders
           console.log($scope.todayOrders)
         })
       }
 
       function loadOrders(orders) {
-        var reloadToday = $scope.displayOrders == $scope.todayOrders;
-        var reloadPast = $scope.displayOrders == $scope.pastOrders;
+        var reloadToday = $scope.displayOrders == $scope.todayOrders
+        var reloadPast = $scope.displayOrders == $scope.pastOrders
 
-        orders = _.sortBy(orders, 'pickupTime');
-        $scope.allOrders = orders;
-        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') });
-        $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') });
-        $scope.uiStatOrders.orders = getFilteredOrders(7);
-        refreshStats();
+        orders = _.sortBy(orders, 'pickupTime')
+        $scope.allOrders = orders
+        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') })
+        $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
+        $scope.uiStatOrders.orders = getFilteredOrders(7)
+        refreshStats()
 
-        if (reloadToday) $scope.displayOrders = $scope.todayOrders;
-        if (reloadPast) $scope.displayOrders = $scope.pastOrders;
+        if (reloadToday) $scope.displayOrders = $scope.todayOrders
+        if (reloadPast) $scope.displayOrders = $scope.pastOrders
       }
 
       function getFilteredOrders (days) {
@@ -118,11 +121,11 @@ angular.module('users.admin')
       }
 
       function replaceItem(arr, item) {
-        if (_.isEmpty(arr) || _.isEmpty(item)) return false;
-        var index = _.findIndex(arr, { _id: item._id });
-        if (index < 0) return false;
-        arr.splice(index, 1, item);
-        return true;
+        if (_.isEmpty(arr) || _.isEmpty(item)) return false
+        var index = _.findIndex(arr, { _id: item._id })
+        if (index < 0) return false
+        arr.splice(index, 1, item)
+        return true
       }
 
       getOrders()
