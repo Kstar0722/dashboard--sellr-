@@ -1809,10 +1809,17 @@ body.storeOwner-orders {
   cursor: pointer;
 }
 .orders-view .orders-column .order-container .checkmark .fa {
-  color: #2DC89A;
-  top: -10px;
   position: relative;
+}
+.orders-view .orders-column .order-container .checkmark .fa.fa-check {
+  top: -10px;
   font-size: 40px;
+  color: #2DC89A;
+}
+.orders-view .orders-column .order-container .checkmark .fa.fa-shopping-basket {
+  top: 2px;
+  color: #FFA500;
+  font-size: 26px;
 }
 .orders-view .orders-column .order-container .left-column {
   padding-bottom: 30px;

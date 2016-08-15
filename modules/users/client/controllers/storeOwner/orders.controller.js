@@ -71,25 +71,31 @@ angular.module('users.admin')
 
       $scope.markOrder = function (order) {
         switch (order.status) {
-          case 'submitted':
-          case 'In Progress':
-            order.status = 'pickedup'
+          case 'Submitted':
+            order.status = 'Ready for Pickup'
             break
-          case 'pickedup':
-            order.status = 'submitted'
+          case 'Ready for Pickup':
+            order.status = 'Complete'
+            break
+          case 'Complete':
+            order.status = 'Submitted'
             break
           default:
-            return
+            order.status = 'Submitted'
         }
         updateOrder(order)
       }
       function updateOrder (order) {
         var url = constants.API_URL + '/mobile/reservations/' + order._id
         $http.put(url, order).then(function (result) {
-          if (result.data.status === 'pickedup') {
-            toastr.success('Order Marked as Picked Up')
-          } else {
-            toastr.warning('Order Marked as not picked up yet')
+          if (result.data.status === 'Submitted') {
+            toastr.warning('Order Unmarked')
+          }
+          if (result.data.status === 'Ready for Pickup') {
+            toastr.info('Order Marked as Ready for Pick Up')
+          }
+          if (result.data.status === 'Complete') {
+            toastr.success('Order Completed')
           }
         })
       }

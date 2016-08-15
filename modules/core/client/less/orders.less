@@ -53,10 +53,17 @@ body.storeOwner-orders{
         right: -5px;
         cursor: pointer;
         .fa{
-          color: @sellrgreen;
-          top: -10px;
           position: relative;
-          font-size: 40px;
+          &.fa-check{
+            top: -10px;
+            font-size: 40px;
+            color: @sellrgreen;
+          }
+          &.fa-shopping-basket{
+            top: 2px;
+            color: @orange;
+            font-size: 26px;
+          }
         }
       }
       .left-column{
