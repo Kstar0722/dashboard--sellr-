@@ -48,9 +48,8 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     var defer = $q.defer()
     // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.confirm()
-      .title('Would you like to delete your debt?')
-      .textContent('All of the banks have agreed to forgive you your debts.')
-      .ariaLabel('Lucky day')
+      .title('Mark this product as new?')
+      .textContent('This will set the product status for this product.')
       .targetEvent(ev)
       .ok('Mark as New')
       .cancel('Mark as Done')
