@@ -58,6 +58,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
         url += '&type=' + options.types[ i ].type
       }
     }
+    if (options.name) {
+      url += '&name=' + options.name + '&des=' + options.name
+    }
     if (options.sku) {
       url += '&sku=' + options.sku
     }
@@ -75,6 +78,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
+    }
+    if (options.sum) {
+      url += '&v=sum'
     }
     $http.get(url).then(function (response) {
       me.productList = response.data
@@ -509,36 +515,44 @@ angular.module('users').service('productEditorService', function ($http, $locati
   me.searchSkuResults = function (options) {
     var defer = $q.defer()
     var sku = options.upc
-    var productList = options.productList
     var type = options.type
-    me.productList = []
     console.log('searching sku %s', sku)
     me.show.loading = true
-    var skuUrl = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + sku
+    var skuUrl = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&sku=' + sku
     $http.get(skuUrl).then(function (skuResult) {
-      var remainingQueries = skuResult.data.length
-      if (remainingQueries > 0) {
-        me.productList = productList || []
-        console.log('I have to query %s names', remainingQueries)
+      me.remainingQueries = skuResult.data.length
+      if (me.remainingQueries > 0) {
+        me.productList = options.productList || []
+        console.log('I have to query %s names', me.remainingQueries)
         for (var i in skuResult.data) {
-          var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + skuResult.data[ i ].name
-          $http.get(url).then(function (results2) {
-            me.productList = me.productList.concat(results2.data)
-            me.productList = _.uniq(me.productList, function (p) {
-              return p.productId
-            })
-            remainingQueries--
-            console.log('1 down, %s to go', remainingQueries)
-            if (remainingQueries <= 0) {
+          me.productList = me.productList.concat(skuResult.data[ i ])
+          if (skuResult.data[ i ].name.toLowerCase() === 'na') {
+            me.remainingQueries--
+            console.log('skipping na results')
+            if (me.remainingQueries <= 0) {
               me.show.loading = false
               defer.resolve(me.productList)
             }
-          })
+          } else {
+            var url = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
+            $http.get(url).then(function (results2) {
+              me.productList = me.productList.concat(results2.data)
+              me.productList = _.uniq(me.productList, function (p) {
+                return p.productId
+              })
+              me.remainingQueries--
+              console.log('1 down, %s to go', me.remainingQueries)
+              if (me.remainingQueries <= 0) {
+                me.show.loading = false
+                defer.resolve(me.productList)
+              }
+            })
+          }
         }
       } else {
-        me.productList = productList
+        me.productList = options.productList
         me.show.loading = false
-        defer.resolve()
+        defer.resolve(me.productList)
       }
     }, function (err) {
       console.error('Could not search sku results %O', err)
