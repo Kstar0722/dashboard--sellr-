@@ -38,6 +38,11 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     orderDataService.increaseIndex()
   }
 
+  $scope.decreaseIndex = function () {
+    productEditorService.clearProductList()
+    orderDataService.decreaseIndex()
+  }
+
   $scope.markAsNew = function (prod) {
     orderDataService.createNewProduct(prod).then(function (data) {
       toastr.success('New Product Created')
