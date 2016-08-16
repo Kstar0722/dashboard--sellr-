@@ -54,7 +54,7 @@ angular.module('users.admin')
         var reloadPast = $scope.displayOrders === $scope.pastOrders
 
         $scope.allOrders = orders
-        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Complete' })
+        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Complete' && order.status !== 'Cancelled' })
         $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
         $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
         $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
@@ -66,7 +66,7 @@ angular.module('users.admin')
       }
 
       function isTodayButCompleted (order) {
-        return moment().isSame(order.pickupTime, 'day') && order.status === 'Complete'
+        return moment().isSame(order.pickupTime, 'day') && (order.status === 'Complete' || order.status === 'Cancelled')
       }
 
       function getFilteredOrders (days) {
@@ -76,6 +76,8 @@ angular.module('users.admin')
           flag = moment().isAfter(order.pickupTime, 'day')
           // AND is After days Filter
           flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
+          // AND Was not cancelled
+          flag = flag && order.status !== 'Cancelled'
           return flag
         })
       }
