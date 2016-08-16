@@ -1,8 +1,8 @@
 'use strict'
-/* global angular, moment, _, localStorage*/
+/* global angular, moment, _*/
 angular.module('users.admin')
-  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI','accountsService',
-    function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI,accountsService) {
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI', 'accountsService',
+    function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI, accountsService) {
       var API_URL = constants.API_URL
       $scope.todayOrders = []
       $scope.pastOrders = []
@@ -49,19 +49,24 @@ angular.module('users.admin')
         })
       }
 
-      function loadOrders(orders) {
-        var reloadToday = $scope.displayOrders == $scope.todayOrders
-        var reloadPast = $scope.displayOrders == $scope.pastOrders
+      function loadOrders (orders) {
+        var reloadToday = $scope.displayOrders === $scope.todayOrders
+        var reloadPast = $scope.displayOrders === $scope.pastOrders
 
-        orders = _.sortBy(orders, 'pickupTime')
         $scope.allOrders = orders
-        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') })
-        $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
+        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Complete' })
+        $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
+        $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
+        $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
         $scope.uiStatOrders.orders = getFilteredOrders(7)
         refreshStats()
 
         if (reloadToday) $scope.displayOrders = $scope.todayOrders
         if (reloadPast) $scope.displayOrders = $scope.pastOrders
+      }
+
+      function isTodayButCompleted (order) {
+        return moment().isSame(order.pickupTime, 'day') && order.status === 'Complete'
       }
 
       function getFilteredOrders (days) {
@@ -105,6 +110,7 @@ angular.module('users.admin')
         }
         updateOrder(order)
       }
+
       function updateOrder (order) {
         var url = constants.API_URL + '/mobile/reservations/' + order._id
         $http.put(url, order).then(function (result) {
@@ -117,10 +123,11 @@ angular.module('users.admin')
           if (result.data.status === 'Complete') {
             toastr.success('Order Completed')
           }
+          loadOrders($scope.allOrders)
         })
       }
 
-      function replaceItem(arr, item) {
+      function replaceItem (arr, item) {
         if (_.isEmpty(arr) || _.isEmpty(item)) return false
         var index = _.findIndex(arr, { _id: item._id })
         if (index < 0) return false

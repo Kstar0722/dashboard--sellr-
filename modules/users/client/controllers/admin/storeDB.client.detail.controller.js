@@ -16,7 +16,11 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     var upc = orderDataService.currentItem.upc
     var type = orderDataService.currentItem.productTypeId
     if (name) {
-      productEditorService.getProductList(name, { types: [ { type: type } ] }).then(function (productList) {
+      productEditorService.getProductList(null, {
+        sum: true,
+        name: name,
+        types: [ { type: type } ]
+      }).then(function (productList) {
         productEditorService.searchSkuResults({ upc: upc, productList: productList, type: type })
       })
     } else {
@@ -25,16 +29,13 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   }
 
   $scope.searchDatabase = function () {
-    productEditorService.productList = []
+    productEditorService.clearProductList()
     onProductLoad()
   }
 
   $scope.increaseIndex = function () {
     productEditorService.clearProductList()
     orderDataService.increaseIndex()
-    if (!orderDataService.currentItem.productId) {
-      onProductLoad()
-    }
   }
 
   $scope.markAsNew = function (prod) {
@@ -92,7 +93,6 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   function onInit () {
     if (orderDataService.allItems.length === 0 && $stateParams.id) {
       orderDataService.getData($stateParams.id).then(function () {
-        onProductLoad()
       })
     }
   }
