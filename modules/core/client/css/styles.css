@@ -1953,6 +1953,13 @@ body.storeOwner-orders {
   position: relative;
   border: 1px solid #f6f7f7;
 }
+.orders-view .orders-column .order-container .cancelled {
+  position: absolute;
+  color: #f21e71;
+  top: 5px;
+  right: 5px;
+  font-weight: bold;
+}
 .orders-view .orders-column .order-container .checkmark {
   position: absolute;
   width: 30px;

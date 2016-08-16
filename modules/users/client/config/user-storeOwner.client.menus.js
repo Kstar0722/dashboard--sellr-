@@ -8,7 +8,7 @@ angular.module('users.storeOwner').run(['Menus',
       icon: '/img/navbar/shopping_icon.svg',
       state: 'storeOwner.orders',
       type: 'button',
-      roles: [1002],
+      roles: [ 1002, 1004, 1009 ],
       position: 1
     });
   }

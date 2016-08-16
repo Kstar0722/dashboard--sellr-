@@ -359,4 +359,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
   })
+  $rootScope.$on('searchdb', function () {
+    $scope.searchText = ''
+  })
 })
