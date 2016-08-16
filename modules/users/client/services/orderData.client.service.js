@@ -9,6 +9,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
+  me.decreaseIndex = decreaseIndex
 
   $rootScope.$on('clearProductList', function () {
     me.selected = []
@@ -34,6 +35,16 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       me.currentIndex = 0
     } else {
       me.currentIndex++
+    }
+    me.currentItem = me.allItems[ me.currentIndex ]
+  }
+
+  function decreaseIndex () {
+    me.selected = []
+    if ((me.currentIndex - 1) < 0) {
+      me.currentIndex = (me.allItems.length - 1)
+    } else {
+      me.currentIndex--
     }
     me.currentItem = me.allItems[ me.currentIndex ]
   }
