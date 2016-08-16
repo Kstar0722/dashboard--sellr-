@@ -1,7 +1,7 @@
 /* globals angular */
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
-                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q) {
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q,$rootScope) {
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
@@ -29,6 +29,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   }
 
   $scope.searchDatabase = function () {
+    $rootScope.$broadcast('searchdb')
     productEditorService.clearProductList()
     onProductLoad()
   }

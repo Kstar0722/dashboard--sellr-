@@ -9,7 +9,7 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
                 url: '',
                 template: '<ui-view/>',
                 data: {
-                    roles: [1009]
+                  roles: [ 1009, 1002, 1004 ]
                 }
             });
     }
