@@ -34,11 +34,13 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   }
 
   $scope.increaseIndex = function () {
+    $state.go('editor.match', $stateParams, { reload: true })
     productEditorService.clearProductList()
     orderDataService.increaseIndex()
   }
 
   $scope.decreaseIndex = function () {
+    $state.go('editor.match', $stateParams, { reload: true })
     productEditorService.clearProductList()
     orderDataService.decreaseIndex()
   }
