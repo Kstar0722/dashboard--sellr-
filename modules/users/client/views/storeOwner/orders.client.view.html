@@ -20,9 +20,12 @@
 
 
       <div class="order-container" layout ng-repeat="order in displayOrders">
-        <div class="checkmark" ng-click="markOrder(order)">
-        <i class="fa fa-check" ng-if="order.status === 'Complete'"></i>
-        <i class="fa fa-shopping-basket" ng-if="order.status === 'Ready for Pickup'"></i>
+        <div class="checkmark" ng-click="markOrder(order)" ng-if="order.status !== 'Cancelled'"> 
+          <i class="fa fa-check" ng-if="order.status === 'Complete'"></i>
+          <i class="fa fa-shopping-basket" ng-if="order.status === 'Ready for Pickup'"></i>
+        </div>
+        <div class="cancelled" ng-if="order.status === 'Cancelled'">
+          Cancelled
         </div>
         <div flex=20 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
@@ -55,7 +58,7 @@
             </div>          
           </div>  
 
-          
+
         </div>
       </div>
 
@@ -69,7 +72,7 @@
         </div>
         <div class="right-action" flex>
           <md-menu>
-          <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
+            <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
             <md-menu-content width="4">
               <md-menu-item>
                 <md-button ng-click="changeOrderStatsScope(7)">
