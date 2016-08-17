@@ -163,9 +163,9 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       }
     }
     me.finalProduct.notes = 'Merged with ' + me.prodsToDelete.toString()
-
-    me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
-
+    if (me.newProduct.audio.length > 0) {
+      me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
+    }
     me.newProduct.images.forEach(function (img) {
       me.finalProduct.mediaAssets.push(img.mediaAssetId)
     })
