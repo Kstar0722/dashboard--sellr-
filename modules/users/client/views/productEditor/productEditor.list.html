@@ -93,7 +93,7 @@
 
             <div layout class="t-header" layout-align="start center">
                 <div flex>
-                    <md-checkbox ng-model="allSelected" ng-click="toggleAll()" aria-label="Checkbox all"
+                    <md-checkbox ng-model="allSelected.value" ng-change="toggleAll()" aria-label="Checkbox all"
                                  class="blue-check"></md-checkbox>
                 </div>
                 <div ng-click="reOrderList('name')" flex=45>{{pes.productList.length}} Products <i
