@@ -79,9 +79,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (searchText) {
       url += '&q=' + searchText + '&v=sum'
     }
-    if (options.sum) {
-      url += '&v=sum'
-    }
+    url += '&v=sum'
     $http.get(url).then(function (response) {
       me.productList = response.data
       me.show.loading = false
@@ -246,7 +244,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       window.scrollTo(0, 0)
       // socket.emit('product-saved')
       me.productStorage[ product.productId ] = product
-      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
       toastr.success('Product Updated!')
       defer.resolve()
     }
