@@ -24,6 +24,10 @@
                     <md-checkbox class="blue-check" ng-model="listOptions.filterByUserId" ng-change="toggleFilterUserId()">Show My Products</md-checkbox>
                     {{ filterUserId }}
                 </form>
+                <md-button class="md-raised md-primary" ng-show="pes.show.newProducts" ng-click="pes.viewNewProducts()">
+                    New
+                    Products Available
+                </md-button>
             </div>
             <div flex class="search-button" ng-click="searchProducts(searchText)">
                 Search
