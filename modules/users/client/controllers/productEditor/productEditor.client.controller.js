@@ -309,7 +309,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.merge')
+        $state.go('editor.match.merge', $stateParams, { reload: true })
         $scope.selected = []
       } else {
         $state.go('editor.merge')
@@ -359,6 +359,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
+    productEditorService.productList.forEach(function (p) {
+      p.selected = false
+    })
   })
   $rootScope.$on('searchdb', function () {
     console.log('clearing search text')
