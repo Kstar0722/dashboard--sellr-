@@ -27,6 +27,7 @@
             <div class="col-md-9">
                 <h4><i>Editing:</i> {{ pes.currentProduct.name }} </h4>
                 <div>Product Id {{ pes.currentProduct.productId }}</div>
+                <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
                 <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
                 <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}}</span>
             </div>

@@ -77,7 +77,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       }
     }
     if (searchText) {
-      url += '&q=' + searchText + '&v=sum'
+      url += '&q=' + searchText
     }
     url += '&v=sum'
     $http.get(url).then(function (response) {
