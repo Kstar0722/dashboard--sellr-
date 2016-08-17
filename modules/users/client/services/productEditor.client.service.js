@@ -565,6 +565,20 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.newProduct = product
   }
 
+  me.checkForNewProducts = function () {
+    var url = constants.BWS_API + '/edit/search?status=new&v=sum'
+    $http.get(url).then(function (res) {
+      me.show.newProducts = res.data.length > 0
+      me.newProducts = res.data
+    })
+  }
+
+  me.viewNewProducts = function () {
+    me.productList = me.newProducts
+  }
+
+  me.checkForNewProducts()
+
   me.init()
 
   return me
