@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-                                                                        $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
+  $location, $state, $stateParams, Countries, orderDataService,
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -155,9 +155,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
       .then(function (response) {
-          $scope.modalData = response
-        }
-      )
+        $scope.modalData = response
+      }
+    )
   }
   $scope.quickEdit = function (product) {
     var options = {
