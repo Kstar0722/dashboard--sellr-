@@ -17,6 +17,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     template: ''
   }
   $scope.allSelected = false
+  $scope.searchText = ''
 
   $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
     console.log('allStores %O', res.data)
@@ -360,6 +361,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.selected = []
   })
   $rootScope.$on('searchdb', function () {
-    $scope.searchText = ''
+    console.log('clearing search text')
+    $state.go('editor.match', $stateParams, { reload: true })
   })
 })
