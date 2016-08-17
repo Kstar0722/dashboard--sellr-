@@ -10,6 +10,6 @@ angular.module('users.storeOwner').run(['Menus',
       type: 'button',
       roles: [ 1002, 1004, 1009 ],
       position: 1
-    });
+    })
   }
 ])

@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-                                                                        $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
+  $location, $state, $stateParams, Countries, orderDataService,
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -17,6 +17,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     template: ''
   }
   $scope.allSelected = false
+  $scope.searchText = ''
 
   $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
     console.log('allStores %O', res.data)
@@ -154,9 +155,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
       .then(function (response) {
-          $scope.modalData = response
-        }
-      )
+        $scope.modalData = response
+      }
+    )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -308,7 +309,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.merge')
+        $state.go('editor.match.merge', $stateParams, { reload: true })
         $scope.selected = []
       } else {
         $state.go('editor.merge')
@@ -358,8 +359,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
+    productEditorService.productList.forEach(function (p) {
+      p.selected = false
+    })
   })
   $rootScope.$on('searchdb', function () {
-    $scope.searchText = ''
+    console.log('clearing search text')
+    $state.go('editor.match', $stateParams, { reload: true })
   })
 })
