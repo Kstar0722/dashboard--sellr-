@@ -187,6 +187,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
           $state.go('editor.view', { productId: res.data.productId }, { reload: true })
         }
       } else {
+        console.error('No productId returned from server %O', res)
         toastr.error('There was a problem with merging')
       }
     }, function (err) {
