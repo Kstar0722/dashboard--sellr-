@@ -1,12 +1,12 @@
 /* globals angular, localStorage */
 angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
   var me = this
-
   me.init = function () {
     me.selectAccountId = localStorage.getItem('accountId')
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}
+    me.ordersCount = 0
     getAccounts()
   }
 
@@ -19,7 +19,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function onGetAccountSuccess (res) {
       me.accounts = []
       res.data.forEach(function (account) {
-        if (account.preferences !== "undefined") {
+        if (account.preferences !== 'undefined') {
           account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
         }
         if (account.accountId === me.selectAccountId) {
@@ -114,20 +114,19 @@ angular.module('users').service('accountsService', function ($http, constants, t
   }
 
   me.bindSelectedAccount = function (scope) {
-    bindRootProperty(scope, 'selectAccountId');
-  };
+    bindRootProperty(scope, 'selectAccountId')
+  }
 
   // set up two-way binding to parent property
-  function bindRootProperty($scope, name) {
+  function bindRootProperty ($scope, name) {
     $scope.$watch('$root.' + name, function (value) {
-      $scope[name] = value;
-    });
+      $scope[name] = value
+    })
 
     $scope.$watch(name, function (value) {
-      $scope.$root[name] = value;
-    });
+      $scope.$root[name] = value
+    })
   }
 
   return me
 })
-

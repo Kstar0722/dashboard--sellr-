@@ -1,6 +1,6 @@
 <section class="orders-view" ng-init="init()">
   <div layout layout-xs="column">
-  <div flex=65 flex-xs=100 class="orders-column">
+    <div flex=65 flex-xs=100 class="orders-column">
 
       <div class="orders-title" layout layout-align="start end">
         <div flex>
@@ -13,13 +13,13 @@
       </div>
 
       <div class="order-container" layout ng-repeat="order in displayOrders">
-        <div class="checkmark" ng-click="markOrder(order)" ng-if="order.status !== 'Cancelled'"> 
-          <i class="fa fa-check" ng-if="order.status === 'Complete'"></i>
-          <i class="fa fa-shopping-basket" ng-if="order.status === 'Ready for Pickup'"></i>
-        </div>
-        <div class="cancelled" ng-if="order.status === 'Cancelled'">
-          Cancelled
-        </div>
+        <div ng-class="'status-box ' + (order.status | stringToClass)" ng-click="showStatusSelect = !showStatusSelect">{{order.status}} <i class="fa fa-chevron-down"></i></div>
+        <ul ng-class="['status-select', 'md-whiteframe-1dp', {shown: showStatusSelect}]">
+          <li ng-click="markOrder(order, 'Submitted')">Mark as Submitted</li>
+          <li ng-click="markOrder(order, 'Ready for Pickup')">Ready for Pickup</li>
+          <li ng-click="markOrder(order, 'Completed')">Completed</li>
+          <li ng-click="markOrder(order, 'Cancelled')">Cancelled</li>
+        </ul>
         <div flex=20 flex-xs=25 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
             <div class="pickup-label">PICKUP</div>
