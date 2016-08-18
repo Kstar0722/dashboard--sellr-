@@ -55,6 +55,7 @@ angular.module('users.admin')
 
         $scope.allOrders = orders
         $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Completed' && order.status !== 'Cancelled' })
+        accountsService.ordersCount = $scope.todayOrders.length
         $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
         $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
         $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
