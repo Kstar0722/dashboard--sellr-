@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr) {
+angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope) {
   var me = this
 
   me.merge = merge
@@ -27,14 +27,19 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 
   function buildProductList (products) {
     var defer = $q.defer()
+    var remaining = products.length
     products.forEach(function (p) {
       productEditorService.getProduct(p).then(function (productWithDetail) {
         me.products.push(productWithDetail)
         me.prodsToDelete.push(productWithDetail.productId)
+        remaining--
+        if (remaining === 0) {
+          console.log('mergeService::buildProductList %O', me.products)
+          $rootScope.$broadcast('clearProductList')
+          defer.resolve(me.products)
+        }
       })
     }, onError)
-    console.log('mergeService::me.products %O', me.products)
-    defer.resolve(me.products)
     return defer.promise
   }
 
@@ -59,6 +64,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       })
     }
     me.newProduct.skus = _.flatten(me.newProduct.skus)
+    console.log('mergeService::buildNewProduct')
   }
 
   function mergeProductProperties () {
@@ -102,7 +108,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       })
     })
     me.newProduct.properties = properties
-    console.log('mergeProductProperties : %O', me.newProduct)
+    console.log('mergeService::mergeProductProperties : %O', me.newProduct)
   }
 
   function buildFinalProduct () {
@@ -126,6 +132,8 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         value: me.newProduct.properties[ i ].value[ 0 ]
       })
     }
+    console.log('mergeService::buildFinalProduct')
+
   }
 
   function mergeProductMedia () {
@@ -145,7 +153,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         me.newProduct.audio.push(product.audio)
       }
     })
-    console.log('mergeProductMedia %O', me.newProduct)
+    console.log('mergeService::mergeProductMedia %O', me.newProduct)
   }
 
   function save () {
@@ -155,9 +163,9 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       }
     }
     me.finalProduct.notes = 'Merged with ' + me.prodsToDelete.toString()
-
-    me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
-
+    if (me.newProduct.audio.length > 0) {
+      me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
+    }
     me.newProduct.images.forEach(function (img) {
       me.finalProduct.mediaAssets.push(img.mediaAssetId)
     })

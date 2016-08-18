@@ -10,8 +10,9 @@ angular.module('core.admin').run(['Menus',
           position: 3
       });
 
-      Menus.addMenuItem('topbar', {
-          title: 'Dashboard',
+      Menus.addMenuItem('main', {
+          title: 'Stats',
+          icon: '/img/navbar/stats_icon.svg',
           state: 'dashboard',
           type: 'button',
           roles: [ 1004, 1003, 1007, 1009 ],

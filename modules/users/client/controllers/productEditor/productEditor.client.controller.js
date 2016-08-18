@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-                                                                        $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes) {
+  $location, $state, $stateParams, Countries, orderDataService,
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -16,7 +16,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
     feedback: true,
     template: ''
   }
-  $scope.allSelected = false
+  $scope.allSelected = {value: false}
+  $scope.searchText = ''
 
   $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
     console.log('allStores %O', res.data)
@@ -57,6 +58,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   } else {
     $scope.listOptions.filterByUserId = false
   }
+  $scope.listOptions.userId = $scope.userId
 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
@@ -119,12 +121,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   var refreshList = function () {
-    $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
-    $scope.products = $scope.allProducts
-    if ($scope.listOptions.filterByUserId) {
-      $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
-    }
-    $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
+    productEditorService.sortAndFilterProductList($scope.listOptions)
+  // $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
+  // $scope.products = $scope.allProducts
+  // if ($scope.listOptions.filterByUserId) {
+  //   $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
+  // }
+  // $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
   }
 
   $scope.toggleSelected = function (product) {
@@ -154,9 +157,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
       .then(function (response) {
-          $scope.modalData = response
-        }
-      )
+        $scope.modalData = response
+      }
+    )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -188,14 +191,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.types = ProductTypes;
   $scope.toggleAll = function () {
-    var sel = !$scope.allSelected
+    var sel = $scope.allSelected.value
     $scope.selected = []
-    _.map($scope.products, function (p) {
+    _.forEach(productEditorService.productList, function (p) {
       if (sel) {
         $scope.selected.push(p)
       }
       p.selected = sel
-      return p
     })
   }
   // Functions related to changing product status
@@ -304,7 +306,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.merge')
+        $state.go('editor.match.merge', $stateParams, { reload: true })
         $scope.selected = []
       } else {
         $state.go('editor.merge')
@@ -354,5 +356,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
+    productEditorService.productList.forEach(function (p) {
+      p.selected = false
+    })
+  })
+  $rootScope.$on('searchdb', function () {
+    console.log('clearing search text')
+    $state.go('editor.match', $stateParams, { reload: true })
   })
 })

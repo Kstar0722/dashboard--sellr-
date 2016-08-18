@@ -1,4 +1,4 @@
-<section class="orders-view">
+<section class="orders-view" ng-init="init()">
 
   <div layout class="">
 
@@ -20,7 +20,13 @@
 
 
       <div class="order-container" layout ng-repeat="order in displayOrders">
-        <div class="checkmark" ng-click="markOrder(order)"><i class="fa fa-check" ng-if="order.status === 'pickedup'"></i></div>
+        <div class="checkmark" ng-click="markOrder(order)" ng-if="order.status !== 'Cancelled'"> 
+          <i class="fa fa-check" ng-if="order.status === 'Complete'"></i>
+          <i class="fa fa-shopping-basket" ng-if="order.status === 'Ready for Pickup'"></i>
+        </div>
+        <div class="cancelled" ng-if="order.status === 'Cancelled'">
+          Cancelled
+        </div>
         <div flex=20 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
             <div class="pickup-label">PICKUP</div>
@@ -43,7 +49,7 @@
 
           <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
             <div flex=10 class="align-center">
-              <div class="item-slot" ng-style="{'background-color': product.planHexColor}">{{product.slot}}</div>
+              <div class="item-slot" ng-style="{'background-color': product.planHexColor, 'color': product.planFontColor}">{{product.slot}}</div>
             </div>
             <div flex=10 class="item-qty align-center">x {{product.quantity}}</div>
             <div flex>
@@ -52,7 +58,7 @@
             </div>          
           </div>  
 
-          
+
         </div>
       </div>
 
@@ -66,7 +72,7 @@
         </div>
         <div class="right-action" flex>
           <md-menu>
-          <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
+            <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
             <md-menu-content width="4">
               <md-menu-item>
                 <md-button ng-click="changeOrderStatsScope(7)">

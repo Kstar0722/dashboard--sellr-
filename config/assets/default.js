@@ -59,6 +59,8 @@ module.exports = {
                 'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',
                 'public/lib/blueimp-file-upload/js/jquery.fileupload.js',
                 'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js',
+                'public/lib/socket.io-client/socket.io.js',
+                'public/lib/angular-socket-io/socket.js',
                 'public/lib/angular-csv-import/dist/angular-csv-import.js',
                 'public/lib/selectize/dist/js/standalone/selectize.js',
                 'public/lib/angular-selectize2/dist/angular-selectize.js'

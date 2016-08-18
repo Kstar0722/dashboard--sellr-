@@ -21,14 +21,15 @@ body.storeOwner-orders{
         font-size: 42px;
       }
       .today-count{
-        font-size: 24px;
-        width: 30px;
-        height: 30px;
+        font-size: 22px;
+        width: 35px;
+        height: 35px;
         border-radius: 100%;
-        line-height: 30px;
+        line-height: 35px;
         text-align: center;
         background-color: @red;
         color: #fff;
+        font-weight: bold;
       }
       .right-action{
         text-align: right;
@@ -42,6 +43,13 @@ body.storeOwner-orders{
       margin: 4vh 0;
       position: relative;  
       border: 1px solid #f6f7f7; 
+      .cancelled{
+        position: absolute;
+        color: #f21e71;
+        top: 5px;
+        right: 5px;
+        font-weight: bold;
+      }
       .checkmark{
         position: absolute;
         width: 30px;
@@ -53,10 +61,17 @@ body.storeOwner-orders{
         right: -5px;
         cursor: pointer;
         .fa{
-          color: @sellrgreen;
-          top: -10px;
           position: relative;
-          font-size: 40px;
+          &.fa-check{
+            top: -10px;
+            font-size: 40px;
+            color: @sellrgreen;
+          }
+          &.fa-shopping-basket{
+            top: 2px;
+            color: @orange;
+            font-size: 26px;
+          }
         }
       }
       .left-column{

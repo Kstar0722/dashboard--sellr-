@@ -5,12 +5,12 @@ angular.module('users.manager.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('dashboard', {
-                url: '/dashboard/:accountId',
+                url: '/dashboard/:accountId?',
                 templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
 
             })
             .state('manager.ads', {
-                url: '/manager/admanager',
+                url: '/ads/:accountId?',
                 templateUrl: 'modules/users/client/views/manager/admanager.client.view.html',
                 controller:'AdmanagerController'
             })

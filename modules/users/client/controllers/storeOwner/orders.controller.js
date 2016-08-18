@@ -1,8 +1,8 @@
 'use strict'
-/* global angular, moment, _, localStorage*/
+/* global angular, moment, _*/
 angular.module('users.admin')
-  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams',
-    function ($scope, $http, $state, constants, toastr, $stateParams) {
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI', 'accountsService',
+    function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI, accountsService) {
       var API_URL = constants.API_URL
       $scope.todayOrders = []
       $scope.pastOrders = []
@@ -12,13 +12,24 @@ angular.module('users.admin')
         count: 0,
         salesTotal: 0
       }
-      $scope.statsScopeLabel = 'Last 7 days'
-      var accountId = null
-      if ($stateParams.accountId) {
-        accountId = $stateParams.accountId
-      } else {
-        accountId = localStorage.getItem('accountId')
+      $scope.init = function () {
+        getOrders()
       }
+      accountsService.bindSelectedAccount($scope)
+      $scope.$watch('selectAccountId', function () {
+        $scope.init()
+      })
+      SocketAPI = SocketAPI.bindTo($scope)
+
+      SocketAPI.on('reservation.created', function (order) {
+        loadOrders($scope.allOrders.concat(order))
+      })
+
+      SocketAPI.on('reservation.updated', function (order) {
+        replaceItem($scope.allOrders, order)
+        loadOrders($scope.allOrders)
+      })
+      $scope.statsScopeLabel = 'Last 7 days'
 
       $scope.changeDisplayedOrders = function () {
         $scope.showPastOrders = !$scope.showPastOrders
@@ -30,18 +41,32 @@ angular.module('users.admin')
       }
 
       function getOrders () {
-        var ordersUrl = API_URL + '/mobile/reservations/store/' + accountId
+        var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.selectAccountId
         $http.get(ordersUrl).then(function (response) {
-          var allOrders = response.data
-          allOrders = _.sortBy(allOrders, 'pickupTime')
-          $scope.allOrders = allOrders
-          $scope.todayOrders = _.filter(allOrders, function (order) { return moment().isSame(order.pickupTime, 'day') })
-          $scope.pastOrders = _.filter(allOrders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
+          loadOrders(response.data)
           $scope.displayOrders = $scope.todayOrders
-          $scope.uiStatOrders.orders = getFilteredOrders(7)
           console.log($scope.todayOrders)
-          refreshStats()
         })
+      }
+
+      function loadOrders (orders) {
+        var reloadToday = $scope.displayOrders === $scope.todayOrders
+        var reloadPast = $scope.displayOrders === $scope.pastOrders
+
+        $scope.allOrders = orders
+        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Complete' && order.status !== 'Cancelled' })
+        $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
+        $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
+        $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
+        $scope.uiStatOrders.orders = getFilteredOrders(7)
+        refreshStats()
+
+        if (reloadToday) $scope.displayOrders = $scope.todayOrders
+        if (reloadPast) $scope.displayOrders = $scope.pastOrders
+      }
+
+      function isTodayButCompleted (order) {
+        return moment().isSame(order.pickupTime, 'day') && (order.status === 'Complete' || order.status === 'Cancelled')
       }
 
       function getFilteredOrders (days) {
@@ -51,6 +76,8 @@ angular.module('users.admin')
           flag = moment().isAfter(order.pickupTime, 'day')
           // AND is After days Filter
           flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
+          // AND Was not cancelled
+          flag = flag && order.status !== 'Cancelled'
           return flag
         })
       }
@@ -71,27 +98,43 @@ angular.module('users.admin')
 
       $scope.markOrder = function (order) {
         switch (order.status) {
-          case 'submitted':
-          case 'In Progress':
-            order.status = 'pickedup'
+          case 'Submitted':
+            order.status = 'Ready for Pickup'
             break
-          case 'pickedup':
-            order.status = 'submitted'
+          case 'Ready for Pickup':
+            order.status = 'Complete'
+            break
+          case 'Complete':
+            order.status = 'Submitted'
             break
           default:
-            return
+            order.status = 'Submitted'
         }
         updateOrder(order)
       }
+
       function updateOrder (order) {
         var url = constants.API_URL + '/mobile/reservations/' + order._id
         $http.put(url, order).then(function (result) {
-          if (result.data.status === 'pickedup') {
-            toastr.success('Order Marked as Picked Up')
-          } else {
-            toastr.warning('Order Marked as not picked up yet')
+          if (result.data.status === 'Submitted') {
+            toastr.warning('Order Unmarked')
           }
+          if (result.data.status === 'Ready for Pickup') {
+            toastr.info('Order Marked as Ready for Pick Up')
+          }
+          if (result.data.status === 'Complete') {
+            toastr.success('Order Completed')
+          }
+          loadOrders($scope.allOrders)
         })
+      }
+
+      function replaceItem (arr, item) {
+        if (_.isEmpty(arr) || _.isEmpty(item)) return false
+        var index = _.findIndex(arr, { _id: item._id })
+        if (index < 0) return false
+        arr.splice(index, 1, item)
+        return true
       }
 
       getOrders()

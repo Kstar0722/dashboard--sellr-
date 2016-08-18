@@ -1,0 +1,235 @@
+#mainNav {
+  .md-toolbar-tools {
+    background-color: darken(@dark-grey, 5%);
+    background-position-y: 20%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    display: none;
+    font-size: 100%;
+    height: auto;
+    left: 0;
+    max-height: inherit;
+    min-height: auto;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+
+    > * {
+      height: 100%;
+    }
+
+    // Desktop Menu
+    @media @large-up {
+      display: flex;
+      position: fixed !important;
+      min-height: @mainnavheight;
+      height: @mainnavheight;
+      max-height: @mainnavheight;
+    }
+    
+    .brand,
+    .profile-menu,
+    .submenus-items,
+    .no-submenu-item {
+      display: none;
+      @media @large-up {
+        display: flex;
+      }
+    }
+
+    .no-submenu-item {
+      border-radius: 0;
+      box-shadow: none;
+      color: @med-grey;
+      font-family: @avenir;
+      font-size: 17px;
+      font-weight: bold;
+      height: 100%;
+      justify-content: center;
+      margin: 0;
+      overflow: visible;
+      position: relative;
+      text-transform: none;
+      width: @navitemwidth;
+
+      .svg * {
+        fill: @med-grey;
+        stroke: @med-grey;
+      }
+
+      &.my-active-class {
+        background: @navactiveback;
+        color: @white;
+
+        .svg * {
+          fill: @white !important;
+          stroke: @white !important;
+        }
+
+        // triangle below
+        &::after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          bottom: -20px;
+
+          border-style: solid;
+          border-width: 20px (@navitemwidth/2) 0 (@navitemwidth/2);
+          border-color: @navactiveback transparent transparent transparent;
+        }
+      }
+    }
+
+    .icon {
+      height: 50px;
+      margin-bottom: -5px;
+      width: 50px;
+    }
+
+    .submenus-items {
+      padding: 0;
+      .md-menu {
+        font-size: 16px;
+      }
+    }
+
+    .my-active-class {
+      color: @sellrgreen;
+      background: transparent;
+    }
+
+    .my-inactive-class {
+      color: white;
+      background: transparent;
+    }
+
+    .brand {
+      background-color: @sellrgreen;
+      background-image: url(@logo_nav);
+      background-position: -13px -1px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: @mainnavheight;
+      width: @mainnavheight;
+    }
+
+    &:hover {
+      width: 100%;
+    }
+
+    .md-toolbar-tools {
+      margin: 0 auto;
+      padding: 0;
+      //background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-split);
+      //background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+      //background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-split);
+    }
+
+    .md-menu {
+      right: 0;
+      overflow: visible;
+      z-index: 9999;
+
+      button {
+        font-size: 1em;
+      }
+    }
+
+    //#profmenu {
+    //  right: 0;
+    //  overflow: visible;
+    //  z-index: 9999;
+    //}
+
+    #accountMenu {
+      border-radius: 0;
+      box-shadow: none;
+      color: @med-grey;
+      display: flex;
+      fill: @med-grey;
+      flex-direction: column;
+      font-family: @avenir;
+      font-size: 17px;
+      font-weight: bold;
+      height: 100%;
+      justify-content: center;
+      outline: none !important;
+      overflow: visible;
+      padding-right: 3vw;
+      width: 1.8 * @navitemwidth;
+      z-index: inherit;
+
+      .greetings {
+        color: @white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .user-account {
+        font-weight: bold;
+        margin: 0 -7px;
+        text-transform: none;
+      }
+
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+
+      @media @large-up {
+        background: @navactiveback;
+        text-align: right;
+      }
+    }
+
+    md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+      background-color: transparent;
+    }
+  }
+
+  &.top-menu-shown {
+    .md-toolbar-tools {
+      top: @topnavheight;
+    }
+  }
+}
+
+.md-open-menu-container {
+  box-shadow: none;
+
+  #profmenu {
+    border-radius: 3px;
+    border: 1px solid @med-grey;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 0 4px 0 rgba(255, 255, 255, 0.7);
+    left: -8px;
+    margin-top: 35px;
+    padding: 15px;
+    position: relative;
+    right: 22px;
+
+    &, .md-focused {
+      background: #fafafa;
+    }
+
+    md-menu-item {
+      height: 40px;
+      min-height: 40px;
+    }
+
+    .divider {
+      border-top: 1px solid @light-grey;
+      margin: 10px 5px;
+    }
+
+    .signout {
+      color: @med-grey;
+      font-style: italic;
+    }
+  }
+}

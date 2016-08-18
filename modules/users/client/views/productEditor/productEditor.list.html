@@ -24,6 +24,10 @@
                     <md-checkbox class="blue-check" ng-model="listOptions.filterByUserId" ng-change="toggleFilterUserId()">Show My Products</md-checkbox>
                     {{ filterUserId }}
                 </form>
+                <md-button class="md-raised md-primary" ng-show="pes.show.newProducts" ng-click="pes.viewNewProducts()">
+                    New
+                    Products Available
+                </md-button>
             </div>
             <div flex class="search-button" ng-click="searchProducts(searchText)">
                 Search
@@ -89,7 +93,7 @@
 
             <div layout class="t-header" layout-align="start center">
                 <div flex>
-                    <md-checkbox ng-model="allSelected" ng-click="toggleAll()" aria-label="Checkbox all"
+                    <md-checkbox ng-model="allSelected.value" ng-change="toggleAll()" aria-label="Checkbox all"
                                  class="blue-check"></md-checkbox>
                 </div>
                 <div ng-click="reOrderList('name')" flex=45>{{pes.productList.length}} Products <i

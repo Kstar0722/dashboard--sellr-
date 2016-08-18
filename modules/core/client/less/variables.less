@@ -37,6 +37,7 @@
 @sellrgreen:#2DC89A;
 @lightgray:#DFE3EB;
 @sellrdark:#142332;
+@navactiveback:#37434f;
 
 // FONTS
 @brandon:       "brandon-grotesque",sans-serif;
@@ -53,6 +54,7 @@
 /* BRANDING */
 @logo: '../img/logo_black.png';
 @logowhite: '../img/logo_white.png';
+@logo_nav: 'https://s3.amazonaws.com/s3.teamplanner.io/client/oncue/C35PzZbF-SLLR_Icon_White-attachment.svg';
 @home_bg:  ' ../img/bg_3.png ';
 
 
@@ -66,7 +68,10 @@
 /* SITE FRAMEWORK */
 @globalwidth:   1200px;
 @globalhpad:    5vw;
+@topnavheight:  50px;
+@mainnavheight: 120px;
 @navheight:     120px;
+@navitemwidth:  140px;
 @mobileNavheight: 64px;
 @subnavheight:  100px;
 
@@ -82,11 +87,6 @@ body.dashboard {
   .content {
     position: absolute;
     width: 100vw;
-    top:  @mobileNavheight;
-    @media @large-up {
-      top:  @navheight;
-    }
-
 
     .titlebar {
       background: @dark-grey;

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2975 728 73 73">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-tv_icon);
+      }
+
+      .cls-2, .cls-3 {
+/*        fill: #fff;*/
+      }
+
+      .cls-2 {
+/*        stroke: #fff;*/
+        stroke-width: 1px;
+      }
+
+      .cls-3 {
+        font-size: 14px;
+        font-family: Avenir-Black, Avenir;
+        font-weight: 800;
+      }
+    </style>
+    <clipPath id="clip-tv_icon">
+      <rect x="-2975" y="728" width="73" height="73"/>
+    </clipPath>
+  </defs>
+  <g id="tv_icon" class="cls-1">
+    <g id="group-23" transform="translate(-3601 689)">
+      <g id="computer" transform="translate(632.844 42.776)">
+        <g id="group" transform="translate(0 15.087)">
+          <g id="group-22">
+            <path id="path" class="cls-2" d="M57.34,15.087H1.748A1.75,1.75,0,0,0,0,16.835v30.8a0,0,0,0,1,0,0v1.539a1.029,1.029,0,0,0,1.029,1.03H58.076a1.009,1.009,0,0,0,1.006-1.03V47.688c0-.017,0-.032,0-.048v-30.8A1.747,1.747,0,0,0,57.34,15.087ZM28.425,49.022a.87.87,0,1,1,.87.87A.87.87,0,0,1,28.425,49.022ZM57.34,47.831H1.748V16.972A.247.247,0,0,1,2,16.725h55.1a.248.248,0,0,1,.248.248Z" transform="translate(0 -15.087)"/>
+          </g>
+        </g>
+      </g>
+      <text id="TV" class="cls-3" transform="translate(653 80)"><tspan x="0" y="0">TV</tspan></text>
+    </g>
+  </g>
+</svg>
