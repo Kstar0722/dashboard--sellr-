@@ -193,15 +193,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
     log('claiming', payload)
     var url = constants.BWS_API + '/edit/claim'
-    $http.post(url, payload).then(function (res) {
-      toastr.info('You claimed product ' + options.productId)
-      // socket.emit('product-claimed', options)
-      me.getStats()
-      log('claim response', res)
-    }, function (err) {
-      toastr.error('There was a problem claiming this product')
-      console.error(err)
-    })
+    return $http.post(url, payload)
   }
 
   me.clearProductList = function () {
