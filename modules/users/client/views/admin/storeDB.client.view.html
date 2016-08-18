@@ -8,7 +8,8 @@
     <div class="orders-container" ng-show="!importView">
         <div layout class="orders-header">
             <div flex=10 class="align-center">#</div>
-            <div flex=30>Store</div>
+            <div flex=20>Store Name</div>
+            <div flex=10>Account Id</div>
             <div flex=10 class="align-center">Received</div>
             <div flex=10 class="align-center">Processed</div>
             <div flex=10 class="align-center">Done</div>
@@ -20,7 +21,8 @@
              ng-repeat="store in orders | orderBy:'-status.received'"
              ng-click="goToMatch(store.storeId)">
             <div flex=10 class="align-center">{{store.storeId}}</div>
-            <div flex=30>{{store.name}}</div>
+            <div flex=20>{{store.name}}</div>
+            <div flex=10>{{store.accountId}}</div>
             <div flex=10 class="align-center">{{store.status.received}}</div>
             <div flex=10 class="align-center">{{store.status.processed}}</div>
             <div flex=10 class="align-center">{{store.status.done}}</div>
