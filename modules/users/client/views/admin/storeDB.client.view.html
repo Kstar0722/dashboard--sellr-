@@ -50,11 +50,40 @@
                            callback="initCsvImport"></ng-csv-import>
 
             <h2>To the following store:</h2>
-            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store">
+
+            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
             </selectize>
 
+            <div id="createStoreModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Store Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.name" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">AccountId:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.accountId" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="selectNewStore(newStore)">
+                                Create Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="toolbar">
-                <md-button class="next" ng-click="importView = 'configure'" ng-disabled="!csv.result || !selectedStore">
+                <md-button class="next" ng-click="importView = 'configure'" ng-disabled="!csv.result || (selectedStore || '-') == '-'">
                     Next Step
                 </md-button>
             </div>
@@ -66,7 +95,7 @@
             </div>
             <form novalidate autocomplete="off">
                 <div class="form-group first-row">
-                    <input type="checkbox" class="form-control" id="firstRowTitles" ng-model="csv.header">
+                    <input type="checkbox" id="firstRowTitles" ng-model="csv.header">
                     <label for="firstRowTitles">First row is used for titles</label>
                 </div>
                 <div class="column-mapping form-group" ng-repeat="column in csv.columns">
@@ -92,3 +121,7 @@
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

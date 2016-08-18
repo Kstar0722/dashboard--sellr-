@@ -13,13 +13,11 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
   // selectize control options
   $scope.selectStoreConfig = {
-    create: true,
-    createOnBlur: true,
+    create: false,
     maxItems: 1,
     allowEmptyOption: false,
     valueField: 'storeId',
     labelField: 'name',
-    sortField: 'name',
     searchField: ['name', 'storeId']
   };
 
@@ -62,18 +60,24 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     }
 
     $scope.storeSubmitBusy = true;
-    selectOrCreateStore(selectedStore).then(function (store) {
-      var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns);
-      return importStoreProducts(store, products).then(function (store) {
-        $scope.orders.push(store);
-        $scope.cancelImport();
-        toastr.success('Store csv file imported');
-      }, function (error) {
-        toastr.error(error && error.toString() || 'Failed to import csv file');
+    try {
+      selectOrCreateStore(selectedStore).then(function (store) {
+        var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns);
+        return importStoreProducts(store, products).then(function (store) {
+          $scope.orders.push(store);
+          $scope.cancelImport();
+          toastr.success('Store csv file imported');
+        }, function (error) {
+          toastr.error(error && error.toString() || 'Failed to import csv file');
+        });
+      }).finally(function () {
+        $scope.storeSubmitBusy = false;
       });
-    }).finally(function () {
+    }
+    catch (ex) {
+      console.error('unable to submit store', ex);
       $scope.storeSubmitBusy = false;
-    });
+    }
   };
 
   $scope.cancelImport = function () {
@@ -88,6 +92,28 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $state.go('editor.match', { id: id })
     })
   }
+
+  $scope.openNewDialog = function (store) {
+    if (store !== EMPTY_FIELD_NAME) return;
+
+    $scope.newStore = {
+      storeId: randomId(),
+      accountId: localStorage.getItem('accountId')
+    };
+
+    var $createModal = $('#createStoreModal').on('shown.bs.modal', function (e) {
+      var autofocus = $(e.target).find('[autofocus]')[0];
+      if (autofocus) autofocus.focus();
+    });
+
+    $createModal.modal('show');
+  };
+
+  $scope.selectNewStore = function (newStore) {
+    if (!newStore) return;
+    $scope.storesDropdown.splice(1, 0, newStore);
+    $scope.selectedStore = newStore.storeId || newStore.name;
+  };
 
   $scope.$watch('csv.header', function () {
     $scope.csv.loaded = false;
@@ -122,6 +148,8 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       // timeEnd('getProductList')
       $scope.orders = response.data
       $scope.storesDropdown = $scope.orders.slice();
+      $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
+      $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
       console.log($scope.orders)
       _.each($scope.orders, function (elm, ind, orders) {
         if (elm.status.received > 0) {
@@ -152,16 +180,19 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   function selectOrCreateStore(storeId) {
-    var storeDb = _.find($scope.orders, { storeId: parseInt(storeId, 10) }) || _.find($scope.orders, { name: storeId });
-    if (storeDb) return $q.when(storeDb);
+    var store = findStore($scope.orders, storeId);
+    if (store) return $q.when(store); // already exists
 
-    var storeName = storeId;
-    var payload = {
-      accountId: localStorage.getItem('accountId'),
-      name: storeName.trim()
-    };
+    store = findStore($scope.storesDropdown, storeId);
 
-    return $http.post(constants.BWS_API + '/storedb/stores', { payload: payload }).then(handleResponse).then(function (data) {
+    if (!store) {
+      store = {
+        accountId: localStorage.getItem('accountId'),
+        name: storeId.toString().trim()
+      };
+    }
+
+    return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(handleResponse).then(function (data) {
       return getStoreById(data.storeId);
     });
   }
@@ -226,5 +257,13 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     });
     if (!$scope.$$phase) $scope.$digest();
     return availableFields;
+  }
+
+  function randomId() {
+    return -Math.floor(100000 * Math.random());
+  }
+
+  function findStore(arr, id) {
+    return _.find(arr, { storeId: parseInt(id, 10) }) || _.find(arr, { name: id });
   }
 });

@@ -1849,8 +1849,12 @@ body .productEditor .loading-data .right {
   }
 }
 .store-client-view .import-wizard .configure .first-row {
+  cursor: pointer;
   margin-bottom: 30px;
   text-align: center;
+}
+.store-client-view .import-wizard .configure .first-row #firstRowTitles {
+  margin-right: 10px;
 }
 .store-client-view .import-wizard .configure .column-mapping > * {
   display: inline-block;
@@ -1876,7 +1880,7 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .confirm {
   color: #9e9e9e;
   margin: auto;
-  max-width: 400px;
+  max-width: 480px;
   text-align: center;
 }
 .store-client-view .import-wizard .confirm .toolbar {
