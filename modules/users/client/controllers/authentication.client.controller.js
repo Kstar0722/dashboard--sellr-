@@ -106,7 +106,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     function onSigninSuccess (response) {
 
       // If successful we assign the response to the global user model
-      authToken.setToken(response.data.token);
+      authToken.setToken(response.data.token.token);
       //set roles
       localStorage.setItem('roles', response.data.roles);
       //store account Id in location storage
