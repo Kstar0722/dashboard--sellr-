@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -189,11 +189,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
   }
 
-  $scope.types = [
-    { productTypeId: 1, name: 'Wine' },
-    { productTypeId: 2, name: 'Beer' },
-    { productTypeId: 3, name: 'Spirits' }
-  ]
+  $scope.types = ProductTypes;
   $scope.toggleAll = function () {
     var sel = $scope.allSelected.value
     $scope.selected = []

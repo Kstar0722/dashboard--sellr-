@@ -1,26 +1,129 @@
 <div class="store-client-view">
-    <div layout class="orders-header">
-        <div flex=10 class="align-center">#</div>
-        <div flex=30>Account</div>
-        <div flex=10 class="align-center">Received</div>
-        <div flex=10 class="align-center">Processed</div>
-        <div flex=10 class="align-center">Done</div>
-        <div flex=10 class="align-center">Approved</div>
-        <div flex=10 class="align-center">Total</div>
-        <div flex=10 class="align-center">Status</div>
+    <div class="header">
+        <md-button class="upload-csv" ng-click="cancelImport(); importView = 'upload_file'">
+            + Upload
+        </md-button>
     </div>
-    <div layout layout-align="center center" class="orders-body"
-         ng-repeat="store in orders | orderBy:'-status.received'"
-         ng-click="goToMatch(store.storeId)">
-        <div flex=10 class="align-center">{{store.storeId}}</div>
-        <div flex=30>{{store.name}}</div>
-        <div flex=10 class="align-center">{{store.status.received}}</div>
-        <div flex=10 class="align-center">{{store.status.processed}}</div>
-        <div flex=10 class="align-center">{{store.status.done}}</div>
-        <div flex=10 class="align-center">{{store.status.approved}}</div>
-        <div flex=10 class="align-center">{{store.status.total}}</div>
-        <div flex=10 class="align-center">
-            <div ng-class="'status-bar ' + store.status.barClass"></div>
+
+    <div class="orders-container" ng-show="!importView">
+        <div layout class="orders-header">
+            <div flex=10 class="align-center">#</div>
+            <div flex=20>Store Name</div>
+            <div flex=10>Account Id</div>
+            <div flex=10 class="align-center">Received</div>
+            <div flex=10 class="align-center">Processed</div>
+            <div flex=10 class="align-center">Done</div>
+            <div flex=10 class="align-center">Approved</div>
+            <div flex=10 class="align-center">Total</div>
+            <div flex=10 class="align-center">Status</div>
+        </div>
+        <div layout layout-align="center center" class="orders-body"
+             ng-repeat="store in orders | orderBy:'-status.received'"
+             ng-click="goToMatch(store.storeId)">
+            <div flex=10 class="align-center">{{store.storeId}}</div>
+            <div flex=20>{{store.name}}</div>
+            <div flex=10>{{store.accountId}}</div>
+            <div flex=10 class="align-center">{{store.status.received}}</div>
+            <div flex=10 class="align-center">{{store.status.processed}}</div>
+            <div flex=10 class="align-center">{{store.status.done}}</div>
+            <div flex=10 class="align-center">{{store.status.approved}}</div>
+            <div flex=10 class="align-center">{{store.status.total}}</div>
+            <div flex=10 class="align-center">
+                <div ng-class="'status-bar ' + store.status.barClass"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="import-wizard" ng-show="importView" ng-disabled="storeSubmitBusy">
+        <div class="upload-file" ng-show="importView == 'upload_file'">
+            <h2>Upload a CSV of your products</h2>
+            <div ng-if="csv.result">
+                {{csv.result.filename}} ({{csv.result.length}} items)
+            </div>
+            <md-button class="select-file" ng-click="selectCsvImport('#storeCsv')">
+                Select File
+            </md-button>
+            <ng-csv-import id="storeCsv"
+                           result="csv.result"
+                           header="csv.header"
+                           separator="','"
+                           accept="'.csv'"
+                           acceptSize="4194304"
+                           callback="initCsvImport"></ng-csv-import>
+
+            <h2>To the following store:</h2>
+
+            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
+            </selectize>
+
+            <div id="createStoreModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Store Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.name" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">AccountId:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.accountId" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="selectNewStore(newStore)">
+                                Create Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <md-button class="next" ng-click="importView = 'configure'" ng-disabled="!csv.result || (selectedStore || '-') == '-'">
+                    Next Step
+                </md-button>
+            </div>
+        </div>
+        <div class="configure" ng-show="importView == 'configure'">
+            <div class="step-header">
+                <h1>Configure your Import</h1>
+                <div>Tell us which fields you would like to match and which you would like to create.</div>
+            </div>
+            <form novalidate autocomplete="off">
+                <div class="form-group first-row">
+                    <input type="checkbox" id="firstRowTitles" ng-model="csv.header">
+                    <label for="firstRowTitles">First row is used for titles</label>
+                </div>
+                <div class="column-mapping form-group" ng-repeat="column in csv.columns">
+                    <span class="col-name">{{csv.header && csv.loaded ? column.name : 'Column' + ($index+1)}}</span>
+                    <i class="fa fa-long-arrow-right fa-2x"></i>
+                    <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.mapping"></selectize>
+                </div>
+                <div class="toolbar">
+                    <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
+                    <md-button class="next" ng-click="importView = 'confirm'">Next Step</md-button>
+                </div>
+            </form>
+        </div>
+        <div class="confirm" ng-show="importView == 'confirm'">
+            <h1>
+                Confirm Import
+                <span ng-if="csv.result.length">of {{csv.result.length}} items</span>
+            </h1>
+            <div class="toolbar">
+                <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
+                <md-button class="green" ng-click="submitStore(selectedStore)">Import Items</md-button>
+            </div>
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

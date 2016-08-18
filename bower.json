@@ -42,7 +42,9 @@
     "font-awesome": "^4.6.3",
     "angular-location-update": "^0.0.2",
     "angular-socket-io": "^0.7.0",
-    "socket.io-client": "^1.4.8"
+    "socket.io-client": "^1.4.8",
+    "angular-csv-import": "#0.0.36",
+    "angular-selectize2": "^3.0.1"
   },
   "resolutions": {
     "angular": "1.4.x",
