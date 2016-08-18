@@ -8,9 +8,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   function ($locationProvider, $httpProvider, envServiceProvider) {
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
 
-    $httpProvider.interceptors.push('authInterceptor')       //  MEANJS/Mongo interceptor
-    $httpProvider.interceptors.push('oncueAuthInterceptor')  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-    $httpProvider.interceptors.push('errorInterceptor')     //   Error Interceptor for tracking errors.
+    $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
+    $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+    $httpProvider.interceptors.push('errorInterceptor') //   Error Interceptor for tracking errors.
 
     // SET ENVIRONMENT
 
@@ -33,7 +33,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: [ 'localhost' ],
         development: [ 'dashdev.sllr.io' ],
         staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ]
       },
       vars: {
         local: {
@@ -58,7 +58,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           env: 'production'
         }
       }
-    });
+    })
 
     // run the environment check, so the comprobation is made
     // before controllers and services are built
@@ -66,11 +66,18 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   }
 ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken) {
   $rootScope.$stateClass = cssClassOf($state.current.name)
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    // General Authentication BEFORE Checking Roles
+    if (!authToken.isAuthenticated() && toState.name !== 'home') {
+      event.preventDefault()
+      $state.go('home')
+      return false
+    }
+    // Authentication AND AUthorization based on Roles
     if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
       var allowed = false
       toState.data.roles.forEach(function (role) {
