@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService, $rootScope) {
   var me = this
   me.init = function () {
     me.selectAccountId = localStorage.getItem('accountId')
@@ -7,6 +7,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     me.editAccount = {}
     me.currentAccount = {}
     me.ordersCount = 0
+    bindRootProperty($rootScope, 'selectAccountId', me)
     getAccounts()
   }
 
@@ -117,13 +118,17 @@ angular.module('users').service('accountsService', function ($http, constants, t
     bindRootProperty(scope, 'selectAccountId')
   }
 
+  $rootScope.$watch(function () { return me.selectAccountId; }, function (accountId) {
+    me.currentAccount = _.find(me.accounts, { accountId: parseInt(accountId, 10) });
+  });
+
   // set up two-way binding to parent property
-  function bindRootProperty ($scope, name) {
+  function bindRootProperty ($scope, name, context) {
     $scope.$watch('$root.' + name, function (value) {
-      $scope[name] = value
+      (context || $scope)[name] = value
     })
 
-    $scope.$watch(name, function (value) {
+    $scope.$watch(function() { return (context || $scope)[name]; }, function (value) {
       $scope.$root[name] = value
     })
   }
