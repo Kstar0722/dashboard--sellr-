@@ -4,6 +4,9 @@ body.storeOwner-orders{
 }  
 .orders-view{
   padding: 10vh 12vw;
+  @media @small-only{
+    padding: 20px 10px 50px 10px;
+  }
   .orders-stats,
   .orders-column{
     padding: 0 3vw;
@@ -19,6 +22,9 @@ body.storeOwner-orders{
       }
       .title{
         font-size: 42px;
+        @media @small-only{
+          font-size: 30px;
+        }
       }
       .today-count{
         font-size: 22px;
@@ -79,6 +85,9 @@ body.storeOwner-orders{
         .pickup-time{
           font-family: @avenir;
           font-size: 18px;
+          @media @small-only{
+            font-size: 14px;
+          }
           font-weight: bold;
           padding-top: 30px;
           .pickup-label{
@@ -94,6 +103,13 @@ body.storeOwner-orders{
             font-size: 24px;
             line-height: 24px;
             box-sizing: border-box;
+            @media @small-only{
+              padding: 2px 0px 0px 0px;
+              width: 40px;
+              height: 40px;
+              font-size: 18px;
+              line-height: 18px;
+            }
 
             .subtime{
               font-size: 14px;
@@ -106,23 +122,35 @@ body.storeOwner-orders{
           font-family: @avenir;
           font-size: 26px;
           font-weight: bold;
+          @media @small-only{
+            font-size: 16px;
+          }
           .total{
             padding-top: 20px;
           }
         }
       }
-      
+
 
       .order-items{
         border-left: 2px solid #eeeef0;
         margin: 30px 0;
         padding: 0 20px;
+        @media @small-only{
+          padding: 0 10px;
+        }
         .orders-user{
           font-size: 30px;
+          @media @small-only{
+            font-size: 18px;
+          }
           font-family: @avenir;
           font-weight: bold;
           .date{
             font-size: 16px;
+            @media @small-only{
+              font-size: 12px;
+            }
             font-weight: normal;
             text-align: right;
             color: #9ba2a8;
@@ -137,23 +165,34 @@ body.storeOwner-orders{
           .item-slot{
             width: 40px;
             height: 40px;
+            @media @small-only{
+              width: 30px;
+              height: 30px;
+              font-size: 14px;
+              line-height: 30px;
+            }
             color: #fff;
             background-color: #ccc;
             border-radius: 40px;
+            font-size: 20px;
             line-height: 40px;
             text-align: center;
             margin: 0 auto;
             font-weight: bold;
-            font-size: 20px;
           }
           .item-qty{
-
             font-size: 30px;
+            @media @small-only{
+              font-size: 18px;
+            }
           }
           .item-title{
             font-weight: bold;
             line-height: 15px;
             font-size: 18px;
+            @media @small-only{
+              font-size: 16px;
+            }
             padding-left: 20px;
           }
           .item-description{
