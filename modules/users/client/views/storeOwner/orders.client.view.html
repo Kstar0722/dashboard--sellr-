@@ -1,10 +1,6 @@
 <section class="orders-view" ng-init="init()">
-
-  <div layout class="">
-
-    <div flex=65 class="orders-column">
-
-
+  <div layout layout-xs="column">
+  <div flex=65 flex-xs=100 class="orders-column">
 
       <div class="orders-title" layout layout-align="start end">
         <div flex>
@@ -15,9 +11,6 @@
         <div class="right-action" flex ng-click="changeDisplayedOrders()" ng-if="!showPastOrders">See Past Orders ({{pastOrders.length || 0}})</div>
         <div class="right-action" flex ng-click="changeDisplayedOrders()" ng-if="showPastOrders">See Today's Orders ({{todayOrders.length || 0}})</div>
       </div>
-      
-
-
 
       <div class="order-container" layout ng-repeat="order in displayOrders">
         <div class="checkmark" ng-click="markOrder(order)" ng-if="order.status !== 'Cancelled'"> 
@@ -27,7 +20,7 @@
         <div class="cancelled" ng-if="order.status === 'Cancelled'">
           Cancelled
         </div>
-        <div flex=20 layout="column"  layout-align="end stretch" class="align-center left-column">
+        <div flex=20 flex-xs=25 layout="column"  layout-align="end stretch" class="align-center left-column">
           <div flex class="pickup-time">
             <div class="pickup-label">PICKUP</div>
             <div class="time">
@@ -39,7 +32,7 @@
             <div class="total">{{ order.total | currency:"$" }}</div>
           </div>
         </div>
-        <div flex=80 class="order-items"> 
+        <div flex=80 flex-xs=75 class="order-items"> 
           <div class="orders-user" layout layout-align="start end">
             <div flex>
               {{order.user.email}}
@@ -48,10 +41,10 @@
           </div>
 
           <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
-            <div flex=10 class="align-center">
+            <div flex=10 flex-xs=15 class="align-center">
               <div class="item-slot" ng-style="{'background-color': product.planHexColor, 'color': product.planFontColor}">{{product.slot}}</div>
             </div>
-            <div flex=10 class="item-qty align-center">x {{product.quantity}}</div>
+            <div flex=10 flex-xs=15 class="item-qty align-center">x {{product.quantity}}</div>
             <div flex>
               <div class="item-title">{{product.name}}</div>
               <div class="item-description">{{ product.price | currency:"$" }}</div>
@@ -62,10 +55,10 @@
         </div>
       </div>
 
-
-
     </div>
-    <div flex=35 class="orders-stats">
+
+    <div flex=35 flex-xs=100 class="orders-stats">
+
       <div class="stats-title" layout layout-align="start end">
         <div flex class="title">
           Order's Stats
@@ -113,9 +106,8 @@
         Total Sales
       </div>
 
-
-
     </div>
+
   </div>
 </section>
 

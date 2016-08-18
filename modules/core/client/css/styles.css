@@ -1914,6 +1914,11 @@ body.storeOwner-orders {
 .orders-view {
   padding: 10vh 12vw;
 }
+@media only screen and (max-width: 600px) {
+  .orders-view {
+    padding: 20px 10px 50px 10px;
+  }
+}
 .orders-view .orders-stats,
 .orders-view .orders-column {
   padding: 0 3vw;
@@ -1929,6 +1934,11 @@ body.storeOwner-orders {
 }
 .orders-view .orders-column .orders-title .title {
   font-size: 42px;
+}
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .orders-title .title {
+    font-size: 30px;
+  }
 }
 .orders-view .orders-column .orders-title .today-count {
   font-size: 22px;
@@ -1993,6 +2003,11 @@ body.storeOwner-orders {
   font-weight: bold;
   padding-top: 30px;
 }
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .left-column .pickup-time {
+    font-size: 14px;
+  }
+}
 .orders-view .orders-column .order-container .left-column .pickup-time .pickup-label {
   margin-bottom: 10px;
 }
@@ -2007,6 +2022,15 @@ body.storeOwner-orders {
   line-height: 24px;
   box-sizing: border-box;
 }
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .left-column .pickup-time .time {
+    padding: 2px 0px 0px 0px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    line-height: 18px;
+  }
+}
 .orders-view .orders-column .order-container .left-column .pickup-time .time .subtime {
   font-size: 14px;
   font-weight: normal;
@@ -2017,6 +2041,11 @@ body.storeOwner-orders {
   font-size: 26px;
   font-weight: bold;
 }
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .left-column .order-total {
+    font-size: 16px;
+  }
+}
 .orders-view .orders-column .order-container .left-column .order-total .total {
   padding-top: 20px;
 }
@@ -2025,16 +2054,31 @@ body.storeOwner-orders {
   margin: 30px 0;
   padding: 0 20px;
 }
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .order-items {
+    padding: 0 10px;
+  }
+}
 .orders-view .orders-column .order-container .order-items .orders-user {
   font-size: 30px;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   font-weight: bold;
+}
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .order-items .orders-user {
+    font-size: 18px;
+  }
 }
 .orders-view .orders-column .order-container .order-items .orders-user .date {
   font-size: 16px;
   font-weight: normal;
   text-align: right;
   color: #9ba2a8;
+}
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .order-items .orders-user .date {
+    font-size: 12px;
+  }
 }
 .orders-view .orders-column .order-container .order-items .product-line {
   margin: 30px auto;
@@ -2049,20 +2093,38 @@ body.storeOwner-orders {
   color: #fff;
   background-color: #ccc;
   border-radius: 40px;
+  font-size: 20px;
   line-height: 40px;
   text-align: center;
   margin: 0 auto;
   font-weight: bold;
-  font-size: 20px;
+}
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .order-items .product-line .item-slot {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px;
+  }
 }
 .orders-view .orders-column .order-container .order-items .product-line .item-qty {
   font-size: 30px;
+}
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .order-items .product-line .item-qty {
+    font-size: 18px;
+  }
 }
 .orders-view .orders-column .order-container .order-items .product-line .item-title {
   font-weight: bold;
   line-height: 15px;
   font-size: 18px;
   padding-left: 20px;
+}
+@media only screen and (max-width: 600px) {
+  .orders-view .orders-column .order-container .order-items .product-line .item-title {
+    font-size: 16px;
+  }
 }
 .orders-view .orders-column .order-container .order-items .product-line .item-description {
   padding-left: 20px;
