@@ -194,7 +194,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     log('claiming', payload)
     var url = constants.BWS_API + '/edit/claim'
     $http.post(url, payload).then(function (res) {
-      toastr.info('User ' + options.username + ' claimed product ' + options.productId)
+      toastr.info('You claimed product ' + options.productId)
       // socket.emit('product-claimed', options)
       me.getStats()
       log('claim response', res)
