@@ -167,13 +167,15 @@ angular.module('users').controller('productEditorController', function ($scope, 
       productId: product.productId,
       status: 'inprogress'
     }
-    productEditorService.claim(options)
-    productEditorService.setCurrentProduct(product)
-    if ($state.includes('editor.match')) {
-      $state.go('editor.match.edit', { productId: product.productId })
-    } else {
-      $state.go('editor.edit', { productId: product.productId })
-    }
+    productEditorService.claim(options).then(function () {
+      productEditorService.setCurrentProduct(product)
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.edit', { productId: product.productId })
+      } else {
+        $state.go('editor.edit', { productId: product.productId })
+      }
+    })
+
   }
 
   $scope.updateFilter = function (value) {
@@ -189,18 +191,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
   }
 
-  $scope.types = ProductTypes;
-  $scope.toggleAll = function () {
-    var sel = $scope.allSelected.value
-    $scope.selected = []
-    _.forEach(productEditorService.productList, function (p) {
-      if (sel) {
-        $scope.selected.push(p)
-      }
-      p.selected = sel
-    })
+  $scope.submitForApproval = function (product) {
+    product.status = 'done'
+    productEditorService.save(product)
+    $scope.viewProduct(product)
+    $('.modal-backdrop').remove()
   }
-  // Functions related to changing product status
 
   $scope.issues = [
     'Problem With Image',
