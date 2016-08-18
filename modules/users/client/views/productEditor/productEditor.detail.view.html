@@ -26,6 +26,7 @@
 
                     <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
                     <div>Product Id {{ pes.currentProduct.productId }}</div>
+                    <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
                     <span>Requested by: {{pes.currentProduct.requestedBy}}</span>
 
                 </div>

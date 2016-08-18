@@ -16,7 +16,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     feedback: true,
     template: ''
   }
-  $scope.allSelected = false
+  $scope.allSelected = {value: false}
   $scope.searchText = ''
 
   $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
@@ -58,6 +58,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   } else {
     $scope.listOptions.filterByUserId = false
   }
+  $scope.listOptions.userId = $scope.userId
 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
@@ -120,12 +121,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   var refreshList = function () {
-    $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
-    $scope.products = $scope.allProducts
-    if ($scope.listOptions.filterByUserId) {
-      $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
-    }
-    $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
+    productEditorService.sortAndFilterProductList($scope.listOptions)
+  // $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
+  // $scope.products = $scope.allProducts
+  // if ($scope.listOptions.filterByUserId) {
+  //   $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
+  // }
+  // $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
   }
 
   $scope.toggleSelected = function (product) {
@@ -193,14 +195,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
     { productTypeId: 3, name: 'Spirits' }
   ]
   $scope.toggleAll = function () {
-    var sel = !$scope.allSelected
+    var sel = $scope.allSelected.value
     $scope.selected = []
-    _.map($scope.products, function (p) {
+    _.forEach(productEditorService.productList, function (p) {
       if (sel) {
         $scope.selected.push(p)
       }
       p.selected = sel
-      return p
     })
   }
   // Functions related to changing product status

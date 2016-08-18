@@ -1,5 +1,5 @@
 /* globals angular, localStorage,jQuery,_ */
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -35,6 +35,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     ]
     me.productStorage = {}
     me.productStats = {}
+    me.allProducts = []
     me.productList = []
     me.myProducts = []
     me.currentProduct = {}
@@ -52,6 +53,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show.loading = true
     var defer = $q.defer()
     me.productList = []
+    me.allProducts = []
     var url = constants.BWS_API + '/edit/search?'
     if (options.types) {
       for (var i in options.types) {
@@ -77,13 +79,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
       }
     }
     if (searchText) {
-      url += '&q=' + searchText + '&v=sum'
+      url += '&q=' + searchText
     }
-    if (options.sum) {
-      url += '&v=sum'
-    }
+    url += '&v=sum'
     $http.get(url).then(function (response) {
       me.productList = response.data
+      me.allProducts = response.data
       me.show.loading = false
       defer.resolve(me.productList)
     }, function (err) {
@@ -92,6 +93,15 @@ angular.module('users').service('productEditorService', function ($http, $locati
       me.show.loading = false
     })
     return defer.promise
+  }
+
+  me.sortAndFilterProductList = function (listOptions) {
+    me.allProducts = $filter('orderBy')(me.allProducts, listOptions.orderBy)
+    me.productList = me.allProducts
+    if (listOptions.filterByUserId) {
+      me.productList = $filter('filter')(me.productList, { userId: listOptions.userId })
+    }
+    me.productList = $filter('limitTo')(me.productList, listOptions.searchLimit)
   }
 
   // send in type,status,userid, get back list of products
@@ -246,7 +256,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       window.scrollTo(0, 0)
       // socket.emit('product-saved')
       me.productStorage[ product.productId ] = product
-      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
       toastr.success('Product Updated!')
       defer.resolve()
     }
@@ -583,5 +593,3 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
   return me
 })
-
-
