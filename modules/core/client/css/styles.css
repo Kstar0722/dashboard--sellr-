@@ -2111,40 +2111,73 @@ body.storeOwner-orders {
 }
 .orders-view .orders-column .order-container {
   background-color: #fafafb;
-  margin: 4vh 0;
+  margin: 50px 0;
   position: relative;
   border: 1px solid #f6f7f7;
 }
-.orders-view .orders-column .order-container .cancelled {
+.orders-view .orders-column .order-container .status-box {
   position: absolute;
-  color: #f21e71;
-  top: 5px;
-  right: 5px;
-  font-weight: bold;
-}
-.orders-view .orders-column .order-container .checkmark {
-  position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 200px;
+  height: 40px;
+  text-align: right;
+  line-height: 40px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 19px;
+  color: #fff;
   outline: none;
-  border-radius: 5px;
-  border: 2px solid #142332;
-  top: -5px;
-  right: -5px;
+  top: -20px;
+  right: 0px;
+  cursor: pointer;
+  background-color: #2DC89A;
+}
+.orders-view .orders-column .order-container .status-box.submitted {
+  background-color: #22d2f4;
+}
+.orders-view .orders-column .order-container .status-box.cancelled {
+  background-color: #ff0400;
+}
+.orders-view .orders-column .order-container .status-box.completed {
+  background-color: #31c693;
+}
+.orders-view .orders-column .order-container .status-box.ready-for-pickup {
+  background-color: #ffb42a;
+}
+.orders-view .orders-column .order-container .status-box .fa {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.orders-view .orders-column .order-container .status-select {
+  position: absolute;
+  top: 25px;
+  right: 0px;
+  width: 200px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #fff;
+  z-index: 999;
+  max-height: 0px;
+  overflow-y: hidden;
+  transition-property: all;
+  transition-duration: .5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+.orders-view .orders-column .order-container .status-select.shown {
+  max-height: 184px;
+}
+.orders-view .orders-column .order-container .status-select li {
+  padding: 0;
+  margin: 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: right;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 16px;
+  padding: 3px 15px 3px 0px;
   cursor: pointer;
 }
-.orders-view .orders-column .order-container .checkmark .fa {
-  position: relative;
-}
-.orders-view .orders-column .order-container .checkmark .fa.fa-check {
-  top: -10px;
-  font-size: 40px;
-  color: #2DC89A;
-}
-.orders-view .orders-column .order-container .checkmark .fa.fa-shopping-basket {
-  top: 2px;
-  color: #FFA500;
-  font-size: 26px;
+.orders-view .orders-column .order-container .status-select li:hover {
+  background-color: rgba(158, 158, 158, 0.2);
 }
 .orders-view .orders-column .order-container .left-column {
   padding-bottom: 30px;
