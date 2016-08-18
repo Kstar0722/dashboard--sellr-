@@ -54,7 +54,8 @@ angular.module('users.admin')
         var reloadPast = $scope.displayOrders === $scope.pastOrders
 
         $scope.allOrders = orders
-        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Complete' && order.status !== 'Cancelled' })
+        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Completed' && order.status !== 'Cancelled' })
+        accountsService.ordersCount = $scope.todayOrders.length
         $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
         $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
         $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
@@ -66,7 +67,7 @@ angular.module('users.admin')
       }
 
       function isTodayButCompleted (order) {
-        return moment().isSame(order.pickupTime, 'day') && (order.status === 'Complete' || order.status === 'Cancelled')
+        return moment().isSame(order.pickupTime, 'day') && (order.status === 'Completed' || order.status === 'Cancelled')
       }
 
       function getFilteredOrders (days) {
@@ -96,20 +97,8 @@ angular.module('users.admin')
         }, 0)
       }
 
-      $scope.markOrder = function (order) {
-        switch (order.status) {
-          case 'Submitted':
-            order.status = 'Ready for Pickup'
-            break
-          case 'Ready for Pickup':
-            order.status = 'Complete'
-            break
-          case 'Complete':
-            order.status = 'Submitted'
-            break
-          default:
-            order.status = 'Submitted'
-        }
+      $scope.markOrder = function (order, newStatus) {
+        order.status = newStatus
         updateOrder(order)
       }
 
@@ -117,13 +106,16 @@ angular.module('users.admin')
         var url = constants.API_URL + '/mobile/reservations/' + order._id
         $http.put(url, order).then(function (result) {
           if (result.data.status === 'Submitted') {
-            toastr.warning('Order Unmarked')
+            toastr.warning('Order marked as Submitted')
           }
           if (result.data.status === 'Ready for Pickup') {
-            toastr.info('Order Marked as Ready for Pick Up')
+            toastr.info('Order marked as Ready for Pick Up')
           }
-          if (result.data.status === 'Complete') {
+          if (result.data.status === 'Completed') {
             toastr.success('Order Completed')
+          }
+          if (result.data.status === 'Cancelled') {
+            toastr.warning('Order Cancelled')
           }
           loadOrders($scope.allOrders)
         })
