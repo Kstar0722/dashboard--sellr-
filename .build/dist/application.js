@@ -13,7 +13,7 @@ var ApplicationConfiguration = (function () {
 
     // Add the module to the AngularJS configuration file
     angular.module(applicationModuleName).requires.push(moduleName);
-  };
+  }
 
   return {
     applicationModuleName: applicationModuleName,
@@ -51,38 +51,38 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       })
     }
 
-        // set the domains and variables for each environment
-        envServiceProvider.config({
-            domains: {
-                local: [ 'localhost' ],
-                development: [ 'dashdev.sllr.io' ],
-                staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-                production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
-            },
-            vars: {
-                local: {
-                    API_URL: 'http://localhost:7272',
-                    BWS_API: 'http://localhost:7171',
-                    env:'local'
-                },
+    // set the domains and variables for each environment
+    envServiceProvider.config({
+      domains: {
+        local: [ 'localhost' ],
+        development: [ 'dashdev.sllr.io' ],
+        staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
+        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+      },
+      vars: {
+        local: {
+          API_URL: 'http://localhost:7272',
+          BWS_API: 'http://localhost:7171',
+          env: 'local'
+        },
 
-                development: {
-                    API_URL: 'https://apidev.sllr.io',
-                    BWS_API: 'https://bwsdev.sllr.io',
-                    env:'dev'
-                },
-                staging: {
-                    API_URL: 'https://apiqa.sllr.io',
-                    BWS_API: 'https://bwsqa.sllr.io',
-                    env:'staging'
-                },
-                production: {
-                    API_URL: 'https://api.sllr.io',
-                    BWS_API: 'https://bws.sllr.io',
-                    env:'production'
-                }
-            }
-        });
+        development: {
+          API_URL: 'https://apidev.sllr.io',
+          BWS_API: 'https://bwsdev.sllr.io',
+          env: 'dev'
+        },
+        staging: {
+          API_URL: 'https://apiqa.sllr.io',
+          BWS_API: 'https://bwsqa.sllr.io',
+          env: 'staging'
+        },
+        production: {
+          API_URL: 'https://api.sllr.io',
+          BWS_API: 'https://bws.sllr.io',
+          env: 'production'
+        }
+      }
+    });
 
     // run the environment check, so the comprobation is made
     // before controllers and services are built
@@ -1197,36 +1197,42 @@ angular.module('users.manager.routes').config(['$stateProvider',
     }
 ]);
 ;
-'use strict';
+'use strict'
 
-// Configuring the Articles module
+/* global angular */
 angular.module('users.storeOwner').run(['Menus',
-    function (Menus) {
-        Menus.addSubMenuItem('topbar', 'storeOwner', {
-            title: 'Invite User',
-            state: 'storeOwner.inviteUser',
-            position:8
-        });
-
-    }
-]);
+  function (Menus) {
+    Menus.addSubMenuItem('topbar', 'storeOwner', {
+      title: 'Invite User',
+      state: 'storeOwner.inviteUser',
+      position: 8
+    })
+    Menus.addSubMenuItem('topbar', 'storeOwner', {
+      title: 'Orders',
+      state: 'storeOwner.orders',
+      position: 0
+    })
+  }
+])
 ;
-'use strict';
+'use strict'
 
-// Setting up route
+/* global angular */
 angular.module('users.storeOwner.routes').config(['$stateProvider',
-    function ($stateProvider) {
-        $stateProvider
-            .state('storeOwner.inviteUser', {
-                url: '/invite',
-                templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
-                controller:'StoreOwnerInviteController'
-            })
-
-
-
-    }
-]);
+  function ($stateProvider) {
+    $stateProvider
+      .state('storeOwner.inviteUser', {
+        url: '/invite',
+        templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
+        controller: 'StoreOwnerInviteController'
+      })
+      .state('storeOwner.orders', {
+        url: '/orders',
+        templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
+        controller: 'StoreOwnerOrdersController'
+      })
+  }
+])
 ;
 'use strict';
 
@@ -1260,38 +1266,33 @@ angular.module('users.supplier.routes').config(['$stateProvider',
     }
 ]);
 ;
-'use strict';
-
+'use strict'
+/* globals angular*/
 // Configuring the Articles module
-angular.module('users.admin').run(['Menus',
-    function (Menus, ord) {
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Account Manager',
-            state: 'admin.accounts',
-            position: 3
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'User Management',
-            state: 'admin.users',
-            position: 5
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Pricing Calculator',
-            state: 'admin.pricing',
-            position: 6
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Device Management',
-            state: 'admin.device',
-            position: 7
-        });
-        Menus.addSubMenuItem('topbar', 'admin', {
-            title: 'Store Database Management',
-            state: 'admin.store',
-            position: 8
-        });
-    }
-]);
+angular.module('users.admin').run([ 'Menus',
+  function (Menus, ord) {
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Account Manager',
+      state: 'admin.accounts',
+      position: 3
+    })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'User Management',
+      state: 'admin.users',
+      position: 5
+    })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Pricing Calculator',
+      state: 'admin.pricing',
+      position: 6
+    })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Store Database Management',
+      state: 'admin.store',
+      position: 8
+    })
+  }
+])
 ;
 'use strict';
 
@@ -1325,7 +1326,7 @@ angular.module('users.admin.routes').config([ '$stateProvider',
           userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
             return Admin.get({
               userId: $stateParams.userId
-            });
+            })
           } ]
         }
       })
@@ -1485,46 +1486,46 @@ angular.module('users').config(['$stateProvider',
 ]);
 ;
 angular.module('users.admin').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
-    accountsService.init();
-    $scope.accountsService = accountsService;
-    $scope.determinateValue = 0;
-    $scope.accountLogo = '';
-    $scope.account = {
-        createdBy: ''
-    };
-    if (Authentication.user) {
-        $scope.account.createdBy = Authentication.user.username
+  accountsService.init()
+  $scope.accountsService = accountsService
+  $scope.determinateValue = 0
+  $scope.accountLogo = ''
+  $scope.account = {
+    createdBy: ''
+  }
+  if (Authentication.user) {
+    $scope.account.createdBy = Authentication.user.username
+  }
+  console.log($scope.account)
+
+  // changes the view, and sets current edit account
+  $scope.editAccount = function (account) {
+    console.log('editing account %O', account)
+    $scope.currentAccountLogo = ''
+    accountsService.editAccount = account
+    accountsService.editAccount.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
+    console.log('editAccount is now %O', accountsService.editAccount)
+    $state.go('admin.accounts.edit', { id: account.accountId })
+    window.scrollTo(0, 0)
+  }
+
+  $scope.upload = function (files, accountId) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'logo',
+      type: 'LOGO',
+      accountId: accountId
     }
-    console.log($scope.account);
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        accountsService.editAccount.logo = constants.ADS_URL + 'logo/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName
+        $scope.currentAccountLogo = accountsService.editAccount.logo
+        toastr.success('Logo Updated', 'Success!')
+      }
+    })
+  }
 
-    //changes the view, and sets current edit account
-    $scope.editAccount = function (account) {
-        console.log('editing account %O', account)
-        $scope.currentAccountLogo = '';
-        accountsService.editAccount = account;
-        //accountsService.editAccount.style = JSON.parse(account.preferences).style
-        console.log('editAccount is now %O', accountsService.editAccount)
-        $state.go('admin.accounts.edit', {id: account.accountId})
-    }
-
-
-    $scope.upload = function (files, accountId) {
-        var mediaConfig = {
-            mediaRoute: 'media',
-            folder:'logo',
-            type:'LOGO',
-            accountId: accountId
-        }
-        uploadService.upload(files[0], mediaConfig).then(function(response, err ){
-            if(response) {
-                accountsService.editAccount.logo = constants.ADS_URL + 'logo/'+response[0].mediaAssetId + '-' + response[0].fileName;
-                $scope.currentAccountLogo = accountsService.editAccount.logo;
-                toastr.success('Logo Updated', 'Success!');
-            }
-        })
-    };
-
-});
+})
 ;
 'use strict';
 
@@ -2162,15 +2163,15 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 ;
 angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
   if (Authentication.user) {
-    $scope.account = {createdBy: Authentication.user.username}
+    $scope.account = { createdBy: Authentication.user.username }
   }
 
   $scope.orders = {}
   $scope.orderItems = []
-  var url = constants.BWS_API + '/choose/orders'
-  $http.get(url).then(getAvailOrderSuccess, getAvailOrderError)
+  var url = constants.BWS_API + '/storedb/stores'
+  $http.get(url).then(getStoresSuccess, getStoresError)
 
-  function getAvailOrderSuccess (response) {
+  function getStoresSuccess (response) {
     if (response.status === 200) {
       // timeEnd('getProductList')
       $scope.orders = response.data
@@ -2189,9 +2190,10 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     }
   }
 
-  function getAvailOrderError (error) {
-    error('getAvailOrderError %O', error)
+  function getStoresError (error) {
+    console.error('getAvailOrderError %O', error)
   }
+
   $scope.goToMatch = function (id) {
     orderDataService.currentOrderId = id
     orderDataService.getData(id).then(function (response) {
@@ -2202,7 +2204,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 ;
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
-                                                                              productEditorService, Authentication, $stateParams, constants, uploadService, toastr) {
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q) {
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
@@ -2214,16 +2216,28 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   function onProductLoad () {
     productEditorService.productList = []
     var name = orderDataService.currentItem.name
-    var sku = orderDataService.currentItem.upc
-    productEditorService.getProductList(name, {}).then(function () {
-      productEditorService.searchSkuResults(sku)
-    })
+    var upc = orderDataService.currentItem.upc
+    var type = orderDataService.currentItem.productTypeId
+    if (name) {
+      productEditorService.getProductList(name, { types: [ { type: type } ] }).then(function (productList) {
+        productEditorService.searchSkuResults({ upc: upc, productList: productList, type: type })
+      })
+    } else {
+      productEditorService.searchSkuResults({ upc: upc, type: type })
+    }
+  }
+
+  $scope.searchDatabase = function () {
+    productEditorService.productList = []
+    onProductLoad()
   }
 
   $scope.increaseIndex = function () {
-    productEditorService.productList = []
+    productEditorService.clearProductList()
     orderDataService.increaseIndex()
-    onProductLoad()
+    if (!orderDataService.currentItem.productId) {
+      onProductLoad()
+    }
   }
 
   $scope.markAsNew = function (prod) {
@@ -2232,11 +2246,37 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
       $scope.displayIndex += 1
     })
   }
-  $scope.matchProduct = function () {
-    orderDataService.matchProduct().then(function (data) {
-      var message = data.message || ''
-      toastr.success(message, 'Product Matched')
-      $scope.increaseIndex()
+
+  $scope.showConfirm = function (ev) {
+    var defer = $q.defer()
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+      .title('Would you like to delete your debt?')
+      .textContent('All of the banks have agreed to forgive you your debts.')
+      .ariaLabel('Lucky day')
+      .targetEvent(ev)
+      .ok('Mark as New')
+      .cancel('Mark as Done')
+    $mdDialog.show(confirm).then(function () {
+      $scope.status = 'You decided to get rid of your debt.'
+      defer.resolve('new')
+    }, function () {
+      $scope.status = 'You decided to keep your debt.'
+      defer.resolve('done')
+    })
+    return defer.promise
+  }
+
+  $scope.matchProduct = function (ev) {
+    $scope.showConfirm(ev).then(function (status) {
+      orderDataService.matchProduct().then(function (selected) {
+        productEditorService.getProduct(selected).then(function (product) {
+          product.status = status
+          productEditorService.save(product)
+          toastr.success('Product Matched')
+          $scope.increaseIndex()
+        })
+      })
     })
   }
   $scope.updateFilter = function (value) {
@@ -3270,7 +3310,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ;
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
                                                                         $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService) {
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -3278,6 +3318,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
+  $scope.Countries = Countries
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
     myProducts: false,
@@ -3285,6 +3326,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
     template: ''
   }
   $scope.allSelected = false
+
+  $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
+    console.log('allStores %O', res.data)
+    $scope.allStores = res.data
+  })
 
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
@@ -3299,7 +3345,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
-    $state.go('editor.view', { productId: $stateParams.productId })
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.view', { productId: $stateParams.productId })
+    } else {
+      $state.go('editor.view', { productId: $stateParams.productId })
+    }
   }
   $scope.search = {}
   $scope.checkbox = {
@@ -3320,6 +3370,20 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
     refreshList()
+  }
+  $scope.isStoreSelected = function (store) {
+    var i = _.findIndex($scope.allStores, function (s) {
+      return s.id === store.id
+    })
+    return $scope.allStores[ i ].selected
+  }
+
+  $scope.toggleSearchStore = function (store) {
+    $scope.allStores = $scope.allStores || []
+    var i = _.findIndex($scope.allStores, function (s) {
+      return s.id === store.id
+    })
+    $scope.allStores[ i ].selected = !$scope.allStores[ i ].selected
   }
 
   $scope.reOrderList = function (field) {
@@ -3352,7 +3416,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
-    var options = { status: $scope.checkbox.progress, types: $scope.filter }
+    var selectedStores = _.filter($scope.allStores, function (st) {
+      return st.selected
+    })
+    var options = { status: $scope.checkbox.progress, types: $scope.filter, stores: selectedStores }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
       refreshList()
@@ -3597,6 +3664,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.createNewProduct(product)
     $state.go('editor.match.new')
   }
+
+  $rootScope.$on('clearProductList', function () {
+    $scope.selected = []
+  })
 })
 ;
 angular.module('users').controller('productEditorDetailController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
@@ -3617,7 +3688,9 @@ angular.module('users').controller('productEditorDetailController', function ($s
 ;
 angular.module('users').controller('newProductController', function ($scope, productEditorService, orderDataService) {
   $scope.pes = productEditorService
-  $scope.save = orderDataService.createNewProduct(productEditorService.newProduct)
+  $scope.saveProduct = function () {
+    orderDataService.createNewProduct(productEditorService.newProduct)
+  }
 })
 ;
 'use strict';
@@ -3760,6 +3833,100 @@ angular.module('users').controller('SettingsController', ['$scope', 'Authenticat
     $scope.user = Authentication.user;
   }
 ]);
+;
+'use strict'
+/* global angular, moment, _ */
+angular.module('users.admin')
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr',
+    function ($scope, $http, $state, constants, toastr) {
+      var API_URL = constants.API_URL
+      $scope.todayOrders = []
+      $scope.pastOrders = []
+      $scope.showPastOrders = false
+      $scope.uiStatOrders = {
+        orders: [],
+        count: 0,
+        salesTotal: 0
+      }
+      $scope.statsScopeLabel = 'Last 7 days'
+
+      $scope.changeDisplayedOrders = function () {
+        $scope.showPastOrders = !$scope.showPastOrders
+        if ($scope.showPastOrders) {
+          $scope.displayOrders = $scope.pastOrders
+        } else {
+          $scope.displayOrders = $scope.todayOrders
+        }
+      }
+
+      function getOrders () {
+        var ordersUrl = API_URL + '/mobile/reservations/store/' + 1269
+        $http.get(ordersUrl).then(function (response) {
+          console.log('Response Orders From Store', response.data)
+          var allOrders = response.data
+          allOrders = _.sortBy(allOrders, 'pickupTime')
+          $scope.allOrders = allOrders
+          $scope.todayOrders = _.filter(allOrders, function (order) { return moment().isSame(order.pickupTime, 'day') })
+          $scope.pastOrders = _.filter(allOrders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
+          $scope.displayOrders = $scope.todayOrders
+          $scope.uiStatOrders.orders = getFilteredOrders(7)
+          refreshStats()
+        })
+      }
+
+      function getFilteredOrders (days) {
+        return _.filter($scope.allOrders, function (order) {
+          var flag = true
+          // Is Past
+          flag = moment().isAfter(order.pickupTime, 'day')
+          // AND is After days Filter
+          flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
+          return flag
+        })
+      }
+
+      $scope.changeOrderStatsScope = function (days) {
+        $scope.uiStatOrders.orders = getFilteredOrders(days)
+        $scope.statsScopeLabel = 'Last ' + days + ' days'
+        refreshStats()
+      }
+
+      function refreshStats () {
+        $scope.uiStatOrders.count = $scope.uiStatOrders.orders.length
+        $scope.uiStatOrders.shoppersCount = _.uniq(_.pluck(_.pluck($scope.uiStatOrders.orders, 'user'), '_id')).length
+        $scope.uiStatOrders.salesTotal = _.reduce($scope.uiStatOrders.orders, function (memo, order) {
+          return memo + parseFloat(order.total)
+        }, 0)
+      }
+
+      $scope.markOrder = function (order) {
+        switch (order.status) {
+          case 'submitted':
+          case 'In Progress':
+            order.status = 'pickedup'
+            break
+          case 'pickedup':
+            order.status = 'submitted'
+            break
+          default:
+            return
+        }
+        updateOrder(order)
+      }
+      function updateOrder (order) {
+        var url = constants.API_URL + '/mobile/reservations/' + order._id
+        $http.put(url, order).then(function (result) {
+          if (result.data.status === 'pickedup') {
+            toastr.success('Order Marked as Picked Up')
+          } else {
+            toastr.warning('Order Marked as not picked up yet')
+          }
+        })
+      }
+
+      getOrders()
+    }
+  ])
 ;
 'use strict';
 
@@ -4950,124 +5117,139 @@ angular.module('users').directive('lowercase', function () {
   };
 });
 ;
-angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
-    var me = this;
-
-
-    me.init = function () {
-        me.selectAccountId = localStorage.getItem('accountId');
-        me.accounts = [];
-        me.editAccount = {};
-        me.currentAccount = {};
-        getAccounts();
-    };
-
-    me.init()
-
-
-    function getAccounts() {
-        me.accounts = [];
-        console.log('selectAccountId %O', me.selectAccountId)
-        $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError);
-        function onGetAccountSuccess(res) {
-            me.accounts = [];
-            res.data.forEach(function (account) {
-                if (account.preferences != "undefined") {
-                    account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
-                }
-                if (account.accountId == me.selectAccountId) {
-                    me.currentAccount = account;
-                    intercomService.intercomActivation();
-                    console.log('setting current account %O', me.currentAccount)
-                }
-            });
-            me.accounts = res.data;
-        }
-
-        function onGetAccountError(err) {
-            toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-            console.error(err)
-        }
+angular.module('users')
+  .filter('hour', function () {
+    return function (momentDate) {
+      return moment(momentDate).format('h')
     }
-    me.deleteAccount = function (account) {
-        var url = constants.API_URL + '/accounts/deactivate/'+account;
+  })
+  .filter('time', function () {
+    return function (momentDate) {
+      return moment(momentDate).format('A')
+    }
+  })
+  .filter('customDate', function () {
+    return function (momentDate) {
+      return moment(momentDate).format('MMMM D, YYYY h:mm A')
+    }
+  })
+;
+angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
+  var me = this
 
+  me.init = function () {
+    me.selectAccountId = localStorage.getItem('accountId')
+    me.accounts = []
+    me.editAccount = {}
+    me.currentAccount = {}
+    getAccounts()
+  }
 
-        $http.put(url).then(onCreateAccountSuccess, onCreateAccountError);
-        function onCreateAccountSuccess(res) {
-            toastr.success('Account Deactivated!');
-            console.log('accounts Service, createAccount %O', res)
-            getAccounts()
+  me.init()
+
+  function getAccounts () {
+    me.accounts = []
+    console.log('selectAccountId %O', me.selectAccountId)
+    $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
+    function onGetAccountSuccess (res) {
+      me.accounts = []
+      res.data.forEach(function (account) {
+        if (account.preferences !== "undefined") {
+          account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
         }
-
-        function onCreateAccountError(err) {
-            toastr.error('There was a problem deactivating this account');
-            console.error(err)
+        if (account.accountId === me.selectAccountId) {
+          me.currentAccount = account
+          intercomService.intercomActivation()
+          console.log('setting current account %O', me.currentAccount)
         }
-    };
-    me.createAccount = function (account) {
-        var url = constants.API_URL + '/accounts';
-        account.status = 1;
-        var payload = {
-            payload: account
-        };
-        $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
-        function onCreateAccountSuccess(res) {
-            toastr.success('New Account Created!');
-            console.log('accounts Service, createAccount %O', res)
-            getAccounts()
-        }
+      })
+      me.accounts = res.data
+    }
 
-        function onCreateAccountError(err) {
-            toastr.error('There was a problem creating this account');
-            console.error(err)
-        }
-    };
+    function onGetAccountError (err) {
+      toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+      console.error(err)
+    }
+  }
 
-    me.updateAccount = function () {
-        me.editAccount.preferences = {
-            logo: me.editAccount.logo,
-            style: me.editAccount.style
-        };
-        var payload = {
-            payload: me.editAccount
-        };
-        console.log('about to update %O', me.editAccount);
-        var url = constants.API_URL + '/accounts/' + me.editAccount.accountId;
-        console.log('putting to ' + url);
-        $http.put(url, payload).then(onUpdateSuccess, onUpdateError);
-        function onUpdateSuccess(res) {
-            console.log('updated account response %O', res)
-            toastr.success('Account Updated!')
-        }
+  me.deleteAccount = function (account) {
+    var url = constants.API_URL + '/accounts/deactivate/' + account
 
-        function onUpdateError(err) {
-            console.error('Error updating account %O', err)
-            toastr.error('There was a problem updating this account')
-        }
-    };
+    $http.put(url).then(onCreateAccountSuccess, onCreateAccountError)
+    function onCreateAccountSuccess (res) {
+      toastr.success('Account Deactivated!')
+      console.log('accounts Service, createAccount %O', res)
+      getAccounts()
+    }
 
-    me.generateAuthCode = function (authCode) {
-        var url = constants.API_URL + '/accounts/auth';
-        var payload = {
-            payload: {
-                accountId: me.editAccount.accountId,
-                authCode: authCode
-            }
-        };
-        console.log('authCode Payload %O', payload)
-        $http.post(url, payload).then(function (res, err) {
-            if (err) {
-                console.error(err)
-            } else {
-                me.editAccount.authCode = res.data.authCode;
-            }
-        })
-    };
+    function onCreateAccountError (err) {
+      toastr.error('There was a problem deactivating this account')
+      console.error(err)
+    }
+  }
+  me.createAccount = function (account) {
+    var url = constants.API_URL + '/accounts'
+    account.status = 1
+    var payload = {
+      payload: account
+    }
+    $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError)
+    function onCreateAccountSuccess (res) {
+      toastr.success('New Account Created!')
+      console.log('accounts Service, createAccount %O', res)
+      getAccounts()
+    }
 
+    function onCreateAccountError (err) {
+      toastr.error('There was a problem creating this account')
+      console.error(err)
+    }
+  }
 
-    return me;
-});
+  me.updateAccount = function () {
+    me.editAccount.preferences = {
+      logo: me.editAccount.logo,
+      style: me.editAccount.style,
+      shoppr: me.editAccount.shoppr
+    }
+    var payload = {
+      payload: me.editAccount
+    }
+    console.log('about to update %O', me.editAccount)
+    var url = constants.API_URL + '/accounts/' + me.editAccount.accountId
+    console.log('putting to ' + url)
+    $http.put(url, payload).then(onUpdateSuccess, onUpdateError)
+    function onUpdateSuccess (res) {
+      console.log('updated account response %O', res)
+      toastr.success('Account Updated!')
+    }
+
+    function onUpdateError (err) {
+      console.error('Error updating account %O', err)
+      toastr.error('There was a problem updating this account')
+    }
+  }
+
+  me.generateAuthCode = function (authCode) {
+    var url = constants.API_URL + '/accounts/auth'
+    var payload = {
+      payload: {
+        accountId: me.editAccount.accountId,
+        authCode: authCode
+      }
+    }
+    console.log('authCode Payload %O', payload)
+    $http.post(url, payload).then(function (res, err) {
+      if (err) {
+        console.error(err)
+      } else {
+        me.editAccount.authCode = res.data.authCode
+      }
+    })
+  }
+
+  return me
+})
 
 ;
 'use strict';
@@ -5228,763 +5410,763 @@ angular.module('core').service('constants', function (envService) {
 })
 ;
 angular.module('users').service('Countries', function () {
-    var me = this;
-    me.allCountries = [
-        {
-            code: 'AF',
-            name: 'Afghanistan'
-        }, {
-            code: 'AL',
-            name: 'Albania'
-        }, {
-            code: 'DZ',
-            name: 'Algeria'
-        }, {
-            code: 'AS',
-            name: 'American Samoa'
-        }, {
-            code: 'AD',
-            name: 'Andorre'
-        }, {
-            code: 'AO',
-            name: 'Angola'
-        }, {
-            code: 'AI',
-            name: 'Anguilla'
-        }, {
-            code: 'AQ',
-            name: 'Antarctica'
-        }, {
-            code: 'AG',
-            name: 'Antigua and Barbuda'
-        }, {
-            code: 'AR',
-            name: 'Argentina'
-        }, {
-            code: 'AM',
-            name: 'Armenia'
-        }, {
-            code: 'AW',
-            name: 'Aruba'
-        }, {
-            code: 'AU',
-            name: 'Australia'
-        }, {
-            code: 'AT',
-            name: 'Austria'
-        }, {
-            code: 'AZ',
-            name: 'Azerbaijan'
-        }, {
-            code: 'BS',
-            name: 'Bahamas'
-        }, {
-            code: 'BH',
-            name: 'Bahrain'
-        }, {
-            code: 'BD',
-            name: 'Bangladesh'
-        }, {
-            code: 'BB',
-            name: 'Barbade'
-        }, {
-            code: 'BY',
-            name: 'Belarus'
-        }, {
-            code: 'BE',
-            name: 'Belgium'
-        }, {
-            code: 'BZ',
-            name: 'Belize'
-        }, {
-            code: 'BJ',
-            name: 'Benin'
-        }, {
-            code: 'BM',
-            name: 'Bermuda'
-        }, {
-            code: 'BT',
-            name: 'Bhutan'
-        }, {
-            code: 'BO',
-            name: 'Bolivia'
-        }, {
-            code: 'BQ',
-            name: 'Bonaire, Sint Eustatius and Saba'
-        }, {
-            code: 'BA',
-            name: 'Bosnia and Herzegovina'
-        }, {
-            code: 'BW',
-            name: 'Botswana'
-        }, {
-            code: 'BV',
-            name: 'Bouvet Island'
-        }, {
-            code: 'BR',
-            name: 'Brazil'
-        }, {
-            code: 'IO',
-            name: 'British Indian Ocean Territory'
-        }, {
-            code: 'VG',
-            name: 'British Virgin Islands'
-        }, {
-            code: 'BN',
-            name: 'Brunei'
-        }, {
-            code: 'BG',
-            name: 'Bulgaria'
-        }, {
-            code: 'BF',
-            name: 'Burkina Faso'
-        }, {
-            code: 'BI',
-            name: 'Burundi'
-        }, {
-            code: 'KH',
-            name: 'Cambodia'
-        }, {
-            code: 'CM',
-            name: 'Cameroon'
-        }, {
-            code: 'CA',
-            name: 'Canada'
-        }, {
-            code: 'CV',
-            name: 'Cape Verde'
-        }, {
-            code: 'KY',
-            name: 'Cayman Islands'
-        }, {
-            code: 'CF',
-            name: 'Central African Republic'
-        }, {
-            code: 'TD',
-            name: 'Chad'
-        }, {
-            code: 'CL',
-            name: 'Chile'
-        }, {
-            code: 'CN',
-            name: 'China'
-        }, {
-            code: 'CX',
-            name: 'Christmas Island'
-        }, {
-            code: 'CC',
-            name: 'Cocos (Keeling) Islands'
-        }, {
-            code: 'CO',
-            name: 'Colombia'
-        }, {
-            code: 'KM',
-            name: 'Comoros'
-        }, {
-            code: 'CG',
-            name: 'Congo'
-        }, {
-            code: 'CD',
-            name: 'Congo (Dem. Rep.)'
-        }, {
-            code: 'CK',
-            name: 'Cook Islands'
-        }, {
-            code: 'CR',
-            name: 'Costa Rica'
-        }, {
-            code: 'ME',
-            name: 'Crna Gora'
-        }, {
-            code: 'HR',
-            name: 'Croatia'
-        }, {
-            code: 'CU',
-            name: 'Cuba'
-        }, {
-            code: 'CW',
-            name: 'Curaçao'
-        }, {
-            code: 'CY',
-            name: 'Cyprus'
-        }, {
-            code: 'CZ',
-            name: 'Czech Republic'
-        }, {
-            code: 'CI',
-            name: "Côte D'Ivoire"
-        }, {
-            code: 'DK',
-            name: 'Denmark'
-        }, {
-            code: 'DJ',
-            name: 'Djibouti'
-        }, {
-            code: 'DM',
-            name: 'Dominica'
-        }, {
-            code: 'DO',
-            name: 'Dominican Republic'
-        }, {
-            code: 'TL',
-            name: 'East Timor'
-        }, {
-            code: 'EC',
-            name: 'Ecuador'
-        }, {
-            code: 'EG',
-            name: 'Egypt'
-        }, {
-            code: 'SV',
-            name: 'El Salvador'
-        }, {
-            code: 'GQ',
-            name: 'Equatorial Guinea'
-        }, {
-            code: 'ER',
-            name: 'Eritrea'
-        }, {
-            code: 'EE',
-            name: 'Estonia'
-        }, {
-            code: 'ET',
-            name: 'Ethiopia'
-        }, {
-            code: 'FK',
-            name: 'Falkland Islands'
-        }, {
-            code: 'FO',
-            name: 'Faroe Islands'
-        }, {
-            code: 'FJ',
-            name: 'Fiji'
-        }, {
-            code: 'FI',
-            name: 'Finland'
-        }, {
-            code: 'FR',
-            name: 'France'
-        }, {
-            code: 'GF',
-            name: 'French Guiana'
-        }, {
-            code: 'PF',
-            name: 'French Polynesia'
-        }, {
-            code: 'TF',
-            name: 'French Southern Territories'
-        }, {
-            code: 'GA',
-            name: 'Gabon'
-        }, {
-            code: 'GM',
-            name: 'Gambia'
-        }, {
-            code: 'GE',
-            name: 'Georgia'
-        }, {
-            code: 'DE',
-            name: 'Germany'
-        }, {
-            code: 'GH',
-            name: 'Ghana'
-        }, {
-            code: 'GI',
-            name: 'Gibraltar'
-        }, {
-            code: 'GR',
-            name: 'Greece'
-        }, {
-            code: 'GL',
-            name: 'Greenland'
-        }, {
-            code: 'GD',
-            name: 'Grenada'
-        }, {
-            code: 'GP',
-            name: 'Guadeloupe'
-        }, {
-            code: 'GU',
-            name: 'Guam'
-        }, {
-            code: 'GT',
-            name: 'Guatemala'
-        }, {
-            code: 'GG',
-            name: 'Guernsey and Alderney'
-        }, {
-            code: 'GN',
-            name: 'Guinea'
-        }, {
-            code: 'GW',
-            name: 'Guinea-Bissau'
-        }, {
-            code: 'GY',
-            name: 'Guyana'
-        }, {
-            code: 'HT',
-            name: 'Haiti'
-        }, {
-            code: 'HM',
-            name: 'Heard and McDonald Islands'
-        }, {
-            code: 'HN',
-            name: 'Honduras'
-        }, {
-            code: 'HK',
-            name: 'Hong Kong'
-        }, {
-            code: 'HU',
-            name: 'Hungary'
-        }, {
-            code: 'IS',
-            name: 'Iceland'
-        }, {
-            code: 'IN',
-            name: 'India'
-        }, {
-            code: 'ID',
-            name: 'Indonesia'
-        }, {
-            code: 'IR',
-            name: 'Iran'
-        }, {
-            code: 'IQ',
-            name: 'Iraq'
-        }, {
-            code: 'IE',
-            name: 'Ireland'
-        }, {
-            code: 'IM',
-            name: 'Isle of Man'
-        }, {
-            code: 'IL',
-            name: 'Israel'
-        }, {
-            code: 'IT',
-            name: 'Italy'
-        }, {
-            code: 'JM',
-            name: 'Jamaica'
-        }, {
-            code: 'JP',
-            name: 'Japan'
-        }, {
-            code: 'JE',
-            name: 'Jersey'
-        }, {
-            code: 'JO',
-            name: 'Jordan'
-        }, {
-            code: 'KZ',
-            name: 'Kazakhstan'
-        }, {
-            code: 'KE',
-            name: 'Kenya'
-        }, {
-            code: 'KI',
-            name: 'Kiribati'
-        }, {
-            code: 'KP',
-            name: 'Korea (North)'
-        }, {
-            code: 'KR',
-            name: 'Korea (South)'
-        }, {
-            code: 'KW',
-            name: 'Kuwait'
-        }, {
-            code: 'KG',
-            name: 'Kyrgyzstan'
-        }, {
-            code: 'LA',
-            name: 'Laos'
-        }, {
-            code: 'LV',
-            name: 'Latvia'
-        }, {
-            code: 'LB',
-            name: 'Lebanon'
-        }, {
-            code: 'LS',
-            name: 'Lesotho'
-        }, {
-            code: 'LR',
-            name: 'Liberia'
-        }, {
-            code: 'LY',
-            name: 'Libya'
-        }, {
-            code: 'LI',
-            name: 'Liechtenstein'
-        }, {
-            code: 'LT',
-            name: 'Lithuania'
-        }, {
-            code: 'LU',
-            name: 'Luxembourg'
-        }, {
-            code: 'MO',
-            name: 'Macao'
-        }, {
-            code: 'MK',
-            name: 'Macedonia'
-        }, {
-            code: 'MG',
-            name: 'Madagascar'
-        }, {
-            code: 'MW',
-            name: 'Malawi'
-        }, {
-            code: 'MY',
-            name: 'Malaysia'
-        }, {
-            code: 'MV',
-            name: 'Maldives'
-        }, {
-            code: 'ML',
-            name: 'Mali'
-        }, {
-            code: 'MT',
-            name: 'Malta'
-        }, {
-            code: 'MH',
-            name: 'Marshall Islands'
-        }, {
-            code: 'MQ',
-            name: 'Martinique'
-        }, {
-            code: 'MR',
-            name: 'Mauritania'
-        }, {
-            code: 'MU',
-            name: 'Mauritius'
-        }, {
-            code: 'YT',
-            name: 'Mayotte'
-        }, {
-            code: 'MX',
-            name: 'Mexico'
-        }, {
-            code: 'FM',
-            name: 'Micronesia'
-        }, {
-            code: 'MD',
-            name: 'Moldova'
-        }, {
-            code: 'MC',
-            name: 'Monaco'
-        }, {
-            code: 'MN',
-            name: 'Mongolia'
-        }, {
-            code: 'MS',
-            name: 'Montserrat'
-        }, {
-            code: 'MA',
-            name: 'Morocco'
-        }, {
-            code: 'MZ',
-            name: 'Mozambique'
-        }, {
-            code: 'MM',
-            name: 'Myanmar'
-        }, {
-            code: 'NA',
-            name: 'Namibia'
-        }, {
-            code: 'NR',
-            name: 'Nauru'
-        }, {
-            code: 'NP',
-            name: 'Nepal'
-        }, {
-            code: 'NL',
-            name: 'Netherlands'
-        }, {
-            code: 'AN',
-            name: 'Netherlands Antilles'
-        }, {
-            code: 'NC',
-            name: 'New Caledonia'
-        }, {
-            code: 'NZ',
-            name: 'New Zealand'
-        }, {
-            code: 'NI',
-            name: 'Nicaragua'
-        }, {
-            code: 'NE',
-            name: 'Niger'
-        }, {
-            code: 'NG',
-            name: 'Nigeria'
-        }, {
-            code: 'NU',
-            name: 'Niue'
-        }, {
-            code: 'NF',
-            name: 'Norfolk Island'
-        }, {
-            code: 'MP',
-            name: 'Northern Mariana Islands'
-        }, {
-            code: 'NO',
-            name: 'Norway'
-        }, {
-            code: 'OM',
-            name: 'Oman'
-        }, {
-            code: 'PK',
-            name: 'Pakistan'
-        }, {
-            code: 'PW',
-            name: 'Palau'
-        }, {
-            code: 'PS',
-            name: 'Palestine'
-        }, {
-            code: 'PA',
-            name: 'Panama'
-        }, {
-            code: 'PG',
-            name: 'Papua New Guinea'
-        }, {
-            code: 'PY',
-            name: 'Paraguay'
-        }, {
-            code: 'PE',
-            name: 'Peru'
-        }, {
-            code: 'PH',
-            name: 'Philippines'
-        }, {
-            code: 'PN',
-            name: 'Pitcairn'
-        }, {
-            code: 'PL',
-            name: 'Poland'
-        }, {
-            code: 'PT',
-            name: 'Portugal'
-        }, {
-            code: 'PR',
-            name: 'Puerto Rico'
-        }, {
-            code: 'QA',
-            name: 'Qatar'
-        }, {
-            code: 'RO',
-            name: 'Romania'
-        }, {
-            code: 'RU',
-            name: 'Russia'
-        }, {
-            code: 'RW',
-            name: 'Rwanda'
-        }, {
-            code: 'RE',
-            name: 'Réunion'
-        }, {
-            code: 'BL',
-            name: 'Saint Barthélemy'
-        }, {
-            code: 'SH',
-            name: 'Saint Helena'
-        }, {
-            code: 'KN',
-            name: 'Saint Kitts and Nevis'
-        }, {
-            code: 'LC',
-            name: 'Saint Lucia'
-        }, {
-            code: 'MF',
-            name: 'Saint Martin'
-        }, {
-            code: 'PM',
-            name: 'Saint Pierre and Miquelon'
-        }, {
-            code: 'VC',
-            name: 'Saint Vincent and the Grenadines'
-        }, {
-            code: 'WS',
-            name: 'Samoa'
-        }, {
-            code: 'SM',
-            name: 'San Marino'
-        }, {
-            code: 'SA',
-            name: 'Saudi Arabia'
-        }, {
-            code: 'SN',
-            name: 'Senegal'
-        }, {
-            code: 'RS',
-            name: 'Serbia'
-        }, {
-            code: 'SC',
-            name: 'Seychelles'
-        }, {
-            code: 'SL',
-            name: 'Sierra Leone'
-        }, {
-            code: 'SG',
-            name: 'Singapore'
-        }, {
-            code: 'SX',
-            name: 'Sint Maarten'
-        }, {
-            code: 'SK',
-            name: 'Slovakia'
-        }, {
-            code: 'SI',
-            name: 'Slovenia'
-        }, {
-            code: 'SB',
-            name: 'Solomon Islands'
-        }, {
-            code: 'SO',
-            name: 'Somalia'
-        }, {
-            code: 'ZA',
-            name: 'South Africa'
-        }, {
-            code: 'GS',
-            name: 'South Georgia and the South Sandwich Islands'
-        }, {
-            code: 'SS',
-            name: 'South Sudan'
-        }, {
-            code: 'ES',
-            name: 'Spain'
-        }, {
-            code: 'LK',
-            name: 'Sri Lanka'
-        }, {
-            code: 'SD',
-            name: 'Sudan'
-        }, {
-            code: 'SR',
-            name: 'Suriname'
-        }, {
-            code: 'SJ',
-            name: 'Svalbard and Jan Mayen'
-        }, {
-            code: 'SZ',
-            name: 'Swaziland'
-        }, {
-            code: 'SE',
-            name: 'Sweden'
-        }, {
-            code: 'CH',
-            name: 'Switzerland'
-        }, {
-            code: 'SY',
-            name: 'Syria'
-        }, {
-            code: 'ST',
-            name: 'São Tomé and Príncipe'
-        }, {
-            code: 'TW',
-            name: 'Taiwan'
-        }, {
-            code: 'TJ',
-            name: 'Tajikistan'
-        }, {
-            code: 'TZ',
-            name: 'Tanzania'
-        }, {
-            code: 'TH',
-            name: 'Thailand'
-        }, {
-            code: 'TG',
-            name: 'Togo'
-        }, {
-            code: 'TK',
-            name: 'Tokelau'
-        }, {
-            code: 'TO',
-            name: 'Tonga'
-        }, {
-            code: 'TT',
-            name: 'Trinidad and Tobago'
-        }, {
-            code: 'TN',
-            name: 'Tunisia'
-        }, {
-            code: 'TR',
-            name: 'Turkey'
-        }, {
-            code: 'TM',
-            name: 'Turkmenistan'
-        }, {
-            code: 'TC',
-            name: 'Turks and Caicos Islands'
-        }, {
-            code: 'TV',
-            name: 'Tuvalu'
-        }, {
-            code: 'UG',
-            name: 'Uganda'
-        }, {
-            code: 'UA',
-            name: 'Ukraine'
-        }, {
-            code: 'AE',
-            name: 'United Arab Emirates'
-        }, {
-            code: 'GB',
-            name: 'United Kingdom'
-        }, {
-            code: 'UM',
-            name: 'United States Minor Outlying Islands'
-        }, {
-            code: 'US',
-            name: 'United States'
-        }, {
-            code: 'UY',
-            name: 'Uruguay'
-        }, {
-            code: 'UZ',
-            name: 'Uzbekistan'
-        }, {
-            code: 'VU',
-            name: 'Vanuatu'
-        }, {
-            code: 'VA',
-            name: 'Vatican City'
-        }, {
-            code: 'VE',
-            name: 'Venezuela'
-        }, {
-            code: 'VN',
-            name: 'Vietnam'
-        }, {
-            code: 'VI',
-            name: 'Virgin Islands of the United States'
-        }, {
-            code: 'WF',
-            name: 'Wallis and Futuna'
-        }, {
-            code: 'EH',
-            name: 'Western Sahara'
-        }, {
-            code: 'YE',
-            name: 'Yemen'
-        }, {
-            code: 'ZM',
-            name: 'Zambia'
-        }, {
-            code: 'ZW',
-            name: 'Zimbabwe'
-        }, {
-            code: 'AX',
-            name: 'Åland Islands'
-        }
-    ];
+  var me = this
+  me.allCountries = [
+    {
+      code: 'AF',
+      name: 'Afghanistan'
+    }, {
+      code: 'AL',
+      name: 'Albania'
+    }, {
+      code: 'DZ',
+      name: 'Algeria'
+    }, {
+      code: 'AS',
+      name: 'American Samoa'
+    }, {
+      code: 'AD',
+      name: 'Andorre'
+    }, {
+      code: 'AO',
+      name: 'Angola'
+    }, {
+      code: 'AI',
+      name: 'Anguilla'
+    }, {
+      code: 'AQ',
+      name: 'Antarctica'
+    }, {
+      code: 'AG',
+      name: 'Antigua and Barbuda'
+    }, {
+      code: 'AR',
+      name: 'Argentina'
+    }, {
+      code: 'AM',
+      name: 'Armenia'
+    }, {
+      code: 'AW',
+      name: 'Aruba'
+    }, {
+      code: 'AU',
+      name: 'Australia'
+    }, {
+      code: 'AT',
+      name: 'Austria'
+    }, {
+      code: 'AZ',
+      name: 'Azerbaijan'
+    }, {
+      code: 'BS',
+      name: 'Bahamas'
+    }, {
+      code: 'BH',
+      name: 'Bahrain'
+    }, {
+      code: 'BD',
+      name: 'Bangladesh'
+    }, {
+      code: 'BB',
+      name: 'Barbade'
+    }, {
+      code: 'BY',
+      name: 'Belarus'
+    }, {
+      code: 'BE',
+      name: 'Belgium'
+    }, {
+      code: 'BZ',
+      name: 'Belize'
+    }, {
+      code: 'BJ',
+      name: 'Benin'
+    }, {
+      code: 'BM',
+      name: 'Bermuda'
+    }, {
+      code: 'BT',
+      name: 'Bhutan'
+    }, {
+      code: 'BO',
+      name: 'Bolivia'
+    }, {
+      code: 'BQ',
+      name: 'Bonaire, Sint Eustatius and Saba'
+    }, {
+      code: 'BA',
+      name: 'Bosnia and Herzegovina'
+    }, {
+      code: 'BW',
+      name: 'Botswana'
+    }, {
+      code: 'BV',
+      name: 'Bouvet Island'
+    }, {
+      code: 'BR',
+      name: 'Brazil'
+    }, {
+      code: 'IO',
+      name: 'British Indian Ocean Territory'
+    }, {
+      code: 'VG',
+      name: 'British Virgin Islands'
+    }, {
+      code: 'BN',
+      name: 'Brunei'
+    }, {
+      code: 'BG',
+      name: 'Bulgaria'
+    }, {
+      code: 'BF',
+      name: 'Burkina Faso'
+    }, {
+      code: 'BI',
+      name: 'Burundi'
+    }, {
+      code: 'KH',
+      name: 'Cambodia'
+    }, {
+      code: 'CM',
+      name: 'Cameroon'
+    }, {
+      code: 'CA',
+      name: 'Canada'
+    }, {
+      code: 'CV',
+      name: 'Cape Verde'
+    }, {
+      code: 'KY',
+      name: 'Cayman Islands'
+    }, {
+      code: 'CF',
+      name: 'Central African Republic'
+    }, {
+      code: 'TD',
+      name: 'Chad'
+    }, {
+      code: 'CL',
+      name: 'Chile'
+    }, {
+      code: 'CN',
+      name: 'China'
+    }, {
+      code: 'CX',
+      name: 'Christmas Island'
+    }, {
+      code: 'CC',
+      name: 'Cocos (Keeling) Islands'
+    }, {
+      code: 'CO',
+      name: 'Colombia'
+    }, {
+      code: 'KM',
+      name: 'Comoros'
+    }, {
+      code: 'CG',
+      name: 'Congo'
+    }, {
+      code: 'CD',
+      name: 'Congo (Dem. Rep.)'
+    }, {
+      code: 'CK',
+      name: 'Cook Islands'
+    }, {
+      code: 'CR',
+      name: 'Costa Rica'
+    }, {
+      code: 'ME',
+      name: 'Crna Gora'
+    }, {
+      code: 'HR',
+      name: 'Croatia'
+    }, {
+      code: 'CU',
+      name: 'Cuba'
+    }, {
+      code: 'CW',
+      name: 'Curaçao'
+    }, {
+      code: 'CY',
+      name: 'Cyprus'
+    }, {
+      code: 'CZ',
+      name: 'Czech Republic'
+    }, {
+      code: 'CI',
+      name: "Côte D'Ivoire"
+    }, {
+      code: 'DK',
+      name: 'Denmark'
+    }, {
+      code: 'DJ',
+      name: 'Djibouti'
+    }, {
+      code: 'DM',
+      name: 'Dominica'
+    }, {
+      code: 'DO',
+      name: 'Dominican Republic'
+    }, {
+      code: 'TL',
+      name: 'East Timor'
+    }, {
+      code: 'EC',
+      name: 'Ecuador'
+    }, {
+      code: 'EG',
+      name: 'Egypt'
+    }, {
+      code: 'SV',
+      name: 'El Salvador'
+    }, {
+      code: 'GQ',
+      name: 'Equatorial Guinea'
+    }, {
+      code: 'ER',
+      name: 'Eritrea'
+    }, {
+      code: 'EE',
+      name: 'Estonia'
+    }, {
+      code: 'ET',
+      name: 'Ethiopia'
+    }, {
+      code: 'FK',
+      name: 'Falkland Islands'
+    }, {
+      code: 'FO',
+      name: 'Faroe Islands'
+    }, {
+      code: 'FJ',
+      name: 'Fiji'
+    }, {
+      code: 'FI',
+      name: 'Finland'
+    }, {
+      code: 'FR',
+      name: 'France'
+    }, {
+      code: 'GF',
+      name: 'French Guiana'
+    }, {
+      code: 'PF',
+      name: 'French Polynesia'
+    }, {
+      code: 'TF',
+      name: 'French Southern Territories'
+    }, {
+      code: 'GA',
+      name: 'Gabon'
+    }, {
+      code: 'GM',
+      name: 'Gambia'
+    }, {
+      code: 'GE',
+      name: 'Georgia'
+    }, {
+      code: 'DE',
+      name: 'Germany'
+    }, {
+      code: 'GH',
+      name: 'Ghana'
+    }, {
+      code: 'GI',
+      name: 'Gibraltar'
+    }, {
+      code: 'GR',
+      name: 'Greece'
+    }, {
+      code: 'GL',
+      name: 'Greenland'
+    }, {
+      code: 'GD',
+      name: 'Grenada'
+    }, {
+      code: 'GP',
+      name: 'Guadeloupe'
+    }, {
+      code: 'GU',
+      name: 'Guam'
+    }, {
+      code: 'GT',
+      name: 'Guatemala'
+    }, {
+      code: 'GG',
+      name: 'Guernsey and Alderney'
+    }, {
+      code: 'GN',
+      name: 'Guinea'
+    }, {
+      code: 'GW',
+      name: 'Guinea-Bissau'
+    }, {
+      code: 'GY',
+      name: 'Guyana'
+    }, {
+      code: 'HT',
+      name: 'Haiti'
+    }, {
+      code: 'HM',
+      name: 'Heard and McDonald Islands'
+    }, {
+      code: 'HN',
+      name: 'Honduras'
+    }, {
+      code: 'HK',
+      name: 'Hong Kong'
+    }, {
+      code: 'HU',
+      name: 'Hungary'
+    }, {
+      code: 'IS',
+      name: 'Iceland'
+    }, {
+      code: 'IN',
+      name: 'India'
+    }, {
+      code: 'ID',
+      name: 'Indonesia'
+    }, {
+      code: 'IR',
+      name: 'Iran'
+    }, {
+      code: 'IQ',
+      name: 'Iraq'
+    }, {
+      code: 'IE',
+      name: 'Ireland'
+    }, {
+      code: 'IM',
+      name: 'Isle of Man'
+    }, {
+      code: 'IL',
+      name: 'Israel'
+    }, {
+      code: 'IT',
+      name: 'Italy'
+    }, {
+      code: 'JM',
+      name: 'Jamaica'
+    }, {
+      code: 'JP',
+      name: 'Japan'
+    }, {
+      code: 'JE',
+      name: 'Jersey'
+    }, {
+      code: 'JO',
+      name: 'Jordan'
+    }, {
+      code: 'KZ',
+      name: 'Kazakhstan'
+    }, {
+      code: 'KE',
+      name: 'Kenya'
+    }, {
+      code: 'KI',
+      name: 'Kiribati'
+    }, {
+      code: 'KP',
+      name: 'Korea (North)'
+    }, {
+      code: 'KR',
+      name: 'Korea (South)'
+    }, {
+      code: 'KW',
+      name: 'Kuwait'
+    }, {
+      code: 'KG',
+      name: 'Kyrgyzstan'
+    }, {
+      code: 'LA',
+      name: 'Laos'
+    }, {
+      code: 'LV',
+      name: 'Latvia'
+    }, {
+      code: 'LB',
+      name: 'Lebanon'
+    }, {
+      code: 'LS',
+      name: 'Lesotho'
+    }, {
+      code: 'LR',
+      name: 'Liberia'
+    }, {
+      code: 'LY',
+      name: 'Libya'
+    }, {
+      code: 'LI',
+      name: 'Liechtenstein'
+    }, {
+      code: 'LT',
+      name: 'Lithuania'
+    }, {
+      code: 'LU',
+      name: 'Luxembourg'
+    }, {
+      code: 'MO',
+      name: 'Macao'
+    }, {
+      code: 'MK',
+      name: 'Macedonia'
+    }, {
+      code: 'MG',
+      name: 'Madagascar'
+    }, {
+      code: 'MW',
+      name: 'Malawi'
+    }, {
+      code: 'MY',
+      name: 'Malaysia'
+    }, {
+      code: 'MV',
+      name: 'Maldives'
+    }, {
+      code: 'ML',
+      name: 'Mali'
+    }, {
+      code: 'MT',
+      name: 'Malta'
+    }, {
+      code: 'MH',
+      name: 'Marshall Islands'
+    }, {
+      code: 'MQ',
+      name: 'Martinique'
+    }, {
+      code: 'MR',
+      name: 'Mauritania'
+    }, {
+      code: 'MU',
+      name: 'Mauritius'
+    }, {
+      code: 'YT',
+      name: 'Mayotte'
+    }, {
+      code: 'MX',
+      name: 'Mexico'
+    }, {
+      code: 'FM',
+      name: 'Micronesia'
+    }, {
+      code: 'MD',
+      name: 'Moldova'
+    }, {
+      code: 'MC',
+      name: 'Monaco'
+    }, {
+      code: 'MN',
+      name: 'Mongolia'
+    }, {
+      code: 'MS',
+      name: 'Montserrat'
+    }, {
+      code: 'MA',
+      name: 'Morocco'
+    }, {
+      code: 'MZ',
+      name: 'Mozambique'
+    }, {
+      code: 'MM',
+      name: 'Myanmar'
+    }, {
+      code: 'NA',
+      name: 'Namibia'
+    }, {
+      code: 'NR',
+      name: 'Nauru'
+    }, {
+      code: 'NP',
+      name: 'Nepal'
+    }, {
+      code: 'NL',
+      name: 'Netherlands'
+    }, {
+      code: 'AN',
+      name: 'Netherlands Antilles'
+    }, {
+      code: 'NC',
+      name: 'New Caledonia'
+    }, {
+      code: 'NZ',
+      name: 'New Zealand'
+    }, {
+      code: 'NI',
+      name: 'Nicaragua'
+    }, {
+      code: 'NE',
+      name: 'Niger'
+    }, {
+      code: 'NG',
+      name: 'Nigeria'
+    }, {
+      code: 'NU',
+      name: 'Niue'
+    }, {
+      code: 'NF',
+      name: 'Norfolk Island'
+    }, {
+      code: 'MP',
+      name: 'Northern Mariana Islands'
+    }, {
+      code: 'NO',
+      name: 'Norway'
+    }, {
+      code: 'OM',
+      name: 'Oman'
+    }, {
+      code: 'PK',
+      name: 'Pakistan'
+    }, {
+      code: 'PW',
+      name: 'Palau'
+    }, {
+      code: 'PS',
+      name: 'Palestine'
+    }, {
+      code: 'PA',
+      name: 'Panama'
+    }, {
+      code: 'PG',
+      name: 'Papua New Guinea'
+    }, {
+      code: 'PY',
+      name: 'Paraguay'
+    }, {
+      code: 'PE',
+      name: 'Peru'
+    }, {
+      code: 'PH',
+      name: 'Philippines'
+    }, {
+      code: 'PN',
+      name: 'Pitcairn'
+    }, {
+      code: 'PL',
+      name: 'Poland'
+    }, {
+      code: 'PT',
+      name: 'Portugal'
+    }, {
+      code: 'PR',
+      name: 'Puerto Rico'
+    }, {
+      code: 'QA',
+      name: 'Qatar'
+    }, {
+      code: 'RO',
+      name: 'Romania'
+    }, {
+      code: 'RU',
+      name: 'Russia'
+    }, {
+      code: 'RW',
+      name: 'Rwanda'
+    }, {
+      code: 'RE',
+      name: 'Réunion'
+    }, {
+      code: 'BL',
+      name: 'Saint Barthélemy'
+    }, {
+      code: 'SH',
+      name: 'Saint Helena'
+    }, {
+      code: 'KN',
+      name: 'Saint Kitts and Nevis'
+    }, {
+      code: 'LC',
+      name: 'Saint Lucia'
+    }, {
+      code: 'MF',
+      name: 'Saint Martin'
+    }, {
+      code: 'PM',
+      name: 'Saint Pierre and Miquelon'
+    }, {
+      code: 'VC',
+      name: 'Saint Vincent and the Grenadines'
+    }, {
+      code: 'WS',
+      name: 'Samoa'
+    }, {
+      code: 'SM',
+      name: 'San Marino'
+    }, {
+      code: 'SA',
+      name: 'Saudi Arabia'
+    }, {
+      code: 'SN',
+      name: 'Senegal'
+    }, {
+      code: 'RS',
+      name: 'Serbia'
+    }, {
+      code: 'SC',
+      name: 'Seychelles'
+    }, {
+      code: 'SL',
+      name: 'Sierra Leone'
+    }, {
+      code: 'SG',
+      name: 'Singapore'
+    }, {
+      code: 'SX',
+      name: 'Sint Maarten'
+    }, {
+      code: 'SK',
+      name: 'Slovakia'
+    }, {
+      code: 'SI',
+      name: 'Slovenia'
+    }, {
+      code: 'SB',
+      name: 'Solomon Islands'
+    }, {
+      code: 'SO',
+      name: 'Somalia'
+    }, {
+      code: 'ZA',
+      name: 'South Africa'
+    }, {
+      code: 'GS',
+      name: 'South Georgia and the South Sandwich Islands'
+    }, {
+      code: 'SS',
+      name: 'South Sudan'
+    }, {
+      code: 'ES',
+      name: 'Spain'
+    }, {
+      code: 'LK',
+      name: 'Sri Lanka'
+    }, {
+      code: 'SD',
+      name: 'Sudan'
+    }, {
+      code: 'SR',
+      name: 'Suriname'
+    }, {
+      code: 'SJ',
+      name: 'Svalbard and Jan Mayen'
+    }, {
+      code: 'SZ',
+      name: 'Swaziland'
+    }, {
+      code: 'SE',
+      name: 'Sweden'
+    }, {
+      code: 'CH',
+      name: 'Switzerland'
+    }, {
+      code: 'SY',
+      name: 'Syria'
+    }, {
+      code: 'ST',
+      name: 'São Tomé and Príncipe'
+    }, {
+      code: 'TW',
+      name: 'Taiwan'
+    }, {
+      code: 'TJ',
+      name: 'Tajikistan'
+    }, {
+      code: 'TZ',
+      name: 'Tanzania'
+    }, {
+      code: 'TH',
+      name: 'Thailand'
+    }, {
+      code: 'TG',
+      name: 'Togo'
+    }, {
+      code: 'TK',
+      name: 'Tokelau'
+    }, {
+      code: 'TO',
+      name: 'Tonga'
+    }, {
+      code: 'TT',
+      name: 'Trinidad and Tobago'
+    }, {
+      code: 'TN',
+      name: 'Tunisia'
+    }, {
+      code: 'TR',
+      name: 'Turkey'
+    }, {
+      code: 'TM',
+      name: 'Turkmenistan'
+    }, {
+      code: 'TC',
+      name: 'Turks and Caicos Islands'
+    }, {
+      code: 'TV',
+      name: 'Tuvalu'
+    }, {
+      code: 'UG',
+      name: 'Uganda'
+    }, {
+      code: 'UA',
+      name: 'Ukraine'
+    }, {
+      code: 'AE',
+      name: 'United Arab Emirates'
+    }, {
+      code: 'GB',
+      name: 'United Kingdom'
+    }, {
+      code: 'UM',
+      name: 'United States Minor Outlying Islands'
+    }, {
+      code: 'US',
+      name: 'United States'
+    }, {
+      code: 'UY',
+      name: 'Uruguay'
+    }, {
+      code: 'UZ',
+      name: 'Uzbekistan'
+    }, {
+      code: 'VU',
+      name: 'Vanuatu'
+    }, {
+      code: 'VA',
+      name: 'Vatican City'
+    }, {
+      code: 'VE',
+      name: 'Venezuela'
+    }, {
+      code: 'VN',
+      name: 'Vietnam'
+    }, {
+      code: 'VI',
+      name: 'Virgin Islands of the United States'
+    }, {
+      code: 'WF',
+      name: 'Wallis and Futuna'
+    }, {
+      code: 'EH',
+      name: 'Western Sahara'
+    }, {
+      code: 'YE',
+      name: 'Yemen'
+    }, {
+      code: 'ZM',
+      name: 'Zambia'
+    }, {
+      code: 'ZW',
+      name: 'Zimbabwe'
+    }, {
+      code: 'AX',
+      name: 'Åland Islands'
+    }
+  ]
 
-    return me;
-});
+  return me
+})
 ;
 angular.module('users').service('CurrentUserService', ['Admin', '$state',
     function (Admin, $state) {
@@ -6313,15 +6495,18 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
-  return me
+
+  $rootScope.$on('clearProductList', function () {
+    me.selected = []
+  })
 
   function getData (id) {
     var defer = $q.defer()
     me.currentIndex = 0
     console.log(id)
-    var orderUrl = API_URL + '/edit/orders/' + id
+    var orderUrl = API_URL + '/storedb/stores/products?id=' + id
     $http.get(orderUrl).then(function (response) {
-      me.allItems = response.data[ 0 ].items
+      me.allItems = response.data
       me.currentItem = me.allItems[ me.currentIndex ]
       console.log('orderDataService::getData response %O', me.allItems)
       defer.resolve(me.allItems)
@@ -6350,28 +6535,18 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var defer = $q.defer()
     var skuUrl = API_URL + '/edit/sku'
     var payload = {
-      'payload': {
-        'duplicates': [],
-        'sku': prod.upc,
-        'publicUrl': prod.url
-      }
+      duplicates: [],
+      sku: prod.upc
+    }
+    if (prod.url) {
+      payload.publicUrl = prod.url
     }
     for (var i in selected) {
-      payload.payload.duplicates.push(selected[ i ].productId)
+      payload.duplicates.push(selected[ i ].productId)
     }
-    $http.post(skuUrl, payload).then(function (results) {
-      // now update product status in mongo
-      var updateUrl = constants.BWS_API + '/choose/orders/product/status'
-      var updatePayload = {
-        id: me.currentOrderId || $stateParams.id,
-        upc: prod.upc,
-        status: 'processed'
-      }
-      $http.put(updateUrl, { payload: updatePayload }).then(function (updateResults) {
-        defer.resolve(results.data)
-      }, function (err) {
-        console.error(err)
-      })
+    $http.post(skuUrl, { payload: payload }).then(function (results) {
+      console.log('orderDataService[matchProduct] %O', results)
+      defer.resolve(me.selected[ 0 ])
     }, function (err) {
       console.error('could not mark duplicate %O', err)
     })
@@ -6382,35 +6557,38 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var defer = $q.defer()
     var skuUrl = API_URL + '/edit/products'
     var payload = {
-      'payload': {
-        'name': prod.name,
-        'description': prod.description,
-        'notes': '',
-        'productTypeId': prod.type,
-        'requestedBy': 'sellr',
-        'feedback': '0',
-        'properties': [],
-        'mediaAssets': [
-          {
-            'type': 'RESEARCH_IMG',
-            'fileName': '',
-            'script': null,
-            'publicUrl': prod.url
-          }
-        ],
-        'skus': [
-          prod.upc
-        ]
-      }
+      name: prod.name,
+      description: prod.description,
+      notes: '',
+      productTypeId: prod.type,
+      requestedBy: 'sellr',
+      feedback: '0',
+      properties: [],
+      mediaAssets: [],
+      'skus': [
+        prod.upc
+      ]
+    }
+    if (prod.url) {
+      payload.mediaAssets.push({
+        'type': 'RESEARCH_IMG',
+        'fileName': '',
+        'script': null,
+        'publicUrl': prod.url
+      })
     }
     console.log(payload)
-    $http.post(skuUrl, payload).then(function (skuItems) {
-      if (skuItems) {
-        defer.resolve(skuItems)
-      }
+    $http.post(skuUrl, { payload: payload }).then(function (response) {
+      console.log('orderDataService[createNewProduct] %O', response)
+      defer.resolve(response)
+    }, function (err) {
+      console.error('orderDataService[createNewProduct] %O', err)
+      defer.reject(err)
     })
     return defer.promise
   }
+
+  return me
 })
 ;
 'use strict';
@@ -6488,37 +6666,44 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show.loading = false
   }
 
-  function getAvailProdSuccess (response) {
-    if (response.status === 200) {
-      //timeEnd('getProductList');
-      me.show.loading = false;
-      log('getProdList ', response.data);
-      me.getStats();
-      response.data = _.map(response.data, function (product) {
-        if (product.lastEdit) {
-          if (constants.env === 'local') {
-            product.lastEdit = moment(product.lastEdit).subtract(4, 'hours').fromNow();
-            log('lastEdit', product.lastEdit)
-          } else {
-            product.lastEdit = moment(product.lastEdit).fromNow()
-          }
-        }
-        return product
-      });
-
-      if (options.status) {
-        url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
+  me.getProductList = function (searchText, options) {
+    me.show.loading = true
+    var defer = $q.defer()
+    me.productList = []
+    var url = constants.BWS_API + '/edit/search?'
+    if (options.types) {
+      for (var i in options.types) {
+        url += '&type=' + options.types[ i ].type
       }
-      if (searchText) {
-        url += '&q=' + searchText + '&v=sum'
-      }
-      $http.get(url).then(function (response) {
-        me.productList = response.data
-        me.show.loading = false
-        defer.resolve(me.productList)
-      })
-      return defer.promise
     }
+    if (options.sku) {
+      url += '&sku=' + options.sku
+    }
+
+    if (options.status) {
+      url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
+    }
+    if (options.stores) {
+      if (options.stores[ 0 ]) {
+        url += '&store=' + options.stores[ 0 ].id
+        for (var k = 1; k < options.stores.length; k++) {
+          url += '~' + options.stores[ k ].id
+        }
+      }
+    }
+    if (searchText) {
+      url += '&q=' + searchText + '&v=sum'
+    }
+    $http.get(url).then(function (response) {
+      me.productList = response.data
+      me.show.loading = false
+      defer.resolve(me.productList)
+    }, function (err) {
+      console.error('could not get product list %O', err)
+      defer.reject(err)
+      me.show.loading = false
+    })
+    return defer.promise
   }
 
   // send in type,status,userid, get back list of products
@@ -6530,7 +6715,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         status: me.currentStatus.value,
         userId: me.userId
       }
-      }
+    }
     var url = constants.BWS_API + '/edit?status=' + options.status + '&type=' + options.type + '&user=' + options.userId
     $http.get(url).then(getMyProdSuccess, getMyProdError)
 
@@ -6538,17 +6723,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
       if (response.status === 200) {
         me.productList = response.data
       }
-      }
+    }
 
     function getMyProdError (error) {
       console.error('getMyProdError %O', error)
     }
-    }
+  }
 
   //  abstracts away remote call for detail
   me.getProductDetail = function (product) {
     return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
-    }
+  }
 
   me.getProduct = function (product) {
     var defer = $q.defer()
@@ -6567,6 +6752,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
             log('formattedProduct', formattedProduct)
             // store product for faster load next time
             me.productStorage[ product.productId ] = formattedProduct
+            //  cache current product for comparison
+            cachedProduct = jQuery.extend(true, {}, formattedProduct)
             defer.resolve(formattedProduct)
           })
         } else {
@@ -6577,11 +6764,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
       }, function (error) {
         // error(error)
         toastr.error('Could not get product detail for ' + product.name)
-          defer.reject(error)
+        defer.reject(error)
       })
     }
     return defer.promise
-    }
+  }
 
   // calls get detail from API and caches product
   me.setCurrentProduct = function (product) {
@@ -6591,10 +6778,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.getProduct(product).then(function (formattedProduct) {
       formattedProduct.userId = product.userId
       me.currentProduct = formattedProduct
-      //  cache current product for comparison
-      cachedProduct = jQuery.extend(true, {}, formattedProduct)
     })
-    }
+  }
 
   //  claim a product
   me.claim = function (options) {
@@ -6619,14 +6804,19 @@ angular.module('users').service('productEditorService', function ($http, $locati
       toastr.error('There was a problem claiming this product')
       console.error(err)
     })
-    }
+  }
+
+  me.clearProductList = function () {
+    me.productList = []
+    $rootScope.$broadcast('clearProductList')
+  }
 
   // remove a claim on a product
   me.removeClaim = function (options) {
     // options should have userId and productId
     if (!options.productId || !options.userId) {
       // error('could not claim, wrong options')
-      }
+    }
     options.status = 'new'
     var payload = {
       'payload': options
@@ -6641,7 +6831,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       log('deleteClaim error', err)
       toastr.error('There was an error claiming this product.')
     })
-    }
+  }
 
   me.save = function (product) {
     var defer = $q.defer()
@@ -6680,7 +6870,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
 
     return defer.promise
-    }
+  }
 
   me.bulkUpdateStatus = function (products, status) {
     products.forEach(function (product) {
@@ -6689,7 +6879,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       product.status = status
       me.save(product)
     })
-    }
+  }
 
   me.getStats = function () {
     var account = me.currentAccount
@@ -6709,7 +6899,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       console.error('onGetStatError %O', error)
       me.productStats = {}
     }
-    }
+  }
 
   me.formatProductDetail = function (product) {
     var defer = $q.defer()
@@ -6719,7 +6909,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       product.feedback = JSON.parse(product.feedback)
     } catch (e) {
       product.feedback = []
-      }
+    }
     product.properties.forEach(function (prop) {
       switch (prop.label) {
         case 'Requested By':
@@ -6754,8 +6944,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
               product.audio.ontimeupdate = function setProgress () {
                 product.audio.progress = Number(product.audio.currentTime / product.audio.duration)
               }
-              }
             }
+          }
           break
         case 'IMAGE':
           product.hasImages = true
@@ -6773,11 +6963,11 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
     if (product.description && !product.description.match(/[<>]/)) {
       product.description = '<p>' + product.description + '</p>'
-      }
+    }
     defer.resolve(product)
 
     return defer.promise
-    }
+  }
 
   me.uploadMedia = function (files) {
     var mediaConfig = {
@@ -6828,33 +7018,33 @@ angular.module('users').service('productEditorService', function ($http, $locati
         toastr.error('Product Audio Failed To Update!')
       }
     })
-    }
+  }
   me.removeAudio = function (currentAudio) {
     // log('delete audio %O', currentAudio)
     var url = constants.API_URL + '/media/' + currentAudio
     $http.delete(url).then(function () {
       toastr.success('audio removed', 'Success')
-        me.save(me.currentProduct).then(function (err, response) {
-          if (err) {
-            toastr.error('There was a problem removing audio')
-          }
-          refreshProduct(me.currentProduct)
-        })
+      me.save(me.currentProduct).then(function (err, response) {
+        if (err) {
+          toastr.error('There was a problem removing audio')
+        }
+        refreshProduct(me.currentProduct)
+      })
     })
-    }
+  }
   me.removeImage = function (currentImage) {
     // log('delete image %O', currentImage)
     var url = constants.API_URL + '/media/' + currentImage.mediaAssetId
     $http.delete(url).then(function () {
       toastr.success('image removed', 'Success')
-        me.save(me.currentProduct).then(function (err, response) {
-          if (err) {
-            toastr.error('There was a problem removing image')
-          }
-          refreshProduct(me.currentProduct)
-        })
+      me.save(me.currentProduct).then(function (err, response) {
+        if (err) {
+          toastr.error('There was a problem removing image')
+        }
+        refreshProduct(me.currentProduct)
       })
-    }
+    })
+  }
 
   function compareToCachedProduct (prod) {
     log('updatedProd', prod)
@@ -6879,16 +7069,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
             updated.changed = 'update'
             me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
           }
-          } else {
+        } else {
           updated.changed = 'false'
-          }
         }
+      }
       log('changes added', prod)
       return (prod)
     } else {
       return prod
-      }
     }
+  }
 
   function refreshProduct (product) {
     me.getProductDetail(product).then(function (res) {
@@ -6926,24 +7116,30 @@ angular.module('users').service('productEditorService', function ($http, $locati
         productId: me.currentProduct.productId,
         feedback: feedback
       }
-      }
+    }
     $http.post(url, payload).then(function (res) {
       console.log(res)
     }, function (err) {
       console.error(err)
     })
-    }
+  }
 
-  me.searchSkuResults = function (sku) {
+  me.searchSkuResults = function (options) {
     var defer = $q.defer()
+    var sku = options.upc
+    var productList = options.productList
+    var type = options.type
+    me.productList = []
+    console.log('searching sku %s', sku)
     me.show.loading = true
-    var skuUrl = constants.BWS_API + '/edit/search?v=sum&q=' + sku
+    var skuUrl = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + sku
     $http.get(skuUrl).then(function (skuResult) {
       var remainingQueries = skuResult.data.length
-      if (remainingQueries) {
+      if (remainingQueries > 0) {
+        me.productList = productList || []
         console.log('I have to query %s names', remainingQueries)
         for (var i in skuResult.data) {
-          var url = constants.BWS_API + '/edit/search?v=sum&q=' + skuResult.data[ i ].name
+          var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + skuResult.data[ i ].name
           $http.get(url).then(function (results2) {
             me.productList = me.productList.concat(results2.data)
             me.productList = _.uniq(me.productList, function (p) {
@@ -6955,12 +7151,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
               me.show.loading = false
               defer.resolve(me.productList)
             }
-            })
+          })
         }
       } else {
-        me.show.loading = false;
+        me.productList = productList
+        me.show.loading = false
         defer.resolve()
-        }
+      }
+    }, function (err) {
+      console.error('Could not search sku results %O', err)
+      defer.reject(err)
     })
     return defer.promise
   }
@@ -7150,7 +7350,11 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
     $http.post(url, payload).then(function (res) {
       if (res.data.productId) {
         toastr.success('Product Merged!')
-        $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+        if ($state.includes('editor.match.merge')) {
+          $state.go('editor.match.view', { productId: res.data.productId }, { reload: true })
+        } else {
+          $state.go('editor.view', { productId: res.data.productId }, { reload: true })
+        }
       } else {
         toastr.error('There was a problem with merging')
       }
