@@ -19,7 +19,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.allSelected = {value: false}
   $scope.searchText = ''
 
-  $http.get(constants.BWS_API +'/choose/orders?v=sum').then(function (res) {
+  $http.get(constants.BWS_API + '/choose/orders?v=sum').then(function (res) {
     console.log('allStores %O', res.data)
     $scope.allStores = res.data
   })
@@ -122,12 +122,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   var refreshList = function () {
     productEditorService.sortAndFilterProductList($scope.listOptions)
-  // $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
-  // $scope.products = $scope.allProducts
-  // if ($scope.listOptions.filterByUserId) {
-  //   $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
-  // }
-  // $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
   }
 
   $scope.toggleSelected = function (product) {
@@ -140,6 +134,20 @@ angular.module('users').controller('productEditorController', function ($scope, 
     } else {
       $scope.selected.splice(i, 1)
     }
+    if ($state.includes('editor.match')) {
+      orderDataService.storeSelected($scope.selected)
+    }
+  }
+
+  $scope.toggleAll = function () {
+    var sel = $scope.allSelected.value
+    $scope.selected = []
+    _.forEach(productEditorService.productList, function (p) {
+      if (sel) {
+        $scope.selected.push(p)
+      }
+      p.selected = sel
+    })
     if ($state.includes('editor.match')) {
       orderDataService.storeSelected($scope.selected)
     }
@@ -175,7 +183,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $state.go('editor.edit', { productId: product.productId })
       }
     })
-
   }
 
   $scope.updateFilter = function (value) {
