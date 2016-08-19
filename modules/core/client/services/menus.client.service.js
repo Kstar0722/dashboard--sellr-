@@ -94,7 +94,10 @@ angular.module('core').service('Menus', [
         roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
         position: options.position || 0,
         items: [],
-        shouldRender: shouldRender
+        shouldRender: function (user) {
+          if (angular.isFunction(options.shouldRender) && !options.shouldRender(user)) return false;
+          return shouldRender.call(this, user);
+        }
       });
 
       // Add submenu items
