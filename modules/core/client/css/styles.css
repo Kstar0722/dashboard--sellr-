@@ -479,9 +479,14 @@ div.custom-btn:hover {
   color: #ffffff;
   font-size: 16px;
 }
-md-backdrop.md-menu-backdrop,
-md-backdrop.md-select-backdrop {
-  z-index: 1000 !important;
+.md-open-menu-container {
+  max-height: 100%;
+  overflow-y: auto;
+}
+.md-open-menu-container .account-item > * {
+  margin: 0;
+  padding: 0;
+  width: auto;
 }
 .md-menu-bar-menu {
   padding: 0;

@@ -195,9 +195,15 @@
   }
 }
 
-md-backdrop {
-  &.md-menu-backdrop,
-  &.md-select-backdrop {
-    z-index: 1000 !important;
+.md-open-menu-container {
+  max-height: 100%;
+  overflow-y: auto;
+
+  .account-item {
+    > * {
+      margin: 0;
+      padding: 0;
+      width: auto;
+    }
   }
 }
