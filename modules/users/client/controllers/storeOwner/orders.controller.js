@@ -73,8 +73,10 @@ angular.module('users.admin')
       function getFilteredOrders (days) {
         return _.filter($scope.allOrders, function (order) {
           var flag = true
-          // Is Past
-          flag = moment().isAfter(order.pickupTime, 'day')
+          // Is Today but COMPLETED
+          flag = moment().isSame(order.pickupTime, 'day') && order.status === 'Completed'
+          // OR Is Past
+          flag = flag || moment().isAfter(order.pickupTime, 'day')
           // AND is After days Filter
           flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
           // AND Was not cancelled

@@ -34,10 +34,8 @@
         </div>
         <div flex=80 flex-xs=75 class="order-items"> 
           <div class="orders-user" layout layout-align="start end">
-            <div flex>
-              {{order.user.email}}
-            </div>
-            <div class="date" flex>{{ order.created_at | customDate }}</div>
+            <div flex ng-bind="order.user.name ? order.user.name : order.user.email"></div>
+            <div class="date" flex>{{ order.pickupTime | customDate }}</div>
           </div>
 
           <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
