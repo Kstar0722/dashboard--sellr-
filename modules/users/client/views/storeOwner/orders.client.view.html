@@ -35,7 +35,7 @@
         <div flex=80 flex-xs=75 class="order-items"> 
           <div class="orders-user" layout layout-align="start end">
             <div flex ng-bind="order.user.name ? order.user.name : order.user.email"></div>
-            <div class="date" flex>{{ order.pickupTime | customDate }}</div>
+            <div class="date" flex>{{ order.created_at | customDate }}</div>
           </div>
 
           <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
@@ -64,7 +64,7 @@
         <div class="right-action" flex>
           <md-menu>
             <span ng-click="$mdOpenMenu($event)">{{statsScopeLabel}} <i class="fa fa-chevron-down"></i></span>
-            <md-menu-content width="4">
+            <md-menu-content width="4" md-whiteframe="4">
               <md-menu-item>
                 <md-button ng-click="changeOrderStatsScope(7)">
                   Last 7 days
