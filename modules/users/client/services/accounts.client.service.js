@@ -74,6 +74,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
   me.updateAccount = function () {
     me.editAccount.preferences = {
       logo: me.editAccount.logo,
+      storeImg: me.editAccount.storeImg,
       style: me.editAccount.style,
       shoppr: me.editAccount.shoppr
     }

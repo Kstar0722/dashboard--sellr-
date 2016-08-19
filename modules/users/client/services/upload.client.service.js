@@ -43,6 +43,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                         newObject = {
                             payload: {
                                 type: config.type,
+                                //fileType: config.fileType || config.type,
                                 fileType: config.type,
                                 fileName: filename,
                                 userName: Authentication.user.username,

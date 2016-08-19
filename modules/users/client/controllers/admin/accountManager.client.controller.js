@@ -37,6 +37,23 @@ angular.module('users.admin').controller('AccountManagerController', function ($
         toastr.success('Logo Updated', 'Success!')
       }
     })
-  }
+  };
+
+  $scope.uploadGraphic = function (files, accountId) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'logo',
+      type: 'LOGO',
+      accountId: accountId
+    };
+
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        accountsService.editAccount.storeImg = constants.ADS_URL + 'logo/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+        $scope.currentAccountStoreImg = accountsService.editAccount.storeImg;
+        toastr.success('Logo Updated', 'Success!');
+      }
+    })
+  };
 
 })
