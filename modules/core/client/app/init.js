@@ -82,8 +82,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
       window.localStorage.clear()
       localStorage.clear()
       $window.localStorage.clear()
-      $window.location.href = '/'
-      
+      // $window.location.href = '/'
       return false
     }
     // Authentication AND AUthorization based on Roles
