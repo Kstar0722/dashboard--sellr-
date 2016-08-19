@@ -18,10 +18,12 @@
     </div>
 
     <!--non-dropdowns-->
-    <md-button ng-repeat="item in menu.items | orderBy:'position'" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">
-      {{item.title}}
-    </md-button>
-
+    <div ng-repeat="item in menu.items | orderBy:'position'" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="submenus-items">
+      <md-button ui-sref="{{item.state}}" ui-sref-active="my-active-class" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">
+        {{item.title}}
+      </md-button>
+    </div>
+    
     <!--menu dropdowns-->
     <md-menu-bar class="submenus-items">
       <md-menu ng-repeat="item in menu.items |orderBy:'position'" ng-if="item.shouldRender(authentication.user) && item.type=='dropdown'">
