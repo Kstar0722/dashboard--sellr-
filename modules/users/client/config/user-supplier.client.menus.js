@@ -3,10 +3,12 @@
 // Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'supplier', {
-            title: 'Suppliers',
+        Menus.addMenuItem('topbar', {
+            title: 'Supplier',
             state: 'supplier.media',
-            position:2
+            type: 'button',
+            roles: [1007],
+            position: 2
         });
     }
 ]);
