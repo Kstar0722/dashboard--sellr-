@@ -494,6 +494,15 @@ div.custom-btn:hover {
 .md-open-menu-container.account .account-selector .md-errors-spacer {
   display: none;
 }
+.md-open-menu-container {
+  max-height: 100%;
+  overflow-y: auto;
+}
+.md-open-menu-container .account-item > * {
+  margin: 0;
+  padding: 0;
+  width: auto;
+}
 .md-menu-bar-menu {
   padding: 0;
 }
