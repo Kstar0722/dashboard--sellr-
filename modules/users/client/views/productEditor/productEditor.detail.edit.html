@@ -81,8 +81,8 @@
             <div layout="row">
                 <div layout="column" ng-repeat="researchImage in pes.currentProduct.researchImages">
                     <!--insert image from upload-->
-                    <img ng-src="{{researchImage.publicUrl}}" height="200px">
-                    <button class="btn" ng-click="removeImage(researchImage)">Delete image</button>
+                    <a ng-href="{{ researchImage.publicUrl }}" target="_blank"><img
+                            ng-src="{{researchImage.publicUrl}}" class="product-image"></a>
                 </div>
             </div>
 
