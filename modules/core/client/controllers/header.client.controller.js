@@ -28,6 +28,12 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     $window.location.href = '/'
   }
 
+  $scope.closeDropdown = function (e) {
+    setTimeout(function() {
+      $('body > md-backdrop').click();
+    });
+  };
+
   $scope.$watch('authentication.user', function (user) {
     updateMenuVisibility(user, $scope.$root.selectAccountId)
   })

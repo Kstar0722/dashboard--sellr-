@@ -1,13 +1,15 @@
 <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !renderTopMenu">
 
-  <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)">
+  <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)" ng-click="closeDropdown($event)">
 
     <div class="mobile-menu-icon" flex ng-click="mobileMenuActive.open = !mobileMenuActive.open">
       <i class="fa fa-bars"></i>
       <img src="../img/logo_white.png" alt="logo">
     </div>
 
-    <div class="brand"></div>
+    <a href="/">
+      <div class="brand"></div>
+    </a>
 
     <div ng-repeat="item in mainMenu.items | orderBy:'position'" class="mainmenu-items mobile-only">
       <md-button ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.shouldRender(authentication.user)" class="no-submenu-item" ng-click="mobileMenuActive.open = false;">

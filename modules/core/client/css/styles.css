@@ -104,7 +104,7 @@ div.custom-btn:hover {
   position: relative;
   top: 0;
   width: 100%;
-  z-index: 999;
+  z-index: 98;
 }
 #mainNav .md-toolbar-tools > * {
   height: 100%;
@@ -315,6 +315,7 @@ div.custom-btn:hover {
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 20%;
+  outline: none !important;
   position: relative;
   min-height: auto;
   height: auto;
