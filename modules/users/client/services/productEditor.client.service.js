@@ -74,7 +74,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       if (options.stores[ 0 ]) {
         url += '&store=' + options.stores[ 0 ].id
         for (var k = 1; k < options.stores.length; k++) {
-          url += '~' + options.stores[ k ].id
+          url += ',' + options.stores[ k ].id
         }
       }
     }
