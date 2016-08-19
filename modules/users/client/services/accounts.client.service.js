@@ -22,6 +22,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
       res.data.forEach(function (account) {
         if (account.preferences !== 'undefined') {
           account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+          account.storeImg = JSON.parse(account.preferences).storeImg
+          account.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
         }
         if (account.accountId === me.selectAccountId) {
           me.currentAccount = account
@@ -75,6 +77,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
   me.updateAccount = function () {
     me.editAccount.preferences = {
       logo: me.editAccount.logo,
+      storeImg: me.editAccount.storeImg,
       style: me.editAccount.style,
       shoppr: me.editAccount.shoppr
     }

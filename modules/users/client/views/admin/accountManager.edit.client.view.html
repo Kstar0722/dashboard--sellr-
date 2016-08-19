@@ -57,8 +57,26 @@
         <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
                             ng-show="determinateValue"></md-progress-linear>
 
+        <div>
+            <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" height="100">
+        </div>
 
-        <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" height="100">
+
+
+        <div>
+            <md-button class="md-raised upload"
+                       ngf-select="uploadGraphic($files, accountsService.editAccount.accountId)" ngf-multiple="true">
+                Upload Store Image
+            </md-button>
+        </div>
+        <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
+                            ng-show="determinateValue"></md-progress-linear>
+
+        <div>
+            <img ng-src="{{ accountsService.editAccount.storeImg || currentAccountStoreImg }}" height="100">
+        </div>
+
+
 
         <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
 

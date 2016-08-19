@@ -17,7 +17,6 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     console.log('editing account %O', account)
     $scope.currentAccountLogo = ''
     accountsService.editAccount = account
-    accountsService.editAccount.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
     console.log('editAccount is now %O', accountsService.editAccount)
     $state.go('admin.accounts.edit', { id: account.accountId })
     window.scrollTo(0, 0)
@@ -38,5 +37,23 @@ angular.module('users.admin').controller('AccountManagerController', function ($
       }
     })
   }
+
+  $scope.uploadGraphic = function (files, accountId) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'storeImg',
+      type: 'STOREIMG',
+      accountId: accountId
+    }
+
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        debugger
+        accountsService.editAccount.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+        $scope.currentAccountStoreImg = accountsService.editAccount.storeImg;
+        toastr.success('Store Image Updated', 'Success!');
+      }
+    })
+  };
 
 })
