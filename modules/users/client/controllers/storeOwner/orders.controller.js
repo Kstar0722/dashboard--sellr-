@@ -12,6 +12,7 @@ angular.module('users.admin')
         count: 0,
         salesTotal: 0
       }
+      $scope.statsScopeLabel = 'Last 7 days'
       $scope.init = function () {
         getOrders()
       }
@@ -29,7 +30,6 @@ angular.module('users.admin')
         replaceItem($scope.allOrders, order)
         loadOrders($scope.allOrders)
       })
-      $scope.statsScopeLabel = 'Last 7 days'
 
       $scope.changeDisplayedOrders = function () {
         $scope.showPastOrders = !$scope.showPastOrders
