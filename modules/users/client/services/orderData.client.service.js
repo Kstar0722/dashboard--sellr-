@@ -70,6 +70,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       payload.duplicates.push(selected[ i ].productId)
     }
     $http.post(skuUrl, { payload: payload }).then(function (results) {
+      me.currentItem.productId = me.selected[ 0 ].productId
       console.log('orderDataService[matchProduct] %O', results)
       defer.resolve(me.selected[ 0 ])
     }, function (err) {
