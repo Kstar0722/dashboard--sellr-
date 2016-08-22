@@ -19,7 +19,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.allSelected = {value: false}
   $scope.searchText = ''
 
-  $http.get(constants.BWS_API + '/choose/orders?v=sum').then(function (res) {
+  $http.get(constants.BWS_API + '/storedb/stores?supc=true').then(function (res) {
     console.log('allStores %O', res.data)
     $scope.allStores = res.data
   })

@@ -7,7 +7,8 @@
 
     <div class="orders-container" ng-show="!importView">
         <div layout class="orders-header">
-            <div flex=10 class="align-center">#</div>
+            <div flex=5 class="align-center">Refresh</div>
+            <div flex=5 class="align-center">#</div>
             <div flex=20>Store Name</div>
             <div flex=10>Account Id</div>
             <div flex=10 class="align-center">Received</div>
@@ -18,10 +19,10 @@
             <div flex=10 class="align-center">Status</div>
         </div>
         <div layout layout-align="center center" class="orders-body"
-             ng-repeat="store in orders | orderBy:'-status.received'"
-             ng-click="goToMatch(store.storeId)">
-            <div flex=10 class="align-center">{{store.storeId}}</div>
-            <div flex=20>{{store.name}}</div>
+             ng-repeat="store in orders | orderBy:'-status.received'">
+            <div flex=5 class="align-center" ng-click="refreshStoreStatus($index,store.storeId)">Refresh</div>
+            <div flex=5 class="align-center">{{store.storeId}}</div>
+            <div flex=20 ng-click="goToMatch(store.storeId)">{{store.name}}</div>
             <div flex=10>{{store.accountId}}</div>
             <div flex=10 class="align-center">{{store.status.received}}</div>
             <div flex=10 class="align-center">{{store.status.processed}}</div>
@@ -53,7 +54,8 @@
 
             <h2>To the following store:</h2>
 
-            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
+            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore"
+                       placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
             </selectize>
 
             <div id="createStoreModal" class="modal fade" role="dialog">
@@ -67,16 +69,19 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" id="name" ng-model="newStore.name" required autofocus>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.name" required
+                                       autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="name">AccountId:</label>
-                                <input type="text" class="form-control" id="name" ng-model="newStore.accountId" required>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.accountId"
+                                       required>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="selectNewStore(newStore)">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    ng-click="selectNewStore(newStore)">
                                 Create Store
                             </button>
                         </div>
@@ -85,7 +90,8 @@
             </div>
 
             <div class="toolbar">
-                <md-button class="next" ng-click="importView = 'configure'" ng-disabled="!csv.result || (selectedStore || '-') == '-'">
+                <md-button class="next" ng-click="importView = 'configure'"
+                           ng-disabled="!csv.result || (selectedStore || '-') == '-'">
                     Next Step
                 </md-button>
             </div>
@@ -103,7 +109,8 @@
                 <div class="column-mapping form-group" ng-repeat="column in csv.columns">
                     <span class="col-name">{{csv.header && csv.loaded ? column.name : 'Column' + ($index+1)}}</span>
                     <i class="fa fa-long-arrow-right fa-2x"></i>
-                    <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.mapping"></selectize>
+                    <selectize config="selectStoreFieldConfig" options="column.availableFields"
+                               ng-model="column.mapping"></selectize>
                 </div>
                 <div class="toolbar">
                     <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
