@@ -41,12 +41,10 @@ angular.module('users.admin')
       }
 
       function getOrders () {
-        console.log('called')
         var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.selectAccountId
         $http.get(ordersUrl).then(function (response) {
           loadOrders(response.data)
           $scope.displayOrders = $scope.todayOrders
-          console.log($scope.todayOrders)
         })
       }
 
