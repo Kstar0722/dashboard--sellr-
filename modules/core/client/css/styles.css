@@ -660,6 +660,10 @@ section.userList .userbox {
   margin-right: 8px;
   margin-left: 32px;
 }
+.sign-in #signupForm input[type=text],
+.sign-in #signupForm input[type=password] {
+  margin: 0 auto !important;
+}
 @media (max-width: 767px) {
   .sign-in form#login-form img {
     margin-top: 0;

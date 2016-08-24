@@ -1,0 +1,62 @@
+<div ng-controller="AuthenticationController">
+
+
+  <div class="sign-in">
+    <div class="shading">
+      <div id="login-form">
+        <form name="userForm" ng-submit="acceptInvitation(userForm.$valid)" class="signin" novalidate autocomplete="off" class="text-center  md-whiteframe-18dp">
+          <div class="logo"></div>
+
+          <small>Welcome to the OnCue dashboard. If you need a registration code, please contact our customer support at <a href="mailto:support@expertoncue.com">support@expertoncue.com</a>.</small>
+
+          <md-input-container class="md-block">
+            <input type="text" id="firstName" name="firstName"  ng-model="credentials.firstName" placeholder="First Name"  required>
+            <div ng-messages="userForm.firstName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">First Name is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" id="lastName" name="lastName"  ng-model="credentials.lastName" placeholder="Last Name"  required>
+            <div ng-messages="userForm.lastName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Last Name is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" id="email" name="email"  ng-model="credentials.email" placeholder="Email"  required>
+            <div ng-messages="userForm.email.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Email is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
+            <div ng-messages="userForm.username.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Username is required.</p>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" >
+            <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-minlength="6" required>
+            <div ng-messages="userForm.password.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Password is required.</p>
+              <p class="help-block error-text" ng-show="userForm.password.$invalid">Must be greater than 6 characters</p>
+            </div>
+          </md-input-container>
+          <div layout="row" layout-align="space-between center">
+            <div flex=""></div>
+            <md-button type="submit" class="action">Sign up</md-button>
+          </div>
+        </form>
+        <div class="alt-actions" layout="row" layout-align="space-between start">
+          <div><a ng-click="reset = !reset">Need Help?</a></div>
+          <div>Already have an account? <a ui-sref="home">Sign in</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

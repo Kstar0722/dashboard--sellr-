@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI) {
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI', 'accountsService',
+  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI, accountsService) {
+    var USER_ROLE_OWNER = 1009;
+
     $scope.reset = false;
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
@@ -20,7 +22,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $location.path('/');
     }
 
-    $scope.signup = function () {
+    $scope.acceptInvitation = function () {
       $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
     };
 
@@ -135,6 +137,35 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $scope.error = err.message;
       $scope.credentials = {};
     }
+    
+    $scope.signup = function (isValid, user, account) {
+      $scope.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'signupForm');
+        return false;
+      }
+
+      accountsService.createAccount(account).then(function (account) {
+        console.log('account created', account);
+        user.roles = [USER_ROLE_OWNER];
+        user.accountId = account.accountId;
+
+        var payload = user;
+        console.log(payload);
+        $http.post(constants.API_URL + '/users', { payload: payload }).then(function (response) {
+          console.log('user created', response.data);
+          toastr.success('User Account and related Store have been created', 'Sign-Up Success!');
+
+          // auto-signin
+          $scope.credentials = user;
+          $scope.signin(true);
+        }).catch(function (err) {
+          console.log('error');
+          console.error(err);
+          toastr.error('There was a problem during sign up procedure.');
+        });
+      });
+    };
 
     // OAuth provider request
     $scope.callOauthProvider = function (url) {
