@@ -39,6 +39,7 @@
                         <br>
                         <md-menu-item>
                             <select ng-model="selectedStore.storeId" ng-change="testSelectedStore()">
+                            <option value="">All Stores</option>
                             <option ng-repeat="store in orderDataService.allStores" value="{{store.storeId}}">{{ store.name }}</option>
                           <select>
                         </md-menu-item>

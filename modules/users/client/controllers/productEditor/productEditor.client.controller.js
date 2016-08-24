@@ -111,7 +111,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
-    var options = { status: $scope.checkbox.progress, types: $scope.filter, store: $scope.selectedStore }
+    var options = { status: $scope.checkbox.progress, types: $scope.filter}
+    if ($scope.selectedStore.storeId) {
+      options.store = $scope.selectedStore
+    }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
       refreshList()
