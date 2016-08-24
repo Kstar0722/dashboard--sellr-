@@ -9,6 +9,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
+  $scope.orderDataService = orderDataService
   $scope.Countries = Countries
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
@@ -62,18 +63,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
     orderDataService.getAllStores()
   }
   $scope.isStoreSelected = function (store) {
-    var i = _.findIndex($scope.allStores, function (s) {
-      return s.id === store.id
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      debugger
+      return s.storeId === store.storeId
     })
-    return $scope.allStores[ i ].selected
+    return orderDataService.allStores[ i ].selected
   }
 
   $scope.toggleSearchStore = function (store) {
-    $scope.allStores = $scope.allStores || []
-    var i = _.findIndex($scope.allStores, function (s) {
-      return s.id === store.id
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      return s.storeId === store.storeId
     })
-    $scope.allStores[ i ].selected = !$scope.allStores[ i ].selected
+    orderDataService.allStores[ i ].selected = !orderDataService.allStores[ i ].selected
   }
 
   $scope.reOrderList = function (field) {
