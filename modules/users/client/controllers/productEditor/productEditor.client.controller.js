@@ -18,12 +18,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.allSelected = {value: false}
   $scope.searchText = ''
-
-  $http.get(constants.BWS_API + '/storedb/stores?supc=true').then(function (res) {
-    console.log('allStores %O', res.data)
-    $scope.allStores = res.data
-  })
-
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
@@ -63,6 +57,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
     refreshList()
+  }
+  if(orderDataService.allStores.length === 0){
+    orderDataService.getAllStores()
   }
   $scope.isStoreSelected = function (store) {
     var i = _.findIndex($scope.allStores, function (s) {
