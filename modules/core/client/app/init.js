@@ -72,12 +72,14 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   ])
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window) {
+  var DEFAULT_PUBLIC = false;
+
   $rootScope.$stateClass = cssClassOf($state.current.name)
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     // General Authentication BEFORE Checking Roles
-    if (!authToken.hasTokenInStorage() && !isPublicState(toState.name)) {
+    if (!authToken.hasTokenInStorage() && !isPublicState(toState)) {
       event.preventDefault()
       window.localStorage.clear()
       localStorage.clear()
@@ -117,14 +119,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   })
 
   function isPublicState (state) {
-    var flag = false
-    // Is Login
-    flag = state === 'home'
-    // Is Signup states
-    flag = flag || state.indexOf('authentication') !== -1
-    // Is Password Forgot States
-    flag = flag || state.indexOf('password') !== -1
-    return flag
+    if (!state) return DEFAULT_PUBLIC;
+    // take closest state in hierarchy with public property defined
+    while (typeof state.public != 'boolean' && state.parent) state = state.parent;
+    return state.public || DEFAULT_PUBLIC;
   }
 
   // Store previous state

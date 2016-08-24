@@ -40,7 +40,8 @@ angular.module('users').config(['$stateProvider',
       .state('authentication', {
         abstract: true,
         url: '/authentication',
-        templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html',
+        public: true
       })
       .state('authentication.signup', {
         url: '/signup',
@@ -58,7 +59,8 @@ angular.module('users').config(['$stateProvider',
       .state('password', {
         abstract: true,
         url: '/password',
-        template: '<ui-view/>'
+        template: '<ui-view/>',
+        public: true
       })
       .state('mypassword.forgot', {
         url: '/forgot',
