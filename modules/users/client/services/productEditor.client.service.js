@@ -70,18 +70,22 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.status) {
       url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
     }
-    if (options.stores) {
-      if (options.stores[ 0 ]) {
-        url += '&store=' + options.stores[ 0 ].id
-        for (var k = 1; k < options.stores.length; k++) {
-          url += ',' + options.stores[ k ].id
-        }
-      }
+    if(options.store){
+      url += '&store='+options.store.storeId
     }
+    // if (options.store) {
+    //   if (options.stores[ 0 ]) {
+    //     url += '&store=' + options.stores[ 0 ]
+    //     for (var k = 1; k < options.stores.length; k++) {
+    //       url += ',' + options.stores[ k ]
+    //     }
+    //   }
+    // }
     if (searchText) {
       url += '&q=' + searchText
     }
     url += '&v=sum'
+    console.log('getting URL: ',url)
     $http.get(url).then(function (response) {
       me.productList = response.data
       me.allProducts = response.data
