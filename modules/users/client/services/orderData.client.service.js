@@ -4,16 +4,31 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   var API_URL = constants.BWS_API
   me.allItems = []
   me.selected = []
+  me.allStores = []
   me.getData = getData
   me.createNewProduct = createNewProduct
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
   me.decreaseIndex = decreaseIndex
+  me.getAllStores = getAllStores
 
   $rootScope.$on('clearProductList', function () {
     me.selected = []
   })
+
+  function getAllStores () {
+    var defer = $q.defer()
+    var url = constants.BWS_API + '/storedb/stores?supc=true'
+    $http.get(url).then(function(response){
+      me.allStores = response.data
+      defer.resolve(me.allStores)
+    },function(err){
+      console.log('Could not getAllStores %O',err)
+      defer.reject(err)
+    })
+    return defer.promise
+  }
 
   function getData (id) {
     var defer = $q.defer()

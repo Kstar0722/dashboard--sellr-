@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function () {
   // Init module configuration options
   var applicationModuleName = 'mean';
-    var applicationModuleVendorDependencies = [ 'ngResource', 'ngAnimate', 'ngMessages', 'ui.router', 'ui.utils', 'angularFileUpload' ];
+    var applicationModuleVendorDependencies = [ 'ngResource', 'ngAnimate', 'ngMessages', 'ui.router', 'ui.utils', 'angularFileUpload', 'btford.socket-io', 'ngCsvImport', 'selectize' ];
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {
@@ -32,9 +32,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   function ($locationProvider, $httpProvider, envServiceProvider) {
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
 
-    $httpProvider.interceptors.push('authInterceptor')       //  MEANJS/Mongo interceptor
-    $httpProvider.interceptors.push('oncueAuthInterceptor')  //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-    $httpProvider.interceptors.push('errorInterceptor')     //   Error Interceptor for tracking errors.
+    $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
+    $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
+    $httpProvider.interceptors.push('errorInterceptor') //   Error Interceptor for tracking errors.
 
     // SET ENVIRONMENT
 
@@ -57,7 +57,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: [ 'localhost' ],
         development: [ 'dashdev.sllr.io' ],
         staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ],
+        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ]
       },
       vars: {
         local: {
@@ -82,19 +82,35 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           env: 'production'
         }
       }
-    });
+    })
 
     // run the environment check, so the comprobation is made
     // before controllers and services are built
     envServiceProvider.check()
   }
 ])
+  .value('ProductTypes', [
+    { productTypeId: 1, name: 'Wine' },
+    { productTypeId: 2, name: 'Beer' },
+    { productTypeId: 3, name: 'Spirits' }
+  ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window) {
   $rootScope.$stateClass = cssClassOf($state.current.name)
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    // General Authentication BEFORE Checking Roles
+    if (!authToken.hasTokenInStorage() && !isPublicState(toState.name)) {
+      event.preventDefault()
+      window.localStorage.clear()
+      localStorage.clear()
+      $window.localStorage.clear()
+      Authentication.user = undefined
+      $state.go('home')
+      return false
+    }
+    // Authentication AND AUthorization based on Roles
     if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
       var allowed = false
       toState.data.roles.forEach(function (role) {
@@ -123,6 +139,17 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     storePreviousState(fromState, fromParams)
     $rootScope.$stateClass = cssClassOf(toState.name)
   })
+
+  function isPublicState (state) {
+    var flag = false
+    // Is Login
+    flag = state === 'home'
+    // Is Signup states
+    flag = flag || state.indexOf('authentication') !== -1
+    // Is Password Forgot States
+    flag = flag || state.indexOf('password') !== -1
+    return flag
+  }
 
   // Store previous state
   function storePreviousState (state, params) {
@@ -211,8 +238,9 @@ angular.module('core.admin').run(['Menus',
           position: 3
       });
 
-      Menus.addMenuItem('topbar', {
-          title: 'Dashboard',
+      Menus.addMenuItem('main', {
+          title: 'Stats',
+          icon: '/img/navbar/stats_icon.svg',
           state: 'dashboard',
           type: 'button',
           roles: [ 1004, 1003, 1007, 1009 ],
@@ -281,14 +309,6 @@ angular.module('core.editor.routes').config(['$stateProvider',
 
 angular.module('core.manager').run(['Menus',
     function (Menus) {
-        Menus.addMenuItem('topbar', {
-            title: 'Manager',
-            state: 'manager',
-            type: 'dropdown',
-            roles: [1002],
-            position:0
-        });
-
     }
 ]);
 ;
@@ -313,14 +333,6 @@ angular.module('core.manager.routes').config(['$stateProvider',
 
 angular.module('core.storeOwner').run(['Menus',
     function (Menus) {
-        Menus.addMenuItem('topbar', {
-            title: 'Store Owner',
-            state: 'storeOwner',
-            type: 'dropdown',
-            roles: [1009],
-            position:1
-        });
-
     }
 ]);
 ;
@@ -335,7 +347,7 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
                 url: '',
                 template: '<ui-view/>',
                 data: {
-                    roles: [1009]
+                  roles: [ 1009, 1002, 1004 ]
                 }
             });
     }
@@ -345,14 +357,6 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
 
 angular.module('core.supplier').run(['Menus',
     function (Menus) {
-        Menus.addMenuItem('topbar', {
-            title: 'Supplier',
-            state: 'supplier',
-            type: 'dropdown',
-            roles: [1007],
-            position:2
-        });
-
     }
 ]);
 ;
@@ -408,11 +412,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                     ignoreState: true
                 }
             })
-            .state('stats', {
-                url: '/stats/{account}',
-                templateUrl: 'modules/core/client/views/stats.client.view.html',
-                controller: 'statsController'
-            })
             .state('forbidden', {
                 url: '/forbidden',
                 templateUrl: 'modules/core/client/views/403.client.view.html',
@@ -423,123 +422,190 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
     }
 ]);
 ;
+'use strict'
+/* globals angular, moment, _, localStorage */
+angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants) {
+  var API_URL = constants.API_URL
+  $scope.authentication = Authentication
+  $scope.ui = {}
+  $scope.$state = $state
+  $scope.accountsService = accountsService
+  $scope.renderTopMenu = true
 
-'use strict';
+  var originatorEv
+  $scope.isCollapsed = false
+  $scope.mainMenu = Menus.getMenu('main')
+  $scope.menu = Menus.getMenu('topbar')
+  $scope.editorMenu = Menus.getMenu('editor')
+  console.log('editor Menu %O', $scope.editorMenu)
+  $scope.toggleCollapsibleMenu = function () {
+    $scope.isCollapsed = !$scope.isCollapsed
+  }
+  $scope.openMenu = function ($mdOpenMenu, ev) {
+    originatorEv = ev
+    $mdOpenMenu(ev)
+  }
+  $scope.signOut = function () {
+    window.localStorage.clear()
+    localStorage.clear()
+    $window.localStorage.clear()
+    $window.location.href = '/'
+  }
 
-angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams',
-    function ($scope, Authentication, Menus, $http, $window, $state, $stateParams) {
-        console.log('HELLO FROM THE HEADER')
-        $scope.authentication = Authentication;
-        $scope.ui = {};
-        $scope.$state = $state;
+  $scope.closeDropdown = function (e) {
+    setTimeout(function() {
+      $('body > md-backdrop').click();
+    });
+  };
 
-        var originatorEv;
-        $scope.isCollapsed = false;
-        $scope.menu = Menus.getMenu('topbar');
-        $scope.editorMenu = Menus.getMenu('editor');
-        console.log('editor Menu %O', $scope.editorMenu)
-        $scope.toggleCollapsibleMenu = function () {
-            $scope.isCollapsed = !$scope.isCollapsed;
-        };
-        $scope.openMenu = function($mdOpenMenu, ev) {
-            originatorEv = ev;
-            $mdOpenMenu(ev);
-        };
-        $scope.signOut = function () {
-            window.localStorage.clear();
-            localStorage.clear();
-            $window.localStorage.clear();
-            $window.location.href = '/';
-        };
+  $scope.$watch('authentication.user', function (user) {
+    updateMenuVisibility(user, $scope.$root.selectAccountId)
+  })
 
+  $scope.$watch('$root.selectAccountId', function (accountId) {
+    updateMenuVisibility($scope.authentication.user, accountId)
+    updateOrdersCount()
+  })
+
+  $scope.$watch('$root.selectAccountId', function (accountId) {
+    $stateParams.accountId = accountId
+    if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
+  })
+
+  $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
+    init()
+
+    if (toState.name !== 'dashboard' && toState.name !== 'storeOwner.orders' && toState.name !== 'manager.ads') {
+      $scope.$root.selectAccountId = null
     }
-]);
+    else if (toState) {
+      toParams.accountId = $scope.$root.selectAccountId
+      $state.go(toState.name, toParams, {notify: false})
+    }
+  })
+
+  init()
+
+  //
+  // PRIVATE FUNCTIONS
+  //
+
+  function updateOrdersCount () {
+    if ($scope.$root.selectAccountId && $scope.$root.selectAccountId !== null && $scope.$root.renderTopMenu) {
+      var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.$root.selectAccountId
+      $http.get(ordersUrl).then(function (response) {
+        accountsService.ordersCount = _.filter(response.data, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Completed' && order.status !== 'Cancelled' }).length
+      })
+    }
+  }
+
+  function init () {
+    if ($stateParams.accountId) {
+      $scope.$root.selectAccountId = $stateParams.accountId
+    } else {
+      $scope.$root.selectAccountId = $scope.$root.selectAccountId || localStorage.getItem('accountId')
+    }
+  }
+
+  function shouldRenderMenu (menu, user) {
+    user = user || $scope.authentication.user
+    var result = _.some(menu.items, function (item) { return item.shouldRender(user); })
+    return result
+  }
+
+  function updateMenuVisibility (user, accountId) {
+    $scope.renderTopMenu = shouldRenderMenu($scope.menu, user) || !accountId
+    $scope.$root.renderTopMenu = $scope.renderTopMenu
+  }
+}
+])
 ;
-'use strict';
+'use strict'
+/* global angular, _ */
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state', '$http', 'toastr', 'constants', 'authToken',
+  function ($scope, Authentication, $mdDialog, $state, $http, toastr, constants, authToken) {
+    // This provides Authentication context.
+    $scope.authentication = Authentication
+    $scope.stuff = {}
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state','$http','toastr', 'constants',
-    function ($scope, Authentication, $mdDialog, $state, $http, toastr, constants) {
-        // This provides Authentication context.
-        $scope.authentication = Authentication;
-        $scope.stuff = {};
-        var check = false;
-
-        function redirect() {
-            if (hasRole(1002) || hasRole(1004) || hasRole(1007) || hasRole(1009)) {
-                $state.go('dashboard')
-            } else if (hasRole(1010) || hasRole(1011)) {
-                $state.go('editor.products')
-            } else if (hasRole(1012)) {
-                $state.go('supplier.media')
-            }
-        }
-
-        function hasRole(role) {
-            return (_.contains(Authentication.user.roles, role))
-        }
-
-        if(Authentication.user){
-            redirect()
-        }
-
-
-        $scope.askForPasswordReset = function (isValid) {
-            console.log('ask for password called %O',$scope.stuff )
-            $scope.success = $scope.error = null;
-
-            if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'forgotPasswordForm');
-
-                return false;
-            }
-            $scope.stuff.username = $scope.stuff.passuser;
-            var payload={payload:{
-                username:$scope.stuff.username
-            }
-            }
-            $http.post(constants.API_URL+'/users/auth/forgot', payload).then(function (response, err) {
-                if(err)
-                    toastr.error('Can not reset password. Please contact Support')
-                // Show user success message and clear form
-                $scope.credentials = null;
-                var mailOptions = {payload:{
-                    source:'password',
-                    email: response.data.email,
-                    title: 'Password Reset Success',
-                    body: "<body> <p>Dear "+$scope.stuff.username+",</p> <br /> <p>You have requested to have your password reset for your account at the Sellr Dashboard </p> <p>Please visit this url to reset your password:</p> <p>"+"https://sellrdashboard.com/authentication/reset?token="+response.data.token+"&username="+response.data.username+"</p> <strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
-                }};
-                if(response){
-                    $http.post(constants.API_URL+'/emails', mailOptions).then(function(res, err){
-                        if(err)
-                            toastr.error('Can not reset password. Please contact Support');
-                        $scope.reset =false;
-                        toastr.success("Reset Password Email Sent")
-                    })
-                }
-
-            })
-        };
-        $scope.testFunction = function (ev) {
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('This is an alert title')
-                    .textContent('You can specify some description text in here.')
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Got it!')
-                    .targetEvent(ev)
-            );
-            console.log('test');
-        };
-
+    function redirect () {
+      if (hasRole(1002) || hasRole(1004) || hasRole(1007) || hasRole(1009)) {
+        $state.go('dashboard')
+      } else if (hasRole(1010) || hasRole(1011)) {
+        $state.go('editor.products')
+      } else if (hasRole(1012)) {
+        $state.go('supplier.media')
+      }
     }
-]);
+
+    function hasRole (role) {
+      return (_.contains(Authentication.user.roles, role))
+    }
+
+    if (Authentication.user && authToken.hasTokenInStorage()) {
+      redirect()
+    }
+
+    $scope.askForPasswordReset = function (isValid) {
+      console.log('ask for password called %O', $scope.stuff)
+      $scope.success = $scope.error = null
+
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'forgotPasswordForm')
+
+        return false
+      }
+      $scope.stuff.username = $scope.stuff.passuser
+      var payload = {
+        payload: {
+          username: $scope.stuff.username
+        }
+      }
+      $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response, err) {
+        if (err) {
+          toastr.error('Can not reset password. Please contact Support')
+        }
+        // Show user success message and clear form
+        $scope.credentials = null
+        var mailOptions = {
+          payload: {
+            source: 'password',
+            email: response.data.email,
+            title: 'Password Reset Success',
+            body: '<body> <p>Dear ' + $scope.stuff.username + ',</p> <br /> <p>You have requested to have your password reset for your account at the Sellr Dashboard </p> <p>Please visit this url to reset your password:</p> <p>' + 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&username=' + response.data.username + "</p> <strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
+          }
+        }
+        if (response) {
+          $http.post(constants.API_URL + '/emails', mailOptions).then(function (res, err) {
+            if (err) {
+              toastr.error('Can not reset password. Please contact Support')
+            }
+            $scope.reset = false
+            toastr.success('Reset Password Email Sent')
+          })
+        }
+      })
+    }
+    $scope.testFunction = function (ev) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('This is an alert title')
+          .textContent('You can specify some description text in here.')
+          .ariaLabel('Alert Dialog Demo')
+          .ok('Got it!')
+          .targetEvent(ev)
+      )
+      console.log('test')
+    }
+  }
+])
 ;
 angular.module('core').controller('statsController', function ($scope, $http, $stateParams, constants, chartService, $timeout) {
     $scope.chartService = chartService;
     $scope.locations = [];
-    var accountId = $stateParams.account;       //set by the URL
+    var accountId = $stateParams.accountId;       //set by the URL
     var refreshInterval = 60;                   //how often data refreshes, in seconds;
 
     function refreshData() {
@@ -624,6 +690,71 @@ angular.module('core')
     }
   })
 ;
+'use strict'
+
+/*
+ * Replace SVG image with inline SVG to allow CSS styling
+ */
+angular.module('core')
+  .directive('inlineSvg', function () {
+    return {
+      restrict: 'AC',
+      link: function (scope, element, attrs) {
+        var $img = $(element);
+        var imgID = $img.attr('id');
+        var imgClass = $img.attr('class');
+        var imgURL = attrs.ngSrc || attrs.src;
+
+        $.get(imgURL, function(data) {
+          // Get the SVG tag, ignore the rest
+          var $svg = $(data).find('svg');
+
+          // Add replaced image's ID to the new SVG
+          if(typeof imgID !== 'undefined') {
+            $svg = $svg.attr('id', imgID);
+          }
+          // Add replaced image's classes to the new SVG
+          if(typeof imgClass !== 'undefined') {
+            $svg = $svg.attr('class', imgClass+' replaced-svg');
+          }
+
+          // Remove any invalid XML tags as per http://validator.w3.org
+          $svg = $svg.removeAttr('xmlns:a');
+
+          // Replace image with new SVG
+          $img.replaceWith($svg);
+        }, 'xml');
+      }
+    }
+  });
+;
+'use strict';
+
+angular.module('core')
+  .directive('mdMenuContainerClass', ['$timeout', function ($timeout) {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        var containerClass = attrs.mdMenuContainerClass;
+        attrs.$observe('mdMenuContainerClass', function (cClass) {
+          containerClass = cClass;
+        });
+
+        scope.$on('$mdMenuOpen', function () {
+          if (!containerClass) return;
+          $('.md-open-menu-container').addClass(containerClass);
+        });
+
+        scope.$on('$mdMenuClose', function () {
+          if (!containerClass) return;
+          $timeout(function () {
+            $('.md-open-menu-container').removeClass(containerClass);
+          }, 500);
+        });
+      }
+    }
+  }]);
+;
 'use strict';
 
 /**
@@ -700,44 +831,49 @@ angular.module('core')
   }]);
 ;
 angular.module('core').factory('authToken', function ($window) {
+  var me = this
+  var storage = $window.localStorage
+  var cachedToken
+  var userToken = 'token'
 
-  var me = this;
-  var storage = $window.localStorage;
-  var cachedToken;
-  var userToken = 'token';
-
-// Save Token to Storage as 'token'
-  function setToken(token) {
-    cachedToken = token;
-    storage.setItem(userToken, token);
-
+  // Save Token to Storage as 'token'
+  function setToken (token) {
+    cachedToken = token
+    storage.setItem(userToken, token)
   }
 
-// Get token 'token' from storage
-  function getToken() {
-    if (!cachedToken)
-      cachedToken = storage.getItem(userToken);
+  // Get token 'token' from storage
+  function getToken () {
+    if (!cachedToken) {
+      cachedToken = storage.getItem(userToken)
+    }
     return cachedToken
   }
 
-// Returns true or false based on whether or not token exists in storage
-  function isAuthenticated() {
-    return !!getToken();
+  // Returns true or false based on whether or not token exists in storage
+  function isAuthenticated () {
+    return !!getToken()
   }
 
-//Removes token
-  function removeToken() {
-    cachedToken = null;
+  // Returns true or false based on whether or not token exists in storage
+  function hasTokenInStorage () {
+    return storage.getItem(userToken) !== null
+  }
+
+  // Removes token
+  function removeToken () {
+    cachedToken = null
     storage.removeItem(userToken)
   }
 
-  me.setToken = setToken;
-  me.getToken = getToken;
-  me.isAuthenticated = isAuthenticated;
-  me.removeToken = removeToken;
+  me.setToken = setToken
+  me.getToken = getToken
+  me.isAuthenticated = isAuthenticated
+  me.removeToken = removeToken
+  me.hasTokenInStorage = hasTokenInStorage
 
-  return me;
-});
+  return me
+})
 ;
 'use strict';
 
@@ -895,13 +1031,17 @@ angular.module('core').service('Menus', [
       // Push new menu item
       this.menus[ menuId ].items.push({
         title: options.title || '',
+        icon: options.icon || '',
         state: options.state || '',
         type: options.type || 'item',
         class: options.class,
         roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
         position: options.position || 0,
         items: [],
-        shouldRender: shouldRender
+        shouldRender: function (user) {
+          if (angular.isFunction(options.shouldRender) && !options.shouldRender(user)) return false;
+          return shouldRender.call(this, user);
+        }
       });
 
       // Add submenu items
@@ -981,13 +1121,16 @@ angular.module('core').service('Menus', [
     this.addMenu('editor', {
       roles: [ 1010 ]
     });
+    this.addMenu('main', {
+      roles: [ 1004, 1003 ]
+    });
   }
 ]);
 ;
 angular.module('core').config(function ($provide) {
     $provide.decorator("$exceptionHandler", [ '$delegate', 'Authentication', function ($delegate, Authentication) {
         return function (exception, cause) {
-            Raygun.send(exception, { cause: cause, user: Authentication.user });
+            if (window.Raygun) Raygun.send(exception, { cause: cause, user: Authentication.user });
             $delegate(exception, cause);
         }
     } ])
@@ -997,40 +1140,78 @@ angular.module('core').config(function ($provide) {
 'use strict';
 
 // Create the Socket.io wrapper service
-angular.module('core').service('Socket', ['Authentication', '$state', '$timeout',
-  function (Authentication, $state, $timeout) {
-    // Connect to Socket.io server
-    this.connect = function () {
-      // Connect only when authenticated
-      if (Authentication.user) {
-        this.socket = io();
-      }
-    };
-    this.connect();
+angular.module('core').service('SocketAPI', ['SocketFactory', 'constants',
+  function (SocketFactory, constants) {
+    return SocketFactory({
+      ioSocketUrl: constants.API_URL
+    });
+  }
+]);
+;
+'use strict';
 
-    // Wrap the Socket.io 'on' method
-    this.on = function (eventName, callback) {
-      if (this.socket) {
-        this.socket.on(eventName, function (data) {
-          $timeout(function () {
-            callback(data);
+// Create the Socket.io wrapper service
+angular.module('core').service('SocketBWS', ['SocketFactory', 'constants',
+  function (SocketFactory, constants) {
+    return SocketFactory({
+      ioSocketUrl: constants.BWS_API
+    });
+  }
+]);
+;
+'use strict';
+
+angular.module('core').service('SocketFactory', ['socketFactory',
+  function (socketFactory) {
+    return function (options) {
+      options = options || {};
+      if (options.ioSocketUrl) options.ioSocket = io.connect(options.ioSocketUrl);
+
+      var socket = socketFactory(options);
+      var connected = false;
+
+      // safe connect
+      var _connect = socket.connect;
+      socket.connect = function () {
+        if (!connected) {
+          _connect.apply(this, arguments);
+          connected = true;
+        }
+        return socket;
+      };
+
+      // safe disconnect
+      var _disconnect = socket.disconnect;
+      socket.disconnct = function () {
+        if (connected) {
+          _disconnect.apply(this, arguments);
+          connected = false;
+        }
+      };
+
+      // bind listeners lifetime to ng-scope
+      socket.bindTo = function (scope) {
+        var scopeSocket = angular.copy(socket);
+        var listeners = [];
+
+        scopeSocket.on = function (eventName, callback) {
+          if (socket) {
+            socket.on(eventName, callback);
+            listeners.push({ eventName: eventName, callback: callback });
+          }
+        };
+
+        // remove listeners once scope destroyed
+        scope.$on('$destroy', function () {
+          _.each(listeners, function (listener) {
+            socket.removeListener(listener.eventName, listener.callback);
           });
         });
-      }
-    };
 
-    // Wrap the Socket.io 'emit' method
-    this.emit = function (eventName, data) {
-      if (this.socket) {
-        this.socket.emit(eventName, data);
-      }
-    };
+        return scopeSocket;
+      };
 
-    // Wrap the Socket.io 'removeListener' method
-    this.removeListener = function (eventName) {
-      if (this.socket) {
-        this.socket.removeListener(eventName);
-      }
+      return socket;
     };
   }
 ]);
@@ -1135,13 +1316,13 @@ angular.module('users.editor.routes').config([ '$stateProvider',
 // Configuring the Articles module
 angular.module('users.manager').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Ad Manager',
-            state: 'manager.ads'
-        });
-        Menus.addSubMenuItem('topbar', 'manager', {
-            title: 'Location Manager',
-            state: 'manager.locations'
+        Menus.addMenuItem('main', {
+            title: 'Ads',
+            icon: '/img/navbar/tv_icon.svg',
+            state: 'manager.ads',
+            type: 'button',
+            roles: [1002],
+            position: 2
         });
     }
 ]);
@@ -1153,12 +1334,12 @@ angular.module('users.manager.routes').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             .state('dashboard', {
-                url: '/dashboard/:accountId',
+                url: '/dashboard/:accountId?',
                 templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
 
             })
             .state('manager.ads', {
-                url: '/manager/admanager',
+                url: '/ads/:accountId?',
                 templateUrl: 'modules/users/client/views/manager/admanager.client.view.html',
                 controller:'AdmanagerController'
             })
@@ -1200,17 +1381,20 @@ angular.module('users.manager.routes').config(['$stateProvider',
 'use strict'
 
 /* global angular */
-angular.module('users.storeOwner').run(['Menus',
-  function (Menus) {
-    Menus.addSubMenuItem('topbar', 'storeOwner', {
-      title: 'Invite User',
-      state: 'storeOwner.inviteUser',
-      position: 8
-    })
-    Menus.addSubMenuItem('topbar', 'storeOwner', {
+angular.module('users.storeOwner').run(['Menus', 'accountsService',
+  function (Menus, accountsService) {
+    Menus.addMenuItem('main', {
       title: 'Orders',
+      icon: '/img/navbar/shopping_icon.svg',
       state: 'storeOwner.orders',
-      position: 0
+      type: 'button',
+      roles: [ 1002, 1004, 1009 ],
+      position: 1,
+      shouldRender: function () {
+        var account = accountsService.currentAccount;
+        var preferences = account && angular.fromJson(account.preferences || null) || {};
+        return preferences.shoppr;
+      }
     })
   }
 ])
@@ -1227,7 +1411,7 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
         controller: 'StoreOwnerInviteController'
       })
       .state('storeOwner.orders', {
-        url: '/orders',
+        url: '/orders/:accountId?',
         templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
         controller: 'StoreOwnerOrdersController'
       })
@@ -1239,10 +1423,12 @@ angular.module('users.storeOwner.routes').config(['$stateProvider',
 // Configuring the Articles module
 angular.module('users.supplier').run(['Menus',
     function (Menus) {
-        Menus.addSubMenuItem('topbar', 'supplier', {
-            title: 'Suppliers',
+        Menus.addMenuItem('topbar', {
+            title: 'Supplier',
             state: 'supplier.media',
-            position:2
+            type: 'button',
+            roles: [1007],
+            position: 2
         });
     }
 ]);
@@ -1280,17 +1466,27 @@ angular.module('users.admin').run([ 'Menus',
       title: 'User Management',
       state: 'admin.users',
       position: 5
-    })
+    });
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Invite User',
+      state: 'storeOwner.inviteUser',
+      position: 6
+    });
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Pricing Calculator',
       state: 'admin.pricing',
-      position: 6
+      position: 7
     })
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Store Database Management',
       state: 'admin.store',
       position: 8
     })
+    Menus.addSubMenuItem('topbar', 'admin', {
+      title: 'Location Manager',
+      state: 'manager.locations',
+      position: 10
+    });
   }
 ])
 ;
@@ -1503,7 +1699,6 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     console.log('editing account %O', account)
     $scope.currentAccountLogo = ''
     accountsService.editAccount = account
-    accountsService.editAccount.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
     console.log('editAccount is now %O', accountsService.editAccount)
     $state.go('admin.accounts.edit', { id: account.accountId })
     window.scrollTo(0, 0)
@@ -1524,6 +1719,24 @@ angular.module('users.admin').controller('AccountManagerController', function ($
       }
     })
   }
+
+  $scope.uploadGraphic = function (files, accountId) {
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'storeImg',
+      type: 'STOREIMG',
+      accountId: accountId
+    }
+
+    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+      if (response) {
+        debugger
+        accountsService.editAccount.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+        $scope.currentAccountStoreImg = accountsService.editAccount.storeImg;
+        toastr.success('Store Image Updated', 'Success!');
+      }
+    })
+  };
 
 })
 ;
@@ -1556,7 +1769,6 @@ angular.module('users.admin').controller('DeviceManagerController', ['$scope', '
             $scope.specificLoc = [];
 
             console.log('state params %O', $stateParams)
-            //$scope.selectAccountId = $stateParams.accountId;
             $scope.sources = [];
             $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function (res, err) {
                 if (err) {
@@ -2161,38 +2373,92 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 ]);
 
 ;
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
-  if (Authentication.user) {
-    $scope.account = { createdBy: Authentication.user.username }
-  }
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
+  var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME;
+  var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS;
 
-  $scope.orders = {}
+  $scope.account = undefined
+  $scope.orders = []
   $scope.orderItems = []
-  var url = constants.BWS_API + '/storedb/stores'
-  $http.get(url).then(getStoresSuccess, getStoresError)
+  $scope.storesDropdown = []
+  $scope.importView = null;
+  $scope.storeFields = null;
+  $scope.csv = { header: true };
 
-  function getStoresSuccess (response) {
-    if (response.status === 200) {
-      // timeEnd('getProductList')
-      $scope.orders = response.data
-      console.log($scope.orders)
-      _.each($scope.orders, function (elm, ind, orders) {
-        if (elm.status.received > 0) {
-          elm.status.barClass = 'red'
-        } else {
-          if (elm.status.processed > 0 || elm.status.done > 0) {
-            elm.status.barClass = 'orange'
-          } else {
-            elm.status.barClass = 'green'
-          }
-        }
-      })
+  // selectize control options
+  $scope.selectStoreConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'storeId',
+    labelField: 'name',
+    searchField: [ 'name', 'storeId' ]
+  };
+
+  // selectize control options
+  $scope.selectStoreFieldConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'name',
+    labelField: 'displayName',
+    sortField: 'displayName',
+    searchField: [ 'displayName' ],
+    onChange: function () {
+      populateMappingDropdowns($scope.csv.columns);
     }
-  }
+  };
 
-  function getStoresError (error) {
-    console.error('getAvailOrderError %O', error)
-  }
+  $scope.selectCsvImport = function (selector) {
+    $(selector).find('input[type="file"]').click();
+  };
+
+  $scope.cancelCsvImport = function (selector) {
+    $scope.csv = { header: true };
+    var $input = $(selector).find('input[type="file"]');
+    $input.replaceWith($input.val('').clone(true)); // reset selected file
+  };
+
+  // callback for csv import plugin
+  $scope.initCsvImport = function (e) {
+    $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[ 0 ]));
+    populateMappingDropdowns($scope.csv.columns);
+    $scope.csv.loaded = true;
+    console.log('csv file selected', $scope.csv);
+  };
+
+  $scope.submitStore = function (selectedStore) {
+    if (!selectedStore) {
+      toastr.error('store not selected');
+      return;
+    }
+
+    $scope.storeSubmitBusy = true;
+    try {
+      selectOrCreateStore(selectedStore).then(function (store) {
+        var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns);
+        return importStoreProducts(store, products).then(function (store) {
+          $scope.orders.push(store);
+          $scope.cancelImport();
+          toastr.success('Store csv file imported');
+        }, function (error) {
+          toastr.error(error && error.toString() || 'Failed to import csv file');
+        });
+      }).finally(function () {
+        $scope.storeSubmitBusy = false;
+      });
+    }
+    catch (ex) {
+      console.error('unable to submit store', ex);
+      $scope.storeSubmitBusy = false;
+    }
+  };
+
+  $scope.cancelImport = function () {
+    $scope.selectedStore = null;
+    $scope.importView = null;
+    $scope.cancelCsvImport('#storeCsv');
+  };
 
   $scope.goToMatch = function (id) {
     orderDataService.currentOrderId = id
@@ -2200,11 +2466,200 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $state.go('editor.match', { id: id })
     })
   }
-})
+
+  $scope.refreshStoreStatus = function (i, storeId) {
+    var url = constants.BWS_API + '/storedb/stores/' + storeId
+    $http.get(url).then(function (res) {
+      debugger
+      $scope.orders[ i ] = res.data[ 0 ]
+      updateStoreColors()
+    }, function (err) {
+      console.error(err)
+    })
+  }
+
+  $scope.openNewDialog = function (store) {
+    if (store !== EMPTY_FIELD_NAME) return;
+
+    $scope.newStore = {
+      storeId: randomId(),
+      accountId: localStorage.getItem('accountId')
+    };
+
+    var $createModal = $('#createStoreModal').on('shown.bs.modal', function (e) {
+      var autofocus = $(e.target).find('[autofocus]')[ 0 ];
+      if (autofocus) autofocus.focus();
+    });
+
+    $createModal.modal('show');
+  };
+
+  $scope.selectNewStore = function (newStore) {
+    if (!newStore) return;
+    $scope.storesDropdown.splice(1, 0, newStore);
+    $scope.selectedStore = newStore.storeId || newStore.name;
+  };
+
+  $scope.$watch('csv.header', function () {
+    $scope.csv.loaded = false;
+    // trigger csv.result recalculating out of digest cycle (specific to angular-csv-import flow)
+    setTimeout(function () {
+      $('#storeCsv').find('.separator-input').triggerHandler('keyup');
+      $scope.csv.loaded = true;
+      $scope.$digest();
+    });
+  });
+
+  init();
+
+  //
+  // PRIVATE FUNCTIONS
+  //
+
+  function init () {
+    if (Authentication.user) {
+      $scope.account = { createdBy: Authentication.user.username }
+    }
+
+    $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS);
+    $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' });
+
+    var url = constants.BWS_API + '/storedb/stores?supc=true';
+    $http.get(url).then(getStoresSuccess, getStoresError);
+  }
+
+  function getStoresSuccess (response) {
+    if (response.status === 200) {
+      // timeEnd('getProductList')
+      $scope.orders = response.data
+      $scope.storesDropdown = $scope.orders.slice();
+      $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
+      $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
+      console.log($scope.orders)
+      updateStoreColors()
+    }
+  }
+
+  function updateStoreColors () {
+    _.each($scope.orders, function (elm, ind, orders) {
+      if (elm.status.received > 0) {
+        elm.status.barClass = 'red'
+      } else {
+        if (elm.status.processed > 0 || elm.status.done > 0) {
+          elm.status.barClass = 'orange'
+        } else {
+          elm.status.barClass = 'green'
+        }
+      }
+    })
+  }
+
+  function getStoresError (error) {
+    console.error('getStoresError %O', error)
+  }
+
+  function handleResponse (response) {
+    if (response.status !== 200) throw Error(response.statusText);
+    var data = response.data;
+    if (data.error) {
+      console.error(data.error);
+      throw Error(data.message || data.error);
+    }
+    return data;
+  }
+
+  function selectOrCreateStore (storeId) {
+    var store = findStore($scope.orders, storeId);
+    if (store) return $q.when(store); // already exists
+
+    store = findStore($scope.storesDropdown, storeId);
+
+    if (!store) {
+      store = {
+        accountId: localStorage.getItem('accountId'),
+        name: storeId.toString().trim()
+      };
+    }
+
+    return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(handleResponse).then(function (data) {
+      return getStoreById(data.storeId);
+    });
+  }
+
+  function importStoreProducts (storeDb, storeItems) {
+    var payload = {
+      id: storeDb.storeId,
+      items: storeItems
+    };
+
+    if (!storeDb || storeDb.length == 0) {
+      return $q.reject('no store db found in csv file');
+    }
+
+    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse).then(function () {
+      return getStoreById(storeDb.storeId);
+    });
+  }
+
+  function getStoreById (id) {
+    return $http.get(constants.BWS_API + '/storedb/stores/' + id).then(handleResponse).then(function (data) {
+      return data instanceof Array ? data[ 0 ] : data;
+    });
+  }
+
+  function toPascalCase (str) {
+    if (!str) return str;
+    var words = _.compact(str.split(/\s+/));
+    var result = words.map(function (w) { return w[ 0 ].toUpperCase() + w.substr(1); }).join(' ');
+    return result;
+  }
+
+  function initCsvColumns (columns) {
+    columns = wrapFields(columns);
+    _.each(columns, function (col) { col.mapping = mapStoreField(col.name).name; });
+    return columns;
+  }
+
+  function mapStoreField (column) {
+    var cUpper = column && column.toUpperCase();
+    var field = cUpper && _.find($scope.storeFields, function (f) {
+        return cUpper == f.name.toUpperCase() || cUpper == f.displayName.toUpperCase();
+      });
+    return field || _.findWhere($scope.storeFields, { name: EMPTY_FIELD_NAME });
+  }
+
+  function wrapFields (fields) {
+    return _.map(fields, function (v) {
+      return { name: v, displayName: toPascalCase(v) };
+    });
+  }
+
+  function populateMappingDropdowns (columns) {
+    var selectedMappings = _.pluck(columns, 'mapping');
+    var availableFields = _.filter($scope.storeFields, function (f) {
+      return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name);
+    });
+    _.each(columns, function (column) {
+      column.availableFields = availableFields.slice();
+      var field = _.findWhere($scope.storeFields, { name: column.mapping });
+      column.availableFields.push(field);
+    });
+    if (!$scope.$$phase) $scope.$digest();
+    return availableFields;
+  }
+
+  function randomId () {
+    return -Math.floor(100000 * Math.random());
+  }
+
+  function findStore (arr, id) {
+    return _.find(arr, { storeId: parseInt(id, 10) }) || _.find(arr, { name: id });
+  }
+});
 ;
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
-                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q) {
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q,$rootScope) {
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
@@ -2219,7 +2674,11 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     var upc = orderDataService.currentItem.upc
     var type = orderDataService.currentItem.productTypeId
     if (name) {
-      productEditorService.getProductList(name, { types: [ { type: type } ] }).then(function (productList) {
+      productEditorService.getProductList(null, {
+        sum: true,
+        name: name,
+        types: [ { type: type } ]
+      }).then(function (productList) {
         productEditorService.searchSkuResults({ upc: upc, productList: productList, type: type })
       })
     } else {
@@ -2228,16 +2687,21 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   }
 
   $scope.searchDatabase = function () {
-    productEditorService.productList = []
+    $rootScope.$broadcast('searchdb')
+    productEditorService.clearProductList()
     onProductLoad()
   }
 
   $scope.increaseIndex = function () {
+    $state.go('editor.match', $stateParams, { reload: true })
     productEditorService.clearProductList()
     orderDataService.increaseIndex()
-    if (!orderDataService.currentItem.productId) {
-      onProductLoad()
-    }
+  }
+
+  $scope.decreaseIndex = function () {
+    $state.go('editor.match', $stateParams, { reload: true })
+    productEditorService.clearProductList()
+    orderDataService.decreaseIndex()
   }
 
   $scope.markAsNew = function (prod) {
@@ -2251,9 +2715,8 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     var defer = $q.defer()
     // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.confirm()
-      .title('Would you like to delete your debt?')
-      .textContent('All of the banks have agreed to forgive you your debts.')
-      .ariaLabel('Lucky day')
+      .title('Mark this product as new?')
+      .textContent('This will set the product status for this product.')
       .targetEvent(ev)
       .ok('Mark as New')
       .cancel('Mark as Done')
@@ -2296,7 +2759,6 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   function onInit () {
     if (orderDataService.allItems.length === 0 && $stateParams.id) {
       orderDataService.getData($stateParams.id).then(function () {
-        onProductLoad()
       })
     }
   }
@@ -2369,8 +2831,8 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 ;
 'use strict';
 
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService) {
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI',
+  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI) {
     $scope.reset = false;
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
@@ -2475,7 +2937,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     function onSigninSuccess (response) {
 
       // If successful we assign the response to the global user model
-      authToken.setToken(response.data.token);
+      authToken.setToken(response.data.token.token);
       //set roles
       localStorage.setItem('roles', response.data.roles);
       //store account Id in location storage
@@ -2485,6 +2947,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('userObject', JSON.stringify(response.data));
       $scope.authentication.user = response.data;
+      SocketAPI.connect();
 
       if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
         if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
@@ -2520,8 +2983,9 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
 angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService',
     function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService) {
-        $scope.authentication = Authentication;
         var self = this;
+
+        $scope.authentication = Authentication;
         $scope.activeAds = [];
         $scope.allMedia = [];
         $scope.allAccountMedia = [];
@@ -2529,12 +2993,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         $scope.ads = false;
         $scope.activeAds = false;
         $scope.storeDevices = false;
-        $scope.selectAccountId = localStorage.getItem('accountId');
         $scope.toggleLeft = buildDelayedToggler('left');
         $scope.profiles = [];
         $scope.myPermissions = localStorage.getItem('roles');
         $scope.accountsService = accountsService;
         $scope.files = [];
+
+        accountsService.bindSelectedAccount($scope);
+        $scope.$watch('selectAccountId', function () {
+            $scope.init();
+        });
 
         function debounce(func, wait, context) {
             var timer;
@@ -2604,7 +3072,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
-                        ext = ext.toLowerCase();
+                        ext = (ext || '').toLowerCase();
                         if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
                             myData = {
                                 name: response.data[i].fileName,
@@ -2652,7 +3120,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                         };
                         var re = /(?:\.([^.]+))?$/;
                         var ext = re.exec(myData.value)[1];
-                        ext = ext.toLowerCase();
+                        ext = (ext || '').toLowerCase();
                         if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
                             myData = {
                                 name: response.data[i].fileName,
@@ -2754,6 +3222,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
             })
         }
 
+        // set up two-way binding to parent property
+        function bindRootProperty($scope, name) {
+            $scope.$watch('$root.' + name, function (value) {
+                $scope[name] = value;
+            });
+
+            $scope.$watch(name, function (value) {
+                $scope.$root[name] = value;
+            });
+        }
     }
 ]);
 
@@ -2763,14 +3241,16 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
 
 angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams','$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService',
 	function($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService) {
+		var self = this;
 		$scope.authentication = Authentication;
 
-        var self = this;
+		accountsService.bindSelectedAccount($scope);
+		$scope.$watch('selectAccountId', function () {
+			$scope.init();
+		});
+
 		$scope.myPermissions = localStorage.getItem('roles');
-		if($stateParams.accountId)
-			$scope.selectAccountId = $stateParams.accountId;
-		else
-			$scope.selectAccountId = localStorage.getItem('accountId');
+
 		$scope.chartService = chartService;
 		$scope.accountsService = accountsService;
 		$scope.onClick = function(points, evt) {
@@ -2778,7 +3258,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 		};
 		$scope.chartOptions = {};
 		$scope.init = function() {
-			$state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
 			$scope.emails = [];
 			$scope.phones = [];
 			$scope.loyalty = [];
@@ -2788,7 +3267,6 @@ angular.module('users.manager').controller('DashboardController', ['$scope', '$s
 			$scope.specificLoc = [];
 			chartService.groupAndFormatDate($scope.selectAccountId)
 			console.log('state params %O', $stateParams)
-			//$scope.selectAccountId = $stateParams.accountId;
 			$scope.sources = [];
 			$http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function(res, err) {
 					if (err) {
@@ -3309,8 +3787,8 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 ]);
 ;
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-                                                                        $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope) {
+  $location, $state, $stateParams, Countries, orderDataService,
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -3325,9 +3803,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     feedback: true,
     template: ''
   }
-  $scope.allSelected = false
+  $scope.allSelected = {value: false}
+  $scope.searchText = ''
 
-  $http.get('http://localhost:7171/choose/orders?v=sum').then(function (res) {
+  $http.get(constants.BWS_API + '/storedb/stores?supc=true').then(function (res) {
     console.log('allStores %O', res.data)
     $scope.allStores = res.data
   })
@@ -3366,6 +3845,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   } else {
     $scope.listOptions.filterByUserId = false
   }
+  $scope.listOptions.userId = $scope.userId
 
   $scope.showMore = function () {
     $scope.listOptions.searchLimit += 15
@@ -3428,12 +3908,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   var refreshList = function () {
-    $scope.allProducts = $filter('orderBy')($scope.allProducts, $scope.listOptions.orderBy)
-    $scope.products = $scope.allProducts
-    if ($scope.listOptions.filterByUserId) {
-      $scope.products = $filter('filter')($scope.products, { userId: $scope.userId })
-    }
-    $scope.products = $filter('limitTo')($scope.products, $scope.listOptions.searchLimit)
+    productEditorService.sortAndFilterProductList($scope.listOptions)
   }
 
   $scope.toggleSelected = function (product) {
@@ -3451,6 +3926,20 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
   }
 
+  $scope.toggleAll = function () {
+    var sel = $scope.allSelected.value
+    $scope.selected = []
+    _.forEach(productEditorService.productList, function (p) {
+      if (sel) {
+        $scope.selected.push(p)
+      }
+      p.selected = sel
+    })
+    if ($state.includes('editor.match')) {
+      orderDataService.storeSelected($scope.selected)
+    }
+  }
+
   $scope.viewProduct = function (product) {
     productEditorService.setCurrentProduct(product)
     if ($state.includes('editor.match')) {
@@ -3463,9 +3952,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
       .then(function (response) {
-          $scope.modalData = response
-        }
-      )
+        $scope.modalData = response
+      }
+    )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -3473,13 +3962,14 @@ angular.module('users').controller('productEditorController', function ($scope, 
       productId: product.productId,
       status: 'inprogress'
     }
-    productEditorService.claim(options)
-    productEditorService.setCurrentProduct(product)
-    if ($state.includes('editor.match')) {
-      $state.go('editor.match.edit', { productId: product.productId })
-    } else {
-      $state.go('editor.edit', { productId: product.productId })
-    }
+    productEditorService.claim(options).then(function () {
+      productEditorService.setCurrentProduct(product)
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.edit', { productId: product.productId })
+      } else {
+        $state.go('editor.edit', { productId: product.productId })
+      }
+    })
   }
 
   $scope.updateFilter = function (value) {
@@ -3495,23 +3985,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
     }
   }
 
-  $scope.types = [
-    { productTypeId: 1, name: 'Wine' },
-    { productTypeId: 2, name: 'Beer' },
-    { productTypeId: 3, name: 'Spirits' }
-  ]
-  $scope.toggleAll = function () {
-    var sel = !$scope.allSelected
-    $scope.selected = []
-    _.map($scope.products, function (p) {
-      if (sel) {
-        $scope.selected.push(p)
-      }
-      p.selected = sel
-      return p
-    })
+  $scope.submitForApproval = function (product) {
+    product.status = 'done'
+    productEditorService.save(product)
+    $scope.viewProduct(product)
+    $('.modal-backdrop').remove()
   }
-  // Functions related to changing product status
 
   $scope.issues = [
     'Problem With Image',
@@ -3617,7 +4096,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.mergeProducts = function () {
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.merge')
+        $state.go('editor.match.merge', $stateParams, { reload: true })
         $scope.selected = []
       } else {
         $state.go('editor.merge')
@@ -3667,6 +4146,13 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
+    productEditorService.productList.forEach(function (p) {
+      p.selected = false
+    })
+  })
+  $rootScope.$on('searchdb', function () {
+    console.log('clearing search text')
+    $state.go('editor.match', $stateParams, { reload: true })
   })
 })
 ;
@@ -3835,10 +4321,10 @@ angular.module('users').controller('SettingsController', ['$scope', 'Authenticat
 ]);
 ;
 'use strict'
-/* global angular, moment, _ */
+/* global angular, moment, _*/
 angular.module('users.admin')
-  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr',
-    function ($scope, $http, $state, constants, toastr) {
+  .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI', 'accountsService',
+    function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI, accountsService) {
       var API_URL = constants.API_URL
       $scope.todayOrders = []
       $scope.pastOrders = []
@@ -3846,9 +4332,27 @@ angular.module('users.admin')
       $scope.uiStatOrders = {
         orders: [],
         count: 0,
-        salesTotal: 0
+        salesTotal: 0,
+        daysScope: 7
       }
       $scope.statsScopeLabel = 'Last 7 days'
+      $scope.init = function () {
+        getOrders()
+      }
+      accountsService.bindSelectedAccount($scope)
+      $scope.$watch('selectAccountId', function () {
+        $scope.init()
+      })
+      SocketAPI = SocketAPI.bindTo($scope)
+
+      SocketAPI.on('reservation.created', function (order) {
+        loadOrders($scope.allOrders.concat(order))
+      })
+
+      SocketAPI.on('reservation.updated', function (order) {
+        replaceItem($scope.allOrders, order)
+        loadOrders($scope.allOrders)
+      })
 
       $scope.changeDisplayedOrders = function () {
         $scope.showPastOrders = !$scope.showPastOrders
@@ -3860,34 +4364,55 @@ angular.module('users.admin')
       }
 
       function getOrders () {
-        var ordersUrl = API_URL + '/mobile/reservations/store/' + 1269
+        var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.selectAccountId
         $http.get(ordersUrl).then(function (response) {
-          console.log('Response Orders From Store', response.data)
-          var allOrders = response.data
-          allOrders = _.sortBy(allOrders, 'pickupTime')
-          $scope.allOrders = allOrders
-          $scope.todayOrders = _.filter(allOrders, function (order) { return moment().isSame(order.pickupTime, 'day') })
-          $scope.pastOrders = _.filter(allOrders, function (order) { return moment().isAfter(order.pickupTime, 'day') })
+          loadOrders(response.data)
           $scope.displayOrders = $scope.todayOrders
-          $scope.uiStatOrders.orders = getFilteredOrders(7)
-          refreshStats()
         })
+      }
+
+      var loadOrders = function (orders) {
+        var reloadToday = $scope.displayOrders === $scope.todayOrders
+        var reloadPast = $scope.displayOrders === $scope.pastOrders
+
+        $scope.allOrders = orders
+        $scope.todayOrders = _.filter(orders, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Completed' && order.status !== 'Cancelled' })
+        accountsService.ordersCount = $scope.todayOrders.length
+        $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
+        $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
+        $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
+        $scope.uiStatOrders.orders = getFilteredOrders($scope.uiStatOrders.daysScope)
+        refreshStats()
+
+        if (reloadToday) $scope.displayOrders = $scope.todayOrders
+        if (reloadPast) $scope.displayOrders = $scope.pastOrders
+      }
+      // exposing loadOrders just for testing
+      $scope.loadOrders = loadOrders
+
+      function isTodayButCompleted (order) {
+        return moment().isSame(order.pickupTime, 'day') && (order.status === 'Completed' || order.status === 'Cancelled')
       }
 
       function getFilteredOrders (days) {
         return _.filter($scope.allOrders, function (order) {
           var flag = true
-          // Is Past
-          flag = moment().isAfter(order.pickupTime, 'day')
+          // Is Today but COMPLETED
+          flag = moment().isSame(order.pickupTime, 'day') && order.status === 'Completed'
+          // OR Is Past
+          flag = flag || moment().isAfter(order.pickupTime, 'day')
           // AND is After days Filter
           flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
+          // AND Was not cancelled
+          flag = flag && order.status !== 'Cancelled'
           return flag
         })
       }
 
       $scope.changeOrderStatsScope = function (days) {
+        $scope.uiStatOrders.daysScope = days
         $scope.uiStatOrders.orders = getFilteredOrders(days)
-        $scope.statsScopeLabel = 'Last ' + days + ' days'
+        $scope.statsScopeLabel = 'Last ' + $scope.uiStatOrders.daysScope + ' days'
         refreshStats()
       }
 
@@ -3899,32 +4424,37 @@ angular.module('users.admin')
         }, 0)
       }
 
-      $scope.markOrder = function (order) {
-        switch (order.status) {
-          case 'submitted':
-          case 'In Progress':
-            order.status = 'pickedup'
-            break
-          case 'pickedup':
-            order.status = 'submitted'
-            break
-          default:
-            return
-        }
+      $scope.markOrder = function (order, newStatus) {
+        order.status = newStatus
         updateOrder(order)
       }
+
       function updateOrder (order) {
         var url = constants.API_URL + '/mobile/reservations/' + order._id
         $http.put(url, order).then(function (result) {
-          if (result.data.status === 'pickedup') {
-            toastr.success('Order Marked as Picked Up')
-          } else {
-            toastr.warning('Order Marked as not picked up yet')
+          if (result.data.status === 'Submitted') {
+            toastr.warning('Order marked as Submitted')
           }
+          if (result.data.status === 'Ready for Pickup') {
+            toastr.info('Order marked as Ready for Pick Up')
+          }
+          if (result.data.status === 'Completed') {
+            toastr.success('Order Completed')
+          }
+          if (result.data.status === 'Cancelled') {
+            toastr.warning('Order Cancelled')
+          }
+          loadOrders($scope.allOrders)
         })
       }
 
-      getOrders()
+      function replaceItem (arr, item) {
+        if (_.isEmpty(arr) || _.isEmpty(item)) return false
+        var index = _.findIndex(arr, { _id: item._id })
+        if (index < 0) return false
+        arr.splice(index, 1, item)
+        return true
+      }
     }
   ])
 ;
@@ -5118,6 +5648,16 @@ angular.module('users').directive('lowercase', function () {
 });
 ;
 angular.module('users')
+  .filter('stringToClass', function () {
+    return function (input) {
+      if (typeof input !== 'string') {
+        return ''
+      }
+      return input.trim().toLowerCase().replace(/\s/g, '-')
+    }
+  })
+;
+angular.module('users')
   .filter('hour', function () {
     return function (momentDate) {
       return moment(momentDate).format('h')
@@ -5134,14 +5674,15 @@ angular.module('users')
     }
   })
 ;
-angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService, $rootScope) {
   var me = this
-
   me.init = function () {
     me.selectAccountId = localStorage.getItem('accountId')
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}
+    me.ordersCount = 0
+    bindRootProperty($rootScope, 'selectAccountId', me)
     getAccounts()
   }
 
@@ -5154,8 +5695,10 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function onGetAccountSuccess (res) {
       me.accounts = []
       res.data.forEach(function (account) {
-        if (account.preferences !== "undefined") {
+        if (account.preferences !== 'undefined') {
           account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
+          account.storeImg = JSON.parse(account.preferences).storeImg
+          account.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
         }
         if (account.accountId === me.selectAccountId) {
           me.currentAccount = account
@@ -5209,6 +5752,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
   me.updateAccount = function () {
     me.editAccount.preferences = {
       logo: me.editAccount.logo,
+      storeImg: me.editAccount.storeImg,
       style: me.editAccount.style,
       shoppr: me.editAccount.shoppr
     }
@@ -5248,9 +5792,27 @@ angular.module('users').service('accountsService', function ($http, constants, t
     })
   }
 
+  me.bindSelectedAccount = function (scope) {
+    bindRootProperty(scope, 'selectAccountId')
+  }
+
+  $rootScope.$watch(function () { return me.selectAccountId; }, function (accountId) {
+    me.currentAccount = _.find(me.accounts, { accountId: parseInt(accountId, 10) });
+  });
+
+  // set up two-way binding to parent property
+  function bindRootProperty ($scope, name, context) {
+    $scope.$watch('$root.' + name, function (value) {
+      (context || $scope)[name] = value
+    })
+
+    $scope.$watch(function() { return (context || $scope)[name]; }, function (value) {
+      $scope.$root[name] = value
+    })
+  }
+
   return me
 })
-
 ;
 'use strict';
 
@@ -6168,6 +6730,62 @@ angular.module('users').service('Countries', function () {
   return me
 })
 ;
+angular.module('users').service('csvStoreMapper', function (ProductTypes) {
+  var self = this;
+  this.EMPTY_FIELD_NAME = '-';
+  this.STORE_FIELDS = ['name', 'type', 'upc', 'description'];
+
+  this.mapProducts = function (items, columns) {
+    var mapping = columns ? extractMappings(columns) : autoResolveMappings(items[0]);
+    if (_.isEmpty(mapping)) return [];
+    var result = _.map(items, function(store) { return mapStoreDto(store, mapping); });
+    return result;
+  };
+
+  //
+  // PRIVATE FUNCTIONS
+  //
+
+  function extractMappings(columns) {
+    var mappings = {};
+    _.each(columns, function (col) {
+      if (col.mapping == self.EMPTY_FIELD_NAME) return;
+      mappings[col.name] = col.mapping;
+    });
+    return mappings;
+  }
+
+  function autoResolveMappings(obj) {
+    if (!obj) return null;
+    var keys = _.keys(obj);
+    var mapping = {};
+    _.each(self.STORE_FIELDS, function(field) {
+      var mappedKey = _.find(keys, function(k) { return k.toUpperCase() == field.toUpperCase(); });
+      if (mappedKey) mapping[field] = mappedKey;
+    });
+    return mapping;
+  }
+
+  function mapStoreDto(obj, mapping) {
+    var result = {};
+    _.each(mapping, function (field, from) {
+      result[field] = obj[mapping[from]];
+    });
+    if (result.type) result.type = mapProductTypeId(result.type);
+    return result;
+  }
+
+  function mapProductTypeId(value) {
+    value = (value + '').toUpperCase();
+    var productType = _.find(ProductTypes, function(type) {
+      return value == type.name[0].toUpperCase()
+          || value == type.name.toUpperCase()
+          || value == type.productTypeId;
+    });
+    return productType && productType.productTypeId;
+  }
+});
+;
 angular.module('users').service('CurrentUserService', ['Admin', '$state',
     function (Admin, $state) {
         var me = this;
@@ -6495,6 +7113,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
+  me.decreaseIndex = decreaseIndex
 
   $rootScope.$on('clearProductList', function () {
     me.selected = []
@@ -6504,7 +7123,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var defer = $q.defer()
     me.currentIndex = 0
     console.log(id)
-    var orderUrl = API_URL + '/storedb/stores/products?id=' + id
+    var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + id
     $http.get(orderUrl).then(function (response) {
       me.allItems = response.data
       me.currentItem = me.allItems[ me.currentIndex ]
@@ -6520,6 +7139,16 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       me.currentIndex = 0
     } else {
       me.currentIndex++
+    }
+    me.currentItem = me.allItems[ me.currentIndex ]
+  }
+
+  function decreaseIndex () {
+    me.selected = []
+    if ((me.currentIndex - 1) < 0) {
+      me.currentIndex = (me.allItems.length - 1)
+    } else {
+      me.currentIndex--
     }
     me.currentItem = me.allItems[ me.currentIndex ]
   }
@@ -6545,6 +7174,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       payload.duplicates.push(selected[ i ].productId)
     }
     $http.post(skuUrl, { payload: payload }).then(function (results) {
+      me.currentItem.productId = me.selected[ 0 ].productId
       console.log('orderDataService[matchProduct] %O', results)
       defer.resolve(me.selected[ 0 ])
     }, function (err) {
@@ -6617,7 +7247,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
   }
 ]);
 ;
-angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
+angular.module('users').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -6653,6 +7283,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     ]
     me.productStorage = {}
     me.productStats = {}
+    me.allProducts = []
     me.productList = []
     me.myProducts = []
     me.currentProduct = {}
@@ -6670,11 +7301,15 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.show.loading = true
     var defer = $q.defer()
     me.productList = []
+    me.allProducts = []
     var url = constants.BWS_API + '/edit/search?'
     if (options.types) {
       for (var i in options.types) {
         url += '&type=' + options.types[ i ].type
       }
+    }
+    if (options.name) {
+      url += '&name=' + options.name + '&des=' + options.name
     }
     if (options.sku) {
       url += '&sku=' + options.sku
@@ -6687,15 +7322,17 @@ angular.module('users').service('productEditorService', function ($http, $locati
       if (options.stores[ 0 ]) {
         url += '&store=' + options.stores[ 0 ].id
         for (var k = 1; k < options.stores.length; k++) {
-          url += '~' + options.stores[ k ].id
+          url += ',' + options.stores[ k ].id
         }
       }
     }
     if (searchText) {
-      url += '&q=' + searchText + '&v=sum'
+      url += '&q=' + searchText
     }
+    url += '&v=sum'
     $http.get(url).then(function (response) {
       me.productList = response.data
+      me.allProducts = response.data
       me.show.loading = false
       defer.resolve(me.productList)
     }, function (err) {
@@ -6704,6 +7341,15 @@ angular.module('users').service('productEditorService', function ($http, $locati
       me.show.loading = false
     })
     return defer.promise
+  }
+
+  me.sortAndFilterProductList = function (listOptions) {
+    me.allProducts = $filter('orderBy')(me.allProducts, listOptions.orderBy)
+    me.productList = me.allProducts
+    if (listOptions.filterByUserId) {
+      me.productList = $filter('filter')(me.productList, { userId: listOptions.userId })
+    }
+    me.productList = $filter('limitTo')(me.productList, listOptions.searchLimit)
   }
 
   // send in type,status,userid, get back list of products
@@ -6795,15 +7441,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     }
     log('claiming', payload)
     var url = constants.BWS_API + '/edit/claim'
-    $http.post(url, payload).then(function (res) {
-      toastr.info('User ' + options.username + ' claimed product ' + options.productId)
-      // socket.emit('product-claimed', options)
-      me.getStats()
-      log('claim response', res)
-    }, function (err) {
-      toastr.error('There was a problem claiming this product')
-      console.error(err)
-    })
+    return $http.post(url, payload)
   }
 
   me.clearProductList = function () {
@@ -6858,7 +7496,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       window.scrollTo(0, 0)
       // socket.emit('product-saved')
       me.productStorage[ product.productId ] = product
-      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ]);
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
       toastr.success('Product Updated!')
       defer.resolve()
     }
@@ -7127,36 +7765,44 @@ angular.module('users').service('productEditorService', function ($http, $locati
   me.searchSkuResults = function (options) {
     var defer = $q.defer()
     var sku = options.upc
-    var productList = options.productList
     var type = options.type
-    me.productList = []
     console.log('searching sku %s', sku)
     me.show.loading = true
-    var skuUrl = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + sku
+    var skuUrl = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&sku=' + sku
     $http.get(skuUrl).then(function (skuResult) {
-      var remainingQueries = skuResult.data.length
-      if (remainingQueries > 0) {
-        me.productList = productList || []
-        console.log('I have to query %s names', remainingQueries)
+      me.remainingQueries = skuResult.data.length
+      if (me.remainingQueries > 0) {
+        me.productList = options.productList || []
+        console.log('I have to query %s names', me.remainingQueries)
         for (var i in skuResult.data) {
-          var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&q=' + skuResult.data[ i ].name
-          $http.get(url).then(function (results2) {
-            me.productList = me.productList.concat(results2.data)
-            me.productList = _.uniq(me.productList, function (p) {
-              return p.productId
-            })
-            remainingQueries--
-            console.log('1 down, %s to go', remainingQueries)
-            if (remainingQueries <= 0) {
+          me.productList = me.productList.concat(skuResult.data[ i ])
+          if (skuResult.data[ i ].name.toLowerCase() === 'na') {
+            me.remainingQueries--
+            console.log('skipping na results')
+            if (me.remainingQueries <= 0) {
               me.show.loading = false
               defer.resolve(me.productList)
             }
-          })
+          } else {
+            var url = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
+            $http.get(url).then(function (results2) {
+              me.productList = me.productList.concat(results2.data)
+              me.productList = _.uniq(me.productList, function (p) {
+                return p.productId
+              })
+              me.remainingQueries--
+              console.log('1 down, %s to go', me.remainingQueries)
+              if (me.remainingQueries <= 0) {
+                me.show.loading = false
+                defer.resolve(me.productList)
+              }
+            })
+          }
         }
       } else {
-        me.productList = productList
+        me.productList = options.productList
         me.show.loading = false
-        defer.resolve()
+        defer.resolve(me.productList)
       }
     }, function (err) {
       console.error('Could not search sku results %O', err)
@@ -7169,14 +7815,26 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.newProduct = product
   }
 
+  me.checkForNewProducts = function () {
+    var url = constants.BWS_API + '/edit/search?status=new&v=sum'
+    $http.get(url).then(function (res) {
+      me.show.newProducts = res.data.length > 0
+      me.newProducts = res.data
+    })
+  }
+
+  me.viewNewProducts = function () {
+    me.productList = me.newProducts
+  }
+
+  me.checkForNewProducts()
+
   me.init()
 
   return me
 })
-
-
 ;
-angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr) {
+angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope) {
   var me = this
 
   me.merge = merge
@@ -7204,14 +7862,19 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
 
   function buildProductList (products) {
     var defer = $q.defer()
+    var remaining = products.length
     products.forEach(function (p) {
       productEditorService.getProduct(p).then(function (productWithDetail) {
         me.products.push(productWithDetail)
         me.prodsToDelete.push(productWithDetail.productId)
+        remaining--
+        if (remaining === 0) {
+          console.log('mergeService::buildProductList %O', me.products)
+          $rootScope.$broadcast('clearProductList')
+          defer.resolve(me.products)
+        }
       })
     }, onError)
-    console.log('mergeService::me.products %O', me.products)
-    defer.resolve(me.products)
     return defer.promise
   }
 
@@ -7236,6 +7899,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       })
     }
     me.newProduct.skus = _.flatten(me.newProduct.skus)
+    console.log('mergeService::buildNewProduct')
   }
 
   function mergeProductProperties () {
@@ -7279,7 +7943,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       })
     })
     me.newProduct.properties = properties
-    console.log('mergeProductProperties : %O', me.newProduct)
+    console.log('mergeService::mergeProductProperties : %O', me.newProduct)
   }
 
   function buildFinalProduct () {
@@ -7303,6 +7967,8 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         value: me.newProduct.properties[ i ].value[ 0 ]
       })
     }
+    console.log('mergeService::buildFinalProduct')
+
   }
 
   function mergeProductMedia () {
@@ -7322,7 +7988,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         me.newProduct.audio.push(product.audio)
       }
     })
-    console.log('mergeProductMedia %O', me.newProduct)
+    console.log('mergeService::mergeProductMedia %O', me.newProduct)
   }
 
   function save () {
@@ -7332,9 +7998,9 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       }
     }
     me.finalProduct.notes = 'Merged with ' + me.prodsToDelete.toString()
-
-    me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
-
+    if (me.newProduct.audio.length > 0) {
+      me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
+    }
     me.newProduct.images.forEach(function (img) {
       me.finalProduct.mediaAssets.push(img.mediaAssetId)
     })
@@ -7356,6 +8022,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
           $state.go('editor.view', { productId: res.data.productId }, { reload: true })
         }
       } else {
+        console.error('No productId returned from server %O', res)
         toastr.error('There was a problem with merging')
       }
     }, function (err) {
@@ -7432,162 +8099,151 @@ angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
 } ]);
 ;
 angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q) {
-    var me = this;
+  var me = this
 
+  me.init = function () {
+    me.selectAccountId = localStorage.getItem('accountId')
+    me.accounts = []
+    me.editAccount = {}
+    me.currentAccount = {}
+    me.files = []
+    me.determinate = { value: 0 }
+  }
 
-    me.init = function () {
-        me.selectAccountId = localStorage.getItem('accountId');
-        me.accounts = [];
-        me.editAccount = {};
-        me.currentAccount = {};
-        me.files = [];
-        me.determinate = {value: 0};
+  me.init()
 
-    };
+  me.upload = function (file, mediaConfig) {
+    var messages = []
+    var defer = $q.defer()
+    var config = mediaConfig
+    if (file) {
+      var filename = (file.name).replace(/ /g, '_')
 
-    me.init()
-
-
-    me.upload = function (file, mediaConfig) {
-
-        var messages = [];
-        var defer = $q.defer();
-        var config = mediaConfig;
-        if (file) {
-            var filename = (file.name).replace(/ /g, "_");
-
-            if (!file.$error) {
-
-                var newObject;
-                if (config.mediaRoute == 'media') {
-                    if (config.type == 'PRODUCT') {
-                        newObject = {
-                            payload: {
-                                fileName: filename,
-                                userName: Authentication.user.username,
-                                type: config.type,
-                                fileType: config.fileType,
-                                accountId: config.accountId,
-                                productId: config.productId
-                            }
-                        };
-                    }
-                    else {
-                        newObject = {
-                            payload: {
-                                type: config.type,
-                                fileType: config.type,
-                                fileName: filename,
-                                userName: Authentication.user.username,
-                                accountId: config.accountId
-                            }
-                        };
-                    }
-                }
-                else {
-                    newObject = {
-                        payload: {
-                            fileName: filename,
-                            userName: Authentication.user.username,
-                            accountId: config.accountId
-                        }
-                    };
-                }
-                
-
-                $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
-                    if (err) {
-                        console.log(err);
-                        toastr.error('There was a problem uploading your ad.')
-
-
-                    }
-                    if (response) {
-                        var mediaAssetId = response.data.assetId;
-                        var creds = {
-                            bucket: 'cdn.expertoncue.com/' + config.folder,
-                            access_key: 'AKIAICAP7UIWM4XZWVBA',
-                            secret_key: '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'
-                        };
-                        // Configure The S3 Object
-
-                        var params = {
-                            Key: response.data.assetId + "-" + filename,
-                            ContentType: file.type,
-                            Body: file,
-                            ServerSideEncryption: 'AES256',
-                            Metadata: {
-                                fileKey: JSON.stringify(response.data.assetId)
-                            }
-                        };
-                        bucketUpload(creds, params).then(function (err, res) {
-                            self.determinateValue = 0;
-                            var updateMedia = {
-                                payload: {
-                                    mediaAssetId: mediaAssetId,
-                                    publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + response.data.assetId + "-" + filename
-                                }
-                            };
-
-                            $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                                else {
-                                    var message = {
-                                        message: 'New Ad Uploaded Success!',
-                                        publicUrl: updateMedia.payload.publicUrl,
-                                        fileName: filename,
-                                        mediaAssetId:updateMedia.payload.mediaAssetId
-                                    };
-                                    messages.push(message);
-                                    defer.resolve(messages)
-                                }
-                            })
-                        }, null, defer.notify)
-                    }
-                })
+      if (!file.$error) {
+        var newObject
+        if (config.mediaRoute == 'media') {
+          if (config.type == 'PRODUCT') {
+            newObject = {
+              payload: {
+                fileName: filename,
+                userName: Authentication.user.username,
+                type: config.type,
+                fileType: config.fileType,
+                accountId: config.accountId,
+                productId: config.productId
+              }
             }
+          }else {
+            newObject = {
+              payload: {
+                type: config.type,
+                // fileType: config.fileType || config.type,
+                fileType: config.type,
+                fileName: filename,
+                userName: Authentication.user.username,
+                accountId: config.accountId
+              }
+            }
+          }
+        }else {
+          newObject = {
+            payload: {
+              fileName: filename,
+              userName: Authentication.user.username,
+              accountId: config.accountId
+            }
+          }
         }
 
-        return defer.promise
-    };
-
-    function bucketUpload(creds, params) {
-        var defer = $q.defer();
-        AWS.config.update({
-            accessKeyId: creds.access_key,
-            secretAccessKey: creds.secret_key
-        });
-        AWS.config.region = 'us-east-1';
-        var bucket = new AWS.S3({
-            params: {
-                Bucket: creds.bucket
+        $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
+          if (err) {
+            console.log(err)
+            toastr.error('There was a problem uploading your ad.')
+          }
+          if (response) {
+            var mediaAssetId = response.data.assetId
+            var creds = {
+              bucket: 'cdn.expertoncue.com/' + config.folder,
+              access_key: 'AKIAICAP7UIWM4XZWVBA',
+              secret_key: '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'
             }
-        });
+            // Configure The S3 Object
 
-        var request = bucket.putObject(params, function (err, data) {
-            me.loading = true;
-            if (err) {
-                // There Was An Error With Your S3 Config
-                alert(err.message);
-                toastr.error('There was a problem uploading your ad.');
-                defer.reject(false)
-            } else {
-                defer.resolve(data)
+            var params = {
+              Key: response.data.assetId + '-' + filename,
+              ContentType: file.type,
+              Body: file,
+              ServerSideEncryption: 'AES256',
+              Metadata: {
+                fileKey: JSON.stringify(response.data.assetId)
+              }
             }
-        });
+            bucketUpload(creds, params).then(function (err, res) {
+              self.determinateValue = 0
+              var updateMedia = {
+                payload: {
+                  mediaAssetId: mediaAssetId,
+                  publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + response.data.assetId + '-' + filename
+                }
+              }
 
-        request.on('httpUploadProgress', function (progress) {
-            defer.notify(Math.round(progress.loaded / progress.total * 100));
-        });
-
-        return defer.promise;
+              $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err) {
+                if (err) {
+                  console.log(err)
+                }else {
+                  var message = {
+                    message: 'New Ad Uploaded Success!',
+                    publicUrl: updateMedia.payload.publicUrl,
+                    fileName: filename,
+                    mediaAssetId: updateMedia.payload.mediaAssetId
+                  }
+                  messages.push(message)
+                  defer.resolve(messages)
+                }
+              })
+            }, null, defer.notify)
+          }
+        })
+      }
     }
 
-    return me;
-});
+    return defer.promise
+  }
 
+  function bucketUpload (creds, params) {
+    var defer = $q.defer()
+    AWS.config.update({
+      accessKeyId: creds.access_key,
+      secretAccessKey: creds.secret_key
+    })
+    AWS.config.region = 'us-east-1'
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: creds.bucket
+      }
+    })
+
+    var request = bucket.putObject(params, function (err, data) {
+      me.loading = true
+      if (err) {
+        // There Was An Error With Your S3 Config
+        alert(err.message)
+        toastr.error('There was a problem uploading your ad.')
+        defer.reject(false)
+      } else {
+        defer.resolve(data)
+      }
+    })
+
+    request.on('httpUploadProgress', function (progress) {
+      defer.notify(Math.round(progress.loaded / progress.total * 100))
+    })
+
+    return defer.promise
+  }
+
+  return me
+})
 ;
 'use strict';
 
