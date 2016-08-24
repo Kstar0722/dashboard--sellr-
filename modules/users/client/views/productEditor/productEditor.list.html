@@ -38,10 +38,9 @@
                         <md-menu-divider>STORE</md-menu-divider>
                         <br>
                         <md-menu-item>
-                            <md-checkbox ng-repeat="store in allStores" ng-checked="isStoreSelected(store)"
-                                         md-prevent-menu-close="md-prevent-menu-close"
-                                         ng-click="toggleSearchStore(store)">{{ store.name }}
-                            </md-checkbox>
+                            <select ng-model="selectedStore.storeId" ng-change="testSelectedStore()">
+                            <option ng-repeat="store in orderDataService.allStores" value="{{store.storeId}}">{{ store.name }}</option>
+                          <select>
                         </md-menu-item>
                         <!--<md-menu-item>-->
                         <!--<md-checkbox ng-model="checkbox.all" aria-label="Finished?" class="blue-check">-->
