@@ -1876,6 +1876,9 @@ body .productEditor .loading-data .right {
 .store-client-view .orders-body div .status-bar.green {
   background-color: #2DC89A;
 }
+.store-client-view .orders-body div .status-bar.blue {
+  background-color: #3498db;
+}
 .store-client-view ol.progtrckr {
   display: table;
   list-style-type: none;
