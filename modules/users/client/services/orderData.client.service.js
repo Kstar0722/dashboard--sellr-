@@ -20,11 +20,11 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   function getAllStores () {
     var defer = $q.defer()
     var url = constants.BWS_API + '/storedb/stores?supc=true'
-    $http.get(url).then(function(response){
+    $http.get(url).then(function (response) {
       me.allStores = response.data
       defer.resolve(me.allStores)
-    },function(err){
-      console.log('Could not getAllStores %O',err)
+    }, function (err) {
+      console.log('Could not getAllStores %O', err)
       defer.reject(err)
     })
     return defer.promise
