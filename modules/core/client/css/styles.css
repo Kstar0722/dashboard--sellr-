@@ -949,6 +949,12 @@ section.userList .userbox {
 .pricingcalc .bottomrow .total h4 {
   margin-right: 2.5vw;
 }
+@media (min-width: 960px) {
+  .productEditor .scrollable {
+    overflow-y: auto;
+    position: fixed;
+  }
+}
 .productEditor .reference {
   max-width: 33%;
 }
