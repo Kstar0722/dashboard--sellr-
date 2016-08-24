@@ -2321,6 +2321,8 @@ body.storeOwner-orders {
   text-align: center;
   margin: 0 auto;
   font-weight: bold;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  box-sizing: content-box;
 }
 @media only screen and (max-width: 600px) {
   .orders-view .orders-column .order-container .order-items .product-line .item-slot {
