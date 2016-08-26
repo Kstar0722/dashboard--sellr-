@@ -101,7 +101,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         payload: $scope.credentials
       };
       console.log(payload);
-      $http.post(url, payload).then(onSigninSuccess, onSigninError);
+      return $http.post(url, payload).then(onSigninSuccess, onSigninError);
     };
 
     //We've signed into the mongoDB, now lets authenticate with OnCue's API.
@@ -139,31 +139,35 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
     
     $scope.signup = function (isValid, user, account) {
+      if ($scope.busy) return;
+
       $scope.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'signupForm');
         return false;
       }
 
-      accountsService.createAccount(account).then(function (account) {
-        console.log('account created', account);
-        user.roles = [USER_ROLE_OWNER];
-        user.accountId = account.accountId;
+      $scope.busy = true;
 
-        var payload = user;
-        console.log(payload);
-        $http.post(constants.API_URL + '/users', { payload: payload }).then(function (response) {
-          console.log('user created', response.data);
-          toastr.success('User Account and related Store have been created', 'Sign-Up Success!');
+      var payload = angular.extend({}, user, account);
+      payload.roles = [USER_ROLE_OWNER];
+      console.log(payload);
 
-          // auto-signin
+      $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
+        console.log('user signed up', response.data);
+        toastr.success('You have been signed up as a store owner', 'Sign-Up Success!');
+      }).catch(function (err) {
+        console.log('error');
+        console.error(err);
+        toastr.error('There was a problem during sign up procedure.');
+      }).then(function() {
+        // auto-signin
+        $scope.credentials = user;
+        return $scope.signin(true).catch(function () {
           $scope.credentials = user;
-          $scope.signin(true);
-        }).catch(function (err) {
-          console.log('error');
-          console.error(err);
-          toastr.error('There was a problem during sign up procedure.');
         });
+      }).finally(function () {
+        $scope.busy = false;
       });
     };
 

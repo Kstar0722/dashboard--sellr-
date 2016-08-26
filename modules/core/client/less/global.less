@@ -53,3 +53,18 @@ div.custom-btn{
   margin-left: auto;
   margin-right: auto;
 }
+
+fieldset {
+  &[disabled] {
+    .md-button, button {
+      pointer-events: none;
+    }
+  }
+
+  &.nomargin {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
