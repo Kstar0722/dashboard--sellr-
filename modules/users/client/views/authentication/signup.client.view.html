@@ -67,6 +67,30 @@
             </div>
           </md-input-container>
           
+          <md-input-container class="md-block">
+              <input type="hidden" name="payment" ng-model="stripeToken" required>
+              <md-button class="md-raised md-primary payment"
+                         stripe-checkout="setPayment"
+                         data-key="{{stripeKey}}"
+                         data-name="Sellr Dashboard"
+                         data-description="One-time payment for subscription"
+                         data-image="/modules/core/client/img/logo_black.png"
+                         data-email="{{credentials.email}}"
+                         data-panel-label="Apply"
+                         data-allow-remember-me="false"
+                         data-amount="{{subscriptionCost.amount * 100}}"
+                         data-currency="{{subscriptionCost.currency}}">
+                <span ng-if="!stripeToken">Set Up Payment</span>
+                <span ng-if="stripeToken">Change Payment Method</span>
+              </md-button>
+              <div ng-if="stripeToken">
+                  **** **** **** {{stripeToken[stripeToken.type].last4}} {{stripeToken[stripeToken.type].brand}} {{stripeToken.type}} specified for payment.
+              </div>
+              <div ng-messages="signupForm.payment.$error" role="alert" md-auto-hide="false" ng-if="signupForm.$submitted">
+                  <p class="help-block error-text" ng-message="required">Payment is required.</p>
+              </div>
+          </md-input-container>
+
           <div layout="row" layout-align="space-between center">
             <div flex=""></div>
             <md-button type="submit" class="action">Sign up</md-button>

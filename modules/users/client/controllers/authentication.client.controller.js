@@ -7,6 +7,11 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.reset = false;
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+    $scope.stripeKey = constants.STRIPE_PUBLISH_KEY;
+    $scope.subscriptionCost = {
+      amount: 0.01,
+      currency: 'USD'
+    };
 
     var userInfo = {};
     //read userinfo from URL
@@ -145,16 +150,23 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         return false;
       }
 
-      accountsService.createAccount(account).then(function (account) {
-        console.log('account created', account);
+      accountsService.createAccount(account).then(function (response) {
+        console.log('account created', response);
         user.roles = [USER_ROLE_OWNER];
-        user.accountId = account.accountId;
+        user.accountId = response.accountId;
 
-        var payload = user;
+        var payload = {
+          user: user,
+          payment: {
+            stripeToken: $scope.stripeToken,
+            amount: $scope.subscriptionCost.amount,
+            currency: $scope.subscriptionCost.currency
+          }
+        };
         console.log(payload);
         $http.post(constants.API_URL + '/users', { payload: payload }).then(function (response) {
           console.log('user created', response.data);
-          toastr.success('User Account and related Store have been created', 'Sign-Up Success!');
+          toastr.success('You have been signed up to ' + account.name + ' store as an owner.', 'Sign-Up Success!');
 
           // auto-signin
           $scope.credentials = user;
@@ -175,6 +187,10 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
       // Effectively call OAuth authentication route:
       $window.location.href = url;
+    };
+
+    $scope.setPayment = function (token) {
+      $scope.stripeToken = token;
     };
   }
 ]);
