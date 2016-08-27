@@ -97,6 +97,8 @@ div.custom-btn:hover {
 fieldset[disabled] .md-button,
 fieldset[disabled] button {
   pointer-events: none;
+  background: #8D9AA5 !important;
+  color: #ffffff !important;
 }
 fieldset.nomargin {
   border: none;

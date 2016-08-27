@@ -9,7 +9,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
     $scope.stripeKey = constants.STRIPE_PUBLISH_KEY;
     $scope.subscriptionCost = {
-      amount: 0.01,
+      amount: 0.50,
       currency: 'USD'
     };
 
@@ -159,6 +159,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         amount: $scope.subscriptionCost.amount,
         currency: $scope.subscriptionCost.currency
       };
+
       var payload = angular.extend({}, user, account, payment);
       payload.roles = [USER_ROLE_OWNER];
       console.log(payload);
@@ -169,7 +170,10 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       }).catch(function (err) {
         console.log('error');
         console.error(err);
-        toastr.error('There was a problem during sign up procedure.');
+        var msg = 'There was a problem during sign up procedure';
+        if ((err.data || {}).message) msg += '. ' + err.data.message;
+        toastr.error(msg);
+        throw err;
       }).then(function() {
         // auto-signin
         $scope.credentials = user;
