@@ -958,6 +958,12 @@ section.userList .userbox {
 .pricingcalc .bottomrow .total h4 {
   margin-right: 2.5vw;
 }
+@media (min-width: 960px) {
+  .productEditor .scrollable {
+    overflow-y: auto;
+    position: fixed;
+  }
+}
 .productEditor .reference {
   max-width: 33%;
 }
@@ -1884,6 +1890,9 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .orders-body div .status-bar.green {
   background-color: #2DC89A;
+}
+.store-client-view .orders-body div .status-bar.blue {
+  background-color: #3498db;
 }
 .store-client-view ol.progtrckr {
   display: table;

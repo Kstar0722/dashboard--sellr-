@@ -10,14 +10,15 @@
   <div>
 
     <div layout="row productContent" layout-wrap>
-      <div ng-show="pes.show.loading" class="loading-anim" flex=100 flex-gt-sm=40>
+      <div ng-show="pes.show.loading" class="loading-anim scrollable" flex=100 flex-gt-sm=40>
         <div class='uil-ripple-css' style='transform:scale(0.81);'>
           <div></div>
           <div></div>
         </div>
       </div>
-      <div ng-show="!pes.show.loading" class=""
+      <div ng-show="!pes.show.loading" class="scrollable"
            ng-include="'modules/users/client/views/productEditor/productEditor.list.html'" flex=100 flex-gt-sm=40></div>
+      <div flex-gt-sm="40"></div>
       <!--<div class="col-md-8" ng-include="detail.template"></div>-->
       <div flex=100 flex-gt-sm=60 ui-view="detail"></div>
     </div>

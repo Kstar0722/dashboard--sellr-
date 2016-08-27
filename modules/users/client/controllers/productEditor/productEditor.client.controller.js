@@ -9,6 +9,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
+  $scope.orderDataService = orderDataService
   $scope.Countries = Countries
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
@@ -16,14 +17,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     feedback: true,
     template: ''
   }
+  $scope.selectedStore = {}
   $scope.allSelected = {value: false}
   $scope.searchText = ''
-
-  $http.get(constants.BWS_API + '/storedb/stores?supc=true').then(function (res) {
-    console.log('allStores %O', res.data)
-    $scope.allStores = res.data
-  })
-
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
@@ -64,19 +60,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.listOptions.searchLimit += 15
     refreshList()
   }
+  if (orderDataService.allStores.length === 0) {
+    orderDataService.getAllStores()
+  }
   $scope.isStoreSelected = function (store) {
-    var i = _.findIndex($scope.allStores, function (s) {
-      return s.id === store.id
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      debugger
+      return s.storeId === store.storeId
     })
-    return $scope.allStores[ i ].selected
+    return orderDataService.allStores[ i ].selected
+  }
+  $scope.toggleSearchStore = function (store) {
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      return s.storeId === store.storeId
+    })
+    orderDataService.allStores[ i ].selected = !orderDataService.allStores[ i ].selected
   }
 
-  $scope.toggleSearchStore = function (store) {
-    $scope.allStores = $scope.allStores || []
-    var i = _.findIndex($scope.allStores, function (s) {
-      return s.id === store.id
-    })
-    $scope.allStores[ i ].selected = !$scope.allStores[ i ].selected
+  $scope.testSelectedStore = function () {
+    console.log('selected %O', $scope.selectedStore.storeId)
   }
 
   $scope.reOrderList = function (field) {
@@ -109,10 +111,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
-    var selectedStores = _.filter($scope.allStores, function (st) {
-      return st.selected
-    })
-    var options = { status: $scope.checkbox.progress, types: $scope.filter, stores: selectedStores }
+    var options = { status: $scope.checkbox.progress, types: $scope.filter}
+    if ($scope.selectedStore.storeId) {
+      options.store = $scope.selectedStore
+    }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
       refreshList()
