@@ -94,6 +94,15 @@ div.custom-btn:hover {
   margin-left: auto;
   margin-right: auto;
 }
+fieldset[disabled] .md-button,
+fieldset[disabled] button {
+  pointer-events: none;
+}
+fieldset.nomargin {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
 #mainNav .md-toolbar-tools {
   background-color: #151922;
   background-position-y: 20%;
