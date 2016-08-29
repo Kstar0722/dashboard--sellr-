@@ -5,7 +5,9 @@ module.exports = {
     title: 'MEAN.JS',
       description: 'Sellr Dashboard allows you to edit and manage your store. For more information checkout http://getsellr.com',
       keywords: 'oncue,sellr,wine,beer,spirits,marketing',
-    googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
+    googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID',
+    STRIPE_PUBLISH_KEY: process.env.STRIPE_PUBLISH_KEY || 'pk_test_8eCwGxyRav2xemiMy666CWXT', // test api key
+    SUBSCRIPTION_PRICE: process.env.SUBSCRIPTION_PRICE || '0.50 USD' // minimum value
   },
     port: process.env.PORT || 3000,
   templateEngine: 'swig',

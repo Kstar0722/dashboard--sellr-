@@ -52,7 +52,8 @@
 
 </script>
 <script type="text/javascript">
-  var user = {{user | json | safe}}
+  window.user = {{user | json | safe}};
+  window.appSettings = {{ appSettings | json | safe }};
 </script>
 
 
