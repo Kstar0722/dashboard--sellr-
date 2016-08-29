@@ -63,7 +63,8 @@ module.exports = {
                 'public/lib/angular-socket-io/socket.js',
                 'public/lib/angular-csv-import/dist/angular-csv-import.js',
                 'public/lib/selectize/dist/js/standalone/selectize.js',
-                'public/lib/angular-selectize2/dist/angular-selectize.js'
+                'public/lib/angular-selectize2/dist/angular-selectize.js',
+                'public/lib/angular-stripe-checkout/angular-stripe-checkout.js'
 			]
 		},
 		css: [

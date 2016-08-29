@@ -33,10 +33,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
         return false
       }
-      $scope.stuff.username = $scope.stuff.passuser
+      $scope.stuff.email = $scope.stuff.passuser
       var payload = {
         payload: {
-          username: $scope.stuff.username
+          email: $scope.stuff.email
         }
       }
       $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response, err) {
@@ -50,7 +50,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             source: 'password',
             email: response.data.email,
             title: 'Password Reset Success',
-            body: '<body> <p>Dear ' + $scope.stuff.username + ',</p> <br /> <p>You have requested to have your password reset for your account at the Sellr Dashboard </p> <p>Please visit this url to reset your password:</p> <p>' + 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&username=' + response.data.username + "</p> <strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
+            body: '<body> <p>Hey there! <br> You have requested to have your password reset for your account at the Sellr Dashboard </p> ' +
+            '<p>Please visit this url to reset your password:</p> ' +
+            '<p>' + 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + $scope.stuff.email + '</p> ' +
+            "<strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
           }
         }
         if (response) {

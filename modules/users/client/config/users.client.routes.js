@@ -40,25 +40,34 @@ angular.module('users').config(['$stateProvider',
       .state('authentication', {
         abstract: true,
         url: '/authentication',
-        templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html',
+        public: true
       })
-      .state('authentication.signup', {
+      .state('signup', {
         url: '/signup',
-        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html',
+        public: true
+      })
+      .state('authentication.acceptInvitation', {
+        url: '/signup',
+        templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html'
       })
         .state('authentication.reset', {
           url: '/reset',
-          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
+          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html',
+          public: true
         })
       .state('authentication.signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
+        public: true
       })
 
       .state('password', {
         abstract: true,
         url: '/password',
-        template: '<ui-view/>'
+        template: '<ui-view/>',
+        public: true
       })
       .state('mypassword.forgot', {
         url: '/forgot',

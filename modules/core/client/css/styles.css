@@ -94,6 +94,17 @@ div.custom-btn:hover {
   margin-left: auto;
   margin-right: auto;
 }
+fieldset[disabled] .md-button,
+fieldset[disabled] button {
+  pointer-events: none;
+  background: #8D9AA5 !important;
+  color: #ffffff !important;
+}
+fieldset.nomargin {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
 #mainNav .md-toolbar-tools {
   background-color: #151922;
   background-position-y: 20%;
@@ -276,11 +287,12 @@ div.custom-btn:hover {
 #mainNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
-#mainNav.top-menu-shown .md-toolbar-tools {
+#menuContainer.top-menu-shown #mainNav .md-toolbar-tools {
   top: 50px;
 }
 .md-open-menu-container.user-settings {
   box-shadow: none;
+  overflow: visible;
 }
 .md-open-menu-container.user-settings #profmenu {
   border-radius: 3px;
@@ -479,6 +491,14 @@ div.custom-btn:hover {
 #topNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
+@media only screen and (min-width:961px) {
+  #menuContainer #topNav {
+    display: none;
+  }
+}
+#menuContainer.top-menu-shown #topNav {
+  display: block;
+}
 .md-open-menu-container.account {
   max-height: 70vh;
   overflow-y: auto;
@@ -659,6 +679,14 @@ section.userList .userbox {
 .sign-in #reset-form #remember {
   margin-right: 8px;
   margin-left: 32px;
+}
+.sign-in #signupForm input[type=text],
+.sign-in #signupForm input[type=password] {
+  margin: 0 auto !important;
+}
+.sign-in #signupForm .payment.md-button {
+  margin: 10px 0;
+  width: 100%;
 }
 @media (max-width: 767px) {
   .sign-in form#login-form img {
