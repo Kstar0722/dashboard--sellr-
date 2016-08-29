@@ -4,7 +4,18 @@
 var ApplicationConfiguration = (function () {
   // Init module configuration options
   var applicationModuleName = 'mean';
-    var applicationModuleVendorDependencies = [ 'ngResource', 'ngAnimate', 'ngMessages', 'ui.router', 'ui.utils', 'angularFileUpload', 'btford.socket-io', 'ngCsvImport', 'selectize' ];
+    var applicationModuleVendorDependencies = [
+      'ngResource',
+      'ngAnimate',
+      'ngMessages',
+      'ui.router',
+      'ui.utils',
+      'angularFileUpload',
+      'btford.socket-io',
+      'ngCsvImport',
+      'selectize',
+      'stripe.checkout'
+    ];
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {
@@ -61,25 +72,28 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       },
       vars: {
         local: {
+          env: 'local',
           API_URL: 'http://localhost:7272',
           BWS_API: 'http://localhost:7171',
-          env: 'local'
+          STRIPE_PUBLISH_KEY: 'pk_test_8eCwGxyRav2xemiMy666CWXT'
         },
-
         development: {
+          env: 'dev',
           API_URL: 'https://apidev.sllr.io',
           BWS_API: 'https://bwsdev.sllr.io',
-          env: 'dev'
+          STRIPE_PUBLISH_KEY: 'pk_test_8eCwGxyRav2xemiMy666CWXT'
         },
         staging: {
+          env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
           BWS_API: 'https://bwsqa.sllr.io',
-          env: 'staging'
+          STRIPE_PUBLISH_KEY: 'pk_live_iIknKxhT9kjjffjBLjfwkrMA'
         },
         production: {
+          env: 'production',
           API_URL: 'https://api.sllr.io',
           BWS_API: 'https://bws.sllr.io',
-          env: 'production'
+          STRIPE_PUBLISH_KEY: 'pk_live_iIknKxhT9kjjffjBLjfwkrMA'
         }
       }
     })
@@ -96,12 +110,14 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   ])
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window) {
+  var DEFAULT_PUBLIC = false;
+
   $rootScope.$stateClass = cssClassOf($state.current.name)
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     // General Authentication BEFORE Checking Roles
-    if (!authToken.hasTokenInStorage() && !isPublicState(toState.name)) {
+    if (!authToken.hasTokenInStorage() && !isPublicState(toState)) {
       event.preventDefault()
       window.localStorage.clear()
       localStorage.clear()
@@ -141,14 +157,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   })
 
   function isPublicState (state) {
-    var flag = false
-    // Is Login
-    flag = state === 'home'
-    // Is Signup states
-    flag = flag || state.indexOf('authentication') !== -1
-    // Is Password Forgot States
-    flag = flag || state.indexOf('password') !== -1
-    return flag
+    if (!state) return DEFAULT_PUBLIC;
+    // take closest state in hierarchy with public property defined
+    while (typeof state.public != 'boolean' && state.parent) state = state.parent;
+    return state.public || DEFAULT_PUBLIC;
   }
 
   // Store previous state
@@ -396,7 +408,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             .state('home', {
                 url: '/',
                 templateUrl: 'modules/core/client/views/home.client.view.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                public: true
             })
             .state('not-found', {
                 url: '/not-found',
@@ -555,10 +568,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
         return false
       }
-      $scope.stuff.username = $scope.stuff.passuser
+      $scope.stuff.email = $scope.stuff.passuser
       var payload = {
         payload: {
-          username: $scope.stuff.username
+          email: $scope.stuff.email
         }
       }
       $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response, err) {
@@ -1636,11 +1649,17 @@ angular.module('users').config(['$stateProvider',
       .state('authentication', {
         abstract: true,
         url: '/authentication',
-        templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html',
+        public: true
       })
-      .state('authentication.signup', {
+      .state('signup', {
         url: '/signup',
-        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html',
+        public: true
+      })
+      .state('authentication.acceptInvitation', {
+        url: '/signup',
+        templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html'
       })
         .state('authentication.reset', {
           url: '/reset',
@@ -1654,7 +1673,8 @@ angular.module('users').config(['$stateProvider',
       .state('password', {
         abstract: true,
         url: '/password',
-        template: '<ui-view/>'
+        template: '<ui-view/>',
+        public: true
       })
       .state('mypassword.forgot', {
         url: '/forgot',
@@ -2374,16 +2394,17 @@ angular.module('users.admin').controller('AdminPricingController', ['$scope', '$
 
 ;
 angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
-  var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME;
-  var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS;
+  var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME
+  var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS
 
   $scope.account = undefined
   $scope.orders = []
   $scope.orderItems = []
   $scope.storesDropdown = []
-  $scope.importView = null;
-  $scope.storeFields = null;
-  $scope.csv = { header: true };
+  $scope.orderDataService = orderDataService
+  $scope.importView = null
+  $scope.storeFields = null
+  $scope.csv = { header: true }
 
   // selectize control options
   $scope.selectStoreConfig = {
@@ -2393,7 +2414,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     valueField: 'storeId',
     labelField: 'name',
     searchField: [ 'name', 'storeId' ]
-  };
+  }
 
   // selectize control options
   $scope.selectStoreFieldConfig = {
@@ -2405,60 +2426,59 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     sortField: 'displayName',
     searchField: [ 'displayName' ],
     onChange: function () {
-      populateMappingDropdowns($scope.csv.columns);
+      populateMappingDropdowns($scope.csv.columns)
     }
-  };
+  }
 
   $scope.selectCsvImport = function (selector) {
-    $(selector).find('input[type="file"]').click();
-  };
+    $(selector).find('input[type="file"]').click()
+  }
 
   $scope.cancelCsvImport = function (selector) {
-    $scope.csv = { header: true };
-    var $input = $(selector).find('input[type="file"]');
-    $input.replaceWith($input.val('').clone(true)); // reset selected file
-  };
+    $scope.csv = { header: true }
+    var $input = $(selector).find('input[type="file"]')
+    $input.replaceWith($input.val('').clone(true)) // reset selected file
+  }
 
   // callback for csv import plugin
   $scope.initCsvImport = function (e) {
-    $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[ 0 ]));
-    populateMappingDropdowns($scope.csv.columns);
-    $scope.csv.loaded = true;
-    console.log('csv file selected', $scope.csv);
-  };
+    $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[ 0 ]))
+    populateMappingDropdowns($scope.csv.columns)
+    $scope.csv.loaded = true
+    console.log('csv file selected', $scope.csv)
+  }
 
   $scope.submitStore = function (selectedStore) {
     if (!selectedStore) {
-      toastr.error('store not selected');
-      return;
+      toastr.error('store not selected')
+      return
     }
 
-    $scope.storeSubmitBusy = true;
+    $scope.storeSubmitBusy = true
     try {
       selectOrCreateStore(selectedStore).then(function (store) {
-        var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns);
+        var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns)
         return importStoreProducts(store, products).then(function (store) {
-          $scope.orders.push(store);
-          $scope.cancelImport();
-          toastr.success('Store csv file imported');
+          $scope.orders.push(store)
+          $scope.cancelImport()
+          toastr.success('Store csv file imported')
         }, function (error) {
-          toastr.error(error && error.toString() || 'Failed to import csv file');
-        });
+          toastr.error(error && error.toString() || 'Failed to import csv file')
+        })
       }).finally(function () {
-        $scope.storeSubmitBusy = false;
-      });
+        $scope.storeSubmitBusy = false
+      })
+    } catch (ex) {
+      console.error('unable to submit store', ex)
+      $scope.storeSubmitBusy = false
     }
-    catch (ex) {
-      console.error('unable to submit store', ex);
-      $scope.storeSubmitBusy = false;
-    }
-  };
+  }
 
   $scope.cancelImport = function () {
-    $scope.selectedStore = null;
-    $scope.importView = null;
-    $scope.cancelCsvImport('#storeCsv');
-  };
+    $scope.selectedStore = null
+    $scope.importView = null
+    $scope.cancelCsvImport('#storeCsv')
+  }
 
   $scope.goToMatch = function (id) {
     orderDataService.currentOrderId = id
@@ -2467,11 +2487,14 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
   }
 
-  $scope.refreshStoreStatus = function (i, storeId) {
+  $scope.refreshStoreStatus = function (storeId) {
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      return s.storeId === storeId
+    })
+    orderDataService.allStores[ i ].status.barClass = 'blue'
     var url = constants.BWS_API + '/storedb/stores/' + storeId
     $http.get(url).then(function (res) {
-      debugger
-      $scope.orders[ i ] = res.data[ 0 ]
+      orderDataService.allStores[ i ] = res.data[ 0 ]
       updateStoreColors()
     }, function (err) {
       console.error(err)
@@ -2479,69 +2502,63 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   $scope.openNewDialog = function (store) {
-    if (store !== EMPTY_FIELD_NAME) return;
+    if (store !== EMPTY_FIELD_NAME) return
 
     $scope.newStore = {
       storeId: randomId(),
       accountId: localStorage.getItem('accountId')
-    };
+    }
 
     var $createModal = $('#createStoreModal').on('shown.bs.modal', function (e) {
-      var autofocus = $(e.target).find('[autofocus]')[ 0 ];
-      if (autofocus) autofocus.focus();
-    });
+      var autofocus = $(e.target).find('[autofocus]')[ 0 ]
+      if (autofocus) autofocus.focus()
+    })
 
-    $createModal.modal('show');
-  };
+    $createModal.modal('show')
+  }
 
   $scope.selectNewStore = function (newStore) {
-    if (!newStore) return;
-    $scope.storesDropdown.splice(1, 0, newStore);
-    $scope.selectedStore = newStore.storeId || newStore.name;
-  };
+    if (!newStore) return
+    $scope.storesDropdown.splice(1, 0, newStore)
+    $scope.selectedStore = newStore.storeId || newStore.name
+  }
 
   $scope.$watch('csv.header', function () {
-    $scope.csv.loaded = false;
+    $scope.csv.loaded = false
     // trigger csv.result recalculating out of digest cycle (specific to angular-csv-import flow)
     setTimeout(function () {
-      $('#storeCsv').find('.separator-input').triggerHandler('keyup');
-      $scope.csv.loaded = true;
-      $scope.$digest();
-    });
-  });
+      $('#storeCsv').find('.separator-input').triggerHandler('keyup')
+      $scope.csv.loaded = true
+      $scope.$digest()
+    })
+  })
 
-  init();
+  init()
 
   //
   // PRIVATE FUNCTIONS
   //
 
   function init () {
+    console.time('storeDBinit')
     if (Authentication.user) {
       $scope.account = { createdBy: Authentication.user.username }
     }
-
-    $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS);
-    $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' });
-
-    var url = constants.BWS_API + '/storedb/stores?supc=true';
-    $http.get(url).then(getStoresSuccess, getStoresError);
-  }
-
-  function getStoresSuccess (response) {
-    if (response.status === 200) {
-      // timeEnd('getProductList')
-      $scope.orders = response.data
-      $scope.storesDropdown = $scope.orders.slice();
-      $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
-      $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
-      console.log($scope.orders)
-      updateStoreColors()
+    if (orderDataService.allStores.length === 0) {
+      orderDataService.getAllStores().then(function (res) {
+        updateStoreColors()
+      })
     }
+
+    $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS)
+    $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' })
+
+  // var url = constants.BWS_API + '/storedb/stores?supc=true'
+  // $http.get(url).then(getStoresSuccess, getStoresError)
   }
 
   function updateStoreColors () {
-    _.each($scope.orders, function (elm, ind, orders) {
+    _.each(orderDataService.allStores, function (elm, ind, orders) {
       if (elm.status.received > 0) {
         elm.status.barClass = 'red'
       } else {
@@ -2554,108 +2571,104 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
   }
 
-  function getStoresError (error) {
-    console.error('getStoresError %O', error)
-  }
-
   function handleResponse (response) {
-    if (response.status !== 200) throw Error(response.statusText);
-    var data = response.data;
+    if (response.status !== 200) throw Error(response.statusText)
+    var data = response.data
     if (data.error) {
-      console.error(data.error);
-      throw Error(data.message || data.error);
+      console.error(data.error)
+      throw Error(data.message || data.error)
     }
-    return data;
+    return data
   }
 
   function selectOrCreateStore (storeId) {
-    var store = findStore($scope.orders, storeId);
-    if (store) return $q.when(store); // already exists
+    var store = findStore($scope.orders, storeId)
+    if (store) return $q.when(store) // already exists
 
-    store = findStore($scope.storesDropdown, storeId);
+    store = findStore($scope.storesDropdown, storeId)
 
     if (!store) {
       store = {
         accountId: localStorage.getItem('accountId'),
         name: storeId.toString().trim()
-      };
+      }
     }
 
     return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(handleResponse).then(function (data) {
-      return getStoreById(data.storeId);
-    });
+      return getStoreById(data.storeId)
+    })
   }
 
   function importStoreProducts (storeDb, storeItems) {
     var payload = {
       id: storeDb.storeId,
       items: storeItems
-    };
+    }
 
     if (!storeDb || storeDb.length == 0) {
-      return $q.reject('no store db found in csv file');
+      return $q.reject('no store db found in csv file')
     }
 
     return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse).then(function () {
-      return getStoreById(storeDb.storeId);
-    });
+      return getStoreById(storeDb.storeId)
+    })
   }
 
   function getStoreById (id) {
     return $http.get(constants.BWS_API + '/storedb/stores/' + id).then(handleResponse).then(function (data) {
-      return data instanceof Array ? data[ 0 ] : data;
-    });
+      return data instanceof Array ? data[ 0 ] : data
+    })
   }
 
   function toPascalCase (str) {
-    if (!str) return str;
-    var words = _.compact(str.split(/\s+/));
-    var result = words.map(function (w) { return w[ 0 ].toUpperCase() + w.substr(1); }).join(' ');
-    return result;
+    if (!str) return str
+    var words = _.compact(str.split(/\s+/))
+    var result = words.map(function (w) { return w[ 0 ].toUpperCase() + w.substr(1); }).join(' ')
+    return result
   }
 
   function initCsvColumns (columns) {
-    columns = wrapFields(columns);
-    _.each(columns, function (col) { col.mapping = mapStoreField(col.name).name; });
-    return columns;
+    columns = wrapFields(columns)
+    _.each(columns, function (col) { col.mapping = mapStoreField(col.name).name; })
+    return columns
   }
 
   function mapStoreField (column) {
-    var cUpper = column && column.toUpperCase();
+    var cUpper = column && column.toUpperCase()
     var field = cUpper && _.find($scope.storeFields, function (f) {
-        return cUpper == f.name.toUpperCase() || cUpper == f.displayName.toUpperCase();
-      });
-    return field || _.findWhere($scope.storeFields, { name: EMPTY_FIELD_NAME });
+      return cUpper == f.name.toUpperCase() || cUpper == f.displayName.toUpperCase()
+    })
+    return field || _.findWhere($scope.storeFields, { name: EMPTY_FIELD_NAME })
   }
 
   function wrapFields (fields) {
     return _.map(fields, function (v) {
-      return { name: v, displayName: toPascalCase(v) };
-    });
+      return { name: v, displayName: toPascalCase(v) }
+    })
   }
 
   function populateMappingDropdowns (columns) {
-    var selectedMappings = _.pluck(columns, 'mapping');
+    var selectedMappings = _.pluck(columns, 'mapping')
     var availableFields = _.filter($scope.storeFields, function (f) {
-      return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name);
-    });
+      return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name)
+    })
     _.each(columns, function (column) {
-      column.availableFields = availableFields.slice();
-      var field = _.findWhere($scope.storeFields, { name: column.mapping });
-      column.availableFields.push(field);
-    });
-    if (!$scope.$$phase) $scope.$digest();
-    return availableFields;
+      column.availableFields = availableFields.slice()
+      var field = _.findWhere($scope.storeFields, { name: column.mapping })
+      column.availableFields.push(field)
+    })
+    if (!$scope.$$phase) $scope.$digest()
+    return availableFields
   }
 
   function randomId () {
-    return -Math.floor(100000 * Math.random());
+    return -Math.floor(100000 * Math.random())
   }
 
   function findStore (arr, id) {
-    return _.find(arr, { storeId: parseInt(id, 10) }) || _.find(arr, { name: id });
+    return _.find(arr, { storeId: parseInt(id, 10) }) || _.find(arr, { name: id })
   }
-});
+})
 ;
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
@@ -2831,11 +2844,18 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 ;
 'use strict';
 
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI) {
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI', 'accountsService',
+  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI, accountsService) {
+    var USER_ROLE_OWNER = 1009;
+
     $scope.reset = false;
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+    $scope.stripeKey = constants.STRIPE_PUBLISH_KEY;
+    $scope.subscriptionCost = {
+      amount: 0.50,
+      currency: 'USD'
+    };
 
     var userInfo = {};
     //read userinfo from URL
@@ -2851,7 +2871,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $location.path('/');
     }
 
-    $scope.signup = function () {
+    $scope.acceptInvitation = function () {
       $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
     };
 
@@ -2930,7 +2950,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         payload: $scope.credentials
       };
       console.log(payload);
-      $http.post(url, payload).then(onSigninSuccess, onSigninError);
+      return $http.post(url, payload).then(onSigninSuccess, onSigninError);
     };
 
     //We've signed into the mongoDB, now lets authenticate with OnCue's API.
@@ -2966,6 +2986,48 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $scope.error = err.message;
       $scope.credentials = {};
     }
+    
+    $scope.signup = function (isValid, user, account) {
+      if ($scope.busy) return;
+
+      $scope.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'signupForm');
+        return false;
+      }
+
+      $scope.busy = true;
+
+      var payment = {
+        stripeToken: $scope.stripeToken,
+        amount: $scope.subscriptionCost.amount,
+        currency: $scope.subscriptionCost.currency
+      };
+
+      var payload = angular.extend({}, user, account, payment);
+      payload.roles = [USER_ROLE_OWNER];
+      console.log(payload);
+
+      $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
+        console.log('user signed up', response.data);
+        toastr.success('You have been signed up as a store owner', 'Sign-Up Success!');
+      }).catch(function (err) {
+        console.log('error');
+        console.error(err);
+        var msg = 'There was a problem during sign up procedure';
+        if ((err.data || {}).message) msg += '. ' + err.data.message;
+        toastr.error(msg);
+        throw err;
+      }).then(function() {
+        // auto-signin
+        $scope.credentials = user;
+        return $scope.signin(true).catch(function () {
+          $scope.credentials = user;
+        });
+      }).finally(function () {
+        $scope.busy = false;
+      });
+    };
 
     // OAuth provider request
     $scope.callOauthProvider = function (url) {
@@ -2975,6 +3037,10 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
       // Effectively call OAuth authentication route:
       $window.location.href = url;
+    };
+
+    $scope.setPayment = function (token) {
+      $scope.stripeToken = token;
     };
   }
 ]);
@@ -3796,6 +3862,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
+  $scope.orderDataService = orderDataService
   $scope.Countries = Countries
   $scope.userId = window.localStorage.getItem('userId')
   $scope.display = {
@@ -3803,14 +3870,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     feedback: true,
     template: ''
   }
+  $scope.selectedStore = {}
   $scope.allSelected = {value: false}
   $scope.searchText = ''
-
-  $http.get(constants.BWS_API + '/storedb/stores?supc=true').then(function (res) {
-    console.log('allStores %O', res.data)
-    $scope.allStores = res.data
-  })
-
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
@@ -3851,19 +3913,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.listOptions.searchLimit += 15
     refreshList()
   }
+  if (orderDataService.allStores.length === 0) {
+    orderDataService.getAllStores()
+  }
   $scope.isStoreSelected = function (store) {
-    var i = _.findIndex($scope.allStores, function (s) {
-      return s.id === store.id
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      debugger
+      return s.storeId === store.storeId
     })
-    return $scope.allStores[ i ].selected
+    return orderDataService.allStores[ i ].selected
+  }
+  $scope.toggleSearchStore = function (store) {
+    var i = _.findIndex(orderDataService.allStores, function (s) {
+      return s.storeId === store.storeId
+    })
+    orderDataService.allStores[ i ].selected = !orderDataService.allStores[ i ].selected
   }
 
-  $scope.toggleSearchStore = function (store) {
-    $scope.allStores = $scope.allStores || []
-    var i = _.findIndex($scope.allStores, function (s) {
-      return s.id === store.id
-    })
-    $scope.allStores[ i ].selected = !$scope.allStores[ i ].selected
+  $scope.testSelectedStore = function () {
+    console.log('selected %O', $scope.selectedStore.storeId)
   }
 
   $scope.reOrderList = function (field) {
@@ -3896,10 +3964,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
-    var selectedStores = _.filter($scope.allStores, function (st) {
-      return st.selected
-    })
-    var options = { status: $scope.checkbox.progress, types: $scope.filter, stores: selectedStores }
+    var options = { status: $scope.checkbox.progress, types: $scope.filter}
+    if ($scope.selectedStore.storeId) {
+      options.store = $scope.selectedStore
+    }
     productEditorService.getProductList(searchText, options).then(function (data) {
       $scope.allProducts = data
       refreshList()
@@ -5736,11 +5804,14 @@ angular.module('users').service('accountsService', function ($http, constants, t
     var payload = {
       payload: account
     }
-    $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError)
+
+    return $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
+
     function onCreateAccountSuccess (res) {
       toastr.success('New Account Created!')
       console.log('accounts Service, createAccount %O', res)
       getAccounts()
+      return res;
     }
 
     function onCreateAccountError (err) {
@@ -5962,9 +6033,11 @@ angular.module('core').service('chartService', function ($http, $q, constants) {
 angular.module('core').service('constants', function (envService) {
   var me = this
 
+  me.env = envService.read('env')
   me.API_URL = envService.read('API_URL')
   me.BWS_API = envService.read('BWS_API')
-  me.env = envService.read('env')
+  me.STRIPE_PUBLISH_KEY = envService.read('STRIPE_PUBLISH_KEY')
+
   me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/'
   console.log('constants %O', me)
 
@@ -7108,16 +7181,31 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   var API_URL = constants.BWS_API
   me.allItems = []
   me.selected = []
+  me.allStores = []
   me.getData = getData
   me.createNewProduct = createNewProduct
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
   me.decreaseIndex = decreaseIndex
+  me.getAllStores = getAllStores
 
   $rootScope.$on('clearProductList', function () {
     me.selected = []
   })
+
+  function getAllStores () {
+    var defer = $q.defer()
+    var url = constants.BWS_API + '/storedb/stores?supc=true'
+    $http.get(url).then(function (response) {
+      me.allStores = response.data
+      defer.resolve(me.allStores)
+    }, function (err) {
+      console.log('Could not getAllStores %O', err)
+      defer.reject(err)
+    })
+    return defer.promise
+  }
 
   function getData (id) {
     var defer = $q.defer()
@@ -7318,18 +7406,22 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.status) {
       url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
     }
-    if (options.stores) {
-      if (options.stores[ 0 ]) {
-        url += '&store=' + options.stores[ 0 ].id
-        for (var k = 1; k < options.stores.length; k++) {
-          url += ',' + options.stores[ k ].id
-        }
-      }
+    if(options.store){
+      url += '&store='+options.store.storeId
     }
+    // if (options.store) {
+    //   if (options.stores[ 0 ]) {
+    //     url += '&store=' + options.stores[ 0 ]
+    //     for (var k = 1; k < options.stores.length; k++) {
+    //       url += ',' + options.stores[ k ]
+    //     }
+    //   }
+    // }
     if (searchText) {
       url += '&q=' + searchText
     }
     url += '&v=sum'
+    console.log('getting URL: ',url)
     $http.get(url).then(function (response) {
       me.productList = response.data
       me.allProducts = response.data

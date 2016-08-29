@@ -44,12 +44,6 @@
               </md-input-container>
 
               <md-input-container class="md-block">
-                <input type="text" id="storeZip" name="storeZip"  ng-model="account.zipCode" placeholder="Store Zip">
-                <div ng-messages="signupForm.storeZip.$error" role="alert">
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
                 <input type="text" id="storeCity" name="storeCity"  ng-model="account.city" placeholder="Store City">
                 <div ng-messages="signupForm.storeCity.$error" role="alert">
                 </div>
@@ -59,6 +53,12 @@
                 <input type="text" id="storeState" name="storeState"  ng-model="account.state" placeholder="Store State">
                 <div ng-messages="signupForm.storeState.$error" role="alert">
                 </div>
+              </md-input-container>
+
+              <md-input-container class="md-block">
+                  <input type="text" id="storeZip" name="storeZip" ng-model="account.zipCode" placeholder="Store Zip">
+                  <div ng-messages="signupForm.storeZip.$error" role="alert">
+                  </div>
               </md-input-container>
           
               <md-input-container class="md-block">
