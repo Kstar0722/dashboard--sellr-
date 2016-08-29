@@ -287,7 +287,7 @@ fieldset.nomargin {
 #mainNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
 }
-#mainNav.top-menu-shown .md-toolbar-tools {
+#menuContainer.top-menu-shown #mainNav .md-toolbar-tools {
   top: 50px;
 }
 .md-open-menu-container.user-settings {
@@ -490,6 +490,14 @@ fieldset.nomargin {
 #topNav .md-toolbar-tools md-toolbar.md-default-theme:not(.md-menu-toolbar),
 #topNav .md-toolbar-tools md-toolbar:not(.md-menu-toolbar) {
   background-color: transparent;
+}
+@media only screen and (min-width:961px) {
+  #menuContainer #topNav {
+    display: none;
+  }
+}
+#menuContainer.top-menu-shown #topNav {
+  display: block;
 }
 .md-open-menu-container.account {
   max-height: 70vh;

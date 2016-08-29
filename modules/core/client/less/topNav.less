@@ -186,6 +186,20 @@
   }
 }
 
+#menuContainer {
+  @media @large-up {
+    #topNav {
+      display: none;
+    }
+  }
+
+  &.top-menu-shown {
+    #topNav {
+      display: block;
+    }
+  }
+}
+
 .md-open-menu-container.account {
   max-height: 70vh;
   overflow-y: auto;
