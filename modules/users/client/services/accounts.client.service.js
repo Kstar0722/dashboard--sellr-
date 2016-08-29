@@ -61,11 +61,14 @@ angular.module('users').service('accountsService', function ($http, constants, t
     var payload = {
       payload: account
     }
-    $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError)
+
+    return $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
+
     function onCreateAccountSuccess (res) {
       toastr.success('New Account Created!')
       console.log('accounts Service, createAccount %O', res)
       getAccounts()
+      return res;
     }
 
     function onCreateAccountError (err) {

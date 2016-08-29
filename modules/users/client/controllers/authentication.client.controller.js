@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI) {
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'intercomService', 'SocketAPI', 'accountsService',
+  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, intercomService, SocketAPI, accountsService) {
+    var USER_ROLE_OWNER = 1009;
+
     $scope.reset = false;
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
@@ -20,7 +22,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $location.path('/');
     }
 
-    $scope.signup = function () {
+    $scope.acceptInvitation = function () {
       $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
     };
 
@@ -99,7 +101,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         payload: $scope.credentials
       };
       console.log(payload);
-      $http.post(url, payload).then(onSigninSuccess, onSigninError);
+      return $http.post(url, payload).then(onSigninSuccess, onSigninError);
     };
 
     //We've signed into the mongoDB, now lets authenticate with OnCue's API.
@@ -135,6 +137,39 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $scope.error = err.message;
       $scope.credentials = {};
     }
+    
+    $scope.signup = function (isValid, user, account) {
+      if ($scope.busy) return;
+
+      $scope.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'signupForm');
+        return false;
+      }
+
+      $scope.busy = true;
+
+      var payload = angular.extend({}, user, account);
+      payload.roles = [USER_ROLE_OWNER];
+      console.log(payload);
+
+      $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
+        console.log('user signed up', response.data);
+        toastr.success('You have been signed up as a store owner', 'Sign-Up Success!');
+      }).catch(function (err) {
+        console.log('error');
+        console.error(err);
+        toastr.error('There was a problem during sign up procedure.');
+      }).then(function() {
+        // auto-signin
+        $scope.credentials = user;
+        return $scope.signin(true).catch(function () {
+          $scope.credentials = user;
+        });
+      }).finally(function () {
+        $scope.busy = false;
+      });
+    };
 
     // OAuth provider request
     $scope.callOauthProvider = function (url) {

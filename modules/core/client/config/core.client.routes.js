@@ -17,7 +17,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             .state('home', {
                 url: '/',
                 templateUrl: 'modules/core/client/views/home.client.view.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                public: true
             })
             .state('not-found', {
                 url: '/not-found',
