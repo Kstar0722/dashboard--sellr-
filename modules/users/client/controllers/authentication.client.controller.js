@@ -8,10 +8,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
     $scope.stripeKey = constants.STRIPE_PUBLISH_KEY;
-    $scope.subscriptionCost = {
-      amount: 0.50,
-      currency: 'USD'
-    };
+    $scope.subscriptionCost = parseCost(constants.SUBSCRIPTION_PRICE);
 
     var userInfo = {};
     //read userinfo from URL
@@ -198,5 +195,14 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.setPayment = function (token) {
       $scope.stripeToken = token;
     };
+
+    function parseCost(str) {
+      if (!str) return;
+      var p = str.split(' ');
+      return {
+        amount: parseFloat(p[0]),
+        currency: p[1] || 'USD'
+      };
+    }
   }
 ]);

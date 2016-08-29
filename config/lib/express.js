@@ -35,6 +35,7 @@ module.exports.initLocalVariables = function (app) {
   app.locals.livereload = config.livereload;
   app.locals.logo = config.logo;
   app.locals.favicon = config.favicon;
+  app.locals.appSettings = config.app;
 
   // Passing the request url to environment locals
   app.use(function (req, res, next) {
