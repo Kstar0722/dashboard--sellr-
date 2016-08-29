@@ -28,6 +28,12 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     $window.location.href = '/'
   }
 
+  $scope.closeDropdown = function (e) {
+    setTimeout(function() {
+      $('body > md-backdrop').click();
+    });
+  };
+
   $scope.$watch('authentication.user', function (user) {
     updateMenuVisibility(user, $scope.$root.selectAccountId)
   })
@@ -62,7 +68,6 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
 
   function updateOrdersCount () {
     if ($scope.$root.selectAccountId && $scope.$root.selectAccountId !== null && $scope.$root.renderTopMenu) {
-      console.log('called')
       var ordersUrl = API_URL + '/mobile/reservations/store/' + $scope.$root.selectAccountId
       $http.get(ordersUrl).then(function (response) {
         accountsService.ordersCount = _.filter(response.data, function (order) { return moment().isSame(order.pickupTime, 'day') && order.status !== 'Completed' && order.status !== 'Cancelled' }).length

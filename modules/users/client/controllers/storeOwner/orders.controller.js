@@ -10,8 +10,10 @@ angular.module('users.admin')
       $scope.uiStatOrders = {
         orders: [],
         count: 0,
-        salesTotal: 0
+        salesTotal: 0,
+        daysScope: 7
       }
+      $scope.statsScopeLabel = 'Last 7 days'
       $scope.init = function () {
         getOrders()
       }
@@ -29,7 +31,6 @@ angular.module('users.admin')
         replaceItem($scope.allOrders, order)
         loadOrders($scope.allOrders)
       })
-      $scope.statsScopeLabel = 'Last 7 days'
 
       $scope.changeDisplayedOrders = function () {
         $scope.showPastOrders = !$scope.showPastOrders
@@ -45,11 +46,10 @@ angular.module('users.admin')
         $http.get(ordersUrl).then(function (response) {
           loadOrders(response.data)
           $scope.displayOrders = $scope.todayOrders
-          console.log($scope.todayOrders)
         })
       }
 
-      function loadOrders (orders) {
+      var loadOrders = function (orders) {
         var reloadToday = $scope.displayOrders === $scope.todayOrders
         var reloadPast = $scope.displayOrders === $scope.pastOrders
 
@@ -59,12 +59,14 @@ angular.module('users.admin')
         $scope.todayOrders = _.sortBy($scope.todayOrders, 'status').reverse()
         $scope.pastOrders = _.filter(orders, function (order) { return moment().isAfter(order.pickupTime, 'day') || isTodayButCompleted(order) })
         $scope.pastOrders = _.sortBy($scope.pastOrders, 'pickupTime').reverse()
-        $scope.uiStatOrders.orders = getFilteredOrders(7)
+        $scope.uiStatOrders.orders = getFilteredOrders($scope.uiStatOrders.daysScope)
         refreshStats()
 
         if (reloadToday) $scope.displayOrders = $scope.todayOrders
         if (reloadPast) $scope.displayOrders = $scope.pastOrders
       }
+      // exposing loadOrders just for testing
+      $scope.loadOrders = loadOrders
 
       function isTodayButCompleted (order) {
         return moment().isSame(order.pickupTime, 'day') && (order.status === 'Completed' || order.status === 'Cancelled')
@@ -73,8 +75,10 @@ angular.module('users.admin')
       function getFilteredOrders (days) {
         return _.filter($scope.allOrders, function (order) {
           var flag = true
-          // Is Past
-          flag = moment().isAfter(order.pickupTime, 'day')
+          // Is Today but COMPLETED
+          flag = moment().isSame(order.pickupTime, 'day') && order.status === 'Completed'
+          // OR Is Past
+          flag = flag || moment().isAfter(order.pickupTime, 'day')
           // AND is After days Filter
           flag = flag && moment().startOf('day').subtract(days, 'days').isBefore(order.pickupTime)
           // AND Was not cancelled
@@ -84,8 +88,9 @@ angular.module('users.admin')
       }
 
       $scope.changeOrderStatsScope = function (days) {
+        $scope.uiStatOrders.daysScope = days
         $scope.uiStatOrders.orders = getFilteredOrders(days)
-        $scope.statsScopeLabel = 'Last ' + days + ' days'
+        $scope.statsScopeLabel = 'Last ' + $scope.uiStatOrders.daysScope + ' days'
         refreshStats()
       }
 
@@ -128,7 +133,5 @@ angular.module('users.admin')
         arr.splice(index, 1, item)
         return true
       }
-
-      getOrders()
     }
   ])

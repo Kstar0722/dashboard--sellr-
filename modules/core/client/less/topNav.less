@@ -13,6 +13,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position-y: 20%;
+    outline: none !important;
 
     position: relative;
     min-height: auto;
@@ -105,7 +106,7 @@
         .md-button {
           display: inline-block;
           min-width: initial;
-          padding: 0 10px;
+          padding: 0 7px;
         }
       }
       .signout-container {
@@ -119,6 +120,12 @@
         .md-menu{
           display: block;
           font-size: 16px;
+        }
+        .md-button {
+          display: inline-block;
+          margin: 0 2px;
+          min-width: initial;
+          padding: 0 7px;
         }
       }
     }
@@ -176,21 +183,39 @@
     md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
       background-color: transparent;
     }
+  }
+}
 
-    .account-selector {
-      display: inline-block;
-      height: 40px;
-      margin: 0 1vw 0 0;
-      padding-left: 10px;
-      padding-top: 5px;
-      position: relative;
-      top: -2px;
+.md-open-menu-container.account {
+  max-height: 70vh;
+  overflow-y: auto;
 
-      .md-select-value {
-        border-bottom: none !important;
-        color: @white;
-        font-size: 16px;
-      }
+  .account-selector {
+    md-menu-item > * {
+      margin: 0;
+      padding: 0;
+      width: auto;
+    }
+
+    .search {
+      margin: 5px 18px 10px;
+    }
+
+    .md-errors-spacer {
+      display: none;
+    }
+  }
+}
+
+.md-open-menu-container {
+  max-height: 100%;
+  overflow-y: auto;
+
+  .account-item {
+    > * {
+      margin: 0;
+      padding: 0;
+      width: auto;
     }
   }
 }

@@ -65,20 +65,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     envServiceProvider.check()
   }
 ])
-    .value('ProductTypes', [
-        { productTypeId: 1, name: 'Wine' },
-        { productTypeId: 2, name: 'Beer' },
-        { productTypeId: 3, name: 'Spirits' }
-    ]);
+  .value('ProductTypes', [
+    { productTypeId: 1, name: 'Wine' },
+    { productTypeId: 2, name: 'Beer' },
+    { productTypeId: 3, name: 'Spirits' }
+  ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window) {
   $rootScope.$stateClass = cssClassOf($state.current.name)
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     // General Authentication BEFORE Checking Roles
-    if (!authToken.isAuthenticated() && toState.name !== 'home') {
+    if (!authToken.hasTokenInStorage() && !isPublicState(toState.name)) {
       event.preventDefault()
+      window.localStorage.clear()
+      localStorage.clear()
+      $window.localStorage.clear()
+      Authentication.user = undefined
       $state.go('home')
       return false
     }
@@ -111,6 +115,17 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     storePreviousState(fromState, fromParams)
     $rootScope.$stateClass = cssClassOf(toState.name)
   })
+
+  function isPublicState (state) {
+    var flag = false
+    // Is Login
+    flag = state === 'home'
+    // Is Signup states
+    flag = flag || state.indexOf('authentication') !== -1
+    // Is Password Forgot States
+    flag = flag || state.indexOf('password') !== -1
+    return flag
+  }
 
   // Store previous state
   function storePreviousState (state, params) {

@@ -4,22 +4,37 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   var API_URL = constants.BWS_API
   me.allItems = []
   me.selected = []
+  me.allStores = []
   me.getData = getData
   me.createNewProduct = createNewProduct
   me.matchProduct = matchProduct
   me.storeSelected = storeSelected
   me.increaseIndex = increaseIndex
   me.decreaseIndex = decreaseIndex
+  me.getAllStores = getAllStores
 
   $rootScope.$on('clearProductList', function () {
     me.selected = []
   })
 
+  function getAllStores () {
+    var defer = $q.defer()
+    var url = constants.BWS_API + '/storedb/stores?supc=true'
+    $http.get(url).then(function (response) {
+      me.allStores = response.data
+      defer.resolve(me.allStores)
+    }, function (err) {
+      console.log('Could not getAllStores %O', err)
+      defer.reject(err)
+    })
+    return defer.promise
+  }
+
   function getData (id) {
     var defer = $q.defer()
     me.currentIndex = 0
     console.log(id)
-    var orderUrl = API_URL + '/storedb/stores/products?id=' + id
+    var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + id
     $http.get(orderUrl).then(function (response) {
       me.allItems = response.data
       me.currentItem = me.allItems[ me.currentIndex ]
@@ -70,6 +85,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       payload.duplicates.push(selected[ i ].productId)
     }
     $http.post(skuUrl, { payload: payload }).then(function (results) {
+      me.currentItem.productId = me.selected[ 0 ].productId
       console.log('orderDataService[matchProduct] %O', results)
       defer.resolve(me.selected[ 0 ])
     }, function (err) {
