@@ -4,8 +4,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS
 
   $scope.account = undefined
-  $scope.orders = []
-  $scope.orderItems = []
   $scope.storesDropdown = []
   $scope.orderDataService = orderDataService
   $scope.importView = null
@@ -65,7 +63,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       selectOrCreateStore(selectedStore).then(function (store) {
         var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns)
         return importStoreProducts(store, products).then(function (store) {
-          $scope.orders.push(store)
+          orderDataService.allStores.push(store);
           $scope.cancelImport()
           toastr.success('Store csv file imported')
         }, function (error) {
@@ -151,8 +149,12 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $scope.account = { createdBy: Authentication.user.username }
     }
     if (orderDataService.allStores.length === 0) {
-      orderDataService.getAllStores().then(function (res) {
+      orderDataService.getAllStores().then(function (stores) {
         updateStoreColors()
+
+        $scope.storesDropdown = stores.slice();
+        $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
+        $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
       })
     }
 
@@ -188,7 +190,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   function selectOrCreateStore (storeId) {
-    var store = findStore($scope.orders, storeId)
+    var store = findStore(orderDataService.allStores, storeId)
     if (store) return $q.when(store) // already exists
 
     store = findStore($scope.storesDropdown, storeId)
