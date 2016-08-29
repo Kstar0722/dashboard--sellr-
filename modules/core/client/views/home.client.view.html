@@ -8,10 +8,10 @@
                 class="text-center md-whiteframe-18dp">
             <div class="logo"></div>
             <md-input-container class="md-block">
-              <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username"
-                     placeholder="Username" lowercase required>
-              <div ng-messages="userForm.username.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">Username is required.</p>
+              <input type="text" id="email" name="email" class="form-control" ng-model="credentials.email"
+                     placeholder="Email" lowercase required>
+              <div ng-messages="userForm.email.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Email is required.</p>
               </div>
             </md-input-container>
             <md-input-container class="md-block">
@@ -34,9 +34,9 @@
         <form id="reset-form" ng-show="reset" name="forgotPasswordForm"
               ng-submit="askForPasswordReset(forgotPasswordForm.$valid)" autocomplete="off" class="text-center"
               novalidate><div class="logo"/>
-          <h3>Enter your username below and we'll send a password reset link to the email address we have on file</h3>
-          <md-input-container>
-            <label>Username</label>
+          <h3>Enter your email address below and we'll send a password reset link to this email</h3>
+          <md-input-container class="md-block">
+            <label>Email</label>
             <input type="text" id="passuser" name="passuser" class="form-control" ng-model="stuff.passuser" lowercase required/>
           </md-input-container>
           <br/>

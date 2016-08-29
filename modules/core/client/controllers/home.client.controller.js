@@ -33,10 +33,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
         return false
       }
-      $scope.stuff.username = $scope.stuff.passuser
+      $scope.stuff.email = $scope.stuff.passuser
       var payload = {
         payload: {
-          username: $scope.stuff.username
+          email: $scope.stuff.email
         }
       }
       $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response, err) {
