@@ -37,25 +37,28 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       },
       vars: {
         local: {
+          env: 'local',
           API_URL: 'http://localhost:7272',
           BWS_API: 'http://localhost:7171',
-          env: 'local'
+          STRIPE_PUBLISH_KEY: 'pk_test_8eCwGxyRav2xemiMy666CWXT'
         },
-
         development: {
+          env: 'dev',
           API_URL: 'https://apidev.sllr.io',
           BWS_API: 'https://bwsdev.sllr.io',
-          env: 'dev'
+          STRIPE_PUBLISH_KEY: 'pk_test_8eCwGxyRav2xemiMy666CWXT'
         },
         staging: {
+          env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
           BWS_API: 'https://bwsqa.sllr.io',
-          env: 'staging'
+          STRIPE_PUBLISH_KEY: 'pk_live_iIknKxhT9kjjffjBLjfwkrMA'
         },
         production: {
+          env: 'production',
           API_URL: 'https://api.sllr.io',
           BWS_API: 'https://bws.sllr.io',
-          env: 'production'
+          STRIPE_PUBLISH_KEY: 'pk_live_iIknKxhT9kjjffjBLjfwkrMA'
         }
       }
     })
