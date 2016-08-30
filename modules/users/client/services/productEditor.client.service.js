@@ -511,7 +511,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
         feedback: feedback
       }
     }
-    $http.post(url, payload).then(function (res) {
+    return $http.post(url, payload).then(function (res) {
       console.log(res)
     }, function (err) {
       console.error(err)

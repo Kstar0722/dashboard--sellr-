@@ -223,12 +223,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.sendBack = function () {
+    var product = productEditorService.currentProduct;
     var feedback = {
       issue: $scope.feedback.issue,
       comments: $scope.feedback.comments,
       date: new Date()
     }
-    productEditorService.updateFeedback(feedback)
+    productEditorService.updateFeedback(feedback).then(function () {
+      var productItem = _.find(productEditorService.productList, { productId: product.productId }) || {};
+      product.status = productItem.status = 'new';
+      product.feedback = product.feedback || [];
+      product.feedback.push(feedback);
+    });
   }
 
   $scope.approveSelectedProducts = function () {
