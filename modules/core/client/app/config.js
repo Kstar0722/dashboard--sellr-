@@ -14,7 +14,8 @@ var ApplicationConfiguration = (function () {
       'btford.socket-io',
       'ngCsvImport',
       'selectize',
-      'stripe.checkout'
+      'stripe.checkout',
+      'angular-loading-bar'
     ];
 
   // Add a new vertical module

@@ -70,3 +70,41 @@ fieldset {
   }
 }
 
+#loading-bar {
+  .bar {
+    background: @sellrgreen;
+  }
+}
+
+#loading-bar-spinner {
+  background: rgba(0,0,0,0.5);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  pointer-events: none;
+
+  @loading-size: 96px;
+  .spinner-icon {
+    border-left-color: @sellrgreen;
+    border-top-color: @sellrgreen;
+    border-width: 5px;
+    height: @loading-size;
+    left: 50%;
+    margin-left: -@loading-size / 2;
+    margin-top: -@loading-size / 2;
+    position: fixed;
+    top: 50%;
+    width: @loading-size;
+  }
+}
+
+body.loading .main-content {
+  pointer-events: none;
+}
