@@ -178,7 +178,7 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
         product: me.finalProduct
       }
     }
-    $http.post(url, payload, { loadingBar: true }).then(function (res) {
+    $http.post(url, payload).then(function (res) {
       if (res.data.productId) {
         toastr.success('Product Merged!')
         if ($state.includes('editor.match.merge')) {

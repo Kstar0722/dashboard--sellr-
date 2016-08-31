@@ -8,13 +8,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   function ($locationProvider, $httpProvider, envServiceProvider, cfpLoadingBarProvider) {
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
 
-    // cfpLoadingBarProvider.latencyThreshold = 100;
+    cfpLoadingBarProvider.latencyThreshold = 200;
     cfpLoadingBarProvider.parentSelector = '.loading-bar-container';
 
     $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
     $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
     $httpProvider.interceptors.push('errorInterceptor') //   Error Interceptor for tracking errors.
-    $httpProvider.interceptors.unshift('loadingBarInterceptor') // interceptor to disable $http loading-bar by default
 
     // SET ENVIRONMENT
 
@@ -170,7 +169,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
     function cancelKeyPress(ev) {
       if (!busy) return;
-      if (ev.keyCode == 9) ev.preventDefault();
+      ev.preventDefault();
       ev.stopPropagation();
     }
   }

@@ -25,7 +25,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     $scope.acceptInvitation = function () {
-      $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode, { loadingBar: true }).then(onValidReg, onInvalidReg);
+      $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg);
     };
 
     //Reg code (userId) exists in database, continue with creation
@@ -43,7 +43,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         }
       };
       var url = constants.API_URL + '/users/signup/' + userInfo.regCode;
-      $http.put(url, userUpdate, { loadingBar: true }).then(onUpdateSuccess, onUpdateError)
+      $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
 
     }
 
@@ -103,7 +103,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         payload: $scope.credentials
       };
       console.log(payload);
-      return $http.post(url, payload, { loadingBar: true }).then(onSigninSuccess, onSigninError);
+      return $http.post(url, payload).then(onSigninSuccess, onSigninError);
     };
 
     //We've signed into the mongoDB, now lets authenticate with OnCue's API.
@@ -161,7 +161,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       payload.roles = [USER_ROLE_OWNER];
       console.log(payload);
 
-      $http.post(constants.API_URL + '/users/signup', { payload: payload }, { loadingBar: true }).then(function (response) {
+      $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
         console.log('user signed up', response.data);
         toastr.success('You have been signed up as a store owner', 'Sign-Up Success!');
       }).catch(function (err) {
