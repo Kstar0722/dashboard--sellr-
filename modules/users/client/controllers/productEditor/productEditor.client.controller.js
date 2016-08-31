@@ -365,6 +365,16 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $state.go('editor.match.new')
   }
 
+  $scope.deleteFeedback = function (feedback) {
+    feedback.deleting = true;
+    var product = productEditorService.currentProduct;
+    productEditorService.deleteFeedback(feedback).then(function () {
+      removeItem(product.feedback, feedback);
+    }).finally(function () {
+      feedback.deleting = false;
+    });
+  };
+
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
     productEditorService.productList.forEach(function (p) {
@@ -375,4 +385,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
     console.log('clearing search text')
     $state.go('editor.match', $stateParams, { reload: true })
   })
+
+  function removeItem(arr, item) {
+    var idx = _.indexOf(arr, item);
+    if (idx < 0) return false;
+    arr.splice(idx, 1);
+    return true;
+  }
 })

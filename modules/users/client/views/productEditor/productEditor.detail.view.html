@@ -42,6 +42,9 @@
                         <span>{{ feedback.issue }} - </span>
                         <span>{{ feedback.comments }} - </span>
                         <span>{{feedback.date|date}}</span>
+                        <button class="btn delete" ng-click="deleteFeedback(feedback)" ng-disabled="feedback.deleting">
+                            <i class="fa fa-times"></i>
+                        </button>
                     </div>
                     <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
                 </div>
