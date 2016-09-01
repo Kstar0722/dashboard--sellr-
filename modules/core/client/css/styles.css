@@ -105,6 +105,38 @@ fieldset.nomargin {
   margin: 0;
   padding: 0;
 }
+#loading-bar .bar {
+  background: #2DC89A;
+  height: 5px;
+}
+#loading-bar-spinner {
+  background: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 95;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+#loading-bar-spinner .spinner-icon {
+  border-left-color: #2DC89A;
+  border-top-color: #2DC89A;
+  border-width: 5px;
+  height: 96px;
+  left: 50%;
+  margin-left: -48px;
+  margin-top: -48px;
+  position: fixed;
+  top: 50%;
+  width: 96px;
+}
+body.loading .main-content {
+  pointer-events: none;
+}
 #mainNav .md-toolbar-tools {
   background-color: #151922;
   background-position-y: 20%;

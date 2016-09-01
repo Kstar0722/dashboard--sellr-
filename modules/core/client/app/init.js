@@ -4,9 +4,12 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies)
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider',
-  function ($locationProvider, $httpProvider, envServiceProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider', 'cfpLoadingBarProvider',
+  function ($locationProvider, $httpProvider, envServiceProvider, cfpLoadingBarProvider) {
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
+
+    cfpLoadingBarProvider.latencyThreshold = 200;
+    cfpLoadingBarProvider.parentSelector = '.loading-bar-container';
 
     $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
     $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
@@ -70,10 +73,13 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     { productTypeId: 3, name: 'Spirits' }
   ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector) {
   var DEFAULT_PUBLIC = false;
 
   $rootScope.$stateClass = cssClassOf($state.current.name)
+  $rootScope.$svc = function (name) { return $injector.get(name); }; // for debugging purposes only
+
+  initLoadingBar();
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -139,6 +145,33 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   function cssClassOf (name) {
     if (typeof name !== 'string') return name
     return name.replace(/[^a-z0-9\-]+/gi, '-')
+  }
+
+  function initLoadingBar() {
+    var busy = false;
+
+    $rootScope.$on('cfpLoadingBar:started', function () {
+      busy = true;
+      $(document.body).addClass('loading');
+
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
+    });
+
+    $rootScope.$on('cfpLoadingBar:completed', function() {
+      busy = false;
+      $(document.body).removeClass('loading');
+    });
+
+    document.body.addEventListener('keydown', cancelKeyPress, true);
+    $(document).keydown(cancelKeyPress);
+
+    function cancelKeyPress(ev) {
+      if (!busy) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
   }
 })
 

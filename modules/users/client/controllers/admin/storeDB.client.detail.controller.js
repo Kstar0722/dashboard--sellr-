@@ -1,7 +1,7 @@
 /* globals angular */
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
-                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q,$rootScope) {
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q,$rootScope, cfpLoadingBar) {
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
@@ -74,16 +74,21 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
   $scope.matchProduct = function (ev) {
     $scope.showConfirm(ev).then(function (status) {
+      cfpLoadingBar.start();
       orderDataService.matchProduct().then(function (selected) {
-        productEditorService.getProduct(selected).then(function (product) {
-          product.status = status
-          productEditorService.save(product)
-          toastr.success('Product Matched')
-          $scope.increaseIndex()
-        })
+        return productEditorService.getProduct(selected);
+      }).then(function (product) {
+        product.status = status;
+        return productEditorService.save(product);
+      }).then(function () {
+        toastr.success('Product Matched')
+        $scope.increaseIndex()
+      }).finally(function () {
+        cfpLoadingBar.complete();
       })
     })
-  }
+  };
+
   $scope.updateFilter = function (value) {
     $scope.checked = false
     for (var i in $scope.filter) {

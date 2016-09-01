@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes) {
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -315,6 +315,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   // Functions related to merging //
 
   $scope.mergeProducts = function () {
+    cfpLoadingBar.start();
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
         $state.go('editor.match.merge', $stateParams, { reload: true })
@@ -322,6 +323,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
       } else {
         $state.go('editor.merge')
       }
+    }).finally(function () {
+      cfpLoadingBar.complete();
     })
   }
 
