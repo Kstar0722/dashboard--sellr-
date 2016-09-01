@@ -15,7 +15,8 @@ var ApplicationConfiguration = (function () {
       'ngCsvImport',
       'selectize',
       'stripe.checkout',
-      'angular-loading-bar'
+      'angular-loading-bar',
+      'offClick'
     ];
 
   // Add a new vertical module

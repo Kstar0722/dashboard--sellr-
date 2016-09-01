@@ -137,6 +137,48 @@ fieldset.nomargin {
 body.loading .main-content {
   pointer-events: none;
 }
+.sd-popup {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  border-top-left-radius: 0 !important;
+  cursor: text;
+  opacity: 0;
+  padding: 15px;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  text-transform: none;
+  transition: opacity 0.3s ease;
+}
+.sd-popup .close {
+  color: #8D9AA5;
+  float: right;
+  margin: -9px -7px;
+  opacity: 1;
+}
+.sd-popup .popup-content {
+  margin-left: -7px;
+  max-height: 400px;
+  max-width: 350px;
+  min-width: 150px;
+  overflow-y: auto;
+  width: 109%;
+}
+.sd-popup:before {
+  border-color: transparent rgba(0, 0, 0, 0.8) transparent transparent;
+  border-style: solid;
+  border-width: 0 15px 15px 0;
+  content: '';
+  height: 0;
+  left: -15px;
+  position: absolute;
+  top: 0;
+  width: 0;
+}
+.sd-popup.show {
+  pointer-events: all;
+  opacity: 1;
+}
 #mainNav .md-toolbar-tools {
   background-color: #151922;
   background-position-y: 20%;
@@ -2167,6 +2209,10 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard[disabled] button,
 .store-client-view .import-wizard[disabled] .md-button {
   opacity: 0.7;
+}
+.store-client-view .products-popup {
+  margin-left: 100px;
+  margin-top: -10px;
 }
 .createProduct {
   padding: 8%;
