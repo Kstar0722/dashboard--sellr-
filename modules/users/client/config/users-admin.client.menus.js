@@ -24,11 +24,6 @@ angular.module('users.admin').run([ 'Menus',
       position: 7
     })
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Store Database Management',
-      state: 'admin.store',
-      position: 8
-    })
-    Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Location Manager',
       state: 'manager.locations',
       position: 10

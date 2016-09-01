@@ -63,10 +63,5 @@ angular.module('users.admin.routes').config([ '$stateProvider',
         controller: 'DeviceManagerController'
 
       })
-      .state('admin.store', {
-        url: '/store',
-        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
-        controller: 'StoreDbController'
-      })
   }
 ])
