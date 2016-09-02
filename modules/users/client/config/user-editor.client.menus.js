@@ -8,5 +8,10 @@ angular.module('users.editor').run([ 'Menus', 'productEditorService',
             state: 'editor.products',
             position: 9
         })
+        Menus.addSubMenuItem('topbar', 'editor', {
+            title: 'Store Database Management',
+            state: 'curator.store',
+            position: 8
+        })
     }
 ]);

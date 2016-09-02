@@ -77,5 +77,10 @@ angular.module('users.editor.routes').config([ '$stateProvider',
           }
         }
       })
+      .state('curator.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
+        controller: 'StoreDbController'
+      })
   }
 ])

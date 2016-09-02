@@ -511,12 +511,24 @@ angular.module('users').service('productEditorService', function ($http, $locati
         feedback: feedback
       }
     }
-    $http.post(url, payload).then(function (res) {
+    return $http.post(url, payload).then(function (res) {
       console.log(res)
     }, function (err) {
       console.error(err)
     })
   }
+
+  me.deleteFeedback = function (feedback) {
+    var product = me.currentProduct;
+    var feedbackId = feedback.id || _.indexOf(product.feedback, feedback) + 1;
+    var url = constants.BWS_API + '/edit/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId;
+    return $http.delete(url).then(function (res) {
+      console.log(res)
+    }, function (err) {
+      console.error(err)
+      throw err;
+    });
+  };
 
   me.searchSkuResults = function (options) {
     var defer = $q.defer()

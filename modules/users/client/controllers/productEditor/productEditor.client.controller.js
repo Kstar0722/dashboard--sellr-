@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes) {
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -223,12 +223,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.sendBack = function () {
+    var product = productEditorService.currentProduct;
     var feedback = {
       issue: $scope.feedback.issue,
       comments: $scope.feedback.comments,
       date: new Date()
     }
-    productEditorService.updateFeedback(feedback)
+    productEditorService.updateFeedback(feedback).then(function () {
+      var productItem = _.find(productEditorService.productList, { productId: product.productId }) || {};
+      product.status = productItem.status = 'new';
+      product.feedback = product.feedback || [];
+      product.feedback.push(feedback);
+    });
   }
 
   $scope.approveSelectedProducts = function () {
@@ -309,6 +315,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   // Functions related to merging //
 
   $scope.mergeProducts = function () {
+    cfpLoadingBar.start();
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
         $state.go('editor.match.merge', $stateParams, { reload: true })
@@ -316,6 +323,8 @@ angular.module('users').controller('productEditorController', function ($scope, 
       } else {
         $state.go('editor.merge')
       }
+    }).finally(function () {
+      cfpLoadingBar.complete();
     })
   }
 
@@ -359,6 +368,16 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $state.go('editor.match.new')
   }
 
+  $scope.deleteFeedback = function (feedback) {
+    feedback.deleting = true;
+    var product = productEditorService.currentProduct;
+    productEditorService.deleteFeedback(feedback).then(function () {
+      removeItem(product.feedback, feedback);
+    }).finally(function () {
+      feedback.deleting = false;
+    });
+  };
+
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
     productEditorService.productList.forEach(function (p) {
@@ -369,4 +388,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
     console.log('clearing search text')
     $state.go('editor.match', $stateParams, { reload: true })
   })
+
+  function removeItem(arr, item) {
+    var idx = _.indexOf(arr, item);
+    if (idx < 0) return false;
+    arr.splice(idx, 1);
+    return true;
+  }
 })
