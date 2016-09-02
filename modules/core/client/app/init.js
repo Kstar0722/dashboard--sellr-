@@ -68,9 +68,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   }
 ])
   .value('ProductTypes', [
-    { productTypeId: 1, name: 'Wine' },
-    { productTypeId: 2, name: 'Beer' },
-    { productTypeId: 3, name: 'Spirits' }
+    { productTypeId: 1, name: 'Wine', similarNames: 'w,wines' },
+    { productTypeId: 2, name: 'Beer', similarNames: 'b,beers,ale,lager' },
+    { productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur' }
   ])
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector) {
