@@ -133,7 +133,6 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       })
     }
     console.log('mergeService::buildFinalProduct')
-
   }
 
   function mergeProductMedia () {
@@ -154,6 +153,12 @@ angular.module('users').service('mergeService', function ($q, productEditorServi
       }
     })
     console.log('mergeService::mergeProductMedia %O', me.newProduct)
+  }
+
+  me.refreshProductImage = function (imgObj) {
+    if (imgObj.publicUrl) {
+      me.newProduct.images.push(imgObj)
+    }
   }
 
   function save () {

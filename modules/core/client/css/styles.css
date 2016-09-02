@@ -1014,6 +1014,10 @@ section.userList .userbox {
 .productEditor .reference {
   max-width: 33%;
 }
+.productEditor .upload-merge-image {
+  margin: 20px auto;
+  text-align: center;
+}
 .productEditor .sidebar-entry {
   margin-bottom: 30px;
 }
