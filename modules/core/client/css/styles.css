@@ -436,7 +436,7 @@ body.loading .main-content {
 #topNav .md-toolbar-tools .submenus-items .md-menu {
   font-size: 16px;
 }
-#topNav .md-toolbar-tools .signout-container {
+#topNav .md-toolbar-tools .user-menu-container {
   margin-left: auto;
 }
 #topNav .md-toolbar-tools .mobile-only {
@@ -467,8 +467,11 @@ body.loading .main-content {
   min-width: initial;
   padding: 0 7px;
 }
-#topNav .md-toolbar-tools.mobile-menu .signout-container {
+#topNav .md-toolbar-tools.mobile-menu .user-menu-container {
   margin-left: 0;
+}
+#topNav .md-toolbar-tools.mobile-menu .user-menu-container .md-button {
+  display: block;
 }
 #topNav .md-toolbar-tools.mobile-menu .signout {
   margin-bottom: 15px;
