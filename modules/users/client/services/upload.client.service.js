@@ -18,6 +18,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
     var config = mediaConfig
     if (file) {
       var filename = (file.name).replace(/ /g, '_')
+        .replace(/[()]/g, '') // remove parentheses
 
       if (!file.$error) {
         var newObject
