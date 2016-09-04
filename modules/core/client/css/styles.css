@@ -49,16 +49,24 @@ body [ng-click]:focus {
 }
 .main-content {
   padding-top: 0;
+  position: relative;
 }
 @media only screen and (min-width:961px) {
   .main-content.top-menu-shown {
     padding-top: 50px;
+    top: 50px;
   }
   .main-content.main-menu-shown {
     padding-top: 120px;
+    top: 120px;
   }
   .main-content.main-menu-shown.top-menu-shown {
     padding-top: 170px;
+    top: 170px;
+  }
+  .main-content.cardkit-menu-shown {
+    padding-top: 93px;
+    top: 93px;
   }
 }
 .clearfix-container:after {

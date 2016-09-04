@@ -25,21 +25,24 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'modules/core/client/views/404.client.view.html',
                 data: {
                     ignoreState: true
-                }
+                },
+                public: true
             })
             .state('bad-request', {
                 url: '/bad-request',
                 templateUrl: 'modules/core/client/views/400.client.view.html',
                 data: {
                     ignoreState: true
-                }
+                },
+                public: true
             })
             .state('forbidden', {
                 url: '/forbidden',
                 templateUrl: 'modules/core/client/views/403.client.view.html',
                 data: {
                     ignoreState: true
-                }
+                },
+                public: true
             });
     }
 ]);
