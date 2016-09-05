@@ -15,7 +15,9 @@ var ApplicationConfiguration = (function () {
       'ngCsvImport',
       'selectize',
       'stripe.checkout',
-      'angular-loading-bar'
+      'angular-loading-bar',
+      'angulartics', 
+      'angulartics.gosquared'
     ];
 
   // Add a new vertical module

@@ -116,6 +116,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       localStorage.setItem('userId', response.data.userId)
       localStorage.setItem('userObject', JSON.stringify(response.data))
       $scope.authentication.user = response.data
+      $scope.authentication.setGoSquaredUser()
       SocketAPI.connect()
 
       if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {

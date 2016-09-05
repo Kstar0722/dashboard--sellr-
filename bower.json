@@ -46,7 +46,8 @@
     "angular-csv-import": "#0.0.36",
     "angular-selectize2": "^3.0.1",
     "angular-stripe-checkout": "^5.0.0",
-    "angular-loading-bar": "^0.9.0"
+    "angular-loading-bar": "^0.9.0",
+    "angulartics": "^1.1.3"
   },
   "resolutions": {
     "angular": "1.4.x",
