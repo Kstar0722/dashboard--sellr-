@@ -16,7 +16,7 @@ var ApplicationConfiguration = (function () {
       'selectize',
       'stripe.checkout',
       'angular-loading-bar',
-      'angulartics', 
+      'angulartics',
       'angulartics.gosquared'
     ];
 
