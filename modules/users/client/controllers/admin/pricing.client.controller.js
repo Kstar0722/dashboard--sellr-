@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('users.admin').controller('AdminPricingController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Admin', 'Upload', '$sce', 'ImageService', 'constants',
-    function ($scope, $state, $http, Authentication, $timeout, Admin, Upload, $sce, ImageService, constants) {
+angular.module('users.admin').controller('AdminPricingController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Users', 'Upload', '$sce', 'ImageService', 'constants',
+    function ($scope, $state, $http, Authentication, $timeout, Users, Upload, $sce, ImageService, constants) {
         $scope.authentication = Authentication;
-        Admin.query(function (data) {
+        Users.query(function (data) {
             $scope.users = data;
         });
         var self = this;

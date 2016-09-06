@@ -105,6 +105,14 @@ fieldset.nomargin {
   margin: 0;
   padding: 0;
 }
+md-input-container ng-messages,
+md-input-container [ng-messages] {
+  display: none;
+}
+md-input-container.md-input-invalid ng-messages,
+md-input-container.md-input-invalid [ng-messages] {
+  display: block;
+}
 #loading-bar .bar {
   background: #2DC89A;
   height: 5px;
@@ -1894,6 +1902,9 @@ body .productEditor .loading-data .right {
   50% {
     transform: translate(-30px, -30px);
   }
+}
+.settings-container form {
+  margin: 20px auto;
 }
 .store-client-view {
   margin: 20px auto 40px;

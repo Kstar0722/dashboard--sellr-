@@ -1,17 +1,17 @@
-angular.module('users').service('CurrentUserService', ['Admin', '$state',
-    function (Admin, $state) {
+angular.module('users').service('CurrentUserService', ['Users', '$state',
+    function (Users, $state) {
         var me = this;
         me.user = '';
         me.locations = '';
         me.currentUserRoles=[];
         me.userBeingEdited = {};
         me.myPermissions = localStorage.getItem('roles');
-        Admin.query().then(function (data,err) {
+        Users.query().then(function (data,err) {
             me.userList = data;
             console.log('admin returned %O', data)
         });
         me.update = function(){
-            Admin.query(function (data) {
+            Users.query(function (data) {
                 me.userList = data;
                 window.location.reload();
                 //$state.go('admin.users',{} , {reload:true});

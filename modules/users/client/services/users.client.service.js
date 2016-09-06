@@ -1,18 +1,7 @@
 'use strict';
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users').factory('Users', ['$resource',
-  function ($resource) {
-    return $resource('api/users', {}, {
-      update: {
-        method: 'PUT'
-      }
-    });
-  }
-]);
-
-//TODO this should be Users service
-angular.module('users.admin').factory('Admin', ['$http', 'constants', '$q',
+angular.module('users.admin').factory('Users', ['$http', 'constants', '$q',
   function ($http, constants, $q) {
     var me = this;
 
@@ -42,8 +31,11 @@ angular.module('users.admin').factory('Admin', ['$http', 'constants', '$q',
       return defer.promise;
     };
 
-    me.put = function(userId){
-      return $http.put(constants.API_URL + '/users'+userId)
+    me.put = function(user){
+      var payload = {
+        payload: user
+      };
+      return $http.put(constants.API_URL + '/users/' + user.userId, payload)
     }
 
     return me;

@@ -70,6 +70,30 @@ fieldset {
   }
 }
 
+md-input-container {
+  ng-messages, [ng-messages] {
+    display: none;
+  }
+
+  &.md-input-invalid {
+    ng-messages, [ng-messages] {
+      display: block;
+    }
+  }
+
+  //&.has-error[show-errors] {
+  //  ng-messages, [ng-messages] {
+  //    display: block;
+  //  }
+  //}
+  //
+  //&.md-input-invalid:not([show-errors]) {
+  //  ng-messages, [ng-messages] {
+  //    display: block;
+  //  }
+  //}
+}
+
 #loading-bar {
   .bar {
     background: @sellrgreen;

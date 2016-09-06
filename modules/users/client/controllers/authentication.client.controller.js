@@ -99,7 +99,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       var payload = {
         payload: $scope.credentials
       }
-      console.log(payload)
+      // console.log(payload)
       return $http.post(url, payload).then(onSigninSuccess, onSigninError)
     }
 
@@ -156,7 +156,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
       var payload = angular.extend({}, user, account, payment)
       payload.roles = [ USER_ROLE_OWNER ]
-      console.log(payload)
+      // console.log(payload)
 
       $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
         console.log('user signed up', response.data)
