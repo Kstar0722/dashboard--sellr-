@@ -54,13 +54,11 @@ angular.module('users').config(['$stateProvider',
       })
         .state('authentication.reset', {
           url: '/reset',
-          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html',
-          public: true
+          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
         })
       .state('authentication.signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
-        public: true
+        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
       })
 
       .state('password', {
@@ -71,7 +69,8 @@ angular.module('users').config(['$stateProvider',
       })
       .state('mypassword.forgot', {
         url: '/forgot',
-        templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html'
+        templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html',
+        public: true
       })
       .state('password.reset', {
         abstract: true,

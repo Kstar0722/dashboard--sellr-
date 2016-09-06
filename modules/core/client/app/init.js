@@ -76,6 +76,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector) {
   var DEFAULT_PUBLIC = false;
 
+  $rootScope.$state = $state;
   $rootScope.$stateClass = cssClassOf($state.current.name)
   $rootScope.$svc = function (name) { return $injector.get(name); }; // for debugging purposes only
 
