@@ -7,17 +7,16 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.reset = false
     $scope.authentication = Authentication
     $scope.popoverMsg = PasswordValidator.getPopoverMsg()
-    $scope.stripeKey = constants.STRIPE_PUBLISH_KEY
-    $scope.subscriptionCost = parseCost(constants.SUBSCRIPTION_PRICE)
 
     var userInfo = {}
     //  read userinfo from URL
-    if ($location.search().r)
+    if ($location.search().r) {
       userInfo = {
         accountId: Number($location.search().a),
         regCode: Number($location.search().u),
         roles: $location.search().r.split('~')
       }
+    }
 
     //  If user is signed in then redirect back home
     if ($scope.authentication.user) {
@@ -44,7 +43,6 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       }
       var url = constants.API_URL + '/users/signup/' + userInfo.regCode
       $http.put(url, userUpdate).then(onUpdateSuccess, onUpdateError)
-
     }
 
     // Reg code (userId) was invalid. Show error and reset credentials.
@@ -95,7 +93,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         $scope.$broadcast('show-errors-check-validity', 'userForm')
         return false
       }
-      var url = constants.API_URL + "/users/login"
+      var url = constants.API_URL + '/users/login'
       var payload = {
         payload: $scope.credentials
       }
@@ -104,7 +102,6 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     function onSigninSuccess (response) {
-
       //  If successful we assign the response to the global user model
       authToken.setToken(response.data.token.token)
       // set roles
@@ -149,13 +146,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
       $scope.busy = true
 
-      var payment = {
-        stripeToken: $scope.stripeToken,
-        amount: $scope.subscriptionCost.amount,
-        currency: $scope.subscriptionCost.currency
-      }
-
-      var payload = angular.extend({}, user, account, payment)
+      var payload = angular.extend({}, user, account)
       payload.roles = [ USER_ROLE_OWNER ]
       console.log(payload)
 
@@ -192,15 +183,6 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
     $scope.setPayment = function (token) {
       $scope.stripeToken = token
-    }
-
-    function parseCost (str) {
-      if (!str) return
-      var p = str.split(' ')
-      return {
-        amount: parseFloat(p[ 0 ]),
-        currency: p[ 1 ] || 'USD'
-      }
     }
   }
 ])
