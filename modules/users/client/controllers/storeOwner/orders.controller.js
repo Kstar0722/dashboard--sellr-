@@ -98,6 +98,7 @@ angular.module('users.admin')
         $scope.uiStatOrders.count = $scope.uiStatOrders.orders.length
         $scope.uiStatOrders.shoppersCount = _.uniq(_.pluck(_.pluck($scope.uiStatOrders.orders, 'user'), '_id')).length
         $scope.uiStatOrders.salesTotal = _.reduce($scope.uiStatOrders.orders, function (memo, order) {
+          // For orders wihtout price this total will be 0. So it's OK
           return memo + parseFloat(order.total)
         }, 0)
       }
