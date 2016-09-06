@@ -74,26 +74,22 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: {
           env: 'local',
           API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171',
-          STRIPE_PUBLISH_KEY: 'pk_test_8eCwGxyRav2xemiMy666CWXT'
+          BWS_API: 'http://localhost:7171'
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io',
-          STRIPE_PUBLISH_KEY: 'pk_test_8eCwGxyRav2xemiMy666CWXT'
+          BWS_API: 'https://bwsdev.sllr.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://bwsqa.sllr.io',
-          STRIPE_PUBLISH_KEY: 'pk_live_iIknKxhT9kjjffjBLjfwkrMA'
+          BWS_API: 'https://bwsqa.sllr.io'
         },
         production: {
           env: 'production',
           API_URL: 'https://api.sllr.io',
-          BWS_API: 'https://bws.sllr.io',
-          STRIPE_PUBLISH_KEY: 'pk_live_iIknKxhT9kjjffjBLjfwkrMA'
+          BWS_API: 'https://bws.sllr.io'
         }
       }
     })
@@ -585,7 +581,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             source: 'password',
             email: response.data.email,
             title: 'Password Reset Success',
-            body: '<body> <p>Dear ' + $scope.stuff.username + ',</p> <br /> <p>You have requested to have your password reset for your account at the Sellr Dashboard </p> <p>Please visit this url to reset your password:</p> <p>' + 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&username=' + response.data.username + "</p> <strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
+            body: '<body> <p>Hey there! <br> You have requested to have your password reset for your account at the Sellr Dashboard </p> ' +
+            '<p>Please visit this url to reset your password:</p> ' +
+            '<p>' + 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + $scope.stuff.email + '</p> ' +
+            "<strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
           }
         }
         if (response) {
@@ -1663,11 +1662,13 @@ angular.module('users').config(['$stateProvider',
       })
         .state('authentication.reset', {
           url: '/reset',
-          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
+          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html',
+          public: true
         })
       .state('authentication.signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
+        public: true
       })
 
       .state('password', {
@@ -2398,8 +2399,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS
 
   $scope.account = undefined
-  $scope.orders = []
-  $scope.orderItems = []
   $scope.storesDropdown = []
   $scope.orderDataService = orderDataService
   $scope.importView = null
@@ -2459,7 +2458,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       selectOrCreateStore(selectedStore).then(function (store) {
         var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns)
         return importStoreProducts(store, products).then(function (store) {
-          $scope.orders.push(store)
+          orderDataService.allStores.push(store);
           $scope.cancelImport()
           toastr.success('Store csv file imported')
         }, function (error) {
@@ -2545,8 +2544,12 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $scope.account = { createdBy: Authentication.user.username }
     }
     if (orderDataService.allStores.length === 0) {
-      orderDataService.getAllStores().then(function (res) {
+      orderDataService.getAllStores().then(function (stores) {
         updateStoreColors()
+
+        $scope.storesDropdown = stores.slice();
+        $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
+        $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
       })
     }
 
@@ -2582,7 +2585,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   function selectOrCreateStore (storeId) {
-    var store = findStore($scope.orders, storeId)
+    var store = findStore(orderDataService.allStores, storeId)
     if (store) return $q.when(store) // already exists
 
     store = findStore($scope.storesDropdown, storeId)
@@ -2852,10 +2855,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.authentication = Authentication;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
     $scope.stripeKey = constants.STRIPE_PUBLISH_KEY;
-    $scope.subscriptionCost = {
-      amount: 0.50,
-      currency: 'USD'
-    };
+    $scope.subscriptionCost = parseCost(constants.SUBSCRIPTION_PRICE);
 
     var userInfo = {};
     //read userinfo from URL
@@ -3042,6 +3042,15 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     $scope.setPayment = function (token) {
       $scope.stripeToken = token;
     };
+
+    function parseCost(str) {
+      if (!str) return;
+      var p = str.split(' ');
+      return {
+        amount: parseFloat(p[0]),
+        currency: p[1] || 'USD'
+      };
+    }
   }
 ]);
 ;
@@ -3763,94 +3772,67 @@ angular.module("users.supplier").filter("trustUrl", ['$sce', function ($sce) {
     };
 }]);
 ;
-'use strict';
+'use strict'
 
-angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', '$state',
-    function ($scope, $stateParams, $http, $location, Authentication, PasswordValidator, constants, toastr, authToken, $state) {
-        $scope.authentication = Authentication;
-        $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+angular.module('users').controller('PasswordController', [ '$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', '$state',
+  function ($scope, $stateParams, $http, $location, Authentication, PasswordValidator, constants, toastr, authToken, $state) {
+    $scope.authentication = Authentication
+    $scope.popoverMsg = PasswordValidator.getPopoverMsg()
 
-        //If user is signed in then redirect back home
-        if ($scope.authentication.user) {
-            $location.path('/');
-        }
-
-
-        // Change user password
-        $scope.resetUserPassword = function (isValid) {
-            $scope.success = $scope.error = null;
-            var resetObj = {
-                payload: {
-                    token: $location.search().token,
-                    username: $location.search().username,
-                    newPass: $scope.passwordDetails.newPassword
-                }
-            };
-            if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'resetPasswordForm');
-
-                return false;
-            }
-            console.log('new pass details %0', resetObj);
-            $http.post(constants.API_URL + '/users/auth/reset', resetObj).then(function (response, err) {
-                if (err) {
-                    toastr.error('Invalid Token. Please contact support at support@getsellr.com')
-                }
-                var userLogin = {
-                    payload: {
-                        username: resetObj.payload.username,
-                        password: resetObj.payload.newPass
-                    }
-                };
-
-                $http.post(constants.API_URL + '/users/login', userLogin).then(function (response, err) {
-                    if (err) {
-                        toastr.error('Invalid Token. Please contact support at support@getsellr.com')
-                    }
-                    // If successful we assign the response to the global user model
-                    authToken.setToken(response.data.token);
-                    //set roles
-                    localStorage.setItem('roles', response.data.roles);
-                    //store account Id in location storage
-                    localStorage.setItem('accountId', response.data.accountId);
-                    //set userId
-                    localStorage.setItem('roles', response.data.roles)
-                    localStorage.setItem('userId', response.data.userId);
-                    localStorage.setItem('userObject', JSON.stringify(response.data));
-                    $scope.authentication.user = response.data;
-
-
-                    $state.go('dashboard', $state.previous.params);
-                })
-            })
-        };
-        function onSigninSuccess(response) {
-            console.log('hello')
-            // If successful we assign the response to the global user model
-            authToken.setToken(response.data.token);
-            //set roles
-            localStorage.setItem('roles', response.data.roles);
-            //store account Id in location storage
-            localStorage.setItem('accountId', response.data.accountId);
-            //set userId
-            localStorage.setItem('roles', response.data.roles)
-            localStorage.setItem('userId', response.data.userId);
-            localStorage.setItem('userObject', JSON.stringify(response.data));
-            $scope.authentication.user = response.data;
-
-
-            $state.go('dashboard', $state.previous.params);
-        }
-
-        //We could not sign into mongo, so clear everything and show error.
-        function onSigninError(err) {
-            console.error(err);
-            toastr.error('Failed To Connect, Please Contact Support.');
-            $scope.error = err.message;
-            $scope.credentials = {};
-        }
+    // If user is signed in then redirect back home
+    if ($scope.authentication.user) {
+      $location.path('/')
     }
-]);
+
+    // Change user password
+    $scope.resetUserPassword = function (isValid) {
+      $scope.success = $scope.error = null
+      var resetObj = {
+        payload: {
+          token: $location.search().token,
+          email: $location.search().email,
+          newPass: $scope.passwordDetails.newPassword
+        }
+      }
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'resetPasswordForm')
+
+        return false
+      }
+      console.log('new pass details %0', resetObj)
+      $http.post(constants.API_URL + '/users/auth/reset', resetObj).then(function (response, err) {
+        if (err) {
+          toastr.error('Invalid Token. Please contact support at support@getsellr.com')
+        }
+        var userLogin = {
+          payload: {
+            email: resetObj.payload.email,
+            password: resetObj.payload.newPass
+          }
+        }
+
+        $http.post(constants.API_URL + '/users/login', userLogin).then(function (response, err) {
+          if (err) {
+            toastr.error('Invalid Token. Please contact support at support@getsellr.com')
+          }
+          // If successful we assign the response to the global user model
+          authToken.setToken(response.data.token)
+          // set roles
+          localStorage.setItem('roles', response.data.roles)
+          // store account Id in location storage
+          localStorage.setItem('accountId', response.data.accountId)
+          // set userId
+          localStorage.setItem('roles', response.data.roles)
+          localStorage.setItem('userId', response.data.userId)
+          localStorage.setItem('userObject', JSON.stringify(response.data))
+          $scope.authentication.user = response.data
+
+          $state.go('dashboard', $state.previous.params)
+        })
+      })
+    }
+  }
+])
 ;
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
@@ -6033,10 +6015,11 @@ angular.module('core').service('chartService', function ($http, $q, constants) {
 angular.module('core').service('constants', function (envService) {
   var me = this
 
+  angular.extend(me, window.appSettings || {});
+
   me.env = envService.read('env')
   me.API_URL = envService.read('API_URL')
   me.BWS_API = envService.read('BWS_API')
-  me.STRIPE_PUBLISH_KEY = envService.read('STRIPE_PUBLISH_KEY')
 
   me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/'
   console.log('constants %O', me)

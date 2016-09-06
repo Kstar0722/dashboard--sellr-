@@ -28,7 +28,7 @@
               <div class="subtime">{{ order.pickupTime | time }}</div>
             </div>
           </div>
-          <div flex class="order-total" layout="column"   layout-align="end center">
+          <div flex class="order-total" layout="column"   layout-align="end center" ng-hide="order.total === '0'">
             <div class="total">{{ order.total | currency:"$" }}</div>
           </div>
         </div>
@@ -45,7 +45,7 @@
             <div flex=10 flex-xs=15 class="item-qty align-center">x {{product.quantity}}</div>
             <div flex>
               <div class="item-title">{{product.name}}</div>
-              <div class="item-description">{{ product.price | currency:"$" }}</div>
+              <div class="item-description" ng-hide="product.price === ''">{{ product.price | currency:"$" }}</div>
             </div>          
           </div>  
 

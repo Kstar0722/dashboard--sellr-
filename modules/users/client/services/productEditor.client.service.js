@@ -174,13 +174,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
   // calls get detail from API and caches product
   me.setCurrentProduct = function (product) {
+    var defer = $q.defer()
     me.currentProduct = {}
     cachedProduct = {}
     me.changes = []
     me.getProduct(product).then(function (formattedProduct) {
       formattedProduct.userId = product.userId
       me.currentProduct = formattedProduct
+      defer.resolve(me.currentProduct)
     })
+    return defer.promise
   }
 
   //  claim a product
@@ -364,6 +367,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.uploadMedia = function (files) {
+    var defer = $q.defer()
     var mediaConfig = {
       mediaRoute: 'media',
       folder: 'products',
@@ -381,11 +385,13 @@ angular.module('users').service('productEditorService', function ($http, $locati
             toastr.error('There was a problem uploading this image.')
           }
           refreshProduct(me.currentProduct)
+          defer.resolve(response)
         })
       } else {
         toastr.error('Product Image Failed To Update!')
       }
     })
+    return defer.promise
   }
 
   me.uploadAudio = function (files) {

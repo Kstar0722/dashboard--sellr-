@@ -16,7 +16,8 @@ var ApplicationConfiguration = (function () {
       'selectize',
       'stripe.checkout',
       'angular-loading-bar',
-      'offClick'
+      'angulartics',
+      'angulartics.gosquared'
     ];
 
   // Add a new vertical module

@@ -67,7 +67,8 @@ module.exports = {
                 'public/lib/angular-selectize2/dist/angular-selectize.js',
                 'public/lib/angular-stripe-checkout/angular-stripe-checkout.js',
                 'public/lib/angular-loading-bar/build/loading-bar.js',
-                'public/lib/angular-off-click/dist/angular-off-click.js'
+                'public/lib/angulartics/dist/angulartics.min.js',
+                'public/lib/angulartics/dist/angulartics-gosquared.min.js'
             ]
         },
         css: [

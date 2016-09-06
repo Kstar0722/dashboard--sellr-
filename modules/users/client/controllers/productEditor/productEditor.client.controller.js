@@ -223,18 +223,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.sendBack = function () {
-    var product = productEditorService.currentProduct;
+    var product = productEditorService.currentProduct
     var feedback = {
       issue: $scope.feedback.issue,
       comments: $scope.feedback.comments,
       date: new Date()
     }
     productEditorService.updateFeedback(feedback).then(function () {
-      var productItem = _.find(productEditorService.productList, { productId: product.productId }) || {};
-      product.status = productItem.status = 'new';
-      product.feedback = product.feedback || [];
-      product.feedback.push(feedback);
-    });
+      var productItem = _.find(productEditorService.productList, { productId: product.productId }) || {}
+      product.status = productItem.status = 'new'
+      product.feedback = product.feedback || []
+      product.feedback.push(feedback)
+    })
   }
 
   $scope.approveSelectedProducts = function () {
@@ -315,7 +315,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   // Functions related to merging //
 
   $scope.mergeProducts = function () {
-    cfpLoadingBar.start();
+    cfpLoadingBar.start()
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
         $state.go('editor.match.merge', $stateParams, { reload: true })
@@ -324,7 +324,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $state.go('editor.merge')
       }
     }).finally(function () {
-      cfpLoadingBar.complete();
+      cfpLoadingBar.complete()
+    })
+  }
+
+  $scope.uploadNewImageFromMerge = function (file) {
+    productEditorService.setCurrentProduct(mergeService.products[0]).then(function () {
+      productEditorService.uploadMedia(file).then(function () {
+        productEditorService.getProductDetail(mergeService.products[0]).then(function (response) {
+          var refreshedProduct = response.data[0]
+          mergeService.refreshProductImage(_.last(refreshedProduct.mediaAssets))
+        })
+      })
     })
   }
 
@@ -369,14 +380,14 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.deleteFeedback = function (feedback) {
-    feedback.deleting = true;
-    var product = productEditorService.currentProduct;
+    feedback.deleting = true
+    var product = productEditorService.currentProduct
     productEditorService.deleteFeedback(feedback).then(function () {
-      removeItem(product.feedback, feedback);
+      removeItem(product.feedback, feedback)
     }).finally(function () {
-      feedback.deleting = false;
-    });
-  };
+      feedback.deleting = false
+    })
+  }
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
@@ -389,10 +400,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $state.go('editor.match', $stateParams, { reload: true })
   })
 
-  function removeItem(arr, item) {
-    var idx = _.indexOf(arr, item);
-    if (idx < 0) return false;
-    arr.splice(idx, 1);
-    return true;
+  function removeItem (arr, item) {
+    var idx = _.indexOf(arr, item)
+    if (idx < 0) return false
+    arr.splice(idx, 1)
+    return true
   }
 })
