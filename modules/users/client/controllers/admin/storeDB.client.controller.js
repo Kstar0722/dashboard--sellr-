@@ -1,5 +1,5 @@
 /* globals angular, _, localStorage,$ */
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper, $httpParamSerializer) {
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
   var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME
   var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS
 
@@ -126,34 +126,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     $scope.storesDropdown.splice(1, 0, newStore)
     $scope.selectedStore = newStore.storeId || newStore.name
   }
-
-  $scope.showProducts = function (store, status) {
-    if (store.status[status] == 0) return;
-
-    store.statusItems = store.statusItems || {};
-    store.statusItems[status] = store.statusItems[status] || [];
-    store.statusItems[status].loading = true;
-
-    loadProducts(store).then(function () {
-      store.statusItems[status].show = true;
-      store.statusItems[status].loading = false;
-    });
-  };
-
-  $scope.hideProducts = function (store) {
-    store.showProducts = false;
-    if (!$scope.$$phase) $scope.$digest();
-  };
-
-  $scope.$watch('csv.header', function () {
-    $scope.csv.loaded = false
-    // trigger csv.result recalculating out of digest cycle (specific to angular-csv-import flow)
-    setTimeout(function () {
-      $('#storeCsv').find('.separator-input').triggerHandler('keyup')
-      $scope.csv.loaded = true
-      $scope.$digest()
-    })
-  })
 
   init()
 
@@ -293,27 +265,5 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
   function findStore (arr, id) {
     return _.find(arr, { storeId: parseInt(id, 10) }) || _.find(arr, { name: id })
-  }
-
-  function loadProducts(store) {
-    if (store.statusItems && store.statusItems.loaded) return $q.when(store.statusItems);
-
-    var url = constants.BWS_API + '/storedb/stores/products';
-    var params = {
-      id: store.storeId,
-      acct: store.accountId,
-      supc: true,
-      status: ['received', 'processed']
-    };
-    var queryString = '?' + $httpParamSerializer(params);
-
-    store.statusItems.loading = true;
-    return $http.get(url + queryString, { ignoreLoadingBar: true }).then(function (items) {
-      store.statusItems = _.groupBy(items.data, 'status');
-      store.statusItems.loaded = true;
-      return store.statusItems;
-    }).finally(function () {
-      store.statusItems.loading = false;
-    });
   }
 })
