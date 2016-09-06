@@ -5,7 +5,8 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
-  console.log('stateParams %O', orderDataService.allItems.length === 0)
+
+  console.log('stateParams %O', $stateParams, orderDataService.allItems.length === 0);
   onInit()
   $scope.orderDataService = orderDataService
   $scope.orders = {}
@@ -105,7 +106,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
   function onInit () {
     if (orderDataService.allItems.length === 0 && $stateParams.id) {
-      orderDataService.getData($stateParams.id).then(function () {
+      orderDataService.getData($stateParams.id, $stateParams.status).then(function () {
       })
     }
   }

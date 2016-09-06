@@ -30,11 +30,13 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     return defer.promise
   }
 
-  function getData (store) {
+  function getData (id, status) {
     var defer = $q.defer()
     me.currentStore = store
     me.currentIndex = 0
-    var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + store.storeId
+    console.log(id)
+    var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + id
+    if (status) orderUrl += '&status=' + status;
     $http.get(orderUrl).then(function (response) {
       me.allItems = response.data
       me.currentItem = me.allItems[ me.currentIndex ]
@@ -118,7 +120,6 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
         'publicUrl': prod.url
       })
     }
-    debugger
     console.log(payload)
     $http.post(skuUrl, { payload: payload }).then(function (response) {
       console.log('orderDataService[createNewProduct] %O', response)

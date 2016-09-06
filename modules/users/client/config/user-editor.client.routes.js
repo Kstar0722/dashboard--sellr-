@@ -37,11 +37,14 @@ angular.module('users.editor.routes').config([ '$stateProvider',
         }
       })
       .state('editor.match', {
-        url: '/match/:id',
+        url: '/match/:id?status',
         views: {
           'detail': {
             templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
           }
+        },
+        params: {
+          status: null
         }
       })
       .state('editor.match.view', {

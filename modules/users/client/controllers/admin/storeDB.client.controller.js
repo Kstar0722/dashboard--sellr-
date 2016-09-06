@@ -84,10 +84,10 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     $scope.cancelCsvImport('#storeCsv')
   }
 
-  $scope.goToMatch = function (store) {
+  $scope.goToMatch = function (store, status) {
     orderDataService.currentOrderId = store.storeId
-    orderDataService.getData(store).then(function (response) {
-      $state.go('editor.match', { id: store.storeId })
+    orderDataService.getData(store.storeId, status).then(function (response) {
+      $state.go('editor.match', { id: store.storeId, status: status })
     })
   }
 

@@ -24,8 +24,8 @@
             <div flex=5 class="align-center">{{store.storeId}}</div>
             <div flex=20 ng-click="goToMatch(store)">{{store.name}}</div>
             <div flex=10>{{store.accountId}}</div>
-            <div flex=10 class="align-center">{{store.status.received}}</div>
-            <div flex=10 class="align-center">{{store.status.processed}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'received')">{{store.status.received}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'processed')">{{store.status.processed}}</div>
             <div flex=10 class="align-center">{{store.status.done}}</div>
             <div flex=10 class="align-center">{{store.status.approved}}</div>
             <div flex=10 class="align-center">{{store.status.total}}</div>
