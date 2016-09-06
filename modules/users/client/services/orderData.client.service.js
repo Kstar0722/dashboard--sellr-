@@ -30,11 +30,12 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     return defer.promise
   }
 
-  function getData (id) {
+  function getData (id, status) {
     var defer = $q.defer()
     me.currentIndex = 0
     console.log(id)
     var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + id
+    if (status) orderUrl += '&status=' + status;
     $http.get(orderUrl).then(function (response) {
       me.allItems = response.data
       me.currentItem = me.allItems[ me.currentIndex ]

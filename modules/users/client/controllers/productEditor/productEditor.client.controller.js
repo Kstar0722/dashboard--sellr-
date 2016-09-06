@@ -34,9 +34,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.view', { productId: $stateParams.productId })
+      $state.go('editor.match.view', { productId: $stateParams.productId, status: $stateParams.status })
     } else {
-      $state.go('editor.view', { productId: $stateParams.productId })
+      $state.go('editor.view', { productId: $stateParams.productId, status: $stateParams.status })
     }
   }
   $scope.search = {}
@@ -158,9 +158,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.viewProduct = function (product) {
     productEditorService.setCurrentProduct(product)
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.view', { productId: product.productId })
+      $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
     } else {
-      $state.go('editor.view', { productId: product.productId })
+      $state.go('editor.view', { productId: product.productId, status: $stateParams.status })
     }
   }
 
@@ -180,9 +180,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.claim(options).then(function () {
       productEditorService.setCurrentProduct(product)
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.edit', { productId: product.productId })
+        $state.go('editor.match.edit', { productId: product.productId, status: $stateParams.status })
       } else {
-        $state.go('editor.edit', { productId: product.productId })
+        $state.go('editor.edit', { productId: product.productId, status: $stateParams.status })
       }
     })
   }
@@ -365,7 +365,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.createNewProduct = function () {
     var product = orderDataService.currentItem
     productEditorService.createNewProduct(product)
-    $state.go('editor.match.new')
+    $state.go('editor.match.new', $stateParams)
   }
 
   $scope.deleteFeedback = function (feedback) {
