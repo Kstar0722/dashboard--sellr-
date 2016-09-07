@@ -113,6 +113,10 @@ md-input-container.md-input-invalid ng-messages,
 md-input-container.md-input-invalid [ng-messages] {
   display: block;
 }
+form.ng-pristine ng-messages,
+form.ng-pristine [ng-messages] {
+  display: none !important;
+}
 #loading-bar .bar {
   background: #2DC89A;
   height: 5px;
@@ -1905,6 +1909,12 @@ body .productEditor .loading-data .right {
 }
 .settings-container form {
   margin: 20px auto;
+}
+.settings-container .text-success {
+  color: #31c693;
+}
+.settings-container .text-danger {
+  color: #ff0400;
 }
 .store-client-view {
   margin: 20px auto 40px;

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants',
+  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants) {
     // $scope.user = Authentication.user || { profileImageUrl: '' };
     $scope.user = angular.copy(Authentication.user);
     $scope.imageURL = $scope.user.profileImageURL;
@@ -13,13 +13,11 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'userForm');
-
         return false;
       }
 
       Users.put($scope.user).then(function (response) {
         $scope.$broadcast('show-errors-reset', 'userForm');
-
         $scope.user_success = true;
         updateUserProfile(response.data);
       }, function (response) {
@@ -33,11 +31,17 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'passwordForm');
-
         return false;
       }
 
-      $http.post('/api/users/password', $scope.passwordDetails).success(function (response) {
+      var payload = {
+        payload: {
+          email: Authentication.user.email,
+          token: Authentication.user.salt,
+          newPass: $scope.passwordDetails.newPassword
+        }
+      };
+      $http.post(constants.API_URL + '/users/auth/reset', payload).success(function (response) {
         // If successful show success message and clear form
         $scope.$broadcast('show-errors-reset', 'passwordForm');
         $scope.password_success = true;

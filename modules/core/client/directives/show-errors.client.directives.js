@@ -27,6 +27,7 @@ angular.module('core')
           el.removeClass('has-error');
           el.removeClass('has-success');
           showValidationMessages = false;
+          formCtrl.$setPristine();
         }, 0, false);
       };
 

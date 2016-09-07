@@ -1,153 +1,3 @@
-<!--
-<section ng-controller="SettingsController" class="settings-container">
-  <div class="page-header">
-    <h1>Settings</h1>
-  </div>
-  <div class="row">
-    <nav class="col-sm-3 col-md-3">
-      <ul class="nav nav-pills nav-stacked">
-        <li ui-sref-active="active">
-          <a ui-sref="settings.profile">Edit Profile</a>
-        </li>
-        <li ui-sref-active="active">
-          <a ui-sref="settings.picture">Change Profile Picture</a>
-        </li>
-        <li ui-sref-active="active" ng-show="!user.provider || user.provider === 'local'">
-          <a ui-sref="settings.password">Change Password</a>
-        </li>
-
-      </ul>
-    </nav>
-    <div class="col-sm-9 col-md-8 settings-view">
-      <div ui-view></div>
-    </div>
-  </div>
-</section>
--->
-
-
-
-
-
-
-
-<!--
-<div layout="row" ng-controller="SettingsController" class="settings-container">
-    <div flex="10"></div>
-    <form name="userForm" ng-submit="userForm.$valid && updateUserProfile(userForm.$valid)" autocomplete="off" novalidate flex="30">
-        <h3 class="text-center" style="margin-bottom: 30px">Edit your profile</h3>
-        <fieldset>
-            <div layout="row">
-                <div ng-disabled="uploading" class="avatar-container" ng-class="{ gravatar: !(user.avatar || uploading) }">
-                    <label>Avatar</label>
-                    <img class="avatar no-animate" gravatar-src="user.email.toLowerCase()" gravatar-size="140" ng-if="!(user.avatar || uploading)">
-                    <tm-file-input preview="user.avatarPreview" ng-model="user.avatar" uploading="uploading"></tm-file-input>
-                </div>
-                <div layout="column" flex>
-                    <md-input-container>
-                        <label>First name</label>
-                        <input type="text" ng-model="user.firstName" name="firstName" maxlength="100">
-                        <ng-messages for="userForm.firstName.$error" class="alert" ng-show="userForm.$submitted">
-                            <ng-messages-include src="error-messages"></ng-messages-include>
-                        </ng-messages>
-                    </md-input-container>
-
-                    <md-input-container>
-                        <label>Last name</label>
-                        <input type="text" ng-model="user.lastName" name="lastName" maxlength="100">
-                        <ng-messages for="userForm.lastName.$error" class="alert" ng-show="userForm.$submitted">
-                            <ng-messages-include src="error-messages"></ng-messages-include>
-                        </ng-messages>
-                    </md-input-container>
-
-                    <md-input-container>
-                        <label>Email</label>
-                        <input type="email" ng-model="user.email" name="email" maxlength="200">
-                        <ng-messages for="userForm.email.$error" class="alert" ng-show="userForm.$submitted">
-                            <ng-messages-include src="error-messages"></ng-messages-include>
-                        </ng-messages>
-                    </md-input-container>
-                </div>
-            </div>
-
-            <md-input-container>
-                <label>Phone</label>
-                <input type="text" ng-model="user.phone" name="phone" maxlength="100">
-                <ng-messages for="userForm.phone.$error" class="alert" ng-show="userForm.$submitted">
-                    <ng-messages-include src="error-messages"></ng-messages-include>
-                </ng-messages>
-            </md-input-container>
-
-            <md-input-container>
-                <label>Username</label>
-                <input type="text" ng-model="user.username" name="username" required maxlength="50">
-                <ng-messages for="userForm.username.$error" class="alert" ng-show="userForm.$submitted">
-                    <ng-messages-include src="error-messages"></ng-messages-include>
-                </ng-messages>
-            </md-input-container>
-
-            <div class="text-center">
-                <md-button class="md-raised md-primary">Save Profile</md-button>
-            </div>
-
-            <div ng-show="success" class="text-center text-success">
-                <strong>Profile Saved Successfully</strong>
-            </div>
-
-            <div ng-show="error" class="text-center text-danger">
-                <strong ng-bind="error"></strong>
-            </div>
-        </fieldset>
-    </form>
-
-    <form name="passwordForm" ng-submit="passwordForm.$valid && changeUserPassword()" autocomplete="off" novalidate flex="30">
-        <h3 class="text-center" style="margin-bottom: 30px">Change your password</h3>
-
-        <fieldset>
-            <md-input-container>
-                <label>Current Password</label>
-                <input type="password" ng-model="passwordDetails.currentPassword" name="currentPassword" required>
-                <ng-messages for="passwordForm.currentPassword.$error" class="alert">
-                    <ng-messages-include src="error-messages"></ng-messages-include>
-                </ng-messages>
-            </md-input-container>
-
-            <md-input-container>
-                <label>New Password</label>
-                <input type="password" ng-model="passwordDetails.newPassword" name="newPassword" required>
-                <ng-messages for="passwordForm.newPassword.$error" class="alert">
-                    <ng-messages-include src="error-messages"></ng-messages-include>
-                </ng-messages>
-            </md-input-container>
-
-            <md-input-container>
-                <label>Verify Password</label>
-                <input type="password" ng-model="passwordDetails.verifyPassword" name="verifyPassword" required
-                       tm-compare-to="passwordForm.newPassword.$viewValue">
-                <ng-messages for="passwordForm.verifyPassword.$error" class="alert">
-                    <ng-messages-include src="error-messages"></ng-messages-include>
-                    <span ng-message="tmCompareTo">Passwords must match</span>
-                </ng-messages>
-            </md-input-container>
-
-            <div class="text-center">
-                <md-button type="submit" class="md-raised md-primary">Save Password</md-button>
-            </div>
-            <div ng-show="pwChangeSuccess" class="text-center text-success">
-                <strong>Password Changed Successfully</strong>
-            </div>
-            <div ng-show="error" class="text-center text-danger">
-                <strong ng-bind="pwChangeError"></strong>
-            </div>
-        </fieldset>
-    </form>
-    <div flex="10"></div>
-</div>
--->
-
-
-
-
 <section ng-controller="SettingsController" class="settings-container">
     <div class="settings-view" layout-wrap layout="row" layout-padding>
 
@@ -157,7 +7,7 @@
                 <md-input-container show-errors>
                     <label>Display name</label>
                     <input type="text" ng-model="user.displayName" name="displayName" required maxlength="100">
-                    <ng-messages for="userForm.displayName.$error" class="alert" ng-show="userForm.$submitted">
+                    <ng-messages for="userForm.displayName.$error" class="alert">
                         <ng-message when="required">Display name is required.</ng-message>
                         <ng-messages-include src="error-messages"></ng-messages-include>
                     </ng-messages>
@@ -166,21 +16,12 @@
                 <md-input-container show-errors>
                     <label>Email</label>
                     <input type="email" ng-model="user.email" name="email" required maxlength="200">
-                    <ng-messages for="userForm.email.$error" class="alert" ng-show="userForm.$submitted">
+                    <ng-messages for="userForm.email.$error" class="alert">
                         <ng-message when="required">Email address is required.</ng-message>
                         <ng-message when="email">Email address is invalid.</ng-message>
                         <ng-messages-include src="error-messages"></ng-messages-include>
                     </ng-messages>
                 </md-input-container>
-
-                <!--<md-input-container show-errors>
-                    <label>Username</label>
-                    <input type="text" ng-model="user.username" name="username" lowercase required maxlength="50">
-                    <ng-messages for="userForm.username.$error" class="alert" ng-show="userForm.$submitted">
-                        <ng-message when="required">Username is required.</ng-message>
-                        <ng-messages-include src="error-messages"></ng-messages-include>
-                    </ng-messages>
-                </md-input-container>-->
 
                 <div class="text-center form-group">
                     <md-button type="submit" class="md-raised md-primary">Save Profile</md-button>
@@ -209,12 +50,14 @@
 
                 <md-input-container show-errors>
                     <label>New Password</label>
-                    <input type="password" ng-model="passwordDetails.newPassword" name="newPassword" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>
+                    <!--<input type="password" ng-model="passwordDetails.newPassword" name="newPassword" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>-->
+                    <input type="password" ng-model="passwordDetails.newPassword" name="newPassword" required minlength="6">
                     <ng-messages for="passwordForm.newPassword.$error" class="alert">
                         <ng-message when="required">Enter a new password.</ng-message>
-                        <ng-message when="requirements">
+                        <ng-message when="minlength">The password must be at least 6 characters long.</ng-message>
+                        <!--<ng-message when="requirements">
                             <p class="help-block error-text" ng-repeat="passwordError in passwordErrors">{{passwordError}}</p>
-                        </ng-message>
+                        </ng-message>-->
                         <ng-messages-include src="error-messages"></ng-messages-include>
                     </ng-messages>
                 </md-input-container>
@@ -241,32 +84,5 @@
                 </div>
             </fieldset>
         </form>
-
-
-
-        <form name="avatarForm" autocomplete="off" novalidate flex="50" flex-xs="100">
-            <br><br>
-            <fieldset class="nomargin">
-                <div class="form-group text-center">
-                    <img ng-src="{{imageURL}}" alt="{{user.displayName}}" class="img-thumbnail user-profile-picture">
-                </div>
-                <div class="text-center form-group" ng-hide="uploader.queue.length">
-                  <span class="btn btn-default btn-file">
-                      Select Image <input type="file" nv-file-select uploader="uploader">
-                  </span>
-                </div>
-                <div class="text-center form-group" ng-show="uploader.queue.length">
-                    <button class="btn btn-primary" ng-click="uploadProfilePicture();">Upload</button>
-                    <button class="btn btn-default" ng-click="cancelUpload();">Cancel</button>
-                </div>
-                <div ng-show="avatar_success" class="text-center text-success">
-                    <strong>Profile Picture Changed Successfully</strong>
-                </div>
-                <div ng-show="avatar_error" class="text-center text-danger">
-                    <strong ng-bind="avatar_error"></strong>
-                </div>
-            </fieldset>
-        </form>
-
     </div>
 </section>
