@@ -147,6 +147,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $scope.busy = true
 
       var payload = angular.extend({}, user, account)
+      payload.source = 'dashboard';
       payload.roles = [ USER_ROLE_OWNER ]
       console.log(payload)
 
