@@ -53,7 +53,7 @@
               <div class="img" ng-if="media.ext == 'image' "
                    style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value}});"></div>
               <video  class ='img'controls ng-if="media.ext =='video'"
-                      ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
+                      ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
                       frameBorder="2"
                       allowfullscreen="true"></video>
               <p>{{media.name}}</p>

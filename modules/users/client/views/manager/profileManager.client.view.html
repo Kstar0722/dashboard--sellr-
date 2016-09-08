@@ -26,7 +26,7 @@
                 <md-card-title >
                   <md-card-title-text >
                     <span class="card-text" >{{source.value}}</span>
-                    <img ng-if="source.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
+                    <img ng-if="source.ext == 'image'" ng-src="{{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value}}">
                   </md-card-title-text>
                 </md-card-title>
 
@@ -40,7 +40,7 @@
                 <md-card-title >
                   <md-card-title-text >
                     <span class="card-text">{{source.value}}</span>
-                    <video controls ng-if="source.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"  frameBorder="2"
+                    <video controls ng-if="source.ext =='video'" ng-src="{{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + source.value | trustUrl }}"  frameBorder="2"
                            allowfullscreen="true" ></video>
                   </md-card-title-text>
                 </md-card-title>
@@ -70,7 +70,7 @@
                       <md-card-title >
                         <md-card-title-text >
                           <span class="card-text">{{link.value}}</span>
-                          <img ng-if="link.ext == 'image'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}">
+                          <img ng-if="link.ext == 'image'" ng-src="{{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value}}">
                         </md-card-title-text>
                       </md-card-title>
                       <md-card-actions layout="column">
@@ -83,7 +83,7 @@
                       <md-card-title >
                         <md-card-title-text >
                           <span class="card-text">{{link.value}}</span>
-                          <video controls ng-if="link.ext =='video'" ng-src="{{'http://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}"  frameBorder="2"
+                          <video controls ng-if="link.ext =='video'" ng-src="{{'https://s3.amazonaws.com/beta.cdn.expertoncue.com/' + link.value | trustUrl }}"  frameBorder="2"
                                  allowfullscreen="true" ></video>
                         </md-card-title-text>
                       </md-card-title>
