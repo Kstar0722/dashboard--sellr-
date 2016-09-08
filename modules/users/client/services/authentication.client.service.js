@@ -8,14 +8,17 @@ angular.module('users').factory('Authentication', ['$window',
       if (!user) {
         return false
       }
-      _gs('identify', {
+      var options = {
         id: user.userId,
         name: user.username,
         email: user.email,
         custom: {
           source: 'Sellr-Dashboard'
         }
-      })
+      }
+      console.log('setting go squared user %O', options)
+
+      _gs('identify', options)
     }
 
     // Run once per session (or after login)
