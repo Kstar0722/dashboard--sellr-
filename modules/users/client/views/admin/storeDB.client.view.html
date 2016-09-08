@@ -6,6 +6,10 @@
     </div>
 
     <div class="orders-container" ng-show="!importView">
+        <md-input-container>
+            <label>Filter Stores</label>
+            <input ng-model="storeFilter">
+        </md-input-container>
         <div layout class="orders-header">
             <div flex=5 class="align-center">Refresh</div>
             <div flex=5 class="align-center">#</div>
@@ -19,23 +23,30 @@
             <div flex=10 class="align-center">Status</div>
         </div>
         <div layout layout-align="center center" class="orders-body"
-             ng-repeat="store in orderDataService.allStores | orderBy:'-status.received'">
-            <div flex=5 class="align-center" ng-click="refreshStoreStatus(store.storeId)"><i class="fa fa-refresh"></i></div>
+             ng-repeat="store in orderDataService.allStores | orderBy:'-status.received' | filter:storeFilter">
+            <div flex=5 class="align-center" ng-click="refreshStoreStatus(store.storeId)"><i class="fa fa-refresh"></i>
+            </div>
             <div flex=5 class="align-center">{{store.storeId}}</div>
             <div flex=20 ng-click="goToMatch(store)">{{store.name}}</div>
             <div flex=10>{{store.accountId}}</div>
             <div flex=10 class="align-center" ng-click="showProducts(store, 'received')">
                 {{store.status.received}}
                 <i class="fa fa-refresh fa-spin fa-fw" ng-if="store.statusItems.received.loading"></i>
-                <sd-popup class="products-popup" ng-if="store.statusItems.loaded" visible="store.statusItems.received.show">
-                    <div ng-repeat="product in store.statusItems.received | orderBy:'name'">{{$index+1}}. {{product.name}}</div>
+                <sd-popup class="products-popup" ng-if="store.statusItems.loaded"
+                          visible="store.statusItems.received.show">
+                    <div ng-repeat="product in store.statusItems.received | orderBy:'name'">{{$index+1}}.
+                        {{product.name}}
+                    </div>
                 </sd-popup>
             </div>
             <div flex=10 class="align-center" ng-click="showProducts(store, 'processed')">
                 {{store.status.processed}}
                 <i class="fa fa-refresh fa-spin fa-fw" ng-if="store.statusItems.processed.loading"></i>
-                <sd-popup class="products-popup" ng-if="store.statusItems.loaded" visible="store.statusItems.processed.show">
-                    <div ng-repeat="product in store.statusItems.processed | orderBy:'name'">{{$index+1}}. {{product.name}}</div>
+                <sd-popup class="products-popup" ng-if="store.statusItems.loaded"
+                          visible="store.statusItems.processed.show">
+                    <div ng-repeat="product in store.statusItems.processed | orderBy:'name'">{{$index+1}}.
+                        {{product.name}}
+                    </div>
                 </sd-popup>
             </div>
             <div flex=10 class="align-center">{{store.status.done}}</div>
