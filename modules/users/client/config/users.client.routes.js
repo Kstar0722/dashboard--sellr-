@@ -50,7 +50,8 @@ angular.module('users').config(['$stateProvider',
       })
       .state('authentication.acceptInvitation', {
         url: '/signup',
-        templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html',
+        public: true
       })
         .state('authentication.reset', {
           url: '/reset',
