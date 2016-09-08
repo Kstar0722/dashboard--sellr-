@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-  $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar) {
+                                                                        $location, $state, $stateParams, Countries, orderDataService,
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar, $analytics) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -201,6 +201,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.submitForApproval = function (product) {
+    $analytics.eventTrack('Product Submitted', { productId: product.productId })
     product.status = 'done'
     productEditorService.save(product)
     $scope.viewProduct(product)
