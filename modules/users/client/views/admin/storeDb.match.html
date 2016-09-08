@@ -1,5 +1,5 @@
 <div layout="column" style="height:100vh" class="match">
-    <div flex="25" class="current-item-container" ng-controller="StoreDbDetailController">
+    <div flex="30" class="current-item-container" ng-controller="StoreDbDetailController">
         <div layout="row" layout-align="space-between">
             <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i>Search Database
             </md-button>
@@ -15,11 +15,12 @@
 
         </div>
         <div layout="row">
-            <div><p>Product {{ orderDataService.currentIndex+1 }}/{{ orderDataService.allItems.length }}</p>
-                <h4>Name: {{ orderDataService.currentItem.name }}</h4>
-                <h4>Sku: {{ orderDataService.currentItem.upc }}</h4>
-                <span>Item Processed: <i class="fa fa-check"
-                                         ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
+            <div>
+                <p>Product {{ orderDataService.currentIndex+1 }}/{{ orderDataService.allItems.length }}</p>
+                <p>Name: {{ orderDataService.currentItem.name }}</p>
+                <p>Sku: {{ orderDataService.currentItem.upc }}</p>
+                <p>Type: {{ orderDataService.currentItem.type }}</p>
+                <span>Item Processed: <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
             </div>
             <a ng-href="{{ orderDataService.currentItem.url }}" target="_blank"
                ng-show="orderDataService.currentItem.url">
@@ -27,7 +28,7 @@
         </div>
 
     </div>
-    <div flex="75" style="border:2px solid darkslategray;overflow: scroll;border-radius:5px;">
+    <div flex="70" style="border:2px solid darkslategray;overflow: scroll;border-radius:5px;">
         <div ui-view="rightSide"></div>
     </div>
 </div>
