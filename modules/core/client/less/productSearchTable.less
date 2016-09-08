@@ -1,3 +1,8 @@
+.product-search-table-parent{
+  @media @large-up {
+    width: 40%;
+  }
+}
 .search-box-container{
   .search-input{
     height: 40px;
@@ -40,17 +45,24 @@
   }
   .bottom-action-menu{
     position: fixed;
-    bottom: -100px;
-    transition: all 0.5s ease;
-    overflow: hidden;
+    bottom: 0px;
     left: 0px;
-    width: 40%;
+    transition: all 0.5s ease;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 100%;
     height: auto;
+    max-height: 0px;
     background-color: @back-black;
     color: #fff;
     border: 1px solid @grey-dark-text;
+    // To avoid overlapping with the chat button
+    z-index: 999999999;
+    @media @large-up {
+      width: 40%;
+    }
     &.active{
-      bottom: 0px;
+      max-height: 110px;
     } 
     .action-btn{
       background-color: @back-green;
