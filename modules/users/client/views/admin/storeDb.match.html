@@ -16,15 +16,16 @@
         </div>
         <div layout="row">
             <div>
-                <p>Product {{ orderDataService.currentIndex+1 }}/{{ orderDataService.allItems.length }}</p>
-                <p>Name: {{ orderDataService.currentItem.name }}</p>
-                <p>Sku: {{ orderDataService.currentItem.upc }}</p>
-                <p>Type: {{ orderDataService.currentItem.type }}</p>
+                <p style="color:white;">Product {{ orderDataService.currentIndex+1 }}/{{
+                    orderDataService.allItems.length }}</p>
+                <p style="color:white;">Name: {{ orderDataService.currentItem.name }}</p>
+                <p style="color:white;">Sku: {{ orderDataService.currentItem.upc }}</p>
+                <p style="color:white;">Type: {{ orderDataService.currentItem.type }}</p>
                 <span>Item Processed: <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
             </div>
-            <a ng-href="{{ orderDataService.currentItem.url }}" target="_blank"
-               ng-show="orderDataService.currentItem.url">
-                <img ng-src="{{ orderDataService.currentItem.url }}" class="match-image"></a>
+            <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
+               ng-show="orderDataService.currentItem.publicUrl">
+                <img ng-src="{{ orderDataService.currentItem.publicUrl }}" class="match-image"></a>
         </div>
 
     </div>
