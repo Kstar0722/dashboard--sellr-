@@ -94,10 +94,10 @@ module.exports.initMiddleware = function (app) {
  */
 module.exports.initViewEngine = function (app) {
   // Set swig as the template engine
-    app.engine('server.view.html', consolidate[config.templateEngine]);
+  app.engine('server.view.html', consolidate[ config.templateEngine ]);
   // Set views path and view engine
-    app.set('view engine', 'swig')
-    app.set('view engine', 'server.view.html');
+  app.set('view engine', 'swig')
+  app.set('view engine', 'server.view.html');
   app.set('views', './');
 };
 
@@ -128,7 +128,7 @@ module.exports.initViewEngine = function (app) {
  */
 module.exports.initModulesConfiguration = function (app) {
   config.files.server.configs.forEach(function (configPath) {
-      // require(path.resolve(configPath))(app);
+    // require(path.resolve(configPath))(app);
   });
 };
 
@@ -179,8 +179,8 @@ module.exports.initModulesClientRoutes = function (app) {
 module.exports.initModulesServerRoutes = function (app) {
   // Globbing routing files
   config.files.server.routes.forEach(function (routePath) {
-      console.log(path.resolve(routePath))
-      require(path.resolve(routePath))(app);
+    console.log(path.resolve(routePath))
+    require(path.resolve(routePath))(app);
   });
 };
 
@@ -202,8 +202,6 @@ module.exports.initErrorRoutes = function (app) {
   });
 };
 
-
-
 /**
  * Initialize the Express application
  */
@@ -212,14 +210,18 @@ module.exports.init = function () {
   var app = express();
 
   app.get('/*', function (req, res, next) {
-    if (req.headers.host.match(/^www/) !== null) {
-      console.log('req headers hots: ', req.headers.host)
-      console.log('req url: ' + req.url)
-      console.log('new url: ' + 'https://' + req.headers.host.replace(/^www\./, 'www.') + req.url)
-      res.redirect('https://' + req.headers.host.replace(/^www\./, 'www.') + req.url)
-    } else {
-      next()
+    // if (req.headers.host.match(/^www/) !== null) {
+    //   console.log('req headers hots: ', req.headers.host)
+    //   console.log('req url: ' + req.url)
+    //   console.log('new url: ' + 'https://' + req.headers.host.replace(/^www\./, 'www.') + req.url)
+    //   res.redirect('https://' + req.headers.host.replace(/^www\./, 'www.') + req.url)
+    // } else {
+    //   next()
+    // }
+    if (req.headers[ "x-forwarded-proto" ] === "https") {
+      return next()
     }
+    res.redirect('https://' + req.hostname + req.url)
   })
 
   // Initialize local variables
@@ -246,6 +248,5 @@ module.exports.init = function () {
   // Initialize error routes
   this.initErrorRoutes(app);
 
-
-    return app;
+  return app;
 };
