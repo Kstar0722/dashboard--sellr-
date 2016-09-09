@@ -210,14 +210,6 @@ module.exports.init = function () {
   var app = express();
 
   app.get('/*', function (req, res, next) {
-    // if (req.headers.host.match(/^www/) !== null) {
-    //   console.log('req headers hots: ', req.headers.host)
-    //   console.log('req url: ' + req.url)
-    //   console.log('new url: ' + 'https://' + req.headers.host.replace(/^www\./, 'www.') + req.url)
-    //   res.redirect('https://' + req.headers.host.replace(/^www\./, 'www.') + req.url)
-    // } else {
-    //   next()
-    // }
     if (req.headers[ "x-forwarded-proto" ] === "https") {
       return next()
     }
