@@ -215,8 +215,8 @@ module.exports.init = function () {
     if (req.headers.host.match(/^www/) !== null) {
       console.log('req headers hots: ', req.headers.host)
       console.log('req url: ' + req.url)
-      console.log('new url: ' + 'https://' + req.headers.host.replace(/^www\./, '') + req.url)
-      res.redirect('https://' + req.headers.host.replace(/^www\./, '') + req.url)
+      console.log('new url: ' + 'https://www.' + req.headers.host.replace(/^www\./, '') + req.url)
+      res.redirect('https://www.' + req.headers.host.replace(/^www\./, '') + req.url)
     } else {
       next()
     }
