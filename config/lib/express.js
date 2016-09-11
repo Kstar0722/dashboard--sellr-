@@ -210,7 +210,7 @@ module.exports.init = function () {
   var app = express();
 
   app.get('/*', function (req, res, next) {
-    if (req.headers[ "x-forwarded-proto" ] === "https") {
+    if (req.headers[ "x-forwarded-proto" ] === "https" || process.env.FORCE_HTTPS != 'true' && req.hostname == 'localhost') {
       return next()
     }
     res.redirect('https://' + req.hostname + req.url)
