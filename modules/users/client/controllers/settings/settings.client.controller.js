@@ -38,7 +38,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         payload: {
           email: Authentication.user.email,
           token: Authentication.user.salt,
-          newPass: $scope.passwordDetails.newPassword
+          password: $scope.passwordDetails.newPassword,
+          oldPassword: $scope.passwordDetails.currentPassword
         }
       };
       $http.post(constants.API_URL + '/users/auth/reset', payload).success(function (response) {
