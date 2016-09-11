@@ -4,7 +4,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
   function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants) {
     // $scope.user = Authentication.user || { profileImageUrl: '' };
     $scope.user = angular.copy(Authentication.user);
-    $scope.imageURL = $scope.user.profileImageURL;
+    // $scope.imageURL = $scope.user.profileImageURL;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
     // Update a user profile
