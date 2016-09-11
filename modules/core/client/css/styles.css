@@ -1055,6 +1055,7 @@ section.userList .userbox {
   .productEditor .scrollable {
     overflow-y: auto;
     position: fixed;
+    top: 50px;
   }
 }
 .productEditor .reference {
