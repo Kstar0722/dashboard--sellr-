@@ -1,5 +1,5 @@
-<div id="menuContainer" ng-class="{ 'top-menu-shown': renderTopMenu }">
-    <div id="topNav" data-ng-controller="HeaderController" ng-hide="!authentication.user">
+<div id="menuContainer" data-ng-controller="HeaderController" ng-class="{ 'top-menu-shown': renderTopMenu }">
+    <div id="topNav" ng-show="authentication.user">
 
       <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)" ng-click="closeDropdown($event)">
 
@@ -72,7 +72,7 @@
 
     </div>
 
-    <div id="mainNav" data-ng-controller="HeaderController" ng-hide="!authentication.user || !$root.selectAccountId">
+    <div id="mainNav" ng-show="authentication.user && $root.selectAccountId">
 
       <md-toolbar class="md-menu-toolbar md-toolbar-tools" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="mainMenu.shouldRender(authentication.user)">
 
@@ -131,6 +131,9 @@
       </md-toolbar>
 
     </div>
+
+    <sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
+    </sd-cardkit-nav>
 </div>
 
 <div class="hide" data-ng-include="'/modules/core/client/views/validation-messages.client.view.html'"></div>

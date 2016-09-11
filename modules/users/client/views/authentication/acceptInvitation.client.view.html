@@ -30,13 +30,6 @@
             </div>
           </md-input-container>
 
-          <md-input-container class="md-block">
-            <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
-            <div ng-messages="userForm.username.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Username is required.</p>
-            </div>
-          </md-input-container>
-
           <md-input-container class="md-block" >
             <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-minlength="6" required>
             <div ng-messages="userForm.password.$error" role="alert">

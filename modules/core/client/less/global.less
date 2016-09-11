@@ -1,17 +1,22 @@
 .main-content {
   padding-top: 0;
+  position: relative;
 
   @media @large-up {
     &.top-menu-shown {
-      padding-top: @topnavheight;
+      top: @topnavheight;
     }
 
     &.main-menu-shown {
-      padding-top: @mainnavheight;
+      top: @mainnavheight;
     }
 
     &.main-menu-shown.top-menu-shown {
-      padding-top: @topnavheight + @mainnavheight;
+      top: @topnavheight + @mainnavheight;
+    }
+
+    &.cardkit-menu-shown {
+      top: @cardkitnavheight;
     }
   }
 }

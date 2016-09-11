@@ -49,16 +49,20 @@ body [ng-click]:focus {
 }
 .main-content {
   padding-top: 0;
+  position: relative;
 }
 @media only screen and (min-width:961px) {
   .main-content.top-menu-shown {
-    padding-top: 50px;
+    top: 50px;
   }
   .main-content.main-menu-shown {
-    padding-top: 120px;
+    top: 120px;
   }
   .main-content.main-menu-shown.top-menu-shown {
-    padding-top: 170px;
+    top: 170px;
+  }
+  .main-content.cardkit-menu-shown {
+    top: 93px;
   }
 }
 .clearfix-container:after {
@@ -148,6 +152,48 @@ form.ng-pristine [ng-messages] {
 }
 body.loading .main-content {
   pointer-events: none;
+}
+.sd-popup {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  border-top-left-radius: 0 !important;
+  cursor: text;
+  opacity: 0;
+  padding: 15px;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  text-transform: none;
+  transition: opacity 0.3s ease;
+}
+.sd-popup .close {
+  color: #8D9AA5;
+  float: right;
+  margin: -9px -7px;
+  opacity: 1;
+}
+.sd-popup .popup-content {
+  margin-left: -7px;
+  max-height: 400px;
+  max-width: 350px;
+  min-width: 150px;
+  overflow-y: auto;
+  width: 109%;
+}
+.sd-popup:before {
+  border-color: transparent rgba(0, 0, 0, 0.8) transparent transparent;
+  border-style: solid;
+  border-width: 0 15px 15px 0;
+  content: '';
+  height: 0;
+  left: -15px;
+  position: absolute;
+  top: 0;
+  width: 0;
+}
+.sd-popup.show {
+  pointer-events: all;
+  opacity: 1;
 }
 #mainNav .md-toolbar-tools {
   background-color: #151922;
@@ -810,7 +856,7 @@ section.userList .userbox {
 }
 .adManager .ads .ad .img {
   height: 180px;
-  background: url('http://placehold.it/1920x1080/333333');
+  background: url('https://placehold.it/1920x1080/333333');
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -1392,6 +1438,11 @@ body.editor-products-detail .medium-editor-toolbar {
 .merge {
   background-color: #f5f5f5;
 }
+@media only screen and (min-width:961px) {
+  .product-search-table-parent {
+    width: 40%;
+  }
+}
 .search-box-container .search-input {
   height: 40px;
   font-size: 22px;
@@ -1432,18 +1483,26 @@ body.editor-products-detail .medium-editor-toolbar {
 }
 .product-search-table-container .bottom-action-menu {
   position: fixed;
-  bottom: -100px;
-  transition: all 0.5s ease;
-  overflow: hidden;
+  bottom: 0px;
   left: 0px;
-  width: 40%;
+  transition: all 0.5s ease;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 100%;
   height: auto;
+  max-height: 0px;
   background-color: #151922;
   color: #fff;
   border: 1px solid #95989a;
+  z-index: 999999999;
+}
+@media only screen and (min-width:961px) {
+  .product-search-table-container .bottom-action-menu {
+    width: 40%;
+  }
 }
 .product-search-table-container .bottom-action-menu.active {
-  bottom: 0px;
+  max-height: 110px;
 }
 .product-search-table-container .bottom-action-menu .action-btn {
   background-color: #549788;
@@ -2195,6 +2254,10 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard[disabled] button,
 .store-client-view .import-wizard[disabled] .md-button {
   opacity: 0.7;
+}
+.store-client-view .products-popup {
+  margin-left: 100px;
+  margin-top: -10px;
 }
 .createProduct {
   padding: 8%;

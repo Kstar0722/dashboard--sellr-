@@ -55,20 +55,21 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
   $scope.showConfirm = function (ev) {
     var defer = $q.defer()
-    // Appending dialog to document.body to cover sidenav in docs app
-    var confirm = $mdDialog.confirm()
-      .title('Mark this product as new?')
-      .textContent('This will set the product status for this product.')
-      .targetEvent(ev)
-      .ok('Mark as New')
-      .cancel('Mark as Done')
-    $mdDialog.show(confirm).then(function () {
-      $scope.status = 'You decided to get rid of your debt.'
-      defer.resolve('new')
-    }, function () {
-      $scope.status = 'You decided to keep your debt.'
-      defer.resolve('done')
-    })
+    if (orderDataService.selected[ 0 ].status === 'approved') {
+      defer.resolve('approved')
+    } else {
+      var confirm = $mdDialog.confirm()
+        .title('Mark this product as new?')
+        .textContent('This will set the product status for this product.')
+        .targetEvent(ev)
+        .ok('Mark as New')
+        .cancel('Mark as Done')
+      $mdDialog.show(confirm).then(function () {
+        defer.resolve('new')
+      }, function () {
+        defer.resolve('done')
+      })
+    }
     return defer.promise
   }
 

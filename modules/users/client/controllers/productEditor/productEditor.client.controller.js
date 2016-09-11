@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-  $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar) {
+                                                                        $location, $state, $stateParams, Countries, orderDataService,
+                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar, $analytics) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -18,7 +18,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     template: ''
   }
   $scope.selectedStore = {}
-  $scope.allSelected = {value: false}
+  $scope.allSelected = { value: false }
   $scope.searchText = ''
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
@@ -111,7 +111,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
-    var options = { status: $scope.checkbox.progress, types: $scope.filter}
+    var options = { status: $scope.checkbox.progress, types: $scope.filter }
     if ($scope.selectedStore.storeId) {
       options.store = $scope.selectedStore
     }
@@ -167,9 +167,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
       .then(function (response) {
-        $scope.modalData = response
-      }
-    )
+          $scope.modalData = response
+        }
+      )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -201,6 +201,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.submitForApproval = function (product) {
+    $analytics.eventTrack('Product Submitted', { productId: product.productId })
     product.status = 'done'
     productEditorService.save(product)
     $scope.viewProduct(product)
@@ -246,6 +247,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.approveProduct = function (product) {
+    $analytics.eventTrack('Approved Product', { productId: product.productId })
     product.status = 'approved'
     productEditorService.save(product)
   }
@@ -329,10 +331,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.uploadNewImageFromMerge = function (file) {
-    productEditorService.setCurrentProduct(mergeService.products[0]).then(function () {
+    productEditorService.setCurrentProduct(mergeService.products[ 0 ]).then(function () {
       productEditorService.uploadMedia(file).then(function () {
-        productEditorService.getProductDetail(mergeService.products[0]).then(function (response) {
-          var refreshedProduct = response.data[0]
+        productEditorService.getProductDetail(mergeService.products[ 0 ]).then(function (response) {
+          var refreshedProduct = response.data[ 0 ]
           mergeService.refreshProductImage(_.last(refreshedProduct.mediaAssets))
         })
       })

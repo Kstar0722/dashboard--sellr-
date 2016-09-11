@@ -1,13 +1,12 @@
 <div layout="column" style="height:100vh" class="match">
-    <div flex="25" class="current-item-container" ng-controller="StoreDbDetailController">
+    <div flex="30" class="current-item-container" ng-controller="StoreDbDetailController">
         <div layout="row" layout-align="space-between">
             <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i>Search Database
             </md-button>
 
             <md-button class="md-raised" ng-show="orderDataService.selected.length>0" ng-click="matchProduct($event)">
                 <i class="fa fa-link"></i>
-                Match
-                Product
+                Save & Match
             </md-button>
             <md-button class="md-raised" ng-click="decreaseIndex()"><i class="fa fa-arrow-left"></i></md-button>
 
@@ -15,19 +14,21 @@
 
         </div>
         <div layout="row">
-            <div><p>Product {{ orderDataService.currentIndex+1 }}/{{ orderDataService.allItems.length }}</p>
-                <h4>Name: {{ orderDataService.currentItem.name }}</h4>
-                <h4>Sku: {{ orderDataService.currentItem.upc }}</h4>
-                <span>Item Processed: <i class="fa fa-check"
-                                         ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
+            <div>
+                <p style="color:white;">Product {{ orderDataService.currentIndex+1 }}/{{
+                    orderDataService.allItems.length }}</p>
+                <p style="color:white;">Name: {{ orderDataService.currentItem.name }}</p>
+                <p style="color:white;">Sku: {{ orderDataService.currentItem.upc }}</p>
+                <p style="color:white;">Type: {{ orderDataService.currentItem.type }}</p>
+                <span>Item Processed: <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
             </div>
-            <a ng-href="{{ orderDataService.currentItem.url }}" target="_blank"
-               ng-show="orderDataService.currentItem.url">
-                <img ng-src="{{ orderDataService.currentItem.url }}" class="match-image"></a>
+            <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
+               ng-show="orderDataService.currentItem.publicUrl">
+                <img ng-src="{{ orderDataService.currentItem.publicUrl }}" class="match-image"></a>
         </div>
 
     </div>
-    <div flex="75" style="border:2px solid darkslategray;overflow: scroll;border-radius:5px;">
+    <div flex="70" style="border:2px solid darkslategray;overflow: scroll;border-radius:5px;">
         <div ui-view="rightSide"></div>
     </div>
 </div>

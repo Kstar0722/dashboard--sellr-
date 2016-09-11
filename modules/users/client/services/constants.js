@@ -8,7 +8,9 @@ angular.module('core').service('constants', function (envService) {
   me.API_URL = envService.read('API_URL')
   me.BWS_API = envService.read('BWS_API')
 
-  me.ADS_URL = 'http://s3.amazonaws.com/cdn.expertoncue.com/'
+  me.CARDKIT_URL = 'https://www.cardkit.io/';
+  me.GETSELLR_URL = 'https://getsellr.com/';
+  me.ADS_URL = 'https://s3.amazonaws.com/cdn.expertoncue.com/'
   console.log('constants %O', me)
 
   return me
