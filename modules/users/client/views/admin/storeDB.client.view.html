@@ -29,28 +29,10 @@
             <div flex=5 class="align-center">{{store.storeId}}</div>
             <div flex=20 ng-click="goToMatch(store)">{{store.name}}</div>
             <div flex=10>{{store.accountId}}</div>
-            <div flex=10 class="align-center" ng-click="showProducts(store, 'received')">
-                {{store.status.received}}
-                <i class="fa fa-refresh fa-spin fa-fw" ng-if="store.statusItems.received.loading"></i>
-                <sd-popup class="products-popup" ng-if="store.statusItems.loaded"
-                          visible="store.statusItems.received.show">
-                    <div ng-repeat="product in store.statusItems.received | orderBy:'name'">{{$index+1}}.
-                        {{product.name}}
-                    </div>
-                </sd-popup>
-            </div>
-            <div flex=10 class="align-center" ng-click="showProducts(store, 'processed')">
-                {{store.status.processed}}
-                <i class="fa fa-refresh fa-spin fa-fw" ng-if="store.statusItems.processed.loading"></i>
-                <sd-popup class="products-popup" ng-if="store.statusItems.loaded"
-                          visible="store.statusItems.processed.show">
-                    <div ng-repeat="product in store.statusItems.processed | orderBy:'name'">{{$index+1}}.
-                        {{product.name}}
-                    </div>
-                </sd-popup>
-            </div>
-            <div flex=10 class="align-center">{{store.status.done}}</div>
-            <div flex=10 class="align-center">{{store.status.approved}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'received')">{{store.status.received}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'processed')">{{store.status.processed}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'done')">{{store.status.done}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'approved')">{{store.status.approved}}</div>
             <div flex=10 class="align-center">{{store.status.total}}</div>
             <div flex=10 class="align-center">
                 <div ng-class="'status-bar ' + store.status.barClass"></div>

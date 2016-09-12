@@ -30,11 +30,12 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     return defer.promise
   }
 
-  function getData (store) {
+  function getData (store, status) {
     var defer = $q.defer()
     me.currentStore = store
     me.currentIndex = 0
     var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + store.storeId
+    if (status) orderUrl += '&status=' + status;
     $http.get(orderUrl).then(function (response) {
       me.allItems = _.map(response.data, function (prod) {
         switch (prod.productTypeId) {
