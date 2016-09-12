@@ -109,6 +109,18 @@ fieldset.nomargin {
   margin: 0;
   padding: 0;
 }
+md-input-container ng-messages,
+md-input-container [ng-messages] {
+  display: none;
+}
+md-input-container.md-input-invalid ng-messages,
+md-input-container.md-input-invalid [ng-messages] {
+  display: block;
+}
+form.ng-pristine ng-messages,
+form.ng-pristine [ng-messages] {
+  display: none !important;
+}
 #loading-bar .bar {
   background: #2DC89A;
   height: 5px;
@@ -482,7 +494,7 @@ body.loading .main-content {
 #topNav .md-toolbar-tools .submenus-items .md-menu {
   font-size: 16px;
 }
-#topNav .md-toolbar-tools .signout-container {
+#topNav .md-toolbar-tools .user-menu-container {
   margin-left: auto;
 }
 #topNav .md-toolbar-tools .mobile-only {
@@ -513,8 +525,11 @@ body.loading .main-content {
   min-width: initial;
   padding: 0 7px;
 }
-#topNav .md-toolbar-tools.mobile-menu .signout-container {
+#topNav .md-toolbar-tools.mobile-menu .user-menu-container {
   margin-left: 0;
+}
+#topNav .md-toolbar-tools.mobile-menu .user-menu-container .md-button {
+  display: block;
 }
 #topNav .md-toolbar-tools.mobile-menu .signout {
   margin-bottom: 15px;
@@ -1951,6 +1966,15 @@ body .productEditor .loading-data .right {
   50% {
     transform: translate(-30px, -30px);
   }
+}
+.settings-container form {
+  margin: 20px auto;
+}
+.settings-container .text-success {
+  color: #31c693;
+}
+.settings-container .text-danger {
+  color: #ff0400;
 }
 .store-client-view {
   margin: 20px auto 40px;

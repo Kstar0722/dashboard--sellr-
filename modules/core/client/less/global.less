@@ -75,6 +75,24 @@ fieldset {
   }
 }
 
+md-input-container {
+  ng-messages, [ng-messages] {
+    display: none;
+  }
+
+  &.md-input-invalid {
+    ng-messages, [ng-messages] {
+      display: block;
+    }
+  }
+}
+
+form.ng-pristine {
+  ng-messages, [ng-messages] {
+    display: none !important;
+  }
+}
+
 #loading-bar {
   .bar {
     background: @sellrgreen;

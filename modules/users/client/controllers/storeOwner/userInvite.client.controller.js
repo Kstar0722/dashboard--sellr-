@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
-    function ($scope,Authentication, $filter, Admin, $http, $state, CurrentUserService, constants, accountsService, toastr) {
+angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope','Authentication', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
+    function ($scope,Authentication, $filter, Users, $http, $state, CurrentUserService, constants, accountsService, toastr) {
 
 
         $scope.CurrentUserService = CurrentUserService;

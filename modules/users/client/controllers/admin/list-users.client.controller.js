@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Admin', '$http', '$state', 'CurrentUserService', 'constants',
-    function ($scope, $filter, Admin, $http, $state, CurrentUserService, constants) {
+angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants',
+    function ($scope, $filter, Users, $http, $state, CurrentUserService, constants) {
 
 
         $scope.CurrentUserService = CurrentUserService;
