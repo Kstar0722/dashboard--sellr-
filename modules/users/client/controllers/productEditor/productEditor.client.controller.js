@@ -253,6 +253,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.save = function (product) {
+    $analytics.eventTrack('Product Saved', { productId: product.productId })
     product.status = 'inprogress'
     productEditorService.save(product)
   }
