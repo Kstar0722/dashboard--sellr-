@@ -27,8 +27,8 @@ angular.module('users.admin.routes').config([ '$stateProvider',
         templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
         controller: 'UserController',
         resolve: {
-          userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
-            return Admin.get({
+          userResolve: [ '$stateParams', 'Users', function ($stateParams, Users) {
+            return Users.get({
               userId: $stateParams.userId
             })
           } ]
@@ -44,8 +44,8 @@ angular.module('users.admin.routes').config([ '$stateProvider',
         templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
         controller: 'UserController',
         resolve: {
-          userResolve: [ '$stateParams', 'Admin', function ($stateParams, Admin) {
-            return Admin.get({
+          userResolve: [ '$stateParams', 'Users', function ($stateParams, Users) {
+            return Users.get({
               userId: $stateParams.userId
             })
           } ]

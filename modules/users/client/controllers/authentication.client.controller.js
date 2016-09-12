@@ -23,6 +23,11 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $location.path('/')
     }
 
+    $scope.needHelp = function () {
+      $scope.reset = !$scope.reset
+      window._gs('chat', 'show')
+    }
+
     $scope.acceptInvitation = function () {
       $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg)
     }
@@ -97,18 +102,14 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       var payload = {
         payload: $scope.credentials
       }
-      console.log(payload)
+      // console.log(payload)
       return $http.post(url, payload).then(onSigninSuccess, onSigninError)
     }
 
     function onSigninSuccess (response) {
-      //  If successful we assign the response to the global user model
       authToken.setToken(response.data.token.token)
-      // set roles
       localStorage.setItem('roles', response.data.roles)
-      // store account Id in location storage
       localStorage.setItem('accountId', response.data.accountId)
-      // set userId
       localStorage.setItem('roles', response.data.roles)
       localStorage.setItem('userId', response.data.userId)
       localStorage.setItem('userObject', JSON.stringify(response.data))
@@ -147,8 +148,9 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $scope.busy = true
 
       var payload = angular.extend({}, user, account)
+      payload.source = 'dashboard'
       payload.roles = [ USER_ROLE_OWNER ]
-      console.log(payload)
+      // console.log(payload)
 
       $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
         console.log('user signed up', response.data)

@@ -9,7 +9,6 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
 
     cfpLoadingBarProvider.latencyThreshold = 200;
-    cfpLoadingBarProvider.parentSelector = '.loading-bar-container';
 
     $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
     $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests

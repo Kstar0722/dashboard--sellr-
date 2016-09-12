@@ -55,6 +55,7 @@
 
     // SHARED PROJECT
     _gs('GSN-933713-J');
+    _gs('set', 'trackLocal', true);
     //  DASHBOARD OWN PROJECT
     // _gs('GSN-409099-H');
   </script>
@@ -79,7 +80,7 @@
     var ic = w.Intercom;
     if (typeof ic === "function") {
       ic('reattach_activator');
-      ic('update', intercomSettings);
+      ic('update', window.intercomSettings);
     } else {
       var d = document;
       var i = function () {

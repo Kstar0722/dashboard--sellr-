@@ -6,6 +6,10 @@
     </div>
 
     <div class="orders-container" ng-show="!importView">
+        <md-input-container>
+            <label>Filter Stores</label>
+            <input ng-model="storeFilter">
+        </md-input-container>
         <div layout class="orders-header">
             <div flex=5 class="align-center">Refresh</div>
             <div flex=5 class="align-center">#</div>
@@ -19,8 +23,9 @@
             <div flex=10 class="align-center">Status</div>
         </div>
         <div layout layout-align="center center" class="orders-body"
-             ng-repeat="store in orderDataService.allStores | orderBy:'-status.received'">
-            <div flex=5 class="align-center" ng-click="refreshStoreStatus(store.storeId)"><i class="fa fa-refresh"></i></div>
+             ng-repeat="store in orderDataService.allStores | orderBy:'-status.received' | filter:storeFilter">
+            <div flex=5 class="align-center" ng-click="refreshStoreStatus(store.storeId)"><i class="fa fa-refresh"></i>
+            </div>
             <div flex=5 class="align-center">{{store.storeId}}</div>
             <div flex=20 ng-click="goToMatch(store)">{{store.name}}</div>
             <div flex=10>{{store.accountId}}</div>
@@ -131,6 +136,6 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

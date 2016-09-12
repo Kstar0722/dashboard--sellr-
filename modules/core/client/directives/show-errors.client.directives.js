@@ -27,6 +27,7 @@ angular.module('core')
           el.removeClass('has-error');
           el.removeClass('has-success');
           showValidationMessages = false;
+          formCtrl.$setPristine();
         }, 0, false);
       };
 
@@ -64,7 +65,7 @@ angular.module('core')
       require: '^form',
       compile: function (elem, attrs) {
         if (attrs.showErrors.indexOf('skipFormGroupCheck') === -1) {
-          if (!(elem.hasClass('form-group') || elem.hasClass('input-group'))) {
+          if (!(elem.hasClass('form-group') || elem.hasClass('input-group')) && !elem.is('md-input-container')) {
             throw 'show-errors element does not have the \'form-group\' or \'input-group\' class';
           }
         }

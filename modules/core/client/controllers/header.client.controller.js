@@ -21,6 +21,9 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     originatorEv = ev
     $mdOpenMenu(ev)
   }
+  $scope.editProfile = function () {
+    $state.go('settings.profile');
+  };
   $scope.signOut = function () {
     window.localStorage.clear()
     localStorage.clear()

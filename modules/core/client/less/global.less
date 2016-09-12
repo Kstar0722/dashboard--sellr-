@@ -4,22 +4,18 @@
 
   @media @large-up {
     &.top-menu-shown {
-      padding-top: @topnavheight;
       top: @topnavheight;
     }
 
     &.main-menu-shown {
-      padding-top: @mainnavheight;
       top: @mainnavheight;
     }
 
     &.main-menu-shown.top-menu-shown {
-      padding-top: @topnavheight + @mainnavheight;
       top: @topnavheight + @mainnavheight;
     }
 
     &.cardkit-menu-shown {
-      padding-top: @cardkitnavheight;
       top: @cardkitnavheight;
     }
   }
@@ -76,6 +72,24 @@ fieldset {
     border: none;
     margin: 0;
     padding: 0;
+  }
+}
+
+md-input-container {
+  ng-messages, [ng-messages] {
+    display: none;
+  }
+
+  &.md-input-invalid {
+    ng-messages, [ng-messages] {
+      display: block;
+    }
+  }
+}
+
+form.ng-pristine {
+  ng-messages, [ng-messages] {
+    display: none !important;
   }
 }
 

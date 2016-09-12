@@ -38,7 +38,23 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + id
     if (status) orderUrl += '&status=' + status;
     $http.get(orderUrl).then(function (response) {
-      me.allItems = response.data
+      me.allItems = _.map(response.data, function (prod) {
+        switch (prod.productTypeId) {
+          case 1:
+            prod.type = 'Wine'
+            break
+          case 2:
+            prod.type = 'Beer'
+            break
+          case 3:
+            prod.type = 'Spirits'
+            break
+          default:
+            prod.type = 'Unknown Type'
+            break
+        }
+        return prod
+      })
       me.currentItem = me.allItems[ me.currentIndex ]
       console.log('orderDataService::getData response %O', me.allItems)
       defer.resolve(me.allItems)
@@ -103,7 +119,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       name: prod.name,
       description: prod.description,
       notes: '',
-      productTypeId: prod.type,
+      productTypeId: prod.productTypeId,
       requestedBy: me.currentStore.name || 'sellr',
       feedback: '0',
       properties: [],

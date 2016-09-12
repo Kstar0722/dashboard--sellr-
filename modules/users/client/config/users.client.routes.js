@@ -1,25 +1,25 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config(['$stateProvider',
+angular.module('users').config([ '$stateProvider',
   function ($stateProvider) {
     // Users state routing
     $stateProvider
-        .state('admanager', {
-          abstract: true,
-          url: '/admanager',
-          templateUrl: 'modules/users/client/views/settings/admanager.client.view.html',
-          data: {
-            roles: ['user']
-          }
-        })
+      .state('admanager', {
+        abstract: true,
+        url: '/admanager',
+        templateUrl: 'modules/users/client/views/settings/admanager.client.view.html',
+        data: {
+          roles: [ 'user' ]
+        }
+      })
       .state('settings', {
         abstract: true,
         url: '/settings',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        data: {
-          roles: ['user', 'admin']
-        }
+        // data: {
+        //   roles: ['user', 'admin']
+        // }
       })
       .state('settings.profile', {
         url: '/profile',
@@ -50,15 +50,18 @@ angular.module('users').config(['$stateProvider',
       })
       .state('authentication.acceptInvitation', {
         url: '/signup',
-        templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html',
+        public: true
       })
-        .state('authentication.reset', {
-          url: '/reset',
-          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
-        })
+      .state('authentication.reset', {
+        url: '/reset',
+        templateUrl: 'modules/users/client/views/password/reset-password.client.view.html',
+        public: true
+      })
       .state('authentication.signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
+        public: true
       })
 
       .state('password', {
