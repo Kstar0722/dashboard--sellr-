@@ -16,7 +16,7 @@ angular.module('users').config([ '$stateProvider',
       .state('settings', {
         abstract: true,
         url: '/settings',
-        templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
+        templateUrl: 'modules/users/client/views/settings/settings2.client.view.html',
         // data: {
         //   roles: ['user', 'admin']
         // }

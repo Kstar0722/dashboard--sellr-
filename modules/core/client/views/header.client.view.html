@@ -57,7 +57,7 @@
         </md-menu-bar>
 
         <div class="user-menu-container mobile-only" ng-class="{ 'force-display': !$root.selectAccountId }">
-            <md-button class="no-submenu-item" ng-click="editProfile(); mobileMenuActive.open = false;">Edit Profile</md-button>
+            <md-button class="no-submenu-item" ng-click="editProfile(); mobileMenuActive.open = false;">Edit Account</md-button>
           <md-button class="no-submenu-item signout" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
         </div>
       </md-toolbar>
@@ -117,7 +117,7 @@
           </div>
           <md-menu-content width="3" id="profmenu">
             <md-menu-item>
-              <md-button ng-click="editProfile();">Edit Profile</md-button>
+              <md-button ng-click="editProfile();">Edit Account</md-button>
             </md-menu-item>
 
             <div class="divider"></div>

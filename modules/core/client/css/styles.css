@@ -1967,6 +1967,11 @@ body .productEditor .loading-data .right {
     transform: translate(-30px, -30px);
   }
 }
+.settings-container,
+.settings-container a,
+.settings-container .md-input {
+  color: #555;
+}
 .settings-container form {
   margin: 20px auto;
 }
@@ -1975,6 +1980,84 @@ body .productEditor .loading-data .right {
 }
 .settings-container .text-danger {
   color: #ff0400;
+}
+.settings-container h1 {
+  color: #2DC89A;
+  font-weight: bold;
+  font-size: 12pt;
+  padding: 8px 0;
+  margin: 0;
+}
+.settings-container .header {
+  background: #eeeeee;
+  padding: 0 35px;
+}
+.settings-container .header .md-toolbar-tools {
+  padding: 0;
+}
+.settings-container .header .md-button {
+  border-radius: 0;
+}
+.settings-container .header .save {
+  background: #2DC89A;
+  color: #ffffff;
+}
+.settings-container .header .save[disabled] {
+  background: rgba(45, 200, 154, 0.9);
+  color: rgba(255, 255, 255, 0.9);
+}
+.settings-container .settings-view {
+  padding: 30px;
+}
+.settings-container .settings-view:before {
+  content: '';
+  width: 220px;
+}
+.settings-container .account-menu {
+  position: fixed !important;
+  left: 30px;
+  top: 80px;
+  padding: 0 10px;
+  width: 220px;
+}
+.main-content.main-menu-shown .settings-container .account-menu {
+  top: 200px;
+}
+.settings-container .account-menu md-sidenav {
+  padding: 16px 24px;
+  width: auto;
+}
+.settings-container .account-menu md-sidenav > * {
+  padding: 8px 0;
+}
+.settings-container .account-menu md-sidenav md-divider {
+  margin: 12px 0;
+  padding: 0;
+}
+.settings-container .account-menu a {
+  cursor: pointer;
+}
+.settings-container .account-menu a.active {
+  font-weight: bold;
+  color: #171625;
+}
+.settings-container .view-container {
+  margin-left: 30px;
+  padding: 0;
+}
+.settings-container .view {
+  padding: 10px 35px;
+}
+.settings-container .view md-input-container {
+  padding: 2px 0;
+}
+.settings-container .view md-input-container label {
+  font-weight: bold;
+  color: #1f2532;
+}
+.settings-container .my-profile fieldset {
+  margin-top: 30px;
+  max-width: 350px;
 }
 .store-client-view {
   margin: 20px auto 40px;
