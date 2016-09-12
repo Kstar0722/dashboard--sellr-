@@ -29,40 +29,40 @@ module.exports = function (grunt) {
       serverViews: {
         files: defaultAssets.server.views,
         options: {
-          livereload: true
+          livereload: false
         }
       },
       serverJS: {
         files: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS),
         tasks: [],
         options: {
-          livereload: true
+          livereload: false
         }
       },
       clientViews: {
         files: defaultAssets.client.views,
         options: {
-          livereload: true
+          livereload: false
         }
       },
       clientJS: {
         files: defaultAssets.client.js,
         tasks: [],
         options: {
-          livereload: true
+          livereload: false
         }
       },
       clientCSS: {
         files: defaultAssets.client.css,
         options: {
-          livereload: true
+          livereload: false
         }
       },
       clientLESS: {
         files: defaultAssets.client.less,
         tasks: [ 'less' ],
         options: {
-          livereload: true
+          livereload: false
         }
       }
     },
