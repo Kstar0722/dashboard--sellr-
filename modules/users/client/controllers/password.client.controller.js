@@ -16,9 +16,9 @@ angular.module('users').controller('PasswordController', [ '$scope', '$statePara
       $scope.success = $scope.error = null
       var resetObj = {
         payload: {
-          token: $location.search().token,
+          oldPassword: $location.search().token,
           email: $location.search().email,
-          newPass: $scope.passwordDetails.newPassword
+          password: $scope.passwordDetails.newPassword
         }
       }
       if (!isValid) {
@@ -26,6 +26,7 @@ angular.module('users').controller('PasswordController', [ '$scope', '$statePara
 
         return false
       }
+      debugger
       console.log('new pass details %0', resetObj)
       $http.post(constants.API_URL + '/users/auth/reset', resetObj).then(function (response, err) {
         if (err) {
@@ -34,7 +35,7 @@ angular.module('users').controller('PasswordController', [ '$scope', '$statePara
         var userLogin = {
           payload: {
             email: resetObj.payload.email,
-            password: resetObj.payload.newPass
+            password: resetObj.payload.password
           }
         }
 

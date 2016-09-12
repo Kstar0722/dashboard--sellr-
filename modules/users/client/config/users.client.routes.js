@@ -1,18 +1,18 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config(['$stateProvider',
+angular.module('users').config([ '$stateProvider',
   function ($stateProvider) {
     // Users state routing
     $stateProvider
-        .state('admanager', {
-          abstract: true,
-          url: '/admanager',
-          templateUrl: 'modules/users/client/views/settings/admanager.client.view.html',
-          data: {
-            roles: ['user']
-          }
-        })
+      .state('admanager', {
+        abstract: true,
+        url: '/admanager',
+        templateUrl: 'modules/users/client/views/settings/admanager.client.view.html',
+        data: {
+          roles: [ 'user' ]
+        }
+      })
       .state('settings', {
         abstract: true,
         url: '/settings',
@@ -53,13 +53,15 @@ angular.module('users').config(['$stateProvider',
         templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html',
         public: true
       })
-        .state('authentication.reset', {
-          url: '/reset',
-          templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
-        })
+      .state('authentication.reset', {
+        url: '/reset',
+        templateUrl: 'modules/users/client/views/password/reset-password.client.view.html',
+        public: true
+      })
       .state('authentication.signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
+        public: true
       })
 
       .state('password', {
