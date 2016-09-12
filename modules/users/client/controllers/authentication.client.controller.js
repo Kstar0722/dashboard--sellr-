@@ -23,6 +23,11 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $location.path('/')
     }
 
+    $scope.needHelp = function () {
+      $scope.reset = !$scope.reset
+      window._gs('chat', 'show')
+    }
+
     $scope.acceptInvitation = function () {
       $http.get(constants.API_URL + '/users/validate/' + userInfo.regCode).then(onValidReg, onInvalidReg)
     }
@@ -143,7 +148,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       $scope.busy = true
 
       var payload = angular.extend({}, user, account)
-      payload.source = 'dashboard';
+      payload.source = 'dashboard'
       payload.roles = [ USER_ROLE_OWNER ]
       console.log(payload)
 
