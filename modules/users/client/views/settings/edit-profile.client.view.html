@@ -1,19 +1,19 @@
 <form class="my-profile" name="userForm" ng-submit="updateUserProfile(userForm.$valid)" novalidate autocomplete="off">
-    <md-toolbar class="header">
+    <md-toolbar class="header-bar">
         <div class="md-toolbar-tools">
             <h1>My Profile</h1>
             <span flex></span>
-            <md-button type="submit" class="save green" ng-disabled="false">Save</md-button>
+            <md-button type="submit" class="save green">Save</md-button>
         </div>
     </md-toolbar>
 
-    <div class="content">
+    <div class="view">
         <p>Edit your personal information below. This information will be used by Sellr to contact you.</p>
 
         <fieldset class="nomargin" layout="column">
             <md-input-container show-errors>
                 <label>Display name</label>
-                <input type="text" ng-model="user.displayName" name="displayName" required maxlength="100">
+                <input type="text" ng-model="user.displayName" name="displayName" required maxlength="100" autofocus>
                 <ng-messages for="userForm.displayName.$error" class="alert">
                     <ng-message when="required">Display name is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>

@@ -1985,23 +1985,19 @@ body .productEditor .loading-data .right {
   padding: 8px 0;
   margin: 0;
 }
-.settings-container .header {
+.settings-container .header-bar {
   background: #eeeeee;
   padding: 0 35px;
 }
-.settings-container .header .md-toolbar-tools {
+.settings-container .header-bar .md-toolbar-tools {
   padding: 0;
 }
-.settings-container .header .md-button {
+.settings-container .header-bar .md-button {
   border-radius: 0;
 }
-.settings-container .header .save {
+.settings-container .header-bar .save {
   background: #2DC89A;
   color: #ffffff;
-}
-.settings-container .header .save[disabled] {
-  background: rgba(45, 200, 154, 0.9);
-  color: rgba(255, 255, 255, 0.9);
 }
 .settings-container .settings-view {
   padding: 30px;
