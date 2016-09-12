@@ -1,16 +1,13 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants) {
-    // $scope.user = Authentication.user || { profileImageUrl: '' };
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
+  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr) {
     $scope.user = angular.copy(Authentication.user);
     // $scope.imageURL = $scope.user.profileImageURL;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
-      $scope.user_success = $scope.user_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'userForm');
         return false;
@@ -18,10 +15,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
       Users.put($scope.user).then(function (response) {
         $scope.$broadcast('show-errors-reset', 'userForm');
-        $scope.user_success = true;
         updateUserProfile(response.data);
+        toastr.success('Profile saved successfully');
       }, function (response) {
-        $scope.user_error = response.data.message;
+        toastr.error(response.data.message);
       });
     };
 
