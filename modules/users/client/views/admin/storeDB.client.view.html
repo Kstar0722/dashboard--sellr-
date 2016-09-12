@@ -31,8 +31,8 @@
             <div flex=10>{{store.accountId}}</div>
             <div flex=10 class="align-center" ng-click="goToMatch(store, 'received')">{{store.status.received}}</div>
             <div flex=10 class="align-center" ng-click="goToMatch(store, 'processed')">{{store.status.processed}}</div>
-            <div flex=10 class="align-center">{{store.status.done}}</div>
-            <div flex=10 class="align-center">{{store.status.approved}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'done')">{{store.status.done}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'approved')">{{store.status.approved}}</div>
             <div flex=10 class="align-center">{{store.status.total}}</div>
             <div flex=10 class="align-center">
                 <div ng-class="'status-bar ' + store.status.barClass"></div>

@@ -85,6 +85,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   $scope.goToMatch = function (store, status) {
+    if (store.status[status] == 0) return;
     orderDataService.currentOrderId = store.storeId
     orderDataService.getData(store, status).then(function (response) {
       $state.go('editor.match', { id: store.storeId, status: status })
