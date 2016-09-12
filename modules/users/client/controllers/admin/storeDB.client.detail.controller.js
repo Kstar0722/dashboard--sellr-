@@ -107,7 +107,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
   function onInit () {
     if (orderDataService.allItems.length === 0 && $stateParams.id) {
-      orderDataService.getData($stateParams.id, $stateParams.status).then(function () {
+      orderDataService.getData({ storeId: $stateParams.id }, $stateParams.status).then(function () {
       })
     }
   }
