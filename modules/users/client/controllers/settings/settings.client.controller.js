@@ -3,6 +3,8 @@
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
   function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr) {
     $scope.user = initUser(Authentication.user);
+    $scope.passwordDetails = {};
+
     // $scope.imageURL = $scope.user.profileImageURL;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
@@ -26,8 +28,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     // Change user password
     $scope.changeUserPassword = function (isValid) {
-      $scope.password_success = $scope.password_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'passwordForm');
         return false;
@@ -44,10 +44,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $http.post(constants.API_URL + '/users/auth/reset', payload).success(function (response) {
         // If successful show success message and clear form
         $scope.$broadcast('show-errors-reset', 'passwordForm');
-        $scope.password_success = true;
         $scope.passwordDetails = null;
+        toastr.success('Password changed successfully');
       }).error(function (response) {
-        $scope.password_error = response.message;
+        toastr.error(response.data.message);
       });
     };
 

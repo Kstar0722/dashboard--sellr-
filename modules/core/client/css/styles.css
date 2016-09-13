@@ -1972,12 +1972,6 @@ body .productEditor .loading-data .right {
 .settings-container .md-input {
   color: #555;
 }
-.settings-container .text-success {
-  color: #31c693;
-}
-.settings-container .text-danger {
-  color: #ff0400;
-}
 .settings-container h1 {
   color: #2DC89A;
   font-weight: bold;
@@ -1992,11 +1986,11 @@ body .productEditor .loading-data .right {
 .settings-container .header-bar .md-toolbar-tools {
   padding: 0;
 }
-.settings-container .header-bar .md-button {
+.settings-container .md-button {
   border-radius: 0;
 }
-.settings-container .header-bar .save {
-  background: #2DC89A;
+.settings-container .save {
+  background: #2DC89A !important;
   color: #ffffff;
 }
 .settings-container .settings-view {
@@ -2048,9 +2042,17 @@ body .productEditor .loading-data .right {
   font-weight: bold;
   color: #1f2532;
 }
-.settings-container .my-profile fieldset {
-  margin-top: 30px;
+.settings-container .my-profile fieldset,
+.settings-container .change-password fieldset {
   max-width: 350px;
+  margin-top: 30px;
+}
+.settings-container .my-profile .md-button,
+.settings-container .change-password .md-button {
+  margin-left: 0;
+}
+.settings-container .change-password {
+  margin-bottom: 30px;
 }
 .store-client-view {
   margin: 20px auto 40px;
