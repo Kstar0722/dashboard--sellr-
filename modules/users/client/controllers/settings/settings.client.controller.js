@@ -3,7 +3,8 @@
 
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'uploadService', 'accountsService',
   function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, uploadService, accountsService) {
-    $scope.user = angular.copy(Authentication.user);
+    $scope.user = initUser(Authentication.user);
+    $scope.passwordDetails = {};
     $scope.store = {};
 
     $scope.accountsService = accountsService;
@@ -21,6 +22,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         $scope.$broadcast('show-errors-check-validity', 'userForm');
         return false;
       }
+
+      $scope.user.displayName = $scope.user.firstName + ' ' + $scope.user.lastName;
 
       Users.put($scope.user).then(function (response) {
         $scope.$broadcast('show-errors-reset', 'userForm');
@@ -64,8 +67,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     // Change user password
     $scope.changeUserPassword = function (isValid) {
-      $scope.password_success = $scope.password_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'passwordForm');
         return false;
@@ -82,10 +83,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $http.post(constants.API_URL + '/users/auth/reset', payload).success(function (response) {
         // If successful show success message and clear form
         $scope.$broadcast('show-errors-reset', 'passwordForm');
-        $scope.password_success = true;
         $scope.passwordDetails = null;
+        toastr.success('Password changed successfully');
       }).error(function (response) {
-        $scope.password_error = response.message;
+        toastr.error(response.data.message);
       });
     };
 
@@ -103,6 +104,17 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       angular.extend($scope.user, user);
       Authentication.user = angular.extend(Authentication.user, user);
       localStorage.setItem('userObject', JSON.stringify(Authentication.user))
+    }
+
+    function initUser(user) {
+      var result = angular.copy(user);
+      if (!('firstName' in result) && !('lastName' in result)) {
+        var tmp = result.displayName.split(/\s+/);
+        result.firstName = tmp[0];
+        result.lastName = tmp[1];
+        delete result.displayName;
+      }
+      return result;
     }
 
     function limitAboutLength(about) {

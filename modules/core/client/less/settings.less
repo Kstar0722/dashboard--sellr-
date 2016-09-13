@@ -6,14 +6,6 @@
     color: #555;
   }
 
-  .text-success {
-    color: @status-green;
-  }
-
-  .text-danger {
-    color: @status-red;
-  }
-
   h1 {
     color: @green;
     font-weight: bold;
@@ -35,7 +27,7 @@
     border-radius: 0;
 
     &.green {
-      background: @green;
+      background: @green !important;
       color: @white;
 
       &[disabled] {
@@ -123,11 +115,20 @@
     }
   }
 
-  .my-profile {
+  .my-profile,
+  .change-password {
     fieldset {
-      margin-top: 30px;
       max-width: 350px;
+      margin-top: 30px;
     }
+
+    .md-button {
+      margin-left: 0;
+    }
+  }
+
+  .change-password {
+    margin-bottom: 30px;
   }
 
   .store-profile {
