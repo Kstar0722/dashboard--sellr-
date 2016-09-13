@@ -1,11 +1,12 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'uploadService', 'accountsService',
+  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, uploadService, accountsService) {
     $scope.user = angular.copy(Authentication.user);
     $scope.store = {};
 
+    $scope.accountsService = accountsService;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
     $scope.aboutCharsLimit = 200;
 
@@ -37,6 +38,22 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       }
 
       // todo
+    };
+
+    $scope.uploadStoreImage = function (files, accountId) {
+      var mediaConfig = {
+        mediaRoute: 'media',
+        folder: 'storeImg',
+        type: 'STOREIMG',
+        accountId: accountId
+      };
+
+      uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+        if (response) {
+          $scope.store.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+          toastr.success('Store Image Updated', 'Success!');
+        }
+      })
     };
 
     $scope.cancelOverLimited = function(ev) {
@@ -74,6 +91,13 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     $scope.$watch('store.about', function(about) { limitAboutLength(about); });
     $scope.$watch('aboutCharsLimit', function() { limitAboutLength(); });
+    $scope.$watchCollection('accountsService.accounts', loadStore);
+
+    init();
+
+    function init() {
+      loadStore(accountsService.accounts);
+    }
 
     function updateUserProfile(user) {
       angular.extend($scope.user, user);
@@ -88,6 +112,11 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       if ($scope.aboutCharsLeft < 0) {
         $scope.store.about = aboutText.substr(0, $scope.aboutCharsLimit);
       }
+    }
+
+    function loadStore(accounts) {
+      if (_.isEmpty(accounts)) return;
+      $scope.store = _.find(accounts, { accountId: $scope.user.accountId });
     }
   }
 ]);

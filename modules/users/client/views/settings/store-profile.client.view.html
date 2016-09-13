@@ -10,7 +10,15 @@
     <div class="view">
         <p>Edit your store information below. On the right, see exactly how your store listing and store detail will appear on the Shoppr app.</p>
 
-        <md-button type="button" class="upload green">Upload Store Image</md-button>
+        <md-button class="upload green"
+                   ngf-select="uploadStoreImage($files, store.accountId)" ngf-multiple="true">
+            Upload Store Image
+        </md-button>
+
+        <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
+                            ng-show="determinateValue"></md-progress-linear>
+
+        <img ng-src="{{store.storeImg}}" class="store-image">
 
         <fieldset class="nomargin" layout="column">
             <md-input-container show-errors>
