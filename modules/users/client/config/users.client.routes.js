@@ -16,7 +16,7 @@ angular.module('users').config([ '$stateProvider',
       .state('settings', {
         abstract: true,
         url: '/settings',
-        templateUrl: 'modules/users/client/views/settings/settings2.client.view.html',
+        templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
         // data: {
         //   roles: ['user', 'admin']
         // }
@@ -28,10 +28,6 @@ angular.module('users').config([ '$stateProvider',
       .state('settings.store', {
         url: '/store',
         templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
-      })
-      .state('settings.password', {
-        url: '/password',
-        templateUrl: 'modules/users/client/views/settings/change-password.client.view.html'
       })
       .state('settings.accounts', {
         url: '/accounts',
