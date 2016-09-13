@@ -92,7 +92,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     $scope.$watch('store.about', function(about) { limitAboutLength(about); });
     $scope.$watch('aboutCharsLimit', function() { limitAboutLength(); });
-    $scope.$watchCollection('accountsService.accounts', loadStore);
+    $scope.$watch('accountsService.accounts', loadStore);
 
     init();
 

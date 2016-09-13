@@ -1991,7 +1991,7 @@ body .productEditor .loading-data .right {
 .settings-container .md-button {
   border-radius: 0;
 }
-.settings-container .save {
+.settings-container .md-button.green {
   background: #2DC89A !important;
   color: #ffffff;
 }
@@ -2074,6 +2074,87 @@ body .productEditor .loading-data .right {
 }
 .settings-container .change-password {
   margin-bottom: 30px;
+}
+.settings-container .store-profile {
+  background-color: #f5f5f5;
+  z-index: 1;
+}
+.settings-container .store-profile .chars-counter {
+  color: #8D9AA5;
+  font-size: 8pt;
+  text-align: right;
+}
+.settings-container .store-profile .upload {
+  margin: 15px 0;
+  padding: 6px 20px;
+}
+.settings-container .store-profile .store-image {
+  display: block;
+  margin: 10px 0 20px;
+  max-height: 100px;
+}
+.settings-container .store-profile table {
+  width: 100%;
+}
+.settings-container .store-profile table thead {
+  color: #1f2532;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.settings-container .store-profile table thead td {
+  padding-bottom: 10px;
+}
+.settings-container .store-profile table tbody td {
+  vertical-align: top;
+}
+.settings-container .store-profile table.work-schedule {
+  margin-top: 20px;
+}
+.settings-container .store-profile table.work-schedule td.divider {
+  width: 10%;
+}
+.settings-container .store-profile table.work-schedule input[type="time"] {
+  min-width: 110px;
+}
+.settings-container .store-profile table.work-schedule md-switch,
+.settings-container .store-profile table.work-schedule md-input-container {
+  margin: 0;
+}
+.settings-container .store-profile table.work-schedule md-switch .md-thumb {
+  background-color: #DFE3EB;
+  box-shadow: none !important;
+}
+.settings-container .store-profile table.work-schedule md-switch.md-checked .md-thumb {
+  background-color: #2DC89A;
+}
+.settings-container .store-profile table.work-schedule md-switch.md-checked .md-bar {
+  background-color: #a4ead5;
+}
+.settings-container .store-profile table.work-schedule .md-errors-spacer {
+  display: none;
+}
+.settings-container .shoppr-listing-preview {
+  height: 140%;
+  left: 65%;
+  overflow-y: auto;
+  padding: 0 30px;
+  position: fixed;
+  text-align: center;
+  top: 80px;
+  transform-origin: 0 0;
+  transform: scale(0.6);
+}
+.settings-container .shoppr-listing-preview .iphone {
+  max-width: 200px;
+  max-height: 450px;
+  object-fit: contain;
+}
+.settings-container .shoppr-listing-preview * {
+  font-size: 17pt;
+}
+.settings-container .shoppr-listing-preview h3 {
+  color: #171625;
+  margin: 20px 0 7px 0;
 }
 .store-client-view {
   margin: 20px auto 40px;
