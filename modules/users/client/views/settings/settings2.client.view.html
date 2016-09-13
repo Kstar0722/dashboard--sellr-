@@ -1,5 +1,5 @@
 <section ng-controller="SettingsController" class="settings-container">
-    <div class="settings-view" layout-wrap layout="row" layout-padding>
+    <div class="settings-view" layout="row" layout-padding>
 
         <div class="account-menu" layout="column">
             <md-sidenav md-is-locked-open="true" md-whiteframe="3" layout-padding>
@@ -13,7 +13,7 @@
             </md-sidenav>
         </div>
 
-        <div class="view-container" md-whiteframe="3" ui-view>
+        <div class="view-container" ui-view layout="row">
         </div>
     </div>
 </section>

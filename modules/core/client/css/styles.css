@@ -1992,12 +1992,24 @@ body .productEditor .loading-data .right {
 .settings-container .header-bar .md-toolbar-tools {
   padding: 0;
 }
-.settings-container .header-bar .md-button {
+.settings-container .md-button {
   border-radius: 0;
 }
-.settings-container .header-bar .save {
+.settings-container .md-button.green {
   background: #2DC89A;
   color: #ffffff;
+}
+.settings-container textarea.block {
+  border: 1px solid #DFE3EB;
+  height: auto !important;
+  background: none;
+  margin-top: 5px;
+  padding: 10px;
+  width: 96%;
+}
+.settings-container textarea.block:focus {
+  border-color: #8D9AA5;
+  outline: none;
 }
 .settings-container .settings-view {
   padding: 30px;
@@ -2017,6 +2029,7 @@ body .productEditor .loading-data .right {
   top: 200px;
 }
 .settings-container .account-menu md-sidenav {
+  background: #f5f5f5;
   padding: 16px 24px;
   width: auto;
 }
@@ -2036,21 +2049,96 @@ body .productEditor .loading-data .right {
 }
 .settings-container .view-container {
   margin-left: 30px;
+  max-width: 70vw;
   padding: 0;
 }
 .settings-container .view {
   padding: 10px 35px;
 }
-.settings-container .view md-input-container {
+.settings-container .view md-input-container,
+.settings-container .view .input-container {
   padding: 2px 0;
 }
-.settings-container .view md-input-container label {
+.settings-container .view md-input-container label,
+.settings-container .view .input-container label {
   font-weight: bold;
   color: #1f2532;
 }
 .settings-container .my-profile fieldset {
   margin-top: 30px;
   max-width: 350px;
+}
+.settings-container .store-profile {
+  background-color: #f5f5f5;
+  z-index: 1;
+}
+.settings-container .store-profile .chars-counter {
+  color: #8D9AA5;
+  font-size: 8pt;
+  text-align: right;
+}
+.settings-container .store-profile .upload {
+  margin: 15px 0;
+  padding: 6px 20px;
+}
+.settings-container .store-profile table {
+  width: 100%;
+}
+.settings-container .store-profile table thead {
+  color: #1f2532;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.settings-container .store-profile table thead td {
+  padding-bottom: 10px;
+}
+.settings-container .store-profile table tbody td {
+  vertical-align: top;
+}
+.settings-container .store-profile table.work-schedule {
+  margin-top: 20px;
+}
+.settings-container .store-profile table.work-schedule td.divider {
+  width: 10%;
+}
+.settings-container .store-profile table.work-schedule input[type="time"] {
+  min-width: 110px;
+}
+.settings-container .store-profile table.work-schedule md-switch,
+.settings-container .store-profile table.work-schedule md-input-container {
+  margin: 0;
+}
+.settings-container .store-profile table.work-schedule md-switch .md-thumb {
+  background-color: #DFE3EB;
+  box-shadow: none !important;
+}
+.settings-container .store-profile table.work-schedule md-switch.md-checked .md-thumb {
+  background-color: #2DC89A;
+}
+.settings-container .store-profile table.work-schedule md-switch.md-checked .md-bar {
+  background-color: #a4ead5;
+}
+.settings-container .store-profile table.work-schedule .md-errors-spacer {
+  display: none;
+}
+.settings-container .shoppr-listing-preview {
+  height: 80%;
+  left: 65%;
+  overflow-y: auto;
+  padding: 0 30px;
+  position: fixed;
+  text-align: center;
+  top: 80px;
+}
+.settings-container .shoppr-listing-preview .iphone {
+  max-width: 200px;
+  max-height: 450px;
+  object-fit: contain;
+}
+.settings-container .shoppr-listing-preview h3 {
+  color: #171625;
+  font-size: 12pt;
+  margin: 20px 0 7px 0;
 }
 .store-client-view {
   margin: 20px auto 40px;

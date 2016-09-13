@@ -1,10 +1,16 @@
 'use strict';
+/* globals moment */
 
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
   function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr) {
     $scope.user = angular.copy(Authentication.user);
     // $scope.imageURL = $scope.user.profileImageURL;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+
+    $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    $scope.workSchedule = $scope.weekdays.map(function (weekday) {
+      return { name: weekday, open: false, openTime: null, closeTime: null };
+    });
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
@@ -20,6 +26,15 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       }, function (response) {
         toastr.error(response.data.message);
       });
+    };
+
+    $scope.updateStoreProfile = function (isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'userForm');
+        return false;
+      }
+
+      // todo
     };
 
     // Change user password

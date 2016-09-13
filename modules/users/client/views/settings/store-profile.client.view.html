@@ -1,0 +1,95 @@
+<form class="store-profile" name="storeForm" ng-submit="updateStoreProfile(storeForm.$valid)" novalidate autocomplete="off" md-whiteframe="3" flex="70">
+    <md-toolbar class="header-bar">
+        <div class="md-toolbar-tools">
+            <h1>Store Profile</h1>
+            <span flex></span>
+            <md-button type="submit" class="save green">Save</md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="view">
+        <p>Edit your store information below. On the right, see exactly how your store listing and store detail will appear on the Shoppr app.</p>
+
+        <md-button type="button" class="upload green">Upload Store Image</md-button>
+
+        <fieldset class="nomargin" layout="column">
+            <md-input-container show-errors>
+                <label>Store Name</label>
+                <input type="text" ng-model="store.name" name="name" required maxlength="100">
+                <ng-messages for="storeForm.name.$error" class="alert">
+                    <ng-message when="required">Store name is required.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Phone Number</label>
+                <input type="text" ng-model="store.phone" name="phone" maxlength="50">
+                <ng-messages for="storeForm.phone.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Address</label>
+                <input type="text" ng-model="store.address" name="address" maxlength="400">
+                <ng-messages for="storeForm.address.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Email</label>
+                <input type="email" ng-model="store.email" name="email" maxlength="100">
+                <ng-messages for="storeForm.email.$error" class="alert">
+                    <ng-message when="email">Email address is invalid.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <div class="input-container" show-errors>
+                <label for="store_about">About the Store</label>
+                <textarea id="store_about" class="block" ng-model="store.about" name="about" maxlength="4000" rows="4"></textarea>
+                <div class="chars-counter">184 / 200</div>
+                <ng-messages for="storeForm.about.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </div>
+
+            <table class="work-schedule">
+                <thead>
+                    <tr>
+                        <td>Store Hours</td>
+                        <td>Open</td>
+                        <td class="divider"></td>
+                        <td class="time">Opening Time</td>
+                        <td class="time">Closing Time</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="day in workSchedule">
+                        <td>{{day.name}}</td>
+                        <td><md-switch ng-model="day.open" md-no-ink></md-switch></td>
+                        <td></td>
+                        <td class="time">
+                            <md-input-container>
+                                <input type="time" ng-model="day.openTime">
+                            </md-input-container>
+                        </td>
+                        <td class="time">
+                            <md-input-container>
+                                <input type="time" ng-model="day.closeTime">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</form>
+
+<div class="shoppr-listing-preview">
+    <img class="iphone" src="https://upload.wikimedia.org/wikipedia/commons/0/01/IPhone6_silver_frontface.png">
+    <h3>Shoppr App Preview</h3>
+    <div>Scroll to view entire page</div>
+</div>
