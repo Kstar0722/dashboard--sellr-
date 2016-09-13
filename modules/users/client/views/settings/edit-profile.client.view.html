@@ -12,10 +12,19 @@
 
         <fieldset class="nomargin" layout="column">
             <md-input-container show-errors>
-                <label>Display name</label>
-                <input type="text" ng-model="user.displayName" name="displayName" required maxlength="100" autofocus>
-                <ng-messages for="userForm.displayName.$error" class="alert">
-                    <ng-message when="required">Display name is required.</ng-message>
+                <label>First name</label>
+                <input type="text" ng-model="user.firstName" name="firstName" required maxlength="100" autofocus>
+                <ng-messages for="userForm.firstName.$error" class="alert">
+                    <ng-message when="required">First name is required.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Last name</label>
+                <input type="text" ng-model="user.lastName" name="lastName" required maxlength="100" autofocus>
+                <ng-messages for="userForm.lastName.$error" class="alert">
+                    <ng-message when="required">Last name is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </md-input-container>
@@ -26,6 +35,14 @@
                 <ng-messages for="userForm.email.$error" class="alert">
                     <ng-message when="required">Email address is required.</ng-message>
                     <ng-message when="email">Email address is invalid.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Phone</label>
+                <input type="text" ng-model="user.phone" name="phone" maxlength="50">
+                <ng-messages for="userForm.phone.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </md-input-container>
