@@ -196,13 +196,15 @@
   }
 
   .shoppr-listing-preview {
-    height: 80%;
+    height: 140%;
     left: 65%;
     overflow-y: auto;
     padding: 0 30px;
     position: fixed;
     text-align: center;
     top: @topnavheight + @padding;
+    transform-origin: 0 0;
+    transform: scale(0.6);
 
     .iphone {
       max-width: 200px;
@@ -210,9 +212,12 @@
       object-fit: contain;
     }
 
+    * {
+      font-size: 17pt;
+    }
+
     h3 {
       color: @darkest-grey;
-      font-size: 12pt;
       margin: 20px 0 7px 0;
     }
   }

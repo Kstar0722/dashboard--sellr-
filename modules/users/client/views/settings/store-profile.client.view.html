@@ -47,7 +47,7 @@
                 </ng-messages>
             </md-input-container>
 
-            <div class="input-container" show-errors>
+            <div class="input-container form-group" show-errors>
                 <label for="store_about">About the Store</label>
                 <textarea id="store_about" class="block" ng-model="store.about" name="about" maxlength="4000" rows="4"></textarea>
                 <div class="chars-counter">184 / 200</div>
@@ -69,16 +69,16 @@
                 <tbody>
                     <tr ng-repeat="day in workSchedule">
                         <td>{{day.name}}</td>
-                        <td><md-switch ng-model="day.open" md-no-ink></md-switch></td>
+                        <td><md-switch ng-model="day.open" md-no-ink aria-label="Open"></md-switch></td>
                         <td></td>
                         <td class="time">
                             <md-input-container>
-                                <input type="time" ng-model="day.openTime">
+                                <input type="time" ng-model="day.openTime" aria-label="Opening TIme">
                             </md-input-container>
                         </td>
                         <td class="time">
                             <md-input-container>
-                                <input type="time" ng-model="day.closeTime">
+                                <input type="time" ng-model="day.closeTime" aria-label="Closing Time">
                             </md-input-container>
                         </td>
                     </tr>
@@ -89,7 +89,8 @@
 </form>
 
 <div class="shoppr-listing-preview">
-    <img class="iphone" src="https://upload.wikimedia.org/wikipedia/commons/0/01/IPhone6_silver_frontface.png">
+    <!--<img class="iphone" src="https://upload.wikimedia.org/wikipedia/commons/0/01/IPhone6_silver_frontface.png">-->
+    <sd-iphone-preview url="'http://example.com/'"></sd-iphone-preview>
     <h3>Shoppr App Preview</h3>
     <div>Scroll to view entire page</div>
 </div>
