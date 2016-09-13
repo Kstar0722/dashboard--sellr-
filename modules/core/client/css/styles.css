@@ -1969,6 +1969,8 @@ body .productEditor .loading-data .right {
 }
 .settings-container,
 .settings-container a,
+.settings-container textarea,
+.settings-container input,
 .settings-container .md-input {
   color: #555;
 }

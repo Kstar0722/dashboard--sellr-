@@ -4,8 +4,10 @@
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
   function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr) {
     $scope.user = angular.copy(Authentication.user);
-    // $scope.imageURL = $scope.user.profileImageURL;
+    $scope.store = {};
+
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+    $scope.aboutCharsLimit = 200;
 
     $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     $scope.workSchedule = $scope.weekdays.map(function (weekday) {
@@ -37,6 +39,12 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       // todo
     };
 
+    $scope.cancelOverLimited = function(ev) {
+      if ($scope.aboutCharsLeft <= 0 && String.fromCharCode(ev.charCode).length > 0) {
+        ev.preventDefault()
+      }
+    };
+
     // Change user password
     $scope.changeUserPassword = function (isValid) {
       $scope.password_success = $scope.password_error = null;
@@ -64,75 +72,22 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       });
     };
 
-    // Create file uploader instance
-    $scope.uploader = new FileUploader({
-      url: 'api/users/picture',
-      alias: 'newProfilePicture'
-    });
-
-    // Set file uploader image filter
-    $scope.uploader.filters.push({
-      name: 'imageFilter',
-      fn: function (item, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-      }
-    });
-
-    // Called after the user selected a new picture file
-    $scope.uploader.onAfterAddingFile = function (fileItem) {
-      if ($window.FileReader) {
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(fileItem._file);
-
-        fileReader.onload = function (fileReaderEvent) {
-          $timeout(function () {
-            $scope.imageURL = fileReaderEvent.target.result;
-          }, 0);
-        };
-      }
-    };
-
-    // Called after the user has successfully uploaded a new picture
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // Show success message
-      $scope.avatar_success = true;
-
-      // Populate user object
-      updateUserProfile(response);
-
-      // Clear upload buttons
-      $scope.cancelUpload();
-    };
-
-    // Called after the user has failed to uploaded a new picture
-    $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
-      // Clear upload buttons
-      $scope.cancelUpload();
-
-      // Show error message
-      $scope.avatar_error = response.message;
-    };
-
-    // Change user profile picture
-    $scope.uploadProfilePicture = function () {
-      // Clear messages
-      $scope.avatar_success = $scope.avatar_error = null;
-
-      // Start upload
-      $scope.uploader.uploadAll();
-    };
-
-    // Cancel the upload process
-    $scope.cancelUpload = function () {
-      $scope.uploader.clearQueue();
-      $scope.imageURL = $scope.user.profileImageURL;
-    };
+    $scope.$watch('store.about', function(about) { limitAboutLength(about); });
+    $scope.$watch('aboutCharsLimit', function() { limitAboutLength(); });
 
     function updateUserProfile(user) {
       angular.extend($scope.user, user);
       Authentication.user = angular.extend(Authentication.user, user);
       localStorage.setItem('userObject', JSON.stringify(Authentication.user))
+    }
+
+    function limitAboutLength(about) {
+      about = about || $scope.store.about;
+      var aboutText = $('<div>').html((about || '').trim().replace(/&nbsp;/g, ' ')).text();
+      $scope.aboutCharsLeft = $scope.aboutCharsLimit - aboutText.length;
+      if ($scope.aboutCharsLeft < 0) {
+        $scope.store.about = aboutText.substr(0, $scope.aboutCharsLimit);
+      }
     }
   }
 ]);

@@ -49,8 +49,8 @@
 
             <div class="input-container form-group" show-errors>
                 <label for="store_about">About the Store</label>
-                <textarea id="store_about" class="block" ng-model="store.about" name="about" maxlength="4000" rows="4"></textarea>
-                <div class="chars-counter">184 / 200</div>
+                <textarea id="store_about" class="block" ng-model="store.about" name="about" maxlength="500" rows="4" ng-keypress="cancelOverLimited($event)"></textarea>
+                <div class="chars-counter">{{aboutCharsLeft}} / {{aboutCharsLimit}}</div>
                 <ng-messages for="storeForm.about.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
