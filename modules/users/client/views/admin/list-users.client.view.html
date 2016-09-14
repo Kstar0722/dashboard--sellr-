@@ -9,14 +9,14 @@
 
   <div class="pagecontent user-management">
 
-    <div layout="row"  layout-align="space-between start" >
-      <div flex="40">
+    <div layout="row"  layout-align="space-around start" layout-padding layout-xs="column" layout-align-xs="start stretch" >
+      <div flex="45" flex-xs="100" flex-order-xs="2">
         <md-input-container class="md-block">
           <label>SEARCH</label>
           <input ng-model="search" >
         </md-input-container>
       </div>
-      <div>
+      <div flex="45" flex-xs="100" flex-order-xs="1">
         <md-button class="md-raised md-success invite" ng-click="inviteStoreView()">Invite User</md-button>
       </div>
     </div>
