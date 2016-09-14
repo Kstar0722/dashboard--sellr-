@@ -642,6 +642,13 @@ section.userList .invite {
 }
 section.userList .userbox {
   background: white;
+  padding: 20px;
+}
+.user-management .userbox {
+  padding: 20px;
+}
+.user-management .edit-user .controls {
+  margin-top: 20px;
 }
 .sign-in {
   background-image: url(' ../img/bg_3.png ');

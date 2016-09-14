@@ -1,14 +1,14 @@
 <!--Right Side view for editing users-->
 <!--Uses UserController in user.client.controller.js-->
 
-<section class="inner">
+<section class="inner edit-user">
 
   <h1>Editing User: {{ user.username }}</h1>
   <md-button  class="md-button md-raised md-primary"  ng-click="remove();" ng-if="user._id !== authentication.user._id">Remove User</md-button>
-    <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
-      <div layout-xs="column" layout-sm="column" layout-align="space-between center">
+  <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
+    <div layout-xs="column" layout-sm="column" layout-align="space-between stretch">
 
-        <md-input-container class="md-block" flex-gt-sm>
+      <md-input-container flex="100">
         <label>Display Name</label>
         <input ng-model="user.displayName">
         <div ng-messages="userForm.displayName.$error" role="alert">
@@ -16,42 +16,46 @@
         </div>
       </md-input-container>
 
-      </div>
-      <md-input-container class="md-block">
+      <md-input-container flex="100">
         <label>Email</label>
         <input ng-model="user.email">
         <div ng-messages="userForm.email.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Email is required.</p>
         </div>
       </md-input-container>
+    </div>
 
-      <!--TODO: add username stuff-->
-      <!--<md-input-container class="md-block">-->
-      <!--<label>Username</label>-->
-      <!--<input ng-model="user.username">-->
-      <!--<div ng-messages="userForm.username.$error" role="alert">-->
-      <!--<p class="help-block error-text" ng-message="required">Username is required.</p>-->
-      <!--</div>-->
-      <!--</md-input-container>-->
+    <!--TODO: add username stuff-->
+    <!--<md-input-container class="md-block">-->
+    <!--<label>Username</label>-->
+    <!--<input ng-model="user.username">-->
+    <!--<div ng-messages="userForm.username.$error" role="alert">-->
+    <!--<p class="help-block error-text" ng-message="required">Username is required.</p>-->
+    <!--</div>-->
+    <!--</md-input-container>-->
 
-          <label class="control-label">Roles</label>
-          <div class="controls">
-            <div id="checks" ng-repeat="role in roles">
-              <md-checkbox ng-model="role.selected">{{role.text}}
-            </div>
-            <div ng-messages="userForm.roles.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">At least one role is required.</p>
-            </div>
-          </div>
+    <div>
+      <label class="control-label">Roles</label>
+      <br>
+    </div>
+
+    <div class="controls">
+      <div id="checks" ng-repeat="role in roles">
+        <md-checkbox ng-model="role.selected">{{role.text}}
+        </div>
+        <div ng-messages="userForm.roles.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">At least one role is required.</p>
+        </div>
+      </div>
 
 
       <md-button class="md-button md-raised md-primary" type="submit">
-            Update
-          </md-button>
+        Update
+      </md-button>
 
-        <div ng-show="error" class="text-danger">
-          <strong ng-bind="error"></strong>
-        </div>
+      <div ng-show="error" class="text-danger">
+        <strong ng-bind="error"></strong>
+      </div>
 
     </form>
-</section>
+  </section>
