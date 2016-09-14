@@ -1996,7 +1996,7 @@ body .productEditor .loading-data .right {
   color: #ffffff;
 }
 .settings-container .md-button.green[disabled] {
-  background-color: #DFE3EB;
+  background-color: #DFE3EB !important;
 }
 .settings-container textarea.block {
   border: 1px solid #DFE3EB;

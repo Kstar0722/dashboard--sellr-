@@ -7,6 +7,7 @@ angular.module('core').service('constants', function (envService) {
   me.env = envService.read('env')
   me.API_URL = envService.read('API_URL')
   me.BWS_API = envService.read('BWS_API')
+  me.SHOPPR_URL = envService.read('SHOPPR_URL')
 
   me.CARDKIT_URL = 'https://www.cardkit.io/';
   me.GETSELLR_URL = 'https://getsellr.com/';

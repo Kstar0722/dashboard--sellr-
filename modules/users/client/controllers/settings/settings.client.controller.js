@@ -1,9 +1,10 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'uploadService', 'accountsService',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, uploadService, accountsService) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage',
+  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, uploadService, accountsService, PostMessage) {
     $scope.user = initUser(Authentication.user);
+    // $scope.user.accountId = 1269; // hardcode
     $scope.passwordDetails = {};
     $scope.store = {};
 
@@ -94,9 +95,18 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.$watch('aboutCharsLimit', function() { limitAboutLength(); });
     $scope.$watch('accountsService.accounts', loadStore);
 
+    $scope.$watch('store', function (storeInfo) {
+      // propagate store changes to preview iframe
+      PostMessage.send('store.update', storeInfo);
+    }, true);
+
     init();
 
     function init() {
+      PostMessage.on('store.initialized', function () {
+        PostMessage.send('store.update', $scope.store);
+      });
+
       loadStore(accountsService.accounts);
     }
 
@@ -129,6 +139,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     function loadStore(accounts) {
       if (_.isEmpty(accounts)) return;
       $scope.store = _.find(accounts, { accountId: $scope.user.accountId });
+
+      if ($scope.store) {
+        $scope.store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
+      }
     }
   }
 ]);

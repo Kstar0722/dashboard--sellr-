@@ -41,22 +41,26 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: {
           env: 'local',
           API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171'
+          BWS_API: 'http://localhost:7171',
+          SHOPPR_URL: 'http://localhost:7373'
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io'
+          BWS_API: 'https://bwsdev.sllr.io',
+          SHOPPR_URL: 'http://app.shoppronline.com'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://bwsqa.sllr.io'
+          BWS_API: 'https://bwsqa.sllr.io',
+          SHOPPR_URL: 'http://app.shoppronline.com'
         },
         production: {
           env: 'production',
           API_URL: 'https://api.sllr.io',
-          BWS_API: 'https://bws.sllr.io'
+          BWS_API: 'https://bws.sllr.io',
+          SHOPPR_URL: 'http://app.shoppronline.com'
         }
       }
     })
