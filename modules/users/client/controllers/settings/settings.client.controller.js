@@ -123,6 +123,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     }
 
     function initUser(user) {
+      if (!user) return user;
+
       var result = angular.copy(user);
       if (!('firstName' in result) && !('lastName' in result)) {
         var tmp = result.displayName.split(/\s+/);
