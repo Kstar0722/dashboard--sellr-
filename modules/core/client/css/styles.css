@@ -650,6 +650,14 @@ section.userList .userbox {
 .user-management .edit-user .controls {
   margin-top: 20px;
 }
+.user-management .edit-user .temp-password {
+  font-size: 16px;
+  margin-top: 30px;
+}
+.user-management .edit-user .temp-password span {
+  font-size: 18px;
+  font-weight: bold;
+}
 .sign-in {
   background-image: url(' ../img/bg_3.png ');
   background-size: cover;

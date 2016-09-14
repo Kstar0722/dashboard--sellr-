@@ -1,7 +1,7 @@
 'use strict'
 /* global angular, _ */
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state', '$http', 'toastr', 'constants', 'authToken',
-  function ($scope, Authentication, $mdDialog, $state, $http, toastr, constants, authToken) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$mdDialog', '$state', '$http', 'toastr', 'constants', 'authToken', 'Users',
+  function ($scope, Authentication, $mdDialog, $state, $http, toastr, constants, authToken, Users) {
     // This provides Authentication context.
     $scope.authentication = Authentication
     $scope.stuff = {}
@@ -34,37 +34,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         return false
       }
       $scope.stuff.email = $scope.stuff.passuser
-      var payload = {
-        payload: {
-          email: $scope.stuff.email
-        }
-      }
-      $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response, err) {
-        if (err) {
-          toastr.error('Can not reset password. Please contact Support')
-        }
-        // Show user success message and clear form
+      Users.resetPassword($scope.stuff.email).then(function (response) {
         $scope.credentials = null
-        var mailOptions = {
-          payload: {
-            source: 'password',
-            email: response.data.email,
-            title: 'Password Reset Success',
-            body: '<body> <p>Hey there! <br> You have requested to have your password reset for your account at the Sellr Dashboard </p> ' +
-            '<p>Please visit this url to reset your password:</p> ' +
-            '<p>' + 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + $scope.stuff.email + '</p> ' +
-            "<strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
-          }
-        }
-        if (response) {
-          $http.post(constants.API_URL + '/emails', mailOptions).then(function (res, err) {
-            if (err) {
-              toastr.error('Can not reset password. Please contact Support')
-            }
-            $scope.reset = false
-            toastr.success('Reset Password Email Sent')
-          })
-        }
+        $scope.reset = false
+        toastr.success('Reset Password Email Sent')
+      }, function (error) {
+        console.log('Error Forgot Password: ', error)
+        toastr.error('Can not reset password. Please contact Support')
       })
     }
     $scope.testFunction = function (ev) {
