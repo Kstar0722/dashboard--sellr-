@@ -127,7 +127,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       if (!('firstName' in result) && !('lastName' in result)) {
         var tmp = result.displayName.split(/\s+/);
         result.firstName = tmp[0];
-        result.lastName = tmp[1];
+        result.lastName = tmp.slice(1).join(' ');
         delete result.displayName;
       }
       return result;
