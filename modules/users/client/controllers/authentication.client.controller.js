@@ -107,7 +107,8 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     function onSigninSuccess (response) {
-      if (response.data.roles.indexOf(1003) === -1) {
+      // Check if user role is not set or if it is the only one
+      if (response.data.roles.indexOf(1003) === -1 || (response.data.roles.indexOf(1003) > -1 && response.data.roles.length === 1)) {
         toastr.error('There is an error with your account permissions. Please contact support')
         return
       }
