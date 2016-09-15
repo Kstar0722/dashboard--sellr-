@@ -107,6 +107,10 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     function onSigninSuccess (response) {
+      if (response.data.roles.indexOf(1003) === -1) {
+        toastr.error('There is an error with your account permissions. Please contact support')
+        return
+      }
       authToken.setToken(response.data.token.token)
       localStorage.setItem('roles', response.data.roles)
       localStorage.setItem('accountId', response.data.accountId)
