@@ -1,21 +1,15 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, uploadService, accountsService, PostMessage) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage) {
     $scope.user = initUser(Authentication.user);
-    // $scope.user.accountId = 1269; // hardcode
     $scope.passwordDetails = {};
     $scope.store = {};
 
     $scope.accountsService = accountsService;
-    $scope.popoverMsg = PasswordValidator.getPopoverMsg();
-    $scope.aboutCharsLimit = 200;
-
+    $scope.descriptionCharsLimit = 200;
     $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    $scope.workSchedule = $scope.weekdays.map(function (weekday) {
-      return { name: weekday, open: false, openTime: null, closeTime: null };
-    });
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
@@ -61,7 +55,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     };
 
     $scope.cancelOverLimited = function(ev) {
-      if ($scope.aboutCharsLeft <= 0 && String.fromCharCode(ev.charCode).length > 0) {
+      if ($scope.descriptionCharsLeft <= 0 && String.fromCharCode(ev.charCode).length > 0) {
         ev.preventDefault()
       }
     };
@@ -91,8 +85,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       });
     };
 
-    $scope.$watch('store.about', function(about) { limitAboutLength(about); });
-    $scope.$watch('aboutCharsLimit', function() { limitAboutLength(); });
+    $scope.$watch('store.description', function(description) { limitDescriptionLength(description); });
+    $scope.$watch('descriptionCharsLimit', function() { limitDescriptionLength(); });
     $scope.$watch('accountsService.accounts', loadStore);
 
     $scope.$watch('store', function (storeInfo) {
@@ -127,12 +121,12 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       return result;
     }
 
-    function limitAboutLength(about) {
-      about = about || $scope.store.about;
-      var aboutText = $('<div>').html((about || '').trim().replace(/&nbsp;/g, ' ')).text();
-      $scope.aboutCharsLeft = $scope.aboutCharsLimit - aboutText.length;
-      if ($scope.aboutCharsLeft < 0) {
-        $scope.store.about = aboutText.substr(0, $scope.aboutCharsLimit);
+    function limitDescriptionLength(description) {
+      description = description || $scope.store.description;
+      var descriptionText = $('<div>').html((description || '').trim().replace(/&nbsp;/g, ' ')).text();
+      $scope.descriptionCharsLeft = $scope.descriptionCharsLimit - descriptionText.length;
+      if ($scope.descriptionCharsLeft < 0) {
+        $scope.store.description = descriptionText.substr(0, $scope.descriptionCharsLimit);
       }
     }
 
@@ -141,8 +135,17 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $scope.store = _.find(accounts, { accountId: $scope.user.accountId });
 
       if ($scope.store) {
+        $scope.store.workSchedule = initWorkSchedule($scope.store.workSchedule);
         $scope.store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
       }
+    }
+
+    function initWorkSchedule(workSchedule) {
+      workSchedule = workSchedule || {};
+      return $scope.weekdays.map(function (weekday, i) {
+        var day = _.find(workSchedule, { name: weekday });
+        return day || { day: i, name: weekday, open: false, openTime: null, closeTime: null };
+      });
     }
   }
 ]);

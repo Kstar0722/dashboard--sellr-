@@ -56,10 +56,10 @@
             </md-input-container>
 
             <div class="input-container form-group" show-errors>
-                <label for="store_about">About the Store</label>
-                <textarea id="store_about" class="block" ng-model="store.about" name="about" maxlength="500" rows="4" ng-keypress="cancelOverLimited($event)"></textarea>
-                <div class="chars-counter">{{aboutCharsLeft}} / {{aboutCharsLimit}}</div>
-                <ng-messages for="storeForm.about.$error" class="alert">
+                <label for="store_description">About the Store</label>
+                <textarea id="store_description" class="block" ng-model="store.description" name="description" maxlength="500" rows="4" ng-keypress="cancelOverLimited($event)"></textarea>
+                <div class="chars-counter">{{descriptionCharsLeft}} / {{descriptionCharsLimit}}</div>
+                <ng-messages for="storeForm.description.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </div>
@@ -75,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="day in workSchedule">
+                    <tr ng-repeat="day in store.workSchedule">
                         <td>{{day.name}}</td>
                         <td><md-switch ng-model="day.open" md-no-ink aria-label="Open"></md-switch></td>
                         <td></td>
