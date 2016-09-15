@@ -1,8 +1,8 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage',
-  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', '$mdMedia',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, $mdMedia) {
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
     $scope.store = {};
@@ -10,6 +10,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.accountsService = accountsService;
     $scope.descriptionCharsLimit = 200;
     $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    $scope.$mdMedia = $mdMedia;
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {

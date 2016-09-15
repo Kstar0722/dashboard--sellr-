@@ -14,12 +14,13 @@ angular.module('users').config([ '$stateProvider',
         }
       })
       .state('settings', {
-        abstract: true,
         url: '/settings',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        // data: {
-        //   roles: ['user', 'admin']
-        // }
+        controller: function ($state) {
+          if ($state.is('settings')) {
+            $state.go('settings.profile'); // default route
+          }
+        }
       })
       .state('settings.profile', {
         url: '/profile',

@@ -18,6 +18,10 @@
     background: #eeeeee;
     padding: 0 35px;
 
+    @media @small-only {
+      padding-left: 18px;
+    }
+
     .md-toolbar-tools {
       padding: 0;
     }
@@ -53,6 +57,10 @@
   .settings-view {
     padding: @padding;
 
+    @media @small-only {
+      margin: -20px;
+    }
+
     &:before {
       content: '';
       width: @menu-width;
@@ -60,11 +68,13 @@
   }
 
   .account-menu {
-    position: fixed !important;
     left: @padding;
-    top: @topnavheight + @padding;
+    margin-bottom: 30px;
     padding: 0 10px;
+    position: fixed !important;
+    top: @topnavheight + @padding;
     width: @menu-width;
+    z-index: 10;
 
     .main-content.main-menu-shown & {
       top: @topnavheight + @mainnavheight + @padding;
@@ -72,6 +82,7 @@
 
     md-sidenav {
       background: @back-default;
+      max-width: initial;
       padding: 16px 24px;
       width: auto;
 
@@ -103,6 +114,11 @@
 
   .view {
     padding: 10px 35px;
+    min-height: 60vh;
+
+    @media @small-only {
+      margin: 0 -18px;
+    }
 
     md-input-container,
     .input-container {
@@ -133,7 +149,15 @@
 
   .store-profile {
     background-color: @back-default;
+    min-width: 530px;
+    padding-bottom: 20px;
+    width: 70vw;
     z-index: 1;
+
+    @media @small-only {
+      min-width: initial;
+      width: auto;
+    }
 
     .chars-counter {
       color: @med-grey;
@@ -178,6 +202,12 @@
         min-width: 110px;
       }
 
+      @media @small-only {
+        input[type="time"] {
+          min-width: initial;
+        }
+      }
+
       md-switch,
       md-input-container {
         margin: 0;
@@ -208,7 +238,9 @@
 
   .shoppr-listing-preview {
     height: 140%;
-    left: 65%;
+    left: 69.5%;
+    margin-left: 20px;
+    min-width: 428px;
     overflow-y: auto;
     padding: 0 30px;
     position: fixed;
@@ -230,6 +262,34 @@
     h3 {
       color: @darkest-grey;
       margin: 20px 0 7px 0;
+    }
+
+    @media @small-only {
+      margin-left: 0;
+      margin-top: 30px;
+    }
+  }
+
+  .settings-view.fullsize {
+    -webkit-flex-direction: column !important;
+    -ms-flex-direction: column !important;
+    flex-direction: column !important;
+
+    .account-menu {
+      padding: 0;
+      position: static !important;
+      width: auto;
+    }
+
+    .view-container {
+      margin-left: 0;
+      max-width: initial;
+      padding: 0;
+    }
+
+    .shoppr-listing-preview {
+      padding: 0;
+      position: static;
     }
   }
 }
