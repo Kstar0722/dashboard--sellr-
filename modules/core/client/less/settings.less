@@ -34,11 +34,6 @@
 
   .settings-view {
     padding: @padding;
-
-    &:before {
-      content: '';
-      width: @menu-width;
-    }
   }
 
   .account-menu {
@@ -77,7 +72,6 @@
   }
 
   .view-container {
-    margin-left: 30px;
     padding: 0;
   }
 
@@ -91,6 +85,17 @@
         font-weight: bold;
         color: @dark-grey;
       }
+    }
+  }
+
+  .settings-view.show-sidenav {
+    &:before {
+      content: '';
+      width: @menu-width;
+    }
+
+    .view-container {
+      margin-left: 30px;
     }
   }
 

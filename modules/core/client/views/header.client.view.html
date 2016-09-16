@@ -83,6 +83,7 @@
         <!--non-dropdowns-->
         <md-button ng-repeat="item in mainMenu.items | orderBy:'position'" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" layout="column">
           <img ng-src="{{item.icon}}" ng-if="item.icon" class="icon svg inline-svg">
+          <i class="fa fa-2x icon" ng-class="item.iconFA" ng-if="item.iconFA"></i>
           <div>{{item.title}}</div>
           <div class="nav-order-count" ng-if="item.title === 'Orders' && accountsService.ordersCount !== 0" ng-bind="accountsService.ordersCount"></div>
         </md-button>

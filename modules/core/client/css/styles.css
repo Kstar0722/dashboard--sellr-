@@ -295,6 +295,7 @@ body.loading .main-content {
   height: 50px;
   margin-bottom: -5px;
   width: 50px;
+  line-height: 55px;
 }
 #mainNav .md-toolbar-tools .submenus-items {
   padding: 0;
@@ -1996,10 +1997,6 @@ body .productEditor .loading-data .right {
 .settings-container .settings-view {
   padding: 30px;
 }
-.settings-container .settings-view:before {
-  content: '';
-  width: 220px;
-}
 .settings-container .account-menu {
   position: fixed !important;
   left: 30px;
@@ -2029,7 +2026,6 @@ body .productEditor .loading-data .right {
   color: #171625;
 }
 .settings-container .view-container {
-  margin-left: 30px;
   padding: 0;
 }
 .settings-container .view {
@@ -2041,6 +2037,13 @@ body .productEditor .loading-data .right {
 .settings-container .view md-input-container label {
   font-weight: bold;
   color: #1f2532;
+}
+.settings-container .settings-view.show-sidenav:before {
+  content: '';
+  width: 220px;
+}
+.settings-container .settings-view.show-sidenav .view-container {
+  margin-left: 30px;
 }
 .settings-container .my-profile fieldset,
 .settings-container .change-password fieldset {

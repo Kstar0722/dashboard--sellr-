@@ -1,12 +1,17 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'accountsService',
+  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, accountsService) {
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
 
     // $scope.imageURL = $scope.user.profileImageURL;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+
+    accountsService.bindSelectedAccount($scope);
+    $scope.$watch('selectAccountId', function () {
+      // init();
+    });
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {

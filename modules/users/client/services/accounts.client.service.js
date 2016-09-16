@@ -2,7 +2,7 @@
 angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService, $rootScope) {
   var me = this
   me.init = function () {
-    me.selectAccountId = localStorage.getItem('accountId')
+    me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}
@@ -25,7 +25,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
           account.storeImg = JSON.parse(account.preferences).storeImg
           account.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
         }
-        if (account.accountId === me.selectAccountId) {
+        if (me.selectAccountId && account.accountId == me.selectAccountId) {
           me.currentAccount = account
           intercomService.intercomActivation()
           console.log('setting current account %O', me.currentAccount)
