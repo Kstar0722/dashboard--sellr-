@@ -32,11 +32,25 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     $scope.updateStoreProfile = function (isValid) {
       if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'userForm');
+        $scope.$broadcast('show-errors-check-validity', 'storeForm');
         return false;
       }
 
-      // todo
+      $scope.store.storeId = $scope.store.accountId;
+
+      var payload = {
+        payload: {
+          storeId: $scope.store
+        }
+      };
+
+      $http.put(constants.BWS_API + '/storedb/stores/details', payload).success(function (response) {
+        // If successful show success message and clear form
+        $scope.$broadcast('show-errors-reset', 'storeForm');
+        toastr.success('Store saved successfully');
+      }).error(function (response) {
+        toastr.error(response.data.message);
+      });
     };
 
     $scope.uploadStoreImage = function (files, accountId) {
@@ -138,7 +152,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $scope.store = _.find(accounts, { accountId: $scope.user.accountId });
 
       if ($scope.store) {
-        $scope.store.workSchedule = initWorkSchedule($scope.store.workSchedule);
+        $scope.store.details = $scope.store.details || {};
+        $scope.store.details.workSchedule = initWorkSchedule($scope.store.details.workSchedule);
         $scope.store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
       }
     }

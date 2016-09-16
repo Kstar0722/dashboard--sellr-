@@ -32,7 +32,7 @@
 
             <md-input-container show-errors>
                 <label>Store Phone Number</label>
-                <input type="text" ng-model="store.phone" name="phone" maxlength="50">
+                <input type="text" ng-model="store.details.contactInfo.phone" name="phone" maxlength="50">
                 <ng-messages for="storeForm.phone.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
@@ -40,8 +40,16 @@
 
             <md-input-container show-errors>
                 <label>Store Address</label>
-                <input type="text" ng-model="store.address" name="address" maxlength="400">
-                <ng-messages for="storeForm.address.$error" class="alert">
+                <input type="text" ng-model="store.details.contactInfo.address1" name="address1" maxlength="400">
+                <ng-messages for="storeForm.address1.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Address (Line 2)</label>
+                <input type="text" ng-model="store.details.contactInfo.address2" name="address2" maxlength="400">
+                <ng-messages for="storeForm.address2.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </md-input-container>
@@ -75,7 +83,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="day in store.workSchedule">
+                    <tr ng-repeat="day in store.details.workSchedule">
                         <td>{{day.name}}</td>
                         <td><md-switch ng-model="day.open" md-no-ink aria-label="Open"></md-switch></td>
                         <td></td>
