@@ -14,21 +14,24 @@ angular.module('users').config([ '$stateProvider',
         }
       })
       .state('settings', {
-        url: '/settings',
+        url: '/account/:accountId?',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        controller: function ($state) {
+        controller: function($state, $stateParams) {
           if ($state.is('settings')) {
-            $state.go('settings.profile'); // default route
+            $state.go('settings.profile', $stateParams);
           }
         }
       })
       .state('settings.profile', {
         url: '/profile',
-        templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
+        templateUrl: 'modules/users/client/views/settings/my-profile.client.view.html'
       })
       .state('settings.store', {
         url: '/store',
         templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
+      .state('editProfile', {
+        url: '/profile',
+        templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
       })
       .state('settings.accounts', {
         url: '/accounts',

@@ -12,6 +12,11 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     $scope.$mdMedia = $mdMedia;
 
+    accountsService.bindSelectedAccount($scope);
+    $scope.$watch('selectAccountId', function () {
+      // init();
+    });
+
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
       if (!isValid) {
