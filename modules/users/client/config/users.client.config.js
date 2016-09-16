@@ -31,7 +31,7 @@ angular.module('users').config(['$httpProvider',
   Menus.addMenuItem('main', {
     title: 'Account',
     iconFA: 'fa-cogs',
-    state: 'settings.profile',
+    state: 'settings',
     type: 'button',
     roles: [1002],
     position: 3

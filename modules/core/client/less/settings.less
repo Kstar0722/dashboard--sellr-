@@ -60,11 +60,6 @@
     @media @small-only {
       margin: -20px;
     }
-
-    &:before {
-      content: '';
-      width: @menu-width;
-    }
   }
 
   .account-menu {
@@ -247,7 +242,7 @@
   }
 
   .shoppr-listing-preview {
-    height: 140%;
+    height: 120%;
     left: 69.5%;
     margin-left: 20px;
     min-width: 428px;
@@ -258,6 +253,10 @@
     top: @topnavheight + @padding;
     transform-origin: 0 0;
     transform: scale(0.6);
+
+    .main-content.main-menu-shown & {
+      top: @topnavheight + @mainnavheight + @padding;
+    }
 
     .iphone {
       max-width: 200px;

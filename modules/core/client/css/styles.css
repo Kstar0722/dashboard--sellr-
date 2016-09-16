@@ -2024,10 +2024,6 @@ body .productEditor .loading-data .right {
     margin: -20px;
   }
 }
-.settings-container .settings-view:before {
-  content: '';
-  width: 220px;
-}
 .settings-container .account-menu {
   left: 30px;
   margin-bottom: 30px;
@@ -2174,7 +2170,7 @@ body .productEditor .loading-data .right {
   display: none;
 }
 .settings-container .shoppr-listing-preview {
-  height: 140%;
+  height: 120%;
   left: 69.5%;
   margin-left: 20px;
   min-width: 428px;
@@ -2185,6 +2181,9 @@ body .productEditor .loading-data .right {
   top: 80px;
   transform-origin: 0 0;
   transform: scale(0.6);
+}
+.main-content.main-menu-shown .settings-container .shoppr-listing-preview {
+  top: 200px;
 }
 .settings-container .shoppr-listing-preview .iphone {
   max-width: 200px;
