@@ -29,6 +29,7 @@ angular.module('users').config([ '$stateProvider',
       .state('settings.store', {
         url: '/store',
         templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
+      })
       .state('editProfile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'

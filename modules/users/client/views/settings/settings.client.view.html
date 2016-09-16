@@ -1,6 +1,7 @@
 <section ng-controller="SettingsController" class="settings-container">
-    <div class="settings-view" layout="row" layout-xs="column" layout-padding
+    <div class="settings-view show-sidenav" layout="row" layout-xs="column" layout-padding
          ng-class="{ fullsize: $mdMedia('xs') || !$mdMedia('gt-md') && $state.is('settings.store') }">
+
         <div class="account-menu" layout="column">
             <md-sidenav md-is-locked-open="true" md-whiteframe="3" layout-padding>
                 <h1>My Account</h1>
