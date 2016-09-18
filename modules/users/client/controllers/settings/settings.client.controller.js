@@ -159,7 +159,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       if ($scope.store) {
         $scope.store.details = $scope.store.details || {};
         $scope.store.details.workSchedule = initWorkSchedule($scope.store.details.workSchedule);
-        $scope.store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
+        // $scope.store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
+        $scope.store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
       }
     }
 
