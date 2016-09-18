@@ -1,8 +1,8 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', '$mdMedia',
-  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, $mdMedia) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', '$mdMedia', 'orderDataService',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, $mdMedia, orderDataService) {
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
     $scope.store = {};
@@ -14,7 +14,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     accountsService.bindSelectedAccount($scope);
     $scope.$watch('selectAccountId', function () {
-      // init();
+      loadStore(accountsService.accounts);
     });
 
     // Update a user profile
@@ -40,8 +40,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         $scope.$broadcast('show-errors-check-validity', 'storeForm');
         return false;
       }
-
-      $scope.store.storeId = $scope.store.accountId;
 
       var payload = {
         payload: $scope.store
@@ -152,21 +150,29 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     function loadStore(accounts) {
       if (_.isEmpty(accounts)) return;
-      $scope.store = _.find(accounts, { accountId: $scope.user.accountId });
 
-      if ($scope.store) {
-        $scope.store.details = $scope.store.details || {};
-        $scope.store.details.workSchedule = initWorkSchedule($scope.store.details.workSchedule);
-        // $scope.store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
-        $scope.store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
-      }
+      var account = _.find(accounts, { accountId: $scope.selectAccountId || $scope.user.accountId });
+      if (!account) return $scope.store = null;
+
+      orderDataService.getAllStores({ accountId: account.accountId }).then(function (stores) {
+        var store = $scope.store = _.find(stores, { accountId: account.accountId }) || {};
+
+        store.storeImg = store.storeImg || account.storeImg;
+        store.details = store.details || {};
+        store.details.workSchedule = initWorkSchedule(store.details.workSchedule);
+        // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
+        store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
+      });
     }
 
     function initWorkSchedule(workSchedule) {
       workSchedule = workSchedule || {};
       return $scope.weekdays.map(function (weekday, i) {
         var day = _.find(workSchedule, { name: weekday });
-        return day || { day: i, name: weekday, open: false, openTime: null, closeTime: null };
+        if (!day) return { day: i, name: weekday, open: false, openTime: null, closeTime: null };
+        if (day.openTime) day.openTime = moment.utc(day.openTime).toDate();
+        if (day.closeTime) day.closeTime = moment.utc(day.closeTime).toDate();
+        return day;
       });
     }
   }
