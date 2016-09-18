@@ -44,9 +44,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $scope.store.storeId = $scope.store.accountId;
 
       var payload = {
-        payload: {
-          storeId: $scope.store
-        }
+        payload: $scope.store
       };
 
       $http.put(constants.BWS_API + '/storedb/stores/details', payload).success(function (response) {
