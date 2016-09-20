@@ -101,9 +101,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       });
     };
 
-    $scope.generateEmbedJsCode = function (host) {
-      var storeId = $scope.selectAccountId || $scope.user.accountId;
-
+    $scope.generateEmbedJsCode = function (host, storeId) {
       var code = $('#embedJsCodeTemplate').html()
         .replace(/{{host}}/g, host || '')
         .replace(/{{storeId}}/g, storeId || '');
@@ -183,6 +181,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         store.details.workSchedule = initWorkSchedule(store.details.workSchedule);
         // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
         store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
+
+        $scope.shopprEmbedJs = $scope.generateEmbedJsCode('app.shoppronline.com', account.accountId);
       });
     }
 
