@@ -2169,6 +2169,20 @@ body .productEditor .loading-data .right {
 .settings-container .store-profile table.work-schedule .md-errors-spacer {
   display: none;
 }
+.settings-container .store-profile .embed {
+  margin-top: 30px;
+}
+.settings-container .store-profile .embed textarea {
+  font-family: Arial;
+  font-size: 11pt;
+  min-height: 272px;
+  width: 100%;
+}
+.settings-container .store-profile .embed .copy-code {
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+}
 .settings-container .shoppr-listing-preview {
   height: 120%;
   left: 69.5%;

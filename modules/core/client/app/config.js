@@ -18,7 +18,8 @@ var ApplicationConfiguration = (function () {
       'angular-loading-bar',
       'angulartics',
       'angulartics.gosquared',
-      'ngPostMessage'
+      'ngPostMessage',
+      'angular-clipboard'
     ];
 
   // Add a new vertical module

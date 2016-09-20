@@ -1,8 +1,8 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', '$mdMedia', 'orderDataService',
-  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, $mdMedia, orderDataService) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', '$mdMedia', 'orderDataService', '$sce',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, $mdMedia, orderDataService, $sce) {
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
     $scope.store = {};
@@ -101,6 +101,27 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       });
     };
 
+    $scope.generateEmbedJsCode = function (host) {
+      var storeId = $scope.selectAccountId || $scope.user.accountId;
+
+      var code = $('#embedJsCodeTemplate').html()
+        .replace(/{{host}}/g, host || '')
+        .replace(/{{storeId}}/g, storeId || '');
+
+      code = unindent(code);
+
+      return $sce.trustAsHtml(code);
+    };
+
+    $scope.lines = function (text) {
+      if (!text) return;
+      return text.toString().split('\n').length;
+    };
+
+    $scope.embedCodeCopied = function () {
+      toastr.success('Copied embed code to clipboard');
+    };
+
     $scope.$watch('store.description', function(description) { limitDescriptionLength(description); });
     $scope.$watch('descriptionCharsLimit', function() { limitDescriptionLength(); });
     $scope.$watch('accountsService.accounts', loadStore);
@@ -174,6 +195,16 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         if (day.closeTime) day.closeTime = moment.utc(day.closeTime).toDate();
         return day;
       });
+    }
+
+    function unindent(text) {
+      if (!text) return text;
+      var gIndent = text.match(/^(\s*)/)[0].length;
+      var result = text.split('\n').map(function (line) {
+        var indent = line.match(/^(\s*)/)[0].length;
+        return line.substr(Math.min(gIndent, indent));
+      }).join('\n').trim();
+      return result;
     }
   }
 ]);

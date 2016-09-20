@@ -101,6 +101,33 @@
                 </tbody>
             </table>
         </fieldset>
+
+        <div class="embed">
+            <p>Use this embed code to place your Shoppr app into other pages.</p>
+            <textarea id="embedJsCode" readonly="readonly" ng-model="shopprEmbedJs" md-select-on-focus ng-init="shopprEmbedJs = generateEmbedJsCode('app.shoppronline.com')" rows="{{lines(shopprEmbedJs)}}">
+            </textarea>
+
+            <md-button type="button" class="copy-code md-raised md-primary" clipboard text="shopprEmbedJs" on-copied="embedCodeCopied()">Copy Code</md-button>
+
+            <template id="embedJsCodeTemplate">
+                <script type="text/javascript">var shopprStore;(function(d, t) {
+                    var host = '{{host}}';
+                    var storeId = Number({{storeId}});
+                    var s = d.createElement(t), options = {
+                        'storeId':storeId,
+                        'autoResize':true,
+                        'async':true,
+                        'host':host,
+                        'target':document.currentScript
+                    };
+                    s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + host + '/embed.js';
+                    s.onload = s.onreadystatechange = function() {
+                        var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+                        try { shopprStore = new ShopprView();shopprStore.initialize(options);shopprStore.display(); } catch (e) {}};
+                    var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+                })(document, 'script');</script>
+            </template>
+        </div>
     </div>
 </form>
 
