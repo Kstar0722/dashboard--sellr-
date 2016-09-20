@@ -1,8 +1,10 @@
 
 .sign-in {
-  background-image: url(@home_bg);
-  background-size: cover;
-  background-position: center;
+  @media @medium-up {
+    background-image: url(@home_bg);
+    background-size: cover;
+    background-position: center;
+  }
   top: 0;
   position: absolute;
   width: 100vw;
@@ -16,10 +18,12 @@
     min-height: 100vh;
     top: 0;
     position: absolute;
-    background: rgba(0,0,0,.3);
-    background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-stop);
-    background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-stop);
-    background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-stop);
+    @media @medium-up {
+      background: rgba(0,0,0,.3);
+      background: -moz-linear-gradient(45deg, @gradient-top  @gradient-start, @gradient-bottom @gradient-stop);
+      background: -webkit-linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-stop);
+      background: linear-gradient(45deg, @gradient-top @gradient-start,  @gradient-bottom @gradient-stop);
+    }
   }
 
   #login-form,
@@ -28,10 +32,18 @@
     margin: auto;
     margin-top: 10vh;
     margin-bottom: 10vh;
+    @media @small-only {
+      margin-top: 0vh;
+    }
 
     .alt-actions  {
       margin-top: 2vh;
       font-size: 13px;
+      color: #efefef;
+      @media @small-only {
+        color: #4b4e53;
+        padding: 0px 20px 20px 20px;
+      }
       a {
         color: @brand-primary;
         font-weight: bold;
@@ -44,12 +56,14 @@
         }
 
       }
-      color: #efefef;
 
     }
     form {
       background: white;
       padding: 50px 100px;
+      @media @small-only {
+        padding: 50px 20px;
+      }
     }
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0px 1000px white inset;

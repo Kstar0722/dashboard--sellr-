@@ -660,9 +660,6 @@ section.userList .userbox {
   font-weight: bold;
 }
 .sign-in {
-  background-image: url(' ../img/bg_3.png ');
-  background-size: cover;
-  background-position: center;
   top: 0;
   position: absolute;
   width: 100vw;
@@ -670,15 +667,26 @@ section.userList .userbox {
   overflow-y: scroll;
   background-repeat: no-repeat;
 }
+@media only screen and (min-width:601px) {
+  .sign-in {
+    background-image: url(' ../img/bg_3.png ');
+    background-size: cover;
+    background-position: center;
+  }
+}
 .sign-in .shading {
   width: 100vw;
   min-height: 100vh;
   top: 0;
   position: absolute;
-  background: rgba(0, 0, 0, 0.3);
-  background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
-  background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
-  background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+}
+@media only screen and (min-width:601px) {
+  .sign-in .shading {
+    background: rgba(0, 0, 0, 0.3);
+    background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+    background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+  }
 }
 .sign-in #login-form,
 .sign-in #reset-form {
@@ -687,11 +695,24 @@ section.userList .userbox {
   margin-top: 10vh;
   margin-bottom: 10vh;
 }
+@media only screen and (max-width: 600px) {
+  .sign-in #login-form,
+  .sign-in #reset-form {
+    margin-top: 0vh;
+  }
+}
 .sign-in #login-form .alt-actions,
 .sign-in #reset-form .alt-actions {
   margin-top: 2vh;
   font-size: 13px;
   color: #efefef;
+}
+@media only screen and (max-width: 600px) {
+  .sign-in #login-form .alt-actions,
+  .sign-in #reset-form .alt-actions {
+    color: #4b4e53;
+    padding: 0px 20px 20px 20px;
+  }
 }
 .sign-in #login-form .alt-actions a,
 .sign-in #reset-form .alt-actions a {
@@ -709,6 +730,12 @@ section.userList .userbox {
 .sign-in #reset-form form {
   background: white;
   padding: 50px 100px;
+}
+@media only screen and (max-width: 600px) {
+  .sign-in #login-form form,
+  .sign-in #reset-form form {
+    padding: 50px 20px;
+  }
 }
 .sign-in #login-form input:-webkit-autofill,
 .sign-in #reset-form input:-webkit-autofill {
