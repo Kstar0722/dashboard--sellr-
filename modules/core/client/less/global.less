@@ -30,6 +30,18 @@
   height: 0;
 }
 
+.hide-xs{
+  @media @small-only {
+    display: none;
+  }
+}
+.show-xs{
+  display: none;
+  @media @small-only {
+    display: block;
+  }
+}
+
 div.custom-btn{
   color: #fff;
   background-color: @green;

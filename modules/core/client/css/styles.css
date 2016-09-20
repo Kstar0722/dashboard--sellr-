@@ -73,6 +73,19 @@ body [ng-click]:focus {
   clear: both;
   height: 0;
 }
+@media only screen and (max-width: 600px) {
+  .hide-xs {
+    display: none;
+  }
+}
+.show-xs {
+  display: none;
+}
+@media only screen and (max-width: 600px) {
+  .show-xs {
+    display: block;
+  }
+}
 div.custom-btn {
   color: #fff;
   background-color: #2DC89A;
@@ -852,6 +865,14 @@ section.userList .userbox {
 .adManager .upload {
   background-color: #2DC89A;
   color: white;
+}
+.adManager .drop-box {
+  margin: 0px;
+}
+@media only screen and (max-width: 600px) {
+  .adManager .drop-box {
+    height: 10vh;
+  }
 }
 .adManager .ads {
   background: white;
