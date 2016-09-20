@@ -295,6 +295,7 @@ body.loading .main-content {
   height: 50px;
   margin-bottom: -5px;
   width: 50px;
+  line-height: 55px;
 }
 #mainNav .md-toolbar-tools .submenus-items {
   padding: 0;
@@ -1982,14 +1983,94 @@ body .productEditor .loading-data .right {
     transform: translate(-30px, -30px);
   }
 }
-.settings-container form {
-  margin: 20px auto;
+.settings-container,
+.settings-container a,
+.settings-container .md-input {
+  color: #555;
 }
-.settings-container .text-success {
-  color: #31c693;
+.settings-container h1 {
+  color: #2DC89A;
+  font-weight: bold;
+  font-size: 12pt;
+  padding: 8px 0;
+  margin: 0;
 }
-.settings-container .text-danger {
-  color: #ff0400;
+.settings-container .header-bar {
+  background: #eeeeee;
+  padding: 0 35px;
+}
+.settings-container .header-bar .md-toolbar-tools {
+  padding: 0;
+}
+.settings-container .md-button {
+  border-radius: 0;
+}
+.settings-container .save {
+  background: #2DC89A !important;
+  color: #ffffff;
+}
+.settings-container .settings-view {
+  padding: 30px;
+}
+.settings-container .account-menu {
+  position: fixed !important;
+  left: 30px;
+  top: 80px;
+  padding: 0 10px;
+  width: 220px;
+}
+.main-content.main-menu-shown .settings-container .account-menu {
+  top: 200px;
+}
+.settings-container .account-menu md-sidenav {
+  padding: 16px 24px;
+  width: auto;
+}
+.settings-container .account-menu md-sidenav > * {
+  padding: 8px 0;
+}
+.settings-container .account-menu md-sidenav md-divider {
+  margin: 12px 0;
+  padding: 0;
+}
+.settings-container .account-menu a {
+  cursor: pointer;
+}
+.settings-container .account-menu a.active {
+  font-weight: bold;
+  color: #171625;
+}
+.settings-container .view-container {
+  padding: 0;
+}
+.settings-container .view {
+  padding: 10px 35px;
+}
+.settings-container .view md-input-container {
+  padding: 2px 0;
+}
+.settings-container .view md-input-container label {
+  font-weight: bold;
+  color: #1f2532;
+}
+.settings-container .settings-view.show-sidenav:before {
+  content: '';
+  width: 220px;
+}
+.settings-container .settings-view.show-sidenav .view-container {
+  margin-left: 30px;
+}
+.settings-container .my-profile fieldset,
+.settings-container .change-password fieldset {
+  max-width: 350px;
+  margin-top: 30px;
+}
+.settings-container .my-profile .md-button,
+.settings-container .change-password .md-button {
+  margin-left: 0;
+}
+.settings-container .change-password {
+  margin-bottom: 30px;
 }
 .store-client-view {
   margin: 20px auto 40px;

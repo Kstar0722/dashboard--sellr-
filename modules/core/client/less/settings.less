@@ -1,13 +1,117 @@
 .settings-container {
-  form {
-    margin: 20px auto;
+  @padding: 30px;
+  @menu-width: 220px;
+
+  &, a, .md-input {
+    color: #555;
   }
 
-  .text-success {
-    color: @status-green;
+  h1 {
+    color: @green;
+    font-weight: bold;
+    font-size: 12pt;
+    padding: 8px 0;
+    margin: 0;
   }
 
-  .text-danger {
-    color: @status-red;
+  .header-bar {
+    background: #eeeeee;
+    padding: 0 35px;
+
+    .md-toolbar-tools {
+      padding: 0;
+    }
+  }
+
+  .md-button {
+    border-radius: 0;
+  }
+
+  .save {
+    background: @green !important;
+    color: @white;
+  }
+
+  .settings-view {
+    padding: @padding;
+  }
+
+  .account-menu {
+    position: fixed !important;
+    left: @padding;
+    top: @topnavheight + @padding;
+    padding: 0 10px;
+    width: @menu-width;
+
+    .main-content.main-menu-shown & {
+      top: @topnavheight + @mainnavheight + @padding;
+    }
+
+    md-sidenav {
+      padding: 16px 24px;
+      width: auto;
+
+      > * {
+        padding: 8px 0;
+      }
+
+      md-divider {
+        margin: 12px 0;
+        padding: 0;
+      }
+    }
+
+    a {
+      cursor: pointer;
+
+      &.active {
+        font-weight: bold;
+        color: @darkest-grey;
+      }
+    }
+  }
+
+  .view-container {
+    padding: 0;
+  }
+
+  .view {
+    padding: 10px 35px;
+
+    md-input-container {
+      padding: 2px 0;
+
+      label {
+        font-weight: bold;
+        color: @dark-grey;
+      }
+    }
+  }
+
+  .settings-view.show-sidenav {
+    &:before {
+      content: '';
+      width: @menu-width;
+    }
+
+    .view-container {
+      margin-left: 30px;
+    }
+  }
+
+  .my-profile,
+  .change-password {
+    fieldset {
+      max-width: 350px;
+      margin-top: 30px;
+    }
+
+    .md-button {
+      margin-left: 0;
+    }
+  }
+
+  .change-password {
+    margin-bottom: 30px;
   }
 }

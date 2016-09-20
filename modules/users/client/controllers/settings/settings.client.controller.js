@@ -1,34 +1,38 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants) {
-    // $scope.user = Authentication.user || { profileImageUrl: '' };
-    $scope.user = angular.copy(Authentication.user);
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'accountsService',
+  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, accountsService) {
+    $scope.user = initUser(Authentication.user);
+    $scope.passwordDetails = {};
+
     // $scope.imageURL = $scope.user.profileImageURL;
     $scope.popoverMsg = PasswordValidator.getPopoverMsg();
 
+    accountsService.bindSelectedAccount($scope);
+    $scope.$watch('selectAccountId', function () {
+      // init();
+    });
+
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
-      $scope.user_success = $scope.user_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'userForm');
         return false;
       }
 
+      $scope.user.displayName = $scope.user.firstName + ' ' + $scope.user.lastName;
+
       Users.put($scope.user).then(function (response) {
         $scope.$broadcast('show-errors-reset', 'userForm');
-        $scope.user_success = true;
         updateUserProfile(response.data);
+        toastr.success('Profile saved successfully');
       }, function (response) {
-        $scope.user_error = response.data.message;
+        toastr.error(response.data.message);
       });
     };
 
     // Change user password
     $scope.changeUserPassword = function (isValid) {
-      $scope.password_success = $scope.password_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'passwordForm');
         return false;
@@ -45,10 +49,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $http.post(constants.API_URL + '/users/auth/reset', payload).success(function (response) {
         // If successful show success message and clear form
         $scope.$broadcast('show-errors-reset', 'passwordForm');
-        $scope.password_success = true;
         $scope.passwordDetails = null;
+        toastr.success('Password changed successfully');
       }).error(function (response) {
-        $scope.password_error = response.message;
+        toastr.error(response.data.message);
       });
     };
 
@@ -121,6 +125,19 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       angular.extend($scope.user, user);
       Authentication.user = angular.extend(Authentication.user, user);
       localStorage.setItem('userObject', JSON.stringify(Authentication.user))
+    }
+
+    function initUser(user) {
+      if (!user) return user;
+
+      var result = angular.copy(user);
+      if (!('firstName' in result) && !('lastName' in result)) {
+        var tmp = result.displayName.split(/\s+/);
+        result.firstName = tmp[0];
+        result.lastName = tmp.slice(1).join(' ');
+        delete result.displayName;
+      }
+      return result;
     }
   }
 ]);

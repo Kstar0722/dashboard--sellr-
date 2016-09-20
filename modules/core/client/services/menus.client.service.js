@@ -88,6 +88,7 @@ angular.module('core').service('Menus', [
       this.menus[ menuId ].items.push({
         title: options.title || '',
         icon: options.icon || '',
+        iconFA: options.iconFA || '',
         state: options.state || '',
         type: options.type || 'item',
         class: options.class,

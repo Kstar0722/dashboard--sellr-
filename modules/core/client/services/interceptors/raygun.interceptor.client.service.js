@@ -1,5 +1,6 @@
 angular.module('core')
     .factory('errorInterceptor', function ($q, Authentication) {
+        if (!window.Raygun) return {};
         return {
             'requestError': function (rejection) {
                 if (rejection.data) {

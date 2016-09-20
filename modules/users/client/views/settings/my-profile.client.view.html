@@ -1,0 +1,91 @@
+<md-toolbar class="header-bar">
+    <div class="md-toolbar-tools">
+        <h1>My Profile</h1>
+    </div>
+</md-toolbar>
+
+<div class="view">
+    <form class="my-profile" name="userForm" ng-submit="updateUserProfile(userForm.$valid)" novalidate autocomplete="off">
+        <p>Edit your personal information below. This information will be used by Sellr to contact you.</p>
+
+        <fieldset class="nomargin" layout="column">
+            <md-input-container show-errors>
+                <label>First name</label>
+                <input type="text" ng-model="user.firstName" name="firstName" required maxlength="100" autofocus>
+                <ng-messages for="userForm.firstName.$error" class="alert">
+                    <ng-message when="required">First name is required.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Last name</label>
+                <input type="text" ng-model="user.lastName" name="lastName" required maxlength="100" autofocus>
+                <ng-messages for="userForm.lastName.$error" class="alert">
+                    <ng-message when="required">Last name is required.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Email</label>
+                <input type="email" ng-model="user.email" name="email" required maxlength="200">
+                <ng-messages for="userForm.email.$error" class="alert">
+                    <ng-message when="required">Email address is required.</ng-message>
+                    <ng-message when="email">Email address is invalid.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Phone</label>
+                <input type="text" ng-model="user.phone" name="phone" maxlength="50">
+                <ng-messages for="userForm.phone.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+        </fieldset>
+
+        <md-button type="submit" class="save green" ng-disabled="userForm.$pristine">Save</md-button>
+    </form>
+
+    <form class="change-password" name="passwordForm" ng-submit="changeUserPassword(passwordForm.$valid)" novalidate autocomplete="off">
+        <fieldset class="nomargin" layout="column">
+            <md-input-container show-errors>
+                <label>Current Password</label>
+                <input type="password" ng-model="passwordDetails.currentPassword" name="currentPassword" required>
+                <ng-messages for="passwordForm.currentPassword.$error" class="alert">
+                    <ng-message when="required">Your current password is required.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>New Password</label>
+                <!--<input type="password" ng-model="passwordDetails.newPassword" name="newPassword" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>-->
+                <input type="password" ng-model="passwordDetails.newPassword" name="newPassword" required minlength="6">
+                <ng-messages for="passwordForm.newPassword.$error" class="alert">
+                    <ng-message when="required">Enter a new password.</ng-message>
+                    <ng-message when="minlength">The password must be at least 6 characters long.</ng-message>
+                    <!--<ng-message when="requirements">
+                        <p class="help-block error-text" ng-repeat="passwordError in passwordErrors">{{passwordError}}</p>
+                    </ng-message>-->
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Verify Password</label>
+                <input type="password" ng-model="passwordDetails.verifyPassword" name="verifyPassword" required
+                       password-verify="passwordDetails.newPassword">
+                <ng-messages for="passwordForm.verifyPassword.$error" class="alert">
+                    <ng-message when="required">Verify your new password.</ng-message>
+                    <ng-message when="passwordVerify">Passwords do not match.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-button type="submit" class="save green" ng-disabled="passwordForm.$pristine">Save Password</md-button>
+        </fieldset>
+    </form>
+</div>

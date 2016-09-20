@@ -14,20 +14,21 @@ angular.module('users').config([ '$stateProvider',
         }
       })
       .state('settings', {
-        abstract: true,
-        url: '/settings',
-        templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        // data: {
-        //   roles: ['user', 'admin']
-        // }
+        url: '/account/:accountId?',
+        templateUrl: 'modules/users/client/views/settings/settings2.client.view.html',
+        controller: function($state, $stateParams) {
+          if ($state.is('settings')) {
+            $state.go('settings.profile', $stateParams);
+          }
+        }
       })
       .state('settings.profile', {
         url: '/profile',
-        templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
+        templateUrl: 'modules/users/client/views/settings/my-profile.client.view.html'
       })
-      .state('settings.password', {
-        url: '/password',
-        templateUrl: 'modules/users/client/views/settings/change-password.client.view.html'
+      .state('editProfile', {
+        url: '/profile',
+        templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
       })
       .state('settings.accounts', {
         url: '/accounts',

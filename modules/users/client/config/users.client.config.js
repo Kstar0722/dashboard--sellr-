@@ -27,4 +27,13 @@ angular.module('users').config(['$httpProvider',
       }
     ]);
   }
-]);
+]).run(['Menus', function(Menus) {
+  Menus.addMenuItem('main', {
+    title: 'Account',
+    iconFA: 'fa-cogs',
+    state: 'settings.profile',
+    type: 'button',
+    roles: [1002],
+    position: 3
+  });
+}]);

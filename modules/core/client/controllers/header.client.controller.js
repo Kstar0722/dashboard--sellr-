@@ -22,7 +22,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     $mdOpenMenu(ev)
   }
   $scope.editProfile = function () {
-    $state.go('settings.profile');
+    $state.go('editProfile');
   };
   $scope.signOut = function () {
     window.localStorage.clear()
@@ -54,7 +54,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
 
-    if (toState.name !== 'dashboard' && toState.name !== 'storeOwner.orders' && toState.name !== 'manager.ads') {
+    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile)/i)) {
       $scope.$root.selectAccountId = null
     }
     else if (toState) {
@@ -83,6 +83,10 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
       $scope.$root.selectAccountId = $stateParams.accountId
     } else {
       $scope.$root.selectAccountId = $scope.$root.selectAccountId || localStorage.getItem('accountId')
+    }
+
+    if ($scope.$root.selectAccountId) {
+      $scope.$root.selectAccountId = parseInt($scope.$root.selectAccountId, 10) || $scope.$root.selectAccountId
     }
   }
 
