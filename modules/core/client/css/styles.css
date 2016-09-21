@@ -1170,6 +1170,15 @@ section.userList .userbox {
 .pricingcalc .bottomrow .total h4 {
   margin-right: 2.5vw;
 }
+.productEditor .btn-send-back {
+  background-color: #C52424;
+  color: #fff;
+}
+@media only screen and (max-width: 600px) {
+  .productEditor .product-detail-container {
+    margin-bottom: 50px;
+  }
+}
 @media (min-width: 960px) {
   .productEditor .scrollable {
     overflow-y: auto;
@@ -1645,6 +1654,12 @@ body.editor-products-detail .medium-editor-toolbar {
   text-align: center;
   margin: 30px 0px;
 }
+@media only screen and (max-width: 600px) {
+  .product-search-table-container .list-container .product-table-container {
+    min-width: 600px;
+    overflow-x: auto;
+  }
+}
 .product-search-table-container .list-container .product-table-container .btn-more {
   color: #5a5c5d;
   text-transform: none;
@@ -1664,6 +1679,12 @@ body.editor-products-detail .medium-editor-toolbar {
 .product-search-table-container .list-container .product-table-container .t-header div {
   padding: 0px 3px;
   line-height: 20px;
+}
+@media only screen and (max-width: 600px) {
+  .product-search-table-container .list-container .product-table-container .t-body div,
+  .product-search-table-container .list-container .product-table-container .t-header div {
+    word-wrap: break-word;
+  }
 }
 .product-search-table-container .list-container .product-table-container .t-body div:nth-child(2),
 .product-search-table-container .list-container .product-table-container .t-header div:nth-child(2) {
