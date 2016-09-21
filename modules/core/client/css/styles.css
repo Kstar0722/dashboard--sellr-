@@ -2738,12 +2738,29 @@ body.storeOwner-orders {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 24px;
 }
-section.accountList .account-manager .locationbox {
+@media only screen and (max-width: 600px) {
+  .location-manager .create-btn,
+  .account-manager .create-btn {
+    width: 100%;
+    margin: 0px;
+  }
+}
+.location-manager .edit-box,
+.account-manager .edit-box {
   padding: 20px;
 }
-section.accountList .account-manager .locationbox md-input-container {
+@media only screen and (max-width: 600px) {
+  .location-manager .edit-box .md-button,
+  .account-manager .edit-box .md-button {
+    width: 100%;
+    margin: 0px;
+  }
+}
+.location-manager .edit-box md-input-container,
+.account-manager .edit-box md-input-container {
   width: 100%;
 }
-section.accountList .account-manager .locationbox .store-img {
+.location-manager .edit-box .store-img,
+.account-manager .edit-box .store-img {
   max-width: 100%;
 }
