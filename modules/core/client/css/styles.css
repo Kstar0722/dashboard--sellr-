@@ -75,15 +75,15 @@ body [ng-click]:focus {
 }
 @media only screen and (max-width: 600px) {
   .hide-xs {
-    display: none;
+    display: none !important;
   }
 }
 .show-xs {
-  display: none;
+  display: none !important;
 }
 @media only screen and (max-width: 600px) {
   .show-xs {
-    display: block;
+    display: block !important;
   }
 }
 div.custom-btn {
@@ -2165,8 +2165,35 @@ body .productEditor .loading-data .right {
   font-size: 16px;
   color: #5a5c5d;
 }
+.store-client-view .filter-store {
+  padding: 20px;
+}
+.store-client-view .filter-store md-input-container {
+  min-width: 350px;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .filter-store {
+    text-align: left;
+  }
+  .store-client-view .filter-store md-input-container {
+    min-width: 280px;
+    width: 280px;
+  }
+}
 .store-client-view .orders-container {
   text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .orders-container {
+    min-width: 800px;
+    overflow-x: auto;
+  }
+  .store-client-view .orders-container .orders-header,
+  .store-client-view .orders-container .orders-body {
+    font-size: 12px;
+    word-wrap: break-word;
+    margin: 0px 5px;
+  }
 }
 .store-client-view .orders-header {
   text-align: left;
@@ -2295,10 +2322,16 @@ body .productEditor .loading-data .right {
   line-height: 25px;
   min-height: initial;
   text-transform: none;
+  padding: 10px 20px;
 }
 .store-client-view .md-button.upload-csv {
   background: #8D9AA5;
   color: #ffffff;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .md-button.upload-csv {
+    width: 100%;
+  }
 }
 .store-client-view .header {
   border-bottom: 1px solid #8D9AA5;
@@ -2344,9 +2377,6 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .import-wizard .toolbar {
   margin: 40px -8px;
-}
-.store-client-view .import-wizard .toolbar .md-button {
-  padding: 2px 15px;
 }
 .store-client-view .import-wizard .upload-file {
   text-align: center;
@@ -2395,10 +2425,20 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .configure .first-row #firstRowTitles {
   margin-right: 10px;
 }
+@media only screen and (max-width: 600px) {
+  .store-client-view .import-wizard .configure .column-mapping {
+    text-align: center;
+  }
+}
 .store-client-view .import-wizard .configure .column-mapping > * {
   display: inline-block;
   height: 30px;
   margin-bottom: 10px;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .import-wizard .configure .column-mapping > * {
+    margin-bottom: 0px;
+  }
 }
 .store-client-view .import-wizard .configure .column-mapping .col-name {
   min-width: 180px;
@@ -2406,12 +2446,30 @@ body .productEditor .loading-data .right {
   text-align: center;
   top: -5px;
 }
+@media only screen and (max-width: 600px) {
+  .store-client-view .import-wizard .configure .column-mapping .col-name {
+    top: 0px;
+    width: 100%;
+    margin-top: 30px;
+  }
+}
 .store-client-view .import-wizard .configure .column-mapping i.fa {
   margin-right: 20px;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .import-wizard .configure .column-mapping i.fa {
+    margin: 0px auto;
+  }
 }
 .store-client-view .import-wizard .configure .column-mapping .selectize-control {
   top: 2px;
   width: 200px;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .import-wizard .configure .column-mapping .selectize-control {
+    top: 0px;
+    width: 100%;
+  }
 }
 .store-client-view .import-wizard .configure .column-mapping .selectize-control .selectize-input {
   padding: 4px;
@@ -2428,6 +2486,13 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .import-wizard .confirm .toolbar .green {
   margin-left: 30px;
+}
+@media only screen and (max-width: 600px) {
+  .store-client-view .import-wizard .upload-file,
+  .store-client-view .import-wizard .configure,
+  .store-client-view .import-wizard .confirm {
+    padding: 40px 10px;
+  }
 }
 .store-client-view .import-wizard[disabled] {
   cursor: progress;
