@@ -672,6 +672,18 @@ section.userList .userbox {
   font-size: 18px;
   font-weight: bold;
 }
+.content .pagecontent.user-invite {
+  padding-top: 3vh;
+}
+.content .pagecontent.user-invite .send-invite-btn {
+  padding: 0 20px;
+}
+@media only screen and (max-width: 600px) {
+  .content .pagecontent.user-invite .send-invite-btn {
+    width: 100%;
+    margin: 0px;
+  }
+}
 .sign-in {
   top: 0;
   position: absolute;
