@@ -2698,3 +2698,12 @@ body.storeOwner-orders {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 24px;
 }
+section.accountList .account-manager .locationbox {
+  padding: 20px;
+}
+section.accountList .account-manager .locationbox md-input-container {
+  width: 100%;
+}
+section.accountList .account-manager .locationbox .store-img {
+  max-width: 100%;
+}
