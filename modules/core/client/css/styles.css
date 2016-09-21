@@ -1061,11 +1061,23 @@ section.userList .userbox {
   line-height: 150px;
   color: #999;
 }
+@media only screen and (max-width: 600px) {
+  .pricingcalc .toprow .plus {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 .pricingcalc .pccol {
   width: 26%;
   float: left;
   padding: 3vh 1.5vw;
   text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .pricingcalc .pccol {
+    width: 95%;
+  }
 }
 .pricingcalc .pccol h1 {
   font-size: 80px;
@@ -1108,12 +1120,28 @@ section.userList .userbox {
   background: #B2B2B2;
   margin-right: 10px;
 }
+@media only screen and (max-width: 600px) {
+  .pricingcalc .pccol .item .btn.remove {
+    margin-right: 3px;
+  }
+}
 .pricingcalc .bottomrow {
   margin-top: 5vh;
   background: #313131;
   display: table;
   width: 100%;
-  color: White;
+  color: #fff;
+}
+@media only screen and (max-width: 600px) {
+  .pricingcalc .bottomrow {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .pricingcalc .bottomrow button {
+    width: 95%;
+    margin: 20px auto;
+  }
 }
 .pricingcalc .bottomrow .discount {
   float: right;
