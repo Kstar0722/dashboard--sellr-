@@ -50,7 +50,7 @@
             </div>
 
             <div class="toolbar">
-                <md-button class="next" ng-click="importView = 'configure'"
+                <md-button class="green" ng-click="importView = 'configure'"
                            ng-disabled="!csv.result || (selectedStore || '-') == '-'">
                     Next Step
                 </md-button>
@@ -72,12 +72,12 @@
                 </div>
 
                 <div class="column-mapping">
-                <table autosize-table-body="true" ng-if="importView == 'configure'">
+                <table autosize-table-body="importView == 'configure'">
                     <thead>
                     <tr>
                         <td ng-repeat="column in csv.columns track by column.id" class="col-header" ng-class="columnClasses(column)"
                             ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
-                            <div ng-if="!column.editing" layout="column">
+                            <div ng-if="!column.editing">
                                 <div class="col-name" ng-if="!column.skipped">{{column.mapping && column.mapping != '-' ? column.mapping : (csv.header && csv.loaded ? column.name : 'Column' + ($index+1))}}</div>
                                 <div class="field-type" ng-if="!column.skipped && !column.unmatched">{{columnType(column)}} field</div>
                                 <div class="not-imported" ng-if="column.skipped">Will not be imported</div>
@@ -88,22 +88,22 @@
                                     <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
                                 </div>
                             </div>
-                            <div ng-if="column.editing && !column.new" layout="column">
+                            <div ng-if="column.editing && !column.editing.new">
                                 <div class="field-label">Column name</div>
-                                <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.mapping"></selectize>
+                                <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.editing.mapping"></selectize>
                                 <div class="actions">
                                     <md-button type="button" class="md-raised" ng-click="editPrev(column)"><i class="fa fa-angle-left"></i> Back</md-button>
                                     <md-button type="button" class="md-raised md-primary" ng-click="saveMatching(column, true)">Save <i class="fa fa-angle-right"></i></md-button>
                                     <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
                                 </div>
                             </div>
-                            <div ng-if="column.editing && column.new" layout="column">
+                            <div ng-if="column.editing && column.editing.new">
                                 <div class="field-label">New column name</div>
-                                <input type="text" ng-model="column.mapping" autofocus>
+                                <input type="text" ng-model="column.editing.mapping" autofocus>
                                 <div class="field-label">Field Type</div>
-                                <selectize config="selectFieldTypeConfig" options="fieldTypesDropdown" ng-model="column.fieldType" ng-init="column.fieldType = 'text'"></selectize>
+                                <selectize config="selectFieldTypeConfig" options="fieldTypesDropdown" ng-model="column.editing.fieldType" ng-init="column.editing.fieldType = 'text'"></selectize>
                                 <div class="actions">
-                                    <a ng-click="column.editing = false">Cancel</a>
+                                    <a ng-click="cancelEditing(column)">Cancel</a>
                                     <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
                                     <md-button type="button" class="md-raised md-primary pull-right" ng-click="saveMatching(column, true)">Save <i class="fa fa-angle-right"></i></md-button>
                                 </div>
@@ -136,7 +136,7 @@
 
                 <div class="toolbar">
                     <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
-                    <md-button class="next" ng-click="importView = 'confirm'" ng-disabled="unmatched(csv.columns).length > 0">Next Step</md-button>
+                    <md-button class="green next" ng-click="importView = 'confirm'" ng-disabled="unmatched(csv.columns).length > 0">Next Step</md-button>
                 </div>
             </form>
         </div>

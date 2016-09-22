@@ -36,7 +36,6 @@
 
             &.green {
                 background: @green !important;
-                border: 1px solid @green;
             }
 
             &.cancel {
@@ -44,12 +43,6 @@
                 border: 1px solid @med-grey;
                 color: @med-grey;
                 float: left;
-            }
-
-            &.next {
-                background: @green !important;
-                border: 1px solid @green;
-                margin-left: 50px;
             }
 
             &[disabled] {
@@ -107,9 +100,18 @@
             }
           }
 
-          .selectize-input {
+          input,
+          .selectize-input
+           {
             background: @light-grey;
+            border-radius: 3px;
+            border: 1px solid @med-grey;
             box-shadow: none;
+            color: @dark-grey;
+            font-size: 11pt;
+            min-height: 30px;
+            padding: 5px;
+            width: 100%;
           }
 
           .config-header {
@@ -222,10 +224,6 @@
           .col-header {
             text-align: center;
 
-            .selectize-input {
-              padding: 5px;
-            }
-
             .not-imported {
               color: @red;
             }
@@ -277,6 +275,15 @@
             .pull-right {
               float: right;
               margin-right: 0;
+            }
+          }
+
+          .toolbar .next {
+            border: 1px solid @green;
+            margin-left: 50px;
+
+            &[disabled] {
+              border-color: @light-grey;
             }
           }
         }

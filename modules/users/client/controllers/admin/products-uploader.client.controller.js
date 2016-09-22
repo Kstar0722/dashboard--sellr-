@@ -36,7 +36,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     searchField: [ 'displayName' ],
     placeholder: 'Make a Selection',
     onChange: function (value) {
-      var column  = _.find($scope.csv.columns, { editing: true });
+      var column  = editingColumn().editing;
       if (value == EMPTY_FIELD_NAME) {
         column.mapping = null;
         column.new = true;
@@ -146,7 +146,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     _.forEach(columns, function (c) {
       c.mapping = null;
       c.unmatched = false;
-      c.editing = false;
+      c.editing = null;
       c.skipped = true;
     });
 
@@ -159,7 +159,10 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   };
 
   $scope.saveMatching = function (column, next) {
-    column.editing = false;
+    if (!column) return;
+
+    angular.extend(column, column.editing);
+    column.editing = null;
 
     if (column.mapping) {
       column.skipped = false;
@@ -169,18 +172,22 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     if (next) editNextUnmatched(column);
   };
 
+  $scope.cancelEditing = function (column) {
+    column.editing = null;
+  };
+
   $scope.columnClasses = function (column) {
     return [column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped'];
   };
 
   $scope.editColumn = function (column) {
-    var editingColumn = _.find($scope.csv.columns, { editing: true });
-    if (editingColumn) $scope.saveMatching(editingColumn);
-    column.editing = true;
+    $scope.saveMatching(editingColumn());
+    column.editing = null;
+    return column.editing = angular.copy(column);
   };
 
   $scope.editPrev = function (column) {
-    column.editing = false;
+    $scope.saveMatching(editingColumn());
     var columns = $scope.csv.columns;
     var idx = _.indexOf(columns, column);
     var prevCol = columns[idx - 1];
@@ -188,10 +195,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   };
 
   $scope.resetColumn = function (column) {
-    column.new = false;
     column.mapping = null;
-
-    column.editing = false;
+    column.editing = null;
     column.skipped = false;
     column.unmatched = true;
 
@@ -290,7 +295,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     columns = trimEndBlanks(columns);
 
     columns = wrapFields(columns)
-    var editing = false;
+    var editing = null;
     _.each(columns, function (col, i) {
       col.id = 'c' + i + '_' + col.name;
       col.mapping = mapStoreField(col.name).name;
@@ -366,5 +371,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     $timeout(function () {
       $(window).scrollLeft(left);
     });
+  }
+
+  function editingColumn() {
+    return _.find($scope.csv.columns, function(c) { return c.editing; });
   }
 })

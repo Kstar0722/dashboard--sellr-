@@ -7,15 +7,30 @@ angular.module('core')
       link: function (scope, element, attrs) {
         var $body = angular.element(document.body);
 
-        $timeout(function () {
-          if ($body.width() < element.width()) {
-            $body.css('min-width', element.width() + 'px');
-          }
+        enable(true);
+        scope.$watch(attrs.autosizeTableBody, function (value) {
+          enable(value);
         });
 
+        scope.$watch('showSkippedColumns', function () {
+          enable(true);
+        }, true);
+
         scope.$on('$dispose', function () {
-          $body.css('min-width', 'initial');
+          enable(false);
         });
+
+        function enable(value) {
+          if (value === false) {
+            $body.css('min-width', 'initial');
+            return;
+          }
+
+          $timeout(function () {
+            var width = $body.width() < element.width() ? element.width() + 'px' : 'initial';
+            $body.css('min-width', width);
+          });
+        }
       }
     }
   });
