@@ -1,16 +1,20 @@
-/* globals angular, _, localStorage,$ */
+/* globals angular, _, $ */
 angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
   var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME
   var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS
   var FIELD_TYPES = ['text', 'number', 'date', 'birthday', 'address', 'zip code (US only)', 'phone', 'website', 'image'];
 
-  $scope.account = undefined
   $scope.storesDropdown = []
   $scope.orderDataService = orderDataService
-  $scope.importView = null
+  $scope.importView = 'upload_file'
   $scope.storeFields = null
   $scope.csv = { header: true }
   $scope.fieldTypesDropdown = FIELD_TYPES.map(function(t) { return {item: t}; });
+
+  accountsService.bindSelectedAccount($scope);
+  $scope.$watch('selectAccountId', function (selectAccountId) {
+    init(selectAccountId);
+  });
 
   // selectize control options
   $scope.selectStoreConfig = {
@@ -100,30 +104,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.cancelImport = function () {
     $scope.selectedStore = null
-    $scope.importView = null
+    $scope.importView = 'upload_file'
     $scope.cancelCsvImport('#storeCsv')
-  }
-
-  $scope.goToMatch = function (store, status) {
-    if (store.status[status] == 0) return;
-    orderDataService.currentOrderId = store.storeId
-    orderDataService.getData(store, status).then(function (response) {
-      $state.go('editor.match', { id: store.storeId, status: status })
-    })
-  }
-
-  $scope.refreshStoreStatus = function (storeId) {
-    var i = _.findIndex(orderDataService.allStores, function (s) {
-      return s.storeId === storeId
-    })
-    orderDataService.allStores[ i ].status.barClass = 'blue'
-    var url = constants.BWS_API + '/storedb/stores/' + storeId
-    $http.get(url).then(function (res) {
-      orderDataService.allStores[ i ] = res.data[ 0 ]
-      updateStoreColors()
-    }, function (err) {
-      console.error(err)
-    })
   }
 
   $scope.openNewDialog = function (store) {
@@ -131,7 +113,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
     $scope.newStore = {
       storeId: randomId(),
-      accountId: localStorage.getItem('accountId')
+      accountId: $scope.selectAccountId
     }
 
     var $createModal = $('#createStoreModal').on('shown.bs.modal', function (e) {
@@ -203,15 +185,11 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   // PRIVATE FUNCTIONS
   //
 
-  function init () {
-    console.time('storeDBinit')
-    if (Authentication.user) {
-      $scope.account = { createdBy: Authentication.user.username }
-    }
-    if (orderDataService.allStores.length === 0) {
-      orderDataService.getAllStores().then(function (stores) {
-        updateStoreColors()
+  function init (accountId) {
+    console.time('productsUploader:init')
 
+    if (orderDataService.allStores.length === 0 || accountId) {
+      orderDataService.getAllStores({ account: accountId || $scope.selectAccountId }).then(function (stores) {
         $scope.storesDropdown = stores.slice();
         $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
         $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
@@ -220,20 +198,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
     $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: 'Create a New Column' })
-  }
-
-  function updateStoreColors () {
-    _.each(orderDataService.allStores, function (elm, ind, orders) {
-      if (elm.status.received > 0) {
-        elm.status.barClass = 'red'
-      } else {
-        if (elm.status.processed > 0 || elm.status.done > 0) {
-          elm.status.barClass = 'orange'
-        } else {
-          elm.status.barClass = 'green'
-        }
-      }
-    })
   }
 
   function handleResponse (response) {
@@ -254,7 +218,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
     if (!store) {
       store = {
-        accountId: localStorage.getItem('accountId'),
+        accountId: $scope.selectAccountId,
         name: storeId.toString().trim()
       }
     }

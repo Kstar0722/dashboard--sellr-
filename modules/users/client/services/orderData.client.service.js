@@ -1,5 +1,5 @@
 /* globals angular */
-angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService) {
+angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService, $httpParamSerializer) {
   var me = this
   var API_URL = constants.BWS_API
   me.allItems = []
@@ -17,9 +17,10 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     me.selected = []
   })
 
-  function getAllStores () {
+  function getAllStores (filter) {
     var defer = $q.defer()
-    var url = constants.BWS_API + '/storedb/stores?supc=true'
+    var params = $httpParamSerializer(filter || {});
+    var url = constants.BWS_API + '/storedb/stores?supc=true&' + params
     $http.get(url).then(function (response) {
       me.allStores = response.data
       defer.resolve(me.allStores)

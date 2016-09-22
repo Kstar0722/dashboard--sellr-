@@ -1688,131 +1688,6 @@ md-checkbox.md-checked.blue-check .md-icon {
   font-size: 16px;
   color: #5a5c5d;
 }
-.products-uploader .orders-container {
-  text-align: center;
-}
-.products-uploader .orders-header {
-  text-align: left;
-  border-bottom: 3px solid #95989a;
-  padding-bottom: 10px;
-  margin: 0px 40px;
-}
-.products-uploader .orders-header div {
-  font-weight: bold;
-}
-.products-uploader .orders-body {
-  text-align: left;
-  padding-top: 20px;
-  margin: 0px 40px;
-}
-.products-uploader .orders-body div {
-  color: #95989a;
-  font-weight: bold;
-}
-.products-uploader .orders-body div.done {
-  color: #2DC89A;
-}
-.products-uploader .orders-body div.progress-bar-container {
-  background-color: #eaeaea;
-}
-.products-uploader .orders-body div.progress-bar-container .progress-bar {
-  padding: 10px;
-  background-color: #2DC89A;
-  width: 40%;
-  text-align: left;
-  color: #fff;
-}
-.products-uploader .orders-body div .status-bar {
-  background-color: #95989a;
-  width: 35px;
-  height: 25px;
-  margin: 0 auto;
-  border-radius: 3px;
-}
-.products-uploader .orders-body div .status-bar.red {
-  background-color: #FF0000;
-}
-.products-uploader .orders-body div .status-bar.orange {
-  background-color: #FFA500;
-}
-.products-uploader .orders-body div .status-bar.green {
-  background-color: #2DC89A;
-}
-.products-uploader .orders-body div .status-bar.blue {
-  background-color: #3498db;
-}
-.products-uploader ol.progtrckr {
-  display: table;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  table-layout: fixed;
-  width: 100%;
-}
-.products-uploader ol.progtrckr li {
-  display: table-cell;
-  text-align: center;
-  line-height: 3em;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="2"] li {
-  width: 49%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="3"] li {
-  width: 33%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="4"] li {
-  width: 24%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="5"] li {
-  width: 19%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="6"] li {
-  width: 16%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="7"] li {
-  width: 14%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="8"] li {
-  width: 12%;
-}
-.products-uploader ol.progtrckr[data-progtrckr-steps="9"] li {
-  width: 11%;
-}
-.products-uploader ol.progtrckr li.progtrckr-done {
-  color: black;
-  border-bottom: 4px solid yellowgreen;
-}
-.products-uploader ol.progtrckr li.progtrckr-todo {
-  color: silver;
-  border-bottom: 4px solid silver;
-}
-.products-uploader ol.progtrckr li:after {
-  content: "\00a0\00a0";
-}
-.products-uploader ol.progtrckr li:before {
-  position: relative;
-  bottom: -2.5em;
-  float: left;
-  left: 50%;
-  line-height: 1em;
-}
-.products-uploader ol.progtrckr li.progtrckr-done:before {
-  content: "\2713";
-  color: white;
-  background-color: yellowgreen;
-  height: 1.2em;
-  width: 1.2em;
-  line-height: 1.2em;
-  border: none;
-  border-radius: 1.2em;
-}
-.products-uploader ol.progtrckr li.progtrckr-todo:before {
-  content: "\039F";
-  color: silver;
-  background-color: white;
-  font-size: 1.5em;
-  bottom: -1.6em;
-}
 .products-uploader .md-button {
   border-radius: 0;
   line-height: 25px;
@@ -1822,12 +1697,6 @@ md-checkbox.md-checked.blue-check .md-icon {
 .products-uploader .md-button.upload-csv {
   background: #8D9AA5;
   color: #ffffff;
-}
-.products-uploader .store-header {
-  border-bottom: 1px solid #8D9AA5;
-  margin-bottom: 40px;
-  padding: 0 10vw 10px;
-  text-align: right;
 }
 .products-uploader .import-wizard {
   margin-left: auto;
@@ -2067,10 +1936,6 @@ md-checkbox.md-checked.blue-check .md-icon {
 .products-uploader .import-wizard[disabled] button,
 .products-uploader .import-wizard[disabled] .md-button {
   opacity: 0.7;
-}
-.products-uploader .products-popup {
-  margin-left: 100px;
-  margin-top: -10px;
 }
 .order-match-page .match-number,
 .order-match-page .match-title {
