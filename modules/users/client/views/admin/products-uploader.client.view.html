@@ -75,17 +75,17 @@
                 <table>
                     <thead>
                     <tr>
-                        <td ng-repeat="column in csv.columns" class="col-header" ng-class="[column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped']"
+                        <td ng-repeat="column in csv.columns track by column.id" class="col-header" ng-class="columnClasses(column)"
                             ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
                             <div ng-if="!column.editing" layout="column">
                                 <div class="col-name" ng-if="!column.skipped">{{column.mapping && column.mapping != '-' ? column.mapping : (csv.header && csv.loaded ? column.name : 'Column' + ($index+1))}}</div>
-                                <div class="field-type" ng-if="!column.skipped && !column.unmatched">{{column.fieldType || 'text'}} field</div>
+                                <div class="field-type" ng-if="!column.skipped && !column.unmatched">{{columnType(column)}} field</div>
                                 <div class="not-imported" ng-if="column.skipped">Will not be imported</div>
                                 <div class="not-matched" ng-if="column.unmatched">(unmatched column)</div>
                                 <div class="actions">
                                     <a ng-click="editColumn(column)">Edit</a>
-                                    <a ng-click="resetColumn(column)" ng-if="column.new">Reset</a>
-                                    <a ng-click="skip([column])" ng-hide="column.skipped">Skip</a>
+                                    <a ng-click="resetColumn(column)" ng-if="column.mapping">Reset</a>
+                                    <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
                                 </div>
                             </div>
                             <div ng-if="column.editing && !column.new" layout="column">
@@ -93,8 +93,8 @@
                                 <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.mapping"></selectize>
                                 <div class="actions">
                                     <md-button type="button" class="md-raised" ng-click="editPrev(column)"><i class="fa fa-angle-left"></i> Back</md-button>
-                                    <md-button type="button" class="md-raised md-primary" ng-click="saveMatching(column)">Save <i class="fa fa-angle-right"></i></md-button>
-                                    <a ng-click="skip([column])" ng-hide="column.skipped">Skip</a>
+                                    <md-button type="button" class="md-raised md-primary" ng-click="saveMatching(column, true)">Save <i class="fa fa-angle-right"></i></md-button>
+                                    <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
                                 </div>
                             </div>
                             <div ng-if="column.editing && column.new" layout="column">
@@ -104,8 +104,8 @@
                                 <selectize config="selectFieldTypeConfig" options="fieldTypesDropdown" ng-model="column.fieldType" ng-init="column.fieldType = 'text'"></selectize>
                                 <div class="actions">
                                     <a ng-click="column.editing = false">Cancel</a>
-                                    <a ng-click="skip([column])" ng-hide="column.skipped">Skip</a>
-                                    <md-button type="button" class="md-raised md-primary pull-right" ng-click="saveMatching(column)">Save <i class="fa fa-angle-right"></i></md-button>
+                                    <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
+                                    <md-button type="button" class="md-raised md-primary pull-right" ng-click="saveMatching(column, true)">Save <i class="fa fa-angle-right"></i></md-button>
                                 </div>
                             </div>
                         </td>
@@ -113,19 +113,19 @@
                     </thead>
                     <tbody>
                     <tr class="header" ng-if="csv.header">
-                        <td ng-repeat="column in csv.columns" ng-class="[column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped']"
+                        <td ng-repeat="column in csv.columns track by column.id" ng-class="columnClasses(column)"
                             ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
                             {{column.name}}
                         </td>
                     </tr>
                     <tr ng-if="!csv.header" ng-init="csv.column0 = parseColumn0(csv.content)">
-                        <td ng-repeat="column in csv.column0" ng-class="[csv.columns[$index].editing && 'editing', csv.columns[$index].unmatched && 'unmatched', csv.columns[$index].skipped && 'skipped']"
+                        <td ng-repeat="column in csv.column0" ng-class="columnClasses(csv.columns[$index])"
                             ng-if="showSkippedColumns || !showSkippedColumns && !csv.columns[$index].skipped">
                             {{column}}
                         </td>
                     </tr>
                     <tr ng-repeat="row in csv.result | limitTo:5">
-                        <td ng-repeat="column in csv.columns" ng-class="[column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped']"
+                        <td ng-repeat="column in csv.columns track by column.id" ng-class="columnClasses(column)"
                             ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
                             {{row[column.name]}}
                         </td>

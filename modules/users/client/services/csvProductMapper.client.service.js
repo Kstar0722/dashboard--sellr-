@@ -1,20 +1,23 @@
 /* globals angular, _ */
-angular.module('users').service('csvStoreMapper', function (ProductTypes
-) {
+angular.module('users').service('csvProductMapper', function (ProductTypes) {
   var self = this
+
   this.EMPTY_FIELD_NAME = '-'
-  this.STORE_FIELDS = ['name', 'type', 'upc', 'description']
+  this.STORE_FIELDS = []
+  this.SKIP_NO_TYPES = true;
+
+  this.init = function (overrideFields, skipNoTypes) {
+    this.STORE_FIELDS = overrideFields || ['name', 'type', 'upc', 'description'];
+    this.SKIP_NO_TYPES = typeof skipNoTypes != 'undefined' ? skipNoTypes : true;
+  };
 
   this.mapProducts = function (items, columns) {
     var mapping = columns ? extractMappings(columns) : autoResolveMappings(items[0])
     if (_.isEmpty(mapping)) return []
     var result = _.map(items, function (obj) {
-      var item = mapStoreDto(obj, mapping)
-      if (_.isNull(item.type)) {
-        return null
-      } else {
-        return item
-      }
+      var item = mapProductDto(obj, mapping)
+      if (self.SKIP_NO_TYPES && _.isNull(item.type)) return null;
+      return item;
     })
     // removes nulls with wrong types
     result = _.compact(result)
@@ -45,7 +48,7 @@ angular.module('users').service('csvStoreMapper', function (ProductTypes
     return mapping
   }
 
-  function mapStoreDto (obj, mapping) {
+  function mapProductDto (obj, mapping) {
     var result = {}
     _.each(mapping, function (field, from) {
       result[field] = obj[mapping[from]]
@@ -65,10 +68,7 @@ angular.module('users').service('csvStoreMapper', function (ProductTypes
       return isMatch
     })
     // returns null if not found
-    if (_.isUndefined(productType)) {
-      return null
-    } else {
-      return productType.productTypeId
-    }
+    if (self.SKIP_NO_TYPES && _.isUndefined(productType)) return null;
+    return productType.productTypeId;
   }
 })
