@@ -1,0 +1,204 @@
+<div class="products-uploader" ng-controller="ProductsUploaderController">
+    <div class="store-header">
+        <md-button class="upload-csv" ng-click="cancelImport(); importView = 'upload_file'">
+            + Upload
+        </md-button>
+    </div>
+
+    <div class="orders-container" ng-show="!importView">
+        <md-input-container>
+            <label>Filter Stores</label>
+            <input ng-model="storeFilter">
+        </md-input-container>
+        <div layout class="orders-header">
+            <div flex=5 class="align-center">Refresh</div>
+            <div flex=5 class="align-center">#</div>
+            <div flex=20>Store Name</div>
+            <div flex=10>Account Id</div>
+            <div flex=10 class="align-center">Received</div>
+            <div flex=10 class="align-center">Processed</div>
+            <div flex=10 class="align-center">Done</div>
+            <div flex=10 class="align-center">Approved</div>
+            <div flex=10 class="align-center">Total</div>
+            <div flex=10 class="align-center">Status</div>
+        </div>
+        <div layout layout-align="center center" class="orders-body"
+             ng-repeat="store in orderDataService.allStores | orderBy:'-status.received' | filter:storeFilter">
+            <div flex=5 class="align-center" ng-click="refreshStoreStatus(store.storeId)"><i class="fa fa-refresh"></i>
+            </div>
+            <div flex=5 class="align-center">{{store.storeId}}</div>
+            <div flex=20 ng-click="goToMatch(store)">{{store.name}}</div>
+            <div flex=10>{{store.accountId}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'received')">{{store.status.received}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'processed')">{{store.status.processed}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'done')">{{store.status.done}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'approved')">{{store.status.approved}}</div>
+            <div flex=10 class="align-center">{{store.status.total}}</div>
+            <div flex=10 class="align-center">
+                <div ng-class="'status-bar ' + store.status.barClass"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="import-wizard" ng-show="importView" ng-disabled="storeSubmitBusy" ng-class="'step-' + importView">
+        <div class="upload-file" ng-show="importView == 'upload_file'">
+            <h2>Upload a CSV of your products</h2>
+            <div ng-if="csv.result">
+                {{csv.result.filename}} ({{csv.result.length}} items)
+            </div>
+            <md-button class="select-file" ng-click="selectCsvImport('#storeCsv')">
+                Select File
+            </md-button>
+            <ng-csv-import id="storeCsv"
+                           result="csv.result"
+                           header="csv.header"
+                           content="csv.content"
+                           separator="','"
+                           accept="'.csv'"
+                           acceptSize="4194304"
+                           callback="initCsvImport"></ng-csv-import>
+
+            <h2>To the following store:</h2>
+
+            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore"
+                       placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
+            </selectize>
+
+            <div id="createStoreModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Store Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.name" required
+                                       autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">AccountId:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newStore.accountId"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    ng-click="selectNewStore(newStore)">
+                                Create Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <md-button class="next" ng-click="importView = 'configure'"
+                           ng-disabled="!csv.result || (selectedStore || '-') == '-'">
+                    Next Step
+                </md-button>
+            </div>
+        </div>
+        <div class="configure" ng-show="importView == 'configure'">
+            <div class="config-header">
+                <h1>Configure your Import</h1>
+                <div>Tell us which fields you would like to match and which you would like to create.</div>
+            </div>
+
+            <form novalidate autocomplete="off">
+                <div class="header-options" layout="row">
+                    <span ng-if="unmatched(csv.columns).length > 0">{{unmatched(csv.columns).length}} unmatched columns</span>
+                    <span ng-if="unmatched(csv.columns).length == 0"><b>All columns are matched.</b> Click "Next Step" below to continue.</span>
+                    <a class="skip-all" ng-click="skip(unmatched(csv.columns))" ng-if="unmatched(csv.columns).length > 0">Skip All</a>
+                    <md-checkbox ng-model="showSkippedColumns" ng-init="showSkippedColumns = true">Show skipped columns</md-checkbox>
+                    <md-checkbox ng-model="csv.header">First row is used for titles</md-checkbox>
+                </div>
+
+                <div class="column-mapping">
+                <table>
+                    <thead>
+                    <tr>
+                        <td ng-repeat="column in csv.columns" class="col-header" ng-class="[column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped']"
+                            ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
+                            <div ng-if="!column.editing" layout="column">
+                                <div class="col-name" ng-if="!column.skipped">{{column.mapping && column.mapping != '-' ? column.mapping : (csv.header && csv.loaded ? column.name : 'Column' + ($index+1))}}</div>
+                                <div class="field-type" ng-if="!column.skipped && !column.unmatched">{{column.fieldType || 'text'}} field</div>
+                                <div class="not-imported" ng-if="column.skipped">Will not be imported</div>
+                                <div class="not-matched" ng-if="column.unmatched">(unmatched column)</div>
+                                <div class="actions">
+                                    <a ng-click="editColumn(column)">Edit</a>
+                                    <a ng-click="resetColumn(column)" ng-if="column.new">Reset</a>
+                                    <a ng-click="skip([column])" ng-hide="column.skipped">Skip</a>
+                                </div>
+                            </div>
+                            <div ng-if="column.editing && !column.new" layout="column">
+                                <div class="field-label">Column name</div>
+                                <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.mapping"></selectize>
+                                <div class="actions">
+                                    <md-button type="button" class="md-raised" ng-click="editPrev(column)"><i class="fa fa-angle-left"></i> Back</md-button>
+                                    <md-button type="button" class="md-raised md-primary" ng-click="saveMatching(column)">Save <i class="fa fa-angle-right"></i></md-button>
+                                    <a ng-click="skip([column])" ng-hide="column.skipped">Skip</a>
+                                </div>
+                            </div>
+                            <div ng-if="column.editing && column.new" layout="column">
+                                <div class="field-label">New column name</div>
+                                <input type="text" ng-model="column.mapping" autofocus>
+                                <div class="field-label">Field Type</div>
+                                <selectize config="selectFieldTypeConfig" options="fieldTypesDropdown" ng-model="column.fieldType" ng-init="column.fieldType = 'text'"></selectize>
+                                <div class="actions">
+                                    <a ng-click="column.editing = false">Cancel</a>
+                                    <a ng-click="skip([column])" ng-hide="column.skipped">Skip</a>
+                                    <md-button type="button" class="md-raised md-primary pull-right" ng-click="saveMatching(column)">Save <i class="fa fa-angle-right"></i></md-button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="header" ng-if="csv.header">
+                        <td ng-repeat="column in csv.columns" ng-class="[column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped']"
+                            ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
+                            {{column.name}}
+                        </td>
+                    </tr>
+                    <tr ng-if="!csv.header" ng-init="csv.column0 = parseColumn0(csv.content)">
+                        <td ng-repeat="column in csv.column0" ng-class="[csv.columns[$index].editing && 'editing', csv.columns[$index].unmatched && 'unmatched', csv.columns[$index].skipped && 'skipped']"
+                            ng-if="showSkippedColumns || !showSkippedColumns && !csv.columns[$index].skipped">
+                            {{column}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat="row in csv.result | limitTo:5">
+                        <td ng-repeat="column in csv.columns" ng-class="[column.editing && 'editing', column.unmatched && 'unmatched', column.skipped && 'skipped']"
+                            ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
+                            {{row[column.name]}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <div class="toolbar">
+                    <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
+                    <md-button class="next" ng-click="importView = 'confirm'" ng-disabled="unmatched(csv.columns).length > 0">Next Step</md-button>
+                </div>
+            </form>
+        </div>
+        <div class="confirm" ng-show="importView == 'confirm'">
+            <h1>
+                Confirm Import
+                <span ng-if="csv.result.length">of {{csv.result.length}} items</span>
+            </h1>
+            <div class="toolbar">
+                <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
+                <md-button class="green" ng-click="submitStore(selectedStore)">Import Items</md-button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

@@ -36,4 +36,12 @@ angular.module('users').config(['$httpProvider',
     roles: [1002],
     position: 3
   });
+  Menus.addMenuItem('main', {
+    title: 'Products',
+    icon: '/img/navbar/tv_icon.svg',
+    state: 'productsUploader',
+    type: 'button',
+    roles: [1002],
+    position: 4
+  });
 }]);

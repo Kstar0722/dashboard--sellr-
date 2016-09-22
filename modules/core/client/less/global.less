@@ -144,3 +144,10 @@ form.ng-pristine {
 body.loading .main-content {
   pointer-events: none;
 }
+
+// Adds an ellipses at the end of overflowing strings
+.ellipsized() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
