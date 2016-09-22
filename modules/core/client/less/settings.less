@@ -37,11 +37,10 @@
   }
 
   .account-menu {
-    position: fixed !important;
-    left: @padding;
-    top: @topnavheight + @padding;
-    padding: 0 10px;
     width: @menu-width;
+    @media @small-only {
+      margin-bottom: 30px;
+    }
 
     .main-content.main-menu-shown & {
       top: @topnavheight + @mainnavheight + @padding;
@@ -50,6 +49,7 @@
     md-sidenav {
       padding: 16px 24px;
       width: auto;
+      margin: 0 auto;
 
       > * {
         padding: 8px 0;
@@ -96,6 +96,9 @@
 
     .view-container {
       margin-left: 30px;
+      @media @small-only {
+        margin-left: 0px;
+      }
     }
   }
 

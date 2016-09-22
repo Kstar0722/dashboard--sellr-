@@ -1,8 +1,8 @@
 <section ng-controller="SettingsController" class="settings-container">
-    <div class="settings-view show-sidenav" layout-wrap layout="row" layout-padding>
+    <div class="settings-view show-sidenav" layout="row" layout-xs="column" layout-align-xs="start center">
 
-        <div class="account-menu" layout="column">
-            <md-sidenav md-is-locked-open="true" md-whiteframe="3" layout-padding>
+        <div class="account-menu">
+            <md-sidenav md-is-locked-open="true" md-whiteframe="3">
                 <h1>My Account</h1>
                 <md-divider></md-divider>
                 <a class="active" ui-sref="settings.profile" ui-sref-active="active">My Profile</a>
@@ -11,7 +11,7 @@
             </md-sidenav>
         </div>
 
-        <div class="view-container" md-whiteframe="3" ui-view>
-        </div>
+        <div class="view-container" md-whiteframe="3" ui-view></div>
+
     </div>
 </section>

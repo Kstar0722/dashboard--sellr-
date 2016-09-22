@@ -5,22 +5,22 @@
 
   <div class="titlebar"><h1 class="md-display-2">Account Management</h1></div>
 
-  <div class="pagecontent">
+  <div class="pagecontent account-manager">
 
-    <div layout="row" layout-align="space-between start">
-      <div flex="40">
+    <div layout="row"  layout-align="space-around start" layout-padding layout-xs="column" layout-align-xs="start stretch">
+      <div flex="45" flex-xs="100" flex-order-xs="2">
         <md-input-container class="md-block">
           <label>SEARCH</label>
           <input ng-model="search">
         </md-input-container>
       </div>
-      <div>
-        <md-button class="md-raised md-success invite" ui-sref="admin.accounts.create">Create Account</md-button>
+      <div flex="45" flex-xs="100" flex-order-xs="1">
+        <md-button class="md-raised md-success create-btn" ui-sref="admin.accounts.create">Create Account</md-button>
       </div>
     </div>
 
-    <div layout="row" layout-align="space-between start">
-      <div flex="40">
+    <div layout="row"  layout-align="space-around start" layout-xs="column" layout-align-xs="start stretch" layout-padding>
+      <div flex="45" flex-xs="100" flex-order-xs="2">
           <md-list>
             <md-list-item  class="md-3-line " ng-repeat="account in accountsService.accounts  | filter: search">
               <div class="md-list-item-text ">
@@ -34,9 +34,8 @@
           </md-list>
       </div>
 
-      <div flex="50" class=" locationbox md-whiteframe-5dp" layout-padding layout-margin flex-offset="10" ui-view>
-        <h3 class="md-headline" layout-align="center center">Select an account from the sidebar</h3></div>
-
+      <div flex-xs="100" flex-order-xs="1" flex="45" class="edit-box md-whiteframe-5dp" ui-view>
+        <h3 class="md-headline" layout-align="center center">Select an account from the list</h3></div>
     </div>
   </div>
 
