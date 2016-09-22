@@ -2122,11 +2122,12 @@ body .productEditor .loading-data .right {
   padding: 30px;
 }
 .settings-container .account-menu {
-  position: fixed !important;
-  left: 30px;
-  top: 80px;
-  padding: 0 10px;
   width: 220px;
+}
+@media only screen and (max-width: 600px) {
+  .settings-container .account-menu {
+    margin-bottom: 30px;
+  }
 }
 .main-content.main-menu-shown .settings-container .account-menu {
   top: 200px;
@@ -2134,6 +2135,7 @@ body .productEditor .loading-data .right {
 .settings-container .account-menu md-sidenav {
   padding: 16px 24px;
   width: auto;
+  margin: 0 auto;
 }
 .settings-container .account-menu md-sidenav > * {
   padding: 8px 0;
@@ -2168,6 +2170,11 @@ body .productEditor .loading-data .right {
 }
 .settings-container .settings-view.show-sidenav .view-container {
   margin-left: 30px;
+}
+@media only screen and (max-width: 600px) {
+  .settings-container .settings-view.show-sidenav .view-container {
+    margin-left: 0px;
+  }
 }
 .settings-container .my-profile fieldset,
 .settings-container .change-password fieldset {
