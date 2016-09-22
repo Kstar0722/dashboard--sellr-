@@ -47,7 +47,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
       populateMappingDropdowns($scope.csv.columns)
       if (!$scope.$$phase) $scope.$digest()
     },
-    onDropdownClose: scrollDropdownIntoView
+    onDropdownClose: scrollBackIntoView
   }
 
   $scope.selectFieldTypeConfig = {
@@ -57,7 +57,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     labelField: 'item',
     valueField: 'item',
     openOnFocus: true,
-    onDropdownClose: scrollDropdownIntoView
+    onDropdownClose: scrollBackIntoView
   };
 
   $scope.selectCsvImport = function (selector) {
@@ -361,10 +361,10 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     return result.split(',');
   }
 
-  function scrollDropdownIntoView() {
-    var el = this.$wrapper[0];
+  function scrollBackIntoView() {
+    var left = $(window).scrollLeft();
     $timeout(function () {
-      el.scrollIntoView();
+      $(window).scrollLeft(left);
     });
   }
 })

@@ -48,7 +48,8 @@
 
             &.next {
                 background: @green !important;
-                float: right;
+                border: 1px solid @green;
+                margin-left: 50px;
             }
 
             &[disabled] {
@@ -106,16 +107,6 @@
             }
           }
 
-          .md-button {
-            background: @light-grey !important;
-            color: @dark-grey;
-
-            &.md-primary {
-              background: @med-grey !important;
-              color: @white;
-            }
-          }
-
           .selectize-input {
             background: @light-grey;
             box-shadow: none;
@@ -132,6 +123,16 @@
               border-collapse: separate;
               border-spacing: 12px 0;
               width: 100%;
+
+              .md-button {
+                background: @light-grey !important;
+                color: @dark-grey;
+
+                &.md-primary {
+                  background: @med-grey !important;
+                  color: @white;
+                }
+              }
             }
 
             td {

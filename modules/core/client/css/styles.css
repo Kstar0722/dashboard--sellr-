@@ -1729,7 +1729,8 @@ md-checkbox.md-checked.blue-check .md-icon {
 }
 .products-uploader .import-wizard .md-button.next {
   background: #2DC89A !important;
-  float: right;
+  border: 1px solid #2DC89A;
+  margin-left: 50px;
 }
 .products-uploader .import-wizard .md-button[disabled] {
   background: #DFE3EB !important;
@@ -1774,14 +1775,6 @@ md-checkbox.md-checked.blue-check .md-icon {
 .products-uploader .import-wizard .configure .md-button[disabled] {
   cursor: default;
 }
-.products-uploader .import-wizard .configure .md-button {
-  background: #DFE3EB !important;
-  color: #1f2532;
-}
-.products-uploader .import-wizard .configure .md-button.md-primary {
-  background: #8D9AA5 !important;
-  color: #ffffff;
-}
 .products-uploader .import-wizard .configure .selectize-input {
   background: #DFE3EB;
   box-shadow: none;
@@ -1796,6 +1789,14 @@ md-checkbox.md-checked.blue-check .md-icon {
   border-collapse: separate;
   border-spacing: 12px 0;
   width: 100%;
+}
+.products-uploader .import-wizard .configure .column-mapping table .md-button {
+  background: #DFE3EB !important;
+  color: #1f2532;
+}
+.products-uploader .import-wizard .configure .column-mapping table .md-button.md-primary {
+  background: #8D9AA5 !important;
+  color: #ffffff;
 }
 .products-uploader .import-wizard .configure .column-mapping td {
   min-width: 250px;

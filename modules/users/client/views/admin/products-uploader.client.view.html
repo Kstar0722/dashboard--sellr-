@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="column-mapping">
-                <table>
+                <table autosize-table-body="true" ng-if="importView == 'configure'">
                     <thead>
                     <tr>
                         <td ng-repeat="column in csv.columns track by column.id" class="col-header" ng-class="columnClasses(column)"
