@@ -136,8 +136,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   function init () {
     console.time('storeDBinit')
 
-    csvProductMapper.init();
-
     if (Authentication.user) {
       $scope.account = { createdBy: Authentication.user.username }
     }
@@ -151,7 +149,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       })
     }
 
-    $scope.storeFields = wrapFields(csvProductMapper.STORE_FIELDS)
+    $scope.storeFields = wrapFields(csvProductMapper.PRODUCT_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' })
   }
 

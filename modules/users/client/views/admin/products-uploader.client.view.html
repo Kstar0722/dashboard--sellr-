@@ -1,5 +1,5 @@
 <div class="products-uploader" ng-controller="ProductsUploaderController">
-    <div class="import-wizard" ng-show="importView" ng-disabled="storeSubmitBusy" ng-class="'step-' + importView">
+    <div class="import-wizard" ng-show="importView" ng-disabled="productsSubmitBusy" ng-class="'step-' + importView">
         <div class="upload-file" ng-show="importView == 'upload_file'">
             <h2>Upload a CSV of your products</h2>
             <div ng-if="csv.result">
@@ -90,7 +90,7 @@
                             </div>
                             <div ng-if="column.editing && !column.editing.new">
                                 <div class="field-label">Column name</div>
-                                <selectize config="selectStoreFieldConfig" options="column.availableFields" ng-model="column.editing.mapping"></selectize>
+                                <selectize config="selectProductFieldConfig" options="column.availableFields" ng-model="column.editing.mapping"></selectize>
                                 <div class="actions">
                                     <md-button type="button" class="md-raised" ng-click="editPrev(column)"><i class="fa fa-angle-left"></i> Back</md-button>
                                     <md-button type="button" class="md-raised md-primary" ng-click="saveMatching(column, true)">Save <i class="fa fa-angle-right"></i></md-button>
