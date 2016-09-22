@@ -2260,7 +2260,7 @@ body .productEditor .loading-data .right {
   background: #8D9AA5;
   color: #ffffff;
 }
-.store-client-view .header {
+.store-client-view .store-header {
   border-bottom: 1px solid #8D9AA5;
   margin-bottom: 40px;
   padding: 0 10vw 10px;
@@ -2282,25 +2282,25 @@ body .productEditor .loading-data .right {
   display: inline-block;
 }
 .store-client-view .import-wizard .md-button {
-  background: #8D9AA5;
+  background: #8D9AA5 !important;
   color: #ffffff;
 }
 .store-client-view .import-wizard .md-button.green {
-  background: #2DC89A;
+  background: #2DC89A !important;
   border: 1px solid #2DC89A;
 }
 .store-client-view .import-wizard .md-button.cancel {
-  background: transparent;
+  background: transparent !important;
   border: 1px solid #8D9AA5;
   color: #8D9AA5;
   float: left;
 }
 .store-client-view .import-wizard .md-button.next {
-  background: #2DC89A;
+  background: #2DC89A !important;
   float: right;
 }
 .store-client-view .import-wizard .md-button[disabled] {
-  background: #DFE3EB;
+  background: #DFE3EB !important;
 }
 .store-client-view .import-wizard .toolbar {
   margin: 40px -8px;

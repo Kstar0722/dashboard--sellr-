@@ -151,9 +151,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
     $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' })
-
-  // var url = constants.BWS_API + '/storedb/stores?supc=true'
-  // $http.get(url).then(getStoresSuccess, getStoresError)
   }
 
   function updateStoreColors () {
@@ -254,7 +251,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     _.each(columns, function (column) {
       column.availableFields = availableFields.slice()
       var field = _.findWhere($scope.storeFields, { name: column.mapping })
-      column.availableFields.push(field)
+      if (field) column.availableFields.push(field)
     })
     if (!$scope.$$phase) $scope.$digest()
     return availableFields
