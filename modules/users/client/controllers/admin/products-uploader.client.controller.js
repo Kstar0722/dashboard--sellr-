@@ -158,6 +158,10 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     return _.filter(columns, { unmatched: true });
   };
 
+  $scope.unskipped = function (columns) {
+    return _.filter(columns, { skipped: false });
+  };
+
   $scope.saveMatching = function (column, next) {
     if (!column) return;
 
@@ -363,7 +367,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     if (!str) return [];
     var result = str.split(';');
     if (result.length > 1) return result;
-    return result.split(',');
+    return str.split(',');
   }
 
   function scrollBackIntoView() {

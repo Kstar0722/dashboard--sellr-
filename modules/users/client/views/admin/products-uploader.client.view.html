@@ -120,7 +120,7 @@
                     </tr>
                     <tr ng-if="!csv.header" ng-init="csv.column0 = parseColumn0(csv.content)">
                         <td ng-repeat="column in csv.column0 track by column.id" ng-class="columnClasses(csv.columns[$index])"
-                            ng-if="showSkippedColumns || !showSkippedColumns && !csv.columns[$index].skipped">
+                            ng-if="showSkippedColumns || !showSkippedColumns && $index < unskipped(csv.columns).length">
                             {{column.name}}
                         </td>
                     </tr>
