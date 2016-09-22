@@ -1,5 +1,5 @@
 /* globals angular, _, $ */
-angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper) {
+angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, $timeout) {
   var EMPTY_FIELD_NAME = csvProductMapper.EMPTY_FIELD_NAME
   var FIELD_TYPES = ['text', 'number', 'boolean', 'url', 'list', 'date', 'youtube'];
 
@@ -45,7 +45,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
         column.new = false;
       }
       populateMappingDropdowns($scope.csv.columns)
-    }
+      if (!$scope.$$phase) $scope.$digest()
+    },
+    onDropdownClose: scrollDropdownIntoView
   }
 
   $scope.selectFieldTypeConfig = {
@@ -54,7 +56,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     allowEmptyOption: false,
     labelField: 'item',
     valueField: 'item',
-    openOnFocus: true
+    openOnFocus: true,
+    onDropdownClose: scrollDropdownIntoView
   };
 
   $scope.selectCsvImport = function (selector) {
@@ -84,7 +87,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     $scope.storeSubmitBusy = true
     try {
       selectOrCreateStore(selectedStore).then(function (store) {
+        debugger;
         var products = csvProductMapper.mapProducts($scope.csv.result, $scope.csv.columns)
+        console.log('PRODUCTS', products);
         return importStoreProducts(store, products).then(function (store) {
           orderDataService.allStores.push(store);
           $scope.cancelImport()
@@ -131,8 +136,10 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.parseColumn0 = function (content) {
     var line0 = ((content || '').match(/^(.*)\n/) || [])[1];
-    var names = (line0 || '').split(/[,;]/);
-    return names.map(function(n, i) { return { name: n, id: 'c' + i + '_' + n }});
+    var names = splitCsvList(line0)
+    return names.map(function(n, i) {
+      return { name: n, id: 'c' + i + '_' + n }
+    });
   };
 
   $scope.skip = function (columns) {
@@ -250,6 +257,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   }
 
   function importStoreProducts (storeDb, storeItems) {
+    return $q.reject('failed');
+
     var payload = {
       id: storeDb.storeId,
       items: storeItems
@@ -326,7 +335,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
       var field = _.findWhere($scope.storeFields, { name: column.mapping })
       if (field) column.availableFields.push(field)
     })
-    if (!$scope.$$phase) $scope.$digest()
     return availableFields
   }
 
@@ -344,5 +352,19 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     var nextColumns = columns.slice(idx > 0 ? idx : 0);
     var nextUnmatched = $scope.unmatched(nextColumns)[0] || $scope.unmatched(columns)[0];
     if (nextUnmatched) $scope.editColumn(nextUnmatched);
+  }
+
+  function splitCsvList(str) {
+    if (!str) return [];
+    var result = str.split(';');
+    if (result.length > 1) return result;
+    return result.split(',');
+  }
+
+  function scrollDropdownIntoView() {
+    var el = this.$wrapper[0];
+    $timeout(function () {
+      el.scrollIntoView();
+    });
   }
 })
