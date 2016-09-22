@@ -17,7 +17,10 @@
                            acceptSize="4194304"
                            callback="initCsvImport"></ng-csv-import>
 
-            <h2>For the following store:</h2>
+            <h3>Plan Name:</h3>
+            <input type="text" ng-model="planName" class="plan-name">
+
+            <h3>Related store:</h3>
 
             <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore"
                        placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
@@ -51,7 +54,7 @@
 
             <div class="toolbar">
                 <md-button class="green" ng-click="importView = 'configure'"
-                           ng-disabled="!csv.result || (selectedStore || '-') == '-'">
+                           ng-disabled="!csv.result || (selectedStore || '-') == '-' || !planName">
                     Next Step
                 </md-button>
             </div>

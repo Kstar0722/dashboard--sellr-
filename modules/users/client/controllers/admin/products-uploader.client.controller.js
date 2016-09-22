@@ -223,7 +223,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     console.time('productsUploader:init')
 
     if (orderDataService.allStores.length === 0 || accountId) {
-      orderDataService.getAllStores({ account: accountId || $scope.selectAccountId }).then(function (stores) {
+      orderDataService.getAllStores({ accountId: accountId || $scope.selectAccountId }).then(function (stores) {
         $scope.storesDropdown = stores.slice();
         $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
         $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
@@ -267,7 +267,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
       custom: true,
       storeId: store.storeId,
       accountId: store.accountId,
-      label: moment().format('LLLL'),
+      label: $scope.planName,
       products: products
     };
 

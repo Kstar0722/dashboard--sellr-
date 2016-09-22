@@ -38,7 +38,7 @@ angular.module('users').config(['$httpProvider',
   });
   Menus.addMenuItem('main', {
     title: 'Products',
-    icon: '/img/navbar/tv_icon.svg',
+    iconFA: 'fa-cart-plus',
     state: 'productsUploader',
     type: 'button',
     roles: [1002],

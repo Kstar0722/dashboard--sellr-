@@ -1749,6 +1749,10 @@ md-checkbox.md-checked.blue-check .md-icon {
   font-size: 16px;
   color: #5a5c5d;
 }
+.products-uploader .plan-name {
+  margin-bottom: 30px;
+  width: 100%;
+}
 .products-uploader .md-button {
   border-radius: 0;
   line-height: 25px;
@@ -1797,6 +1801,7 @@ md-checkbox.md-checked.blue-check .md-icon {
   padding: 2px 15px;
 }
 .products-uploader .import-wizard .upload-file {
+  margin-top: -7vh;
   text-align: center;
 }
 .products-uploader .import-wizard .upload-file h2,
