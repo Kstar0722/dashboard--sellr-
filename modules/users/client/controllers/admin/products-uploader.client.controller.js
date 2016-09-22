@@ -131,7 +131,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.parseColumn0 = function (content) {
     var line0 = ((content || '').match(/^(.*)\n/) || [])[1];
-    return (line0 || '').split(/[,;]/);
+    var names = (line0 || '').split(/[,;]/);
+    return names.map(function(n, i) { return { name: n, id: 'c' + i + '_' + n }});
   };
 
   $scope.skip = function (columns) {

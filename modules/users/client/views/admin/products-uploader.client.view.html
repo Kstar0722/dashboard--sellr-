@@ -119,9 +119,9 @@
                         </td>
                     </tr>
                     <tr ng-if="!csv.header" ng-init="csv.column0 = parseColumn0(csv.content)">
-                        <td ng-repeat="column in csv.column0" ng-class="columnClasses(csv.columns[$index])"
+                        <td ng-repeat="column in csv.column0 track by column.id" ng-class="columnClasses(csv.columns[$index])"
                             ng-if="showSkippedColumns || !showSkippedColumns && !csv.columns[$index].skipped">
-                            {{column}}
+                            {{column.name}}
                         </td>
                     </tr>
                     <tr ng-repeat="row in csv.result | limitTo:5">
