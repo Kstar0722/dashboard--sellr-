@@ -3,46 +3,44 @@
     <div class="titlebar"><h1 class="md-display-2">Ad Manager</h1></div>
     <div class="pagecontent">
 
-
       <select
-        ng-show="profiles.length>1"
-        ng-click="getAds(currentProfile)"
-        ng-model="currentProfile"
-        ng-options="profile.profileId as profile.profileName for profile in profiles"></select>
+      ng-show="profiles.length>1"
+      ng-click="getAds(currentProfile)"
+      ng-model="currentProfile"
+      ng-options="profile.profileId as profile.profileName for profile in profiles"></select>
 
-        <div class="live ">
-          <div class="tab">
-            LIVE ADS
-          </div>
-          <div class="ads md-whiteframe-5dp" >
-
-            <div class="ad"  ng-repeat="activeAd in activeAds">
-              <span class="action delete" ng-click="deactivateAd(activeAd.adId, currentProfile)">
-                      Remove Ad
-                </span>
-              <div class="img" ng-if="activeAd.ext == 'image'"
-                   style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value}});"></div>
-              <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
-              <p style="color:black">{{activeAd.name}}</p>
-            </div>
-
+      <div class="live ">
+        <div class="tab">
+          LIVE ADS
+        </div>
+        <div class="ads md-whiteframe-5dp" >
+          <div class="ad"  ng-repeat="activeAd in activeAds">
+            <span class="action delete" ng-click="deactivateAd(activeAd.adId, currentProfile)">
+              Remove Ad
+            </span>
+            <div class="img" ng-if="activeAd.ext == 'image'"
+            style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value}});"></div>
+            <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
+            <p style="color:black">{{activeAd.name}}</p>
           </div>
         </div>
+      </div>
 
 
       <div class="library">
-      <div layout="row" layout-align="space-between center">
-        <div>
+
+        <div layout="column" layout-align="start center">
+          <div>
             <h1 class="md-display-1">Media Library</h1>
+          </div>
+          <div>
+            <div ngf-drop ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true" accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'">
+              <span class="hide-xs">Drop images here or click to upload</span>
+              <span class="show-xs">Tap to upload</span>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+          </div>
         </div>
-        <div>
-          <div ngf-drop ngf-select ng-model="files" class="drop-box"
-               ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-               accept="image/*,application/pdf"
-               ngf-pattern="'image/*,application/pdf'">Drop images here or click to upload</div>
-          <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-        </div>
-      </div>
 
 
 
@@ -51,21 +49,22 @@
             <div class="ad" ng-repeat="media in allMedia">
               <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="media.ext == 'image' "
-                   style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value}});"></div>
+              style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value}});"></div>
               <video  class ='img'controls ng-if="media.ext =='video'"
-                      ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
-                      frameBorder="2"
-                      allowfullscreen="true"></video>
+              ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
+              frameBorder="2"
+              allowfullscreen="true"></video>
               <p>{{media.name}}</p>
               <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
             </div>
           </div>
         </div>
+
       </div>
 
       <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
 
 
     </div>
-</section>
+  </section>
 </div>

@@ -73,6 +73,19 @@ body [ng-click]:focus {
   clear: both;
   height: 0;
 }
+@media only screen and (max-width: 599px) {
+  .hide-xs {
+    display: none !important;
+  }
+}
+.show-xs {
+  display: none !important;
+}
+@media only screen and (max-width: 599px) {
+  .show-xs {
+    display: block !important;
+  }
+}
 div.custom-btn {
   color: #fff;
   background-color: #2DC89A;
@@ -659,10 +672,19 @@ section.userList .userbox {
   font-size: 18px;
   font-weight: bold;
 }
+.content .pagecontent.user-invite {
+  padding-top: 3vh;
+}
+.content .pagecontent.user-invite .send-invite-btn {
+  padding: 0 20px;
+}
+@media only screen and (max-width: 599px) {
+  .content .pagecontent.user-invite .send-invite-btn {
+    width: 100%;
+    margin: 0px;
+  }
+}
 .sign-in {
-  background-image: url(' ../img/bg_3.png ');
-  background-size: cover;
-  background-position: center;
   top: 0;
   position: absolute;
   width: 100vw;
@@ -670,15 +692,26 @@ section.userList .userbox {
   overflow-y: scroll;
   background-repeat: no-repeat;
 }
+@media only screen and (min-width:600px) {
+  .sign-in {
+    background-image: url(' ../img/bg_3.png ');
+    background-size: cover;
+    background-position: center;
+  }
+}
 .sign-in .shading {
   width: 100vw;
   min-height: 100vh;
   top: 0;
   position: absolute;
-  background: rgba(0, 0, 0, 0.3);
-  background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
-  background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
-  background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+}
+@media only screen and (min-width:600px) {
+  .sign-in .shading {
+    background: rgba(0, 0, 0, 0.3);
+    background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+    background: linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
+  }
 }
 .sign-in #login-form,
 .sign-in #reset-form {
@@ -687,11 +720,24 @@ section.userList .userbox {
   margin-top: 10vh;
   margin-bottom: 10vh;
 }
+@media only screen and (max-width: 599px) {
+  .sign-in #login-form,
+  .sign-in #reset-form {
+    margin-top: 0vh;
+  }
+}
 .sign-in #login-form .alt-actions,
 .sign-in #reset-form .alt-actions {
   margin-top: 2vh;
   font-size: 13px;
   color: #efefef;
+}
+@media only screen and (max-width: 599px) {
+  .sign-in #login-form .alt-actions,
+  .sign-in #reset-form .alt-actions {
+    color: #4b4e53;
+    padding: 0px 20px 20px 20px;
+  }
 }
 .sign-in #login-form .alt-actions a,
 .sign-in #reset-form .alt-actions a {
@@ -709,6 +755,12 @@ section.userList .userbox {
 .sign-in #reset-form form {
   background: white;
   padding: 50px 100px;
+}
+@media only screen and (max-width: 599px) {
+  .sign-in #login-form form,
+  .sign-in #reset-form form {
+    padding: 50px 20px;
+  }
 }
 .sign-in #login-form input:-webkit-autofill,
 .sign-in #reset-form input:-webkit-autofill {
@@ -825,6 +877,14 @@ section.userList .userbox {
 .adManager .upload {
   background-color: #2DC89A;
   color: white;
+}
+.adManager .drop-box {
+  margin: 0px;
+}
+@media only screen and (max-width: 599px) {
+  .adManager .drop-box {
+    height: 10vh;
+  }
 }
 .adManager .ads {
   background: white;
@@ -1001,11 +1061,23 @@ section.userList .userbox {
   line-height: 150px;
   color: #999;
 }
+@media only screen and (max-width: 599px) {
+  .pricingcalc .toprow .plus {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 .pricingcalc .pccol {
   width: 26%;
   float: left;
   padding: 3vh 1.5vw;
   text-align: center;
+}
+@media only screen and (max-width: 599px) {
+  .pricingcalc .pccol {
+    width: 95%;
+  }
 }
 .pricingcalc .pccol h1 {
   font-size: 80px;
@@ -1048,12 +1120,28 @@ section.userList .userbox {
   background: #B2B2B2;
   margin-right: 10px;
 }
+@media only screen and (max-width: 599px) {
+  .pricingcalc .pccol .item .btn.remove {
+    margin-right: 3px;
+  }
+}
 .pricingcalc .bottomrow {
   margin-top: 5vh;
   background: #313131;
   display: table;
   width: 100%;
-  color: White;
+  color: #fff;
+}
+@media only screen and (max-width: 599px) {
+  .pricingcalc .bottomrow {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 599px) {
+  .pricingcalc .bottomrow button {
+    width: 95%;
+    margin: 20px auto;
+  }
 }
 .pricingcalc .bottomrow .discount {
   float: right;
@@ -1081,6 +1169,15 @@ section.userList .userbox {
 }
 .pricingcalc .bottomrow .total h4 {
   margin-right: 2.5vw;
+}
+.productEditor .btn-send-back {
+  background-color: #C52424;
+  color: #fff;
+}
+@media only screen and (max-width: 599px) {
+  .productEditor .product-detail-container {
+    margin-bottom: 50px;
+  }
 }
 @media (min-width: 960px) {
   .productEditor .scrollable {
@@ -1557,6 +1654,12 @@ body.editor-products-detail .medium-editor-toolbar {
   text-align: center;
   margin: 30px 0px;
 }
+@media only screen and (max-width: 599px) {
+  .product-search-table-container .list-container .product-table-container {
+    min-width: 600px;
+    overflow-x: auto;
+  }
+}
 .product-search-table-container .list-container .product-table-container .btn-more {
   color: #5a5c5d;
   text-transform: none;
@@ -1576,6 +1679,12 @@ body.editor-products-detail .medium-editor-toolbar {
 .product-search-table-container .list-container .product-table-container .t-header div {
   padding: 0px 3px;
   line-height: 20px;
+}
+@media only screen and (max-width: 599px) {
+  .product-search-table-container .list-container .product-table-container .t-body div,
+  .product-search-table-container .list-container .product-table-container .t-header div {
+    word-wrap: break-word;
+  }
 }
 .product-search-table-container .list-container .product-table-container .t-body div:nth-child(2),
 .product-search-table-container .list-container .product-table-container .t-header div:nth-child(2) {
@@ -2040,13 +2149,23 @@ body .productEditor .loading-data .right {
   }
 }
 .settings-container .account-menu {
-  left: 30px;
+  left: 2.5vw;
   margin-bottom: 30px;
   padding: 0 10px;
   position: fixed !important;
-  top: 80px;
+  top: 94px;
   width: 220px;
   z-index: 10;
+}
+@media only screen and (max-width: 599px) {
+  .settings-container .account-menu {
+    margin-bottom: 30px;
+  }
+}
+@media only screen and (min-width:961px) {
+  .settings-container .account-menu {
+    left: 30px;
+  }
 }
 .main-content.main-menu-shown .settings-container .account-menu {
   top: 200px;
@@ -2055,7 +2174,7 @@ body .productEditor .loading-data .right {
   background: #f5f5f5;
   max-width: initial;
   padding: 16px 24px;
-  width: auto;
+  width: 100%;
 }
 .settings-container .account-menu md-sidenav > * {
   padding: 8px 0;
@@ -2099,6 +2218,11 @@ body .productEditor .loading-data .right {
 }
 .settings-container .settings-view.show-sidenav .view-container {
   margin-left: 30px;
+}
+@media only screen and (max-width: 599px) {
+  .settings-container .settings-view.show-sidenav .view-container {
+    margin-left: 0px;
+  }
 }
 .settings-container .my-profile fieldset,
 .settings-container .change-password fieldset {
@@ -2248,13 +2372,45 @@ body .productEditor .loading-data .right {
   padding: 0;
   position: static;
 }
+@media (max-width: 850px) {
+  body.settings-store .settings-container .view-container {
+    flex-direction: column;
+  }
+}
 .store-client-view {
   margin: 20px auto 40px;
   font-size: 16px;
   color: #5a5c5d;
 }
+.store-client-view .filter-store {
+  padding: 20px;
+}
+.store-client-view .filter-store md-input-container {
+  min-width: 350px;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .filter-store {
+    text-align: left;
+  }
+  .store-client-view .filter-store md-input-container {
+    min-width: 280px;
+    width: 280px;
+  }
+}
 .store-client-view .orders-container {
   text-align: center;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .orders-container {
+    min-width: 800px;
+    overflow-x: auto;
+  }
+  .store-client-view .orders-container .orders-header,
+  .store-client-view .orders-container .orders-body {
+    font-size: 12px;
+    word-wrap: break-word;
+    margin: 0px 5px;
+  }
 }
 .store-client-view .orders-header {
   text-align: left;
@@ -2383,10 +2539,16 @@ body .productEditor .loading-data .right {
   line-height: 25px;
   min-height: initial;
   text-transform: none;
+  padding: 10px 20px;
 }
 .store-client-view .md-button.upload-csv {
   background: #8D9AA5;
   color: #ffffff;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .md-button.upload-csv {
+    width: 100%;
+  }
 }
 .store-client-view .header {
   border-bottom: 1px solid #8D9AA5;
@@ -2432,9 +2594,6 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .import-wizard .toolbar {
   margin: 40px -8px;
-}
-.store-client-view .import-wizard .toolbar .md-button {
-  padding: 2px 15px;
 }
 .store-client-view .import-wizard .upload-file {
   text-align: center;
@@ -2483,10 +2642,20 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .configure .first-row #firstRowTitles {
   margin-right: 10px;
 }
+@media only screen and (max-width: 599px) {
+  .store-client-view .import-wizard .configure .column-mapping {
+    text-align: center;
+  }
+}
 .store-client-view .import-wizard .configure .column-mapping > * {
   display: inline-block;
   height: 30px;
   margin-bottom: 10px;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .import-wizard .configure .column-mapping > * {
+    margin-bottom: 0px;
+  }
 }
 .store-client-view .import-wizard .configure .column-mapping .col-name {
   min-width: 180px;
@@ -2494,12 +2663,30 @@ body .productEditor .loading-data .right {
   text-align: center;
   top: -5px;
 }
+@media only screen and (max-width: 599px) {
+  .store-client-view .import-wizard .configure .column-mapping .col-name {
+    top: 0px;
+    width: 100%;
+    margin-top: 30px;
+  }
+}
 .store-client-view .import-wizard .configure .column-mapping i.fa {
   margin-right: 20px;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .import-wizard .configure .column-mapping i.fa {
+    margin: 0px auto;
+  }
 }
 .store-client-view .import-wizard .configure .column-mapping .selectize-control {
   top: 2px;
   width: 200px;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .import-wizard .configure .column-mapping .selectize-control {
+    top: 0px;
+    width: 100%;
+  }
 }
 .store-client-view .import-wizard .configure .column-mapping .selectize-control .selectize-input {
   padding: 4px;
@@ -2516,6 +2703,13 @@ body .productEditor .loading-data .right {
 }
 .store-client-view .import-wizard .confirm .toolbar .green {
   margin-left: 30px;
+}
+@media only screen and (max-width: 599px) {
+  .store-client-view .import-wizard .upload-file,
+  .store-client-view .import-wizard .configure,
+  .store-client-view .import-wizard .confirm {
+    padding: 40px 10px;
+  }
 }
 .store-client-view .import-wizard[disabled] {
   cursor: progress;
@@ -2825,4 +3019,30 @@ body.storeOwner-orders {
   color: #4f5a65;
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 24px;
+}
+@media only screen and (max-width: 599px) {
+  .location-manager .create-btn,
+  .account-manager .create-btn {
+    width: 100%;
+    margin: 0px;
+  }
+}
+.location-manager .edit-box,
+.account-manager .edit-box {
+  padding: 20px;
+}
+@media only screen and (max-width: 599px) {
+  .location-manager .edit-box .md-button,
+  .account-manager .edit-box .md-button {
+    width: 100%;
+    margin: 0px;
+  }
+}
+.location-manager .edit-box md-input-container,
+.account-manager .edit-box md-input-container {
+  width: 100%;
+}
+.location-manager .edit-box .store-img,
+.account-manager .edit-box .store-img {
+  max-width: 100%;
 }

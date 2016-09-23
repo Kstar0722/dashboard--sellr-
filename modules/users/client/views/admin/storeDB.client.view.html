@@ -6,10 +6,12 @@
     </div>
 
     <div class="orders-container" ng-show="!importView">
-        <md-input-container>
-            <label>Filter Stores</label>
-            <input ng-model="storeFilter">
-        </md-input-container>
+        <div class="filter-store">
+            <md-input-container>
+                <label>Filter Stores</label>
+                <input ng-model="storeFilter">
+            </md-input-container>
+        </div>
         <div layout class="orders-header">
             <div flex=5 class="align-center">Refresh</div>
             <div flex=5 class="align-center">#</div>
@@ -113,7 +115,8 @@
                 </div>
                 <div class="column-mapping form-group" ng-repeat="column in csv.columns">
                     <span class="col-name">{{csv.header && csv.loaded ? column.name : 'Column' + ($index+1)}}</span>
-                    <i class="fa fa-long-arrow-right fa-2x"></i>
+                    <i class="fa fa-long-arrow-right fa-2x hide-xs"></i>
+                    <i class="fa fa-long-arrow-down show-xs"></i>
                     <selectize config="selectStoreFieldConfig" options="column.availableFields"
                                ng-model="column.mapping"></selectize>
                 </div>

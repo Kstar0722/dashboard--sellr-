@@ -1,8 +1,8 @@
 'use strict';
 /* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', '$mdMedia', 'orderDataService', '$sce',
-  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, $mdMedia, orderDataService, $sce) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce) {
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
     $scope.store = {};
@@ -10,7 +10,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.accountsService = accountsService;
     $scope.descriptionCharsLimit = 200;
     $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    $scope.$mdMedia = $mdMedia;
 
     accountsService.bindSelectedAccount($scope);
     $scope.$watch('selectAccountId', function () {
