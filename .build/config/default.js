@@ -15,7 +15,8 @@ module.exports = {
 				'public/lib/medium-editor/dist/css/themes/default.css',
 				'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
         'public/lib/font-awesome/css/font-awesome.css',
-                'public/lib/selectize/dist/css/selectize.default.css'
+        'public/lib/selectize/dist/css/selectize.default.css',
+        'public/lib/angular-loading-bar/build/loading-bar.css'
 			],
 			js: [
                 'public/lib/jquery/dist/jquery.js',
@@ -64,7 +65,11 @@ module.exports = {
                 'public/lib/angular-csv-import/dist/angular-csv-import.js',
                 'public/lib/selectize/dist/js/standalone/selectize.js',
                 'public/lib/angular-selectize2/dist/angular-selectize.js',
-                'public/lib/angular-stripe-checkout/angular-stripe-checkout.js'
+                'public/lib/angular-stripe-checkout/angular-stripe-checkout.js',
+                'public/lib/angular-loading-bar/build/loading-bar.js',
+                'public/lib/angulartics/dist/angulartics.min.js',
+                'public/lib/angulartics/dist/angulartics-gosquared.min.js',
+                'public/lib/ng-autofocus/dist/ng-autofocus.js'
 			]
 		},
 		css: [
