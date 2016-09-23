@@ -5,9 +5,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
 
-    // $scope.imageURL = $scope.user.profileImageURL;
-    $scope.popoverMsg = PasswordValidator.getPopoverMsg();
-
     accountsService.bindSelectedAccount($scope);
     $scope.$watch('selectAccountId', function () {
       // init();
