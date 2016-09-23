@@ -7,6 +7,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   $scope.orderDataService = orderDataService
   $scope.importView = 'upload_file'
   $scope.storeFields = null
+  $scope.planName = null
   $scope.csv = { header: true }
   $scope.fieldTypesDropdown = FIELD_TYPES.map(function(t) { return {item: t}; });
 
@@ -38,7 +39,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     onChange: function (value) {
       var column  = editingColumn().editing;
       if (value == EMPTY_FIELD_NAME) {
-        column.mapping = null;
+        column.mapping = column.name;
         column.new = true;
       }
       else {
@@ -66,6 +67,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.cancelCsvImport = function (selector) {
     $scope.csv = { header: true }
+    $scope.planName = null
     var $input = $(selector).find('input[type="file"]')
     $input.replaceWith($input.val('').clone(true)) // reset selected file
   }
