@@ -2117,7 +2117,6 @@ body .productEditor .loading-data .right {
   min-width: 530px;
   padding-bottom: 20px;
   width: 70vw;
-  z-index: 1;
 }
 @media only screen and (max-width: 599px) {
   .settings-container .store-profile {
@@ -2184,6 +2183,9 @@ body .productEditor .loading-data .right {
 .settings-container .store-profile table.work-schedule .md-errors-spacer {
   display: none;
 }
+.settings-container .store-profile .open-embed {
+  margin: 30px 0 10px 0;
+}
 .settings-container .store-profile .embed {
   margin-top: 30px;
 }
@@ -2192,11 +2194,6 @@ body .productEditor .loading-data .right {
   font-size: 11pt;
   min-height: 272px;
   width: 100%;
-}
-.settings-container .store-profile .embed .copy-code {
-  display: block;
-  margin: 10px auto;
-  text-align: center;
 }
 .settings-container .shoppr-listing-preview {
   height: 120%;

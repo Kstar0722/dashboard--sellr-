@@ -101,6 +101,15 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       });
     };
 
+    $scope.openEmbedCodeModal = function (ev) {
+      var $embedCodeModal = $('#embedCodeModal').on('shown.bs.modal', function (e) {
+        var autofocus = $(e.target).find('[autofocus]')[ 0 ]
+        if (autofocus) autofocus.focus()
+      })
+
+      $embedCodeModal.modal('show')
+    };
+
     $scope.generateEmbedJsCode = function (host, storeId) {
       var code = $('#embedJsCodeTemplate').html()
         .replace(/{{host}}/g, host || '')
