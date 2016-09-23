@@ -73,7 +73,7 @@ body [ng-click]:focus {
   clear: both;
   height: 0;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .hide-xs {
     display: none !important;
   }
@@ -81,7 +81,7 @@ body [ng-click]:focus {
 .show-xs {
   display: none !important;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .show-xs {
     display: block !important;
   }
@@ -678,7 +678,7 @@ section.userList .userbox {
 .content .pagecontent.user-invite .send-invite-btn {
   padding: 0 20px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .content .pagecontent.user-invite .send-invite-btn {
     width: 100%;
     margin: 0px;
@@ -692,7 +692,7 @@ section.userList .userbox {
   overflow-y: scroll;
   background-repeat: no-repeat;
 }
-@media only screen and (min-width:601px) {
+@media only screen and (min-width:600px) {
   .sign-in {
     background-image: url(' ../img/bg_3.png ');
     background-size: cover;
@@ -705,7 +705,7 @@ section.userList .userbox {
   top: 0;
   position: absolute;
 }
-@media only screen and (min-width:601px) {
+@media only screen and (min-width:600px) {
   .sign-in .shading {
     background: rgba(0, 0, 0, 0.3);
     background: -moz-linear-gradient(45deg, rgba(2, 54, 73, 0.59) 50%, rgba(124, 13, 51, 0.49) 100%);
@@ -720,7 +720,7 @@ section.userList .userbox {
   margin-top: 10vh;
   margin-bottom: 10vh;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .sign-in #login-form,
   .sign-in #reset-form {
     margin-top: 0vh;
@@ -732,7 +732,7 @@ section.userList .userbox {
   font-size: 13px;
   color: #efefef;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .sign-in #login-form .alt-actions,
   .sign-in #reset-form .alt-actions {
     color: #4b4e53;
@@ -756,7 +756,7 @@ section.userList .userbox {
   background: white;
   padding: 50px 100px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .sign-in #login-form form,
   .sign-in #reset-form form {
     padding: 50px 20px;
@@ -881,7 +881,7 @@ section.userList .userbox {
 .adManager .drop-box {
   margin: 0px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .adManager .drop-box {
     height: 10vh;
   }
@@ -1061,7 +1061,7 @@ section.userList .userbox {
   line-height: 150px;
   color: #999;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .pricingcalc .toprow .plus {
     text-align: center;
     width: 100%;
@@ -1074,7 +1074,7 @@ section.userList .userbox {
   padding: 3vh 1.5vw;
   text-align: center;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .pricingcalc .pccol {
     width: 95%;
   }
@@ -1120,7 +1120,7 @@ section.userList .userbox {
   background: #B2B2B2;
   margin-right: 10px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .pricingcalc .pccol .item .btn.remove {
     margin-right: 3px;
   }
@@ -1132,12 +1132,12 @@ section.userList .userbox {
   width: 100%;
   color: #fff;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .pricingcalc .bottomrow {
     text-align: center;
   }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .pricingcalc .bottomrow button {
     width: 95%;
     margin: 20px auto;
@@ -1174,7 +1174,7 @@ section.userList .userbox {
   background-color: #C52424;
   color: #fff;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .productEditor .product-detail-container {
     margin-bottom: 50px;
   }
@@ -1654,7 +1654,7 @@ body.editor-products-detail .medium-editor-toolbar {
   text-align: center;
   margin: 30px 0px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .product-search-table-container .list-container .product-table-container {
     min-width: 600px;
     overflow-x: auto;
@@ -1680,7 +1680,7 @@ body.editor-products-detail .medium-editor-toolbar {
   padding: 0px 3px;
   line-height: 20px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .product-search-table-container .list-container .product-table-container .t-body div,
   .product-search-table-container .list-container .product-table-container .t-header div {
     word-wrap: break-word;
@@ -2149,12 +2149,22 @@ body .productEditor .loading-data .right {
   }
 }
 .settings-container .account-menu {
+  left: 2.5vw;
+  margin-bottom: 30px;
+  padding: 0 10px;
+  position: fixed !important;
+  top: 94px;
   width: 220px;
   z-index: 10;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .settings-container .account-menu {
     margin-bottom: 30px;
+  }
+}
+@media only screen and (min-width:961px) {
+  .settings-container .account-menu {
+    left: 30px;
   }
 }
 .main-content.main-menu-shown .settings-container .account-menu {
@@ -2164,8 +2174,7 @@ body .productEditor .loading-data .right {
   background: #f5f5f5;
   max-width: initial;
   padding: 16px 24px;
-  width: auto;
-  margin: 0 auto;
+  width: 100%;
 }
 .settings-container .account-menu md-sidenav > * {
   padding: 8px 0;
@@ -2210,7 +2219,7 @@ body .productEditor .loading-data .right {
 .settings-container .settings-view.show-sidenav .view-container {
   margin-left: 30px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .settings-container .settings-view.show-sidenav .view-container {
     margin-left: 0px;
   }
@@ -2352,6 +2361,11 @@ body .productEditor .loading-data .right {
   padding: 0;
   position: static;
 }
+@media (max-width: 850px) {
+  body.settings-store .settings-container .view-container {
+    flex-direction: column;
+  }
+}
 .store-client-view {
   margin: 20px auto 40px;
   font-size: 16px;
@@ -2363,7 +2377,7 @@ body .productEditor .loading-data .right {
 .store-client-view .filter-store md-input-container {
   min-width: 350px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .filter-store {
     text-align: left;
   }
@@ -2375,7 +2389,7 @@ body .productEditor .loading-data .right {
 .store-client-view .orders-container {
   text-align: center;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .orders-container {
     min-width: 800px;
     overflow-x: auto;
@@ -2520,7 +2534,7 @@ body .productEditor .loading-data .right {
   background: #8D9AA5;
   color: #ffffff;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .md-button.upload-csv {
     width: 100%;
   }
@@ -2617,7 +2631,7 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .configure .first-row #firstRowTitles {
   margin-right: 10px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .import-wizard .configure .column-mapping {
     text-align: center;
   }
@@ -2627,7 +2641,7 @@ body .productEditor .loading-data .right {
   height: 30px;
   margin-bottom: 10px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .import-wizard .configure .column-mapping > * {
     margin-bottom: 0px;
   }
@@ -2638,7 +2652,7 @@ body .productEditor .loading-data .right {
   text-align: center;
   top: -5px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .import-wizard .configure .column-mapping .col-name {
     top: 0px;
     width: 100%;
@@ -2648,7 +2662,7 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .configure .column-mapping i.fa {
   margin-right: 20px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .import-wizard .configure .column-mapping i.fa {
     margin: 0px auto;
   }
@@ -2657,7 +2671,7 @@ body .productEditor .loading-data .right {
   top: 2px;
   width: 200px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .import-wizard .configure .column-mapping .selectize-control {
     top: 0px;
     width: 100%;
@@ -2679,7 +2693,7 @@ body .productEditor .loading-data .right {
 .store-client-view .import-wizard .confirm .toolbar .green {
   margin-left: 30px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .store-client-view .import-wizard .upload-file,
   .store-client-view .import-wizard .configure,
   .store-client-view .import-wizard .confirm {
@@ -2995,7 +3009,7 @@ body.storeOwner-orders {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 24px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .location-manager .create-btn,
   .account-manager .create-btn {
     width: 100%;
@@ -3006,7 +3020,7 @@ body.storeOwner-orders {
 .account-manager .edit-box {
   padding: 20px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
   .location-manager .edit-box .md-button,
   .account-manager .edit-box .md-button {
     width: 100%;

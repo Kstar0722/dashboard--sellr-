@@ -63,16 +63,20 @@
   }
 
   .account-menu {
-    left: @padding;
+    left: 2.5vw;
     margin-bottom: 30px;
     padding: 0 10px;
     position: fixed !important;
-    top: @topnavheight + @padding;
+    top: @topnavheight + @padding + 14px;
     width: @menu-width;
     z-index: 10;
 
     @media @small-only {
       margin-bottom: 30px;
+    }
+
+    @media @large-up {
+      left: @padding;
     }
 
     .main-content.main-menu-shown & {
@@ -83,8 +87,7 @@
       background: @back-default;
       max-width: initial;
       padding: 16px 24px;
-      width: auto;
-      margin: 0 auto;
+      width: 100%;
 
       > * {
         padding: 8px 0;
@@ -307,6 +310,12 @@
     .shoppr-listing-preview {
       padding: 0;
       position: static;
+    }
+  }
+
+  @media (max-width: 850px) {
+    body.settings-store & .view-container {
+      flex-direction: column;
     }
   }
 }
