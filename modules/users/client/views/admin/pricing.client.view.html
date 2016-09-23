@@ -1,13 +1,13 @@
 <section class="pricingcalc" >
 
-  <div layout="row" layout-align="center center">
-
-    <md-button ng-click="addPackage(3)">3 Unit Package</md-button>
-    <md-button ng-click="addPackage(5)">5 Unit Package</md-button>
-    <md-button ng-click="addPackage(7)">7 Unit Package</md-button>
-    <md-button ng-click="addPackage(10)">10 Unit Package</md-button>
-    <md-button ng-click="clear()">CLEAR</md-button>
+  <div layout="row" layout-xs="column" layout-align="center center">
+    <md-button flex-xs=100 class="md-raised" ng-click="addPackage(3)">3 Unit Package</md-button>
+    <md-button flex-xs=100 class="md-raised" ng-click="addPackage(5)">5 Unit Package</md-button>
+    <md-button flex-xs=100 class="md-raised" ng-click="addPackage(7)">7 Unit Package</md-button>
+    <md-button flex-xs=100 class="md-raised" ng-click="addPackage(10)">10 Unit Package</md-button>
+    <md-button flex-xs=100 class="md-raised md-warn" ng-click="clear()">CLEAR</md-button>
   </div>
+
   <div class="toprow">
 
     <div class="pccol">
@@ -57,7 +57,8 @@
   <div class="bottomrow">
 
     <div class="discount" layout="row" layout-align="end center">
-      Installation <md-checkbox type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? total(250*cart.pricelist.totalDevices) : subtractTotal(250*cart.pricelist.totalDevices)" />
+      Installation 
+      <md-checkbox type="checkbox" id="appcheck" name="appcheck" ng-model="appcheck" data-ng-change="appcheck ? total(250*cart.pricelist.totalDevices) : subtractTotal(250*cart.pricelist.totalDevices)" />
       <div id="deviceImg" ng-repeat="source in images">
         <!--<img ng-if="source.name == 'iPad'" src="{{source.fileName}}"/>-->
         <!--<img ng-if="source.name == 'iPad Pro'" src="{{source.fileName}}"/>-->
@@ -71,7 +72,7 @@
 
 
     </div>
-    <md-button ng-click="sendOrder()">Send Order</md-button>
+    <md-button class="md-raised md-primary" ng-click="sendOrder()">Send Order</md-button>
     <div class="total">
       <h1>${{formatNumber(priceTotal - (priceTotal * currentDiscount))}}</h1>
       <h4>Total Price</h4>
