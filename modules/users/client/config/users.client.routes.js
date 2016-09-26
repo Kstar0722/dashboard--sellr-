@@ -15,16 +15,22 @@ angular.module('users').config([ '$stateProvider',
       })
       .state('settings', {
         url: '/account/:accountId?',
-        templateUrl: 'modules/users/client/views/settings/settings2.client.view.html',
-        controller: function($state, $stateParams) {
+        templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
+        controller: function($state, $stateParams, $timeout) {
           if ($state.is('settings')) {
-            $state.go('settings.profile', $stateParams);
+            $timeout(function () {
+              $state.go('settings.profile', $stateParams);
+            });
           }
         }
       })
       .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/my-profile.client.view.html'
+      })
+      .state('settings.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
       })
       .state('editProfile', {
         url: '/profile',

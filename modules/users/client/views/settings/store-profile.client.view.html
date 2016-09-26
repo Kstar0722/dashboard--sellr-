@@ -1,0 +1,155 @@
+<form class="store-profile" name="storeForm" ng-submit="updateStoreProfile(storeForm.$valid)" novalidate autocomplete="off" md-whiteframe="3" flex="100" flex-gt-sm="70">
+    <md-toolbar class="header-bar">
+        <div class="md-toolbar-tools">
+            <h1>Store Profile</h1>
+            <span flex></span>
+            <md-button type="submit" class="save green" ng-disabled="storeForm.$pristine">Save</md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="view">
+        <p>Edit your store information below. On the right, see exactly how your store listing and store detail will appear on the Shoppr app.</p>
+
+        <md-button class="upload green"
+                   ngf-select="uploadStoreImage($files, store.accountId)" ngf-multiple="true">
+            Upload Store Image
+        </md-button>
+
+        <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
+                            ng-show="determinateValue"></md-progress-linear>
+
+        <img ng-src="{{store.storeImg}}" class="store-image">
+
+        <fieldset class="nomargin" layout="column">
+            <md-input-container show-errors>
+                <label>Store Name</label>
+                <input type="text" ng-model="store.name" name="name" required maxlength="100">
+                <ng-messages for="storeForm.name.$error" class="alert">
+                    <ng-message when="required">Store name is required.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Phone Number</label>
+                <input type="text" ng-model="store.details.contactInfo.phone" name="phone" maxlength="50">
+                <ng-messages for="storeForm.phone.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Address</label>
+                <input type="text" ng-model="store.details.contactInfo.address1" name="address1" maxlength="400">
+                <ng-messages for="storeForm.address1.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Address (Line 2)</label>
+                <input type="text" ng-model="store.details.contactInfo.address2" name="address2" maxlength="400">
+                <ng-messages for="storeForm.address2.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <md-input-container show-errors>
+                <label>Store Email</label>
+                <input type="email" ng-model="store.email" name="email" maxlength="100">
+                <ng-messages for="storeForm.email.$error" class="alert">
+                    <ng-message when="email">Email address is invalid.</ng-message>
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </md-input-container>
+
+            <div class="input-container form-group" show-errors>
+                <label for="store_description">About the Store</label>
+                <textarea id="store_description" class="block" ng-model="store.description" name="description" maxlength="500" rows="4" ng-keypress="cancelOverLimited($event)"></textarea>
+                <div class="chars-counter">{{descriptionCharsLeft}} / {{descriptionCharsLimit}}</div>
+                <ng-messages for="storeForm.description.$error" class="alert">
+                    <ng-messages-include src="error-messages"></ng-messages-include>
+                </ng-messages>
+            </div>
+
+            <table class="work-schedule">
+                <thead>
+                    <tr>
+                        <td>Store Hours</td>
+                        <td>Open</td>
+                        <td class="divider"></td>
+                        <td class="time">Opening Time</td>
+                        <td class="time">Closing Time</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="day in store.details.workSchedule">
+                        <td>{{day.name}}</td>
+                        <td><md-switch ng-model="day.open" md-no-ink aria-label="Open"></md-switch></td>
+                        <td></td>
+                        <td class="time">
+                            <md-input-container>
+                                <input type="time" ng-model="day.openTime" aria-label="Opening TIme">
+                            </md-input-container>
+                        </td>
+                        <td class="time">
+                            <md-input-container>
+                                <input type="time" ng-model="day.closeTime" aria-label="Closing Time">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <md-button type="button" class="md-raised md-primary open-embed" ng-click="openEmbedCodeModal($event)">Generate Embed Code</md-button>
+
+        <div id="embedCodeModal" class="modal embed fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Shoppr Embed Code</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Use this embed code to place your Shoppr app into other pages.</p>
+                        <textarea id="embedJsCode" readonly="readonly" ng-model="shopprEmbedJs" md-select-on-focus rows="{{lines(shopprEmbedJs)}}" autofocus>
+                        </textarea>
+
+                        <template id="embedJsCodeTemplate">
+                            <script type="text/javascript">var shopprStore;(function(d, t) {
+                                var host = '{{host}}';
+                                var storeId = Number({{storeId}});
+                                var s = d.createElement(t), options = {
+                                    'storeId':storeId,
+                                    'autoResize':true,
+                                    'async':true,
+                                    'host':host,
+                                    'target':document.currentScript
+                                };
+                                s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + host + '/embed.js';
+                                s.onload = s.onreadystatechange = function() {
+                                    var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+                                    try { shopprStore = new ShopprView();shopprStore.initialize(options);shopprStore.display(); } catch (e) {}};
+                                var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+                            })(document, 'script');</script>
+                        </template>
+                    </div>
+                    <div class="modal-footer">
+                        <md-button type="button" class="md-raised" data-dismiss="modal">Close</md-button>
+                        <md-button type="button" class="copy-code md-raised md-primary" clipboard text="shopprEmbedJs" on-copied="embedCodeCopied()">
+                            Copy Code
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="shoppr-listing-preview">
+    <sd-iphone-preview url="store.previewUrl"></sd-iphone-preview>
+    <h3>Shoppr App Preview</h3>
+    <div>Scroll to view entire page</div>
+</div>

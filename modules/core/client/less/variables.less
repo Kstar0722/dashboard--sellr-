@@ -20,6 +20,7 @@
 @back-green: #549788;
 @back-grey: #454545;
 @back-grey-light: #eaeaea;
+@back-default: #f5f5f5;
 @grey-text: #d1d1d1;
 @grey-dark-text: #95989a;
 @black-text: #5a5c5d;
@@ -49,10 +50,11 @@
 @helvetica: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
 
 // BREAKPOINTS
+// see https://material.angularjs.org/latest/layout/options
 @small-up: ~"only screen";
-@small-only: ~"only screen and (max-width: 600px)";
-@medium-up: ~"only screen and (min-width:601px)";
-@medium-only: ~"only screen and (min-width:601px) and (max-width:960px)";
+@small-only: ~"only screen and (max-width: 599px)";
+@medium-up: ~"only screen and (min-width:600px)";
+@medium-only: ~"only screen and (min-width:600px) and (max-width:960px)";
 @large-up: ~"only screen and (min-width:961px)";
 
 /* BRANDING */
@@ -85,7 +87,7 @@ html, body{
 }
 
 body {
-  background: #f5f5f5;
+  background: @back-default;
   height: auto;
   font-size: 15px;
 
