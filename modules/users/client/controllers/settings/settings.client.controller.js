@@ -101,6 +101,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     };
 
     $scope.openEmbedCodeModal = function (ev) {
+      $scope.shopprEmbedJs = $scope.generateEmbedJsCode('app.shoppronline.com', $scope.selectAccountId);
+
       var $embedCodeModal = $('#embedCodeModal').on('shown.bs.modal', function (e) {
         var autofocus = $(e.target).find('[autofocus]')[ 0 ]
         if (autofocus) autofocus.focus()
@@ -189,8 +191,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         store.details.workSchedule = initWorkSchedule(store.details.workSchedule);
         // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
         store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
-
-        $scope.shopprEmbedJs = $scope.generateEmbedJsCode('app.shoppronline.com', account.accountId);
       });
     }
 

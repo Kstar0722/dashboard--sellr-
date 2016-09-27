@@ -71,16 +71,14 @@
     width: @menu-width;
     z-index: 10;
 
+    .top-main-content(@padding);
+
     @media @small-only {
       margin-bottom: 30px;
     }
 
     @media @large-up {
       left: @padding;
-    }
-
-    .main-content.main-menu-shown & {
-      top: @topnavheight + @mainnavheight + @padding;
     }
 
     md-sidenav {
@@ -279,9 +277,7 @@
     transform-origin: 0 0;
     transform: scale(0.6);
 
-    .main-content.main-menu-shown & {
-      top: @topnavheight + @mainnavheight + @padding;
-    }
+    .top-main-content(@padding);
 
     .iphone {
       max-width: 200px;
