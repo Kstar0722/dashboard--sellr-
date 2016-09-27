@@ -1,88 +1,22 @@
 <section ng-controller="SettingsController" class="settings-container">
-    <div class="settings-view" layout-wrap layout="row" layout-padding>
+    <div class="settings-view show-sidenav" layout="row" layout-xs="column" layout-padding
+         ng-class="{ fullsize: $mdMedia('xs') || !$mdMedia('gt-md') && $state.is('settings.store') }">
 
-        <form name="userForm" ng-submit="updateUserProfile(userForm.$valid)" class="signin" novalidate autocomplete="off" flex="40" flex-xs="100">
-            <h2 class="text-center" style="margin-bottom: 30px">Edit your profile</h2>
-            <fieldset class="nomargin" class="nomargin" layout="column">
-                <md-input-container show-errors>
-                    <label>Display name</label>
-                    <input type="text" ng-model="user.displayName" name="displayName" required maxlength="100">
-                    <ng-messages for="userForm.displayName.$error" class="alert">
-                        <ng-message when="required">Display name is required.</ng-message>
-                        <ng-messages-include src="error-messages"></ng-messages-include>
-                    </ng-messages>
-                </md-input-container>
+        <div class="account-menu" layout="column">
+            <md-sidenav md-is-locked-open="true" md-whiteframe="3" layout-padding>
+                <h1>My Account</h1>
+                <md-divider></md-divider>
+                <a class="active" ui-sref="settings.profile" ui-sref-active="active">My Profile</a>
+                <a ui-sref="settings.store" ui-sref-active="active">Store Profile</a>
+                <a ui-sref="settings.tablets" ui-sref-active="active">Tablets</a>
+            </md-sidenav>
+        </div>
 
-                <md-input-container show-errors>
-                    <label>Email</label>
-                    <input type="email" ng-model="user.email" name="email" required maxlength="200">
-                    <ng-messages for="userForm.email.$error" class="alert">
-                        <ng-message when="required">Email address is required.</ng-message>
-                        <ng-message when="email">Email address is invalid.</ng-message>
-                        <ng-messages-include src="error-messages"></ng-messages-include>
-                    </ng-messages>
-                </md-input-container>
-
-                <div class="text-center form-group">
-                    <md-button type="submit" class="md-raised md-primary">Save Profile</md-button>
-                </div>
-                <div ng-show="user_success" class="text-center text-success">
-                    <strong>Profile Saved Successfully</strong>
-                </div>
-                <div ng-show="user_error" class="text-center text-danger">
-                    <strong ng-bind="user_error"></strong>
-                </div>
-            </fieldset>
-        </form>
-
-
-        <form name="passwordForm" ng-submit="changeUserPassword(passwordForm.$valid)" class="signin" novalidate autocomplete="off" flex="40" flex-xs="100">
-            <h2 class="text-center" style="margin-bottom: 30px">Change your password</h2>
-            <fieldset class="nomargin" layout="column">
-                <md-input-container show-errors>
-                    <label>Current Password</label>
-                    <input type="password" ng-model="passwordDetails.currentPassword" name="currentPassword" required>
-                    <ng-messages for="passwordForm.currentPassword.$error" class="alert">
-                        <ng-message when="required">Your current password is required.</ng-message>
-                        <ng-messages-include src="error-messages"></ng-messages-include>
-                    </ng-messages>
-                </md-input-container>
-
-                <md-input-container show-errors>
-                    <label>New Password</label>
-                    <!--<input type="password" ng-model="passwordDetails.newPassword" name="newPassword" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>-->
-                    <input type="password" ng-model="passwordDetails.newPassword" name="newPassword" required minlength="6">
-                    <ng-messages for="passwordForm.newPassword.$error" class="alert">
-                        <ng-message when="required">Enter a new password.</ng-message>
-                        <ng-message when="minlength">The password must be at least 6 characters long.</ng-message>
-                        <!--<ng-message when="requirements">
-                            <p class="help-block error-text" ng-repeat="passwordError in passwordErrors">{{passwordError}}</p>
-                        </ng-message>-->
-                        <ng-messages-include src="error-messages"></ng-messages-include>
-                    </ng-messages>
-                </md-input-container>
-
-                <md-input-container show-errors>
-                    <label>Verify Password</label>
-                    <input type="password" ng-model="passwordDetails.verifyPassword" name="verifyPassword" required
-                           password-verify="passwordDetails.newPassword">
-                    <ng-messages for="passwordForm.verifyPassword.$error" class="alert">
-                        <ng-message when="required">Verify your new password.</ng-message>
-                        <ng-message when="passwordVerify">Passwords do not match.</ng-message>
-                        <ng-messages-include src="error-messages"></ng-messages-include>
-                    </ng-messages>
-                </md-input-container>
-
-                <div class="text-center form-group">
-                    <md-button type="submit" class="md-raised md-primary">Save Password</md-button>
-                </div>
-                <div ng-show="password_success" class="text-center text-success">
-                    <strong>Password Changed Successfully</strong>
-                </div>
-                <div ng-show="password_error" class="text-center text-danger">
-                    <strong ng-bind="password_error"></strong>
-                </div>
-            </fieldset>
-        </form>
+        <div class="view-container" ui-view layout="row" layout-xs="column">
+        </div>
     </div>
 </section>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

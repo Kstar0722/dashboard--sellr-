@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="fragment" content="!">
+
+    <title>Shoppr App Preview</title>
+
+    <!-- Apple META -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <script type="text/javascript" src="/lib/moment/moment.js"></script>
+    <script type="text/javascript" src="/lib/angular/angular.js"></script>
+    <script type="text/javascript" src="/lib/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="/lib/angular-post-message/dist/angular-post-message.min.js"></script>
+
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css">
+
+    <style>
+        /* core */
+
+        body {
+            font-size: 14px;
+            line-height: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .clearfix:before,
+        .clearfix:after {
+            border-collapse: collapse;
+            content: "";
+            display: table;
+        }
+        .clearfix:after {
+            clear: both;
+        }
+
+        b, strong {
+            font-family: "AvenirNextLTW01-Bold", "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+            font-weight: 500;
+        }
+
+        .left { float: left; }
+        .right { float: right; }
+
+        .row {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -moz-flex;
+            display: -ms-flexbox;
+            display: flex;
+            padding: 5px;
+            width: 100%;
+        }
+
+        .col {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            -moz-box-flex: 1;
+            -moz-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            display: block;
+            padding: 5px;
+            width: 100%;
+        }
+
+        .col-50 {
+            -webkit-box-flex: 0;
+            -webkit-flex: 0 0 50%;
+            -moz-box-flex: 0;
+            -moz-flex: 0 0 50%;
+            -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        /* page specific */
+
+        .store-menu {
+            align-items: flex-start;
+            background-image: url("/img/storeimgBack.jpg") !important;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: auto;
+            max-height: 250px;
+            min-height: 250px;
+            position: relative;
+            width: 100%;
+        }
+
+
+        .navicon {
+            color: white;
+            margin: 20px;
+            transform: scaleX(1.25);
+        }
+
+        .store-title-container {
+            color: white;
+            margin-top: 15px;
+        }
+
+        .store-title {
+            font-family: "brandon-grotesque", "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+            font-size: 34px;
+            font-weight: 200;
+            height: 100px;
+            line-height: 50px;
+            margin: 0 auto;
+            max-height: 100px;
+            overflow: hidden;
+            padding: 0;
+            text-align: center;
+            width: 75%;
+        }
+
+        .store-title-container .section-togglers {
+            font-family: "AvenirNextLTW01-Regular", "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+            margin: 40px auto 0px auto;
+            width: 75%;
+        }
+
+        .store-title-container .section-togglers > * {
+            opacity: 0.6;
+        }
+        .store-title-container .section-togglers .active {
+            font-weight: 500;
+            opacity: 1;
+        }
+
+        .store-info-container {
+            font-family: "AvenirNextLTW01-Regular", "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+            font-size: 14px;
+            padding: 20px 8vw 20px 8vw;
+        }
+
+        .map-container img {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .row, .col {
+            padding-left: 0;
+        }
+
+        .row.today {
+            color: #2DC89A;
+            font-weight: bold;
+        }
+
+    </style>
+
+
+    <script type="text/javascript">
+        angular.module('core', ['ngSanitize', 'ngLocale', 'ngResource', 'ngPostMessage']);
+    </script>
+
+    <script type="text/javascript" src="/modules/core/client/services/PostMessage.client.service.js"></script>
+
+    <!-- EXTERNAL FONT LIBRARIES
+    ... because apparently it's too much to ask for two fonts to be in the same host... using Fonts.com for Avenir and typekit for Brandon Grotesque... -->
+    <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/3b9063a6-07ec-42c2-ba02-c5e29f5b29f7.css">
+    <script src="https://use.typekit.net/pij4hyr.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+</head>
+
+<body class="ng-cloak" ng-controller="ShopprPreviewCtrl">
+    <div class="store-menu" ng-attr-style="{{ 'background-image: ' + storeInfo.storeImgBack }}">
+        <i class="fa fa-lg fa-bars navicon"></i>
+        <div class="store-title-container" >
+            <div class="store-title">
+                {{ limitString(storeInfo.name, 36) }}
+            </div>
+            <div class="section-togglers clearfix">
+                <span class="left">Products</span>
+                <span class="right active">Store Info</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="store-info-container">
+        <p>
+            Store Description: {{storeInfo.description}}
+        </p>
+        <p>
+            <strong>{{storeInfo.details.contactInfo.phone}}</strong>
+        </p>
+        <p>
+            <strong>{{storeInfo.email}}</strong>
+        </p>
+        <div ng-repeat="day in storeInfo.details.workSchedule" ng-class="['row', {today: todayLabel === day.name}]">
+            <div class="col col-50">{{day.name}}</div>
+            <div class="col col-50" ng-if="day.open && day.fullTime">24h</div>
+            <div class="col col-50" ng-if="day.open && !day.fullTime">{{day.openTimeStr}} - {{day.closeTimeStr}}</div>
+            <div class="col col-50" ng-if="!day.open">Closed</div>
+        </div>
+        <p>
+            <strong>{{storeInfo.details.contactInfo.address1}}</strong>
+            <br>
+            <strong>{{storeInfo.details.contactInfo.address2}}</strong>
+        </p>
+        <div class="map-container" ng-if="storeInfo.details.contactInfo.addressMapUrl">
+            <img ng-src="{{storeInfo.details.contactInfo.addressMapUrl}}" alt="map">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        angular.module('app', ['core']).
+            controller('ShopprPreviewCtrl', function($scope, PostMessage, $sce) {
+                $scope.storeInfo = {};
+
+                $scope.limitString = function (str, limit) {
+                    str = (str || '').trim();
+                    if (str.length > limit) {
+                        return str.substr(0, limit) + '...';
+                    }
+                    return str;
+                };
+
+                init();
+
+                function init() {
+                    $scope.todayLabel = moment().format('dddd');
+
+//                    // hardcode until backend ready
+//                    loadStore({
+//                        name: 'Oncue Demo Store',
+//                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa veniam quod soluta labore libero tempora nostrum officia voluptatem voluptates qu voluptatibus.',
+//                        email: 'macs@macsbeerandwine.com',
+//                        details: {
+//                            contactInfo: {
+//                                phone: '770-555-4433',
+//                                address1: '21 Peachtree Pl NW',
+//                                address2: 'Atlanta, GA 30309',
+//                            },
+//                            workSchedule: [
+//                                { name: 'Monday', open: true, openTime: new Date(1, 0, 1, 9), closeTime: new Date(1, 0, 1, 23) },
+//                                { name: 'Tuesday', open: true, openTime: new Date(1, 0, 1, 9), closeTime: new Date(1, 0, 1, 23) },
+//                                { name: 'Wednesday', open: true, openTime: new Date(1, 0, 1, 9), closeTime: new Date(1, 0, 1, 23) },
+//                                { name: 'Thursday', open: true, openTime: new Date(1, 0, 1, 9), closeTime: new Date(1, 0, 1, 23) },
+//                                { name: 'Friday', open: true, openTime: new Date(1, 0, 1, 9), closeTime: new Date(1, 0, 1, 23) },
+//                                { name: 'Saturday', open: false },
+//                                { name: 'Sunday', open: false }
+//                            ]
+//                        }
+//                    });
+
+                    PostMessage.on('store.update', loadStore);
+                    PostMessage.send('store.initialized');
+                }
+
+                function loadStore(store) {
+                    $scope.storeInfo = store;
+                    if (!store) return;
+
+                    var details = $scope.storeInfo.details = $scope.storeInfo.details || {};
+                    details.contactInfo = details.contactInfo || {};
+
+                    for (var i in details.workSchedule) {
+                        var day = details.workSchedule[i];
+                        day.openTimeStr = formatTime(day.openTime);
+                        day.closeTimeStr = formatTime(day.closeTime);
+                        day.fullTime = day.openTimeStr == day.closeTimeStr && day.openTimeStr == '12AM';
+                    }
+
+                    store.storeImgBack = 'url(' + (store.storeImg || '/img/storeimgBack.jpg') + ') !important';
+
+                    details.contactInfo.addressMapUrl = $sce.trustAsUrl(googleMapsUrl(details.contactInfo));
+                }
+
+                function googleMapsUrl(contactInfo) {
+                    if (!contactInfo) return;
+
+                    var storeAddress = contactInfo.address || ((contactInfo.address1 || '') + ' ' + (contactInfo.address2 || ''));
+                    storeAddress = storeAddress.trim();
+
+                    if (!storeAddress || storeAddress == 'undefined') return;
+
+                    var storeAddressUri = encodeURIComponent(storeAddress);
+                    return 'https://maps.googleapis.com/maps/api/staticmap?size=400x400&scale=2&zoom=16&maptype=roadmap&key=AIzaSyC-lGWm77Yxx1dsuBobAJyLEIVAMnooRCc'
+                            + '&center=' + storeAddressUri + '&markers=color:0x2DC89A%7C' + storeAddressUri;
+                }
+
+                function formatTime(date) {
+                    return date && moment(date).format('h:mm A').replace(':00 ', '');
+                }
+            });
+
+        angular.bootstrap(document, ['app']);
+    </script>
+</body>
+</html>
