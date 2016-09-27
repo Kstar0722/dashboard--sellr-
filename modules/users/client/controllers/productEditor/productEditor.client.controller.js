@@ -65,7 +65,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.isStoreSelected = function (store) {
     var i = _.findIndex(orderDataService.allStores, function (s) {
-      debugger
       return s.storeId === store.storeId
     })
     return orderDataService.allStores[ i ].selected
@@ -201,7 +200,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.submitForApproval = function (product) {
-    $analytics.eventTrack('Product Submitted', { productId: product.productId })
+    $analytics.eventTrack('Product Submitted', { productId: product.productId, user: Authentication.user.displayName })
     product.status = 'done'
     productEditorService.save(product)
     $scope.viewProduct(product)
