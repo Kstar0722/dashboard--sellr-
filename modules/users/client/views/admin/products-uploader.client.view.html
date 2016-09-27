@@ -54,7 +54,7 @@
 
             <div class="toolbar">
                 <md-button class="green" ng-click="importView = 'configure'"
-                           ng-disabled="!csv.result || (selectedStore || '-') == '-' || !planName">
+                           ng-disabled="!csv.result || csv.result.length == 0 || (selectedStore || '-') == '-' || !planName">
                     Next Step
                 </md-button>
             </div>
@@ -116,7 +116,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="header" ng-if="csv.header">
+                <tr class="csv-header" ng-if="csv.header">
                     <td ng-repeat="column in csv.columns track by column.id" ng-class="columnClasses(column)"
                         ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
                         {{column.name}}

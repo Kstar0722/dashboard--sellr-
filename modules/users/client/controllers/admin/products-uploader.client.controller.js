@@ -75,6 +75,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   // callback for csv import plugin
   $scope.initCsvImport = function (e) {
     $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[ 0 ]))
+    $scope.csv.result = skipBlankRows($scope.csv.result);
     populateMappingDropdowns($scope.csv.columns)
     $scope.csv.loaded = true
     console.log('csv file selected', $scope.csv)
@@ -294,7 +295,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   }
 
   function initCsvColumns (columns) {
-    columns = trimEndBlanks(columns);
+    columns = trimEndBlankColumns(columns);
 
     columns = wrapFields(columns)
     var editing = null;
@@ -309,12 +310,25 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     return columns
   }
 
-  function trimEndBlanks(arr) {
+  function trimEndBlankColumns(arr) {
     for (var i = arr.length - 1; i >= 0; i--) {
-      if (!arr[i] || arr[i] == '$$hashKey') arr.length--;
+      if (!arr[i] || ignoreField(arr[i])) arr.length--;
       else break;
     }
     return arr;
+  }
+
+  function skipBlankRows(rows) {
+    var nonEmptyRows = _.filter(rows, function(row) {
+      return _.some(row, function(cValue, cName) { return cValue != '' && !ignoreField(cName); });
+    });
+
+    // since input rows is not just Array and contains extra properties from angular-csv-import,
+    // just splice it and push filtered rows
+    rows.length = 0;
+    rows.splice(0, 0, nonEmptyRows);
+
+    return nonEmptyRows;
   }
 
   function mapStoreField (column) {
@@ -327,9 +341,14 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   function wrapFields (fields) {
     return _.compact(_.map(fields, function (v) {
-      if (v.match(/^\$\$/)) return;
+      if (ignoreField(v)) return;
       return { name: v, displayName: toPascalCase(v) }
     }))
+  }
+
+  function ignoreField(fieldName) {
+    if (!fieldName) return true;
+    return fieldName.match(/^\$\$/);
   }
 
   function populateMappingDropdowns (columns) {
@@ -359,13 +378,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     var nextColumns = columns.slice(idx > 0 ? idx : 0);
     var nextUnmatched = $scope.unmatched(nextColumns)[0] || $scope.unmatched(columns)[0];
     if (nextUnmatched) $scope.editColumn(nextUnmatched);
-  }
-
-  function splitCsvList(str) {
-    if (!str) return [];
-    var result = str.split(';');
-    if (result.length > 1) return result;
-    return str.split(',');
   }
 
   function scrollBackIntoView() {

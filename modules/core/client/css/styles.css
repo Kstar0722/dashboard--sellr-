@@ -1819,6 +1819,9 @@ md-checkbox.md-checked.blue-check .md-icon {
 .products-uploader .import-wizard .upload-file .selectize-control .selectize-input {
   padding: 4px;
 }
+.products-uploader .import-wizard .upload-file .selectize-control .item {
+  margin-bottom: 0;
+}
 .products-uploader .import-wizard .upload-file #storeCsv {
   display: none;
 }
@@ -1911,16 +1914,16 @@ md-checkbox.md-checked.blue-check .md-icon {
 .products-uploader .import-wizard .configure .column-mapping tbody tr td.editing {
   background: #b9e3ee;
 }
-.products-uploader .import-wizard .configure .column-mapping tr.header td {
+.products-uploader .import-wizard .configure .column-mapping tr.csv-header td {
   background: #8D9AA5;
   border-color: #8D9AA5 !important;
   color: #ffffff;
 }
-.products-uploader .import-wizard .configure .column-mapping tr.header td.unmatched {
+.products-uploader .import-wizard .configure .column-mapping tr.csv-header td.unmatched {
   background: #ee836e;
   border-color: #ee836e !important;
 }
-.products-uploader .import-wizard .configure .column-mapping tr.header td.editing {
+.products-uploader .import-wizard .configure .column-mapping tr.csv-header td.editing {
   background: #52bad5;
   border-color: #52bad5 !important;
 }
