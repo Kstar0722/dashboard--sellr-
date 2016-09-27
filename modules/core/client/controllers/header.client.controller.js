@@ -54,7 +54,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
 
-    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile)/i)) {
+    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader)/i)) {
       $scope.$root.selectAccountId = null
     }
     else if (toState) {

@@ -1,7 +1,6 @@
 /* globals angular, _, localStorage,$ */
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvStoreMapper) {
-  var EMPTY_FIELD_NAME = csvStoreMapper.EMPTY_FIELD_NAME
-  var DEFAULT_STORE_FIELDS = csvStoreMapper.STORE_FIELDS
+angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper) {
+  var EMPTY_FIELD_NAME = csvProductMapper.EMPTY_FIELD_NAME
 
   $scope.account = undefined
   $scope.storesDropdown = []
@@ -61,7 +60,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     $scope.storeSubmitBusy = true
     try {
       selectOrCreateStore(selectedStore).then(function (store) {
-        var products = csvStoreMapper.mapProducts($scope.csv.result, $scope.csv.columns)
+        var products = csvProductMapper.mapProducts($scope.csv.result, $scope.csv.columns)
         return importStoreProducts(store, products).then(function (store) {
           orderDataService.allStores.push(store);
           $scope.cancelImport()
@@ -136,6 +135,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
   function init () {
     console.time('storeDBinit')
+
     if (Authentication.user) {
       $scope.account = { createdBy: Authentication.user.username }
     }
@@ -149,11 +149,8 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       })
     }
 
-    $scope.storeFields = wrapFields(DEFAULT_STORE_FIELDS)
+    $scope.storeFields = wrapFields(csvProductMapper.PRODUCT_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' })
-
-  // var url = constants.BWS_API + '/storedb/stores?supc=true'
-  // $http.get(url).then(getStoresSuccess, getStoresError)
   }
 
   function updateStoreColors () {
@@ -254,7 +251,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     _.each(columns, function (column) {
       column.availableFields = availableFields.slice()
       var field = _.findWhere($scope.storeFields, { name: column.mapping })
-      column.availableFields.push(field)
+      if (field) column.availableFields.push(field)
     })
     if (!$scope.$$phase) $scope.$digest()
     return availableFields

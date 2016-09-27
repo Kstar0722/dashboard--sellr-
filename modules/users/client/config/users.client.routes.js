@@ -44,6 +44,10 @@ angular.module('users').config([ '$stateProvider',
         url: '/picture',
         templateUrl: 'modules/users/client/views/settings/change-profile-picture.client.view.html'
       })
+      .state('productsUploader', {
+        url: '/products/:accountId?',
+        templateUrl: 'modules/users/client/views/admin/products-uploader.client.view.html'
+      })
       .state('authentication', {
         abstract: true,
         url: '/authentication',

@@ -169,7 +169,7 @@
         }
     }
 
-    .header {
+    .store-header {
         border-bottom: 1px solid @med-grey;
         margin-bottom: 40px;
         padding: 0 10vw 10px;
@@ -192,28 +192,28 @@
         }
 
         .md-button {
-            background: @med-grey;
+            background: @med-grey !important;
             color: @white;
 
             &.green {
-                background: @sellrgreen;
-                border: 1px solid @sellrgreen;
+                background: @green !important;
+                border: 1px solid @green;
             }
 
             &.cancel {
-                background: transparent;
+                background: transparent !important;
                 border: 1px solid @med-grey;
                 color: @med-grey;
                 float: left;
             }
 
             &.next {
-                background: @sellrgreen;
+                background: @green !important;
                 float: right;
             }
 
             &[disabled] {
-                background: @light-grey;
+                background: @light-grey !important;
             }
         }
 

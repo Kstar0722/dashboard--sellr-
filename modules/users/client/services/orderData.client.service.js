@@ -18,9 +18,10 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   })
 
   function getAllStores (filter) {
+    filter = filter || {};
     var defer = $q.defer()
     var url = constants.BWS_API + '/storedb/stores?supc=true'
-    if (filter && filter.accountId) url += '&acct=' + filter.accountId;
+    if (filter.accountId) url += '&acc=' + filter.accountId;
     $http.get(url).then(function (response) {
       me.allStores = response.data
       defer.resolve(me.allStores)
