@@ -9,10 +9,11 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   $scope.storeFields = null
   $scope.planName = null
   $scope.csv = { header: true }
-  $scope.fieldTypesDropdown = FIELD_TYPES.map(function(t) { return {item: t}; });
+  $scope.fieldTypesDropdown = FIELD_TYPES;
 
   accountsService.bindSelectedAccount($scope);
-  $scope.$watch('selectAccountId', function (selectAccountId) {
+  $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+    if (selectAccountId == prevValue) return;
     init(selectAccountId);
   });
 
@@ -26,39 +27,17 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     searchField: [ 'name', 'storeId' ]
   }
 
-  // selectize control options
-  $scope.selectProductFieldConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'name',
-    labelField: 'displayName',
-    sortField: 'displayName',
-    searchField: [ 'displayName' ],
-    placeholder: 'Make a Selection',
-    onChange: function (value) {
-      var column  = editingColumn().editing;
-      if (value == EMPTY_FIELD_NAME) {
-        column.mapping = column.name;
-        column.new = true;
-      }
-      else {
-        column.new = false;
-      }
-      if (!$scope.$$phase) $scope.$digest()
-      populateMappingDropdowns($scope.csv.columns)
-    },
-    onDropdownClose: scrollBackIntoView
-  }
-
-  $scope.selectFieldTypeConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    labelField: 'item',
-    valueField: 'item',
-    openOnFocus: true,
-    onDropdownClose: scrollBackIntoView
+  $scope.updateColumnMapping = function (column) {
+    var value = column.mapping;
+    if (value == EMPTY_FIELD_NAME) {
+      column.mapping = column.name;
+      column.new = true;
+    }
+    else {
+      column.new = false;
+    }
+    if (!$scope.$$phase) $scope.$digest()
+    populateMappingDropdowns($scope.csv.columns)
   };
 
   $scope.selectCsvImport = function (selector) {
@@ -78,6 +57,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     $scope.csv.result = skipBlankRows($scope.csv.result);
     populateMappingDropdowns($scope.csv.columns)
     $scope.csv.loaded = true
+    if (!$scope.$$phase) $scope.$digest();
     console.log('csv file selected', $scope.csv)
   }
 
@@ -326,9 +306,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     // since input rows is not just Array and contains extra properties from angular-csv-import,
     // just splice it and push filtered rows
     rows.length = 0;
-    rows.splice(0, 0, nonEmptyRows);
+    rows.splice.apply(rows, [0, 0].concat(nonEmptyRows));
 
-    return nonEmptyRows;
+    return rows;
   }
 
   function mapStoreField (column) {
@@ -352,13 +332,13 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   }
 
   function populateMappingDropdowns (columns) {
-    var selectedMappings = _.pluck(columns, 'mapping')
+    var selectedMappings = _.map(columns, function(c) { return (c.editing || c).mapping; });
     var availableFields = _.filter($scope.storeFields, function (f) {
       return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name)
     })
     _.each(columns, function (column) {
       column.availableFields = availableFields.slice()
-      var field = _.findWhere($scope.storeFields, { name: column.mapping })
+      var field = _.findWhere($scope.storeFields, { name: (column.editing || column).mapping })
       if (field) column.availableFields.push(field)
     })
     return availableFields
@@ -378,13 +358,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     var nextColumns = columns.slice(idx > 0 ? idx : 0);
     var nextUnmatched = $scope.unmatched(nextColumns)[0] || $scope.unmatched(columns)[0];
     if (nextUnmatched) $scope.editColumn(nextUnmatched);
-  }
-
-  function scrollBackIntoView() {
-    var left = $(window).scrollLeft();
-    $timeout(function () {
-      $(window).scrollLeft(left);
-    });
   }
 
   function editingColumn() {

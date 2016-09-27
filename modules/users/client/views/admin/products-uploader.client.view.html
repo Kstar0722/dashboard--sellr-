@@ -74,7 +74,7 @@
             </div>
 
             <div class="column-mapping">
-            <table autosize-table-body="importView == 'configure'">
+            <table>
                 <thead>
                 <tr>
                     <td ng-repeat="column in csv.columns track by column.id" class="col-header" ng-class="columnClasses(column)"
@@ -93,7 +93,9 @@
                         <form ng-if="column.editing" name="columnForm" ng-submit="columnForm.$valid && saveMatching(column, true)" autocomplete="off" novalidate>
                             <div ng-if="!column.editing.new">
                                 <div class="field-label">Column name</div>
-                                <selectize config="selectProductFieldConfig" options="column.availableFields" ng-model="column.editing.mapping"></selectize>
+                                <select ng-options="field.name as field.displayName for field in column.editing.availableFields" ng-model="column.editing.mapping" ng-change="updateColumnMapping(column.editing)" required>
+                                    <option value="" selected>Make a Selection</option>
+                                </select>
                                 <div class="actions">
                                     <md-button type="button" class="md-raised" ng-click="editPrev(column)"><i class="fa fa-angle-left"></i> Back</md-button>
                                     <md-button type="submit" class="md-raised md-primary">Save <i class="fa fa-angle-right"></i></md-button>
@@ -104,7 +106,8 @@
                                 <div class="field-label">New column name</div>
                                 <input type="text" ng-model="column.editing.mapping" autofocus required>
                                 <div class="field-label">Field Type</div>
-                                <selectize config="selectFieldTypeConfig" options="fieldTypesDropdown" ng-model="column.editing.fieldType" ng-init="column.editing.fieldType = 'text'" required></selectize>
+                                <select ng-options="fieldType for fieldType in fieldTypesDropdown" ng-model="column.editing.fieldType" ng-init="column.editing.fieldType = 'text'" required>
+                                </select>
                                 <div class="actions">
                                     <a ng-click="cancelEditing(column)">Cancel</a>
                                     <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>

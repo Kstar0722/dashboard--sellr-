@@ -1827,7 +1827,7 @@ md-checkbox.md-checked.blue-check .md-icon {
 }
 .products-uploader .import-wizard .configure {
   display: block;
-  padding: 0 20px;
+  padding: 0 3vw;
   width: 100%;
 }
 .products-uploader .import-wizard .configure a,
@@ -1839,6 +1839,7 @@ md-checkbox.md-checked.blue-check .md-icon {
   cursor: default;
 }
 .products-uploader .import-wizard .configure input,
+.products-uploader .import-wizard .configure select,
 .products-uploader .import-wizard .configure .selectize-input {
   background: #DFE3EB;
   border-radius: 3px;
@@ -1850,11 +1851,16 @@ md-checkbox.md-checked.blue-check .md-icon {
   padding: 5px;
   width: 100%;
 }
+.products-uploader .import-wizard .configure select {
+  height: 30px;
+  margin: 2px 0 4px;
+}
 .products-uploader .import-wizard .configure .config-header {
   margin-bottom: 30px;
 }
 .products-uploader .import-wizard .configure .column-mapping {
   margin: 0 -12px;
+  overflow: auto;
 }
 .products-uploader .import-wizard .configure .column-mapping table {
   border-collapse: separate;

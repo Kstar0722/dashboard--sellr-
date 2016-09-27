@@ -19,7 +19,8 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     $scope.files = []
 
     accountsService.bindSelectedAccount($scope)
-    $scope.$watch('selectAccountId', function () {
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return;
       $scope.init()
     })
 
