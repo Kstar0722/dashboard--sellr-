@@ -56,7 +56,7 @@
 
             <md-input-container show-errors>
                 <label>Store Email</label>
-                <input type="email" ng-model="store.email" name="email" maxlength="100">
+                <input type="email" ng-model="store.details.contactInfo.email" name="email" maxlength="100">
                 <ng-messages for="storeForm.email.$error" class="alert">
                     <ng-message when="email">Email address is invalid.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
