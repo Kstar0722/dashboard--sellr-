@@ -874,6 +874,19 @@ section.userList .userbox {
   background: transparent;
   color: black;
 }
+.adManager .library .youtube-input-container {
+  margin: 2vh auto;
+}
+.adManager .library .youtube-input-container .flex-row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.adManager .library .youtube-input-container .flex-row md-input-container {
+  margin-bottom: 0px;
+  min-width: 300px;
+}
 .adManager .upload {
   background-color: #2DC89A;
   color: white;

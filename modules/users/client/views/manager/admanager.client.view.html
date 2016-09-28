@@ -21,6 +21,7 @@
             <div class="img" ng-if="activeAd.ext == 'image'"
             style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value}});"></div>
             <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
+            <iframe width="225" height="180" ng-if="activeAd.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + activeAd.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
             <p style="color:black">{{activeAd.name}}</p>
           </div>
         </div>
@@ -40,6 +41,15 @@
             </div>
             <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
           </div>
+          <div class="youtube-input-container">
+          <h3>Alternatively you can submit a YouTube video</h3>
+          <div class="flex-row">
+            <md-input-container>
+              <label>YouTube video link</label>
+              <input type="text" ng-model="youtubeLink">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="saveYoutubeLink()">Submit</md-button>
+          </div>
         </div>
 
 
@@ -54,6 +64,7 @@
               ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
               frameBorder="2"
               allowfullscreen="true"></video>
+              <iframe width="225" height="180" ng-if="media.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + media.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
               <p>{{media.name}}</p>
               <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
             </div>
