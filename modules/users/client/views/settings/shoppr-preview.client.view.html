@@ -193,7 +193,7 @@
             <strong>{{storeInfo.details.contactInfo.phone}}</strong>
         </p>
         <p>
-            <strong>{{storeInfo.email}}</strong>
+            <strong>{{storeInfo.details.contactInfo.email}}</strong>
         </p>
         <div ng-repeat="day in storeInfo.details.workSchedule" ng-class="['row', {today: todayLabel === day.name}]">
             <div class="col col-50">{{day.name}}</div>
