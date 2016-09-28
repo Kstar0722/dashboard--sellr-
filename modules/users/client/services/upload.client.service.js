@@ -111,6 +111,49 @@ angular.module('users').service('uploadService', function ($http, constants, toa
     return defer.promise
   }
 
+  me.saveYoutubeVideo = function (youTubeVideoId, accountId) {
+    var defer = $q.defer()
+    var config = {
+      fileName: 'YOUTUBE',
+      userName: Authentication.user.username,
+      accountId: accountId
+    }
+    var payload = {
+      payload: config
+    }
+
+    $http.post(constants.API_URL + '/ads', payload).then(function (response, err) {
+      if (err) {
+        console.log(err)
+        toastr.error('There was a problem saving your ad.')
+      }
+      if (response) {
+        var mediaAssetId = response.data.assetId
+        var updateMedia = {
+          payload: {
+            mediaAssetId: mediaAssetId,
+            publicUrl: youTubeVideoId
+          }
+        }
+        $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err2) {
+          if (err2) {
+            console.log(err2)
+            toastr.error('There was a problem saving your ad.')
+          } else {
+            var message = {
+              message: 'New Ad Uploaded Success!',
+              publicUrl: updateMedia.payload.publicUrl,
+              mediaAssetId: updateMedia.payload.mediaAssetId
+            }
+            defer.resolve(message)
+          }
+        })
+      }
+    })
+
+    return defer.promise
+  }
+
   function bucketUpload (creds, params) {
     var defer = $q.defer()
     AWS.config.update({

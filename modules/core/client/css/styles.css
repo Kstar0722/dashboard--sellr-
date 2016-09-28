@@ -874,6 +874,19 @@ section.userList .userbox {
   background: transparent;
   color: black;
 }
+.adManager .library .youtube-input-container {
+  margin: 2vh auto;
+}
+.adManager .library .youtube-input-container .flex-row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.adManager .library .youtube-input-container .flex-row md-input-container {
+  margin-bottom: 0px;
+  min-width: 300px;
+}
 .adManager .upload {
   background-color: #2DC89A;
   color: white;
@@ -1827,7 +1840,7 @@ md-checkbox.md-checked.blue-check .md-icon {
 }
 .products-uploader .import-wizard .configure {
   display: block;
-  padding: 0 20px;
+  padding: 0 3vw;
   width: 100%;
 }
 .products-uploader .import-wizard .configure a,
@@ -1839,6 +1852,7 @@ md-checkbox.md-checked.blue-check .md-icon {
   cursor: default;
 }
 .products-uploader .import-wizard .configure input,
+.products-uploader .import-wizard .configure select,
 .products-uploader .import-wizard .configure .selectize-input {
   background: #DFE3EB;
   border-radius: 3px;
@@ -1850,11 +1864,16 @@ md-checkbox.md-checked.blue-check .md-icon {
   padding: 5px;
   width: 100%;
 }
+.products-uploader .import-wizard .configure select {
+  height: 30px;
+  margin: 2px 0 4px;
+}
 .products-uploader .import-wizard .configure .config-header {
   margin-bottom: 30px;
 }
 .products-uploader .import-wizard .configure .column-mapping {
   margin: 0 -12px;
+  overflow: auto;
 }
 .products-uploader .import-wizard .configure .column-mapping table {
   border-collapse: separate;
@@ -2488,7 +2507,7 @@ body .productEditor .loading-data .right {
   color: #1f2532;
 }
 .settings-container .settings-view.show-sidenav .view-container {
-  margin-left: 30px;
+  margin-left: 250px;
 }
 @media only screen and (max-width: 599px) {
   .settings-container .settings-view.show-sidenav .view-container {

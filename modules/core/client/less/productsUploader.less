@@ -100,7 +100,7 @@
           @border-unmatched: #ee836e;
 
           display: block;
-          padding: 0 20px;
+          padding: 0 3vw;
           width: 100%;
 
           a, .md-button {
@@ -111,6 +111,7 @@
           }
 
           input,
+          select,
           .selectize-input {
             background: @light-grey;
             border-radius: 3px;
@@ -123,12 +124,18 @@
             width: 100%;
           }
 
+          select {
+            height: 30px;
+            margin: 2px 0 4px;
+          }
+
           .config-header {
             margin-bottom: 30px;
           }
 
           .column-mapping {
             margin: 0 -12px;
+            overflow: auto;
 
             table {
               border-collapse: separate;

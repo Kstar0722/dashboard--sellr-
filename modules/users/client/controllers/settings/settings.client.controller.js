@@ -11,7 +11,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.descriptionCharsLimit = 200;
     $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     accountsService.bindSelectedAccount($scope);
-    $scope.$watch('selectAccountId', function () {
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return;
       loadStore(accountsService.accounts);
     });
 

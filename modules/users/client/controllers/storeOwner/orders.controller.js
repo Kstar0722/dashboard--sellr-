@@ -18,7 +18,8 @@ angular.module('users.admin')
         getOrders()
       }
       accountsService.bindSelectedAccount($scope)
-      $scope.$watch('selectAccountId', function () {
+      $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+        if (selectAccountId == prevValue) return;
         $scope.init()
       })
       SocketAPI = SocketAPI.bindTo($scope)

@@ -6,7 +6,8 @@ angular.module('users.manager').controller('DashboardController', [ '$scope', '$
     $scope.authentication = Authentication;
 
     accountsService.bindSelectedAccount($scope);
-    $scope.$watch('selectAccountId', function () {
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return;
       $scope.init();
     });
 

@@ -19,7 +19,8 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     $scope.files = []
 
     accountsService.bindSelectedAccount($scope)
-    $scope.$watch('selectAccountId', function () {
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return
       $scope.init()
     })
 
@@ -47,10 +48,29 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
       }, 200)
     }
 
+    $scope.youtubeLink = ''
+    $scope.saveYoutubeLink = function () {
+      var youTubeVideoId
+      var videoId = $scope.youtubeLink.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
+      if (videoId != null) {
+        youTubeVideoId = videoId[1]
+      } else {
+        toastr.error('The video URL is invalid')
+        return
+      }
+      uploadService.saveYoutubeVideo(youTubeVideoId, $scope.selectAccountId).then(function () {
+        toastr.success('New Ad Uploaded', 'Success!')
+        $scope.getAllMedia()
+      }, function () {
+        toastr.error('Something went wrong while trying to save the video')
+      })
+    }
+
     $scope.init = function () {
       $scope.getProfiles()
       $scope.getAllMedia()
     }
+
     $scope.getProfiles = function () {
       $scope.profiles = []
       $http.get(constants.API_URL + '/profiles?accountId=' + $scope.selectAccountId).then(function (res, err) {
@@ -73,6 +93,23 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         if (response.data.length > 0) {
           $scope.ads = true
           for (var i in response.data) {
+            if (response.data[i].type === 'YOUTUBE') {
+              myData = {
+                name: 'YouTube Video',
+                value: response.data[i].publicUrl,
+                ext: 'youtube',
+                adId: response.data[i].adId
+              }
+              console.log(myData)
+              $scope.activeAds.push(myData)
+              for (var j in $scope.allMedia) {
+                if ($scope.allMedia[i].adId === myData.adId) {
+                  $scope.allMedia.splice(j, 1)
+                }
+              }
+              continue
+            }
+
             var myData = {
               value: response.data[i].mediaAssetId + '-' + response.data[i].fileName
             }
@@ -87,9 +124,9 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 ext: 'image',
                 adId: response.data[i].adId
               }
-              for (var i in $scope.allMedia) {
+              for (var k in $scope.allMedia) {
                 if ($scope.allMedia[i].name === myData.name) {
-                  $scope.allMedia.splice(i, 1)
+                  $scope.allMedia.splice(k, 1)
                 }
               }
               $scope.activeAds.push(myData)
@@ -100,9 +137,9 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
                 ext: 'video',
                 adId: response.data[i].adId
               }
-              for (var i in $scope.allMedia) {
+              for (var l in $scope.allMedia) {
                 if ($scope.allMedia[i].name === myData.name) {
-                  $scope.allMedia.splice(i, 1)
+                  $scope.allMedia.splice(l, 1)
                 }
               }
               $scope.activeAds.push(myData)
@@ -122,8 +159,18 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
           console.log(err)
         }
         if (response) {
-          console.log(response)
+          console.log(response.data)
           for (var i in response.data) {
+            if (response.data[i].type === 'YOUTUBE') {
+              myData = {
+                name: 'YouTube Video',
+                value: response.data[i].publicUrl,
+                ext: 'youtube',
+                adId: response.data[i].adId
+              }
+              $scope.allMedia.push(myData)
+              continue
+            }
             var myData = {
               value: response.data[i].mediaAssetId + '-' + response.data[i].fileName
             }
