@@ -64,16 +64,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         }
       })
     }
-    $scope.getDevice = function (loc) {
-      $http.get(constants.API_URL + '/devices/location/' + loc).then(function (response, err) {
-        if (err) {
-          console.log(err)
-        }
-        if (response) {
-          $scope.list_devices = response
-        }
-      })
-    }
     $scope.getActiveAds = function (profileId) {
       $scope.activeAds = []
       $http.get(constants.API_URL + '/ads?profileId=' + profileId).then(function (response, err) {
@@ -127,7 +117,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     $scope.getAllMedia = function () {
       $scope.allMedia = []
 
-      $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId).then(function (response, err) {
+      $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId, { timeout: 5000 }).then(function (response, err) {
         if (err) {
           console.log(err)
         }
