@@ -13,15 +13,15 @@
         <div class="tab">
           LIVE ADS
         </div>
-        <div class="ads md-whiteframe-5dp" >
-          <div class="ad"  ng-repeat="activeAd in activeAds">
+        <div class="ads md-whiteframe-5dp" layout="row" layout-align="start center" layout-wrap>
+          <div class="ad" ng-repeat="activeAd in activeAds">
             <span class="action delete" ng-click="deactivateAd(activeAd.adId, currentProfile)">
               Remove Ad
             </span>
             <div class="img" ng-if="activeAd.ext == 'image'"
             style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value}});"></div>
             <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
-            <iframe width="225" height="180" ng-if="activeAd.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + activeAd.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="100%" ng-if="activeAd.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + activeAd.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
             <p style="color:black">{{activeAd.name}}</p>
           </div>
         </div>
@@ -55,7 +55,7 @@
 
 
         <div class="media">
-          <div class="ads">
+          <div class="ads" layout="row" layout-align="start center" layout-wrap>
             <div class="ad" ng-repeat="media in allMedia">
               <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="media.ext == 'image' "
@@ -64,7 +64,7 @@
               ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
               frameBorder="2"
               allowfullscreen="true"></video>
-              <iframe width="225" height="180" ng-if="media.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + media.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
+              <iframe width="100%" height="100%" ng-if="media.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + media.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
               <p>{{media.name}}</p>
               <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
             </div>

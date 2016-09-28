@@ -887,6 +887,9 @@ section.userList .userbox {
   margin-bottom: 0px;
   min-width: 300px;
 }
+.adManager .library .media {
+  width: 100%;
+}
 .adManager .upload {
   background-color: #2DC89A;
   color: white;
