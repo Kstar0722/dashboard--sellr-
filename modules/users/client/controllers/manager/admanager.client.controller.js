@@ -114,7 +114,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     function pushAdsToArray (dataArray, arrayToFill) {
       var defaultPrefs = {
         target: 'both',
-        orientation: 'landscape'
+        orientation: 'both'
       }
       for (var i = 0; i < dataArray.length; i++) {
         var myData = {
@@ -237,7 +237,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
           accountId: $scope.selectAccountId,
           prefs: {
             target: 'both',
-            orientation: 'landscape'
+            orientation: 'both'
           }
         }
         uploadService.upload(files[i], mediaConfig).then(function (response, err) {

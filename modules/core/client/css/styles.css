@@ -1023,15 +1023,20 @@ section.userList .userbox {
 .adManager .ads .ad:hover .img {
   opacity: 0.5;
 }
-md-menu-content.adConfigMenu .delete-ad {
-  background: #FF0000;
-  opacity: 0.7;
+md-menu-content.adConfigMenu .ad-menu-action {
   color: white;
   padding: 10px;
   border-radius: 10px;
   text-align: center;
   margin: 5px 10px;
   cursor: pointer;
+}
+md-menu-content.adConfigMenu .ad-menu-action.delete {
+  background: #FF0000;
+  opacity: 0.7;
+}
+md-menu-content.adConfigMenu .ad-menu-action.save {
+  background: #2DC89A;
 }
 md-menu-content.adConfigMenu .menu-title {
   margin: 0px 0px 0px 15px;
@@ -1044,6 +1049,12 @@ md-menu-content.adConfigMenu .radio-options {
 }
 md-menu-content.adConfigMenu .radio-options md-radio-button {
   margin: 13px 0;
+}
+md-menu-content.adConfigMenu md-radio-button[disabled] .md-off {
+  border-color: rgba(0, 0, 0, 0.26) !important;
+}
+md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
+  background-color: rgba(0, 0, 0, 0.26) !important;
 }
 .dashboard .topten {
   padding-left: 0px;

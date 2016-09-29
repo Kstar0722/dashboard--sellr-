@@ -81,11 +81,13 @@
               <md-menu-divider></md-menu-divider>
               <div class="menu-title">Ad orientation (TV only)</div>
               <md-radio-group class="radio-options" ng-model="media.prefs.orientation">
+              <md-radio-button ng-disabled="media.prefs.target === 'device'" value="both" class="md-primary">Both</md-radio-button>
               <md-radio-button ng-disabled="media.prefs.target === 'device'" value="landscape" class="md-primary">Landscape</md-radio-button>
               <md-radio-button ng-disabled="media.prefs.target === 'device'" value="portrait" class="md-primary">Portrait</md-radio-button>
               </md-radio-group>
               <md-menu-divider></md-menu-divider>
-              <span class="delete-ad" ng-click="deleteAd(media)">Delete Ad</span>
+              <span class="ad-menu-action save" ng-click="saveAdOptions(media)">Save changes</span>
+              <span class="ad-menu-action delete" ng-click="deleteAd(media)">Delete Ad</span>
               </md-menu-content>
               </md-menu>
             </div>
