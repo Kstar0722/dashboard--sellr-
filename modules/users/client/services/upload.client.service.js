@@ -1,4 +1,3 @@
-
 /*globals angular, localStorage */
 angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q) {
   var me = this
@@ -120,7 +119,11 @@ angular.module('users').service('uploadService', function ($http, constants, toa
     var config = {
       fileName: 'YOUTUBE',
       userName: Authentication.user.username,
-      accountId: accountId
+      accountId: accountId,
+      prefs: {
+        target: 'tv',
+        orientation: 'landscape'
+      }
     }
     var payload = {
       payload: config
