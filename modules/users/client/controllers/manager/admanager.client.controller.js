@@ -112,22 +112,32 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     }
 
     function pushAdsToArray (dataArray, arrayToFill) {
+      var defaultPrefs = {
+        target: 'both',
+        orientation: 'landscape'
+      }
       for (var i = 0; i < dataArray.length; i++) {
+        var myData = {
+          adId: dataArray[i].adId
+        }
+        if (_.isEmpty(dataArray[i].preferences)) {
+          myData.prefs = _.clone(defaultPrefs)
+        } else {
+          myData.prefs = dataArray[i].preferences
+        }
         if (dataArray[i].type === 'YOUTUBE') {
-          myData = {
+          myData = _.extend(myData, {
             name: 'YouTube Video',
             value: dataArray[i].publicUrl,
-            adId: dataArray[i].adId,
             ext: 'youtube'
-          }
+          })
           arrayToFill.push(myData)
           continue
         }
-        var myData = {
+        myData = _.extend(myData, {
           name: dataArray[i].fileName,
-          value: dataArray[i].mediaAssetId + '-' + dataArray[i].fileName,
-          adId: dataArray[i].adId
-        }
+          value: dataArray[i].mediaAssetId + '-' + dataArray[i].fileName
+        })
         var re = /(?:\.([^.]+))?$/
         var ext = re.exec(myData.value)[1]
         ext = (ext || '').toLowerCase()
@@ -141,7 +151,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     }
 
     $scope.getAllMedia = function () {
-      $scope.allMedia = []
       var allMedia = []
 
       $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId).then(function (response, err) {
@@ -153,7 +162,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
           pushAdsToArray(response.data, allMedia)
 
           // Set Active Ads
-          $scope.activeAds = []
           var activeAds = []
           $http.get(constants.API_URL + '/ads?profileId=' + $scope.currentProfile).then(function (activeAdsresponse, activeAdserr) {
             if (activeAdserr) {
@@ -226,7 +234,11 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         var mediaConfig = {
           mediaRoute: 'ads',
           folder: 'ads',
-          accountId: $scope.selectAccountId
+          accountId: $scope.selectAccountId,
+          prefs: {
+            target: 'both',
+            orientation: 'landscape'
+          }
         }
         uploadService.upload(files[i], mediaConfig).then(function (response, err) {
           if (response) {

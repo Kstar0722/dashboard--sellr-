@@ -1,3 +1,5 @@
+
+/*globals angular, localStorage */
 angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q) {
   var me = this
 
@@ -22,8 +24,8 @@ angular.module('users').service('uploadService', function ($http, constants, toa
 
       if (!file.$error) {
         var newObject
-        if (config.mediaRoute == 'media') {
-          if (config.type == 'PRODUCT') {
+        if (config.mediaRoute === 'media') {
+          if (config.type === 'PRODUCT') {
             newObject = {
               payload: {
                 fileName: filename,
@@ -34,7 +36,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                 productId: config.productId
               }
             }
-          }else {
+          } else {
             newObject = {
               payload: {
                 type: config.type,
@@ -46,12 +48,14 @@ angular.module('users').service('uploadService', function ($http, constants, toa
               }
             }
           }
-        }else {
+        } else {
+          // This is Ads media route there is no other option
           newObject = {
             payload: {
               fileName: filename,
               userName: Authentication.user.username,
-              accountId: config.accountId
+              accountId: config.accountId,
+              prefs: config.prefs
             }
           }
         }
