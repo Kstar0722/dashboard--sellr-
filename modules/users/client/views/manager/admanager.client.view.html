@@ -2,82 +2,97 @@
   <section class="content adManager" >
     <div class="titlebar"><h1 class="md-display-2">Ad Manager</h1></div>
     <div class="pagecontent">
-
       <select
-      ng-show="profiles.length>1"
-      ng-click="getAds(currentProfile)"
-      ng-model="currentProfile"
+        ng-show="profiles.length>1"
+        ng-click="getAds(currentProfile)"
+        ng-model="currentProfile"
       ng-options="profile.profileId as profile.profileName for profile in profiles"></select>
-
       <div class="live ">
         <div class="tab">
           LIVE ADS
         </div>
-        <div class="ads md-whiteframe-5dp" >
-          <div class="ad"  ng-repeat="activeAd in activeAds">
+        <div class="ads md-whiteframe-4dp" layout="row" layout-align="start start" layout-wrap>
+          <div ng-if="activeAds.length === 0">
+            <p>Currently there are no Ads Live</p>
+          </div>
+          <div class="ad" ng-repeat="activeAd in activeAds">
+            <div class="ad-info">
+              Target: <span ng-bind="activeAd.prefs.target | uppercase"></span>
+              <span ng-if="activeAd.prefs.target !== 'device'"><br>Orientation: <span ng-bind="activeAd.prefs.orientation | uppercase"></span></span>
+            </div>
             <span class="action delete" ng-click="deactivateAd(activeAd.adId, currentProfile)">
               Remove Ad
             </span>
             <div class="img" ng-if="activeAd.ext == 'image'"
             style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value}});"></div>
-            <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
-            <iframe width="225" height="180" ng-if="activeAd.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + activeAd.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
-            <p style="color:black">{{activeAd.name}}</p>
-          </div>
+          <video  class ='img' controls ng-if="activeAd.ext =='video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + activeAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true"></video>
+          <iframe class="iframe-video" ng-if="activeAd.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + activeAd.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
+          <p style="color:black">{{activeAd.name}}</p>
         </div>
       </div>
-
-
-      <div class="library">
-
-        <div layout="column" layout-align="start center">
-          <div>
-            <h1 class="md-display-1">Media Library</h1>
+    </div>
+    <div class="library">
+      <div layout="column" layout-align="start center">
+        <div>
+          <h1 class="md-display-1">Media Library</h1>
+        </div>
+        <div>
+          <div ngf-drop ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true">
+            <span class="hide-xs">Drop images here or click to upload</span>
+            <span class="show-xs">Tap to upload</span>
           </div>
-          <div>
-              <div ngf-drop ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="'dragover'"
-                   ngf-multiple="true" ngf-allow-dir="true" accept="image/*,application/pdf,video/*"
-                   ngf-pattern="'image/*,application/pdf,video/*'">
-              <span class="hide-xs">Drop images here or click to upload</span>
-              <span class="show-xs">Tap to upload</span>
-            </div>
-            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-          </div>
-          <div class="youtube-input-container">
+          <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+        <div class="youtube-input-container">
           <h3>Alternatively you can submit a YouTube video</h3>
           <div class="flex-row">
             <md-input-container>
-              <label>YouTube video link</label>
-              <input type="text" ng-model="youtubeLink">
+            <label>YouTube video link</label>
+            <input type="text" ng-model="youtubeLink">
             </md-input-container>
             <md-button class="md-raised md-primary" ng-click="saveYoutubeLink()">Submit</md-button>
           </div>
         </div>
-
-
-
         <div class="media">
-          <div class="ads">
+          <div class="ads md-whiteframe-4dp" layout="row" layout-align="start start" layout-wrap>
+            <div ng-if="allMedia.length === 0">
+              <p>No Ads Uploaded yet.</p>
+            </div>
             <div class="ad" ng-repeat="media in allMedia">
               <span class="action" ng-click="activateAd(media.adId, currentProfile)">Add Ad</span>
               <div class="img" ng-if="media.ext == 'image' "
               style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value}});"></div>
               <video  class ='img'controls ng-if="media.ext =='video'"
-              ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
-              frameBorder="2"
+                ng-src="{{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + media.value | trustUrl }}"
+                frameBorder="2"
               allowfullscreen="true"></video>
-              <iframe width="225" height="180" ng-if="media.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + media.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
+              <iframe class="iframe-video" ng-if="media.ext == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + media.value | trustAsResourceUrl}}" frameborder="0" allowfullscreen></iframe>
               <p>{{media.name}}</p>
-              <button class="btn btn-danger" ng-click="deleteAd(media)">Delete</button>
+              <!-- <span class="delete-ad" ng-click="deleteAd(media)">Delete</span> -->
+              <md-menu md-offset="60 0">
+              <span class="options-trigger" ng-click="$mdOpenMenu($event)">Ad Options</span>
+              <md-menu-content width="3" class="adConfigMenu">
+              <div class="menu-title">Ad Target</div>
+              <md-radio-group class="radio-options" ng-model="media.prefs.target">
+              <md-radio-button value="both" class="md-primary">Both</md-radio-button>
+              <md-radio-button value="device" class="md-primary">Device</md-radio-button>
+              <md-radio-button value="tv" class="md-primary">TV</md-radio-button>
+              </md-radio-group>
+              <md-menu-divider></md-menu-divider>
+              <div class="menu-title">Ad orientation (TV only)</div>
+              <md-radio-group class="radio-options" ng-model="media.prefs.orientation">
+              <md-radio-button ng-disabled="media.prefs.target === 'device'" value="landscape" class="md-primary">Landscape</md-radio-button>
+              <md-radio-button ng-disabled="media.prefs.target === 'device'" value="portrait" class="md-primary">Portrait</md-radio-button>
+              </md-radio-group>
+              <md-menu-divider></md-menu-divider>
+              <span class="delete-ad" ng-click="deleteAd(media)">Delete Ad</span>
+              </md-menu-content>
+              </md-menu>
             </div>
           </div>
         </div>
-
       </div>
-
       <h1 ng-show="vm.determinateValue">{{vm.determinateValue}}%</h1>
-
-
     </div>
   </section>
 </div>

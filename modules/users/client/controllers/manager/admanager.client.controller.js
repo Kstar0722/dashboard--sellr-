@@ -1,9 +1,7 @@
 'use strict'
-
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService',
-  function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService) {
-    var self = this
-
+/* global angular, localStorage, _ */
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
+  function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
     $scope.authentication = Authentication
     $scope.activeAds = []
     $scope.allMedia = []
@@ -19,8 +17,11 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     $scope.files = []
 
     accountsService.bindSelectedAccount($scope)
+
     $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
-      if (selectAccountId == prevValue) return
+      if (selectAccountId === prevValue) {
+        return
+      }
       $scope.init()
     })
 
@@ -28,8 +29,8 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
       var timer
 
       return function debounced () {
-        var context = $scope,
-          args = Array.prototype.slice.call(arguments)
+        var context = $scope
+        var args = Array.prototype.slice.call(arguments)
         $timeout.cancel(timer)
         timer = $timeout(function () {
           timer = undefined
@@ -64,140 +65,123 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
       }, function () {
         toastr.error('Something went wrong while trying to save the video')
       })
+      $scope.youtubeLink = ''
     }
 
     $scope.init = function () {
-      $scope.getProfiles()
-      $scope.getAllMedia()
+      $scope.getProfiles().then(function () {
+        // Get Active Ads should be a getAllMedia responsibility
+        $scope.getAllMedia()
+      })
     }
 
     $scope.getProfiles = function () {
+      var defer = $q.defer()
       $scope.profiles = []
       $http.get(constants.API_URL + '/profiles?accountId=' + $scope.selectAccountId).then(function (res, err) {
         if (err) {
           console.log(err)
+          defer.reject()
         }
         if (res.data.length > 0) {
           $scope.profiles = res.data
           $scope.currentProfile = res.data[0].profileId
-          $scope.getActiveAds($scope.currentProfile)
+          defer.resolve()
         }
       })
+      return defer.promise
     }
-    $scope.getActiveAds = function (profileId) {
-      $scope.activeAds = []
-      $http.get(constants.API_URL + '/ads?profileId=' + profileId).then(function (response, err) {
-        if (err) {
-          console.log(err)
-        }
-        if (response.data.length > 0) {
-          $scope.ads = true
-          for (var i in response.data) {
-            if (response.data[i].type === 'YOUTUBE') {
-              myData = {
-                name: 'YouTube Video',
-                value: response.data[i].publicUrl,
-                ext: 'youtube',
-                adId: response.data[i].adId
-              }
-              console.log(myData)
-              $scope.activeAds.push(myData)
-              for (var j in $scope.allMedia) {
-                if ($scope.allMedia[i].adId === myData.adId) {
-                  $scope.allMedia.splice(j, 1)
-                }
-              }
-              continue
-            }
 
-            var myData = {
-              value: response.data[i].mediaAssetId + '-' + response.data[i].fileName
-            }
-
-            var re = /(?:\.([^.]+))?$/
-            var ext = re.exec(myData.value)[1]
-            ext = (ext || '').toLowerCase()
-            if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
-              myData = {
-                name: response.data[i].fileName,
-                value: response.data[i].mediaAssetId + '-' + response.data[i].fileName,
-                ext: 'image',
-                adId: response.data[i].adId
-              }
-              for (var k in $scope.allMedia) {
-                if ($scope.allMedia[i].name === myData.name) {
-                  $scope.allMedia.splice(k, 1)
-                }
-              }
-              $scope.activeAds.push(myData)
-            } else if (isSupportedVideoType(ext)) {
-              myData = {
-                name: response.data[i].fileName,
-                value: response.data[i].mediaAssetId + '-' + response.data[i].fileName,
-                ext: 'video',
-                adId: response.data[i].adId
-              }
-              for (var l in $scope.allMedia) {
-                if ($scope.allMedia[i].name === myData.name) {
-                  $scope.allMedia.splice(l, 1)
-                }
-              }
-              $scope.activeAds.push(myData)
-            }
-          }
-        }
-      })
-    }
-    function isSupportedVideoType (ext) {
-      return (ext === 'mp4' || ext === 'ogv' || ext === 'webm' || ext === 'mov' || ext === 'm4v')
-    }
-    $scope.getAllMedia = function () {
-      $scope.allMedia = []
-
-      $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId, { timeout: 5000 }).then(function (response, err) {
+    $scope.getDevice = function (loc) {
+      $http.get(constants.API_URL + '/devices/location/' + loc).then(function (response, err) {
         if (err) {
           console.log(err)
         }
         if (response) {
-          console.log(response.data)
-          for (var i in response.data) {
-            if (response.data[i].type === 'YOUTUBE') {
-              myData = {
-                name: 'YouTube Video',
-                value: response.data[i].publicUrl,
-                ext: 'youtube',
-                adId: response.data[i].adId
-              }
-              $scope.allMedia.push(myData)
-              continue
-            }
-            var myData = {
-              value: response.data[i].mediaAssetId + '-' + response.data[i].fileName
-            }
-            var re = /(?:\.([^.]+))?$/
-            var ext = re.exec(myData.value)[1]
-            ext = (ext || '').toLowerCase()
-            if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
-              myData = {
-                name: response.data[i].fileName,
-                value: response.data[i].mediaAssetId + '-' + response.data[i].fileName,
-                ext: 'image',
-                adId: response.data[i].adId
-              }
-              $scope.allMedia.push(myData)
-            } else if (isSupportedVideoType(ext)) {
-              myData = {
-                name: response.data[i].fileName,
-                value: response.data[i].mediaAssetId + '-' + response.data[i].fileName,
-                ext: 'video',
-                adId: response.data[i].adId
-              }
-              $scope.allMedia.push(myData)
-            }
-          }
+          $scope.list_devices = response
         }
       })
     }
+
+    function isSupportedVideoType (ext) {
+      return (ext === 'mp4' || ext === 'ogv' || ext === 'webm' || ext === 'mov' || ext === 'm4v')
+    }
+
+    function isSupportedImageType (ext) {
+      return (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif')
+    }
+
+    function pushAdsToArray (dataArray, arrayToFill) {
+      var defaultPrefs = {
+        target: 'both',
+        orientation: 'landscape'
+      }
+      for (var i = 0; i < dataArray.length; i++) {
+        var myData = {
+          adId: dataArray[i].adId
+        }
+        if (_.isEmpty(dataArray[i].preferences)) {
+          myData.prefs = _.clone(defaultPrefs)
+        } else {
+          myData.prefs = dataArray[i].preferences
+        }
+        if (dataArray[i].type === 'YOUTUBE') {
+          myData = _.extend(myData, {
+            name: 'YouTube Video',
+            value: dataArray[i].publicUrl,
+            ext: 'youtube'
+          })
+          arrayToFill.push(myData)
+          continue
+        }
+        myData = _.extend(myData, {
+          name: dataArray[i].fileName,
+          value: dataArray[i].mediaAssetId + '-' + dataArray[i].fileName
+        })
+        var re = /(?:\.([^.]+))?$/
+        var ext = re.exec(myData.value)[1]
+        ext = (ext || '').toLowerCase()
+        if (isSupportedImageType(ext)) {
+          arrayToFill.push(_.extend(myData, {ext: 'image'}))
+        }
+        if (isSupportedVideoType(ext)) {
+          arrayToFill.push(_.extend(myData, {ext: 'video'}))
+        }
+      }
+    }
+
+    $scope.getAllMedia = function () {
+      var allMedia = []
+
+      $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId).then(function (response, err) {
+        if (err) {
+          console.log(err)
+        }
+        if (response) {
+          console.log('All Ads unfiltered', response.data)
+          pushAdsToArray(response.data, allMedia)
+
+          // Set Active Ads
+          var activeAds = []
+          $http.get(constants.API_URL + '/ads?profileId=' + $scope.currentProfile).then(function (activeAdsresponse, activeAdserr) {
+            if (activeAdserr) {
+              console.log(activeAdserr)
+            }
+            if (activeAdsresponse.data.length > 0) {
+              $scope.ads = true
+              pushAdsToArray(activeAdsresponse.data, activeAds)
+              var activeAdsIds = _.pluck(activeAds, 'adId')
+              allMedia = _.filter(allMedia, function (ad) {
+                return !_.contains(activeAdsIds, ad.adId)
+              })
+            }
+            $scope.allMedia = allMedia
+            $scope.activeAds = activeAds
+          })
+        }
+      })
+    }
+
     $scope.setCurrentProfile = function (profileId) {
       $scope.currentProfile = profileId
     }
@@ -215,30 +199,29 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
           toastr.error('Could not push ad to device. Please try again later.')
         }
         if (response) {
-          $scope.getActiveAds(profileId)
           toastr.success('Ad pushed to devices!')
+          $scope.getAllMedia()
         }
       })
     }
+
     $scope.deactivateAd = function (adId, profileId) {
-      console.log(adId)
-      console.log(profileId)
       $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function (response, err) {
         if (err) {
           console.log(err)
           toastr.error('Could not remove ad from devices.')
         }
         if (response) {
-          console.log(response)
-          $scope.getActiveAds(profileId)
           toastr.success('Ad removed from devices.')
           $scope.getAllMedia()
         }
       })
     }
+
     $scope.$watch('files', function () {
       $scope.upload($scope.files)
     })
+
     $scope.$watch('file', function () {
       if ($scope.file != null) {
         $scope.files = [$scope.file]
@@ -251,14 +234,19 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
         var mediaConfig = {
           mediaRoute: 'ads',
           folder: 'ads',
-          accountId: $scope.selectAccountId
+          accountId: $scope.selectAccountId,
+          prefs: {
+            target: 'both',
+            orientation: 'landscape'
+          }
         }
         uploadService.upload(files[i], mediaConfig).then(function (response, err) {
           if (response) {
             toastr.success('New Ad Uploaded', 'Success!')
             responses.push(response)
-            if (responses.length === files.length)
+            if (responses.length === files.length) {
               $scope.getAllMedia()
+            }
           }
         })
       }
@@ -269,7 +257,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
       var url = constants.API_URL + '/ads/' + ad.adId
       $http.delete(url).then(function () {
         toastr.success('Ad removed', 'Success')
-        $scope.init()
+        $scope.getAllMedia()
       })
     }
 
