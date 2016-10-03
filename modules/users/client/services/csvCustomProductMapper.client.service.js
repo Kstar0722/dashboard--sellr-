@@ -18,6 +18,7 @@ angular.module('users').service('csvCustomProductMapper', function () {
     var result = _.compact(_.map(items, function (obj) {
       return mapProductDto(obj, columns);
     }))
+
     return result
   }
 

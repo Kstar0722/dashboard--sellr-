@@ -204,7 +204,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     if (!storeDb || storeDb.length == 0) {
       return $q.reject('no store db found in csv file')
     }
-
+    
     return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse).then(function () {
       return getStoreById(storeDb.storeId)
     })
