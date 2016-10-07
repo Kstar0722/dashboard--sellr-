@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService, $rootScope) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope) {
   var me = this
   me.init = function () {
     me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
@@ -27,7 +27,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
         }
         if (me.selectAccountId && account.accountId == me.selectAccountId) {
           me.currentAccount = account
-          intercomService.intercomActivation()
+          // intercomService.intercomActivation()
           console.log('setting current account %O', me.currentAccount)
         }
       })
