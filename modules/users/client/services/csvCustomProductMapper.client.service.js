@@ -3,14 +3,18 @@ angular.module('users').service('csvCustomProductMapper', function () {
   var self = this
 
   this.EMPTY_FIELD_NAME = '-'
-  this.PRODUCT_FIELDS = ['name', 'image', 'skus', 'description']
+  this.PRODUCT_FIELDS = ['name', 'image', 'skus', 'description', 'listView', 'detailView', 'noFoundView', 'headerView']
   this.FIELD_TYPES = ['text', 'number', 'boolean', 'url', 'list', 'date', 'youtube'];
 
   this.PRODUCT_TYPES = {
     name: 'text',
     image: 'url',
     skus: 'list',
-    description: 'text'
+    description: 'text',
+    listView: 'url',
+    detailView: 'url',
+    noFoundView: 'url',
+    headerView: 'url'
   };
 
   this.mapProducts = function (items, columns) {

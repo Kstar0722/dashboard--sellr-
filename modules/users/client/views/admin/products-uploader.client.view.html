@@ -53,7 +53,7 @@
             </div>
 
             <div class="toolbar">
-                <md-button class="green" ng-click="importView = 'configure'"
+                <md-button class="green" ng-click="importView = 'configure'; editColumn(unmatched(csv.columns)[0])"
                            ng-disabled="!csv.result || csv.result.length == 0 || (selectedStore || '-') == '-' || !planName">
                     Next Step
                 </md-button>
@@ -69,8 +69,9 @@
                 <span ng-if="unmatched(csv.columns).length > 0">{{unmatched(csv.columns).length}} unmatched columns</span>
                 <span ng-if="unmatched(csv.columns).length == 0"><b>All columns are matched.</b> Click "Next Step" below to continue.</span>
                 <a class="skip-all" ng-click="skip(unmatched(csv.columns))" ng-if="unmatched(csv.columns).length > 0">Skip All</a>
-                <md-checkbox ng-model="showSkippedColumns" ng-init="showSkippedColumns = true">Show skipped columns</md-checkbox>
+                <md-checkbox ng-model="showSkippedColumns">Show skipped columns</md-checkbox>
                 <md-checkbox ng-model="csv.header">First row is used for titles</md-checkbox>
+                <md-checkbox ng-model="customProducts">Custom products</md-checkbox>
             </div>
 
             <div class="column-mapping">

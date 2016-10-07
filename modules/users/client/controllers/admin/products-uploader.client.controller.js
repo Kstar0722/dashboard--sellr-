@@ -10,6 +10,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   $scope.planName = null
   $scope.csv = { header: true }
   $scope.fieldTypesDropdown = FIELD_TYPES;
+  $scope.showSkippedColumns = true;
+  $scope.customProducts = true;
 
   accountsService.bindSelectedAccount($scope);
   $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
@@ -36,7 +38,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     else {
       column.new = false;
     }
-    if (!$scope.$$phase) $scope.$digest()
     populateMappingDropdowns($scope.csv.columns)
   };
 
@@ -55,7 +56,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   $scope.initCsvImport = function (e) {
     $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[ 0 ]))
     $scope.csv.result = skipBlankRows($scope.csv.result);
-    populateMappingDropdowns($scope.csv.columns)
     $scope.csv.loaded = true
     if (!$scope.$$phase) $scope.$digest();
     console.log('csv file selected', $scope.csv)
@@ -167,7 +167,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   };
 
   $scope.editColumn = function (column) {
+    if (!column) return;
     $scope.saveMatching(editingColumn());
+    populateMappingDropdowns($scope.csv.columns)
     column.editing = null;
     return column.editing = angular.copy(column);
   };
@@ -191,9 +193,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.columnType = function (column) {
     if (column.fieldType) return column.fieldType;
-    if (column.mapping == 'image') return 'url';
-    if (column.mapping == 'skus') return 'list';
-    return 'text';
+    return csvCustomProductMapper.PRODUCT_TYPES[column.mapping] || 'text';
   };
 
   init()
@@ -247,7 +247,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   function importPlanProducts (store, products) {
     var payload = {
-      custom: true,
+      custom: $scope.customProducts,
       storeId: store.storeId,
       accountId: store.accountId,
       label: $scope.planName,
@@ -278,15 +278,13 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     columns = trimEndBlankColumns(columns);
 
     columns = wrapFields(columns)
-    var editing = null;
     _.each(columns, function (col, i) {
       col.id = 'c' + i + '_' + col.name;
       col.mapping = mapStoreField(col.name).name;
       if (col.mapping == EMPTY_FIELD_NAME) col.mapping = '';
-
       col.unmatched = !col.mapping || col.mapping == EMPTY_FIELD_NAME;
-      if (!editing && col.unmatched) col.editing = editing = true;
     })
+
     return columns
   }
 
