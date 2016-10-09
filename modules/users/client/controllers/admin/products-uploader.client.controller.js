@@ -124,10 +124,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.skip = function (columns) {
     _.forEach(columns, function (c) {
-      c.mapping = null;
+      resetColumnState(c);
       c.unmatched = false;
-      c.editing = null;
-      c.skipped = true;
     });
 
     populateMappingDropdowns($scope.csv.columns)
@@ -183,11 +181,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   };
 
   $scope.resetColumn = function (column) {
-    column.mapping = null;
-    column.editing = null;
-    column.skipped = false;
-    column.unmatched = true;
-
+    resetColumnState(column);
     populateMappingDropdowns($scope.csv.columns)
   };
 
@@ -285,6 +279,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
       col.unmatched = !col.mapping || col.mapping == EMPTY_FIELD_NAME;
     })
 
+    // default every unmatched field to be a new column with the field name as title.
+    autoMapColumns($scope.unmatched(columns));
+
     return columns
   }
 
@@ -360,5 +357,21 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   function editingColumn() {
     return _.find($scope.csv.columns, function(c) { return c.editing; });
+  }
+
+  function resetColumnState(column) {
+    column.mapping = null;
+    column.editing = null;
+    column.skipped = false;
+    column.unmatched = true;
+    column.new = false;
+  }
+
+  function autoMapColumns(columns) {
+    _.each(columns, function (column) {
+      column.new = true;
+      column.mapping = column.name;
+      column.unmatched = false;
+    });
   }
 })
