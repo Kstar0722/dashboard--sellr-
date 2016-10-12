@@ -20,7 +20,8 @@ var ApplicationConfiguration = (function () {
       'angulartics.gosquared',
       'ngPostMessage',
       'angular-clipboard',
-      'ng-autofocus'
+      'ng-autofocus',
+      'cfp.loadingBar'
     ];
 
   // Add a new vertical module

@@ -18,7 +18,10 @@ var ApplicationConfiguration = (function () {
       'angular-loading-bar',
       'angulartics',
       'angulartics.gosquared',
-      'ng-autofocus'
+      'ngPostMessage',
+      'angular-clipboard',
+      'ng-autofocus',
+      'cfp.loadingBar'
     ];
 
   // Add a new vertical module
@@ -111,9 +114,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     { productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur' }
   ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia) {
   var DEFAULT_PUBLIC = false;
 
+  $rootScope.$mdMedia = $mdMedia;
   $rootScope.$state = $state;
   $rootScope.$stateClass = cssClassOf($state.current.name)
   $rootScope.$svc = function (name) { return $injector.get(name); }; // for debugging purposes only
@@ -711,43 +715,6 @@ angular.module('core').controller('statsController', function ($scope, $http, $s
 'use strict'
 
 angular.module('core')
-  .directive('autosizeTableBody', function ($timeout) {
-    return {
-      restrict: 'A',
-      link: function (scope, element, attrs) {
-        var $body = angular.element(document.body);
-
-        enable(true);
-        scope.$watch(attrs.autosizeTableBody, function (value) {
-          enable(value);
-        });
-
-        scope.$watch('showSkippedColumns', function () {
-          enable(true);
-        }, true);
-
-        scope.$on('$dispose', function () {
-          enable(false);
-        });
-
-        function enable(value) {
-          if (value === false) {
-            $body.css('min-width', 'initial');
-            return;
-          }
-
-          $timeout(function () {
-            var width = $body.width() < element.width() ? element.width() + 'px' : 'initial';
-            $body.css('min-width', width);
-          });
-        }
-      }
-    }
-  });
-;
-'use strict'
-
-angular.module('core')
   .directive('enterKeyHandler', function () {
     return {
       restrict: 'A',
@@ -898,6 +865,139 @@ angular.module('core')
     }
   }]);
 ;
+// see http://beeker.io/display-website-in-iphone-html-css-javascript
+// repo https://github.com/beeker1121/website-mobile-preview
+
+window.bioMp = function(el, options) {
+  // Private
+  var front = {width: 428, height: 889, ratio: (428 / 889)},
+    side = {width: 302, height: 889, ratio: (302 / 889)};
+
+  // Options
+  var options = options || {},
+    url = setOption(options.url, ''),
+    view = setOption(options.view, 'front'),
+    image = setOption(options.image, ''),
+    scale = setOption(options.scale, 0),
+    width = setOption(options.width, 0),
+    height = setOption(options.height, 0);
+
+  function setOption(option, _default) {
+    return (typeof option === 'undefined') ? _default : option;
+  }
+
+  function setSizes() {
+    var selView = (view == 'front') ? front : side;
+
+    if(scale != 0) {
+      width = (selView.width * scale);
+      height = (selView.height * scale);
+      return;
+    }
+
+    if(width != 0) {
+      scale = (width / selView.width);
+      height = (width / selView.ratio);
+      return;
+    }
+
+    if(height != 0) {
+      scale = (height / selView.height);
+      width = (height * selView.ratio);
+      return;
+    }
+
+    scale = 1;
+    width = selView.width;
+    height = selView.height;
+  }
+
+  function create() {
+    // Set view dimensions
+    var selView = (view == 'front') ? front : side;
+
+    // Set scrollbar CSS
+    var css = document.createTextNode(
+      '.bio-mp-screen::-webkit-scrollbar {width: 6px; height: 6px;}' +
+      '.bio-mp-screen::-webkit-scrollbar-track {background: none; -webkit-border-radius: 10px; border-radius: 10px;}' +
+      '.bio-mp-screen::-webkit-scrollbar-thumb {-webkit-border-radius: 10px; border-radius: 10px; background: #777;}' +
+      '.bio-mp-screen::-webkit-scrollbar-thumb:window-inactive {background: #777;}'
+    );
+
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(css);
+
+    // Add phone div
+    var phone = document.createElement('div');
+    el.appendChild(phone);
+
+    // Add phone image
+    var phoneImage = document.createElement('img');
+    phoneImage.src = image;
+    phone.appendChild(phoneImage);
+
+    // Add iframe
+    var iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.className = 'bio-mp-screen';
+    phone.appendChild(iframe);
+
+    // Add CSS
+    var wrapCss = 'width: ' + width + 'px; height: ' + height + 'px; overflow: hidden; transform-origin: 0 0 0;';
+    var phoneCss = 'position: relative; top: 0px; left: 0px; width: ' + selView.width + 'px; height: ' + selView.height + 'px; background: none; -webkit-transform-origin: 0 0 0; -moz-transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -o-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: scale(' + scale + '); -moz-transform: scale(' + scale + '); -ms-transform: scale(' + scale + '); -o-transform: scale(' + scale + '); transform: scale(' + scale + ');';
+    var phoneImageCss = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%;';
+
+    if(view == 'front')
+      var screenCss = 'position: absolute; top: 109px; left: 26.5px; width: 375px; height: 669px; border: 0;';
+    else if(view == 'left')
+      var screenCss = 'position: absolute; top: 135px; left: -60px; width: 375px; height: 669px; border: 0; -webkit-transform: matrix3d(0.682, -0.160, 0, -0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); -moz-transform: matrix3d(0.682, -0.160, 0, -0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); -ms-transform: matrix3d(0.682, -0.160, 0, -0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); -o-transform: matrix3d(0.682, -0.160, 0, -0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.682, -0.160, 0, -0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);';
+    else
+      var screenCss = 'position: absolute; top: 135px; left: -13px; width: 375px; height: 669px; border: 0; -webkit-transform: matrix3d(0.682, 0.160, 0, 0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); -moz-transform: matrix3d(0.682, 0.160, 0, 0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); -ms-transform: matrix3d(0.682, 0.160, 0, 0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); -o-transform: matrix3d(0.682, 0.160, 0, 0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.682, 0.160, 0, 0.000380, 0, 0.972, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);';
+
+    el.style.cssText += wrapCss;
+    phone.style.cssText = phoneCss;
+    phoneImage.style.cssText = phoneImageCss;
+    iframe.style.cssText = screenCss;
+
+    // Add scrollbar CSS above the wrap
+    el.parentNode.insertBefore(style, el);
+  }
+
+  // Init
+  setSizes();
+  create();
+}
+;
+'use strict';
+
+angular.module('core')
+  .directive('sdIphonePreview', [function () {
+    return {
+      restrict: 'E',
+      template: '<div></div>',
+      scope: {
+        url: '=',
+        scale: '='
+      },
+      link: function (scope, element, attrs) {
+        scope.$watch('url', iphonePreview);
+        scope.$watch('scale', iphonePreview);
+
+        function iphonePreview() {
+          element.empty();
+          if (!scope.url) return;
+          bioMp(element[0], {
+            url: scope.url,
+            scale: scope.scale,
+            view: 'front',
+            image: '/modules/core/client/directives/sdIphonePreview/iphone6_front_gold.png'
+          });
+        }
+      }
+    };
+  }]);
+;
 'use strict';
 
 angular.module('core')
@@ -992,6 +1092,29 @@ angular.module('core')
       }
     };
   }]);
+;
+'use strict';
+
+angular.module('core').service('PostMessage', ['$rootScope', function($rootScope) {
+    $rootScope.$on('$messageIncoming', function (event, data) {
+        // console.log('in', data);
+    });
+
+    this.on = function(eventName, callback) {
+        $rootScope.$on('$messageIncoming', function(event, msg) {
+            msg = angular.fromJson(msg);
+            if (eventName && msg.event && eventName.toLowerCase() == msg.event.toLowerCase()) {
+                callback(msg.data);
+            }
+        });
+    };
+
+    this.send = function(eventName, data) {
+        //console.log('out', eventName, data);
+        var msg = { event: eventName, data: data };
+        return $rootScope.$emit('$messageOutgoing', angular.toJson(msg));
+    };
+}]);
 ;
 angular.module('core').factory('authToken', function ($window) {
   var me = this
@@ -1518,8 +1641,8 @@ angular.module('users.manager.routes').config(['$stateProvider',
             })
             .state('manager.ads', {
                 url: '/ads/:accountId?',
-                templateUrl: 'modules/users/client/views/manager/admanager.client.view.html',
-                controller:'AdmanagerController'
+                templateUrl: 'modules/users/client/views/manager/adsmanager.client.view.html',
+                controller:'AdsmanagerController'
             })
             .state('manager.uploads', {
                 url: '/manager/uploader',
@@ -1764,7 +1887,7 @@ angular.module('users').config(['$httpProvider',
   Menus.addMenuItem('main', {
     title: 'Account',
     iconFA: 'fa-cogs',
-    state: 'settings.profile',
+    state: 'settings',
     type: 'button',
     roles: [1002],
     position: 3
@@ -1796,16 +1919,22 @@ angular.module('users').config([ '$stateProvider',
       })
       .state('settings', {
         url: '/account/:accountId?',
-        templateUrl: 'modules/users/client/views/settings/settings2.client.view.html',
-        controller: function($state, $stateParams) {
+        templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
+        controller: function($state, $stateParams, $timeout) {
           if ($state.is('settings')) {
-            $state.go('settings.profile', $stateParams);
+            $timeout(function () {
+              $state.go('settings.profile', $stateParams);
+            });
           }
         }
       })
       .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/my-profile.client.view.html'
+      })
+      .state('settings.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
       })
       .state('editProfile', {
         url: '/profile',
@@ -2582,11 +2711,13 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   $scope.orderDataService = orderDataService
   $scope.importView = 'upload_file'
   $scope.storeFields = null
+  $scope.planName = null
   $scope.csv = { header: true }
-  $scope.fieldTypesDropdown = FIELD_TYPES.map(function(t) { return {item: t}; });
+  $scope.fieldTypesDropdown = FIELD_TYPES;
 
   accountsService.bindSelectedAccount($scope);
-  $scope.$watch('selectAccountId', function (selectAccountId) {
+  $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+    if (selectAccountId == prevValue) return;
     init(selectAccountId);
   });
 
@@ -2600,39 +2731,17 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     searchField: [ 'name', 'storeId' ]
   }
 
-  // selectize control options
-  $scope.selectProductFieldConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'name',
-    labelField: 'displayName',
-    sortField: 'displayName',
-    searchField: [ 'displayName' ],
-    placeholder: 'Make a Selection',
-    onChange: function (value) {
-      var column  = editingColumn().editing;
-      if (value == EMPTY_FIELD_NAME) {
-        column.mapping = null;
-        column.new = true;
-      }
-      else {
-        column.new = false;
-      }
-      if (!$scope.$$phase) $scope.$digest()
-      populateMappingDropdowns($scope.csv.columns)
-    },
-    onDropdownClose: scrollBackIntoView
-  }
-
-  $scope.selectFieldTypeConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    labelField: 'item',
-    valueField: 'item',
-    openOnFocus: true,
-    onDropdownClose: scrollBackIntoView
+  $scope.updateColumnMapping = function (column) {
+    var value = column.mapping;
+    if (value == EMPTY_FIELD_NAME) {
+      column.mapping = column.name;
+      column.new = true;
+    }
+    else {
+      column.new = false;
+    }
+    if (!$scope.$$phase) $scope.$digest()
+    populateMappingDropdowns($scope.csv.columns)
   };
 
   $scope.selectCsvImport = function (selector) {
@@ -2641,6 +2750,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.cancelCsvImport = function (selector) {
     $scope.csv = { header: true }
+    $scope.planName = null
     var $input = $(selector).find('input[type="file"]')
     $input.replaceWith($input.val('').clone(true)) // reset selected file
   }
@@ -2648,8 +2758,10 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   // callback for csv import plugin
   $scope.initCsvImport = function (e) {
     $scope.csv.columns = initCsvColumns(_.keys(($scope.csv.result || [])[ 0 ]))
+    $scope.csv.result = skipBlankRows($scope.csv.result);
     populateMappingDropdowns($scope.csv.columns)
     $scope.csv.loaded = true
+    if (!$scope.$$phase) $scope.$digest();
     console.log('csv file selected', $scope.csv)
   }
 
@@ -2867,7 +2979,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   }
 
   function initCsvColumns (columns) {
-    columns = trimEndBlanks(columns);
+    columns = trimEndBlankColumns(columns);
 
     columns = wrapFields(columns)
     var editing = null;
@@ -2882,12 +2994,25 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     return columns
   }
 
-  function trimEndBlanks(arr) {
+  function trimEndBlankColumns(arr) {
     for (var i = arr.length - 1; i >= 0; i--) {
-      if (!arr[i] || arr[i] == '$$hashKey') arr.length--;
+      if (!arr[i] || ignoreField(arr[i])) arr.length--;
       else break;
     }
     return arr;
+  }
+
+  function skipBlankRows(rows) {
+    var nonEmptyRows = _.filter(rows, function(row) {
+      return _.some(row, function(cValue, cName) { return cValue != '' && !ignoreField(cName); });
+    });
+
+    // since input rows is not just Array and contains extra properties from angular-csv-import,
+    // just splice it and push filtered rows
+    rows.length = 0;
+    rows.splice.apply(rows, [0, 0].concat(nonEmptyRows));
+
+    return rows;
   }
 
   function mapStoreField (column) {
@@ -2900,19 +3025,24 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   function wrapFields (fields) {
     return _.compact(_.map(fields, function (v) {
-      if (v.match(/^\$\$/)) return;
+      if (ignoreField(v)) return;
       return { name: v, displayName: toPascalCase(v) }
     }))
   }
 
+  function ignoreField(fieldName) {
+    if (!fieldName) return true;
+    return fieldName.match(/^\$\$/);
+  }
+
   function populateMappingDropdowns (columns) {
-    var selectedMappings = _.pluck(columns, 'mapping')
+    var selectedMappings = _.map(columns, function(c) { return (c.editing || c).mapping; });
     var availableFields = _.filter($scope.storeFields, function (f) {
       return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name)
     })
     _.each(columns, function (column) {
       column.availableFields = availableFields.slice()
-      var field = _.findWhere($scope.storeFields, { name: column.mapping })
+      var field = _.findWhere($scope.storeFields, { name: (column.editing || column).mapping })
       if (field) column.availableFields.push(field)
     })
     return availableFields
@@ -2932,20 +3062,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     var nextColumns = columns.slice(idx > 0 ? idx : 0);
     var nextUnmatched = $scope.unmatched(nextColumns)[0] || $scope.unmatched(columns)[0];
     if (nextUnmatched) $scope.editColumn(nextUnmatched);
-  }
-
-  function splitCsvList(str) {
-    if (!str) return [];
-    var result = str.split(';');
-    if (result.length > 1) return result;
-    return str.split(',');
-  }
-
-  function scrollBackIntoView() {
-    var left = $(window).scrollLeft();
-    $timeout(function () {
-      $(window).scrollLeft(left);
-    });
   }
 
   function editingColumn() {
@@ -3158,7 +3274,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     if (!storeDb || storeDb.length == 0) {
       return $q.reject('no store db found in csv file')
     }
-
+    
     return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse).then(function () {
       return getStoreById(storeDb.storeId)
     })
@@ -3605,262 +3721,523 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
   }
 ])
 ;
-'use strict';
+'use strict'
+/* global angular, localStorage, _ */
+angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
+  function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
+    $scope.authentication = Authentication
+    $scope.activeAds = []
+    $scope.allMedia = []
+    $scope.allAccountMedia = []
+    $scope.sortingLog = []
+    $scope.ads = false
+    $scope.activeAds = false
+    $scope.storeDevices = false
+    $scope.toggleLeft = buildDelayedToggler('left')
+    $scope.profiles = []
+    $scope.myPermissions = localStorage.getItem('roles')
+    $scope.accountsService = accountsService
+    $scope.files = []
 
-angular.module('users.manager').controller('AdmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService',
-    function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService) {
-        var self = this;
+    accountsService.bindSelectedAccount($scope)
 
-        $scope.authentication = Authentication;
-        $scope.activeAds = [];
-        $scope.allMedia = [];
-        $scope.allAccountMedia = [];
-        $scope.sortingLog = [];
-        $scope.ads = false;
-        $scope.activeAds = false;
-        $scope.storeDevices = false;
-        $scope.toggleLeft = buildDelayedToggler('left');
-        $scope.profiles = [];
-        $scope.myPermissions = localStorage.getItem('roles');
-        $scope.accountsService = accountsService;
-        $scope.files = [];
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId === prevValue) {
+        return
+      }
+      $scope.init()
+    })
 
-        accountsService.bindSelectedAccount($scope);
-        $scope.$watch('selectAccountId', function () {
-            $scope.init();
-        });
+    function debounce (func, wait, context) {
+      var timer
 
-        function debounce(func, wait, context) {
-            var timer;
-
-            return function debounced() {
-                var context = $scope,
-                    args = Array.prototype.slice.call(arguments);
-                $timeout.cancel(timer);
-                timer = $timeout(function () {
-                    timer = undefined;
-                    func.apply(context, args);
-                }, wait || 10);
-            };
-        }
-
-        function buildDelayedToggler(navID) {
-            return debounce(function () {
-                $mdSidenav(navID)
-                    .toggle()
-                    .then(function () {
-                        console.log("toggle " + navID + " is done");
-                    });
-            }, 200);
-        }
-
-        $scope.init = function () {
-            $scope.getProfiles();
-            $scope.getAllMedia();
-
-        };
-        $scope.getProfiles = function () {
-            $scope.profiles = [];
-            $http.get(constants.API_URL + '/profiles?accountId=' + $scope.selectAccountId).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (res.data.length > 0) {
-                    $scope.profiles = res.data;
-                    $scope.currentProfile = res.data[0].profileId;
-                    $scope.getActiveAds($scope.currentProfile);
-                }
-            });
-        }
-        $scope.getDevice = function (loc) {
-            $http.get(constants.API_URL + '/devices/location/' + loc).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    $scope.list_devices = response;
-                }
-            });
-        };
-        $scope.getActiveAds = function (profileId) {
-            $scope.activeAds = [];
-            $http.get(constants.API_URL + '/ads?profileId=' + profileId).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response.data.length > 0) {
-
-                    $scope.ads = true;
-                    for (var i in response.data) {
-                        var myData = {
-                            value: response.data[i].mediaAssetId + "-" + response.data[i].fileName
-                        };
-
-                        var re = /(?:\.([^.]+))?$/;
-                        var ext = re.exec(myData.value)[1];
-                        ext = (ext || '').toLowerCase();
-                        if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
-                            myData = {
-                                name: response.data[i].fileName,
-                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
-                                ext: 'image',
-                                adId: response.data[i].adId
-                            };
-                            for (var i in $scope.allMedia) {
-                                if ($scope.allMedia[i].name == myData.name) {
-                                    $scope.allMedia.splice(i, 1);
-                                }
-                            }
-                            $scope.activeAds.push(myData);
-                        } else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
-                            myData = {
-                                name: response.data[i].fileName,
-                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
-                                ext: 'video',
-                                adId: response.data[i].adId
-                            };
-                            for (var i in $scope.allMedia) {
-                                if ($scope.allMedia[i].name == myData.name) {
-                                    $scope.allMedia.splice(i, 1);
-                                }
-                            }
-                            $scope.activeAds.push(myData);
-                        }
-
-                    }
-                }
-            });
-        };
-        $scope.getAllMedia = function () {
-            $scope.allMedia = [];
-
-            $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response) {
-                    console.log(response)
-                    for (var i in response.data) {
-                        var myData = {
-                            value: response.data[i].mediaAssetId + "-" + response.data[i].fileName
-                        };
-                        var re = /(?:\.([^.]+))?$/;
-                        var ext = re.exec(myData.value)[1];
-                        ext = (ext || '').toLowerCase();
-                        if (ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif') {
-                            myData = {
-                                name: response.data[i].fileName,
-                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
-                                ext: 'image',
-                                adId: response.data[i].adId
-                            };
-                            $scope.allMedia.push(myData);
-
-                        } else if (ext == 'mp4' || ext == 'mov' || ext == 'm4v') {
-                            myData = {
-                                name: response.data[i].fileName,
-                                value: response.data[i].mediaAssetId + "-" + response.data[i].fileName,
-                                ext: 'video',
-                                adId: response.data[i].adId
-                            };
-                            $scope.allMedia.push(myData);
-                        }
-
-                    }
-                }
-            });
-
-        }
-        $scope.setCurrentProfile = function (profileId) {
-            $scope.currentProfile = profileId;
-        };
-
-        $scope.activateAd = function (adId, profileId) {
-            var asset = {
-                payload: {
-                    adId: adId,
-                    profileId: profileId
-                }
-            };
-            $http.post(constants.API_URL + '/ads/profile', asset).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error('Could not push ad to device. Please try again later.')
-                }
-                if (response) {
-                    $scope.getActiveAds(profileId);
-                    toastr.success('Ad pushed to devices!')
-                }
-            });
-        };
-        $scope.deactivateAd = function (adId, profileId) {
-            console.log(adId)
-            console.log(profileId)
-            $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function (response, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error('Could not remove ad from devices.')
-                }
-                if (response) {
-                    console.log(response);
-                    $scope.getActiveAds(profileId);
-                    toastr.success('Ad removed from devices.');
-                    $scope.getAllMedia();
-
-                }
-            });
-        };
-        $scope.$watch('files', function () {
-            $scope.upload($scope.files);
-        });
-        $scope.$watch('file', function () {
-            if ($scope.file != null) {
-                $scope.files = [$scope.file];
-            }
-        });
-
-        $scope.upload = function (files) {
-            var responses = [];
-            for (var i = 0; i < files.length; i++) {
-                var mediaConfig = {
-                    mediaRoute: 'ads',
-                    folder: 'ads',
-                    accountId: $scope.selectAccountId
-                };
-                uploadService.upload(files[i], mediaConfig).then(function (response, err) {
-                    if (response) {
-                        toastr.success('New Ad Uploaded', 'Success!');
-                        responses.push(response)
-                        if(responses.length == files.length)
-                            $scope.getAllMedia();
-                    }
-                })
-            }
-        };
-
-        $scope.deleteAd = function (ad) {
-            console.log('delete ad %O', ad)
-            var url = constants.API_URL + '/ads/' + ad.adId;
-            $http.delete(url).then(function () {
-                toastr.success('Ad removed', 'Success');
-                $scope.init()
-
-            })
-        }
-
-        // set up two-way binding to parent property
-        function bindRootProperty($scope, name) {
-            $scope.$watch('$root.' + name, function (value) {
-                $scope[name] = value;
-            });
-
-            $scope.$watch(name, function (value) {
-                $scope.$root[name] = value;
-            });
-        }
+      return function debounced () {
+        var context = $scope
+        var args = Array.prototype.slice.call(arguments)
+        $timeout.cancel(timer)
+        timer = $timeout(function () {
+          timer = undefined
+          func.apply(context, args)
+        }, wait || 10)
+      }
     }
-]);
 
+    function buildDelayedToggler (navID) {
+      return debounce(function () {
+        $mdSidenav(navID)
+          .toggle()
+          .then(function () {
+            console.log('toggle ' + navID + ' is done')
+          })
+      }, 200)
+    }
+
+    $scope.youtubeLink = ''
+    $scope.saveYoutubeLink = function () {
+      var youTubeVideoId
+      var videoId = $scope.youtubeLink.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
+      if (videoId != null) {
+        youTubeVideoId = videoId[1]
+      } else {
+        toastr.error('The video URL is invalid')
+        return
+      }
+      uploadService.saveYoutubeVideo(youTubeVideoId, $scope.selectAccountId).then(function () {
+        toastr.success('New Ad Uploaded', 'Success!')
+        $scope.getAllMedia()
+      }, function () {
+        toastr.error('Something went wrong while trying to save the video')
+      })
+      $scope.youtubeLink = ''
+    }
+
+    $scope.init = function () {
+      $scope.getProfiles().then(function () {
+        // Get Active Ads should be a getAllMedia responsibility
+        $scope.getAllMedia()
+      })
+    }
+
+    $scope.getProfiles = function () {
+      var defer = $q.defer()
+      $scope.profiles = []
+      $http.get(constants.API_URL + '/profiles?accountId=' + $scope.selectAccountId).then(function (res, err) {
+        if (err) {
+          console.log(err)
+          defer.reject()
+        }
+        if (res.data.length > 0) {
+          $scope.profiles = res.data
+          $scope.currentProfile = res.data[0].profileId
+          defer.resolve()
+        }
+      })
+      return defer.promise
+    }
+
+    $scope.getDevice = function (loc) {
+      $http.get(constants.API_URL + '/devices/location/' + loc).then(function (response, err) {
+        if (err) {
+          console.log(err)
+        }
+        if (response) {
+          $scope.list_devices = response
+        }
+      })
+    }
+
+    function isSupportedVideoType (ext) {
+      return (ext === 'mp4' || ext === 'ogv' || ext === 'webm' || ext === 'mov' || ext === 'm4v')
+    }
+
+    function isSupportedImageType (ext) {
+      return (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif')
+    }
+
+    function pushAdsToArray (dataArray, arrayToFill) {
+      var defaultPrefs = {
+        target: 'both',
+        orientation: 'both'
+      }
+      for (var i = 0; i < dataArray.length; i++) {
+        var myData = {
+          adId: dataArray[i].adId
+        }
+        if (_.isEmpty(dataArray[i].preferences)) {
+          myData.prefs = _.clone(defaultPrefs)
+        } else {
+          myData.prefs = dataArray[i].preferences
+        }
+        if (dataArray[i].type === 'YOUTUBE') {
+          myData = _.extend(myData, {
+            name: 'YouTube Video',
+            value: dataArray[i].publicUrl,
+            ext: 'youtube'
+          })
+          arrayToFill.push(myData)
+          continue
+        }
+        myData = _.extend(myData, {
+          name: dataArray[i].fileName,
+          value: dataArray[i].mediaAssetId + '-' + dataArray[i].fileName
+        })
+        var re = /(?:\.([^.]+))?$/
+        var ext = re.exec(myData.value)[1]
+        ext = (ext || '').toLowerCase()
+        if (isSupportedImageType(ext)) {
+          arrayToFill.push(_.extend(myData, {ext: 'image'}))
+        }
+        if (isSupportedVideoType(ext)) {
+          arrayToFill.push(_.extend(myData, {ext: 'video'}))
+        }
+      }
+    }
+
+    $scope.getAllMedia = function () {
+      var allMedia = []
+
+      $http.get(constants.API_URL + '/ads?accountId=' + $scope.selectAccountId).then(function (response, err) {
+        if (err) {
+          console.log(err)
+        }
+        if (response) {
+          console.log('All Ads unfiltered', response.data)
+          pushAdsToArray(response.data, allMedia)
+
+          // Set Active Ads
+          var activeAds = []
+          $http.get(constants.API_URL + '/ads?profileId=' + $scope.currentProfile).then(function (activeAdsresponse, activeAdserr) {
+            if (activeAdserr) {
+              console.log(activeAdserr)
+            }
+            if (activeAdsresponse.data.length > 0) {
+              $scope.ads = true
+              pushAdsToArray(activeAdsresponse.data, activeAds)
+              var activeAdsIds = _.pluck(activeAds, 'adId')
+              allMedia = _.filter(allMedia, function (ad) {
+                return !_.contains(activeAdsIds, ad.adId)
+              })
+            }
+            $scope.allMedia = allMedia
+            $scope.activeAds = activeAds
+          })
+        }
+      })
+    }
+
+    $scope.setCurrentProfile = function (profileId) {
+      $scope.currentProfile = profileId
+    }
+
+    $scope.activateAd = function (adId, profileId) {
+      var asset = {
+        payload: {
+          adId: adId,
+          profileId: profileId
+        }
+      }
+      $http.post(constants.API_URL + '/ads/profile', asset).then(function (response, err) {
+        if (err) {
+          console.log(err)
+          toastr.error('Could not push ad to device. Please try again later.')
+        }
+        if (response) {
+          toastr.success('Ad pushed to devices!')
+          $scope.getAllMedia()
+        }
+      })
+    }
+
+    $scope.deactivateAd = function (adId, profileId) {
+      $http.delete(constants.API_URL + '/ads/profile?profileId=' + profileId + '&adId=' + adId).then(function (response, err) {
+        if (err) {
+          console.log(err)
+          toastr.error('Could not remove ad from devices.')
+        }
+        if (response) {
+          toastr.success('Ad removed from devices.')
+          $scope.getAllMedia()
+        }
+      })
+    }
+
+    $scope.$watch('files', function () {
+      $scope.upload($scope.files)
+    })
+
+    $scope.$watch('file', function () {
+      if ($scope.file != null) {
+        $scope.files = [$scope.file]
+      }
+    })
+
+    $scope.upload = function (files) {
+      var responses = []
+      for (var i = 0; i < files.length; i++) {
+        var mediaConfig = {
+          mediaRoute: 'ads',
+          folder: 'ads',
+          accountId: $scope.selectAccountId,
+          prefs: {
+            target: 'both',
+            orientation: 'both'
+          }
+        }
+        uploadService.upload(files[i], mediaConfig).then(function (response, err) {
+          if (response) {
+            toastr.success('New Ad Uploaded', 'Success!')
+            responses.push(response)
+            if (responses.length === files.length) {
+              $scope.getAllMedia()
+            }
+          }
+        })
+      }
+    }
+
+    $scope.deleteAd = function (ad) {
+      console.log('delete ad %O', ad)
+      var url = constants.API_URL + '/ads/' + ad.adId
+      $http.delete(url).then(function () {
+        toastr.success('Ad removed', 'Success')
+        $scope.getAllMedia()
+      })
+    }
+
+    // set up two-way binding to parent property
+    function bindRootProperty ($scope, name) {
+      $scope.$watch('$root.' + name, function (value) {
+        $scope[name] = value
+      })
+
+      $scope.$watch(name, function (value) {
+        $scope.$root[name] = value
+      })
+    }
+  }
+])
+;
+'use strict'
+/* global angular, _ */
+angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
+  function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
+    $scope.data = {}
+    accountsService.bindSelectedAccount($scope)
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      $scope.selectAccountId = selectAccountId
+      if (selectAccountId === prevValue) {
+        return
+      }
+      getAllAds()
+    })
+
+    function isSupportedVideoType (ext) {
+      return (ext === 'mp4' || ext === 'ogv' || ext === 'webm' || ext === 'mov' || ext === 'm4v')
+    }
+
+    function isSupportedImageType (ext) {
+      return (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif')
+    }
+
+    function pushAdsToArray (dataArray, arrayToFill) {
+      for (var i = 0; i < dataArray.length; i++) {
+        var adObj = {
+          id: dataArray[i].adId,
+          name: dataArray[i].name || dataArray[i].fileName,
+          schedule: dataArray[i].preferences.schedule || [],
+          target: dataArray[i].preferences.target,
+          filename: dataArray[i].fileName
+        }
+        if (dataArray[i].type === 'YOUTUBE') {
+          adObj = _.extend(adObj, {
+            value: dataArray[i].publicUrl,
+            type: 'youtube'
+          })
+          arrayToFill.push(adObj)
+          continue
+        }
+        adObj = _.extend(adObj, {
+          value: dataArray[i].mediaAssetId + '-' + dataArray[i].fileName
+        })
+        var ext = getFileExtension(adObj.value)
+        if (isSupportedImageType(ext)) {
+          arrayToFill.push(_.extend(adObj, {type: 'image'}))
+        }
+        if (isSupportedVideoType(ext)) {
+          arrayToFill.push(_.extend(adObj, {type: 'video'}))
+        }
+      // else the ad is not pushed and not displayed
+      }
+    }
+
+    function getFileExtension (val) {
+      var re = /(?:\.([^.]+))?$/
+      var ext = re.exec(val)[1]
+      return (ext || '').toLowerCase()
+    }
+
+    function getAllAds () {
+      var defer = $q.defer()
+      var allAds = []
+      var accountId = $scope.selectAccountId || $state.params.accountId
+      $http.get(constants.API_URL + '/ads?accountId=' + accountId).then(function (response, err) {
+        if (err) {
+          console.log(err)
+          $scope.allAds = []
+          toastr.error('Something went wrong while retrieving ads')
+          defer.reject()
+        }
+        if (response && response.data) {
+          $scope.data.unfilteredAds = response.data
+          console.log('All Ads unfiltered', response.data)
+          pushAdsToArray(response.data, allAds)
+          $scope.allAds = allAds
+          console.log('UI-allAds ', allAds)
+          defer.resolve()
+        } else {
+          $scope.allAds = []
+          toastr.error('Something went wrong while retrieving ads')
+          defer.reject()
+        }
+      })
+      return defer.promise
+    }
+
+    getAllAds()
+    $scope.contains = _.contains
+    $scope.intersection = _.intersection
+    $scope.isEmpty = _.isEmpty
+    $scope.filters = ['portrait', 'landscape', 'tablet']
+
+    function toggleValueFromArray (arrayTemp, value) {
+      if (_.contains(arrayTemp, value)) {
+        return _.without(arrayTemp, value)
+      } else {
+        arrayTemp.push(value)
+        return arrayTemp
+      }
+    }
+
+    $scope.applyFilter = function (filter) {
+      $scope.filters = toggleValueFromArray($scope.filters, filter)
+    }
+
+    $scope.modifyTarget = function (adTarget) {
+      $scope.modalAd.target = toggleValueFromArray($scope.modalAd.target, adTarget)
+    }
+
+    $scope.editAd = function (ad) {
+      $scope.modalAd = _.clone(ad)
+      $scope.modalAd.new = false
+      $scope.modalAd.noMedia = false
+      $scope.openEditModal = true
+    }
+
+    $scope.newAd = function () {
+      $scope.modalAd = {
+        name: '',
+        new: true,
+        target: ['portrait', 'landscape', 'tablet'],
+        noMedia: true
+      }
+      $scope.openEditModal = true
+    }
+
+    $scope.saveAd = function () {
+      var ad = $scope.modalAd
+      var newPrefs
+      if (ad.new) {
+        // NEW Ad
+        newPrefs = {
+          schedule: ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730', '1800', '1830', '1900', '1930', '2000', '2030', '2100', '2130', '2200', '2230', '2300', '2330']
+        }
+      } else {
+        // EDITING
+        var oAd = _.findWhere($scope.data.unfilteredAds, {adId: ad.id})
+        // if (ad.name === oAd.name && _.isEqual(ad.target, oAd.preferences.target)) {
+        //   console.log('no changes')
+        //   $scope.openEditModal = false
+        //   return
+        // }
+        newPrefs = oAd.preferences
+      }
+      newPrefs.target = ad.target
+      var payload = {
+        payload: {
+          name: ad.name,
+          preferences: newPrefs
+        }
+      }
+      var url = constants.API_URL + '/ads/' + ad.id
+      $http.put(url, payload).then(function (res) {
+        getAllAds().then(function () {
+          if (ad.new) {
+            toastr.success('Ad Saved', 'Success')
+          } else {
+            toastr.success('Ad Updated', 'Success')
+          }
+          $scope.openEditModal = false
+        })
+      })
+    }
+
+    $scope.uploadAd = function (file) {
+      var accountId = $scope.selectAccountId || $state.params.accountId
+      var adsConfig = {
+        mediaRoute: 'ads',
+        folder: 'ads',
+        accountId: accountId,
+        name: $scope.modalAd.name,
+        prefs: {
+          target: $scope.modalAd.target,
+          schedule: ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730', '1800', '1830', '1900', '1930', '2000', '2030', '2100', '2130', '2200', '2230', '2300', '2330']
+        }
+      }
+      uploadService.upload(file, adsConfig).then(function (response, err) {
+        if (response) {
+          $scope.modalAd.id = response.adId
+          $scope.modalAd.value = response.mediaAssetId + '-' + response.fileName
+          var ext = getFileExtension($scope.modalAd.value)
+          if (isSupportedImageType(ext)) {
+            _.extend($scope.modalAd, {type: 'image'})
+          }
+          if (isSupportedVideoType(ext)) {
+            _.extend($scope.modalAd, {type: 'video'})
+          }
+          $scope.modalAd.noMedia = false
+        }
+      })
+    }
+
+    $scope.cancelModal = function () {
+      if ($scope.modalAd.new) {
+        $scope.deleteAd($scope.modalAd.id, false)
+      } else {
+        $timeout(function () {
+          $scope.modalAd = null
+        }, 400)
+        $scope.openEditModal = false
+      }
+    }
+
+    function updateSchedule (ad) {
+      var payload = {
+        payload: {
+          name: ad.name,
+          preferences: {
+            target: ad.target,
+            schedule: ad.schedule
+          }
+        }
+      }
+      var url = constants.API_URL + '/ads/' + ad.id
+      $http.put(url, payload).then(function (res) {
+        toastr.success('Ad Schedule updated', 'Success')
+      })
+    }
+
+    var lazyUpdateSchedule = _.debounce(updateSchedule, 2000)
+    $scope.toggleSlot = function (ad, slot) {
+      ad.schedule = toggleValueFromArray(ad.schedule, slot)
+      lazyUpdateSchedule(ad)
+    }
+
+    $scope.deleteAd = function (adId, showMessage) {
+      var url = constants.API_URL + '/ads/' + adId
+      $http.delete(url).then(function () {
+        getAllAds().then(function () {
+          if (showMessage) {
+            toastr.success('Ad removed', 'Success')
+          }
+          $timeout(function () {
+            $scope.modalAd = null
+          }, 400)
+          $scope.openEditModal = false
+        })
+      })
+    }
+  }
+])
 ;
 'use strict';
 
@@ -3870,7 +4247,8 @@ angular.module('users.manager').controller('DashboardController', [ '$scope', '$
     $scope.authentication = Authentication;
 
     accountsService.bindSelectedAccount($scope);
-    $scope.$watch('selectAccountId', function () {
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return;
       $scope.init();
     });
 
@@ -4954,15 +5332,21 @@ angular.module('users').controller('EditProfileController', ['$scope', '$http', 
 ]);
 ;
 'use strict';
+/* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'accountsService',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants, toastr, accountsService) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce) {
     $scope.user = initUser(Authentication.user);
     $scope.passwordDetails = {};
+    $scope.store = {};
 
+    $scope.accountsService = accountsService;
+    $scope.descriptionCharsLimit = 200;
+    $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     accountsService.bindSelectedAccount($scope);
-    $scope.$watch('selectAccountId', function () {
-      // init();
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return;
+      loadStore(accountsService.accounts);
     });
 
     // Update a user profile
@@ -4981,6 +5365,47 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       }, function (response) {
         toastr.error(response.data.message);
       });
+    };
+
+    $scope.updateStoreProfile = function (isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'storeForm');
+        return false;
+      }
+
+      var payload = {
+        payload: $scope.store
+      };
+
+      $http.put(constants.BWS_API + '/storedb/stores/details', payload).success(function (response) {
+        // If successful show success message and clear form
+        $scope.$broadcast('show-errors-reset', 'storeForm');
+        toastr.success('Store saved successfully');
+      }).error(function (response) {
+        toastr.error(response.data.message);
+      });
+    };
+
+    $scope.uploadStoreImage = function (files, accountId) {
+      var mediaConfig = {
+        mediaRoute: 'media',
+        folder: 'storeImg',
+        type: 'STOREIMG',
+        accountId: accountId
+      };
+
+      uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+        if (response) {
+          $scope.store.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+          toastr.success('Store Image Updated', 'Success!');
+        }
+      })
+    };
+
+    $scope.cancelOverLimited = function(ev) {
+      if ($scope.descriptionCharsLeft <= 0 && String.fromCharCode(ev.charCode).length > 0) {
+        ev.preventDefault()
+      }
     };
 
     // Change user password
@@ -5008,70 +5433,54 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       });
     };
 
-    // Create file uploader instance
-    $scope.uploader = new FileUploader({
-      url: 'api/users/picture',
-      alias: 'newProfilePicture'
-    });
+    $scope.openEmbedCodeModal = function (ev) {
+      $scope.shopprEmbedJs = $scope.generateEmbedJsCode('app.shoppronline.com', $scope.selectAccountId);
 
-    // Set file uploader image filter
-    $scope.uploader.filters.push({
-      name: 'imageFilter',
-      fn: function (item, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-      }
-    });
+      var $embedCodeModal = $('#embedCodeModal').on('shown.bs.modal', function (e) {
+        var autofocus = $(e.target).find('[autofocus]')[ 0 ]
+        if (autofocus) autofocus.focus()
+      })
 
-    // Called after the user selected a new picture file
-    $scope.uploader.onAfterAddingFile = function (fileItem) {
-      if ($window.FileReader) {
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(fileItem._file);
-
-        fileReader.onload = function (fileReaderEvent) {
-          $timeout(function () {
-            $scope.imageURL = fileReaderEvent.target.result;
-          }, 0);
-        };
-      }
+      $embedCodeModal.modal('show')
     };
 
-    // Called after the user has successfully uploaded a new picture
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // Show success message
-      $scope.avatar_success = true;
+    $scope.generateEmbedJsCode = function (host, storeId) {
+      var code = $('#embedJsCodeTemplate').html()
+        .replace(/{{host}}/g, host || '')
+        .replace(/{{storeId}}/g, storeId || '');
 
-      // Populate user object
-      updateUserProfile(response);
+      code = unindent(code);
 
-      // Clear upload buttons
-      $scope.cancelUpload();
+      return $sce.trustAsHtml(code);
     };
 
-    // Called after the user has failed to uploaded a new picture
-    $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
-      // Clear upload buttons
-      $scope.cancelUpload();
-
-      // Show error message
-      $scope.avatar_error = response.message;
+    $scope.lines = function (text) {
+      if (!text) return;
+      return text.toString().split('\n').length;
     };
 
-    // Change user profile picture
-    $scope.uploadProfilePicture = function () {
-      // Clear messages
-      $scope.avatar_success = $scope.avatar_error = null;
-
-      // Start upload
-      $scope.uploader.uploadAll();
+    $scope.embedCodeCopied = function () {
+      toastr.success('Copied embed code to clipboard');
     };
 
-    // Cancel the upload process
-    $scope.cancelUpload = function () {
-      $scope.uploader.clearQueue();
-      $scope.imageURL = $scope.user.profileImageURL;
-    };
+    $scope.$watch('store.description', function(description) { limitDescriptionLength(description); });
+    $scope.$watch('descriptionCharsLimit', function() { limitDescriptionLength(); });
+    $scope.$watch('accountsService.accounts', loadStore);
+
+    $scope.$watch('store', function (storeInfo) {
+      // propagate store changes to preview iframe
+      PostMessage.send('store.update', storeInfo);
+    }, true);
+
+    init();
+
+    function init() {
+      PostMessage.on('store.initialized', function () {
+        PostMessage.send('store.update', $scope.store);
+      });
+
+      loadStore(accountsService.accounts);
+    }
 
     function updateUserProfile(user) {
       angular.extend($scope.user, user);
@@ -5089,6 +5498,53 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         result.lastName = tmp.slice(1).join(' ');
         delete result.displayName;
       }
+      return result;
+    }
+
+    function limitDescriptionLength(description) {
+      description = description || $scope.store.description;
+      var descriptionText = $('<div>').html((description || '').trim().replace(/&nbsp;/g, ' ')).text();
+      $scope.descriptionCharsLeft = $scope.descriptionCharsLimit - descriptionText.length;
+      if ($scope.descriptionCharsLeft < 0) {
+        $scope.store.description = descriptionText.substr(0, $scope.descriptionCharsLimit);
+      }
+    }
+
+    function loadStore(accounts) {
+      if (_.isEmpty(accounts)) return;
+
+      var account = _.find(accounts, { accountId: $scope.selectAccountId || $scope.user.accountId });
+      if (!account) return $scope.store = null;
+
+      orderDataService.getAllStores({ accountId: account.accountId }).then(function (stores) {
+        var store = $scope.store = _.find(stores, { accountId: account.accountId }) || {};
+
+        store.storeImg = store.storeImg || account.storeImg;
+        store.details = store.details || {};
+        store.details.workSchedule = initWorkSchedule(store.details.workSchedule);
+        // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
+        store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
+      });
+    }
+
+    function initWorkSchedule(workSchedule) {
+      workSchedule = workSchedule || {};
+      return $scope.weekdays.map(function (weekday, i) {
+        var day = _.find(workSchedule, { name: weekday });
+        if (!day) return { day: i, name: weekday, open: false, openTime: null, closeTime: null };
+        if (day.openTime) day.openTime = moment.utc(day.openTime).toDate();
+        if (day.closeTime) day.closeTime = moment.utc(day.closeTime).toDate();
+        return day;
+      });
+    }
+
+    function unindent(text) {
+      if (!text) return text;
+      var gIndent = text.match(/^(\s*)/)[0].length;
+      var result = text.split('\n').map(function (line) {
+        var indent = line.match(/^(\s*)/)[0].length;
+        return line.substr(Math.min(gIndent, indent));
+      }).join('\n').trim();
       return result;
     }
   }
@@ -5114,7 +5570,8 @@ angular.module('users.admin')
         getOrders()
       }
       accountsService.bindSelectedAccount($scope)
-      $scope.$watch('selectAccountId', function () {
+      $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+        if (selectAccountId == prevValue) return;
         $scope.init()
       })
       SocketAPI = SocketAPI.bindTo($scope)
@@ -6449,6 +6906,13 @@ angular.module('users')
     }
   })
 ;
+angular.module('users')
+  .filter('trustAsResourceUrl', ['$sce', function ($sce) {
+    return function (val) {
+      return $sce.trustAsResourceUrl(val)
+    }
+  }])
+;
 angular.module('users').service('accountsService', function ($http, constants, toastr, intercomService, $rootScope) {
   var me = this
   me.init = function () {
@@ -7553,6 +8017,7 @@ angular.module('users').service('csvCustomProductMapper', function () {
     var result = _.compact(_.map(items, function (obj) {
       return mapProductDto(obj, columns);
     }))
+
     return result
   }
 
@@ -9000,68 +9465,13 @@ function onError (error) {
   console.error('Merge Service :: error :', error)
 }
 ;
-// /**
-//  * Created by mac4rpalmer on 6/27/16.
-//  */
-// angular.module('users').factory('productGridData', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout) {
-//     "use strict";
-//     var me = this;
-//
-//     var API_URL = constants.BWS_API;
-//
-//     me.getData = getData;
-//     me.searchProducts = searchProducts;
-//     return me;
-//
-//
-//     function getData(type) {
-//         var defer = $q.defer();
-//         console.log(type)
-//         $http.get(API_URL + '/edit/search?type=' + type).then(function (products) {
-//             console.log(products);
-//             me.allProducts = products.data;
-//             defer.resolve(me.allProducts)
-//         });
-//         return defer.promise;
-//     }
-//
-//     function searchProducts(searchText, obj) {
-//         var defer = $q.defer();
-//         var url = '/edit/search?'
-//
-//         if(obj.types){
-//
-//             for(var i in obj.types){
-//                 url += '&type='+obj.types[i].type;
-//             }
-//         }
-//         if(obj.sku){
-//             url+='&sku='+obj.sku
-//         }
-//         if(obj.status){
-//             url+='&status='+obj.status;
-//         }
-//         if(searchText){
-//             url += '&q=' + searchText + '&v=sum';
-//         }
-//         console.log(url);
-//         $http.get(API_URL + url )
-//             .then(function (response) {
-//                 me.allProducts = response.data;
-//                 defer.resolve(me.allProducts)
-//             });
-//         return defer.promise;
-//     }
-//
-// });
-;
 angular.module("users.supplier").filter("trustUrl", [ '$sce', function ($sce) {
     return function (recordingUrl) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 } ]);
 ;
-angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q) {
+angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q, cfpLoadingBar) {
   var me = this
 
   me.init = function () {
@@ -9076,17 +9486,17 @@ angular.module('users').service('uploadService', function ($http, constants, toa
   me.init()
 
   me.upload = function (file, mediaConfig) {
-    var messages = []
     var defer = $q.defer()
     var config = mediaConfig
     if (file) {
+      cfpLoadingBar.start()
       var filename = (file.name).replace(/ /g, '_')
         .replace(/[()]/g, '') // remove parentheses
 
       if (!file.$error) {
         var newObject
-        if (config.mediaRoute == 'media') {
-          if (config.type == 'PRODUCT') {
+        if (config.mediaRoute === 'media') {
+          if (config.type === 'PRODUCT') {
             newObject = {
               payload: {
                 fileName: filename,
@@ -9097,7 +9507,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
                 productId: config.productId
               }
             }
-          }else {
+          } else {
             newObject = {
               payload: {
                 type: config.type,
@@ -9109,22 +9519,30 @@ angular.module('users').service('uploadService', function ($http, constants, toa
               }
             }
           }
-        }else {
+        } else {
+          // This is Ads media route there is no other option
           newObject = {
             payload: {
+              name: config.name,
               fileName: filename,
               userName: Authentication.user.username,
-              accountId: config.accountId
+              accountId: config.accountId,
+              prefs: config.prefs
             }
           }
         }
 
-        $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
+        $http.post(constants.API_URL + '/' + config.mediaRoute, newObject, {
+          ignoreLoadingBar: true
+        }).then(function (response, err) {
           if (err) {
             console.log(err)
+            cfpLoadingBar.complete()
             toastr.error('There was a problem uploading your ad.')
           }
           if (response) {
+            console.log('ads response', response)
+            var adId = response.data.adId
             var mediaAssetId = response.data.assetId
             var creds = {
               bucket: 'cdn.expertoncue.com/' + config.folder,
@@ -9143,33 +9561,87 @@ angular.module('users').service('uploadService', function ($http, constants, toa
               }
             }
             bucketUpload(creds, params).then(function (err, res) {
-              self.determinateValue = 0
+              this.determinateValue = 0
               var updateMedia = {
                 payload: {
                   mediaAssetId: mediaAssetId,
-                  publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + response.data.assetId + '-' + filename
+                  publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + mediaAssetId + '-' + filename
                 }
               }
 
-              $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err) {
+              $http.put(constants.API_URL + '/media', updateMedia, {
+                ignoreLoadingBar: true
+              }).then(function (res2, err) {
                 if (err) {
                   console.log(err)
-                }else {
+                  cfpLoadingBar.complete()
+                } else {
+                  console.log('media response', res2)
                   var message = {
                     message: 'New Ad Uploaded Success!',
                     publicUrl: updateMedia.payload.publicUrl,
                     fileName: filename,
-                    mediaAssetId: updateMedia.payload.mediaAssetId
+                    mediaAssetId: mediaAssetId,
+                    adId: adId
                   }
-                  messages.push(message)
-                  defer.resolve(messages)
+                  cfpLoadingBar.complete()
+                  defer.resolve(message)
                 }
               })
-            }, null, defer.notify)
+            }, function () {
+              cfpLoadingBar.complete()
+            }, defer.notify)
           }
         })
       }
     }
+
+    return defer.promise
+  }
+
+  me.saveYoutubeVideo = function (youTubeVideoId, accountId) {
+    var defer = $q.defer()
+    var config = {
+      fileName: 'YOUTUBE',
+      userName: Authentication.user.username,
+      accountId: accountId,
+      prefs: {
+        target: 'tv',
+        orientation: 'landscape'
+      }
+    }
+    var payload = {
+      payload: config
+    }
+
+    $http.post(constants.API_URL + '/ads', payload).then(function (response, err) {
+      if (err) {
+        console.log(err)
+        toastr.error('There was a problem saving your ad.')
+      }
+      if (response) {
+        var mediaAssetId = response.data.assetId
+        var updateMedia = {
+          payload: {
+            mediaAssetId: mediaAssetId,
+            publicUrl: youTubeVideoId
+          }
+        }
+        $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err2) {
+          if (err2) {
+            console.log(err2)
+            toastr.error('There was a problem saving your ad.')
+          } else {
+            var message = {
+              message: 'New Ad Uploaded Success!',
+              publicUrl: updateMedia.payload.publicUrl,
+              mediaAssetId: updateMedia.payload.mediaAssetId
+            }
+            defer.resolve(message)
+          }
+        })
+      }
+    })
 
     return defer.promise
   }

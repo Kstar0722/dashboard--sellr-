@@ -11,8 +11,8 @@ angular.module('users.manager.routes').config(['$stateProvider',
             })
             .state('manager.ads', {
                 url: '/ads/:accountId?',
-                templateUrl: 'modules/users/client/views/manager/admanager.client.view.html',
-                controller:'AdmanagerController'
+                templateUrl: 'modules/users/client/views/manager/adsmanager.client.view.html',
+                controller:'AdsmanagerController'
             })
             .state('manager.uploads', {
                 url: '/manager/uploader',

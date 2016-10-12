@@ -225,7 +225,7 @@ body.loading .main-content {
   position: relative;
   top: 0;
   width: 100%;
-  z-index: 98;
+  z-index: 80;
 }
 #mainNav .md-toolbar-tools > * {
   height: 100%;
@@ -432,7 +432,7 @@ body.loading .main-content {
   left: 0;
   transition: all .25s;
   overflow: hidden !important;
-  z-index: 999;
+  z-index: 80;
   background: #151922;
   color: white;
   background-size: cover;
@@ -1055,6 +1055,391 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-off {
 }
 md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   background-color: rgba(0, 0, 0, 0.26) !important;
+}
+.adsManager {
+  background-color: #ffffff;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+}
+.adsManager .filters {
+  margin-bottom: 25px;
+}
+.adsManager .filters .filter {
+  display: inline-block;
+  margin-right: 20px;
+  width: 80px;
+  height: 90px;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+.adsManager .filters .filter.active {
+  border-radius: 3px;
+  box-shadow: 0 0 1px 1px #2DC89A;
+  background-color: #f0f0f0;
+}
+.adsManager .filters .filter img {
+  width: 60px;
+  height: 50px;
+}
+.adsManager .filters .filter div {
+  font-size: 13px;
+  font-weight: bold;
+}
+.adsManager .ads-column {
+  background-color: #f5f5f5;
+  text-align: center;
+  width: 11vw;
+  padding: 5vh 0;
+  min-height: 800px;
+}
+.adsManager .ads-column .upload-container {
+  height: 130px;
+  min-height: 130px;
+  max-height: 130px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.adsManager .ads-column .upload-container .upload {
+  background-color: #2DC89A;
+  color: #ffffff;
+  padding: 15px 5px;
+  text-transform: uppercase;
+  display: inline-block;
+  font-weight: bold;
+  cursor: pointer;
+  width: 60%;
+  box-sizing: border-box;
+}
+.adsManager .ads-column .ad-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  height: 120px;
+  border-bottom: 1px solid #e1e2e2;
+}
+.adsManager .ads-column .ad-container .ad {
+  width: 100%;
+  cursor: pointer;
+}
+.adsManager .ads-column .ad-container .ad .ad-image {
+  height: 90px;
+  background: url('https://placehold.it/1920x1080/333333');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+.adsManager .ads-column .ad-container .ad .ad-video-iframe,
+.adsManager .ads-column .ad-container .ad .ad-video {
+  height: 90px;
+  width: 85%;
+}
+.adsManager .ads-column .ad-container .ad .ad-name {
+  margin: 3px auto 3px auto;
+  color: #999999;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 90%;
+}
+.adsManager .toggle-all-column {
+  width: 5vw;
+  padding: 5vh 0vw;
+}
+.adsManager .toggle-all-column .toggle-all-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  height: 130px;
+  min-height: 130px;
+  max-height: 130px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #999999;
+}
+.adsManager .toggle-all-column .toggle-all-times {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  border-bottom: 1px solid #e1e2e2;
+}
+.adsManager .toggle-all-column .toggle-all-times div {
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: 1px solid #2DC89A;
+}
+.adsManager .toggle-all-column .toggle-all-times div.semi-active {
+  background-color: #f5f5f5;
+  position: relative;
+}
+.adsManager .toggle-all-column .toggle-all-times div.semi-active:after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-bottom: 20px solid #2DC89A;
+  border-left: 20px solid transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.adsManager .toggle-all-column .toggle-all-times div.active {
+  border: 1px solid #2DC89A;
+  background-color: #2DC89A;
+}
+.adsManager .schedule-column {
+  background-color: #ffffff;
+  text-align: left;
+  width: 84vw;
+  padding: 5vh 0vw;
+}
+.adsManager .schedule-column .schedule-header-empty {
+  padding: 0 1.5vw 0 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 130px;
+  min-height: 130px;
+  max-height: 130px;
+}
+.adsManager .schedule-column .schedule-header {
+  padding: 0 1.5vw 0 0;
+  background-color: transparent;
+  height: 130px;
+  min-height: 130px;
+  max-height: 130px;
+}
+.adsManager .schedule-column .schedule-header .times-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: #999999;
+}
+.adsManager .schedule-column .schedule-header .times-header div {
+  font-weight: bold;
+  font-size: 13px;
+  width: 30px;
+}
+.adsManager .schedule-column .schedule-header .times-header div.overnight {
+  width: 60px;
+}
+.adsManager .schedule-column .schedule-times {
+  padding: 0 1.5vw 0 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+  border-bottom: 1px solid #e1e2e2;
+}
+.adsManager .schedule-column .schedule-times div {
+  background-color: #f5f5f5;
+  width: 30px;
+  height: 50px;
+  cursor: pointer;
+}
+.adsManager .schedule-column .schedule-times div.active {
+  background-color: #2DC89A;
+}
+.adsManager .schedule-column .schedule-times div.overnight {
+  width: 60px;
+}
+.adsManager .modalDialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 90;
+  opacity: 0;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
+}
+.adsManager .modalDialog.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.adsManager .modalDialog .modal-container {
+  width: 620px;
+  position: relative;
+  margin: 10% auto;
+  padding: 5px 0px 10px 0px;
+  background: #fff;
+  margin-bottom: 25px;
+}
+.adsManager .modalDialog .modal-container .header {
+  padding: 20px 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.adsManager .modalDialog .modal-container .header .ad-title {
+  border: none;
+  color: #2DC89A;
+  border-bottom: 1px solid #95989a;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 350px;
+  padding-bottom: 4px;
+}
+.adsManager .modalDialog .modal-container .header .ad-title::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #2DC89A;
+}
+.adsManager .modalDialog .modal-container .header .ad-title::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #2DC89A;
+}
+.adsManager .modalDialog .modal-container .header .ad-title:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #2DC89A;
+}
+.adsManager .modalDialog .modal-container .header .save {
+  background-color: #2DC89A;
+  padding: 20px 40px;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+.adsManager .modalDialog .modal-container .media-box {
+  height: 280px;
+  text-align: center;
+  background-color: #f5f6f7;
+  position: relative;
+}
+.adsManager .modalDialog .modal-container .media-box .controls {
+  padding-top: 100px;
+}
+.adsManager .modalDialog .modal-container .media-box .controls .video-link {
+  background-color: #f5f6f7;
+  border: none;
+  color: #142332;
+  border-bottom: 1px solid #95989a;
+  font-weight: bold;
+  min-width: 350px;
+  padding-bottom: 4px;
+  margin: 30px auto 10px auto;
+}
+.adsManager .modalDialog .modal-container .media-box .controls .video-link::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #142332;
+}
+.adsManager .modalDialog .modal-container .media-box .controls .video-link::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #142332;
+}
+.adsManager .modalDialog .modal-container .media-box .controls .video-link:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #142332;
+}
+.adsManager .modalDialog .modal-container .media-box .controls .upload,
+.adsManager .modalDialog .modal-container .media-box .controls .fetch {
+  background-color: #7c7c7c;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 15px;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+}
+.adsManager .modalDialog .modal-container .media-box .controls .fetch {
+  padding: 6px 15px;
+  font-size: 13px;
+}
+.adsManager .modalDialog .modal-container .media-box .ad-image {
+  height: 280px;
+  background: url('https://placehold.it/1920x1080/333333');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+.adsManager .modalDialog .modal-container .media-box .ad-video-iframe {
+  height: 100%;
+  width: 100%;
+}
+.adsManager .modalDialog .modal-container .media-box .ad-video {
+  height: 100%;
+  width: 100%;
+}
+.adsManager .modalDialog .modal-container .media-box .delete-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #FF0000;
+  border-radius: 5px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.adsManager .modalDialog .modal-container .media-box .delete-icon .fa-trash {
+  color: #fff;
+}
+.adsManager .modalDialog .modal-container .target-devices {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 25px 0px 25px 30px;
+}
+.adsManager .modalDialog .modal-container .filter {
+  display: inline-block;
+  margin-right: 20px;
+  width: 80px;
+  height: 90px;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+.adsManager .modalDialog .modal-container .filter.active {
+  border-radius: 3px;
+  box-shadow: 0 0 1px 1px #2DC89A;
+  background-color: #f0f0f0;
+}
+.adsManager .modalDialog .modal-container .filter img {
+  width: 60px;
+  height: 50px;
+}
+.adsManager .modalDialog .modal-container .filter div {
+  font-size: 13px;
+  font-weight: bold;
+}
+.adsManager .modalDialog .modal-container .modal-filters {
+  padding: 0 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.adsManager .modalDialog .modal-container .modal-filters .cancel {
+  background-color: #7c7c7c;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
 }
 .dashboard .topten {
   padding-left: 0px;

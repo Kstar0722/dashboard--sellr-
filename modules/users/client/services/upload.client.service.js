@@ -1,5 +1,5 @@
 /*globals angular, localStorage */
-angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q) {
+angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q, cfpLoadingBar) {
   var me = this
 
   me.init = function () {
@@ -14,10 +14,10 @@ angular.module('users').service('uploadService', function ($http, constants, toa
   me.init()
 
   me.upload = function (file, mediaConfig) {
-    var messages = []
     var defer = $q.defer()
     var config = mediaConfig
     if (file) {
+      cfpLoadingBar.start()
       var filename = (file.name).replace(/ /g, '_')
         .replace(/[()]/g, '') // remove parentheses
 
@@ -51,6 +51,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
           // This is Ads media route there is no other option
           newObject = {
             payload: {
+              name: config.name,
               fileName: filename,
               userName: Authentication.user.username,
               accountId: config.accountId,
@@ -59,12 +60,17 @@ angular.module('users').service('uploadService', function ($http, constants, toa
           }
         }
 
-        $http.post(constants.API_URL + '/' + config.mediaRoute, newObject).then(function (response, err) {
+        $http.post(constants.API_URL + '/' + config.mediaRoute, newObject, {
+          ignoreLoadingBar: true
+        }).then(function (response, err) {
           if (err) {
             console.log(err)
+            cfpLoadingBar.complete()
             toastr.error('There was a problem uploading your ad.')
           }
           if (response) {
+            console.log('ads response', response)
+            var adId = response.data.adId
             var mediaAssetId = response.data.assetId
             var creds = {
               bucket: 'cdn.expertoncue.com/' + config.folder,
@@ -83,29 +89,36 @@ angular.module('users').service('uploadService', function ($http, constants, toa
               }
             }
             bucketUpload(creds, params).then(function (err, res) {
-              self.determinateValue = 0
+              this.determinateValue = 0
               var updateMedia = {
                 payload: {
                   mediaAssetId: mediaAssetId,
-                  publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + response.data.assetId + '-' + filename
+                  publicUrl: 'https://s3.amazonaws.com/' + creds.bucket + '/' + mediaAssetId + '-' + filename
                 }
               }
 
-              $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err) {
+              $http.put(constants.API_URL + '/media', updateMedia, {
+                ignoreLoadingBar: true
+              }).then(function (res2, err) {
                 if (err) {
                   console.log(err)
-                }else {
+                  cfpLoadingBar.complete()
+                } else {
+                  console.log('media response', res2)
                   var message = {
                     message: 'New Ad Uploaded Success!',
                     publicUrl: updateMedia.payload.publicUrl,
                     fileName: filename,
-                    mediaAssetId: updateMedia.payload.mediaAssetId
+                    mediaAssetId: mediaAssetId,
+                    adId: adId
                   }
-                  messages.push(message)
-                  defer.resolve(messages)
+                  cfpLoadingBar.complete()
+                  defer.resolve(message)
                 }
               })
-            }, null, defer.notify)
+            }, function () {
+              cfpLoadingBar.complete()
+            }, defer.notify)
           }
         })
       }
@@ -114,44 +127,45 @@ angular.module('users').service('uploadService', function ($http, constants, toa
     return defer.promise
   }
 
-  me.saveYoutubeVideo = function (youTubeVideoId, accountId) {
+  me.saveExternalVideoAd = function (videoId, config) {
     var defer = $q.defer()
-    var config = {
-      fileName: 'YOUTUBE',
-      userName: Authentication.user.username,
-      accountId: accountId,
-      prefs: {
-        target: 'tv',
-        orientation: 'landscape'
-      }
-    }
+    cfpLoadingBar.start()
     var payload = {
       payload: config
     }
 
-    $http.post(constants.API_URL + '/ads', payload).then(function (response, err) {
+    $http.post(constants.API_URL + '/ads', payload, {
+      ignoreLoadingBar: true
+    }).then(function (response, err) {
       if (err) {
         console.log(err)
+        cfpLoadingBar.complete()
         toastr.error('There was a problem saving your ad.')
       }
       if (response) {
         var mediaAssetId = response.data.assetId
+        var adId = response.data.adId
         var updateMedia = {
           payload: {
             mediaAssetId: mediaAssetId,
-            publicUrl: youTubeVideoId
+            publicUrl: videoId
           }
         }
-        $http.put(constants.API_URL + '/media', updateMedia).then(function (res2, err2) {
+        $http.put(constants.API_URL + '/media', updateMedia, {
+          ignoreLoadingBar: true
+        }).then(function (res2, err2) {
           if (err2) {
             console.log(err2)
+            cfpLoadingBar.complete()
             toastr.error('There was a problem saving your ad.')
           } else {
             var message = {
-              message: 'New Ad Uploaded Success!',
-              publicUrl: updateMedia.payload.publicUrl,
-              mediaAssetId: updateMedia.payload.mediaAssetId
+              message: 'Video Info Saved Successfully',
+              videoId: updateMedia.payload.publicUrl,
+              mediaAssetId: updateMedia.payload.mediaAssetId,
+              adId: adId
             }
+            cfpLoadingBar.complete()
             defer.resolve(message)
           }
         })

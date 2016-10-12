@@ -46872,4 +46872,93 @@ angulartics.waitForVendorApi("_gs",500,function(b){a.registerSetUserProperties(f
    * @link https://www.gosquared.com/docs/tracking/identify/
    */
 angulartics.waitForVendorApi("_gs",500,function(b){a.registerSetUserPropertiesOnce(function(a){b("identify",a)})})}])}(angular);;
+/*!
+* angular-post-message v1.4.0
+* Copyright 2016 Kyle Welsby <kyle@mekyle.com>
+* Licensed under The MIT License
+*/
+(function(){"use strict";var a;a=angular.module("ngPostMessage",["ng"]),a.run(["$window","$postMessage","$rootScope",function(a,b,c){c.$on("$messageOutgoing",function(b,d,e){var f;return null==e&&(e="*"),f=c.sender||a.parent,f.postMessage(d,e)}),angular.element(a).bind("message",function(a){var d;if(a=a.originalEvent||a,a&&a.data){d=null,c.sender=a.source;try{d=angular.fromJson(a.data)}catch(e){d={},d.text=a.data}return d.origin=a.origin,c.$root.$broadcast("$messageIncoming",d),b.messages(d)}})}]),a.factory("$postMessage",["$rootScope",function(a){var b,c;return b=[],c={messages:function(c){return c&&(b.push(c),a.$digest()),b},lastMessage:function(){return b[b.length-1]},post:function(b,c){return c||(c="*"),a.$broadcast("$messageOutgoing",b,c)}}}])}).call(this);;
+(function (root, factory) {
+    /* istanbul ignore next */
+    if (typeof define === 'function' && define.amd) {
+        define(['angular'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = factory(require('angular'));
+    } else {
+        root.angularClipboard = factory(root.angular);
+  }
+}(this, function (angular) {
+
+return angular.module('angular-clipboard', [])
+    .factory('clipboard', ['$document', '$window', function ($document, $window) {
+        function createNode(text, context) {
+            var node = $document[0].createElement('textarea');
+            node.style.position = 'absolute';
+            node.textContent = text;
+            node.style.left = '-10000px';
+            node.style.top = ($window.pageYOffset || $document[0].documentElement.scrollTop) + 'px';
+            return node;
+        }
+
+        function copyNode(node) {
+            try {
+                // Set inline style to override css styles
+                $document[0].body.style.webkitUserSelect = 'initial';
+
+                var selection = $document[0].getSelection();
+                selection.removeAllRanges();
+                node.select();
+
+                if(!$document[0].execCommand('copy')) {
+                    throw('failure copy');
+                }
+                selection.removeAllRanges();
+            } finally {
+                // Reset inline style
+                $document[0].body.style.webkitUserSelect = '';
+            }
+        }
+
+        function copyText(text, context) {
+            var node = createNode(text, context);
+            $document[0].body.appendChild(node);
+            copyNode(node);
+            $document[0].body.removeChild(node);
+        }
+
+        return {
+            copyText: copyText,
+            supported: 'queryCommandSupported' in $document[0] && $document[0].queryCommandSupported('copy')
+        };
+    }])
+    .directive('clipboard', ['clipboard', function (clipboard) {
+        return {
+            restrict: 'A',
+            scope: {
+                onCopied: '&',
+                onError: '&',
+                text: '=',
+                supported: '=?'
+            },
+            link: function (scope, element) {
+                scope.supported = clipboard.supported;
+
+                element.on('click', function (event) {
+                    try {
+                        clipboard.copyText(scope.text, element[0]);
+                        if (angular.isFunction(scope.onCopied)) {
+                            scope.$evalAsync(scope.onCopied());
+                        }
+                    } catch (err) {
+                        if (angular.isFunction(scope.onError)) {
+                            scope.$evalAsync(scope.onError({err: err}));
+                        }
+                    }
+                });
+            }
+        };
+    }]);
+
+}));
+;
 !function(t){"use strict";t.module("ng-autofocus",[]).directive("autofocus",["$timeout",function(t){return{restrict:"A",link:function(u,n){t(function(){n[0].focus()})}}}])}(angular);
