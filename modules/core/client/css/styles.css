@@ -1284,14 +1284,14 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   background: #fff;
   margin-bottom: 25px;
 }
-.adsManager .modalDialog .modal-container .header {
+.adsManager .modalDialog .modal-container .modal-header {
   padding: 20px 30px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
-.adsManager .modalDialog .modal-container .header .ad-title {
+.adsManager .modalDialog .modal-container .modal-header .ad-title {
   border: none;
   color: #2DC89A;
   border-bottom: 1px solid #95989a;
@@ -1300,19 +1300,19 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   min-width: 350px;
   padding-bottom: 4px;
 }
-.adsManager .modalDialog .modal-container .header .ad-title::-webkit-input-placeholder {
+.adsManager .modalDialog .modal-container .modal-header .ad-title::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: #2DC89A;
 }
-.adsManager .modalDialog .modal-container .header .ad-title::-moz-placeholder {
+.adsManager .modalDialog .modal-container .modal-header .ad-title::-moz-placeholder {
   /* Firefox 19+ */
   color: #2DC89A;
 }
-.adsManager .modalDialog .modal-container .header .ad-title:-ms-input-placeholder {
+.adsManager .modalDialog .modal-container .modal-header .ad-title:-ms-input-placeholder {
   /* IE 10+ */
   color: #2DC89A;
 }
-.adsManager .modalDialog .modal-container .header .save {
+.adsManager .modalDialog .modal-container .modal-header .save {
   background-color: #2DC89A;
   padding: 20px 40px;
   color: #ffffff;

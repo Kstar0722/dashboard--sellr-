@@ -131,6 +131,10 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
       var newPrefs
       if (ad.new) {
         // NEW Ad
+        if (_.isUndefined(ad.id)) {
+          toastr.info('Choose a media first or cancel to close')
+          return
+        }
         newPrefs = {
           schedule: allTimesSlots
         }
@@ -193,7 +197,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
     }
 
     $scope.cancelModal = function () {
-      if ($scope.modalAd.new) {
+      if ($scope.modalAd.new && !_.isUndefined($scope.modalAd.id)) {
         $scope.deleteAd($scope.modalAd.id, false)
       } else {
         $timeout(function () {
