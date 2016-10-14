@@ -135,6 +135,9 @@
             <div class="row">
                 <div class="pull-right">
                     <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-info" ng-show="mergeService.newProduct.status != 'new'"
+                                ng-click="markAsNew(mergeService.newProduct)">Mark as New</button>
+
                         <button class="btn btn-info" type="button" ng-show="mergeService.newProduct.status==='inprogress'" data-toggle="modal"
                         data-target="#submitforapproval">Mark as Done
                     </button>

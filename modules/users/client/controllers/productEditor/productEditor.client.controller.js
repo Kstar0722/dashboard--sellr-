@@ -265,6 +265,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.save(product)
   }
 
+  $scope.markAsNew = function (product) {
+    if (product.status == 'new') return;
+    product.status = 'new';
+    productEditorService.save(product);
+  };
+
   $scope.assignSelectedToUser = function (editor) {
     $scope.selected.forEach(function (product) {
       var options = {

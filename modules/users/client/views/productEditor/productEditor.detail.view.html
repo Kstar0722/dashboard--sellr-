@@ -12,6 +12,9 @@
                 </div>
                 <div class="pull-right">
                     <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-info" ng-if="pes.currentProduct.status != 'new'"
+                                ng-click="markAsNew(pes.currentProduct)">Mark as New</button>
+
                         <button class="btn btn-warning" type="button"
                                 data-toggle="modal"
                                 data-target="#submitforapproval">Mark as Done
