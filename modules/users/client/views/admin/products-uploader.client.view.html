@@ -17,13 +17,16 @@
                            acceptSize="4194304"
                            callback="initCsvImport"></ng-csv-import>
 
-            <h3>Plan Name:</h3>
-            <input type="text" ng-model="planName" class="plan-name">
-
-            <h3>Related store:</h3>
+            <h3>Related Store:</h3>
 
             <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore"
-                       placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
+                       placeholder="Select or create store" ng-change="loadStorePlans(selectedStore); openNewDialog(selectedStore)">
+            </selectize>
+
+            <h3>Related Plan:</h3>
+
+            <selectize config="selectPlanConfig" options="plansDropdown" ng-model="selectedPlan"
+                       placeholder="Select or create plan" ng-change="openNewPlanDialog(selectedPlan)" ng-disabled="!selectedStore || loadingPlans">
             </selectize>
 
             <div id="createStoreModal" class="modal fade" role="dialog">
@@ -52,9 +55,34 @@
                 </div>
             </div>
 
+            <div id="createPlanModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Plan Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" ng-model="newPlan.label" required autofocus>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    ng-click="selectNewPlan(newPlan)">
+                                Create Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="toolbar">
-                <md-button class="green" ng-click="importView = 'configure'; editColumn(unmatched(csv.columns)[0])"
-                           ng-disabled="!csv.result || csv.result.length == 0 || (selectedStore || '-') == '-' || !planName">
+                <md-button class="green" ng-click="initStep(importView = 'configure')"
+                           ng-disabled="!csv.result || csv.result.length == 0 || (selectedStore || '-') == '-' || (selectedPlan || '-') == '-'">
                     Next Step
                 </md-button>
             </div>
@@ -81,8 +109,8 @@
                     <td ng-repeat="column in csv.columns track by column.id" class="col-header" ng-class="columnClasses(column)"
                         ng-if="showSkippedColumns || !showSkippedColumns && !column.skipped">
                         <div ng-if="!column.editing">
-                            <div class="col-name" ng-if="!column.skipped">{{column.mapping && column.mapping != '-' ? column.mapping : (csv.header && csv.loaded ? column.name : 'Column' + ($index+1))}}</div>
-                            <div class="field-type" ng-if="!column.skipped && !column.unmatched">{{columnType(column)}} field</div>
+                            <div class="col-name" ng-if="!column.skipped">{{column.mapping && column.mapping != '-' ? column.mapping : (csv.header && csv.loaded ? humanReadable(column.name) : 'Column' + ($index+1))}}</div>
+                            <div class="field-type" ng-if="!column.skipped && !column.unmatched">{{column.new ? 'custom' : ''}} {{columnType(column)}} field</div>
                             <div class="not-imported" ng-if="column.skipped">Will not be imported</div>
                             <div class="not-matched" ng-if="column.unmatched">(unmatched column)</div>
                             <div class="actions">
@@ -90,6 +118,7 @@
                                 <a ng-click="resetColumn(column)" ng-if="column.mapping">Reset</a>
                                 <a ng-click="skip([column])" ng-if="!column.skipped">Skip</a>
                             </div>
+                            <md-checkbox ng-if="filteringAllowed(column)" ng-model="column.enableFilter">Use This Field To Filter</md-checkbox>
                         </div>
                         <form ng-if="column.editing" name="columnForm" ng-submit="columnForm.$valid && saveMatching(column, true)" autocomplete="off" novalidate>
                             <div ng-if="!column.editing.new">
@@ -144,7 +173,7 @@
 
             <div class="toolbar">
                 <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
-                <md-button class="green next" ng-click="importView = 'confirm'" ng-disabled="unmatched(csv.columns).length > 0">Next Step</md-button>
+                <md-button class="green next" ng-click="initStep(importView = 'confirm')" ng-disabled="unmatched(csv.columns).length > 0">Next Step</md-button>
             </div>
         </div>
         <div class="confirm" ng-show="importView == 'confirm'">
@@ -154,7 +183,7 @@
             </h1>
             <div class="toolbar">
                 <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
-                <md-button class="green" ng-click="submitStore(selectedStore)">Import Items</md-button>
+                <md-button class="green" ng-click="importProducts(selectedStore, selectedPlan)">Import Items</md-button>
             </div>
         </div>
     </div>

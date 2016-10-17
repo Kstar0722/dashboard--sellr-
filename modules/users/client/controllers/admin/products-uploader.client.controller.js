@@ -1,13 +1,13 @@
 /* globals angular, _, $ */
-angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvCustomProductMapper, $timeout) {
+angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvCustomProductMapper, formatter) {
   var EMPTY_FIELD_NAME = csvCustomProductMapper.EMPTY_FIELD_NAME
   var FIELD_TYPES = csvCustomProductMapper.FIELD_TYPES;
 
-  $scope.storesDropdown = []
+  $scope.storesDropdown = [{ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' }]
+  $scope.plansDropdown = [{ planId: EMPTY_FIELD_NAME, label: 'Create New Plan' }]
   $scope.orderDataService = orderDataService
   $scope.importView = 'upload_file'
   $scope.storeFields = null
-  $scope.planName = null
   $scope.csv = { header: true }
   $scope.fieldTypesDropdown = FIELD_TYPES;
   $scope.showSkippedColumns = true;
@@ -29,11 +29,22 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     searchField: [ 'name', 'storeId' ]
   }
 
+  $scope.selectPlanConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'planId',
+    labelField: 'label',
+    searchField: [ 'label', 'planId' ]
+  }
+
+  $scope.humanReadable = formatter.humanReadable;
+
   $scope.updateColumnMapping = function (column) {
     var value = column.mapping;
     if (value == EMPTY_FIELD_NAME) {
-      column.mapping = column.name;
       column.new = true;
+      column.mapping = formatter.humanReadable(column.name);
     }
     else {
       column.new = false;
@@ -47,7 +58,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
   $scope.cancelCsvImport = function (selector) {
     $scope.csv = { header: true }
-    $scope.planName = null
     var $input = $(selector).find('input[type="file"]')
     $input.replaceWith($input.val('').clone(true)) // reset selected file
   }
@@ -61,9 +71,14 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     console.log('csv file selected', $scope.csv)
   }
 
-  $scope.submitStore = function (selectedStore) {
+  $scope.importProducts = function (selectedStore, selectedPlan) {
     if (!selectedStore) {
       toastr.error('store not selected')
+      return
+    }
+
+    if (!selectedPlan) {
+      toastr.error('plan not selected')
       return
     }
 
@@ -71,7 +86,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     try {
       selectOrCreateStore(selectedStore).then(function (store) {
         var products = csvCustomProductMapper.mapProducts($scope.csv.result, $scope.csv.columns);
-        return importPlanProducts(store, products).then(function () {
+        return importPlanProducts(store, selectedPlan, products).then(function () {
           $scope.cancelImport()
           toastr.success('Products csv file imported')
         }, function (error) {
@@ -87,8 +102,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   }
 
   $scope.cancelImport = function () {
-    $scope.selectedStore = null
-    $scope.importView = 'upload_file'
+    $scope.importView = $scope.initStep('upload_file')
     $scope.cancelCsvImport('#storeCsv')
   }
 
@@ -108,10 +122,33 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     $createModal.modal('show')
   }
 
+  $scope.openNewPlanDialog = function (plan) {
+    if (plan !== EMPTY_FIELD_NAME) return
+
+    $scope.newPlan = {
+      planId: randomId(),
+      accountId: $scope.selectAccountId,
+      storeId: $scope.selectedStore
+    }
+
+    var $createModal = $('#createPlanModal').on('shown.bs.modal', function (e) {
+      var autofocus = $(e.target).find('[autofocus]')[ 0 ]
+      if (autofocus) autofocus.focus()
+    })
+
+    $createModal.modal('show')
+  }
+
   $scope.selectNewStore = function (newStore) {
     if (!newStore) return
     $scope.storesDropdown.splice(1, 0, newStore)
     $scope.selectedStore = newStore.storeId || newStore.name
+  }
+
+  $scope.selectNewPlan = function (newPlan) {
+    if (!newPlan) return
+    $scope.plansDropdown.splice(1, 0, newPlan)
+    $scope.selectedPlan = newPlan.planId || newPlan.label
   }
 
   $scope.parseColumn0 = function (content) {
@@ -190,6 +227,45 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     return csvCustomProductMapper.PRODUCT_TYPES[column.mapping] || 'text';
   };
 
+  $scope.loadStorePlans = function (selectedStore) {
+    var storeId = parseInt(selectedStore, 10);
+
+    var plansLoaded = [];
+    if (storeId) plansLoaded = $http.get(constants.BWS_API + '/choose/plans?store=' + storeId, { ignoreLoadingBar: true }).then(handleResponse);
+
+    $scope.loadingPlans = true;
+    return $q.when(plansLoaded).then(function(plans) {
+      $scope.plansDropdown = _.filter($scope.plansDropdown, function(p) { return p.planId == EMPTY_FIELD_NAME || p.planId < 0; });
+      $scope.plansDropdown = $scope.plansDropdown.concat(_.sortBy(plans, 'label'));
+    }).finally(function () {
+      $scope.loadingPlans = false;
+    })
+  };
+
+  $scope.initStep = function (step) {
+    step = step || $scope.importView || 'upload_file';
+
+    if (step == 'upload_file') {
+      $scope.selectedStore = null;
+      $scope.selectedPlan = null;
+    }
+    else if (step == 'configure') {
+      $scope.editColumn($scope.unmatched($scope.csv.columns)[0]);
+      $scope.customProducts = (resolvePlan($scope.selectedPlan) || {}).custom;
+      if (typeof $scope.customProducts != 'boolean') $scope.customProducts = true;
+    }
+
+    return $scope.importView = step;
+  }
+
+  $scope.filteringAllowed = function(column) {
+    if (!column.mapping) return false;
+    var type = column.fieldType || 'text';
+    return type == 'text' || type == 'list' || type == 'boolean';
+  };
+
+  $scope.$watch('importView', $scope.initStep);
+
   init()
 
   //
@@ -201,14 +277,15 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
     if (orderDataService.allStores.length === 0 || accountId) {
       orderDataService.getAllStores({ accountId: accountId || $scope.selectAccountId }).then(function (stores) {
-        $scope.storesDropdown = stores.slice();
-        $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
-        $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
+        $scope.storesDropdown = _.filter($scope.storesDropdown, function(s) { return s.storeId == EMPTY_FIELD_NAME || s.storeId < 0; });
+        $scope.storesDropdown = $scope.storesDropdown.concat(_.sortBy(stores, 'name'));
       })
     }
 
     $scope.storeFields = wrapFields(csvCustomProductMapper.PRODUCT_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: 'Create a New Column' })
+
+    $scope.initStep();
   }
 
   function handleResponse (response) {
@@ -239,20 +316,48 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     })
   }
 
-  function importPlanProducts (store, products) {
-    var payload = {
-      custom: $scope.customProducts,
-      storeId: store.storeId,
-      accountId: store.accountId,
-      label: $scope.planName,
-      products: products
-    };
+  function selectOrCreatePlan (store, planId) {
+    if (!planId) return;
 
+    var selectedPlan = _.find($scope.plansDropdown, function(p) { return p.planId == planId; });
+    var newPlan = (selectedPlan.planId || 0) <= 0;
+
+    if (newPlan) {
+      selectedPlan = {
+        custom: $scope.customProducts,
+        storeId: store.storeId,
+        accountId: store.accountId,
+        label: selectedPlan.label,
+        planId: newPlan ? undefined : selectedPlan.planId,
+        products: []
+      };
+    }
+
+    return selectedPlan;
+  }
+
+  function importPlanProducts (store, plan, products) {
     if (!products || products.length == 0) {
       return $q.reject('no products found in csv file')
     }
 
-    return $http.post(constants.BWS_API + '/choose/plans', { payload: payload }).then(handleResponse);
+    var payload = dto(selectOrCreatePlan(store, plan));
+    payload.products = (payload.products || []).concat(products);
+
+    var allTags = collectAllTags(payload.products);
+    payload.filters = _.map(allTags, function (tags, filter) {
+      return {
+        label: filter,
+        choices: _.map(tags, function(tag) {
+          return { filter: filter, choice: tag, active: true, selected: false };
+        }),
+        choiceCount: tags.length,
+        active: true
+      };
+    });
+
+    var save = payload.planId ? $http.put : $http.post;
+    return save(constants.BWS_API + '/choose/plans' + (payload.planId ? '/' + payload.planId : ''), { payload: payload }).then(handleResponse);
   }
 
   function getStoreById (id) {
@@ -370,8 +475,32 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
   function autoMapColumns(columns) {
     _.each(columns, function (column) {
       column.new = true;
-      column.mapping = column.name;
+      column.mapping = formatter.humanReadable(column.name);
       column.unmatched = false;
     });
+  }
+
+  function resolvePlan(value) {
+    if (!value) return value;
+    var plan = _.find($scope.plansDropdown, function(p) { return p.planId == value; });
+    return plan;
+  }
+
+  function dto(obj) {
+    if (!obj) return obj;
+    var res = angular.copy(obj);
+    delete res.$order;
+    return res;
+  }
+
+  function collectAllTags(products) {
+    var allTags = _.flatten(_.pluck(products, 'tags'));
+    var allFilters = _.uniq(_.pluck(allTags, 'filter'));
+
+    var result = {};
+    _.each(allFilters, function (filter) {
+      result[filter] = _.chain(allTags).where({ filter: filter }).pluck('choice').uniq().value();
+    });
+    return result;
   }
 })

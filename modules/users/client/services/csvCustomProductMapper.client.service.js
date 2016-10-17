@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users').service('csvCustomProductMapper', function () {
+angular.module('users').service('csvCustomProductMapper', function (formatter) {
   var self = this
 
   this.EMPTY_FIELD_NAME = '-'
@@ -42,12 +42,23 @@ angular.module('users').service('csvCustomProductMapper', function () {
       var value = mapValue(obj[col.name], type);
 
       if (col.new) {
-        var code = codeOf(col.mapping);
+        var code = formatter.codeOf(col.mapping);
         result.properties = result.properties || {};
         result.properties[code] = { label: col.mapping, value: value, type: type };
       }
       else if (col.mapping) {
         result[col.mapping] = value;
+      }
+
+      if (col.enableFilter && typeof value != 'undefined' && typeof value != 'null') {
+        var items = value instanceof Array ? value : [value];
+        var tags = _.compact(items.map(function (item) {
+          if (!item) return;
+          return { filter: formatter.humanReadable(col.mapping), choice: item, active: true, selected: false };
+        }));
+        if (tags.length > 0) {
+          result.tags = (result.tags || []).concat(tags);
+        }
       }
     })
     if (_.isEmpty(result)) return null;
@@ -83,9 +94,5 @@ angular.module('users').service('csvCustomProductMapper', function () {
     var result = str.split(';');
     if (result.length > 1) return result.map(function(s) { return s.trim(); });
     return str.split(',').map(function(s) { return s.trim(); });
-  }
-
-  function codeOf(name) {
-    return (name || '').toString().replace(/[^a-z0-9_]+/gi, '_').trim().toLowerCase();
   }
 })
