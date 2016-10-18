@@ -108,6 +108,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.searchProducts = function (searchText) {
+    if (!searchText) return;
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
