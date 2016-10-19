@@ -174,33 +174,37 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
       })
     }
 
-    $scope.uploadAd = function (file) {
-      var accountId = $scope.selectAccountId || $state.params.accountId
+    $scope.adFilePicker = function (exts) {
       var adsConfig = {
         mediaRoute: 'ads',
         folder: 'ads',
-        accountId: accountId,
+        accountId: $scope.selectAccountId || $state.params.accountId,
         name: $scope.modalAd.name,
         prefs: {
           target: $scope.modalAd.target,
           schedule: allTimesSlots
         }
-      }
-      uploadService.upload(file, adsConfig).then(function (response, err) {
-        if (response) {
-          $scope.modalAd.id = response.adId
-          $scope.modalAd.value = response.mediaAssetId + '-' + response.fileName
-          var ext = getFileExtension($scope.modalAd.value)
-          if (isSupportedImageType(ext)) {
-            _.extend($scope.modalAd, {type: 'image'})
-          }
-          if (isSupportedVideoType(ext)) {
-            _.extend($scope.modalAd, {type: 'video'})
-          }
-          $scope.modalAd.noMedia = false
+      };
+
+      var options = {
+        extensions: (exts || '').split(',') || undefined
+      };
+
+      uploadService.pickAndUpload(adsConfig, options).then(function (response) {
+        if (!response) return;
+
+        $scope.modalAd.id = response.adId
+        $scope.modalAd.value = response.mediaAssetId + '-' + response.fileName
+        var ext = getFileExtension($scope.modalAd.value)
+        if (isSupportedImageType(ext)) {
+          _.extend($scope.modalAd, {type: 'image'})
         }
-      })
-    }
+        if (isSupportedVideoType(ext)) {
+          _.extend($scope.modalAd, {type: 'video'})
+        }
+        $scope.modalAd.noMedia = false
+      });
+    };
 
     $scope.cancelModal = function () {
       if ($scope.modalAd.new && !_.isUndefined($scope.modalAd.id)) {
