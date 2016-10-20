@@ -41,7 +41,7 @@ angular.module('users').config(['$httpProvider',
     iconFA: 'fa-cart-plus',
     state: 'productsUploader',
     type: 'button',
-    roles: [1002],
+    roles: [ 1004 ],
     position: 4
   });
 }]);
