@@ -17,7 +17,11 @@ var ApplicationConfiguration = (function () {
       'stripe.checkout',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.gosquared'
+      'angulartics.gosquared',
+      'ngPostMessage',
+      'angular-clipboard',
+      'ng-autofocus',
+      'cfp.loadingBar'
     ];
 
   // Add a new vertical module

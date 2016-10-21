@@ -27,4 +27,21 @@ angular.module('users').config(['$httpProvider',
       }
     ]);
   }
-]);
+]).run(['Menus', function(Menus) {
+  Menus.addMenuItem('main', {
+    title: 'Account',
+    iconFA: 'fa-cogs',
+    state: 'settings',
+    type: 'button',
+    roles: [1002],
+    position: 3
+  });
+  Menus.addMenuItem('main', {
+    title: 'Products',
+    iconFA: 'fa-cart-plus',
+    state: 'productsUploader',
+    type: 'button',
+    roles: [ 1004 ],
+    position: 4
+  });
+}]);

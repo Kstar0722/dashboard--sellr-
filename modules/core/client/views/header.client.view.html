@@ -57,7 +57,7 @@
         </md-menu-bar>
 
         <div class="user-menu-container mobile-only" ng-class="{ 'force-display': !$root.selectAccountId }">
-            <md-button class="no-submenu-item" ng-click="editProfile(); mobileMenuActive.open = false;">Edit Profile</md-button>
+            <md-button class="no-submenu-item" ng-click="editProfile(); mobileMenuActive.open = false;">Edit Account</md-button>
           <md-button class="no-submenu-item signout" ng-click="signOut(); mobileMenuActive.open = false;">Sign Out</md-button>
         </div>
       </md-toolbar>
@@ -83,6 +83,7 @@
         <!--non-dropdowns-->
         <md-button ng-repeat="item in mainMenu.items | orderBy:'position'" ui-sref="{{item.state}}" ui-sref-active="my-active-class" ng-if="item.type!=='dropdown' && item.shouldRender(authentication.user)" class="no-submenu-item" layout="column">
           <img ng-src="{{item.icon}}" ng-if="item.icon" class="icon svg inline-svg">
+          <i class="fa fa-2x icon" ng-class="item.iconFA" ng-if="item.iconFA"></i>
           <div>{{item.title}}</div>
           <div class="nav-order-count" ng-if="item.title === 'Orders' && accountsService.ordersCount !== 0" ng-bind="accountsService.ordersCount"></div>
         </md-button>
@@ -117,7 +118,7 @@
           </div>
           <md-menu-content width="3" id="profmenu">
             <md-menu-item>
-              <md-button ng-click="editProfile();">Edit Profile</md-button>
+              <md-button ng-click="editProfile();">Edit Account</md-button>
             </md-menu-item>
 
             <div class="divider"></div>

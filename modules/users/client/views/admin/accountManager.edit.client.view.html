@@ -72,15 +72,15 @@
         <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
                             ng-show="determinateValue"></md-progress-linear>
 
-        <div>
-            <img ng-src="{{ accountsService.editAccount.storeImg || currentAccountStoreImg }}" height="100">
+        <div >
+            <img class="store-img" ng-src="{{ accountsService.editAccount.storeImg || currentAccountStoreImg }}" height="100">
         </div>
 
 
 
         <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
 
-        <div layout="row" layout-align="space-between center">
+        <div layout="row" layout-align="space-between center" layout-xs="column" layout-align-xs="start stretch" layout-margin>
             <label>Device Authentication Code: </label>
             <p><strong>{{ accountsService.editAccount.authCode || 123456 }}</strong></p>
             <md-button class="md-button md-raised md-accent"

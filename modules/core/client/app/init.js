@@ -72,9 +72,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     { productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur' }
   ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia) {
   var DEFAULT_PUBLIC = false;
 
+  $rootScope.$mdMedia = $mdMedia;
   $rootScope.$state = $state;
   $rootScope.$stateClass = cssClassOf($state.current.name)
   $rootScope.$svc = function (name) { return $injector.get(name); }; // for debugging purposes only

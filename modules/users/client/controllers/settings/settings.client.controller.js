@@ -1,34 +1,82 @@
 'use strict';
+/* globals moment */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'FileUploader', 'Users', 'Authentication', 'PasswordValidator', 'constants',
-  function ($scope, $http, $location, $timeout, $window, FileUploader, Users, Authentication, PasswordValidator, constants) {
-    // $scope.user = Authentication.user || { profileImageUrl: '' };
-    $scope.user = angular.copy(Authentication.user);
-    // $scope.imageURL = $scope.user.profileImageURL;
-    $scope.popoverMsg = PasswordValidator.getPopoverMsg();
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce) {
+    $scope.user = initUser(Authentication.user);
+    $scope.passwordDetails = {};
+    $scope.store = {};
+
+    $scope.accountsService = accountsService;
+    $scope.descriptionCharsLimit = 200;
+    $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    accountsService.bindSelectedAccount($scope);
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId == prevValue) return;
+      loadStore(accountsService.accounts);
+    });
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
-      $scope.user_success = $scope.user_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'userForm');
         return false;
       }
 
+      $scope.user.displayName = $scope.user.firstName + ' ' + $scope.user.lastName;
+
       Users.put($scope.user).then(function (response) {
         $scope.$broadcast('show-errors-reset', 'userForm');
-        $scope.user_success = true;
         updateUserProfile(response.data);
+        toastr.success('Profile saved successfully');
       }, function (response) {
-        $scope.user_error = response.data.message;
+        toastr.error(response.data.message);
       });
+    };
+
+    $scope.updateStoreProfile = function (isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'storeForm');
+        return false;
+      }
+
+      var payload = {
+        payload: $scope.store
+      };
+
+      $http.put(constants.BWS_API + '/storedb/stores/details', payload).success(function (response) {
+        // If successful show success message and clear form
+        $scope.$broadcast('show-errors-reset', 'storeForm');
+        toastr.success('Store saved successfully');
+      }).error(function (response) {
+        toastr.error(response.data.message);
+      });
+    };
+
+    $scope.uploadStoreImage = function (files, accountId) {
+      var mediaConfig = {
+        mediaRoute: 'media',
+        folder: 'storeImg',
+        type: 'STOREIMG',
+        accountId: accountId
+      };
+
+      uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+        if (response) {
+          $scope.store.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+          toastr.success('Store Image Updated', 'Success!');
+        }
+      })
+    };
+
+    $scope.cancelOverLimited = function(ev) {
+      if ($scope.descriptionCharsLeft <= 0 && String.fromCharCode(ev.charCode).length > 0) {
+        ev.preventDefault()
+      }
     };
 
     // Change user password
     $scope.changeUserPassword = function (isValid) {
-      $scope.password_success = $scope.password_error = null;
-
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'passwordForm');
         return false;
@@ -45,82 +93,126 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       $http.post(constants.API_URL + '/users/auth/reset', payload).success(function (response) {
         // If successful show success message and clear form
         $scope.$broadcast('show-errors-reset', 'passwordForm');
-        $scope.password_success = true;
         $scope.passwordDetails = null;
+        toastr.success('Password changed successfully');
       }).error(function (response) {
-        $scope.password_error = response.message;
+        toastr.error(response.data.message);
       });
     };
 
-    // Create file uploader instance
-    $scope.uploader = new FileUploader({
-      url: 'api/users/picture',
-      alias: 'newProfilePicture'
-    });
+    $scope.openEmbedCodeModal = function (ev) {
+      $scope.shopprEmbedJs = $scope.generateEmbedJsCode('app.shoppronline.com', $scope.selectAccountId);
 
-    // Set file uploader image filter
-    $scope.uploader.filters.push({
-      name: 'imageFilter',
-      fn: function (item, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-      }
-    });
+      var $embedCodeModal = $('#embedCodeModal').on('shown.bs.modal', function (e) {
+        var autofocus = $(e.target).find('[autofocus]')[ 0 ]
+        if (autofocus) autofocus.focus()
+      })
 
-    // Called after the user selected a new picture file
-    $scope.uploader.onAfterAddingFile = function (fileItem) {
-      if ($window.FileReader) {
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(fileItem._file);
-
-        fileReader.onload = function (fileReaderEvent) {
-          $timeout(function () {
-            $scope.imageURL = fileReaderEvent.target.result;
-          }, 0);
-        };
-      }
+      $embedCodeModal.modal('show')
     };
 
-    // Called after the user has successfully uploaded a new picture
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // Show success message
-      $scope.avatar_success = true;
+    $scope.generateEmbedJsCode = function (host, storeId) {
+      var code = $('#embedJsCodeTemplate').html()
+        .replace(/{{host}}/g, host || '')
+        .replace(/{{storeId}}/g, storeId || '');
 
-      // Populate user object
-      updateUserProfile(response);
+      code = unindent(code);
 
-      // Clear upload buttons
-      $scope.cancelUpload();
+      return $sce.trustAsHtml(code);
     };
 
-    // Called after the user has failed to uploaded a new picture
-    $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
-      // Clear upload buttons
-      $scope.cancelUpload();
-
-      // Show error message
-      $scope.avatar_error = response.message;
+    $scope.lines = function (text) {
+      if (!text) return;
+      return text.toString().split('\n').length;
     };
 
-    // Change user profile picture
-    $scope.uploadProfilePicture = function () {
-      // Clear messages
-      $scope.avatar_success = $scope.avatar_error = null;
-
-      // Start upload
-      $scope.uploader.uploadAll();
+    $scope.embedCodeCopied = function () {
+      toastr.success('Copied embed code to clipboard');
     };
 
-    // Cancel the upload process
-    $scope.cancelUpload = function () {
-      $scope.uploader.clearQueue();
-      $scope.imageURL = $scope.user.profileImageURL;
-    };
+    $scope.$watch('store.description', function(description) { limitDescriptionLength(description); });
+    $scope.$watch('descriptionCharsLimit', function() { limitDescriptionLength(); });
+    $scope.$watch('accountsService.accounts', loadStore);
+
+    $scope.$watch('store', function (storeInfo) {
+      // propagate store changes to preview iframe
+      PostMessage.send('store.update', storeInfo);
+    }, true);
+
+    init();
+
+    function init() {
+      PostMessage.on('store.initialized', function () {
+        PostMessage.send('store.update', $scope.store);
+      });
+
+      loadStore(accountsService.accounts);
+    }
 
     function updateUserProfile(user) {
       angular.extend($scope.user, user);
       Authentication.user = angular.extend(Authentication.user, user);
       localStorage.setItem('userObject', JSON.stringify(Authentication.user))
+    }
+
+    function initUser(user) {
+      if (!user) return user;
+
+      var result = angular.copy(user);
+      if (!('firstName' in result) && !('lastName' in result)) {
+        var tmp = result.displayName.split(/\s+/);
+        result.firstName = tmp[0];
+        result.lastName = tmp.slice(1).join(' ');
+        delete result.displayName;
+      }
+      return result;
+    }
+
+    function limitDescriptionLength(description) {
+      description = description || $scope.store.description;
+      var descriptionText = $('<div>').html((description || '').trim().replace(/&nbsp;/g, ' ')).text();
+      $scope.descriptionCharsLeft = $scope.descriptionCharsLimit - descriptionText.length;
+      if ($scope.descriptionCharsLeft < 0) {
+        $scope.store.description = descriptionText.substr(0, $scope.descriptionCharsLimit);
+      }
+    }
+
+    function loadStore(accounts) {
+      if (_.isEmpty(accounts)) return;
+
+      var account = _.find(accounts, { accountId: $scope.selectAccountId || $scope.user.accountId });
+      if (!account) return $scope.store = null;
+
+      orderDataService.getAllStores({ accountId: account.accountId }).then(function (stores) {
+        var store = $scope.store = _.find(stores, { accountId: account.accountId }) || {};
+
+        store.storeImg = store.storeImg || account.storeImg;
+        store.details = store.details || {};
+        store.details.workSchedule = initWorkSchedule(store.details.workSchedule);
+        // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true';
+        store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html';
+      });
+    }
+
+    function initWorkSchedule(workSchedule) {
+      workSchedule = workSchedule || {};
+      return $scope.weekdays.map(function (weekday, i) {
+        var day = _.find(workSchedule, { name: weekday });
+        if (!day) return { day: i, name: weekday, open: false, openTime: null, closeTime: null };
+        if (day.openTime) day.openTime = moment.utc(day.openTime).toDate();
+        if (day.closeTime) day.closeTime = moment.utc(day.closeTime).toDate();
+        return day;
+      });
+    }
+
+    function unindent(text) {
+      if (!text) return text;
+      var gIndent = text.match(/^(\s*)/)[0].length;
+      var result = text.split('\n').map(function (line) {
+        var indent = line.match(/^(\s*)/)[0].length;
+        return line.substr(Math.min(gIndent, indent));
+      }).join('\n').trim();
+      return result;
     }
   }
 ]);

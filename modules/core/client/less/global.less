@@ -1,23 +1,27 @@
 .main-content {
   padding-top: 0;
   position: relative;
+}
 
-  @media @large-up {
-    &.top-menu-shown {
-      top: @topnavheight;
-    }
+@media @large-up {
+  .top-main-content;
 
-    &.main-menu-shown {
-      top: @mainnavheight;
-    }
+  .main-content.cardkit-menu-shown {
+    top: @cardkitnavheight;
+  }
+}
 
-    &.main-menu-shown.top-menu-shown {
-      top: @topnavheight + @mainnavheight;
-    }
+.top-main-content(@padding: 0) {
+  .main-content.top-menu-shown & {
+    top: @topnavheight + @padding;
+  }
 
-    &.cardkit-menu-shown {
-      top: @cardkitnavheight;
-    }
+  .main-content.main-menu-shown & {
+    top: @mainnavheight + @padding;
+  }
+
+  .main-content.top-menu-shown.main-menu-shown & {
+    top: @topnavheight + @mainnavheight + @padding;
   }
 }
 
@@ -28,6 +32,18 @@
   content: " ";
   clear: both;
   height: 0;
+}
+
+.hide-xs{
+  @media @small-only {
+    display: none !important;
+  }
+}
+.show-xs{
+  display: none !important;
+  @media @small-only {
+    display: block !important;
+  }
 }
 
 div.custom-btn{
@@ -131,4 +147,11 @@ form.ng-pristine {
 
 body.loading .main-content {
   pointer-events: none;
+}
+
+// Adds an ellipses at the end of overflowing strings
+.ellipsized() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

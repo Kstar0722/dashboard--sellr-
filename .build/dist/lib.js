@@ -46798,4 +46798,167 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
   };
 }]);
 ;
-(function(){"use strict";var e="stripe.checkout";var t="https://checkout.stripe.com/checkout.js";var n={address:["data-address","boolean"],alipay:["data-alipay","boolean-or-auto"],alipayReusable:["data-alipay-reusable","boolean"],allowRememberMe:["data-allow-remember-me","boolean"],amount:["data-amount","number"],billingAddress:["data-billing-address","boolean"],bitcoin:["data-bitcoin","boolean"],currency:["data-currency","string"],description:["data-description","string"],email:["data-email","string"],image:["data-image","string"],key:["data-key","string"],label:["data-label","string"],locale:["data-locale","string"],name:["data-name","string"],panelLabel:["data-panel-label","string"],shippingAddress:["data-shipping-address","boolean"],zipCode:["data-zip-code","boolean"]};var a;if(typeof module!=="undefined"&&typeof module.exports==="object"){a=require("angular");module.exports=e}else{a=window.angular}var o=a.extend;a.module(e,[]).directive("stripeCheckout",r).provider("StripeCheckout",i);r.$inject=["$parse","StripeCheckout"];function r(e,t){return{link:n};function n(n,a,o){var r;t.load().then(function(){r=t.configure(u(a))});a.on("click",function(){if(r)r.open(u(a)).then(function(t){var a=e(o.stripeCheckout)(n);if(typeof a==="function")a.apply(null,t)})})}}function i(){var e={};this.defaults=function(t){o(e,t)};this.load=function(e){return e.load()};this.load.$inject=["StripeCheckout"];this.$get=function(t,n){return new l(t,n,e)};this.$get.$inject=["$document","$q"]}function l(e,t,n){var a={};var r;this.configure=function(e){return new c(t,o({},n,a,e))};this.load=function(){if(!r)r=s(e,t);return r};this.defaults=function(e){o(a,e)}}function c(e,t){var n,a;var r=StripeCheckout.configure(o({},t,{token:function(e,o){if(t.token)t.token(e,o);a=true;n.resolve([e,o])},closed:function(){if(t.closed)t.closed();if(!a)n.reject()}}));this.open=function(t){n=e.defer();a=false;r.open(t);return n.promise};this.close=function(){a=false;r.close();if(t.closed)t.closed();if(n)n.reject()}}function u(e){var t,a,o,r={};for(t in n){if(!n.hasOwnProperty(t))continue;a=n[t];o=d(e.attr(a[0]),a[1]);if(o!=null)r[t]=o}return r}function s(e,n){var a=n.defer();var o=e[0];var r=o.createElement("script");r.src=t;r.onload=function(){a.resolve()};r.onreadystatechange=function(){var e=this.readyState;if(e==="loaded"||e==="complete")a.resolve()};r.onerror=function(){a.reject(new Error("Unable to load checkout.js"))};var i=o.getElementsByTagName("head")[0];i.appendChild(r);return a.promise}function d(e,t){if(t==="boolean"){return e&&e!=="false"}else if(t==="number"){return e&&Number(e)}else if(t==="boolean-or-auto"){if(e==="auto")return e;else return d(e,"boolean")}else{return e}}})();
+(function(){"use strict";var e="stripe.checkout";var t="https://checkout.stripe.com/checkout.js";var n={address:["data-address","boolean"],alipay:["data-alipay","boolean-or-auto"],alipayReusable:["data-alipay-reusable","boolean"],allowRememberMe:["data-allow-remember-me","boolean"],amount:["data-amount","number"],billingAddress:["data-billing-address","boolean"],bitcoin:["data-bitcoin","boolean"],currency:["data-currency","string"],description:["data-description","string"],email:["data-email","string"],image:["data-image","string"],key:["data-key","string"],label:["data-label","string"],locale:["data-locale","string"],name:["data-name","string"],panelLabel:["data-panel-label","string"],shippingAddress:["data-shipping-address","boolean"],zipCode:["data-zip-code","boolean"]};var a;if(typeof module!=="undefined"&&typeof module.exports==="object"){a=require("angular");module.exports=e}else{a=window.angular}var o=a.extend;a.module(e,[]).directive("stripeCheckout",r).provider("StripeCheckout",i);r.$inject=["$parse","StripeCheckout"];function r(e,t){return{link:n};function n(n,a,o){var r;t.load().then(function(){r=t.configure(u(a))});a.on("click",function(){if(r)r.open(u(a)).then(function(t){var a=e(o.stripeCheckout)(n);if(typeof a==="function")a.apply(null,t)})})}}function i(){var e={};this.defaults=function(t){o(e,t)};this.load=function(e){return e.load()};this.load.$inject=["StripeCheckout"];this.$get=function(t,n){return new l(t,n,e)};this.$get.$inject=["$document","$q"]}function l(e,t,n){var a={};var r;this.configure=function(e){return new c(t,o({},n,a,e))};this.load=function(){if(!r)r=s(e,t);return r};this.defaults=function(e){o(a,e)}}function c(e,t){var n,a;var r=StripeCheckout.configure(o({},t,{token:function(e,o){if(t.token)t.token(e,o);a=true;n.resolve([e,o])},closed:function(){if(t.closed)t.closed();if(!a)n.reject()}}));this.open=function(t){n=e.defer();a=false;r.open(t);return n.promise};this.close=function(){a=false;r.close();if(t.closed)t.closed();if(n)n.reject()}}function u(e){var t,a,o,r={};for(t in n){if(!n.hasOwnProperty(t))continue;a=n[t];o=d(e.attr(a[0]),a[1]);if(o!=null)r[t]=o}return r}function s(e,n){var a=n.defer();var o=e[0];var r=o.createElement("script");r.src=t;r.onload=function(){a.resolve()};r.onreadystatechange=function(){var e=this.readyState;if(e==="loaded"||e==="complete")a.resolve()};r.onerror=function(){a.reject(new Error("Unable to load checkout.js"))};var i=o.getElementsByTagName("head")[0];i.appendChild(r);return a.promise}function d(e,t){if(t==="boolean"){return e&&e!=="false"}else if(t==="number"){return e&&Number(e)}else if(t==="boolean-or-auto"){if(e==="auto")return e;else return d(e,"boolean")}else{return e}}})();;
+/*! 
+ * angular-loading-bar v0.9.0
+ * https://chieffancypants.github.io/angular-loading-bar
+ * Copyright (c) 2016 Wes Cruver
+ * License: MIT
+ */
+!function(){"use strict";angular.module("angular-loading-bar",["cfp.loadingBarInterceptor"]),angular.module("chieffancypants.loadingBar",["cfp.loadingBarInterceptor"]),angular.module("cfp.loadingBarInterceptor",["cfp.loadingBar"]).config(["$httpProvider",function(a){var b=["$q","$cacheFactory","$timeout","$rootScope","$log","cfpLoadingBar",function(b,c,d,e,f,g){function h(){d.cancel(j),g.complete(),l=0,k=0}function i(b){var d,e=c.get("$http"),f=a.defaults;!b.cache&&!f.cache||b.cache===!1||"GET"!==b.method&&"JSONP"!==b.method||(d=angular.isObject(b.cache)?b.cache:angular.isObject(f.cache)?f.cache:e);var g=void 0!==d?void 0!==d.get(b.url):!1;return void 0!==b.cached&&g!==b.cached?b.cached:(b.cached=g,g)}var j,k=0,l=0,m=g.latencyThreshold;return{request:function(a){return a.ignoreLoadingBar||i(a)||(e.$broadcast("cfpLoadingBar:loading",{url:a.url}),0===k&&(j=d(function(){g.start()},m)),k++,g.set(l/k)),a},response:function(a){return a&&a.config?(a.config.ignoreLoadingBar||i(a.config)||(l++,e.$broadcast("cfpLoadingBar:loaded",{url:a.config.url,result:a}),l>=k?h():g.set(l/k)),a):(f.error("Broken interceptor detected: Config object not supplied in response:\n https://github.com/chieffancypants/angular-loading-bar/pull/50"),a)},responseError:function(a){return a&&a.config?(a.config.ignoreLoadingBar||i(a.config)||(l++,e.$broadcast("cfpLoadingBar:loaded",{url:a.config.url,result:a}),l>=k?h():g.set(l/k)),b.reject(a)):(f.error("Broken interceptor detected: Config object not supplied in rejection:\n https://github.com/chieffancypants/angular-loading-bar/pull/50"),b.reject(a))}}}];a.interceptors.push(b)}]),angular.module("cfp.loadingBar",[]).provider("cfpLoadingBar",function(){this.autoIncrement=!0,this.includeSpinner=!0,this.includeBar=!0,this.latencyThreshold=100,this.startSize=.02,this.parentSelector="body",this.spinnerTemplate='<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>',this.loadingBarTemplate='<div id="loading-bar"><div class="bar"><div class="peg"></div></div></div>',this.$get=["$injector","$document","$timeout","$rootScope",function(a,b,c,d){function e(){if(k||(k=a.get("$animate")),c.cancel(m),!r){var e=b[0],g=e.querySelector?e.querySelector(n):b.find(n)[0];g||(g=e.getElementsByTagName("body")[0]);var h=angular.element(g),i=g.lastChild&&angular.element(g.lastChild);d.$broadcast("cfpLoadingBar:started"),r=!0,v&&k.enter(o,h,i),u&&k.enter(q,h,o),f(w)}}function f(a){if(r){var b=100*a+"%";p.css("width",b),s=a,t&&(c.cancel(l),l=c(function(){g()},250))}}function g(){if(!(h()>=1)){var a=0,b=h();a=b>=0&&.25>b?(3*Math.random()+3)/100:b>=.25&&.65>b?3*Math.random()/100:b>=.65&&.9>b?2*Math.random()/100:b>=.9&&.99>b?.005:0;var c=h()+a;f(c)}}function h(){return s}function i(){s=0,r=!1}function j(){k||(k=a.get("$animate")),d.$broadcast("cfpLoadingBar:completed"),f(1),c.cancel(m),m=c(function(){var a=k.leave(o,i);a&&a.then&&a.then(i),k.leave(q)},500)}var k,l,m,n=this.parentSelector,o=angular.element(this.loadingBarTemplate),p=o.find("div").eq(0),q=angular.element(this.spinnerTemplate),r=!1,s=0,t=this.autoIncrement,u=this.includeSpinner,v=this.includeBar,w=this.startSize;return{start:e,set:f,status:h,inc:g,complete:j,autoIncrement:this.autoIncrement,includeSpinner:this.includeSpinner,latencyThreshold:this.latencyThreshold,parentSelector:this.parentSelector,startSize:this.startSize}}]})}();;
+!function(a,b){"use strict";function c(){
+// General buffering handler
+function b(a){return function(){k.waitForVendorCount&&(j[a]||(j[a]=[]),j[a].push(arguments))}}
+// As handlers are installed by plugins, they get pushed into a list and invoked in order.
+function c(b,c,d){return l[b]||(l[b]=[]),l[b].push(c),m[c]=d,function(){var c=Array.prototype.slice.apply(arguments);return this.$inject(["$q",a.bind(this,function(d){return d.all(l[b].map(function(b){var e=m[b]||{};if(e.async){var f=d.defer(),g=a.copy(c);return g.unshift(f.resolve),b.apply(this,g),f.promise}return d.when(b.apply(this,c))},this))})])}}
+// Will run setTimeout if delay is > 0
+// Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
+// Plugins should take care to register handlers by order of precedence.
+function d(a,b){b?setTimeout(a,b):a()}
+// General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
+function e(b,e,f){
+// Do not add a handler if developerMode is true
+if(!h.developerMode){n[b]=c(b,e,f);var g=h[b],i=g?g.bufferFlushDelay:null,k=null!==i?i:h.bufferFlushDelay;a.forEach(j[b],function(a,b){d(function(){e.apply(this,a)},b*k)})}}function f(a){return a.replace(/^./,function(a){return a.toUpperCase()})}
+// Adds to the provider a 'register#{handlerName}' function that manages multiple plugins and buffer flushing.
+function g(a){var d="register"+f(a);o[d]=function(b,c){e(a,b,c)},n[a]=c(a,b(a))}var h={pageTracking:{autoTrackFirstPage:!0,autoTrackVirtualPages:!0,trackRelativePath:!1,autoBasePath:!1,basePath:"",excludedRoutes:[]},eventTracking:{},bufferFlushDelay:1e3,// Support only one configuration for buffer flush delay to simplify buffering
+trackExceptions:!1,developerMode:!1},i=["pageTrack","eventTrack","exceptionTrack","setAlias","setUsername","setUserProperties","setUserPropertiesOnce","setSuperProperties","setSuperPropertiesOnce","incrementProperty","userTimings"],j={},l={},m={},n={settings:h},o={$get:["$injector",function(a){return p(a)}],api:n,settings:h,virtualPageviews:function(a){this.settings.pageTracking.autoTrackVirtualPages=a},excludeRoutes:function(a){this.settings.pageTracking.excludedRoutes=a},firstPageview:function(a){this.settings.pageTracking.autoTrackFirstPage=a},withBase:function(b){this.settings.pageTracking.basePath=b?a.element(document).find("base").attr("href"):""},withAutoBase:function(a){this.settings.pageTracking.autoBasePath=a},trackExceptions:function(a){this.settings.trackExceptions=a},developerMode:function(a){this.settings.developerMode=a}},p=function(b){return a.extend(n,{$inject:b.invoke})};
+// Set up register functions for each known handler
+a.forEach(i,g);for(var q in o)this[q]=o[q]}function d(b,c,d,e){function f(a){for(var b=0;b<d.settings.pageTracking.excludedRoutes.length;b++){var c=d.settings.pageTracking.excludedRoutes[b];if(c instanceof RegExp&&c.test(a)||a.indexOf(c)>-1)return!0}return!1}function g(a,b){f(a)||d.pageTrack(a,b)}d.settings.pageTracking.autoTrackFirstPage&&e.invoke(["$location",function(a){/* Only track the 'first page' if there are no routes or states on the page */
+var b=!0;if(e.has("$route")){var f=e.get("$route");if(f)for(var h in f.routes){b=!1;break}else null===f&&(b=!1)}else if(e.has("$state")){var i=e.get("$state");for(var j in i.get()){b=!1;break}}if(b)if(d.settings.pageTracking.autoBasePath&&(d.settings.pageTracking.basePath=c.location.pathname),d.settings.pageTracking.trackRelativePath){var k=d.settings.pageTracking.basePath+a.url();g(k,a)}else g(a.absUrl(),a)}]),d.settings.pageTracking.autoTrackVirtualPages&&e.invoke(["$location",function(a){d.settings.pageTracking.autoBasePath&&(/* Add the full route to the base. */
+d.settings.pageTracking.basePath=c.location.pathname+"#");var f=!0;if(e.has("$route")){var h=e.get("$route");if(h)for(var i in h.routes){f=!1;break}else null===h&&(f=!1);b.$on("$routeChangeSuccess",function(b,c){if(!c||!(c.$$route||c).redirectTo){var e=d.settings.pageTracking.basePath+a.url();g(e,a)}})}e.has("$state")&&!e.has("$transitions")&&(f=!1,b.$on("$stateChangeSuccess",function(b,c){var e=d.settings.pageTracking.basePath+a.url();g(e,a)})),e.has("$state")&&e.has("$transitions")&&(f=!1,e.invoke(["$transitions",function(b){b.onSuccess({},["$transition$",function(b){var c=b.options();
+// only track for transitions that would have triggered $stateChangeSuccess
+if(c.notify){var e=d.settings.pageTracking.basePath+a.url();g(e,a)}}])}])),f&&b.$on("$locationChangeSuccess",function(b,c){if(!c||!(c.$$route||c).redirectTo)if(d.settings.pageTracking.trackRelativePath){var e=d.settings.pageTracking.basePath+a.url();g(e,a)}else g(a.absUrl(),a)})}]),d.settings.developerMode&&a.forEach(d,function(a,b){"function"==typeof a&&(d[b]=function(){})})}function e(b){return{restrict:"A",link:function(c,d,e){var f=e.analyticsOn||"click",g={};a.forEach(e.$attr,function(a,b){i(b)&&(g[j(b)]=e[b],e.$observe(b,function(a){g[j(b)]=a}))}),a.element(d[0]).bind(f,function(f){var i=e.analyticsEvent||h(d[0]);g.eventType=f.type,e.analyticsIf&&!c.$eval(e.analyticsIf)||(
+// Allow components to pass through an expression that gets merged on to the event properties
+// eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties'
+e.analyticsProperties&&a.extend(g,c.$eval(e.analyticsProperties)),b.eventTrack(i,g))})}}}function f(a){a.decorator("$exceptionHandler",["$delegate","$injector",function(a,b){return function(c,d){var e=a(c,d),f=b.get("$analytics");return f.settings.trackExceptions&&f.exceptionTrack(c,d),e}}])}function g(a){return["a:","button:","button:button","button:submit","input:button","input:submit"].indexOf(a.tagName.toLowerCase()+":"+(a.type||""))>=0}function h(a){return g(a)?a.innerText||a.value:a.id||a.name||a.tagName}function i(a){return"analytics"===a.substr(0,9)&&["On","Event","If","Properties","EventType"].indexOf(a.substr(9))===-1}function j(a){var b=a.slice(9);// slice off the 'analytics' prefix
+// slice off the 'analytics' prefix
+return"undefined"!=typeof b&&null!==b&&b.length>0?b.substring(0,1).toLowerCase()+b.substring(1):b}var k=window.angulartics||(window.angulartics={});k.waitForVendorCount=0,k.waitForVendorApi=function(a,b,c,d,e){e||k.waitForVendorCount++,d||(d=c,c=void 0),!Object.prototype.hasOwnProperty.call(window,a)||void 0!==c&&void 0===window[a][c]?setTimeout(function(){k.waitForVendorApi(a,b,c,d,!0)},b):(k.waitForVendorCount--,d(window[a]))},/**
+ * @ngdoc overview
+ * @name angulartics
+ */
+a.module("angulartics",[]).provider("$analytics",c).run(["$rootScope","$window","$analytics","$injector",d]).directive("analyticsOn",["$analytics",e]).config(["$provide",f])}(angular);;
+!function(a){"use strict";/**
+ * @ngdoc overview
+ * @name angulartics.gosquared
+ * Enables analytics support for GoSquared (https://www.gosquared.com)
+ */
+a.module("angulartics.gosquared",["angulartics"]).config(["$analyticsProvider",function(a){a.settings.pageTracking.trackRelativePath=!0,
+// Set the default settings for this module
+a.settings.gosquared={
+// Whether to send person details along with events.
+sendPersonDetailsWithEvents:!1},angulartics.waitForVendorApi("_gs",500,function(b){a.registerPageTrack(function(a){b("track")})}),/**
+   * Track Event in GoSquared
+   * @name eventTrack
+   *
+   * @param {string} action Required 'action' (string) associated with the event
+   * @param {object} properties
+   *
+   * @link https://www.gosquared.com/docs/tracking/events/
+   */
+angulartics.waitForVendorApi("_gs",500,function(b){a.registerEventTrack(function(c,d){d.details=a.settings.gosquared.sendPersonDetailsWithEvents,b("event",c,d)})}),/**
+   * Identify a User in GoSquared
+   * @name eventTrack
+   *
+   * @param {object} properties
+   *
+   * @link https://www.gosquared.com/docs/tracking/identify/
+   */
+angulartics.waitForVendorApi("_gs",500,function(b){a.registerSetUserProperties(function(a){b("identify",a)})}),/**
+   * Identify a User in GoSquared
+   * @name eventTrack
+   *
+   * @param {object} properties
+   *
+   * @link https://www.gosquared.com/docs/tracking/identify/
+   */
+angulartics.waitForVendorApi("_gs",500,function(b){a.registerSetUserPropertiesOnce(function(a){b("identify",a)})})}])}(angular);;
+/*!
+* angular-post-message v1.4.0
+* Copyright 2016 Kyle Welsby <kyle@mekyle.com>
+* Licensed under The MIT License
+*/
+(function(){"use strict";var a;a=angular.module("ngPostMessage",["ng"]),a.run(["$window","$postMessage","$rootScope",function(a,b,c){c.$on("$messageOutgoing",function(b,d,e){var f;return null==e&&(e="*"),f=c.sender||a.parent,f.postMessage(d,e)}),angular.element(a).bind("message",function(a){var d;if(a=a.originalEvent||a,a&&a.data){d=null,c.sender=a.source;try{d=angular.fromJson(a.data)}catch(e){d={},d.text=a.data}return d.origin=a.origin,c.$root.$broadcast("$messageIncoming",d),b.messages(d)}})}]),a.factory("$postMessage",["$rootScope",function(a){var b,c;return b=[],c={messages:function(c){return c&&(b.push(c),a.$digest()),b},lastMessage:function(){return b[b.length-1]},post:function(b,c){return c||(c="*"),a.$broadcast("$messageOutgoing",b,c)}}}])}).call(this);;
+(function (root, factory) {
+    /* istanbul ignore next */
+    if (typeof define === 'function' && define.amd) {
+        define(['angular'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = factory(require('angular'));
+    } else {
+        root.angularClipboard = factory(root.angular);
+  }
+}(this, function (angular) {
+
+return angular.module('angular-clipboard', [])
+    .factory('clipboard', ['$document', '$window', function ($document, $window) {
+        function createNode(text, context) {
+            var node = $document[0].createElement('textarea');
+            node.style.position = 'absolute';
+            node.textContent = text;
+            node.style.left = '-10000px';
+            node.style.top = ($window.pageYOffset || $document[0].documentElement.scrollTop) + 'px';
+            return node;
+        }
+
+        function copyNode(node) {
+            try {
+                // Set inline style to override css styles
+                $document[0].body.style.webkitUserSelect = 'initial';
+
+                var selection = $document[0].getSelection();
+                selection.removeAllRanges();
+                node.select();
+
+                if(!$document[0].execCommand('copy')) {
+                    throw('failure copy');
+                }
+                selection.removeAllRanges();
+            } finally {
+                // Reset inline style
+                $document[0].body.style.webkitUserSelect = '';
+            }
+        }
+
+        function copyText(text, context) {
+            var node = createNode(text, context);
+            $document[0].body.appendChild(node);
+            copyNode(node);
+            $document[0].body.removeChild(node);
+        }
+
+        return {
+            copyText: copyText,
+            supported: 'queryCommandSupported' in $document[0] && $document[0].queryCommandSupported('copy')
+        };
+    }])
+    .directive('clipboard', ['clipboard', function (clipboard) {
+        return {
+            restrict: 'A',
+            scope: {
+                onCopied: '&',
+                onError: '&',
+                text: '=',
+                supported: '=?'
+            },
+            link: function (scope, element) {
+                scope.supported = clipboard.supported;
+
+                element.on('click', function (event) {
+                    try {
+                        clipboard.copyText(scope.text, element[0]);
+                        if (angular.isFunction(scope.onCopied)) {
+                            scope.$evalAsync(scope.onCopied());
+                        }
+                    } catch (err) {
+                        if (angular.isFunction(scope.onError)) {
+                            scope.$evalAsync(scope.onError({err: err}));
+                        }
+                    }
+                });
+            }
+        };
+    }]);
+
+}));
+;
+!function(t){"use strict";t.module("ng-autofocus",[]).directive("autofocus",["$timeout",function(t){return{restrict:"A",link:function(u,n){t(function(){n[0].focus()})}}}])}(angular);

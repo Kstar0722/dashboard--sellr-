@@ -128,13 +128,16 @@
 
             <div class="row">
                 <div class="btn-group" role="group" ng-show="permissions.curator && mergeService.newProduct.status ==='done'">
-                    <button class="btn " type="button" style="background-color:#C52424" data-toggle="modal" data-target="#sendback">Send Back</button>
+                    <button class="btn btn-send-back" type="button" data-toggle="modal" data-target="#sendback">Send Back</button>
                     <button class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve</button>
                 </div>
             </div>
             <div class="row">
                 <div class="pull-right">
                     <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-info" ng-show="mergeService.newProduct.status != 'new'"
+                                ng-click="markAsNew(mergeService.newProduct)">Mark as New</button>
+
                         <button class="btn btn-info" type="button" ng-show="mergeService.newProduct.status==='inprogress'" data-toggle="modal"
                         data-target="#submitforapproval">Mark as Done
                     </button>

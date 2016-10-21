@@ -14,20 +14,27 @@ angular.module('users').config([ '$stateProvider',
         }
       })
       .state('settings', {
-        abstract: true,
-        url: '/settings',
+        url: '/account/:accountId?',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        // data: {
-        //   roles: ['user', 'admin']
-        // }
+        controller: function($state, $stateParams, $timeout) {
+          if ($state.is('settings')) {
+            $timeout(function () {
+              $state.go('settings.profile', $stateParams);
+            });
+          }
+        }
       })
       .state('settings.profile', {
         url: '/profile',
-        templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
+        templateUrl: 'modules/users/client/views/settings/my-profile.client.view.html'
       })
-      .state('settings.password', {
-        url: '/password',
-        templateUrl: 'modules/users/client/views/settings/change-password.client.view.html'
+      .state('settings.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
+      })
+      .state('editProfile', {
+        url: '/profile',
+        templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
       })
       .state('settings.accounts', {
         url: '/accounts',
@@ -36,6 +43,10 @@ angular.module('users').config([ '$stateProvider',
       .state('settings.picture', {
         url: '/picture',
         templateUrl: 'modules/users/client/views/settings/change-profile-picture.client.view.html'
+      })
+      .state('productsUploader', {
+        url: '/products/:accountId?',
+        templateUrl: 'modules/users/client/views/admin/products-uploader.client.view.html'
       })
       .state('authentication', {
         abstract: true,

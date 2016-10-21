@@ -1,0 +1,163 @@
+<section class="adsManager" >
+  <div class="ads-column">
+    <div class="upload-container">
+      <div class="upload" ng-click="newAd()"><i class="fa fa-plus"></i> upload</div>
+    </div>
+    <div class="ad-container" ng-repeat="ad in allAds track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))">
+      <div class="ad" ng-click="editAd(ad)">
+        <iframe class="ad-video-iframe" ng-if="ad.type === 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + ad.value + '?controls=0&iv_load_policy=3&showinfo=0&showinfo=0' | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <iframe class="ad-video-iframe" ng-if="ad.type === 'vimeo'" ng-src="{{'https://player.vimeo.com/video/' + ad.value | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <div class="ad-image" ng-if="ad.type === 'image'" style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value}});">
+        </div>
+        <video  class='ad-video' ng-if="ad.type === 'video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value | trustUrl }}" frameBorder="2" allowfullscreen="true">
+        </video>
+        <div class="ad-name" ng-bind="ad.name || ad.filename">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="toggle-all-column">
+    <div class="toggle-all-header" ng-if="!isEmpty(allAds)"><div>Toggle<br/>all slots</div></div>
+    <div class="toggle-all-times" ng-repeat="ad in allAds track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))"><div ng-click="toggleAllSlots(ad)" ng-class="getToggleAllSlotsClass(ad)"></div></div>
+  </div>
+  <div class="schedule-column">
+    <div class="schedule-header-empty" ng-if="isEmpty(allAds)">
+      <div>No Ads uploaded yet</div>
+    </div>
+    <div class="schedule-header" ng-if="!isEmpty(allAds)">
+      <div class="filters">
+        <div ng-class="['filter', {active: contains(filters, 'portrait')}]" ng-click="applyFilter('portrait')">
+          <img src="/modules/users/client/img/portrait-tv.svg" alt="portrait">
+          <div>Portrait</div>
+        </div>
+        <div ng-class="['filter', {active: contains(filters, 'landscape')}]" ng-click="applyFilter('landscape')">
+          <img src="/modules/users/client/img/landscape-tv.svg" alt="landscape-tv">
+          <div>Landscape</div>
+        </div>
+        <div ng-class="['filter', {active: contains(filters, 'tablet')}]" ng-click="applyFilter('tablet')">
+          <img src="/modules/users/client/img/tablet.svg" alt="tablets">
+          <div>Tablets</div>
+        </div>
+      </div>
+      <div class="times-header">
+        <div>8AM</div>
+        <div></div>
+        <div>9AM</div>
+        <div></div>
+        <div>10AM</div>
+        <div></div>
+        <div>11AM</div>
+        <div></div>
+        <div>NOON</div>
+        <div></div>
+        <div>1PM</div>
+        <div></div>
+        <div>2PM</div>
+        <div></div>
+        <div>3PM</div>
+        <div></div>
+        <div>4PM</div>
+        <div></div>
+        <div>5PM</div>
+        <div></div>
+        <div>6PM</div>
+        <div></div>
+        <div>7PM</div>
+        <div></div>
+        <div>8PM</div>
+        <div></div>
+        <div>9PM</div>
+        <div></div>
+        <div>10PM</div>
+        <div></div>
+        <div>11PM</div>
+        <div></div>
+        <div class="overnight">12-8AM</div>
+      </div>
+    </div>
+    <!-- REPEATER -->
+    <div class="schedule-times" ng-repeat="ad in allAds track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))">
+      <div ng-click="toggleSlot(ad,'0800')" ng-class="{active: contains(ad.schedule, '0800')}"></div>
+      <div ng-click="toggleSlot(ad,'0830')" ng-class="{active: contains(ad.schedule, '0830')}"></div>
+      <div ng-click="toggleSlot(ad,'0900')" ng-class="{active: contains(ad.schedule, '0900')}"></div>
+      <div ng-click="toggleSlot(ad,'0930')" ng-class="{active: contains(ad.schedule, '0930')}"></div>
+      <div ng-click="toggleSlot(ad,'1000')" ng-class="{active: contains(ad.schedule, '1000')}"></div>
+      <div ng-click="toggleSlot(ad,'1030')" ng-class="{active: contains(ad.schedule, '1030')}"></div>
+      <div ng-click="toggleSlot(ad,'1100')" ng-class="{active: contains(ad.schedule, '1100')}"></div>
+      <div ng-click="toggleSlot(ad,'1130')" ng-class="{active: contains(ad.schedule, '1130')}"></div>
+      <div ng-click="toggleSlot(ad,'1200')" ng-class="{active: contains(ad.schedule, '1200')}"></div>
+      <div ng-click="toggleSlot(ad,'1230')" ng-class="{active: contains(ad.schedule, '1230')}"></div>
+      <div ng-click="toggleSlot(ad,'1300')" ng-class="{active: contains(ad.schedule, '1300')}"></div>
+      <div ng-click="toggleSlot(ad,'1330')" ng-class="{active: contains(ad.schedule, '1330')}"></div>
+      <div ng-click="toggleSlot(ad,'1400')" ng-class="{active: contains(ad.schedule, '1400')}"></div>
+      <div ng-click="toggleSlot(ad,'1430')" ng-class="{active: contains(ad.schedule, '1430')}"></div>
+      <div ng-click="toggleSlot(ad,'1500')" ng-class="{active: contains(ad.schedule, '1500')}"></div>
+      <div ng-click="toggleSlot(ad,'1530')" ng-class="{active: contains(ad.schedule, '1530')}"></div>
+      <div ng-click="toggleSlot(ad,'1600')" ng-class="{active: contains(ad.schedule, '1600')}"></div>
+      <div ng-click="toggleSlot(ad,'1630')" ng-class="{active: contains(ad.schedule, '1630')}"></div>
+      <div ng-click="toggleSlot(ad,'1700')" ng-class="{active: contains(ad.schedule, '1700')}"></div>
+      <div ng-click="toggleSlot(ad,'1730')" ng-class="{active: contains(ad.schedule, '1730')}"></div>
+      <div ng-click="toggleSlot(ad,'1800')" ng-class="{active: contains(ad.schedule, '1800')}"></div>
+      <div ng-click="toggleSlot(ad,'1830')" ng-class="{active: contains(ad.schedule, '1830')}"></div>
+      <div ng-click="toggleSlot(ad,'1900')" ng-class="{active: contains(ad.schedule, '1900')}"></div>
+      <div ng-click="toggleSlot(ad,'1930')" ng-class="{active: contains(ad.schedule, '1930')}"></div>
+      <div ng-click="toggleSlot(ad,'2000')" ng-class="{active: contains(ad.schedule, '2000')}"></div>
+      <div ng-click="toggleSlot(ad,'2030')" ng-class="{active: contains(ad.schedule, '2030')}"></div>
+      <div ng-click="toggleSlot(ad,'2100')" ng-class="{active: contains(ad.schedule, '2100')}"></div>
+      <div ng-click="toggleSlot(ad,'2130')" ng-class="{active: contains(ad.schedule, '2130')}"></div>
+      <div ng-click="toggleSlot(ad,'2200')" ng-class="{active: contains(ad.schedule, '2200')}"></div>
+      <div ng-click="toggleSlot(ad,'2230')" ng-class="{active: contains(ad.schedule, '2230')}"></div>
+      <div ng-click="toggleSlot(ad,'2300')" ng-class="{active: contains(ad.schedule, '2300')}"></div>
+      <div ng-click="toggleSlot(ad,'2330')" ng-class="{active: contains(ad.schedule, '2330')}"></div>
+      <div ng-click="toggleSlot(ad,'overnight')" ng-class="['overnight', {active: contains(ad.schedule, 'overnight')}]"></div>
+    </div>
+  </div>
+  <div ng-class="['modalDialog', {active: openEditModal}]">
+    <div class="modal-container">
+      <div class="modal-header">
+        <input type="text" class="ad-title" placeholder="Title of ad here" ng-model="modalAd.name">
+        <div class="save" ng-click="saveAd()">Save</div>
+      </div>
+      <div class="media-box">
+        <div class="controls" ng-if="modalAd.noMedia">
+          <div>
+            <button class="upload" type="file" ngf-select="uploadAd($file)" ngf-multiple="false" ngf-accept="'.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm'" ngf-pattern="'.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm'">
+            upload media
+            </button>
+          </div>
+          <input type="text" class="video-link" placeholder="or, paste a video url from youtube, or vimeo" ng-model="modalAd.videoLink">
+          <div>
+            <span class="fetch" ng-click="fetchVideoLink()">fetch video</span>
+          </div>
+        </div>
+        <iframe class="ad-video-iframe" ng-if="modalAd.type == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + modalAd.value + '?iv_load_policy=3&showinfo=0' | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <iframe class="ad-video-iframe" ng-if="modalAd.type === 'vimeo'" ng-src="{{'https://player.vimeo.com/video/' + modalAd.value | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <div class="ad-image" ng-if="modalAd.type === 'image'" style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + modalAd.value}});">
+        </div>
+        <video class='ad-video' controls autoplay autostart ng-if="modalAd.type === 'video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + modalAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true">
+        </video>
+        <div class="delete-icon" ng-if="!modalAd.new" ng-click="deleteAd(modalAd.id, true)">
+          <i class="fa fa-trash"></i>
+        </div>
+      </div>
+      <div class="target-devices">Target Device</div>
+      <div class="modal-filters">
+        <div class="filters">
+          <div ng-class="['filter', {active: contains(modalAd.target, 'portrait')}]" ng-click="modifyTarget('portrait')">
+            <img src="/modules/users/client/img/portrait-tv.svg" alt="portrait">
+            <div>Portrait</div>
+          </div>
+          <div ng-class="['filter', {active: contains(modalAd.target, 'landscape')}]" ng-click="modifyTarget('landscape')">
+            <img src="/modules/users/client/img/landscape-tv.svg" alt="landscape-tv">
+            <div>Landscape</div>
+          </div>
+          <div ng-class="['filter', {active: contains(modalAd.target, 'tablet')}]" ng-click="modifyTarget('tablet')">
+            <img src="/modules/users/client/img/tablet.svg" alt="tablets">
+            <div>Tablets</div>
+          </div>
+        </div>
+        <div class="cancel" ng-click="cancelModal()">cancel</div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+{% extends 'layout.server.view.html' %}
+
+<!-- CONTENT BLOCK -->
+
+{% block content %}
+<header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
+<section ui-view class="main-content loading-bar-container" ng-class="{ 'main-menu-shown': $root.selectAccountId && $mdMedia('gt-sm'), 'top-menu-shown': renderTopMenu, 'cardkit-menu-shown': $state.current.public }">
+</section>
+{% endblock %}
+
+
+
+<!-- STYLES BLOCK -->
+
+{% block head %}
+
+{% for cssFile in cssFiles %}
+<link rel="stylesheet" href="{{cssFile}}">
+{% endfor %}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<!--<script type="text/javascript">getUser()</script>-->
+
+<!-- External Font Libraries
+... because apparently it's too much to ask for two fonts to be in the same host... using Fonts.com for Avenir and typekit for Brandon Grotesque... can't we all just get along?? -->
+<link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/3b9063a6-07ec-42c2-ba02-c5e29f5b29f7.css"/>
+<script src="https://use.typekit.net/pij4hyr.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+{% block extraStyles %}
+{% endblock %}
+
+{% endblock %}
+
+
+
+<!-- SCRIPTS BLOCK -->
+
+{% block bodyend %}
+    <script type="text/javascript">
+        window.user = {{user | json | safe}};
+        window.appSettings = {{ appSettings | json | safe }};
+    </script>
+
+    {% for jsFile in jsFiles %}
+    <script type="text/javascript" src="{{jsFile}}"></script>
+    {% endfor %}
+
+    {% block extraScripts %}
+    {% endblock %}
+
+{% endblock %}

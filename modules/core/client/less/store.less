@@ -2,8 +2,31 @@
     margin: 20px auto 40px;
     font-size: 16px;
     color: @black-text;
+    .filter-store{
+        padding: 20px;
+        md-input-container{
+            min-width: 350px;            
+        }
+        @media @small-only {
+            text-align: left;
+            md-input-container{
+                min-width: 280px;
+                width: 280px;
+            }
+        }
+    }
     .orders-container {
         text-align: center;
+        @media @small-only {
+            min-width: 800px;
+            overflow-x: auto;
+            .orders-header,
+            .orders-body {
+                font-size: 12px;
+                word-wrap: break-word;
+                margin: 0px 5px;
+            }
+        }
     }
     .orders-header {
         text-align: left;
@@ -136,14 +159,17 @@
         line-height: 25px;
         min-height: initial;
         text-transform: none;
-
+        padding: 10px 20px;
         &.upload-csv {
             background: @med-grey;
             color: @white;
+            @media @small-only {
+                width: 100%;
+            }
         }
     }
 
-    .header {
+    .store-header {
         border-bottom: 1px solid @med-grey;
         margin-bottom: 40px;
         padding: 0 10vw 10px;
@@ -166,41 +192,38 @@
         }
 
         .md-button {
-            background: @med-grey;
+            background: @med-grey !important;
             color: @white;
 
             &.green {
-                background: @sellrgreen;
-                border: 1px solid @sellrgreen;
+                background: @green !important;
+                border: 1px solid @green;
             }
 
             &.cancel {
-                background: transparent;
+                background: transparent !important;
                 border: 1px solid @med-grey;
                 color: @med-grey;
                 float: left;
             }
 
             &.next {
-                background: @sellrgreen;
+                background: @green !important;
                 float: right;
             }
 
             &[disabled] {
-                background: @light-grey;
+                background: @light-grey !important;
             }
         }
 
         .toolbar {
             margin: 40px -8px;
-
-            .md-button {
-                padding: 2px 15px;
-            }
         }
 
         .upload-file {
             text-align: center;
+            
 
             h2, h3 {
                 color: #9e9e9e;
@@ -256,10 +279,17 @@
             }
 
             .column-mapping {
+                @media @small-only {
+                    text-align: center;
+                }
+
                 > * {
                     display: inline-block;
                     height: 30px;
                     margin-bottom: 10px;
+                    @media @small-only {
+                        margin-bottom: 0px;
+                    }
                 }
 
                 .col-name {
@@ -267,16 +297,27 @@
                     position: relative;
                     text-align: center;
                     top: -5px;
+                    @media @small-only {
+                        top: 0px;
+                        width: 100%;
+                        margin-top: 30px;
+                    }
                 }
 
                 i.fa {
                     margin-right: 20px;
+                    @media @small-only {
+                        margin: 0px auto;
+                    }
                 }
 
                 .selectize-control {
                     top: 2px;
                     width: 200px;
-
+                    @media @small-only {
+                        top: 0px;
+                        width: 100%;
+                    }
                     .selectize-input {
                         padding: 4px;
                     }
@@ -299,6 +340,14 @@
                 }
             }
         }
+        
+        .upload-file, 
+        .configure, 
+        .confirm {
+            @media @small-only {
+                padding: 40px 10px;
+            }
+        }
 
         &[disabled] {
             cursor: progress;
@@ -316,5 +365,5 @@
     .products-popup {
       margin-left: 100px;
       margin-top: -10px;
-    }
+  }
 }

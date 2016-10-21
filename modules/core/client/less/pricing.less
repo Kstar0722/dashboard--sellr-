@@ -12,6 +12,11 @@
       font-size: 50px;
       line-height: 150px;
       color: #999;
+      @media @small-only {
+        text-align: center;
+        width: 100%;
+        margin: 0 auto;
+      }
     }
   }
   .pccol {
@@ -19,6 +24,9 @@
     float: left;
     padding: 3vh 1.5vw;
     text-align: center;
+    @media @small-only {
+      width: 95%;
+    }
 
     h1 {
       font-size: 80px;
@@ -63,6 +71,9 @@
         &.remove {
           background: #B2B2B2;
           margin-right: 10px;
+          @media @small-only {
+            margin-right: 3px;
+          }
         }
       }
 
@@ -74,9 +85,16 @@
     background: #313131;
     display: table;
     width: 100%;
-
-    color: White;
-
+    color: #fff;
+    @media @small-only {
+      text-align: center;
+    }
+    button{
+      @media @small-only {
+        width: 95%;
+        margin: 20px auto;
+      }
+    }
     .discount {
       float: right;
       color: #333;
