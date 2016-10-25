@@ -89,7 +89,6 @@ angular.module('users').service('uploadService', function ($http, constants, toa
               }
             }
             bucketUpload(creds, params).then(function (err, res) {
-              this.determinateValue = 0
               var updateMedia = {
                 payload: {
                   mediaAssetId: mediaAssetId,
