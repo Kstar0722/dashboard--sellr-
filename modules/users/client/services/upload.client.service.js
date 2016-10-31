@@ -60,7 +60,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
       cfpLoadingBar.start();
 
       return createMedia(mediaConfig, { name: blob.filename }).then(function (media) {
-        return storeFile(blob, { path: mediaConfig.folder + '/' + media.fileName })
+        return storeFile(blob, { path: mediaConfig.folder + '/' + media.assetId + '-' + media.fileName })
           .then(null, null, defer.notify) // report uploading progress
           .then(function (url) {
             return updateMedia(media, url);
