@@ -163,6 +163,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     _.forEach(columns, function (c) {
       resetColumnState(c);
       c.unmatched = false;
+      c.skipped = true;
     });
 
     populateMappingDropdowns($scope.csv.columns)
@@ -257,6 +258,8 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
     return $scope.importView = step;
   }
+
+  $scope.$watch('importView', $scope.initStep);
 
   $scope.filteringAllowed = function(column) {
     if (!column.mapping) return false;
