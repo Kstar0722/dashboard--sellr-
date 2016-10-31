@@ -217,8 +217,7 @@ module.exports = function (grunt) {
       },
       karma: {
         files: [
-          { src: 'karma.conf.js', dest: '_karma.conf.js' },
-          { expand: true, cwd: '.build/dist', src: '*', dest: 'public/dist' }
+          { src: 'karma.conf.js', dest: '_karma.conf.js' }
         ]
       }
     },
