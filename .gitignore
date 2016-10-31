@@ -19,4 +19,5 @@ public/fw/prepros.cfg
 /test/*.xml
 
 public/build
+.build
 .dist
