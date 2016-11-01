@@ -48,7 +48,7 @@
                 <label>Search:</label>
                 <input type="text" ng-model="search.text" ng-autofocus="true">
               </md-input-container>
-              <md-menu-item ng-repeat="account in accountsService.accounts | filter:search.text | orderBy:['name', 'address']" ng-click="$root.selectAccountId = account.accountId; mobileMenuActive.open = false;">
+              <md-menu-item ng-repeat="account in accountsService.accounts | filter:search.text | orderBy:['name', 'address']" ng-click="changeAccount(account)">
                 <span>{{ account.name }}</span>
                 <span ng-if="account.address">: {{account.address }}</span>
               </md-menu-item>
