@@ -91,12 +91,12 @@
     "validator": "^3.41.2"
   },
   "devDependencies": {
-    "grunt-concurrent": "^2.3.1",
     "coveralls": "^2.11.4",
     "cz-conventional-changelog": "^1.2.0",
     "debug": "^2.2.0",
     "diff": "^2.2.3",
     "eslint": "^3.1.1",
+    "grunt-concurrent": "^2.3.1",
     "karma": "~0.12.37",
     "karma-bamboo-reporter": "^0.1.2",
     "karma-chrome-launcher": "~0.2.0",
@@ -106,6 +106,7 @@
     "karma-junit-reporter": "^1.0.0",
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.2.3",
+    "karma-spec-reporter": "0.0.26",
     "mock-fs": "~3.4.0",
     "phantomjs": "^1.9.19",
     "run-sequence": "^1.1.1",

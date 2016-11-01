@@ -71,7 +71,9 @@ module.exports = {
                 'public/lib/angulartics/dist/angulartics-gosquared.min.js',
                 'public/lib/angular-post-message/dist/angular-post-message.min.js',
                 'public/lib/angular-clipboard/angular-clipboard.js',
-                'public/lib/ng-autofocus/dist/ng-autofocus.js'
+                'public/lib/ng-autofocus/dist/ng-autofocus.js',
+                'public/lib/filepicker-js-bower/filepicker.js',
+                'public/lib/angular-filepicker/dist/angular_filepicker.js'
 			]
 		},
 		css: [

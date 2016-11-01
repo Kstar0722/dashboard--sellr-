@@ -121,9 +121,7 @@
       <div class="media-box">
         <div class="controls" ng-if="modalAd.noMedia">
           <div>
-            <button class="upload" type="file" ngf-select="uploadAd($file)" ngf-multiple="false" ngf-accept="'.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm'" ngf-pattern="'.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm'">
-            upload media
-            </button>
+              <md-button type="button" class="md-raised upload" ng-click="adFilePicker('.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm')">Upload Media</md-button>
           </div>
           <input type="text" class="video-link" placeholder="or, paste a video url from youtube, or vimeo" ng-model="modalAd.videoLink">
           <div>
