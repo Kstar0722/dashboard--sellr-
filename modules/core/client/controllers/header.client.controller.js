@@ -7,6 +7,14 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
   $scope.$state = $state
   $scope.accountsService = accountsService
   $scope.renderTopMenu = true
+  $scope.mobileMenuActive = {}
+  $scope.mobileMenuActive.open = false
+
+  $scope.changeAccount = function (account) {
+    $scope.$root.selectAccountId = account.accountId
+    $scope.mobileMenuActive.open = false
+    localStorage.setItem('accountId', account.accountId)
+  }
 
   var originatorEv
   $scope.isCollapsed = false
