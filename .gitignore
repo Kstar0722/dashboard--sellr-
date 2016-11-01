@@ -21,3 +21,4 @@ public/fw/prepros.cfg
 public/build
 .build
 .dist
+/_karma.conf.js

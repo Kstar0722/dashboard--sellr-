@@ -2396,6 +2396,9 @@ md-checkbox.md-checked.blue-check .md-icon {
 .products-uploader .import-wizard .configure .column-mapping thead tr:first-of-type td {
   border-top-width: 2px;
 }
+.products-uploader .import-wizard .configure .column-mapping thead div {
+  transition-delay: 0s;
+}
 .products-uploader .import-wizard .configure .column-mapping tbody tr:last-of-type td {
   border-bottom-width: 2px;
 }
@@ -2404,9 +2407,6 @@ md-checkbox.md-checked.blue-check .md-icon {
   text-overflow: ellipsis;
   white-space: nowrap;
   background: #f8f8f8;
-}
-.products-uploader .import-wizard .configure .column-mapping tbody td div {
-  transition-delay: 0s;
 }
 .products-uploader .import-wizard .configure .column-mapping td.unmatched {
   border-color: #ee836e;

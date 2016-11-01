@@ -175,6 +175,10 @@
               border-top-width: @border-width;
             }
 
+            thead div {
+              transition-delay: 0s;
+            }
+
             tbody tr:last-of-type td {
               border-bottom-width: @border-width;
             }
@@ -182,8 +186,6 @@
             tbody td {
               .ellipsized;
               background: #f8f8f8;
-
-              div { transition-delay: 0s; }
             }
 
             td.unmatched {
