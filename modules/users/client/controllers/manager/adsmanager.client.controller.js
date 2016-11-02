@@ -23,11 +23,11 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
 
     function pushAdsToArray (dataArray, arrayToFill) {
       for (var i = 0; i < dataArray.length; i++) {
-        var schedule = []
-        var target = ['tablet']
+        var schedule = allTimesSlots
+        var target = 'tablet'
         if (dataArray[i].preferences) {
-          schedule = dataArray[i].preferences.schedule || []
-          target = dataArray[i].preferences.target || ['tablet']
+          schedule = dataArray[i].preferences.schedule || allTimesSlots
+          target = dataArray[i].preferences.target || 'tablet'
         }
         var adObj = {
           id: dataArray[i].adId,
@@ -36,6 +36,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
           target: target,
           filename: dataArray[i].fileName
         }
+
         if (dataArray[i].type === 'YOUTUBE' || dataArray[i].type === 'VIMEO') {
           adObj = _.extend(adObj, {
             value: dataArray[i].publicUrl,
