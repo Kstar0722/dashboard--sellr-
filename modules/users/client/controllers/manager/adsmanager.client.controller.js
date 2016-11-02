@@ -184,27 +184,35 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
           target: $scope.modalAd.target,
           schedule: allTimesSlots
         }
-      };
+      }
 
-      var options = {
+      var filePickerOptions = {
         extensions: (exts || '').split(',') || undefined
-      };
+      }
 
-      uploadService.pickAndUpload(adsConfig, options).then(function (response) {
-        if (!response) return;
-
-        $scope.modalAd.id = response.adId
-        $scope.modalAd.value = response.mediaAssetId + '-' + response.fileName
-        var ext = getFileExtension($scope.modalAd.value)
-        if (isSupportedImageType(ext)) {
-          _.extend($scope.modalAd, {type: 'image'})
+      uploadService.pickAndUpload(adsConfig, filePickerOptions).then(function (response) {
+        if (!response) {
+          return
         }
-        if (isSupportedVideoType(ext)) {
-          _.extend($scope.modalAd, {type: 'video'})
+        if (response.length > 1) {
+          getAllAds().then(function () {
+            $scope.openEditModal = false
+          })
+        } else {
+          var newSingleAd = response[0]
+          $scope.modalAd.id = newSingleAd.adId
+          $scope.modalAd.value = newSingleAd.mediaAssetId + '-' + newSingleAd.fileName
+          var ext = getFileExtension($scope.modalAd.value)
+          if (isSupportedImageType(ext)) {
+            _.extend($scope.modalAd, {type: 'image'})
+          }
+          if (isSupportedVideoType(ext)) {
+            _.extend($scope.modalAd, {type: 'video'})
+          }
+          $scope.modalAd.noMedia = false
         }
-        $scope.modalAd.noMedia = false
-      });
-    };
+      })
+    }
 
     $scope.cancelModal = function () {
       if ($scope.modalAd.new && !_.isUndefined($scope.modalAd.id)) {
