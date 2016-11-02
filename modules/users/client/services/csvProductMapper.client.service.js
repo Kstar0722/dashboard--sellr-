@@ -45,7 +45,7 @@ angular.module('users').service('csvProductMapper', function (ProductTypes) {
   function mapProductDto (obj, mapping) {
     var result = {}
     _.each(mapping, function (field, from) {
-      result[field] = obj[mapping[from]]
+      result[ field ] = obj[ from ]
     })
     if (result.type) {
       result.type = mapProductTypeId(result.type)
