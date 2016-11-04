@@ -26,7 +26,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
     var defer = $q.defer()
 
     if (!file || file.$error) {
-      return $q.reject()
+      return defer.reject()
     }
 
     cfpLoadingBar.start()
@@ -37,14 +37,17 @@ angular.module('users').service('uploadService', function ($http, constants, toa
         fileKey: JSON.stringify(media.assetId)
       }
 
-      return bucketUpload(key, file, metadata)
+      bucketUpload(key, file, metadata)
         .then(null, null, defer.notify) // report uploading progress
         .then(function (publicUrl) {
-          return updateMedia(media, publicUrl)
+          updateMedia(media, publicUrl).then(function (response) {
+            defer.resolve(response)
+          })
         })
     }).catch(function (err) {
       console.log(err)
-      toastr.error('There was a problem uploading your ad.')
+      toastr.error('There was a problem uploading your media')
+      defer.reject()
     }).finally(function () {
       cfpLoadingBar.complete()
     })

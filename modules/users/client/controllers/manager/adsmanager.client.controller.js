@@ -106,6 +106,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
         if (mDate.isValid()) {
           i = mDate.valueOf()
         } else {
+          // This is somewhere 2001
           i = 1000000000000
         }
         if (_.isEmpty(ad.schedule)) {
