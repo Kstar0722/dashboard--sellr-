@@ -1,5 +1,5 @@
 'use strict'
-/* global angular, _ */
+/* global angular, _, moment */
 angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
   function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
     $scope.data = {}
@@ -32,6 +32,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
         var adObj = {
           id: dataArray[i].adId,
           name: dataArray[i].name || dataArray[i].fileName,
+          createdDate: dataArray[i].createdDate || '',
           schedule: schedule,
           target: target,
           filename: dataArray[i].fileName
@@ -42,7 +43,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
             value: dataArray[i].publicUrl,
             type: dataArray[i].type.toLowerCase()
           })
-          arrayToFill.push(adObj)
+          arrayToFill.unshift(adObj)
           continue
         }
         adObj = _.extend(adObj, {
@@ -50,10 +51,10 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
         })
         var ext = getFileExtension(adObj.value)
         if (isSupportedImageType(ext)) {
-          arrayToFill.push(_.extend(adObj, {type: 'image'}))
+          arrayToFill.unshift(_.extend(adObj, {type: 'image'}))
         }
         if (isSupportedVideoType(ext)) {
-          arrayToFill.push(_.extend(adObj, {type: 'video'}))
+          arrayToFill.unshift(_.extend(adObj, {type: 'video'}))
         }
       // else the ad is not pushed and not displayed
       }
@@ -80,7 +81,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
           $scope.data.unfilteredAds = response.data
           console.log('All Ads unfiltered', response.data)
           pushAdsToArray(response.data, allAds)
-          $scope.allAds = allAds
+          $scope.allAds = sortAds(allAds)
           console.log('UI-allAds ', allAds)
           defer.resolve()
         } else {
@@ -97,6 +98,26 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
     $scope.intersection = _.intersection
     $scope.isEmpty = _.isEmpty
     $scope.filters = ['portrait', 'landscape', 'tablet']
+
+    function sortAds (ads) {
+      ads = _.sortBy(ads, function (ad) {
+        var mDate = moment(ad.createdDate)
+        var i
+        if (mDate.isValid()) {
+          i = mDate.valueOf()
+        } else {
+          i = 1000000000000
+        }
+        if (_.isEmpty(ad.schedule)) {
+          // This is to simulate a negative number but large enough to cover dates til year 2200 so it wont overlap with positive numbers
+          // Yes tried Number.MAX wont Work!!!
+          return -10000000000000 + i
+        } else {
+          return i
+        }
+      })
+      return ads.reverse()
+    }
 
     function toggleValueFromArray (arrayTemp, value) {
       if (_.contains(arrayTemp, value)) {
@@ -238,6 +259,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
       }
       var url = constants.API_URL + '/ads/' + ad.id
       $http.put(url, payload).then(function (res) {
+        $scope.allAds = sortAds($scope.allAds)
         toastr.success('Ad Schedule updated', 'Success')
       })
     }
