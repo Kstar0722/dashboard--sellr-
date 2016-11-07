@@ -18,7 +18,7 @@
             <div flex=20>Store Name</div>
             <div flex=10>Account Id</div>
             <div flex=10 class="align-center">Received</div>
-            <div flex=10 class="align-center">Processed</div>
+            <div flex=10 class="align-center">New</div>
             <div flex=10 class="align-center">Done</div>
             <div flex=10 class="align-center">Approved</div>
             <div flex=10 class="align-center">Total</div>
@@ -32,7 +32,7 @@
             <div flex=20 ng-click="goToMatch(store)">{{store.name}}</div>
             <div flex=10>{{store.accountId}}</div>
             <div flex=10 class="align-center" ng-click="goToMatch(store, 'received')">{{store.status.received}}</div>
-            <div flex=10 class="align-center" ng-click="goToMatch(store, 'processed')">{{store.status.processed}}</div>
+            <div flex=10 class="align-center" ng-click="goToMatch(store, 'new')">{{store.status.new}}</div>
             <div flex=10 class="align-center" ng-click="goToMatch(store, 'done')">{{store.status.done}}</div>
             <div flex=10 class="align-center" ng-click="goToMatch(store, 'approved')">{{store.status.approved}}</div>
             <div flex=10 class="align-center">{{store.status.total}}</div>
