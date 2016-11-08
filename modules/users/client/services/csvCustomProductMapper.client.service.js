@@ -1,9 +1,9 @@
 /* globals angular, _ */
-angular.module('users').service('csvCustomProductMapper', function (formatter) {
+angular.module('users').service('csvCustomProductMapper', function (formatter, csvProductMapper) {
   var self = this
 
   this.EMPTY_FIELD_NAME = '-'
-  this.PRODUCT_FIELDS = ['name', 'image', 'skus', 'description', 'listView', 'detailView', 'noFoundView', 'headerView']
+  this.PRODUCT_FIELDS = ['name', 'image', 'skus', 'description', 'type', 'listView', 'detailView', 'noFoundView', 'headerView']
   this.FIELD_TYPES = ['text', 'number', 'boolean', 'url', 'list', 'date', 'youtube'];
 
   this.PRODUCT_TYPES = {
@@ -11,6 +11,7 @@ angular.module('users').service('csvCustomProductMapper', function (formatter) {
     image: 'url',
     skus: 'list',
     description: 'text',
+    type: 'text',
     listView: 'url',
     detailView: 'url',
     noFoundView: 'url',
@@ -48,6 +49,10 @@ angular.module('users').service('csvCustomProductMapper', function (formatter) {
       }
       else if (col.mapping) {
         result[col.mapping] = value;
+
+        if (col.mapping == 'type') {
+          result[col.mapping] = csvProductMapper.mapProductTypeId(result[col.mapping]);
+        }
       }
 
       if (col.enableFilter && typeof value != 'undefined' && typeof value != 'null') {

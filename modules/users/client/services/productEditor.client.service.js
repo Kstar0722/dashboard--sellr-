@@ -70,8 +70,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.status) {
       url += '&status=' + JSON.stringify(options.status).replace(/"/g, '')
     }
-    if(options.store){
-      url += '&store='+options.store.storeId
+    if (options.store) {
+      url += '&store=' + options.store.storeId
     }
     // if (options.store) {
     //   if (options.stores[ 0 ]) {
@@ -85,7 +85,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
       url += '&q=' + searchText
     }
     url += '&v=sum'
-    console.log('getting URL: ',url)
+    console.log('getting URL: ', url)
     $http.get(url).then(function (response) {
       me.productList = response.data
       me.allProducts = response.data
@@ -270,11 +270,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.bulkUpdateStatus = function (products, status) {
-    products.forEach(function (product) {
-      cachedProduct = jQuery.extend(true, {}, product)
-      product.properties = []
-      product.status = status
-      me.save(product)
+    products.forEach(function (p) {
+      me.getProduct(p).then(function (product) {
+        cachedProduct = jQuery.extend(true, {}, product)
+        // blank prop arrays tells api to only update status
+        product.properties = []
+        product.status = status
+        me.save(product)
+      })
     })
   }
 
@@ -367,6 +370,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.uploadMedia = function (files) {
+    if (_.isEmpty(files)) {
+      return
+    }
     var defer = $q.defer()
     var mediaConfig = {
       mediaRoute: 'media',
@@ -525,16 +531,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.deleteFeedback = function (feedback) {
-    var product = me.currentProduct;
-    var feedbackId = feedback.id || _.indexOf(product.feedback, feedback) + 1;
-    var url = constants.BWS_API + '/edit/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId;
+    var product = me.currentProduct
+    var feedbackId = feedback.id || _.indexOf(product.feedback, feedback) + 1
+    var url = constants.BWS_API + '/edit/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId
     return $http.delete(url).then(function (res) {
       console.log(res)
     }, function (err) {
       console.error(err)
-      throw err;
-    });
-  };
+      throw err
+    })
+  }
 
   me.searchSkuResults = function (options) {
     var defer = $q.defer()

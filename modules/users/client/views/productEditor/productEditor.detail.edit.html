@@ -13,9 +13,16 @@
                         ng-click="markAsNew(pes.currentProduct)">Mark as New</button>
 
                     <button class="btn btn-warning" type="button"
+                            ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'"
                             data-toggle="modal"
                             data-target="#submitforapproval">Mark as Done
                     </button>
+
+                    <button ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="btn"
+                            type="button" data-toggle="modal"
+                            data-target="#markasapproved">Approve
+                    </button>
+
 
                     <button type="button" class="btn btn-success" ng-click="save(pes.currentProduct)">Save</button>
                 </div>
@@ -226,12 +233,11 @@
         </div>
         <!-- END UNSUBMIT MODAL -->
 
-        <div class="row">
-            <div class="btn-group" role="group" ng-show="permissions.curator && pes.currentProduct.status ==='done'">
-                <button class="btn btn-send-back" type="button" data-toggle="modal" data-target="#sendback">Send Back</button>
-                <button class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve</button>
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="btn-group" role="group" ng-show="permissions.curator">-->
+        <!--<button class="btn btn-send-back" type="button" data-toggle="modal" data-target="#sendback">Send Back</button>-->
+        <!--</div>-->
+        <!--</div>-->
 
         <div class="row">
             <p>Keyboard Shortcuts:</p>

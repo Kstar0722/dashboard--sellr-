@@ -203,9 +203,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.submitForApproval = function (product) {
     $analytics.eventTrack('Product Submitted', { productId: product.productId, user: Authentication.user.displayName })
     product.status = 'done'
-    productEditorService.save(product)
-    $scope.viewProduct(product)
     $('.modal-backdrop').remove()
+    productEditorService.save(product)
+    // $scope.viewProduct(product)
   }
 
   $scope.issues = [

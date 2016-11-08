@@ -34,13 +34,21 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: [ 'junit', 'dots' ],
+        reporters: [ 'junit', 'spec' ],
 
         junitReporter: {
             outputDir: 'test', // results will be saved as $outputDir/$browserName.xml
             suite: 'karma', // suite will become the package name attribute in xml testsuite element
             useBrowserName: true, // add browser name to report and classes names
             properties: {} // key value pair of properties to add to the <properties> section of the report
+        },
+
+        specReporter: {
+            suppressErrorSummary: false,  // do not print error summary
+            suppressFailed: false,  // do not print information about failed tests
+            suppressPassed: false,  // do not print information about passed tests
+            suppressSkipped: true,  // do not print information about skipped tests
+            showSpecTiming: true  // print the time elapsed for each spec
         },
 
         // web server port

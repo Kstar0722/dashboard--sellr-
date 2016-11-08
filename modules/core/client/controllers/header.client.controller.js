@@ -39,6 +39,12 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     $window.location.href = '/'
   }
 
+  $scope.changeAccount = function (account) {
+    $scope.$root.selectAccountId = account.accountId
+    $scope.mobileMenuActive.open = false
+    localStorage.setItem('accountId', account.accountId)
+  }
+
   $scope.closeDropdown = function (e) {
     setTimeout(function() {
       $('body > md-backdrop').click();

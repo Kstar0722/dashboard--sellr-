@@ -1,5 +1,5 @@
 /* globals angular, _, $ */
-angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvCustomProductMapper, formatter) {
+angular.module('users.admin').controller('ProductsUploaderController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvCustomProductMapper, formatter, storesService) {
   var EMPTY_FIELD_NAME = csvCustomProductMapper.EMPTY_FIELD_NAME
   var FIELD_TYPES = csvCustomProductMapper.FIELD_TYPES;
 
@@ -86,11 +86,12 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     try {
       selectOrCreateStore(selectedStore).then(function (store) {
         var products = csvCustomProductMapper.mapProducts($scope.csv.result, $scope.csv.columns);
-        return importPlanProducts(store, selectedPlan, products).then(function () {
+        return importPlanProducts(store, selectedPlan, products).then(function() {
           $scope.cancelImport()
           toastr.success('Products csv file imported')
-        }, function (error) {
-          toastr.error(error && error.toString() || 'Failed to import csv file')
+        }).catch(function (error) {
+          console.error(error);
+          toastr.error('Failed to import csv file')
         })
       }).finally(function () {
         $scope.productsSubmitBusy = false
@@ -163,6 +164,7 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
     _.forEach(columns, function (c) {
       resetColumnState(c);
       c.unmatched = false;
+      c.skipped = true;
     });
 
     populateMappingDropdowns($scope.csv.columns)
@@ -311,9 +313,9 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
       }
     }
 
-    return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(handleResponse).then(function (data) {
-      return getStoreById(data.storeId)
-    })
+    return storesService.createStore(store).then(function (data) {
+      return storesService.getStoreById(data.storeId);
+    });
   }
 
   function selectOrCreatePlan (store, planId) {
@@ -358,12 +360,6 @@ angular.module('users.admin').controller('ProductsUploaderController', function 
 
     var save = payload.planId ? $http.put : $http.post;
     return save(constants.BWS_API + '/choose/plans' + (payload.planId ? '/' + payload.planId : ''), { payload: payload }).then(handleResponse);
-  }
-
-  function getStoreById (id) {
-    return $http.get(constants.BWS_API + '/storedb/stores/' + id).then(handleResponse).then(function (data) {
-      return data instanceof Array ? data[ 0 ] : data
-    })
   }
 
   function toPascalCase (str) {

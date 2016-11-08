@@ -7,7 +7,12 @@ module.exports = {
       keywords: 'oncue,sellr,wine,beer,spirits,marketing',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID',
     STRIPE_PUBLISH_KEY: process.env.STRIPE_PUBLISH_KEY || 'pk_test_8eCwGxyRav2xemiMy666CWXT', // test api key
-    SUBSCRIPTION_PRICE: process.env.SUBSCRIPTION_PRICE || '0.50 USD' // minimum value
+    SUBSCRIPTION_PRICE: process.env.SUBSCRIPTION_PRICE || '0.50 USD', // minimum value
+    AWS_S3_BUCKET: process.env.AWS_S3_BUCKET || 'cdn.expertoncue.com',
+    AWS_S3_REGION: process.env.AWS_S3_REGION || 'us-east-1',
+    AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY || 'AKIAICAP7UIWM4XZWVBA',
+    AWS_SECRET_KEY: process.env.AWS_SECRET_KEY || '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',
+    FILEPICKER_KEY: process.env.FILEPICKER_KEY || 'ADpK7klw2ThCd2by8scXHz'
   },
     port: process.env.PORT || 3000,
   templateEngine: 'swig',

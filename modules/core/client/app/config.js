@@ -21,7 +21,8 @@ var ApplicationConfiguration = (function () {
       'ngPostMessage',
       'angular-clipboard',
       'ng-autofocus',
-      'cfp.loadingBar'
+      'cfp.loadingBar',
+      'angular-filepicker'
     ];
 
   // Add a new vertical module
