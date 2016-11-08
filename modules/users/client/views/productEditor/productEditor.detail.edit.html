@@ -13,6 +13,7 @@
                         ng-click="markAsNew(pes.currentProduct)">Mark as New</button>
 
                     <button class="btn btn-warning" type="button"
+                            ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'"
                             data-toggle="modal"
                             data-target="#submitforapproval">Mark as Done
                     </button>
