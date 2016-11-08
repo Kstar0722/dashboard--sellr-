@@ -271,6 +271,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
   me.bulkUpdateStatus = function (products, status) {
     products.forEach(function (product) {
+      debugger
       cachedProduct = jQuery.extend(true, {}, product)
       product.properties = []
       product.status = status
