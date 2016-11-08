@@ -18,6 +18,10 @@ angular.module('users').service('csvProductMapper', function (ProductTypes) {
     return result
   }
 
+  this.mapProductTypeId = function (value) {
+    return mapProductTypeId(value);
+  };
+
   //
   // PRIVATE FUNCTIONS
   //
