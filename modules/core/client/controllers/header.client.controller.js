@@ -10,6 +10,12 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
   $scope.mobileMenuActive = {}
   $scope.mobileMenuActive.open = false
 
+  $scope.changeAccount = function (account) {
+    $scope.$root.selectAccountId = account.accountId
+    $scope.mobileMenuActive.open = false
+    localStorage.setItem('accountId', account.accountId)
+  }
+
   var originatorEv
   $scope.isCollapsed = false
   $scope.mainMenu = Menus.getMenu('main')
