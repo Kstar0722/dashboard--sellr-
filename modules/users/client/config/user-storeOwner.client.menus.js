@@ -5,7 +5,7 @@ angular.module('users.storeOwner').run(['Menus', 'accountsService',
   function (Menus, accountsService) {
     Menus.addMenuItem('main', {
       title: 'Orders',
-      icon: '/img/navbar/shopping_icon.svg',
+      iconFA: 'fa-shopping-cart',
       state: 'storeOwner.orders',
       type: 'button',
       roles: [ 1002, 1004, 1009 ],

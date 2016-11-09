@@ -12,7 +12,7 @@ angular.module('core.admin').run(['Menus',
 
       Menus.addMenuItem('main', {
           title: 'Stats',
-          icon: '/img/navbar/stats_icon.svg',
+          iconFA: 'fa-bar-chart',
           state: 'dashboard',
           type: 'button',
           roles: [ 1004, 1003, 1007, 1009 ],
