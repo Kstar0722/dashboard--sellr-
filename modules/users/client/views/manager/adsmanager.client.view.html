@@ -2,8 +2,14 @@
   <div class="ads-column">
     <div class="upload-container">
       <div class="upload" ng-click="newAd()"><i class="fa fa-plus"></i> upload</div>
+      <div class="ads-filter">
+        <md-input-container>
+          <label>Ad Filter</label>
+          <input ng-model="data.nameFilter">
+        </md-input-container>
+      </div>
     </div>
-    <div class="ad-container" ng-repeat="ad in allAds track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))">
+    <div class="ad-container" ng-repeat="ad in allAds | filter:{ name: data.nameFilter, filename: data.nameFilter } track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))">
       <div class="ad" ng-click="editAd(ad)">
         <iframe class="ad-video-iframe" ng-if="ad.type === 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + ad.value + '?controls=0&iv_load_policy=3&showinfo=0&showinfo=0' | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <iframe class="ad-video-iframe" ng-if="ad.type === 'vimeo'" ng-src="{{'https://player.vimeo.com/video/' + ad.value | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
@@ -18,7 +24,7 @@
   </div>
   <div class="toggle-all-column">
     <div class="toggle-all-header" ng-if="!isEmpty(allAds)"><div>Toggle<br/>all slots</div></div>
-    <div class="toggle-all-times" ng-repeat="ad in allAds track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))"><div ng-click="toggleAllSlots(ad)" ng-class="getToggleAllSlotsClass(ad)"></div></div>
+    <div class="toggle-all-times" ng-repeat="ad in allAds | filter:{ name: data.nameFilter, filename: data.nameFilter } track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))"><div ng-click="toggleAllSlots(ad)" ng-class="getToggleAllSlotsClass(ad)"></div></div>
   </div>
   <div class="schedule-column">
     <div class="schedule-header-empty" ng-if="isEmpty(allAds)">
@@ -76,7 +82,7 @@
       </div>
     </div>
     <!-- REPEATER -->
-    <div class="schedule-times" ng-repeat="ad in allAds track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))">
+    <div class="schedule-times" ng-repeat="ad in allAds | filter:{ name: data.nameFilter, filename: data.nameFilter } track by ad.id" ng-if="!isEmpty(intersection(filters, ad.target))">
       <div ng-click="toggleSlot(ad,'0800')" ng-class="{active: contains(ad.schedule, '0800')}"></div>
       <div ng-click="toggleSlot(ad,'0830')" ng-class="{active: contains(ad.schedule, '0830')}"></div>
       <div ng-click="toggleSlot(ad,'0900')" ng-class="{active: contains(ad.schedule, '0900')}"></div>
@@ -121,7 +127,7 @@
       <div class="media-box">
         <div class="controls" ng-if="modalAd.noMedia">
           <div>
-              <md-button type="button" class="md-raised upload" ng-click="adFilePicker('.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm')">Upload Media</md-button>
+            <md-button type="button" class="md-raised upload" ng-click="adFilePicker('.jpg,.jpeg,.png,.gif,.mp4,.ogv,.webm')">Upload Media</md-button>
           </div>
           <input type="text" class="video-link" placeholder="or, paste a video url from youtube, or vimeo" ng-model="modalAd.videoLink">
           <div>

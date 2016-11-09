@@ -3,6 +3,7 @@
 angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
   function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
     $scope.data = {}
+    $scope.data.nameFilter = ''
     var allTimesSlots = ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730', '1800', '1830', '1900', '1930', '2000', '2030', '2100', '2130', '2200', '2230', '2300', '2330', 'overnight']
     accountsService.bindSelectedAccount($scope)
     $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
@@ -106,7 +107,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
         if (mDate.isValid()) {
           i = mDate.valueOf()
         } else {
-          // This is somewhere 2001
+          // This is some time in 2001
           i = 1000000000000
         }
         if (_.isEmpty(ad.schedule)) {

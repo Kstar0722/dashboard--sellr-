@@ -1102,7 +1102,7 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   min-height: 130px;
   max-height: 130px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
 }
@@ -1116,6 +1116,10 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   cursor: pointer;
   width: 60%;
   box-sizing: border-box;
+}
+.adsManager .ads-column .upload-container .ads-filter {
+  margin-top: 5px;
+  width: 80%;
 }
 .adsManager .ads-column .ad-container {
   display: flex;
