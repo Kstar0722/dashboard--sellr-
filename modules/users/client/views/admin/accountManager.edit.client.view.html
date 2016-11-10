@@ -17,70 +17,24 @@
                     <p class="help-block error-text" ng-message="required">Account name is required.</p>
                 </div>
             </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Contact Name</label>
-                <input ng-model="accountsService.editAccount.contactName">
-                <div ng-messages="editAccountForm.contactName.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Account Contact Name is required.</p>
-                </div>
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Address</label>
-                <input ng-model="accountsService.editAccount.address">
-                <div ng-messages="editAccountForm.address.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Account address is required.</p>
-                </div>
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>City</label>
-                <input ng-model="accountsService.editAccount.city">
-                <div ng-messages="editAccountForm.city.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Account city is required.</p>
-                </div>
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>State</label>
-                <input ng-model="accountsService.editAccount.state">
-                <div ng-messages="editAccountForm.state.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Account state is required.</p>
-                </div>
-
-            </md-input-container>
         </div>
 
-        <div>
+        <div class="upload-btn">
             <md-button class="md-button md-raised upload"
                        ngf-select="upload($files, accountsService.editAccount.accountId)" ngf-multiple="true">
-                Upload Image
+                Upload Logo Image
             </md-button>
         </div>
-        <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
-                            ng-show="determinateValue"></md-progress-linear>
+        <md-progress-linear md-mode="determinate" value="{{determinateValue}}" ng-show="determinateValue"></md-progress-linear>
 
-        <div>
-            <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" height="100">
+        <div class="logo-container">
+            <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" class="logo-img" height="100">
         </div>
-
-
-
-        <div>
-            <md-button class="md-raised upload"
-                       ngf-select="uploadGraphic($files, accountsService.editAccount.accountId)" ngf-multiple="true">
-                Upload Store Image
-            </md-button>
-        </div>
-        <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
-                            ng-show="determinateValue"></md-progress-linear>
-
-        <div >
-            <img class="store-img" ng-src="{{ accountsService.editAccount.storeImg || currentAccountStoreImg }}" height="100">
-        </div>
-
 
 
         <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
 
-        <div layout="row" layout-align="space-between center" layout-xs="column" layout-align-xs="start stretch" layout-margin>
+        <div layout="row" layout-align="space-between center" layout-xs="column" layout-align-xs="start stretch">
             <label>Device Authentication Code: </label>
             <p><strong>{{ accountsService.editAccount.authCode || 123456 }}</strong></p>
             <md-button class="md-button md-raised md-accent"
@@ -90,7 +44,7 @@
         </div>
 
 
-        <md-button class="md-button md-raised md-primary" ng-click="accountsService.updateAccount()">Update</md-button>
+        <md-button class="md-button md-raised md-primary update-btn" ng-click="accountsService.updateAccount()">Update</md-button>
 
         <div ng-show="error" class="text-danger">
             <strong ng-bind="error"></strong>

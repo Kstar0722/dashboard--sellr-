@@ -63,7 +63,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
       uploadService.upload(files[0], mediaConfig).then(function (response, err) {
         if (response) {
-          $scope.store.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
+          $scope.store.storeImg = constants.ADS_URL + 'storeImg/' + response.mediaAssetId + '-' + response.fileName;
           toastr.success('Store Image Updated', 'Success!');
         }
       })
