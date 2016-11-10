@@ -12,13 +12,16 @@ angular.module('users').service('storesService', function ($http, constants, $q,
     return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(handleResponse);
   };
 
-  me.importStoreProducts = function (storeId, storeItems) {
-    if (!storeId) return $q.reject('no store db found in csv file');
+  me.importStoreProducts = function (store, storeItems) {
+    if (!store) return $q.reject('no store db found in csv file');
 
     var payload = {
-      id: storeId,
-      items: storeItems
+      id: store.storeId,
+      accountId: store.accountId,
+      items: storeItems,
+      source: 'csv'
     };
+    debugger
 
     return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse);
   };
