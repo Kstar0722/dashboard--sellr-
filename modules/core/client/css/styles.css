@@ -3836,10 +3836,25 @@ body.storeOwner-orders {
     margin: 0px;
   }
 }
+.location-manager .edit-box .upload-btn,
+.account-manager .edit-box .upload-btn {
+  text-align: center;
+}
+.location-manager .edit-box .update-btn,
+.account-manager .edit-box .update-btn {
+  margin-top: 20px;
+}
+.location-manager .edit-box .logo-container,
+.account-manager .edit-box .logo-container {
+  text-align: center;
+  margin: 30px auto;
+}
 .location-manager .edit-box md-input-container,
 .account-manager .edit-box md-input-container {
   width: 100%;
 }
+.location-manager .edit-box .logo-img,
+.account-manager .edit-box .logo-img,
 .location-manager .edit-box .store-img,
 .account-manager .edit-box .store-img {
   max-width: 100%;
