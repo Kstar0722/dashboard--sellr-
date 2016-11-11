@@ -22,6 +22,15 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     window.scrollTo(0, 0)
   }
 
+  // changes the view, and sets current edit account
+  $scope.createAccount = function () {
+    console.log('creating account %O', $scope.account)
+    accountsService.createAccount($scope.account).then(function (newAccount) {
+      var newAccountToEdit = _.findWhere(accountsService.accounts, {accountId: newAccount.accountId})
+      $scope.editAccount(newAccountToEdit)
+    })
+  }
+
   $scope.upload = function (files, accountId) {
     if (_.isEmpty(files)) {
       return

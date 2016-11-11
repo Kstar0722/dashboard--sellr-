@@ -2,7 +2,7 @@
 
   <h1>Create an Account</h1>
 
-  <form name="accountForm" ng-submit="accountsService.createAccount(account)" novalidate>
+  <form name="accountForm" ng-submit="createAccount()" novalidate>
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
 
       <md-input-container class="md-block" flex-gt-sm>
@@ -15,39 +15,9 @@
 
     </div>
 
-    <md-input-container class="md-block" flex-gt-sm>
-      <label>Address</label>
-      <input ng-model="account.address">
-      <div ng-messages="accountForm.address.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Account address is required.</p>
-      </div>
-    </md-input-container>
 
-    <md-input-container class="md-block">
-      <label>City</label>
-      <input ng-model="account.city">
-      <div ng-messages="accountForm.city.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Account city is required.</p>
-      </div>
-    </md-input-container>
 
-    <md-input-container class="md-block">
-      <label>State</label>
-      <input ng-model="account.state">
-      <div ng-messages="accountForm.state.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Account state is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>Zip Code</label>
-      <input ng-model="account.zipCode">
-      <div ng-messages="accountForm.zipCode.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Account Zip Code is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block" flex-gt-sm>
+   <!--  <md-input-container class="md-block" flex-gt-sm>
       <label>Primary Account Contact Name</label>
       <input ng-model="account.contactName">
       <div ng-messages="accountForm.contactName.$error" role="alert">
@@ -61,7 +31,7 @@
       <div ng-messages="accountForm.email.$error" role="alert">
         <p class="help-block error-text" ng-message="required">Account email is required.</p>
       </div>
-    </md-input-container>
+    </md-input-container> -->
 
     <md-button class="md-button md-raised md-primary" type="submit">
       Create

@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q) {
   var me = this
   me.init = function () {
     me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
@@ -14,6 +14,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
   me.init()
 
   function getAccounts () {
+    var defer = $q.defer()
     me.accounts = []
     console.log('selectAccountId %O', me.selectAccountId)
     $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
@@ -32,12 +33,14 @@ angular.module('users').service('accountsService', function ($http, constants, t
         }
       })
       me.accounts = res.data
+      defer.resolve()
     }
 
     function onGetAccountError (err) {
       toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
       console.error(err)
     }
+    return defer.promise
   }
 
   me.deleteAccount = function (account) {
@@ -56,25 +59,29 @@ angular.module('users').service('accountsService', function ($http, constants, t
     }
   }
   me.createAccount = function (account) {
+    var defer = $q.defer()
     var url = constants.API_URL + '/accounts'
     account.status = 1
     var payload = {
       payload: account
     }
 
-    return $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError);
+    $http.post(url, payload).then(onCreateAccountSuccess, onCreateAccountError)
 
     function onCreateAccountSuccess (res) {
       toastr.success('New Account Created!')
       console.log('accounts Service, createAccount %O', res)
-      getAccounts()
-      return res;
+      getAccounts().then(function () {
+        defer.resolve(res.data)
+      })
+      return res
     }
 
     function onCreateAccountError (err) {
       toastr.error('There was a problem creating this account')
       console.error(err)
     }
+    return defer.promise
   }
 
   me.updateAccount = function () {
@@ -124,8 +131,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
   }
 
   $rootScope.$watch(function () { return me.selectAccountId; }, function (accountId) {
-    me.currentAccount = _.find(me.accounts, { accountId: parseInt(accountId, 10) });
-  });
+    me.currentAccount = _.find(me.accounts, { accountId: parseInt(accountId, 10) })
+  })
 
   // set up two-way binding to parent property
   function bindRootProperty ($scope, name, context) {
@@ -133,7 +140,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
       (context || $scope)[name] = value
     })
 
-    $scope.$watch(function() { return (context || $scope)[name]; }, function (value) {
+    $scope.$watch(function () { return (context || $scope)[name]; }, function (value) {
       $scope.$root[name] = value
     })
   }
