@@ -9,9 +9,9 @@
                     </md-checkbox>
                     {{ filterUserId }}
                 </form>
-                <md-button class="md-raised md-primary" ng-show="pes.show.newProducts" ng-click="pes.viewNewProducts()">
-                    New Products Available
-                </md-button>
+                <div ng-hide="loadingData || (pes.productList.length === pes.newProducts.length)">
+                    <md-button class="md-raised md-primary" md-no-ink ng-show="pes.show.newProducts" ng-click="loadNewProducts()" ng-bind="newProductsLabel"></md-button>
+                </div>
             </div>
             <div flex class="search-button" ng-click="searchProducts(searchText)">
                 Search
@@ -30,7 +30,7 @@
                         <md-menu-divider>CATEGORY</md-menu-divider>
                         <br>
                         <md-menu-item>
-                        <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.beer" aria-label="Finished?" class="blue-check" md-menu-align-target>
+                            <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.beer" aria-label="Finished?" class="blue-check" md-menu-align-target>
                                 Beer
                             </md-checkbox>
                         </md-menu-item>
@@ -77,7 +77,7 @@
                 <div ng-click="reOrderList('status')" flex>Status <i class="fa fa-sort"></i></div>
                 <div ng-click="reOrderList('type')" flex>Type <i class="fa fa-sort"></i></div>
             </div>
-            <div layout class="t-body" layout-align="start center" ng-repeat="product in pes.productList">
+            <div layout class="t-body" layout-align="start center" ng-repeat="product in pes.productList track by product.productId">
                 <div flex>
                     <md-checkbox ng-model="product.selected"
                     ng-click="toggleSelected(product)" aria-label="Checkbox"

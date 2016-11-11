@@ -40,8 +40,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       vars: {
         local: {
           env: 'local',
-          API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171'
+          API_URL: 'https://apidev.sllr.io',
+          BWS_API: 'https://bwsdev.sllr.io'
         },
         development: {
           env: 'dev',

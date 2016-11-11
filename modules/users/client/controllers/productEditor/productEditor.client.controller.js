@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar, $analytics) {
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -109,7 +109,24 @@ angular.module('users').controller('productEditorController', function ($scope, 
     refreshList()
   }
 
+  $scope.newProductsLabel = 'New Products Available'
+  $scope.newProductLimit = 0
+  $scope.loadNewProducts = function () {
+    $scope.newProductsLabel = 'Load more new products'
+    $scope.loadingData = true
+    $scope.newProductLimit += 100
+    // this is a hack to force angular to redraw the page
+    $timeout(function () {
+      productEditorService.viewNewProducts($scope.newProductLimit).then(function () {
+        $scope.loadingData = false
+      })
+    }, 0)
+  }
+
   $scope.searchProducts = function (searchText) {
+    //  Just reset new products logic
+    $scope.newProductsLabel = 'New Products Available'
+    $scope.newProductLimit = 0
     if (!searchText) {
       searchText = ''
     }

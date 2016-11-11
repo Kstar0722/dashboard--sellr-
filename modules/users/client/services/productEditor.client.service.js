@@ -14,7 +14,8 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.userId = localStorage.getItem('userId')
   }
   me.show = {
-    loading: true
+    loading: true,
+    newProducts: false
   }
   if (localStorage.getItem('edit-account')) {
     me.currentAccount = localStorage.getItem('edit-account')
@@ -36,6 +37,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.productStorage = {}
     me.productStats = {}
     me.allProducts = []
+    me.newProducts = []
     me.productList = []
     me.myProducts = []
     me.currentProduct = {}
@@ -602,8 +604,14 @@ angular.module('users').service('productEditorService', function ($http, $locati
     })
   }
 
-  me.viewNewProducts = function () {
-    me.productList = me.newProducts
+  me.viewNewProducts = function (limit) {
+    // This is to allow Controller to display their own custom loading animation
+    var defer = $q.defer()
+    me.productList = $filter('limitTo')(me.newProducts, limit)
+    $timeout(function () {
+      defer.resolve()
+    }, 600)
+    return defer.promise
   }
 
   me.checkForNewProducts()
