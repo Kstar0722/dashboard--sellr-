@@ -382,7 +382,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
       accountId: localStorage.getItem('accountId'),
       productId: me.currentProduct.productId
     }
-    // log('product config %0', mediaConfig)
     uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
       if (response) {
         toastr.success('Product Image Updated!')
