@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-                                                                        $location, $state, $stateParams, Countries, orderDataService,
-                                                                        $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar, $analytics) {
+  $location, $state, $stateParams, Countries, orderDataService,
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, ProductTypes, cfpLoadingBar, $analytics) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -41,9 +41,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.search = {}
   $scope.checkbox = {
-    progress: ''
+    progress: '',
+    beer: true,
+    wine: true,
+    spirit: true
   }
-  $scope.filter = []
+  $scope.filter = [{'type': 1}, {'type': 2}, {'type': 3}]
   $scope.searchLimit = 15
 
   $scope.listOptions = {}
@@ -107,7 +110,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.searchProducts = function (searchText) {
-    if (!searchText) return;
+    if (!searchText) {
+      searchText = ''
+    }
     $scope.allProducts = []
     $scope.selected = []
     $scope.loadingData = true
@@ -167,9 +172,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
       .then(function (response) {
-          $scope.modalData = response
-        }
-      )
+        $scope.modalData = response
+      }
+    )
   }
   $scope.quickEdit = function (product) {
     var options = {
@@ -205,7 +210,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
     product.status = 'done'
     $('.modal-backdrop').remove()
     productEditorService.save(product)
-    // $scope.viewProduct(product)
+  // $scope.viewProduct(product)
   }
 
   $scope.issues = [
@@ -266,10 +271,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.markAsNew = function (product) {
-    if (product.status == 'new') return;
-    product.status = 'new';
-    productEditorService.save(product);
-  };
+    if (product.status == 'new') return
+    product.status = 'new'
+    productEditorService.save(product)
+  }
 
   $scope.assignSelectedToUser = function (editor) {
     $scope.selected.forEach(function (product) {

@@ -25,24 +25,22 @@
                             <select ng-model="selectedStore.storeId" ng-change="testSelectedStore()">
                                 <option value="">All Stores</option>
                                 <option ng-repeat="store in orderDataService.allStores" value="{{store.storeId}}">{{ store.name }}</option>
-                                <select>
-                                </md-menu-item>
-                                <md-menu-divider>CATEGORY</md-menu-divider>
-                                <br>
-                                <md-menu-item>
-                                    <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.title" aria-label="Finished?" class="blue-check" md-menu-align-target>
-                                        Beer
-                                    </md-checkbox>
-                                </md-menu-item>
-                                <md-menu-item>
-                                    <md-checkbox ng-click="updateFilter({'type': 1})" ng-model="checkbox.desc"
-                                    aria-label="Finished?" class="blue-check">
-                                    Wine
-                                </md-checkbox>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-checkbox ng-click="updateFilter({'type': 3})" ng-model="checkbox.sku"
-                                aria-label="Finished?" class="blue-check">
+                            </select>
+                        </md-menu-item>
+                        <md-menu-divider>CATEGORY</md-menu-divider>
+                        <br>
+                        <md-menu-item>
+                            <md-checkbox ng-click="updateFilter({'type': 2})" ng-model="checkbox.title" aria-label="Finished?" class="blue-check" md-menu-align-target>
+                                Beer
+                            </md-checkbox>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-checkbox ng-click="updateFilter({'type': 1})" ng-model="checkbox.desc" aria-label="Finished?" class="blue-check">
+                                Wine
+                            </md-checkbox>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-checkbox ng-click="updateFilter({'type': 3})" ng-model="checkbox.sku" aria-label="Finished?" class="blue-check">
                                 Spirit
                             </md-checkbox>
                         </md-menu-item>
@@ -61,13 +59,10 @@
                 </md-menu>
             </div>
         </div>
-
         <div class="spinner-container" ng-show="loadingData || pes.show.loading">
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
-
         <div class="product-table-container" ng-show="pes.productList">
-
             <div layout class="t-header" layout-align="start center">
                 <div flex>
                     <md-checkbox ng-model="allSelected.value" ng-change="toggleAll()" aria-label="Checkbox all"
@@ -82,7 +77,6 @@
                 <div ng-click="reOrderList('status')" flex>Status <i class="fa fa-sort"></i></div>
                 <div ng-click="reOrderList('type')" flex>Type <i class="fa fa-sort"></i></div>
             </div>
-
             <div layout class="t-body" layout-align="start center" ng-repeat="product in pes.productList">
                 <div flex>
                     <md-checkbox ng-model="product.selected"
@@ -93,7 +87,6 @@
                     <div layout="row" layout-align="space-between center">
                         {{product.displayName || product.name}}
                         <i class="fa fa-chevron-circle-right" ng-click="viewProduct(product)"></i>
-
                     </div>
                 </div>
                 <div flex class="grey-text">{{product.sku_count}}</div>
@@ -105,43 +98,40 @@
                     'Spirit' : ''}}
                 </div>
             </div>
-
             <md-button ng-show="$state.includes('editor.match')" ng-click="createNewProduct()">
                 Create New Product
             </md-button>
-            
+
             <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">
                 Show More
             </md-button>
         </div>
     </div>
-
     <div ng-class="selected.length > 0 ? 'bottom-action-menu active' : 'bottom-action-menu'">
         <button ng-show="selected.length>1" class="action-btn" ng-click="mergeProducts()">
-           Merge {{ selected.length }} selected products
-       </button>
-       <div class="action-btn" ng-if="!permissions.curator">
-           Assign to me
-       </div>
-       <md-menu ng-if="permissions.curator" md-position-mode="target-right target">
-           <div class="action-btn"  ng-click="$mdOpenMenu($event)">
-               Assign to <i class="fa fa-ellipsis-h"></i>
-           </div>
-           <md-menu-content class="user-assign-menu">
-               <md-list>
-                   <md-list-item ng-repeat="person in people">
-                       <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
-                       {{ person.name }}
-                   </md-list-item>
-               </md-list>
-           </md-menu-content>
-       </md-menu>
-       <div class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
-           Reject
-       </div>
-       <div class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()">
-           Approve
-       </div>
-   </div>
-
+            Merge {{ selected.length }} selected products
+        </button>
+        <div class="action-btn" ng-if="!permissions.curator">
+            Assign to me
+        </div>
+        <md-menu ng-if="permissions.curator" md-position-mode="target-right target">
+            <div class="action-btn"  ng-click="$mdOpenMenu($event)">
+                Assign to <i class="fa fa-ellipsis-h"></i>
+            </div>
+            <md-menu-content class="user-assign-menu">
+                <md-list>
+                    <md-list-item ng-repeat="person in people">
+                        <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+                        {{ person.name }}
+                    </md-list-item>
+                </md-list>
+            </md-menu-content>
+        </md-menu>
+        <div class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
+            Reject
+        </div>
+        <div class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()">
+            Approve
+        </div>
+    </div>
 </div>
