@@ -1688,6 +1688,21 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   margin: 2vh 4%;
   overflow: hidden;
 }
+.productEditor .product-detail-container .product-type-box {
+  margin-bottom: 30px;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button {
+  font-weight: bold;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button:nth-child(1) {
+  background-color: #AC1E44;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button:nth-child(2) {
+  background-color: #F0D860;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button:nth-child(3) {
+  background-color: #C0C0C0;
+}
 @media only screen and (max-width: 599px) {
   .productEditor .product-detail-container {
     margin-bottom: 50px;
