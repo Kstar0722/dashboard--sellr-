@@ -21,7 +21,6 @@ angular.module('users').service('storesService', function ($http, constants, $q,
       items: storeItems,
       source: 'csv'
     };
-    debugger
 
     return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse);
   };
