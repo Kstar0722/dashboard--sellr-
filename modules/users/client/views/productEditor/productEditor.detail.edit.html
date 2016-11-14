@@ -96,6 +96,16 @@
             <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
         </div>
     </form>
+    <div class="row product-type-box" ng-if="permissions.curator">
+        <div class="col-md-12">
+            <div><label>Product Type</label></div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 1)" ng-disabled="pes.currentProduct.productTypeId === 1" ng-bind="pes.currentProduct.productTypeId === 1 ? 'Wine' : 'Mark as Wine'"></button>
+                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 2)" ng-disabled="pes.currentProduct.productTypeId === 2" ng-bind="pes.currentProduct.productTypeId === 2 ? 'Beer' : 'Mark as Beer'"></button>
+                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 3)" ng-disabled="pes.currentProduct.productTypeId === 3" ng-bind="pes.currentProduct.productTypeId === 3 ? 'Spirit' : 'Mark as Spirit'"></button>
+            </div>
+        </div>
+    </div>
     <!-- Send Back MODAL -->
     <div class="modal" id="sendback" ng-show="permissions.curator">
         <div class="modal-dialog">

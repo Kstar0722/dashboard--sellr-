@@ -287,6 +287,10 @@ angular.module('users').controller('productEditorController', function ($scope, 
     productEditorService.save(product)
   }
 
+  $scope.changeType = function (product, typeId) {
+    product.productTypeId = typeId
+  }
+
   $scope.markAsNew = function (product) {
     if (product.status === 'new') return
     product.status = 'new'
