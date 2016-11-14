@@ -1681,6 +1681,13 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   background-color: #C52424;
   color: #fff;
 }
+.productEditor .product-detail-container {
+  background: #fbfbfb;
+}
+.productEditor .product-detail-container .main-col {
+  margin: 2vh 4%;
+  overflow: hidden;
+}
 @media only screen and (max-width: 599px) {
   .productEditor .product-detail-container {
     margin-bottom: 50px;

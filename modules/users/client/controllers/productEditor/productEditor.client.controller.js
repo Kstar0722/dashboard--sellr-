@@ -288,9 +288,16 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
 
   $scope.markAsNew = function (product) {
-    if (product.status == 'new') return
+    if (product.status === 'new') return
     product.status = 'new'
     productEditorService.save(product)
+  }
+
+  $scope.deleteProduct = function (product) {
+    product.status = 'deleted'
+    productEditorService.save(product).then(function () {
+      $state.go('editor.view', {productId: product.productId})
+    })
   }
 
   $scope.assignSelectedToUser = function (editor) {
