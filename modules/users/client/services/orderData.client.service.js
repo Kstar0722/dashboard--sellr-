@@ -12,16 +12,17 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
   me.increaseIndex = increaseIndex
   me.decreaseIndex = decreaseIndex
   me.getAllStores = getAllStores
+  me.deleteCurrentItem = deleteCurrentItem
 
   $rootScope.$on('clearProductList', function () {
     me.selected = []
   })
 
   function getAllStores (filter) {
-    filter = filter || {};
+    filter = filter || {}
     var defer = $q.defer()
     var url = constants.BWS_API + '/storedb/stores?supc=true'
-    if (filter.accountId) url += '&acc=' + filter.accountId;
+    if (filter.accountId) url += '&acc=' + filter.accountId
     $http.get(url).then(function (response) {
       me.allStores = response.data
       defer.resolve(me.allStores)
@@ -37,7 +38,7 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
     me.currentStore = store
     me.currentIndex = 0
     var orderUrl = API_URL + '/storedb/stores/products?supc=true&id=' + store.storeId
-    if (status) orderUrl += '&status=' + status;
+    if (status) orderUrl += '&status=' + status
     $http.get(orderUrl).then(function (response) {
       me.allItems = _.map(response.data, function (prod) {
         switch (prod.productTypeId) {
@@ -60,6 +61,34 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
       console.log('orderDataService::getData response %O', me.allItems)
       defer.resolve(me.allItems)
     })
+    return defer.promise
+  }
+
+  function deleteCurrentItem () {
+    var defer = $q.defer()
+    var accountId = me.currentItem.account
+    var storeId = me.currentItem.storeId
+    var sku = me.currentItem.upc
+    var deleteUrl = API_URL + '/storedb/stores/products?sku=' + sku
+    var queryParam = ''
+    if (accountId) {
+      queryParam = '&acct=' + accountId
+    } else {
+      queryParam = '&store=' + storeId
+    }
+    if (!queryParam || !sku) {
+      defer.reject()
+    } else {
+      deleteUrl += queryParam
+      $http.delete(deleteUrl).then(function (response) {
+        me.allItems.splice(me.currentIndex, 1)
+        me.currentIndex--
+        me.increaseIndex()
+        defer.resolve()
+      }, function () {
+        defer.reject()
+      })
+    }
     return defer.promise
   }
 

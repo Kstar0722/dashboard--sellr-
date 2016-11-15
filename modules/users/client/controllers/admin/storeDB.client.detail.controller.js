@@ -1,12 +1,12 @@
 /* globals angular */
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia, locationsService,
-                                                                              orderDataService, $state, accountsService, CurrentUserService,
-                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q,$rootScope, cfpLoadingBar) {
+  orderDataService, $state, accountsService, CurrentUserService,
+  productEditorService, Authentication, $stateParams, constants, toastr, $q, $rootScope, cfpLoadingBar) {
   if (Authentication.user) {
     $scope.account = { createdBy: Authentication.user.username }
   }
 
-  console.log('stateParams %O', $stateParams, orderDataService.allItems.length === 0);
+  console.log('stateParams %O', $stateParams, orderDataService.allItems.length === 0)
   onInit()
   $scope.orderDataService = orderDataService
   $scope.orders = {}
@@ -47,6 +47,14 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     orderDataService.decreaseIndex()
   }
 
+  $scope.deleteCurrentItem = function () {
+    orderDataService.deleteCurrentItem().then(function () {
+      toastr.success('Product Deleted')
+    }, function () {
+      toastr.error('Somethign went wrong while trying to delete the Product')
+    })
+  }
+
   $scope.markAsNew = function (prod) {
     orderDataService.createNewProduct(prod).then(function (data) {
       toastr.success('New Product Created')
@@ -76,20 +84,20 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
   $scope.matchProduct = function (ev) {
     $scope.showConfirm(ev).then(function (status) {
-      cfpLoadingBar.start();
+      cfpLoadingBar.start()
       orderDataService.matchProduct().then(function (selected) {
-        return productEditorService.getProduct(selected);
+        return productEditorService.getProduct(selected)
       }).then(function (product) {
-        product.status = status;
-        return productEditorService.save(product);
+        product.status = status
+        return productEditorService.save(product)
       }).then(function () {
         toastr.success('Product Matched')
         $scope.increaseIndex()
       }).finally(function () {
-        cfpLoadingBar.complete();
+        cfpLoadingBar.complete()
       })
     })
-  };
+  }
 
   $scope.updateFilter = function (value) {
     $scope.checked = false
@@ -107,9 +115,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
 
   function onInit () {
     if (orderDataService.allItems.length === 0 && $stateParams.id) {
-      orderDataService.getData({ storeId: $stateParams.id }, $stateParams.status).then(function () {
-      })
+      orderDataService.getData({ storeId: $stateParams.id }, $stateParams.status).then(function () {})
     }
   }
 })
-
