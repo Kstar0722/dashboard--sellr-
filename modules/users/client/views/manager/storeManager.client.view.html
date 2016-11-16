@@ -20,7 +20,7 @@
         </md-input-container>
       </div>
       <div flex="45" flex-xs="100" flex-order-xs="1">
-        <md-button class="md-raised md-success create-btn" ui-sref="manager.stores.create">Create Store</md-button>
+        <md-button class="md-raised md-success create-btn" ng-click="createStore()">Create Store</md-button>
       </div>
     </div>
 
@@ -29,11 +29,11 @@
 
         <md-content>
           <md-list>
-            <md-list-item class="md-3-line" ng-repeat="store in storesService.stores  | filter: search">
+            <md-list-item class="md-3-line" ng-repeat="store in storesService.stores  | filter: search track by store.storeId">
               <div class="md-list-item-text">
-                <h3>{{store.name}} </h3>
-                <p>{{store.address}}</p>
-                <p>{{ store.city }},{{ store.state }}</p>
+                <h3>{{ store.name }} </h3>
+                <p>{{ store.details.contactInfo.address1 }}</p>
+                <p>{{ store.details.contactInfo.city }},{{ store.details.contactInfo.state }}</p>
               </div>
               <md-button class="md-secondary md-raised" ng-click="editStore(store)">Edit</md-button>
               <md-divider ng-if="!$last"></md-divider>

@@ -1,63 +1,51 @@
 <!--Right Side view for editing Store-->
-
 <section class="inner">
-
   <h1>Create a new Store</h1>
-
-  <form name="storedbForm" ng-submit="storesService.createstoredb(storedb)" novalidate>
-    <div layout-xs="column" layout-sm="column" layout-align="space-between center">
-
+  <form name="editStoreForm" ng-submit="editStoreForm.$valid && storesService.createStoreManager(storesService.editStore)" novalidate>
+  <div layout="column" layout-align="space-between stretch">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Name</label>
-        <input ng-model="storedb.name">
-        <div ng-messages="storedbForm.name.$error" role="alert">
+        <input ng-model="storesService.editStore.name" required name="name">
+        <div ng-messages="editStoreForm.name.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Store name is required.</p>
         </div>
       </md-input-container>
-
+      
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Address</label>
+        <input ng-model="storesService.editStore.details.contactInfo.address1" required name="address">
+        <div ng-messages="editStoreForm.address.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store address is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Address (line 2)</label>
+        <input ng-model="storesService.editStore.details.contactInfo.address2">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>City</label>
+        <input ng-model="storesService.editStore.details.contactInfo.city" required name="city">
+        <div ng-messages="editStoreForm.city.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store city is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>State</label>
+        <input ng-model="storesService.editStore.details.contactInfo.state" required name="state">
+        <div ng-messages="editStoreForm.state.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store state is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Zip Code</label>
+        <input ng-model="storesService.editStore.details.contactInfo.zipcode" required name="zipcode">
+        <div ng-messages="editStoreForm.zipcode.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store Zip Code is required.</p>
+        </div>
+      </md-input-container>
     </div>
-
-    <md-input-container class="md-block" flex-gt-sm>
-      <label>Address</label>
-      <input ng-model="storedb.address">
-      <div ng-messages="storedbForm.address.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store address is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>City</label>
-      <input ng-model="storedb.city">
-      <div ng-messages="storedbForm.city.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store city is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>State</label>
-      <input ng-model="storedb.state">
-      <div ng-messages="storedbForm.state.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store state is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>Zip Code</label>
-      <input type="number" ng-model="storedb.zipCode">
-      <div ng-messages="storedbForm.zipCode.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store Zip Code is required.</p>
-      </div>
-    </md-input-container>
-
     <md-button class="md-button md-raised md-primary" type="submit">
       Create
     </md-button>
-
-    <div ng-show="error" class="text-danger">
-      <strong ng-bind="error"></strong>
-    </div>
-
   </form>
 </section>
-
-

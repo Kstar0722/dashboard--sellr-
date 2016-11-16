@@ -1,61 +1,52 @@
 <!--Right Side view for editing Store-->
-
 <section class="inner">
-
   <h1>Editing Store: {{ storesService.editStore.name }}</h1>
-  <md-button class="md-button md-raised md-primary" ng-click="storesService.deleteStore(storesService.editStore)">Remove Store</md-button>
-  <form name="editstoredbForm" ng-submit="storesService.updatestoredb()" novalidate>
-    <div layout-xs="column" layout-sm="column" layout-align="space-between center">
-
+  <md-button class="md-button md-raised md-primary" ng-click="storesService.deleteStore(storesService.editStore.storeId)">Delete Store</md-button>
+  <form name="editStoreForm" ng-submit="editStoreForm.$valid && storesService.updateStore(storesService.editStore)" novalidate>
+    <div layout="column" layout-align="space-between stretch">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Name</label>
-        <input ng-model="storesService.editStore.name">
-        <div ng-messages="editstoredbForm.name.$error" role="alert">
+        <input ng-model="storesService.editStore.name" required name="name">
+        <div ng-messages="editStoreForm.name.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Store name is required.</p>
         </div>
       </md-input-container>
-
+      
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Address</label>
+        <input ng-model="storesService.editStore.details.contactInfo.address1" required name="address">
+        <div ng-messages="editStoreForm.address.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store address is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Address (line 2)</label>
+        <input ng-model="storesService.editStore.details.contactInfo.address2">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>City</label>
+        <input ng-model="storesService.editStore.details.contactInfo.city" required name="city">
+        <div ng-messages="editStoreForm.city.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store city is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>State</label>
+        <input ng-model="storesService.editStore.details.contactInfo.state" required name="state">
+        <div ng-messages="editStoreForm.state.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store state is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Zip Code</label>
+        <input ng-model="storesService.editStore.details.contactInfo.zipcode" required name="zipcode">
+        <div ng-messages="editStoreForm.zipcode.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Store Zip Code is required.</p>
+        </div>
+      </md-input-container>
     </div>
-
-    <md-input-container class="md-block" flex-gt-sm>
-      <label>Address</label>
-      <input ng-model="storesService.editStore.address">
-      <div ng-messages="editstoredbForm.address.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store address is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>City</label>
-      <input ng-model="storesService.editStore.city">
-      <div ng-messages="editstoredbForm.city.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store city is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>State</label>
-      <input ng-model="storesService.editStore.state">
-      <div ng-messages="editstoredbForm.state.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store state is required.</p>
-      </div>
-    </md-input-container>
-
-    <md-input-container class="md-block">
-      <label>Zip Code</label>
-      <input ng-model="storesService.editStore.zipCode">
-      <div ng-messages="editstoredbForm.zipCode.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Store Zip Code is required.</p>
-      </div>
-    </md-input-container>
-
     <md-button class="md-button md-raised md-primary" type="submit">
       Update
     </md-button>
-
-    <div ng-show="error" class="text-danger">
-      <strong ng-bind="error"></strong>
-    </div>
-
   </form>
 </section>

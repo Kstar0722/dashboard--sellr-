@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('storesService', function ($http, constants, $q, toastr) {
+angular.module('users').service('storesService', function ($http, constants, $q, toastr, $state) {
   var me = this
 
   me.getStoreById = function (storeId) {
@@ -35,92 +35,74 @@ angular.module('users').service('storesService', function ($http, constants, $q,
     return data
   }
 
-  // BELOW IS COPIED FROM OLD LOCATIONS SERVICE
-  me.init = function () {
+  // BELOW IS COPIED FROM OLD LOCATIONS SERVICE BUT REWORKED to new Store db URLS
+  me.stores = []
+  me.editStore = {}
+  me.accountId = localStorage.getItem('accountId')
+
+  me.getStores = function () {
     var defer = $q.defer()
     me.stores = []
-    me.accountId = localStorage.getItem('accountId')
-    me.editLocation = {}
-    me.getStores()
-
-    defer.resolve()
+    var url = constants.BWS_API + '/storedb/stores?info=true&acc=' + me.accountId
+    $http.get(url).then(function (res) {
+      console.log('storesService getStores %O', res.data)
+      me.stores = res.data
+      defer.resolve()
+    })
     return defer.promise
   }
 
-  // MAIN CRUD OPERATIONS, Create, Get, Update, Delete
+  me.createStoreManager = function (store) {
+    console.log(store)
+    $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(onAPISuccess.bind(this, 'create'), onAPIError.bind(this, 'create'))
+  }
 
-  me.createLocation = function (location) {
-    console.log('location service location object %O', location)
-    var url = constants.API_URL + '/locations'
-    location.accountId = localStorage.getItem('accountId')
-    location.defaultLoc = 0
+  me.updateStore = function (store) {
     var payload = {
-      payload: location
+      payload: store
     }
-    $http.post(url, payload).then(onCreateLocationSuccess, onCreateLocationFail)
+    $http.put(constants.BWS_API + '/storedb/stores/details', payload).then(onAPISuccess.bind(this, 'update'), onAPIError.bind(this, 'update'))
   }
 
-  me.getStores = function () {
-    me.stores = []
-
-    var url = constants.API_URL + '/locations?account=' + me.accountId
-    return $http.get(url).then(function (res) {
-      console.log('storesService getStores %O', res)
-      me.stores = res.data
-    })
-  }
-
-  me.updateLocation = function () {
-    var url = constants.API_URL + '/locations/' + me.editLocation.locationId
-    var payload = {
-      payload: me.editLocation
-    }
-    $http.put(url, payload).then(onUpdateLocationSuccess, onUpdateLocationFail, me.getStores)
-  }
-
-  me.deleteLocation = function (location) {
-    var url = constants.API_URL + '/locations/' + location.locationId
-    if (location.name.includes('default_')) {
-      toastr.error('Cannot delete the default location!', "I'm afraid I can't do that.")
-      return
-    } else {
-      $http.delete(url).then(onDeleteSuccess, onDeleteFail)
-    }
+  me.deleteStore = function (storeId) {
+    var url = constants.BWS_API + '/storedb/stores/' + storeId
+    $http.delete(url).then(onAPISuccess.bind(this, 'delete'), onAPIError.bind(this, 'delete'))
   }
 
   // API RESPONSE/ERROR HANDLING
+  function onAPISuccess (operation) {
+    me.getStores().then(function () {
+      switch (operation) {
+        case 'create':
+          toastr.success('New Store Created', 'Success!')
+          break
+        case 'delete':
+          toastr.success('Store deleted', 'Success!')
+          break
+        case 'update':
+          toastr.success('Store Updated', 'Success!')
+          break
+        default:
+          break
+      }
+      $state.go('manager.stores')
+    })
+  }
 
-  function onCreateLocationSuccess (res) {
-    if (res.status === 200) {
-      toastr.success('New Location Created', 'Success!')
+  function onAPIError (operation) {
+    switch (operation) {
+      case 'create':
+        toastr.error('The Store could not be created', 'Error')
+        break
+      case 'delete':
+        toastr.error('The Store could not be deleted', 'Error')
+        break
+      case 'update':
+        toastr.error('The Store could not be udpated', 'Error')
+        break
+      default:
+        break
     }
-  }
-
-  function onCreateLocationFail (err) {
-    console.error(err)
-    toastr.error('Could not create new location.')
-  }
-
-  function onUpdateLocationSuccess (res) {
-    if (res.statusCode === 200) {
-      toastr.success('Location Updated', 'Success!')
-    }
-  }
-
-  function onUpdateLocationFail (err) {
-    console.error(err)
-    toastr.error('Could not update location.')
-  }
-
-  function onDeleteSuccess (res) {
-    if (res.statusCode === 200) {
-      toastr.success('Location deleted', 'Success!')
-    }
-  }
-
-  function onDeleteFail (err) {
-    console.error(err)
-    toastr.error('Could not delete location.')
   }
 
   return me
