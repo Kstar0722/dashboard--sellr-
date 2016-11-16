@@ -1,5 +1,5 @@
 /* globals angular, _, localStorage,$ */
-angular.module('users.admin').controller('StoreDbController', function ($scope, locationsService, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, storesService) {
+angular.module('users.admin').controller('StoreDbController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, storesService) {
   var EMPTY_FIELD_NAME = csvProductMapper.EMPTY_FIELD_NAME
 
   $scope.account = undefined

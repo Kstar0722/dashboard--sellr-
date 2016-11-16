@@ -1,14 +1,13 @@
-<!--Left side location management-->
-<!--Uses the LocationManager in locationManager.client.controller.js-->
+<!--Left side Store management-->
 
-<section class="content locationList">
+<section class="content">
 
-  <div class="titlebar"><h1 class="md-display-2">Location Management</h1></div>
+  <div class="titlebar"><h1 class="md-display-2">Stores Management</h1></div>
 
-  <div class="pagecontent location-manager">
+  <div class="pagecontent stores-manager">
 
     <div ng-show="currentUserService.myPermissions.indexOf(1004) > -1 || authentication.user.roles.indexOf('admin') > -1">
-      <select ng-model="locationsService.accountId" ng-change="locationsService.getLocations()">
+      <select ng-model="storesService.accountId" ng-change="storesService.getStores()">
         <option ng-repeat="account in accountsService.accounts" value="{{ account.accountId }}">{{ account.name }} - {{ account.address }}</option>
       </select>
     </div>
@@ -21,7 +20,7 @@
         </md-input-container>
       </div>
       <div flex="45" flex-xs="100" flex-order-xs="1">
-        <md-button class="md-raised md-success create-btn" ui-sref="manager.locations.create">Create Location</md-button>
+        <md-button class="md-raised md-success create-btn" ui-sref="manager.stores.create">Create Store</md-button>
       </div>
     </div>
 
@@ -30,20 +29,20 @@
 
         <md-content>
           <md-list>
-            <md-list-item class="md-3-line" ng-repeat="location in locationsService.locations  | filter: search">
+            <md-list-item class="md-3-line" ng-repeat="store in storesService.stores  | filter: search">
               <div class="md-list-item-text">
-                <h3>{{location.name}} </h3>
-                <p>{{location.address}}</p>
-                <p>{{ location.city }},{{ location.state }}</p>
+                <h3>{{store.name}} </h3>
+                <p>{{store.address}}</p>
+                <p>{{ store.city }},{{ store.state }}</p>
               </div>
-              <md-button class="md-secondary md-raised" ng-click="editLocation(location)">Edit</md-button>
+              <md-button class="md-secondary md-raised" ng-click="editStore(store)">Edit</md-button>
               <md-divider ng-if="!$last"></md-divider>
             </md-list-item>
           </md-list>
         </md-content>
       </div>
       <div flex-xs="100" flex-order-xs="1" flex="45" class="edit-box md-whiteframe-5dp" ui-view>
-        <h3 class="md-headline" layout-align="center center">Select a location from the list</h3>
+        <h3 class="md-headline" layout-align="center center">Select a store from the list</h3>
       </div>
 
     </div>
