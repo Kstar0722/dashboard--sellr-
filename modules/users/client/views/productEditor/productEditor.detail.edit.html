@@ -1,254 +1,243 @@
 <!--NOTE: pes stands for productEditorService, as defined in the controller. Shorted for easier readability-->
-
-<body style="background: #fbfbfb;">
-<!--replace with toastr?-->
-<div class="container-fluid">
-
-    <div class="col-md-10 " style="margin-left: 4%; margin-top: 2vh;">
-
-        <div class="row">
-            <div class="pull-right">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-info" ng-if="pes.currentProduct.status != 'new'"
-                        ng-click="markAsNew(pes.currentProduct)">Mark as New</button>
-
-                    <button class="btn btn-warning" type="button"
-                            ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'"
-                            data-toggle="modal"
-                            data-target="#submitforapproval">Mark as Done
-                    </button>
-
-                    <button ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="btn"
-                            type="button" data-toggle="modal"
-                            data-target="#markasapproved">Approve
-                    </button>
-
-
-                    <button type="button" class="btn btn-success" ng-click="save(pes.currentProduct)">Save</button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
-                <h4><i>Editing:</i> {{ pes.currentProduct.name }} </h4>
-                <div>Product Id {{ pes.currentProduct.productId }}</div>
-                <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
-                <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
-                <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}}</span>
-            </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            </div>
-        </div>
-        <div ng-show="pes.currentProduct.feedback && pes.currentProduct.feedback.length>0">
-            <hr>
-            <div class="feedback alert alert-info" role="alert" ng-show="display.feedback">
-                <h4>Product Feedback:</h4>
-                <div ng-repeat="feedback in pes.currentProduct.feedback" layout="row">
-                    <span>{{ feedback.issue }} - </span>
-                    <span>{{ feedback.comments }} - </span>
-                    <span>{{feedback.date|date}}</span>
-                    <button class="btn delete" ng-click="deleteFeedback(feedback)" ng-disabled="feedback.deleting">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-                <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
-            </div>
-            <button class="btn btn-small" ng-show="!display.feedback" ng-click="display.feedback=true">Show Feedback</button>
-
-        </div>
-        <hr>
-        <form role="form">
-            <div class="row">
-                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.name">
-                    </div>
-                </div>
-            </div>
-            <div layout="row" layout-align="space-between">
-                <label>Audio:</label>
-                <div layout="row" ng-show="pes.currentProduct.audio">
-                    <button class="btn btn-success" ng-click="playAudio()"><i class="fa fa-play"></i>Play</button>
-                    <button class="btn btn-info" ng-click="pauseAudio()"><i class="fa fa-pause"></i>Pause</button>
-                    <button class="btn btn-danger" ng-click="removeAudio()"><i class="fa fa-trash"></i>Remove</button>
-                </div>
-                <button class="btn" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
-            </div>
-
-            <h4 ng-show="pes.currentProduct.hasImages">Product Images:</h4>
-            <div layout="row" layout-align="space-between center">
-                <div layout="column" ng-repeat="image in pes.currentProduct.images">
-                    <a ng-href="{{ image.publicUrl }}" target="_blank">
-                        <img ng-src="{{image.publicUrl}}" class="product-image"></a>
-                    <button class="btn btn-danger" ng-click="removeImage(image)"><i class="fa fa-trash"></i></button>
-                </div>
-                <button class="btn" ngf-select="pes.uploadMedia($files)">
-                    Upload Image
+<div class="main-col container-fluid">
+    <div class="row">
+        <div class="pull-right">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-info" ng-if="pes.currentProduct.status != 'new'" ng-click="markAsNew(pes.currentProduct)">Mark as New</button>
+                <button class="btn btn-warning" type="button" ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" data-toggle="modal" data-target="#submitforapproval">Mark as Done
                 </button>
-
-            </div>
-
-            <h4 ng-show="pes.currentProduct.researchImages.length>0">Research Images:</h4>
-            <div layout="row">
-                <div layout="column" ng-repeat="researchImage in pes.currentProduct.researchImages">
-                    <!--insert image from upload-->
-                    <a ng-href="{{ researchImage.publicUrl }}" target="_blank"><img
-                            ng-src="{{researchImage.publicUrl}}" class="product-image"></a>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label>Description / Script</label>
-                <medium-editor medium-insert ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions" name="beer_script"
-                               class="form-control"></medium-editor>
-            </div>
-
-
-            <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type"
-                 ng-show="prop.visibility">
-                <label for="prop">{{ prop.label }}<span ng-show="prop.info"> - ({{ prop.info }})</span></label>
-                <textarea class="form-control" id="prop" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{prop.info}}"></textarea>
-                <input class="form-control" id="prop" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
-                <select ng-switch-when="countryselect" class="form-control"
-                        ng-options="country.name as country.name for country in Countries.allCountries"
-                        ng-model="prop.value"></select>
-            </div>
-
-            <div class="form-group">
-                <label>Research Notes</label>
-                <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
-            </div>
-
-        </form>
-
-
-        <!-- Send Back MODAL -->
-        <div class="modal" id="sendback" ng-show="permissions.curator">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Send back to Editor</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>This will send the product back to the editor for revisions. Please add additional comments below to instruct editor on
-                            necessary
-                            changes.</p>
-                        <div class="form-group">
-                            <div class="row">
-                                <button ng-repeat="issue in issues" class="btn"
-                                        ng-class="{'btn-info':issue===feedback.issue}" ng-click="selectIssue(issue)">
-                                    {{issue}}
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <label for="feedbackComments">Comments</label>
-                                <input id="feedbackComments" class="form-control" placeholder="Add comments here..."
-                                       ng-model="feedback.comments">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-                        <button class="btn btn-primary btn-wide" style="background-color: #C52424" data-dismiss="modal"
-                                ng-click="sendBack()">Send back to Editor
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END Send Back MODAL -->
-
-
-        <!-- BEGIN submitForApproval MODAL -->
-        <div class="modal" id="submitforapproval">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h4 class="modal-title">Submit for Approval</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>This will submit the product to be reviewed by our team and if the data is accurate we will approve. If data is not accurate the
-                            product
-                            will be rejected and sent back to you.</p>
-
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-                        <button class="btn btn-primary btn-wide" data-dismiss="modal"
-                                ng-click="submitForApproval(pes.currentProduct)">Submit for Approval
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- END MODAL -->
-
-        <!-- BEGIN markAsApproved MODAL -->
-        <div class="modal" id="markasapproved" ng-show="permissions.curator">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Approve Product</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Once this is marked as Approved. It will be synced with the OnCue master database and deployed to all devices.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-                        <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" data-dismiss="modal"
-                               ng-click="approveProduct(pes.currentProduct)">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END MODAL -->
-        <!-- UNSUBMIT  MODAL -->
-        <div class="modal" id="unsubmitproduct">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Unsubmit Product</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Unsubmitting this product will allow you to continue editing the product and submit again at a later time.</p>
-
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
-                        <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" data-dismiss="modal"
-                               ng-click="unsubmitProduct(pes.currentProduct)">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END UNSUBMIT MODAL -->
-
-        <!--<div class="row">-->
-        <!--<div class="btn-group" role="group" ng-show="permissions.curator">-->
-        <!--<button class="btn btn-send-back" type="button" data-toggle="modal" data-target="#sendback">Send Back</button>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <div class="row">
-            <p>Keyboard Shortcuts:</p>
-            <div>
-                <small><code>Ctrl + S / ⌘ + S</code> -- Save Product</small>
-            </div>
-            <div>
-                <small><code>Ctrl + D / ⌘ + D</code> -- Mark As Done</small>
+                <button ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="btn" type="button" data-toggle="modal" data-target="#markasapproved">Approve
+                </button>
+                <button type="button" class="btn btn-success" ng-click="save(pes.currentProduct)">Save</button>
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-9">
+            <h4><i>Editing:</i> {{ pes.currentProduct.name }} </h4>
+            <div>Product Id {{ pes.currentProduct.productId }}</div>
+            <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
+            <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
+            <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}}</span>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        </div>
+    </div>
+    <div ng-show="pes.currentProduct.feedback && pes.currentProduct.feedback.length>0">
+        <hr>
+        <div class="feedback alert alert-info" role="alert" ng-show="display.feedback">
+            <h4>Product Feedback:</h4>
+            <div ng-repeat="feedback in pes.currentProduct.feedback" layout="row">
+                <span>{{ feedback.issue }} - </span>
+                <span>{{ feedback.comments }} - </span>
+                <span>{{feedback.date|date}}</span>
+                <button class="btn delete" ng-click="deleteFeedback(feedback)" ng-disabled="feedback.deleting">
+                <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
+        </div>
+        <button class="btn btn-small" ng-show="!display.feedback" ng-click="display.feedback=true">Show Feedback</button>
+    </div>
+    <hr>
+    <form role="form">
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.name">
+                </div>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between">
+            <label>Audio:</label>
+            <div layout="row" ng-show="pes.currentProduct.audio">
+                <button class="btn btn-success" ng-click="playAudio()"><i class="fa fa-play"></i>Play</button>
+                <button class="btn btn-info" ng-click="pauseAudio()"><i class="fa fa-pause"></i>Pause</button>
+                <button class="btn btn-danger" ng-click="removeAudio()"><i class="fa fa-trash"></i>Remove</button>
+            </div>
+            <button class="btn" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
+        </div>
+        <h4 ng-show="pes.currentProduct.hasImages">Product Images:</h4>
+        <div layout="row" layout-align="space-between center">
+            <div layout="column" ng-repeat="image in pes.currentProduct.images">
+                <a ng-href="{{ image.publicUrl }}" target="_blank">
+                <img ng-src="{{image.publicUrl}}" class="product-image"></a>
+                <button class="btn btn-danger" ng-click="removeImage(image)"><i class="fa fa-trash"></i></button>
+            </div>
+            <button class="btn" ngf-select="pes.uploadMedia($files)">
+            Upload Image
+            </button>
+        </div>
+        <h4 ng-show="pes.currentProduct.researchImages.length>0">Research Images:</h4>
+        <div layout="row">
+            <div layout="column" ng-repeat="researchImage in pes.currentProduct.researchImages">
+                <!--insert image from upload-->
+                <a ng-href="{{ researchImage.publicUrl }}" target="_blank"><img
+                ng-src="{{researchImage.publicUrl}}" class="product-image"></a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Description / Script</label>
+            <medium-editor medium-insert ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions" name="beer_script"
+            class="form-control"></medium-editor>
+        </div>
+        <div class="form-group" ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type"
+            ng-show="prop.visibility">
+            <label for="prop">{{ prop.label }}<span ng-show="prop.info"> - ({{ prop.info }})</span></label>
+            <textarea class="form-control" id="prop" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{prop.info}}"></textarea>
+            <input class="form-control" id="prop" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
+            <select ng-switch-when="countryselect" class="form-control"
+                ng-options="country.name as country.name for country in Countries.allCountries"
+            ng-model="prop.value"></select>
+        </div>
+        <div class="form-group">
+            <label>Research Notes</label>
+            <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
+        </div>
+    </form>
+    <div class="row product-type-box" ng-if="permissions.curator">
+        <div class="col-md-12">
+            <div><label>Product Type</label></div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 1)" ng-disabled="pes.currentProduct.productTypeId === 1" ng-bind="pes.currentProduct.productTypeId === 1 ? 'Wine' : 'Mark as Wine'"></button>
+                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 2)" ng-disabled="pes.currentProduct.productTypeId === 2" ng-bind="pes.currentProduct.productTypeId === 2 ? 'Beer' : 'Mark as Beer'"></button>
+                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 3)" ng-disabled="pes.currentProduct.productTypeId === 3" ng-bind="pes.currentProduct.productTypeId === 3 ? 'Spirit' : 'Mark as Spirit'"></button>
+            </div>
+        </div>
+    </div>
+    <!-- Send Back MODAL -->
+    <div class="modal" id="sendback" ng-show="permissions.curator">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Send back to Editor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This will send the product back to the editor for revisions. Please add additional comments below to instruct editor on
+                        necessary
+                    changes.</p>
+                    <div class="form-group">
+                        <div class="row">
+                            <button ng-repeat="issue in issues" class="btn"
+                            ng-class="{'btn-info':issue===feedback.issue}" ng-click="selectIssue(issue)">
+                            {{issue}}
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedbackComments">Comments</label>
+                            <input id="feedbackComments" class="form-control" placeholder="Add comments here..."
+                            ng-model="feedback.comments">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+                    <button class="btn btn-primary btn-wide" style="background-color: #C52424" data-dismiss="modal"
+                    ng-click="sendBack()">Send back to Editor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Send Back MODAL -->
+    <!-- BEGIN submitForApproval MODAL -->
+    <div class="modal" id="submitforapproval">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Submit for Approval</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This will submit the product to be reviewed by our team and if the data is accurate we will approve. If data is not accurate the
+                        product
+                    will be rejected and sent back to you.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+                    <button class="btn btn-primary btn-wide" data-dismiss="modal"
+                    ng-click="submitForApproval(pes.currentProduct)">Submit for Approval
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MODAL -->
+    <!-- BEGIN markAsApproved MODAL -->
+    <div class="modal" id="markasapproved" ng-show="permissions.curator">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Approve Product</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Once this is marked as Approved. It will be synced with the OnCue master database and deployed to all devices.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+                    <input class="btn btn-primary btn-wide" type="submit" value="Approve Product" data-dismiss="modal"
+                    ng-click="approveProduct(pes.currentProduct)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MODAL -->
+    <!-- UNSUBMIT  MODAL -->
+    <div class="modal" id="unsubmitproduct">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Unsubmit Product</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Unsubmitting this product will allow you to continue editing the product and submit again at a later time.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+                    <input class="btn btn-primary btn-wide" type="submit" value="Unsubmit Product" data-dismiss="modal"
+                    ng-click="unsubmitProduct(pes.currentProduct)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END UNSUBMIT MODAL -->
+    <!-- BEGIN DELETE MODAL -->
+    <div class="modal" id="deleteproduct" ng-show="permissions.curator">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close fui-cross" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Delete Product</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this Product?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-default btn-wide">Never Mind</a>
+                    <input class="btn btn-danger btn-wide" value="Delete Product" data-dismiss="modal" ng-click="deleteProduct(pes.currentProduct)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END DELETE MODAL -->
+    <div class="row">
+        <p>Keyboard Shortcuts:</p>
+        <div>
+            <small><code>Ctrl + S / ⌘ + S</code> -- Save Product</small>
+        </div>
+        <div>
+            <small><code>Ctrl + D / ⌘ + D</code> -- Mark As Done</small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-right">
+            <div class="btn-group">
+                <button ng-if="permissions.curator" class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteproduct">Delete Product</button>
+            </div>
+        </div>
+    </div>
 </div>
-

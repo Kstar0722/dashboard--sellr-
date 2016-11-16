@@ -1,4 +1,4 @@
-/* globals angular*/
+/* globals angular, _*/
 angular.module('users.admin').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
   accountsService.init()
   $scope.accountsService = accountsService
@@ -22,7 +22,19 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     window.scrollTo(0, 0)
   }
 
+  // changes the view, and sets current edit account
+  $scope.createAccount = function () {
+    console.log('creating account %O', $scope.account)
+    accountsService.createAccount($scope.account).then(function (newAccount) {
+      var newAccountToEdit = _.findWhere(accountsService.accounts, {accountId: newAccount.accountId})
+      $scope.editAccount(newAccountToEdit)
+    })
+  }
+
   $scope.upload = function (files, accountId) {
+    if (_.isEmpty(files)) {
+      return
+    }
     var mediaConfig = {
       mediaRoute: 'media',
       folder: 'logo',
@@ -31,7 +43,7 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     }
     uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
       if (response) {
-        accountsService.editAccount.logo = constants.ADS_URL + 'logo/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName
+        accountsService.editAccount.logo = constants.ADS_URL + 'logo/' + response.mediaAssetId + '-' + response.fileName
         $scope.currentAccountLogo = accountsService.editAccount.logo
         toastr.success('Logo Updated', 'Success!')
       }
@@ -49,11 +61,10 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
       if (response) {
         debugger
-        accountsService.editAccount.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName;
-        $scope.currentAccountStoreImg = accountsService.editAccount.storeImg;
-        toastr.success('Store Image Updated', 'Success!');
+        accountsService.editAccount.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName
+        $scope.currentAccountStoreImg = accountsService.editAccount.storeImg
+        toastr.success('Store Image Updated', 'Success!')
       }
     })
-  };
-
+  }
 })

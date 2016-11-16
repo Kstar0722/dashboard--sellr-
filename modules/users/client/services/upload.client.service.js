@@ -176,8 +176,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
   }
 
   function createMedia (config, file) {
-    var filename = (file.name).replace(/ /g, '_')
-      .replace(/[()]/g, '') // remove parentheses
+    var filename = (file.name).replace(/ /g, '_').replace(/[()]/g, '').replace(/'/g, '') // remove parentheses and single quotes
 
     var payload
     if (config.mediaRoute === 'media') {

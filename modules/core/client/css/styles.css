@@ -1681,6 +1681,28 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   background-color: #C52424;
   color: #fff;
 }
+.productEditor .product-detail-container {
+  background: #fbfbfb;
+}
+.productEditor .product-detail-container .main-col {
+  margin: 2vh 4%;
+  overflow: hidden;
+}
+.productEditor .product-detail-container .product-type-box {
+  margin-bottom: 30px;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button {
+  font-weight: bold;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button:nth-child(1) {
+  background-color: #AC1E44;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button:nth-child(2) {
+  background-color: #F0D860;
+}
+.productEditor .product-detail-container .product-type-box .btn-group button:nth-child(3) {
+  background-color: #C0C0C0;
+}
 @media only screen and (max-width: 599px) {
   .productEditor .product-detail-container {
     margin-bottom: 50px;
@@ -3836,10 +3858,25 @@ body.storeOwner-orders {
     margin: 0px;
   }
 }
+.location-manager .edit-box .upload-btn,
+.account-manager .edit-box .upload-btn {
+  text-align: center;
+}
+.location-manager .edit-box .update-btn,
+.account-manager .edit-box .update-btn {
+  margin-top: 20px;
+}
+.location-manager .edit-box .logo-container,
+.account-manager .edit-box .logo-container {
+  text-align: center;
+  margin: 30px auto;
+}
 .location-manager .edit-box md-input-container,
 .account-manager .edit-box md-input-container {
   width: 100%;
 }
+.location-manager .edit-box .logo-img,
+.account-manager .edit-box .logo-img,
 .location-manager .edit-box .store-img,
 .account-manager .edit-box .store-img {
   max-width: 100%;
