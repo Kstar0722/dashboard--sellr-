@@ -614,8 +614,6 @@ angular.module('users').service('productEditorService', function ($http, $locati
     return defer.promise
   }
 
-  me.checkForNewProducts()
-
   me.init()
 
   return me
