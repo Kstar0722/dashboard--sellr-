@@ -20,14 +20,6 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       var email = JSON.parse(localStorage.getItem('userObject')).email
       var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
     }
-    if (window.rg4js) {
-      rg4js('setUser', {
-        identifier: localStorage.getItem('userId'),
-        isAnonymous: false,
-        email: email,
-        fullName: displayName
-      })
-    }
 
     // set the domains and variables for each environment
     envServiceProvider.config({
