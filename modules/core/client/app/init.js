@@ -12,7 +12,6 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
     $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
     $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
-    $httpProvider.interceptors.push('errorInterceptor') //   Error Interceptor for tracking errors.
 
     // SET ENVIRONMENT
 
