@@ -31,6 +31,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
       's3-image-uploader': new MediumS3ImageUploader()
     }
   }
+  productEditorService.checkForNewProducts()
   if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
     if ($state.includes('editor.match')) {
