@@ -4,7 +4,6 @@
             + Upload
         </md-button>
     </div>
-
     <div class="orders-container" ng-show="!importView">
         <div class="filter-store">
             <md-input-container>
@@ -25,8 +24,7 @@
             <div flex=10 class="align-center">Total</div>
             <div flex=10 class="align-center">Status</div>
         </div>
-        <div layout layout-align="center center" class="orders-body"
-             ng-repeat="store in orderDataService.allStores | orderBy:'-status.received' | filter:storeFilter">
+        <div layout layout-align="center center" class="orders-body" ng-repeat="store in orderDataService.allStores | orderBy:'-status.received' | filter:storeFilter">
             <div flex=5 class="align-center" ng-click="refreshStoreStatus(store.storeId)"><i class="fa fa-refresh"></i>
             </div>
             <div flex=5 class="align-center">{{store.storeId}}</div>
@@ -43,7 +41,6 @@
             </div>
         </div>
     </div>
-
     <div class="import-wizard" ng-show="importView" ng-disabled="storeSubmitBusy">
         <div class="upload-file" ng-show="importView == 'upload_file'">
             <h2>Upload a CSV of your products</h2>
@@ -54,19 +51,15 @@
                 Select File
             </md-button>
             <ng-csv-import id="storeCsv"
-                           result="csv.result"
-                           header="csv.header"
-                           separator="','"
-                           accept="'.csv'"
-                           acceptSize="4194304"
-                           callback="initCsvImport"></ng-csv-import>
-
+            result="csv.result"
+            header="csv.header"
+            separator="','"
+            accept="'.csv'"
+            acceptSize="4194304"
+            callback="initCsvImport"></ng-csv-import>
             <h2>To the following store:</h2>
-
-            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore"
-                       placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
+            <selectize config="selectStoreConfig" options="storesDropdown" ng-model="selectedStore" placeholder="Select or create store" ng-change="openNewDialog(selectedStore)">
             </selectize>
-
             <div id="createStoreModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
@@ -75,32 +68,65 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Store Details</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input type="text" class="form-control" id="name" ng-model="newStore.name" required
-                                       autofocus>
+                        <form name="newStoreCVS" ng-submit="newStoreCVS.$valid && selectNewStore(newStore)" novalidate>
+                            <div class="modal-body">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>AccountId</label>
+                                    <input ng-model="newStore.accountId" required name="accountId">
+                                    <div ng-messages="newStoreCVS.accountId.$error" role="alert">
+                                        <p class="help-block error-text" ng-message="required">AccountId is required.</p>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Name</label>
+                                    <input ng-model="newStore.name" required name="name">
+                                    <div ng-messages="newStoreCVS.name.$error" role="alert">
+                                        <p class="help-block error-text" ng-message="required">Store name is required.</p>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Address</label>
+                                    <input ng-model="newStore.details.contactInfo.address1" required name="address">
+                                    <div ng-messages="newStoreCVS.address.$error" role="alert">
+                                        <p class="help-block error-text" ng-message="required">Store address is required.</p>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Address (line 2)</label>
+                                    <input ng-model="newStore.details.contactInfo.address2">
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>City</label>
+                                    <input ng-model="newStore.details.contactInfo.city" required name="city">
+                                    <div ng-messages="newStoreCVS.city.$error" role="alert">
+                                        <p class="help-block error-text" ng-message="required">Store city is required.</p>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>State</label>
+                                    <input ng-model="newStore.details.contactInfo.state" required name="state">
+                                    <div ng-messages="newStoreCVS.state.$error" role="alert">
+                                        <p class="help-block error-text" ng-message="required">Store state is required.</p>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                    <label>Zip Code</label>
+                                    <input ng-model="newStore.details.contactInfo.zipcode" required name="zipcode">
+                                    <div ng-messages="newStoreCVS.zipcode.$error" role="alert">
+                                        <p class="help-block error-text" ng-message="required">Store Zip Code is required.</p>
+                                    </div>
+                                </md-input-container>
                             </div>
-                            <div class="form-group">
-                                <label for="name">AccountId:</label>
-                                <input type="text" class="form-control" id="name" ng-model="newStore.accountId"
-                                       required>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Create Store</button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                    ng-click="selectNewStore(newStore)">
-                                Create Store
-                            </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
             <div class="toolbar">
-                <md-button class="next" ng-click="importView = 'configure'"
-                           ng-disabled="!csv.result || (selectedStore || '-') == '-'">
+                <md-button class="next" ng-click="importView = 'configure'" ng-disabled="!csv.result || (selectedStore || '-') == '-'">
                     Next Step
                 </md-button>
             </div>
@@ -120,7 +146,7 @@
                     <i class="fa fa-long-arrow-right fa-2x hide-xs"></i>
                     <i class="fa fa-long-arrow-down show-xs"></i>
                     <selectize config="selectStoreFieldConfig" options="column.availableFields"
-                               ng-model="column.mapping"></selectize>
+                    ng-model="column.mapping"></selectize>
                 </div>
                 <div class="toolbar">
                     <md-button class="cancel" ng-click="cancelImport()">Cancel Import</md-button>
@@ -140,7 +166,6 @@
         </div>
     </div>
 </div>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

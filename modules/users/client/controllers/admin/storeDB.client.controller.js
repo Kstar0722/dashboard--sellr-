@@ -51,34 +51,30 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     console.log('csv file selected', $scope.csv)
   }
 
-  $scope.submitStore = function (selectedStore) {
-    if (!selectedStore) {
+  $scope.submitStore = function (storeId) {
+    if (!storeId) {
       toastr.error('store not selected')
       return
     }
 
     $scope.storeSubmitBusy = true
     try {
-      selectOrCreateStore(selectedStore).then(function (store) {
-        var newStore = findStore(orderDataService.allStores, selectedStore) == null;
-        var products = csvProductMapper.mapProducts($scope.csv.result, $scope.csv.columns)
-        return storesService.importStoreProducts(store, products)
-          .then(function () {
-            return newStore ? storesService.getStoreById(store) : store;
-          })
-          .then(function(storeDB) {
-            if (newStore) {
-              orderDataService.allStores.push(storeDB);
-            }
+      var store = findStore(orderDataService.allStores, storeId)
+      var products = csvProductMapper.mapProducts($scope.csv.result, $scope.csv.columns)
+      storesService.importStoreProducts(store, products)
+        .then(function () {
+          orderDataService.getAllStores().then(function () {
             $scope.cancelImport()
             toastr.success('Store csv file imported')
           })
-      }).catch(function (error) {
-        console.error(error);
-        toastr.error('Failed to import csv file')
-      }).finally(function () {
-        $scope.storeSubmitBusy = false
-      })
+        })
+        .catch(function (error) {
+          console.error(error)
+          toastr.error('Failed to import csv file')
+        })
+        .finally(function () {
+          $scope.storeSubmitBusy = false
+        })
     } catch (ex) {
       console.error('unable to submit store', ex)
       $scope.storeSubmitBusy = false
@@ -92,7 +88,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   $scope.goToMatch = function (store, status) {
-    if (store.status[status] == 0) return;
+    if (store.status[status] === 0) return
     orderDataService.currentOrderId = store.storeId
     orderDataService.getData(store, status).then(function (response) {
       $state.go('editor.match', { id: store.storeId, status: status })
@@ -117,7 +113,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     if (store !== EMPTY_FIELD_NAME) return
 
     $scope.newStore = {
-      storeId: randomId(),
       accountId: localStorage.getItem('accountId')
     }
 
@@ -131,8 +126,14 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
 
   $scope.selectNewStore = function (newStore) {
     if (!newStore) return
-    $scope.storesDropdown.splice(1, 0, newStore)
-    $scope.selectedStore = newStore.storeId || newStore.name
+    storesService.createStore(newStore).then(function (data) {
+      toastr.success('New Store Created', 'Success!')
+      newStore.storeId = data.storeId
+      orderDataService.allStores.push(newStore)
+      $scope.storesDropdown.splice(1, 0, newStore)
+      $scope.selectedStore = newStore.storeId
+      $('#createStoreModal').modal('hide')
+    })
   }
 
   init()
@@ -151,9 +152,9 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       orderDataService.getAllStores().then(function (stores) {
         updateStoreColors()
 
-        $scope.storesDropdown = stores.slice();
-        $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name');
-        $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' });
+        $scope.storesDropdown = stores.slice()
+        $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name')
+        $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' })
       })
     }
 
@@ -189,8 +190,8 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     }
 
     return storesService.createStore(store).then(function (data) {
-      return storesService.getStoreById(data.storeId);
-    });
+      return storesService.getStoreById(data.storeId)
+    })
   }
 
   function toPascalCase (str) {
