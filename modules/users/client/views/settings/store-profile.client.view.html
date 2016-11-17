@@ -1,9 +1,9 @@
-<form class="store-profile" name="storeForm" ng-submit="updateStoreProfile(storeForm.$valid)" novalidate autocomplete="off" md-whiteframe="3" flex="100" flex-gt-sm="70">
+<form class="store-profile" name="forms.storeForm" ng-submit="updateStoreProfile(forms.storeForm.$valid)" novalidate autocomplete="off" md-whiteframe="3" flex="100" flex-gt-sm="70">
     <md-toolbar class="header-bar">
         <div class="md-toolbar-tools">
             <h1>Store Profile</h1>
             <span flex></span>
-            <md-button type="submit" class="save green" ng-disabled="storeForm.$pristine">Save</md-button>
+            <md-button type="submit" class="save green" ng-disabled="!forms.storeForm.$dirty">Save</md-button>
         </div>
     </md-toolbar>
 
@@ -16,14 +16,15 @@
 
         <md-progress-linear md-mode="determinate" value="{{determinateValue}}" ng-show="determinateValue"></md-progress-linear>
 
-        <img ng-src="{{store.storeImg}}" class="store-image">
+        <img ng-src="{{store.details.storeImg}}" class="store-image">
+        <p ng-show="showUploadedImageInfo">The new image will be saved to the store after clicking the SAVE button <br><br></p>
 
         <fieldset class="nomargin" layout="column">
             
             <md-input-container show-errors>
                 <label>Store Name</label>
                 <input type="text" ng-model="store.name" name="name" required maxlength="100">
-                <ng-messages for="storeForm.name.$error" class="alert">
+                <ng-messages for="forms.storeForm.name.$error" class="alert">
                     <ng-message when="required">Store name is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
@@ -31,16 +32,18 @@
 
             <md-input-container show-errors>
                 <label>Store Phone Number</label>
-                <input type="text" ng-model="store.details.contactInfo.phone" name="phone" maxlength="50">
-                <ng-messages for="storeForm.phone.$error" class="alert">
+                <input type="text" ng-model="store.details.contactInfo.phone" name="phone" required maxlength="50">
+                <ng-messages for="forms.storeForm.phone.$error" class="alert">
+                    <ng-message when="required">Store phone is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </md-input-container>
 
             <md-input-container show-errors>
                 <label>Store Email</label>
-                <input type="email" ng-model="store.details.contactInfo.email" name="email" maxlength="100">
-                <ng-messages for="storeForm.email.$error" class="alert">
+                <input type="email" ng-model="store.details.contactInfo.email" name="email" required maxlength="100">
+                <ng-messages for="forms.storeForm.email.$error" class="alert">
+                    <ng-message when="required">Store email is required.</ng-message>
                     <ng-message when="email">Email address is invalid.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
@@ -48,8 +51,9 @@
 
             <md-input-container show-errors>
                 <label>Store Address</label>
-                <input type="text" ng-model="store.details.contactInfo.address1" name="address1" maxlength="400">
-                <ng-messages for="storeForm.address1.$error" class="alert">
+                <input type="text" ng-model="store.details.contactInfo.address1" name="address1" required maxlength="400">
+                <ng-messages for="forms.storeForm.address1.$error" class="alert">
+                    <ng-message when="required">Store Address is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </md-input-container>
@@ -57,7 +61,7 @@
             <md-input-container show-errors>
                 <label>Store Address (Line 2)</label>
                 <input type="text" ng-model="store.details.contactInfo.address2" name="address2" maxlength="400">
-                <ng-messages for="storeForm.address2.$error" class="alert">
+                <ng-messages for="forms.storeForm.address2.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </md-input-container>
@@ -65,7 +69,7 @@
             <md-input-container show-errors>
                 <label>City</label>
                 <input type="text" ng-model="store.details.contactInfo.city" name="city" required maxlength="100">
-                <ng-messages for="storeForm.city.$error" class="alert">
+                <ng-messages for="forms.storeForm.city.$error" class="alert">
                     <ng-message when="required">Store city is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
@@ -74,7 +78,7 @@
             <md-input-container show-errors>
                 <label>State</label>
                 <input type="text" ng-model="store.details.contactInfo.state" name="state" required maxlength="100">
-                <ng-messages for="storeForm.state.$error" class="alert">
+                <ng-messages for="forms.storeForm.state.$error" class="alert">
                     <ng-message when="required">Store state is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
@@ -83,7 +87,7 @@
             <md-input-container show-errors>
                 <label>Zip code</label>
                 <input type="text" ng-model="store.details.contactInfo.zipcode" name="zipcode" required maxlength="5">
-                <ng-messages for="storeForm.zipcode.$error" class="alert">
+                <ng-messages for="forms.storeForm.zipcode.$error" class="alert">
                     <ng-message when="required">Store zip code is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
@@ -93,7 +97,7 @@
                 <label for="store_description">About the Store</label>
                 <textarea id="store_description" class="block" ng-model="store.description" name="description" maxlength="500" rows="4" ng-keypress="cancelOverLimited($event)"></textarea>
                 <div class="chars-counter">{{descriptionCharsLeft}} / {{descriptionCharsLimit}}</div>
-                <ng-messages for="storeForm.description.$error" class="alert">
+                <ng-messages for="forms.storeForm.description.$error" class="alert">
                     <ng-messages-include src="error-messages"></ng-messages-include>
                 </ng-messages>
             </div>

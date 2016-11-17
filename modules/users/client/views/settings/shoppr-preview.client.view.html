@@ -85,7 +85,7 @@
 
         .store-menu {
             align-items: flex-start;
-            background-image: url("/img/storeimgBack.jpg") !important;
+            background-image: url("/img/storeimgBack.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             height: auto;
@@ -93,6 +93,18 @@
             min-height: 250px;
             position: relative;
             width: 100%;
+
+        }
+        .store-menu:before{
+            content:'';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.75;
+            background: #224a5e;
+            z-index: 25;
         }
 
 
@@ -100,11 +112,15 @@
             color: white;
             margin: 20px;
             transform: scaleX(1.25);
+            position: relative;
+            z-index: 30;
         }
 
         .store-title-container {
             color: white;
             margin-top: 15px;
+            position: relative;
+            z-index: 30;
         }
 
         .store-title {
@@ -172,7 +188,7 @@
 </head>
 
 <body class="ng-cloak" ng-controller="ShopprPreviewCtrl">
-    <div class="store-menu" ng-attr-style="{{ 'background-image: ' + storeInfo.storeImgBack }}">
+    <div class="store-menu" ng-attr-style="{{ 'background-image: url(' + storeInfo.details.storeImg + ')' }}">
         <i class="fa fa-lg fa-bars navicon"></i>
         <div class="store-title-container" >
             <div class="store-title">
