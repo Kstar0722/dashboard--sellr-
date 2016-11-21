@@ -16,7 +16,12 @@
         <div class="col-md-9">
             <h4><i>Editing:</i> {{ pes.currentProduct.name }} </h4>
             <div>Product Id {{ pes.currentProduct.productId }}</div>
-            <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
+            <div ng-repeat="sku in pes.currentProduct.skus">
+                <span>UPC: {{ sku }}</span>
+                <md-button type="button" class="md-icon-button remove" ng-if="permissions.curator" ng-click="pes.deleteProductSKU(pes.currentProduct, sku)" aria-label="Delete product SKU">
+                    <i class="fa fa-times"></i>
+                </md-button>
+            </div>
             <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
             <span ng-show="pes.currentProduct.requestedBy">Requested by: {{pes.currentProduct.requestedBy}}</span>
         </div>

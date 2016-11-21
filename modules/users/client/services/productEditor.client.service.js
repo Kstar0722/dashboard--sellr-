@@ -614,6 +614,21 @@ angular.module('users').service('productEditorService', function ($http, $locati
     return defer.promise
   }
 
+  me.deleteProductSKU = function (product, sku) {
+    var params = {
+      productId: product.productId,
+      sku: sku
+    };
+    return $http.delete(constants.BWS_API + '/edit/sku', { params: params }).then(function (res) {
+      _.removeItem(me.currentProduct.skus, sku);
+      toastr.success('UPC ' + sku + ' removed');
+    }).catch(function (err) {
+      console.error(err.data);
+      toastr.error('Failed to remove product SKU ' + sku);
+      throw err;
+    });
+  };
+
   me.init()
 
   return me
