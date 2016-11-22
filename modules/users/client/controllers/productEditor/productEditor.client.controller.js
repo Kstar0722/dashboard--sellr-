@@ -1,7 +1,7 @@
 /* globals angular, _, $*/
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics) {
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -431,6 +431,23 @@ angular.module('users').controller('productEditorController', function ($scope, 
       feedback.deleting = false
     })
   }
+
+  $scope.confirmDeleteProductSKU = function(ev, product, sku) {
+    var confirm = $mdDialog.confirm()
+      .title('Delete UPC?')
+      .textContent('Please confirm whether you want to remove SKU for this product?')
+      .targetEvent(ev)
+      .ok('Delete')
+      .cancel('Cancel');
+
+    $timeout(function () {
+      $('.md-dialog-container').addClass('delete confirm');
+    });
+
+    return $mdDialog.show(confirm).then(function () {
+      return productEditorService.deleteProductSKU(product, sku);
+    });
+  };
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []

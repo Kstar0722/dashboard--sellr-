@@ -1829,8 +1829,15 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   margin: 0 0 0 10px;
   padding: 0 10px;
 }
+.productEditor .remove.md-button {
+  margin: 0;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -150px;
+}
+.delete.confirm .md-confirm-button {
+  background: #FF0000 !important;
+  color: #ffffff !important;
 }
 @-webkit-keyframes uil-ripple {
   0% {

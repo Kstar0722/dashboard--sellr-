@@ -18,7 +18,7 @@
             <div>Product Id {{ pes.currentProduct.productId }}</div>
             <div ng-repeat="sku in pes.currentProduct.skus">
                 <span>UPC: {{ sku }}</span>
-                <md-button type="button" class="md-icon-button remove" ng-if="permissions.curator" ng-click="pes.deleteProductSKU(pes.currentProduct, sku)" aria-label="Delete product SKU">
+                <md-button type="button" class="md-icon-button remove" ng-if="permissions.curator" ng-click="confirmDeleteProductSKU($event, pes.currentProduct, sku)" aria-label="Delete product SKU">
                     <i class="fa fa-times"></i>
                 </md-button>
             </div>
