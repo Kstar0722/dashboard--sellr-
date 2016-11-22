@@ -1,5 +1,5 @@
 /* globals angular, _*/
-angular.module('users.admin').controller('AccountManagerController', function ($scope, locationsService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
   accountsService.init()
   $scope.accountsService = accountsService
   $scope.determinateValue = 0

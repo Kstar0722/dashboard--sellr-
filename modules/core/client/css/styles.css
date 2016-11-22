@@ -1688,6 +1688,9 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   margin: 2vh 4%;
   overflow: hidden;
 }
+.productEditor .product-detail-container .remove {
+  color: #FF0000;
+}
 .productEditor .product-detail-container .product-type-box {
   margin-bottom: 30px;
 }
@@ -3841,43 +3844,43 @@ body.storeOwner-orders {
   line-height: 24px;
 }
 @media only screen and (max-width: 599px) {
-  .location-manager .create-btn,
+  .stores-manager .create-btn,
   .account-manager .create-btn {
     width: 100%;
     margin: 0px;
   }
 }
-.location-manager .edit-box,
+.stores-manager .edit-box,
 .account-manager .edit-box {
   padding: 20px;
 }
 @media only screen and (max-width: 599px) {
-  .location-manager .edit-box .md-button,
+  .stores-manager .edit-box .md-button,
   .account-manager .edit-box .md-button {
     width: 100%;
     margin: 0px;
   }
 }
-.location-manager .edit-box .upload-btn,
+.stores-manager .edit-box .upload-btn,
 .account-manager .edit-box .upload-btn {
   text-align: center;
 }
-.location-manager .edit-box .update-btn,
+.stores-manager .edit-box .update-btn,
 .account-manager .edit-box .update-btn {
   margin-top: 20px;
 }
-.location-manager .edit-box .logo-container,
+.stores-manager .edit-box .logo-container,
 .account-manager .edit-box .logo-container {
   text-align: center;
   margin: 30px auto;
 }
-.location-manager .edit-box md-input-container,
+.stores-manager .edit-box md-input-container,
 .account-manager .edit-box md-input-container {
   width: 100%;
 }
-.location-manager .edit-box .logo-img,
+.stores-manager .edit-box .logo-img,
 .account-manager .edit-box .logo-img,
-.location-manager .edit-box .store-img,
+.stores-manager .edit-box .store-img,
 .account-manager .edit-box .store-img {
   max-width: 100%;
 }

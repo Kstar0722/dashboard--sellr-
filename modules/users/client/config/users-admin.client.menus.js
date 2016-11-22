@@ -24,8 +24,8 @@ angular.module('users.admin').run([ 'Menus',
       position: 7
     })
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Location Manager',
-      state: 'manager.locations',
+      title: 'Stores Manager',
+      state: 'manager.stores',
       position: 10
     });
   }

@@ -15,7 +15,6 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'public/dist/lib.js',
-            'node_modules/raygun4js/dist/raygun.js',
             'public/dist/application.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'modules/*/tests/client/**/*Spec.js'

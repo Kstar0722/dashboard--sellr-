@@ -1,7 +1,7 @@
 {
   "name": "sellr-dashboard",
   "description": "Control center for the OnCue Sellr solution",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "meanjs-version": "0.4.2",
   "private": false,
   "author": "Sellr",
@@ -84,7 +84,6 @@
     "owasp-password-strength-test": "^1.3.0",
     "passport": "~0.2.2",
     "passport-local": "^1.0.0",
-    "raygun4js": "^2.3.2",
     "request": "^2.67.0",
     "serve-favicon": "^2.3.0",
     "swig": "^1.4.2",
