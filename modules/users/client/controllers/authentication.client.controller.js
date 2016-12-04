@@ -19,7 +19,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     //  If user is signed in then redirect back home
-    if ($scope.authentication.user) {
+    if ($scope.authentication.user && !$state.is('authentication.reset')) {
       $location.path('/')
     }
 

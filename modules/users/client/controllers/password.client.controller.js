@@ -7,7 +7,7 @@ angular.module('users').controller('PasswordController', [ '$scope', '$statePara
     $scope.popoverMsg = PasswordValidator.getPopoverMsg()
 
     // If user is signed in then redirect back home
-    if ($scope.authentication.user) {
+    if ($scope.authentication.user && !$state.is('authentication.reset')) {
       $location.path('/')
     }
 
@@ -17,7 +17,7 @@ angular.module('users').controller('PasswordController', [ '$scope', '$statePara
       var resetObj = {
         payload: {
           oldPassword: $location.search().token,
-          email: $location.search().email,
+          email: $location.search().email.replace(/%2B/gi, '+'),
           password: $scope.passwordDetails.newPassword
         }
       }
@@ -26,7 +26,7 @@ angular.module('users').controller('PasswordController', [ '$scope', '$statePara
 
         return false
       }
-      debugger
+
       console.log('new pass details %0', resetObj)
       $http.post(constants.API_URL + '/users/auth/reset', resetObj).then(function (response, err) {
         if (err) {
