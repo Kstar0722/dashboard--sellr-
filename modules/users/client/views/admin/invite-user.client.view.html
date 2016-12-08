@@ -22,6 +22,14 @@
       </div>
     </md-input-container>
 
+    <md-input-container class="md-block">
+      <label>Set User Password</label>
+      <input ng-model="user.password">
+      <div ng-messages="userForm.password.$error" role="alert">
+        <p class="help-block error-text" ng-message="required">Password is required.</p>
+      </div>
+    </md-input-container>
+
     <div class="form-group" show-errors>
       <label>User Role</label>
 
