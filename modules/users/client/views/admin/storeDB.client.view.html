@@ -102,14 +102,18 @@
                                         <p class="help-block error-text" ng-message="required">Store city is required.</p>
                                     </div>
                                 </md-input-container>
-                                <md-input-container class="md-block">
+                                <md-input-container class="md-block states" flex-gt-sm>
                                     <label>State</label>
-                                    <input ng-model="newStore.details.contactInfo.state" required name="state">
+                                     <md-select ng-model="newStore.details.contactInfo.state" required name="state">
+                                        <md-option ng-repeat="state in states" ng-value="state.abbreviation">
+                                            {{state.name}}
+                                        </md-option>
+                                    </md-select>
                                     <div ng-messages="newStoreCVS.state.$error" role="alert">
                                         <p class="help-block error-text" ng-message="required">Store state is required.</p>
                                     </div>
                                 </md-input-container>
-                                <md-input-container class="md-block">
+                                <md-input-container class="md-block" flex-gt-sm>
                                     <label>Zip Code</label>
                                     <input ng-model="newStore.details.contactInfo.zipcode" required name="zipcode">
                                     <div ng-messages="newStoreCVS.zipcode.$error" role="alert">

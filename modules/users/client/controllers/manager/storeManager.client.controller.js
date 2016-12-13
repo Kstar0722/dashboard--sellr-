@@ -1,5 +1,6 @@
 /* globals angular, localStorage */
-angular.module('users.manager').controller('StoreManagerController', function ($scope, storesService, $state, accountsService, CurrentUserService) {
+angular.module('users.manager').controller('StoreManagerController', function ($scope, storesService, $state, accountsService, CurrentUserService, UsStates) {
+  $scope.states = UsStates
   storesService.accountId = localStorage.getItem('accountId')
   storesService.getStores().then(function () {
     $scope.storesService = storesService

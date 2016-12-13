@@ -1,12 +1,13 @@
 'use strict'
-/* globals moment */
+/* globals angular, moment, $, localStorage */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce',
-  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce', 'UsStates',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce, UsStates) {
     $scope.user = initUser(Authentication.user)
     $scope.passwordDetails = {}
     $scope.store = {}
     $scope.forms = {}
+    $scope.states = UsStates
 
     $scope.accountsService = accountsService
     $scope.descriptionCharsLimit = 200
@@ -134,8 +135,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       toastr.success('Copied embed code to clipboard')
     }
 
-    $scope.$watch('store.description', function (description) { limitDescriptionLength(description); })
-    $scope.$watch('descriptionCharsLimit', function () { limitDescriptionLength(); })
+    $scope.$watch('store.description', function (description) { limitDescriptionLength(description) })
+    $scope.$watch('descriptionCharsLimit', function () { limitDescriptionLength() })
     $scope.$watch('accountsService.accounts', loadStore)
 
     $scope.$watch('store', function (storeInfo) {

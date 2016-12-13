@@ -3556,6 +3556,16 @@ body .productEditor .loading-data .right {
   margin-left: 100px;
   margin-top: -10px;
 }
+.store-client-view md-input-container.states {
+  text-align: left;
+}
+.store-client-view md-input-container.states .md-select-placeholder,
+.store-client-view md-input-container.states label {
+  font-weight: bold;
+}
+.md-select-menu-container {
+  z-index: 2000 !important;
+}
 .createProduct {
   padding: 8%;
 }
