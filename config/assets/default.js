@@ -73,7 +73,8 @@ module.exports = {
                 'public/lib/angular-clipboard/angular-clipboard.js',
                 'public/lib/ng-autofocus/dist/ng-autofocus.js',
                 'public/lib/filepicker-js-bower/filepicker.js',
-                'public/lib/angular-filepicker/dist/angular_filepicker.js'
+                'public/lib/angular-filepicker/dist/angular_filepicker.js',
+                'public/lib/angular-us-states/build/angular-us-states.js'
 			]
 		},
 		css: [
