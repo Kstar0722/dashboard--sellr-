@@ -6,6 +6,8 @@
     background-position: center;
   }
   top: 0;
+  left: 0;
+  right: 0;
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -144,7 +146,7 @@
       margin-left: 32px;
     }
   }
-
+  
   #signupForm {
     input[type=text],
     input[type=password] {
@@ -154,6 +156,19 @@
     .payment.md-button {
       margin: 10px 0;
       width: 100%;
+    }
+  }
+  .reset-form{
+    @media @small-only {
+      box-shadow: none; 
+    }
+    .error-text{
+      font-size: 12px;
+      color: red;
+    }
+    .requirements{
+      color:white; 
+      white-space:nowrap;
     }
   }
 
