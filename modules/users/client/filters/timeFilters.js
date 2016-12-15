@@ -1,17 +1,29 @@
-/*globals angular, moment */
+/* globals angular, moment */
 angular.module('users')
-  .filter('hour', function () {
-    return function (momentDate) {
-      return moment(momentDate).format('h')
+.filter('hour', function () {
+  return function (momentDate) {
+    // NEW FORMAT USE THIS FROM NOW ON
+    var momentPickup = moment(momentDate, 'MMMM D, YYYY HH')
+    if (!momentPickup.isValid()) {
+      // OLD FORMAT FOR BACKWARDS COMPATIBILITY ONLY
+      momentPickup = moment(momentDate)
     }
-  })
-  .filter('time', function () {
-    return function (momentDate) {
-      return moment(momentDate).format('A')
+    return moment(momentPickup).format('h')
+  }
+})
+.filter('time', function () {
+  return function (momentDate) {
+    // NEW FORMAT USE THIS FROM NOW ON
+    var momentPickup = moment(momentDate, 'MMMM D, YYYY HH')
+    if (!momentPickup.isValid()) {
+      // OLD FORMAT FOR BACKWARDS COMPATIBILITY ONLY
+      momentPickup = moment(momentDate)
     }
-  })
-  .filter('customDate', function () {
-    return function (momentDate) {
-      return moment(momentDate).format('MMMM D, YYYY h:mm A')
-    }
-  })
+    return moment(momentPickup).format('A')
+  }
+})
+.filter('customDate', function () {
+  return function (momentDate) {
+    return moment(momentDate).format('MMMM D, YYYY h:mm A')
+  }
+})

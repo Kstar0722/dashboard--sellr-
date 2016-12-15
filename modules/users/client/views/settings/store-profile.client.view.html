@@ -77,7 +77,11 @@
 
             <md-input-container show-errors>
                 <label>State</label>
-                <input type="text" ng-model="store.details.contactInfo.state" name="state" required maxlength="100">
+                <md-select ng-model="store.details.contactInfo.state" name="state" required>
+                    <md-option ng-repeat="state in states" ng-value="state.abbreviation">
+                        {{state.name}}
+                    </md-option>
+                </md-select>
                 <ng-messages for="forms.storeForm.state.$error" class="alert">
                     <ng-message when="required">Store state is required.</ng-message>
                     <ng-messages-include src="error-messages"></ng-messages-include>

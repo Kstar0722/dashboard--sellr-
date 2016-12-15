@@ -686,6 +686,8 @@ section.userList .userbox {
 }
 .sign-in {
   top: 0;
+  left: 0;
+  right: 0;
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -848,6 +850,19 @@ section.userList .userbox {
 .sign-in #signupForm .payment.md-button {
   margin: 10px 0;
   width: 100%;
+}
+@media only screen and (max-width: 599px) {
+  .sign-in .reset-form {
+    box-shadow: none;
+  }
+}
+.sign-in .reset-form .error-text {
+  font-size: 12px;
+  color: red;
+}
+.sign-in .reset-form .requirements {
+  color: white;
+  white-space: nowrap;
 }
 @media (max-width: 767px) {
   .sign-in form#login-form img {
@@ -3555,6 +3570,16 @@ body .productEditor .loading-data .right {
 .store-client-view .products-popup {
   margin-left: 100px;
   margin-top: -10px;
+}
+.store-client-view md-input-container.states {
+  text-align: left;
+}
+.store-client-view md-input-container.states .md-select-placeholder,
+.store-client-view md-input-container.states label {
+  font-weight: bold;
+}
+.md-select-menu-container {
+  z-index: 2000 !important;
 }
 .createProduct {
   padding: 8%;

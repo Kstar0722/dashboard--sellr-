@@ -33,7 +33,7 @@
               <div class="md-list-item-text">
                 <h3>{{ store.name }} </h3>
                 <p>{{ store.details.contactInfo.address1 }}</p>
-                <p>{{ store.details.contactInfo.city }},{{ store.details.contactInfo.state }}</p>
+                <p>{{ store.details.contactInfo.city }}, <state-display source="{{ store.details.contactInfo.state }}"></state-display></p>
               </div>
               <md-button class="md-secondary md-raised" ng-click="editStore(store)">Edit</md-button>
               <md-divider ng-if="!$last"></md-divider>
