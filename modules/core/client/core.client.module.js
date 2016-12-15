@@ -1,7 +1,7 @@
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('core', [ 'ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ui.grid', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js', 'angular-medium-editor','ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.rowEdit' ]);
+ApplicationConfiguration.registerModule('core', [ 'ngAnimate', 'ngAria', 'ngMaterial', 'ngFileUpload', 'ui.sortable', 'ui.grid', 'ngCsv', 'ngSanitize', 'environment', 'toastr', 'chart.js', 'angular-medium-editor','ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.rowEdit', 'ngUsStates' ]);
 ApplicationConfiguration.registerModule('core.admin', ['core']);
 ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('core.supplier', ['core']);

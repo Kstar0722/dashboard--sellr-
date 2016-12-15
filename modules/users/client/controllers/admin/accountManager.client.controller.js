@@ -1,8 +1,9 @@
-/* globals angular, _*/
-angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr) {
+/* globals angular, _ */
+angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates) {
   accountsService.init()
   $scope.accountsService = accountsService
   $scope.determinateValue = 0
+  $scope.states = UsStates
   $scope.accountLogo = ''
   $scope.account = {
     createdBy: ''
@@ -60,7 +61,6 @@ angular.module('users.admin').controller('AccountManagerController', function ($
 
     uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
       if (response) {
-        debugger
         accountsService.editAccount.storeImg = constants.ADS_URL + 'storeImg/' + response[ 0 ].mediaAssetId + '-' + response[ 0 ].fileName
         $scope.currentAccountStoreImg = accountsService.editAccount.storeImg
         toastr.success('Store Image Updated', 'Success!')

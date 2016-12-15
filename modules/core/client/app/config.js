@@ -22,7 +22,8 @@ var ApplicationConfiguration = (function () {
       'angular-clipboard',
       'ng-autofocus',
       'cfp.loadingBar',
-      'angular-filepicker'
+      'angular-filepicker',
+      'ngUsStates'
     ];
 
   // Add a new vertical module
