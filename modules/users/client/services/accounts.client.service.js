@@ -21,8 +21,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function onGetAccountSuccess (res) {
       me.accounts = []
       res.data.forEach(function (account) {
-        if (account.preferences !== 'undefined') {
-          account.logo = account.preferences.s3url || account.preferences.logo
+        if (account.preferences) {
+          account.logo = account.preferences.logo || account.preferences.s3url
           account.storeImg = account.preferences.storeImg
           account.shoppr = Boolean(account.preferences.shoppr)
         }
