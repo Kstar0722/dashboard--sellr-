@@ -22,9 +22,9 @@ angular.module('users').service('accountsService', function ($http, constants, t
       me.accounts = []
       res.data.forEach(function (account) {
         if (account.preferences !== 'undefined') {
-          account.logo = JSON.parse(account.preferences).s3url || JSON.parse(account.preferences).logo
-          account.storeImg = JSON.parse(account.preferences).storeImg
-          account.shoppr = Boolean(JSON.parse(account.preferences).shoppr)
+          account.logo = account.preferences.s3url || account.preferences.logo
+          account.storeImg = account.preferences.storeImg
+          account.shoppr = Boolean(account.preferences.shoppr)
         }
         if (me.selectAccountId && account.accountId == me.selectAccountId) {
           me.currentAccount = account
