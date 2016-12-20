@@ -36,7 +36,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
         }
       })
       me.accounts = res.data
-      defer.resolve()
+      defer.resolve(me.accounts)
     }
 
     function onGetAccountError (err) {

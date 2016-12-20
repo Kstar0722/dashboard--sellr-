@@ -28,10 +28,14 @@ describe('Service: core.AccountsService', function () {
   })
 
   it('should get all accounts', function () {
+    var accounts = []
     $httpBackend.whenGET(/\/accounts\?status=1/)
       .respond(200, [ { preferences: {}, accountId: 1000 } ])
-    service.getAccounts().then(function (res) {})
+    service.getAccounts().then(function (res) {
+      accounts = res
+    })
     $httpBackend.flush()
     expect(service.accounts.length).toBeGreaterThan(0)
+    expect(accounts[ 0 ].shoppr).toBe(false)
   })
 })
