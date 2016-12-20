@@ -97,17 +97,18 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   }
 
   $scope.refreshStoreStatus = function (storeId) {
-    var i = _.findIndex(orderDataService.allStores, function (s) {
-      return s.storeId === storeId
-    })
-    orderDataService.allStores[ i ].status.barClass = 'blue'
-    var url = constants.BWS_API + '/storedb/stores/' + storeId
-    $http.get(url).then(function (res) {
-      orderDataService.allStores[ i ] = res.data[ 0 ]
-      updateStoreColors()
-    }, function (err) {
-      console.error(err)
-    })
+    // Disabled because of the large inventories weve begun importing
+    // var i = _.findIndex(orderDataService.allStores, function (s) {
+    //   return s.storeId === storeId
+    // })
+    // orderDataService.allStores[ i ].status.barClass = 'blue'
+    // var url = constants.BWS_API + '/storedb/stores/' + storeId
+    // $http.get(url).then(function (res) {
+    //   orderDataService.allStores[ i ] = res.data[ 0 ]
+    //   updateStoreColors()
+    // }, function (err) {
+    //   console.error(err)
+    // })
   }
 
   $scope.openNewDialog = function (store) {
