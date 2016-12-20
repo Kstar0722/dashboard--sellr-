@@ -347,8 +347,8 @@ module.exports = function (grunt) {
   grunt.registerTask('_build', ['env:dev', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace']);
   grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ]);
   grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
-  // grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
-  grunt.registerTask('test', [ ]); // disabled
+  grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
+  // grunt.registerTask('test', [ ]); // disabled
 };
 
 function minifiedOrDefaultFiles(files) {

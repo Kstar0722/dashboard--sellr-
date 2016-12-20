@@ -1,20 +1,20 @@
-describe('Controller: users.LocationManagerController', function () {
+describe('Controller: users.StoreDbController', function () {
 
-    // load the controller's module
-    beforeEach(module('mean'));
+  // load the controller's module
+  beforeEach(module('mean'));
 
-    var ctrl,
-        scope;
+  var ctrl,
+    scope;
 
-    // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
-        ctrl = $controller('LocationManagerController', {
-            $scope: scope
-        });
-    }));
-
-    it('should be defined', function () {
-        expect(ctrl).toBeDefined();
+  // Initialize the controller and a mock scope
+  beforeEach(inject(function ($controller, $rootScope) {
+    scope = $rootScope.$new();
+    ctrl = $controller('StoreDbController', {
+      $scope: scope
     });
+  }));
+
+  it('should be defined', function () {
+    expect(ctrl).toBeDefined();
+  });
 });

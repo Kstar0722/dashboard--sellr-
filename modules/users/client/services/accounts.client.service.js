@@ -1,6 +1,7 @@
 /* globals angular, localStorage */
 angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q) {
   var me = this
+  me.getAccounts = getAccounts
   me.init = function () {
     me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
     me.accounts = []
@@ -19,6 +20,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
     console.log('selectAccountId %O', me.selectAccountId)
     $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
     function onGetAccountSuccess (res) {
+      console.log('========= res ' + JSON.stringify(res))
+
       me.accounts = []
       res.data.forEach(function (account) {
         if (account.preferences) {

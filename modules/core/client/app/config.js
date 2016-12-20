@@ -18,7 +18,6 @@ var ApplicationConfiguration = (function () {
       'angular-loading-bar',
       'angulartics',
       'angulartics.gosquared',
-      'ngPostMessage',
       'angular-clipboard',
       'ng-autofocus',
       'cfp.loadingBar',
