@@ -84,7 +84,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     //   }
     // }
     if (searchText) {
-      url += '&q=' + searchText
+      url += '&q=' + encodeURIComponent(searchText)
     }
     url += '&v=sum'
     console.log('getting URL: ', url)
