@@ -2,7 +2,9 @@
 <!--Uses AccountManagerController in accountManager.client.controller.js-->
 <section class="inner">
     <h1>Editing Account: {{ accountsService.editAccount.name }}</h1>
-    <md-button class="md-button md-raised md-primary" ng-click="accountsService.deleteAccount(accountsService.editAccount.accountId)">Remove Account</md-button>
+    <md-button class="md-button md-raised md-primary"
+               ng-click="accountsService.deleteAccount(accountsService.editAccount.accountId)">Remove Account
+    </md-button>
     <form name="editAccountForm" novalidate>
         <div layout-xs="column" layout-sm="column" layout-align="space-between center">
             <md-input-container class="md-block" flex-gt-sm>
@@ -54,26 +56,32 @@
         </div>
         <div class="upload-btn">
             <md-button class="md-button md-raised upload"
-            ngf-select="upload($files, accountsService.editAccount.accountId)" ngf-multiple="true">
-            Upload Logo Image
+                       ngf-select="upload($files, accountsService.editAccount.accountId)" ngf-multiple="true">
+                Upload Logo Image
+            </md-button>
+        </div>
+        <md-progress-linear md-mode="determinate" value="{{determinateValue}}"
+                            ng-show="determinateValue"></md-progress-linear>
+        <div class="logo-container">
+            <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" class="logo-img" height="100">
+        </div>
+        <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
+        <md-input-container>
+            <label>Remaining Orders</label>
+            <input ng-model="accountsService.editAccount.preferences.plan.remainingOrders" type="number">
+        </md-input-container>
+        <div layout="row" layout-align="space-between center" layout-xs="column" layout-align-xs="start stretch">
+            <label>Device Authentication Code: </label>
+            <p><strong>{{ accountsService.editAccount.authCode || 123456 }}</strong></p>
+            <md-button class="md-button md-raised md-accent"
+                       ng-click="accountsService.generateAuthCode(accountsService.editAccount.authCode)">Generate New
+                Code
+            </md-button>
+        </div>
+        <md-button class="md-button md-raised md-primary update-btn" ng-click="accountsService.updateAccount()">Update
         </md-button>
-    </div>
-    <md-progress-linear md-mode="determinate" value="{{determinateValue}}" ng-show="determinateValue"></md-progress-linear>
-    <div class="logo-container">
-        <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" class="logo-img" height="100">
-    </div>
-    <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
-    <div layout="row" layout-align="space-between center" layout-xs="column" layout-align-xs="start stretch">
-        <label>Device Authentication Code: </label>
-        <p><strong>{{ accountsService.editAccount.authCode || 123456 }}</strong></p>
-        <md-button class="md-button md-raised md-accent"
-        ng-click="accountsService.generateAuthCode(accountsService.editAccount.authCode)">Generate New
-        Code
-    </md-button>
-</div>
-<md-button class="md-button md-raised md-primary update-btn" ng-click="accountsService.updateAccount()">Update</md-button>
-<div ng-show="error" class="text-danger">
-    <strong ng-bind="error"></strong>
-</div>
-</form>
+        <div ng-show="error" class="text-danger">
+            <strong ng-bind="error"></strong>
+        </div>
+    </form>
 </section>

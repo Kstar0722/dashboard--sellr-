@@ -40,6 +40,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
       toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
       console.error(err)
     }
+
     return defer.promise
   }
 
@@ -81,15 +82,15 @@ angular.module('users').service('accountsService', function ($http, constants, t
       toastr.error('There was a problem creating this account')
       console.error(err)
     }
+
     return defer.promise
   }
 
   me.updateAccount = function () {
-    me.editAccount.preferences = {
-      logo: me.editAccount.logo,
-      style: me.editAccount.style,
-      shoppr: me.editAccount.shoppr
-    }
+    me.editAccount.preferences = me.editAccount.preferences || {}
+    me.editAccount.preferences.logo = me.editAccount.logo
+    me.editAccount.preferences.style = me.editAccount.style
+    me.editAccount.preferences.shoppr = me.editAccount.shoppr
     var payload = {
       payload: me.editAccount
     }
@@ -137,11 +138,11 @@ angular.module('users').service('accountsService', function ($http, constants, t
   // set up two-way binding to parent property
   function bindRootProperty ($scope, name, context) {
     $scope.$watch('$root.' + name, function (value) {
-      (context || $scope)[name] = value
+      (context || $scope)[ name ] = value
     })
 
-    $scope.$watch(function () { return (context || $scope)[name]; }, function (value) {
-      $scope.$root[name] = value
+    $scope.$watch(function () { return (context || $scope)[ name ]; }, function (value) {
+      $scope.$root[ name ] = value
     })
   }
 
