@@ -308,7 +308,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.assignSelectedToUser = function (editor) {
     $scope.selected.forEach(function (product) {
       var options = {
-        username: editor.displayName || editor.username || editor.email,
+        username: editor.displayName || editor.email,
         userId: $scope.userId,
         productId: product.productId,
         status: 'inprogress'

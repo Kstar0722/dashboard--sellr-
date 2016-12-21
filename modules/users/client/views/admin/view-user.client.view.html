@@ -2,7 +2,7 @@
   <div class="page-header">
     <div class="row">
       <div class="col-md-6">
-        <h1 ng-bind="user.username"></h1>
+        <h1 ng-bind="user.firstName + ' ' + user.firstName"></h1>
       </div>
         <md-button class="md-raised md-primary" ui-sref="admin.users.user-edit({userId: user._id})">edit user</md-button>
     </div>

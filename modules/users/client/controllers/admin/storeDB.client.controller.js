@@ -148,7 +148,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     console.time('storeDBinit')
 
     if (Authentication.user) {
-      $scope.account = { createdBy: Authentication.user.username }
+      $scope.account = { createdBy: Authentication.user.firstName + ' ' + Authentication.user.lastName }
     }
     if (orderDataService.allStores.length === 0) {
       orderDataService.getAllStores().then(function (stores) {

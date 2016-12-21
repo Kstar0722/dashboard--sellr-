@@ -10,7 +10,7 @@ angular.module('users').factory('Authentication', ['$window',
       }
       var options = {
         id: user.userId,
-        name: user.username,
+        name: user.firstName + ' ' + user.lastName,
         email: user.email,
         custom: {
           source: 'Sellr-Dashboard'

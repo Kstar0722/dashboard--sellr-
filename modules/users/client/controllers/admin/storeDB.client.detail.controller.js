@@ -3,7 +3,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
   orderDataService, $state, accountsService, CurrentUserService,
   productEditorService, Authentication, $stateParams, constants, toastr, $q, $rootScope, cfpLoadingBar) {
   if (Authentication.user) {
-    $scope.account = { createdBy: Authentication.user.username }
+    $scope.account = { createdBy: Authentication.user.firstName + Authentication.user.lastName }
   }
 
   console.log('stateParams %O', $stateParams, orderDataService.allItems.length === 0)

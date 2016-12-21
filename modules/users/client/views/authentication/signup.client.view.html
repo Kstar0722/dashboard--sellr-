@@ -5,65 +5,65 @@
       <div id="login-form">
         <form id="signupForm" name="signupForm" ng-submit="signup(signupForm.$valid, credentials, account)" class="signup" novalidate autocomplete="off" class="text-center  md-whiteframe-18dp">
           <fieldset class="nomargin" ng-disabled="busy">
-              <div class="logo"></div>
+            <div class="logo"></div>
 
-              <md-input-container class="md-block">
-                <input type="text" id="contactName" name="contactName"  ng-model="account.contactName" placeholder="Name"  required autofocus>
-                <div ng-messages="signupForm.contactName.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Name is required.</p>
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
-                <input type="text" id="email" name="email"  ng-model="credentials.email" placeholder="Email"  required>
-                <div ng-messages="signupForm.email.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Email is required.</p>
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block" >
-                <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-minlength="6" required>
-                <div ng-messages="signupForm.password.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Password is required.</p>
-                  <p class="help-block error-text" ng-show="signupForm.password.$invalid">Must be greater than 6 characters</p>
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
-                <input type="text" id="storeName" name="storeName"  ng-model="account.name" placeholder="Store Name" required>
-                <div ng-messages="signupForm.storeName.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Store Name is required.</p>
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
-                <input type="text" id="storeAddress" name="storeAddress"  ng-model="account.address" placeholder="Store Address">
-                <div ng-messages="signupForm.storeAddress.$error" role="alert">
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
-                <input type="text" id="storeCity" name="storeCity"  ng-model="account.city" placeholder="Store City">
-                <div ng-messages="signupForm.storeCity.$error" role="alert">
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
-                <input type="text" id="storeState" name="storeState"  ng-model="account.state" placeholder="Store State">
-                <div ng-messages="signupForm.storeState.$error" role="alert">
-                </div>
-              </md-input-container>
-
-              <md-input-container class="md-block">
-                  <input type="text" id="storeZip" name="storeZip" ng-model="account.zipCode" placeholder="Store Zip">
-                  <div ng-messages="signupForm.storeZip.$error" role="alert">
-                  </div>
-              </md-input-container>
-          
-              <div layout="row" layout-align="space-between center">
-                <div flex=""></div>
-                <md-button type="submit" class="action">Sign up</md-button>
+            <md-input-container class="md-block">
+              <input type="text" id="contactName" name="contactName"  ng-model="account.contactName" placeholder="Name"  required autofocus>
+              <div ng-messages="signupForm.contactName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Name is required.</p>
               </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <input type="text" id="email" name="email"  ng-model="credentials.email" placeholder="Email"  required>
+              <div ng-messages="signupForm.email.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Email is required.</p>
+              </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" >
+              <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-minlength="6" required>
+              <div ng-messages="signupForm.password.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Password is required.</p>
+                <p class="help-block error-text" ng-show="signupForm.password.$invalid">Must be greater than 6 characters</p>
+              </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <input type="text" id="storeName" name="storeName"  ng-model="account.name" placeholder="Store Name" required>
+              <div ng-messages="signupForm.storeName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Store Name is required.</p>
+              </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <input type="text" id="storeAddress" name="storeAddress"  ng-model="account.address" placeholder="Store Address">
+              <div ng-messages="signupForm.storeAddress.$error" role="alert">
+              </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <input type="text" id="storeCity" name="storeCity"  ng-model="account.city" placeholder="Store City">
+              <div ng-messages="signupForm.storeCity.$error" role="alert">
+              </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <input type="text" id="storeState" name="storeState"  ng-model="account.state" placeholder="Store State">
+              <div ng-messages="signupForm.storeState.$error" role="alert">
+              </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <input type="text" id="storeZip" name="storeZip" ng-model="account.zipCode" placeholder="Store Zip">
+              <div ng-messages="signupForm.storeZip.$error" role="alert">
+              </div>
+            </md-input-container>
+
+            <div layout="row" layout-align="space-between center">
+              <div flex=""></div>
+              <md-button type="submit" class="action">Sign up</md-button>
+            </div>
           </fieldset>
         </form>
         <div class="alt-actions" layout="row" layout-align="space-between start">

@@ -328,7 +328,7 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
       var accountId = $scope.selectAccountId || $state.params.accountId
       var config = {
         fileName: type,
-        userName: Authentication.user.username,
+        userName: Authentication.user.firstName + Authentication.user.lastName,
         accountId: accountId,
         name: $scope.modalAd.name,
         prefs: {

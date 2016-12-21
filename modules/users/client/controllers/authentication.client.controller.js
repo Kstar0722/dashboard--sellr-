@@ -39,7 +39,6 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
           email: $scope.credentials.email,
           firstName: $scope.credentials.firstName,
           lastName: $scope.credentials.lastName,
-          username: $scope.credentials.username,
           password: $scope.credentials.password,
           roles: userInfo.roles,
           userId: userInfo.regCode,
