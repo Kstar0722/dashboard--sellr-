@@ -3,7 +3,7 @@
 
 <section class="inner edit-user">
 
-  <h1>Editing User: {{ user.username }}</h1>
+  <h1>Editing User: {{user.firstName}} {{user.lastName}}</h1>
   <md-button  class="md-button md-raised md-primary"  ng-click="remove();" ng-if="user._id !== authentication.user._id">
     Remove User
   </md-button>
@@ -12,15 +12,24 @@
 
     <div layout-xs="column" layout-sm="column" layout-align="space-between stretch">
 
-      <md-input-container flex="100">
-        <label>Display Name</label>
-        <input ng-model="user.displayName">
-        <div ng-messages="userForm.displayName.$error" role="alert">
-          <p class="help-block error-text" ng-message="required">Display name is required.</p>
+     
+      <md-input-container class="md-block">
+        <label>First Name</label>
+        <input ng-model="user.firstName" required>
+        <div ng-messages="userForm.firstName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">First name is required.</p>
         </div>
       </md-input-container>
 
-      <md-input-container flex="100">
+      <md-input-container class="md-block">
+        <label>Last Name</label>
+        <input ng-model="user.lastName" required>
+        <div ng-messages="userForm.lastName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Last name is required.</p>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-block">
         <label>Email</label>
         <input ng-model="user.email">
         <div ng-messages="userForm.email.$error" role="alert">
@@ -29,15 +38,6 @@
       </md-input-container>
 
     </div>
-
-    <!--TODO: add username stuff-->
-    <!--<md-input-container class="md-block">-->
-    <!--<label>Username</label>-->
-    <!--<input ng-model="user.username">-->
-    <!--<div ng-messages="userForm.username.$error" role="alert">-->
-    <!--<p class="help-block error-text" ng-message="required">Username is required.</p>-->
-    <!--</div>-->
-    <!--</md-input-container>-->
 
     <div>
       <label class="control-label">Roles</label>

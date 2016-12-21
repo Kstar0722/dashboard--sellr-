@@ -20,7 +20,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     console.log('selectAccountId %O', me.selectAccountId)
     $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
     function onGetAccountSuccess (res) {
-      console.log('========= res ' + JSON.stringify(res))
+      // console.log('========= res ' + JSON.stringify(res))
 
       me.accounts = []
       res.data.forEach(function (account) {

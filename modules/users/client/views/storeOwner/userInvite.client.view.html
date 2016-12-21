@@ -5,19 +5,37 @@
   <div class="pagecontent user-invite">
     <form name="userForm" ng-submit="invite(userForm.$valid)" novalidate>
 
+
+
       <md-input-container class="md-block">
-        <label>Name</label>
-        <input ng-model="user.name">
-        <div ng-messages="userForm.contactName.$error" role="alert">
-          <p class="help-block error-text" ng-message="required">Name is required.</p>
+        <label>First Name</label>
+        <input ng-model="user.firstName" required>
+        <div ng-messages="userForm.firstName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">First name is required.</p>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Last Name</label>
+        <input ng-model="user.lastName" required>
+        <div ng-messages="userForm.lastName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Last name is required.</p>
         </div>
       </md-input-container>
 
       <md-input-container class="md-block">
         <label>Email</label>
-        <input ng-model="user.email">
+        <input ng-model="user.email" required>
         <div ng-messages="userForm.email.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Email is required.</p>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Set User Password</label>
+        <input ng-model="user.password" required>
+        <div ng-messages="userForm.password.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Password is required.</p>
         </div>
       </md-input-container>
 
