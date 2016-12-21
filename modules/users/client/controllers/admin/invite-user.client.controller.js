@@ -78,9 +78,12 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
         }
 
         function onInviteError(err) {
-            console.log('error')
-            toastr.error('There was a problem inviting this user.');
-            console.error(err)
+            if(err && err.data && err.data.message){
+                toastr.error(err.data.message);                
+            } else {
+                toastr.error('There was a problem inviting this user.');
+            }
+            console.error('Error creating user', err)
         }
     }
 ]);
