@@ -1,4 +1,4 @@
-/* globals angular, _, $*/
+/* globals angular, _, $ */
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog) {
@@ -301,7 +301,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.deleteProduct = function (product) {
     product.status = 'deleted'
     productEditorService.save(product).then(function () {
-      $state.go('editor.view', {productId: product.productId})
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
+      } else {
+        $state.go('editor.view', {productId: product.productId})
+      }
     })
   }
 
@@ -432,22 +436,22 @@ angular.module('users').controller('productEditorController', function ($scope, 
     })
   }
 
-  $scope.confirmDeleteProductSKU = function(ev, product, sku) {
+  $scope.confirmDeleteProductSKU = function (ev, product, sku) {
     var confirm = $mdDialog.confirm()
       .title('Delete UPC?')
       .textContent('Please confirm whether you want to remove SKU for this product?')
       .targetEvent(ev)
       .ok('Delete')
-      .cancel('Cancel');
+      .cancel('Cancel')
 
     $timeout(function () {
-      $('.md-dialog-container').addClass('delete confirm');
-    });
+      $('.md-dialog-container').addClass('delete confirm')
+    })
 
     return $mdDialog.show(confirm).then(function () {
-      return productEditorService.deleteProductSKU(product, sku);
-    });
-  };
+      return productEditorService.deleteProductSKU(product, sku)
+    })
+  }
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
