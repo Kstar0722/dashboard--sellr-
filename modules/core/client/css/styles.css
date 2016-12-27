@@ -727,6 +727,10 @@ section.userList .userbox {
   .sign-in #reset-form {
     margin-top: 0vh;
   }
+  .sign-in #login-form h3,
+  .sign-in #reset-form h3 {
+    font-size: 18px;
+  }
 }
 .sign-in #login-form .alt-actions,
 .sign-in #reset-form .alt-actions {
@@ -854,6 +858,9 @@ section.userList .userbox {
 @media only screen and (max-width: 599px) {
   .sign-in .reset-form {
     box-shadow: none;
+  }
+  .sign-in .reset-form h3 {
+    font-size: 18px;
   }
 }
 .sign-in .reset-form .error-text {
@@ -1112,6 +1119,11 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   padding: 5vh 0;
   min-height: 800px;
 }
+@media only screen and (max-width: 599px) {
+  .adsManager .ads-column {
+    width: 100vw;
+  }
+}
 .adsManager .ads-column .upload-container {
   height: 130px;
   min-height: 130px;
@@ -1129,8 +1141,13 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   display: inline-block;
   font-weight: bold;
   cursor: pointer;
-  width: 60%;
   box-sizing: border-box;
+  width: 60%;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .ads-column .upload-container .upload {
+    width: 80%;
+  }
 }
 .adsManager .ads-column .upload-container .ads-filter {
   margin-top: 5px;
@@ -1170,8 +1187,13 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   width: 90%;
 }
 .adsManager .toggle-all-column {
-  width: 5vw;
   padding: 5vh 0vw;
+  width: 5vw;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .toggle-all-column {
+    display: none;
+  }
 }
 .adsManager .toggle-all-column .toggle-all-header {
   display: flex;
@@ -1223,6 +1245,11 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   text-align: left;
   width: 84vw;
   padding: 5vh 0vw;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .schedule-column {
+    display: none;
+  }
 }
 .adsManager .schedule-column .schedule-header-empty {
   padding: 0 1.5vw 0 0;
@@ -1303,12 +1330,32 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   background: #fff;
   margin-bottom: 25px;
 }
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+}
 .adsManager .modalDialog .modal-container .modal-header {
   padding: 20px 30px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .modal-header {
+    padding: 0px;
+    text-align: center;
+  }
 }
 .adsManager .modalDialog .modal-container .modal-header .ad-title {
   border: none;
@@ -1318,6 +1365,13 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   font-weight: bold;
   min-width: 350px;
   padding-bottom: 4px;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .modal-header .ad-title {
+    min-width: auto;
+    width: 90%;
+    margin: 20px auto;
+  }
 }
 .adsManager .modalDialog .modal-container .modal-header .ad-title::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
@@ -1338,6 +1392,11 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .modal-header .save {
+    display: none;
+  }
 }
 .adsManager .modalDialog .modal-container .media-box {
   height: 280px;
@@ -1421,6 +1480,12 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   font-size: 18px;
   padding: 25px 0px 25px 30px;
 }
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .target-devices {
+    padding: 15px 0;
+    text-align: center;
+  }
+}
 .adsManager .modalDialog .modal-container .filter {
   display: inline-block;
   margin-right: 20px;
@@ -1451,6 +1516,12 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   justify-content: space-between;
   align-items: center;
 }
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .modal-filters {
+    padding: 0;
+    justify-content: center;
+  }
+}
 .adsManager .modalDialog .modal-container .modal-filters .cancel {
   background-color: #7c7c7c;
   padding: 10px 20px;
@@ -1459,6 +1530,82 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
   font-weight: bold;
   font-size: 15px;
   cursor: pointer;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .modal-filters .cancel {
+    display: none;
+  }
+}
+.adsManager .modalDialog .modal-container .mobile-toggle {
+  display: none;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .mobile-toggle {
+    display: block;
+    margin-top: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .adsManager .modalDialog .modal-container .mobile-toggle .toggle-label {
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .adsManager .modalDialog .modal-container .mobile-toggle .toggle-button {
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: 1px solid #2DC89A;
+  }
+  .adsManager .modalDialog .modal-container .mobile-toggle .toggle-button.semi-active {
+    background-color: #f5f5f5;
+    position: relative;
+  }
+  .adsManager .modalDialog .modal-container .mobile-toggle .toggle-button.semi-active:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid #2DC89A;
+    border-left: 20px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .adsManager .modalDialog .modal-container .mobile-toggle .toggle-button.active {
+    border: 1px solid #2DC89A;
+    background-color: #2DC89A;
+  }
+}
+.adsManager .modalDialog .modal-container .mobile-actions {
+  display: none;
+}
+@media only screen and (max-width: 599px) {
+  .adsManager .modalDialog .modal-container .mobile-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .adsManager .modalDialog .modal-container .mobile-actions .save,
+  .adsManager .modalDialog .modal-container .mobile-actions .cancel {
+    color: #ffffff;
+    background-color: #7c7c7c;
+    padding: 10px 0px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    min-width: 90px;
+    text-align: center;
+  }
+  .adsManager .modalDialog .modal-container .mobile-actions .save {
+    margin-right: 20px;
+    background-color: #2DC89A;
+  }
 }
 .dashboard .topten {
   padding-left: 0px;

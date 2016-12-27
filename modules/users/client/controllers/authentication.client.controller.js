@@ -1,5 +1,5 @@
 'use strict'
-/* globals angular,localStorage*/
+/* globals angular,localStorage */
 angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'SocketAPI',
   function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, SocketAPI) {
     var USER_ROLE_OWNER = 1009
@@ -135,8 +135,12 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     // We could not sign into mongo, so clear everything and show error.
     function onSigninError (err) {
       console.error(err)
-      toastr.error('Failed To Connect, Please Contact Support.')
-      $scope.error = err.message
+      if (err && err.data && err.data.message) {
+        toastr.error(err.data.message)
+        $scope.error = err.data.message
+      } else {
+        toastr.error('Failed To Connect, Please Contact Support.')
+      }
       $scope.credentials = {}
     }
 

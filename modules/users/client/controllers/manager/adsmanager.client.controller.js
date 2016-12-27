@@ -272,16 +272,21 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
       lazyUpdateSchedule(ad)
     }
 
-    $scope.toggleAllSlots = function (ad) {
+    $scope.toggleAllSlots = function (ad, dontUpdate) {
       if (_.isEmpty(ad.schedule)) {
         ad.schedule = allTimesSlots
       } else {
         ad.schedule = []
       }
-      lazyUpdateSchedule(ad)
+      if (_.isUndefined(dontUpdate)) {
+        lazyUpdateSchedule(ad)
+      } else {
+        updateSchedule(ad)
+      }
     }
 
     $scope.getToggleAllSlotsClass = function (ad) {
+      if (_.isUndefined(ad) || _.isNull(ad)) { return '' }
       if (_.isEmpty(ad.schedule)) {
         return ''
       } else {
