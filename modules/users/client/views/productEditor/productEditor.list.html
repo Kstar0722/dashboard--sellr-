@@ -98,10 +98,12 @@
                     'Spirit' : ''}}
                 </div>
             </div>
-            <md-button ng-show="$state.includes('editor.match')" ng-click="createNewProduct()">
+            <!--
+                Now that we always create products this is deprecated
+                <md-button ng-show="$state.includes('editor.match')" ng-click="createNewProduct()">
                 Create New Product
             </md-button>
-
+            -->
             <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">
                 Show More
             </md-button>
