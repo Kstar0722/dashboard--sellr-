@@ -4,9 +4,12 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies)
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider', 'cfpLoadingBarProvider',
-  function ($locationProvider, $httpProvider, envServiceProvider, cfpLoadingBarProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locationProvider', '$httpProvider', 'envServiceProvider', 'cfpLoadingBarProvider', '$mdThemingProvider',
+  function ($locationProvider, $httpProvider, envServiceProvider, cfpLoadingBarProvider, $mdThemingProvider) {
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
+
+    $mdThemingProvider.theme('default')
+      .accentPalette('green');
 
     cfpLoadingBarProvider.latencyThreshold = 200;
 

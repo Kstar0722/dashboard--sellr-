@@ -8,7 +8,7 @@
     replaceItem: function (arr, item, newItem) {
       if (!arr) return false;
       var index = arr.indexOf(item);
-      if (index == -1) index = arr.indexOf(_.find(arr, { _id: _.id(item) }));
+      if (index == -1) index = arr.indexOf(_.find(arr, { _id: _.id(item) }) || item);
       if (index == -1) return false;
       if (newItem) arr.splice(index, 1, newItem);
       else arr.splice(index, 1);

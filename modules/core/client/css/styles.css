@@ -166,6 +166,9 @@ form.ng-pristine [ng-messages] {
 body.loading .main-content {
   pointer-events: none;
 }
+.md-dialog-container {
+  z-index: 100;
+}
 .sd-popup {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
@@ -3345,29 +3348,154 @@ body .productEditor .loading-data .right {
     margin-top: 30px;
   }
 }
-.settings-container .settings-view.fullsize {
+.settings-container .devices table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  margin-top: 30px;
+  width: 100%;
+}
+.settings-container .devices table thead td {
+  border-bottom: 1px solid #DFE3EB;
+  padding-bottom: 8px;
+}
+.settings-container .devices table tbody td {
+  padding-top: 12px;
+}
+.settings-container .devices table .last-check.old {
+  color: #FF0000;
+}
+.settings-container .devices table .actions {
+  text-align: right;
+}
+.settings-container .devices .edit {
+  background-color: #1f2532;
+  color: #ffffff;
+  font-size: 0.8em;
+  font-weight: bold;
+  line-height: 30px;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+  padding: 0 20px;
+}
+.settings-container .devices a.green {
+  color: #2DC89A;
+}
+.settings-container .devices .nowrap {
+  white-space: nowrap;
+  word-break: normal;
+}
+.settings-view.fullsize {
   -webkit-flex-direction: column !important;
   -ms-flex-direction: column !important;
   flex-direction: column !important;
 }
-.settings-container .settings-view.fullsize .account-menu {
+.settings-view.fullsize .account-menu {
   padding: 0;
   position: static !important;
   width: auto;
 }
-.settings-container .settings-view.fullsize .view-container {
+.settings-view.fullsize .view-container {
   margin-left: 0;
   max-width: initial;
   padding: 0;
 }
-.settings-container .settings-view.fullsize .shoppr-listing-preview {
+.settings-view.fullsize .shoppr-listing-preview {
   padding: 0;
   position: static;
 }
 @media (max-width: 850px) {
-  body.settings-store .settings-container .view-container {
+  body.settings-store  .view-container {
     flex-direction: column;
   }
+}
+body.settings-tablets md-dialog.edit-device {
+  border-radius: 0;
+  max-height: 90%;
+}
+body.settings-tablets md-dialog.edit-device .md-dialog-content {
+  padding: 18px 34px 0;
+}
+body.settings-tablets md-dialog.edit-device .udid-container {
+  margin-top: 35px;
+  margin-bottom: 5px;
+  padding: 0;
+  width: 100%;
+}
+body.settings-tablets md-dialog.edit-device .udid-container label {
+  color: #171625;
+  padding-left: 0;
+}
+body.settings-tablets md-dialog.edit-device .udid-container .md-errors-spacer {
+  display: none;
+}
+body.settings-tablets md-dialog.edit-device .udid-container .alert {
+  margin: 0;
+  padding: 0;
+}
+body.settings-tablets md-dialog.edit-device .delete {
+  color: #FF0000;
+}
+body.settings-tablets md-dialog.edit-device .save {
+  font-size: 9pt;
+  font-weight: bold;
+}
+body.settings-tablets md-dialog.edit-device fieldset {
+  display: flex;
+  margin-top: 20px;
+}
+body.settings-tablets md-dialog.edit-device fieldset:last-child {
+  margin-bottom: 10px;
+}
+body.settings-tablets md-dialog.edit-device fieldset .md-label {
+  order: -1;
+}
+body.settings-tablets md-dialog.edit-device fieldset .md-container {
+  margin-left: auto;
+  order: 1;
+}
+body.settings-tablets md-dialog.edit-device fieldset md-slider-container {
+  display: block;
+}
+body.settings-tablets md-dialog.edit-device fieldset md-slider-container label {
+  display: inline;
+  font-weight: normal;
+}
+body.settings-tablets md-dialog.edit-device fieldset md-slider-container md-slider {
+  height: 32px;
+  margin-top: 5px;
+  top: -10px;
+}
+body.settings-tablets md-dialog.edit-device fieldset md-slider-container md-slider .md-track {
+  background-color: #DFE3EB !important;
+  height: 3px;
+}
+body.settings-tablets md-dialog.edit-device fieldset md-slider-container md-input-container {
+  margin: 0;
+  text-align: right;
+}
+body.settings-tablets md-dialog.edit-device fieldset md-slider-container md-input-container input {
+  border: none;
+  height: auto;
+  margin-right: -4px;
+  margin-top: -5px;
+  text-align: right;
+  width: auto;
+}
+body.settings-tablets md-dialog.edit-device fieldset .alert {
+  margin: 0;
+  padding: 0;
+}
+body.settings-tablets md-dialog.edit-device h3 {
+  color: #1f2532;
+  font-size: 1em;
+  margin: 0 0 10px 0;
+}
+body.settings-tablets md-dialog.edit-device md-switch {
+  margin: 6px 0;
+}
+body.settings-tablets md-backdrop.md-opaque {
+  opacity: 0.78;
 }
 .store-client-view {
   margin: 20px auto 40px;

@@ -1,0 +1,32 @@
+<div class="devices" md-whiteframe="3">
+    <md-toolbar class="header-bar">
+        <div class="md-toolbar-tools">
+            <h1>Tablets</h1>
+        </div>
+    </md-toolbar>
+
+    <div class="view">
+        <p>Your devices are listed below. To conigure each device, click edit. Any changes will appear in 5-10 minutes.</p>
+        <p>Not sure how to get your device back on? Contact support at <a class="green nowrap" href="tel:18886628347">1-888-662-8347</a></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Device</td>
+                    <td>Last check-in time</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody ng-if="devices">
+                <tr ng-repeat="device in devices | orderBy:'-lastCheck' | emptyToEnd:'lastCheck'" ng-if="devices.length > 0">
+                    <td>{{device.name}}</td>
+                    <td class="last-check" ng-class="device.lastCheckClass">{{device.lastCheck | date:'medium'}}</td>
+                    <td class="actions"><md-button class="edit" ng-click="editDevice($event, device)">Edit</md-button></td>
+                </tr>
+                <tr ng-if="devices.length == 0">
+                    <td colspan="3">None of devices have been registered.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
