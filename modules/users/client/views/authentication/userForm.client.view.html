@@ -1,0 +1,64 @@
+<form name="userForm" class="user-profile" autocomplete="off" novalidate>
+  <div class="list" ng-init="initForm(userForm)">
+    <md-input-container show-errors>
+      <div class="transparent">
+        <label class="input-label">First Name</label>
+        <input name="first_name" type="text" ng-model="data.user.firstName" required>
+      </div>
+      <ng-messages for="userForm.first_name.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </md-input-container>
+
+    <md-input-container show-errors>
+      <div class="transparent">
+        <label class="input-label">Last Name</label>
+        <input name="last_name" type="text" ng-model="data.user.lastName" required>
+      </div>
+      <ng-messages for="userForm.last_name.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </md-input-container>
+
+    <md-input-container show-errors>
+      <div class="transparent">
+        <label class="input-label">Your Phone Number</label>
+        <input name="user_phone" type="tel" ng-model="data.user.phone">
+      </div>
+      <ng-messages for="userForm.user_phone.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </md-input-container>
+
+    <md-input-container show-errors>
+      <div class="transparent">
+        <label class="input-label">Your Email Address</label>
+        <input name="user_email" type="email" ng-model="data.user.email" required ng-change="ui.alreadyRegistered = null">
+      </div>
+      <ng-messages for="userForm.user_email.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </md-input-container>
+
+    <md-input-container show-errors>
+      <div class="transparent">
+        <label class="input-label">Password</label>
+        <input name="password" type="password" ng-model="data.user.password" required minlength="8">
+      </div>
+      <ng-messages for="userForm.password.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </md-input-container>
+
+    <md-input-container show-errors>
+      <div class="transparent">
+        <label class="input-label">Confirm Password</label>
+        <input name="confirm_password" type="password" ng-model="data.user.confirmPassword" required compare-to="userForm.password.$viewValue">
+      </div>
+      <ng-messages for="userForm.confirm_password.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+        <span ng-message="compareTo">Passwords must match</span>
+      </ng-messages>
+    </md-input-container>
+  </div>
+</form>

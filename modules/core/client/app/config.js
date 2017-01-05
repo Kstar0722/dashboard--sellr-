@@ -22,8 +22,13 @@ var ApplicationConfiguration = (function () {
       'ng-autofocus',
       'cfp.loadingBar',
       'angular-filepicker',
-      'ngUsStates'
+      'ngUsStates',
+      'uiSwitch'
     ];
+
+  if (angular.element('body').is('.root')) {
+    applicationModuleVendorDependencies.push('ngPostMessage');
+  }
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {

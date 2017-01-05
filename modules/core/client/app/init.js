@@ -72,7 +72,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   $rootScope.$mdMedia = $mdMedia;
   $rootScope.$state = $state;
   $rootScope.$stateClass = cssClassOf($state.current.name)
-  $rootScope.$svc = function (name) { return $injector.get(name); }; // for debugging purposes only
+
+  // for debugging purposes only
+  $window.$svc = function (name) { return $window[name] = $injector.get(name); };
+  $window.$sc = function(el) { return $window.$scope = angular.element(el || document.querySelector('.main-content .ng-scope:first-of-type')).scope(); };
 
   initLoadingBar();
 

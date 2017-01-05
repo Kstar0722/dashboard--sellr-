@@ -76,7 +76,19 @@ angular.module('users').config([ '$stateProvider',
       .state('authentication.signin', {
         url: '/signin?err',
         templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
-        public: true
+        public: true,
+        params: {
+          email: null
+        }
+      })
+      .state('getStarted', {
+        url: '/getstarted',
+        templateUrl: 'modules/users/client/views/authentication/getStarted.client.view.html',
+        public: true,
+        params: {
+          password: null,
+          step: null
+        }
       })
 
       .state('password', {

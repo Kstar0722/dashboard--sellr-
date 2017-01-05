@@ -1,8 +1,8 @@
 'use strict'
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users.admin').factory('Users', ['$http', 'constants', '$q',
-  function ($http, constants, $q) {
+angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr',
+  function ($http, constants, $q, $analytics, toastr) {
     var me = this
 
     me.get = function (userId) {
@@ -73,6 +73,30 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q',
       })
       return defer.promise
     }
+
+    me.create = function (user) {
+      var payload = {
+        payload: user
+      };
+
+      return $http.post(constants.API_URL + '/users', payload).then(function (response) {
+        $analytics.eventTrack('User Signed Up', {
+          email: user.email,
+          name: user.name || user.displayName || user.firstname + ' ' + user.lastname,
+          phone: user.phone
+        });
+        console.log('user signed up', response.data);
+        return response.data;
+      }).catch(function (response) {
+        console.error('create user failed', response.data);
+        if (response.data.name != 'AlreadyRegistered') {
+          var msg = 'Failed to create new account';
+          if ((response.data || {}).message) msg += '. ' + response.data.message;
+          toastr.error(msg);
+        }
+        throw response;
+      });
+    };
 
     return me
   }

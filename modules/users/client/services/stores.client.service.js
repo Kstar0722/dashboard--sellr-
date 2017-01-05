@@ -2,6 +2,8 @@
 angular.module('users').service('storesService', function ($http, constants, $q, toastr, $state) {
   var me = this
 
+  me.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
   me.getStoreById = function (storeId) {
     return $http.get(constants.BWS_API + '/storedb/stores/' + storeId + '?supc=true').then(handleResponse).then(function (data) {
       return data instanceof Array ? data[ 0 ] : data
@@ -69,6 +71,37 @@ angular.module('users').service('storesService', function ($http, constants, $q,
     $http.delete(url).then(onAPISuccess.bind(this, 'delete'), onAPIError.bind(this, 'delete'))
   }
 
+  me.initWorkSchedule = function (store) {
+    if (!store) return;
+
+    store.details = store.details || {};
+    var workSchedule = store.details.workSchedule = store.details.workSchedule || [];
+
+    if (workSchedule.length != me.weekdays.length) {
+      store.details.workSchedule = _.map(me.weekdays, function (day, i) {
+        return _.find(workSchedule, { day: i }) || { day: i, name: day };
+      });
+    }
+
+    for (var i in workSchedule) {
+      var day = workSchedule[i];
+      day.name = me.weekdays[i]
+
+      day.openTime = parseTime(day.openTime);
+      day.closeTime = parseTime(day.closeTime);
+
+      if (typeof day.open != 'boolean') {
+        if (day.openTime && day.closeTime) {
+          day.open = true;
+        }
+      }
+
+      day.openTimeStr = formatTime(day.openTime);
+      day.closeTimeStr = formatTime(day.closeTime);
+      day.fullTime = day.openTimeStr === day.closeTimeStr && day.openTimeStr === '12AM';
+    }
+  };
+
   // API RESPONSE/ERROR HANDLING
   function onAPISuccess (operation) {
     me.getStores().then(function () {
@@ -103,6 +136,14 @@ angular.module('users').service('storesService', function ($http, constants, $q,
       default:
         break
     }
+  }
+
+  function parseTime(str) {
+    return str && moment(str).toDate();
+  }
+
+  function formatTime(date) {
+    return date && moment(date).format('h:mm A').replace(':00 ', '');
   }
 
   return me

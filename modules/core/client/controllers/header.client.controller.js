@@ -1,11 +1,13 @@
 'use strict'
 /* globals angular, moment, _, localStorage */
-angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants) {
+angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService',
+  function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService) {
   var API_URL = constants.API_URL
   $scope.authentication = Authentication
   $scope.ui = {}
   $scope.$state = $state
   $scope.accountsService = accountsService
+  $scope.renderMenu = true
   $scope.renderTopMenu = true
   $scope.mobileMenuActive = {}
   $scope.mobileMenuActive.open = false
@@ -33,10 +35,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     $state.go('editProfile');
   };
   $scope.signOut = function () {
-    window.localStorage.clear()
-    localStorage.clear()
-    $window.localStorage.clear()
-    $window.location.href = '/'
+    authenticationService.signout();
   }
 
   $scope.changeAccount = function (account) {
@@ -52,11 +51,11 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
   };
 
   $scope.$watch('authentication.user', function (user) {
-    updateMenuVisibility(user, $scope.$root.selectAccountId)
+    updateMenuVisibility()
   })
 
   $scope.$watch('$root.selectAccountId', function (accountId) {
-    updateMenuVisibility($scope.authentication.user, accountId)
+    updateMenuVisibility()
     updateOrdersCount()
   })
 
@@ -67,6 +66,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
+    updateMenuVisibility();
 
     if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader)/i)) {
       $scope.$root.selectAccountId = null
@@ -110,8 +110,13 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     return result
   }
 
-  function updateMenuVisibility (user, accountId) {
-    $scope.renderTopMenu = shouldRenderMenu($scope.menu, user) || !accountId
+  function updateMenuVisibility () {
+    var user = $scope.authentication.user;
+    var accountId = $scope.$root.selectAccountId;
+    $scope.$root.renderMenu = !$state.current.public && !$state.is('getStarted');
+    if ($scope.$root.renderMenu) {
+      $scope.renderTopMenu = shouldRenderMenu($scope.menu, user) || !accountId
+    }
     $scope.$root.renderTopMenu = $scope.renderTopMenu
   }
 }

@@ -132,7 +132,7 @@ md-input-container.md-input-invalid [ng-messages] {
 }
 form.ng-pristine ng-messages,
 form.ng-pristine [ng-messages] {
-  display: none !important;
+  display: none;
 }
 #loading-bar .bar {
   background: #2DC89A;
@@ -813,10 +813,6 @@ section.userList .userbox {
   padding: 0;
   opacity: 0;
   margin-bottom: -5px;
-}
-.sign-in #login-form label,
-.sign-in #reset-form label {
-  display: inline-block;
 }
 .sign-in #login-form input[type=password]:focus,
 .sign-in #reset-form input[type=password]:focus {
@@ -4193,4 +4189,657 @@ body.storeOwner-orders {
 .stores-manager .edit-box .store-img,
 .account-manager .edit-box .store-img {
   max-width: 100%;
+}
+.get-started-page {
+  background: #1f2532;
+  padding-bottom: 25px;
+}
+.get-started-page .screen-header {
+  background: #2bbf88;
+  height: 70px;
+  margin-bottom: 20px;
+  max-height: 70px;
+  padding: 10px;
+}
+.get-started-page .screen-header .logo {
+  margin-left: 30px;
+  max-height: 50px;
+  max-width: 30vw;
+  object-fit: contain;
+}
+.get-started-page .screen-header .download-link {
+  margin: 0 1vw;
+}
+.get-started-page .screen-header .download-link img {
+  max-height: 50px;
+  max-width: 28vw;
+  object-fit: contain;
+}
+.get-started-page .screen-content {
+  background: #142332;
+  color: #ffffff;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 15pt;
+  font-weight: normal;
+  line-height: 28px;
+  min-height: 600px;
+  position: relative;
+  display: block;
+  margin: auto;
+  max-width: 375px;
+  width: 380px;
+}
+.get-started-page .screen-content [ng-if] {
+  --webkit-animation: none 0s !important;
+  animation: none 0s !important;
+  --webkit-transition: none !important;
+  transition: none !important;
+}
+.get-started-page .screen-content .header-custom {
+  min-height: 44px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.get-started-page .screen-content .header-custom .back {
+  position: absolute;
+  left: 0;
+  top: 3px;
+}
+.get-started-page .screen-content .header-custom .back .fa {
+  line-height: 24px;
+}
+.get-started-page .screen-content .header-custom .title {
+  font-weight: normal;
+  line-height: 44px;
+  text-align: center;
+}
+.get-started-page .screen-content .step-container {
+  min-height: 600px;
+  padding: 44px 20px 20px 20px;
+}
+.get-started-page .screen-content .step-container.has-footer {
+  bottom: 65px;
+}
+.get-started-page .screen-content.step1 .step-container {
+  min-height: 515px;
+}
+.get-started-page .screen-content .sellr-logo {
+  display: block;
+  height: 60px;
+  margin-left: -13px;
+  margin-right: 10px;
+  min-width: 49px;
+  object-fit: contain;
+  position: relative;
+  top: -10px;
+  width: 49px;
+}
+.get-started-page .screen-content .btn-white {
+  color: #2DC89A;
+  background-color: #ffffff;
+}
+.get-started-page .screen-content .btn-white:hover {
+  color: #2DC89A;
+  background-color: #DFE3EB;
+}
+.get-started-page .screen-content h1 {
+  color: #ffffff;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 35px;
+  font-weight: normal;
+  margin-top: -1px;
+  margin-bottom: 7px;
+}
+.get-started-page .screen-content h1 span {
+  color: #2DC89A;
+}
+.get-started-page .screen-content .step-num {
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  display: inline-block;
+  height: 30px;
+  line-height: 28px;
+  text-align: center;
+  width: 30px;
+}
+.get-started-page .screen-content .breadcrumbs {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px auto;
+  padding-left: 10px;
+  width: 225px;
+}
+.get-started-page .screen-content .breadcrumbs > * {
+  display: flex;
+  flex: 1;
+}
+.get-started-page .screen-content .breadcrumbs > *:last-of-type {
+  flex: 0;
+}
+.get-started-page .screen-content .breadcrumbs > *:last-of-type hr {
+  display: none;
+}
+.get-started-page .screen-content .breadcrumbs .step-num {
+  font-size: 16px;
+  padding-left: 2px;
+}
+.get-started-page .screen-content .breadcrumbs .step-num.passed,
+.get-started-page .screen-content .breadcrumbs .step-num.current {
+  border-color: #2DC89A;
+  color: #2DC89A;
+}
+.get-started-page .screen-content .breadcrumbs hr {
+  border: 0;
+  border-bottom: 1px solid #ffffff;
+  display: flex;
+  flex: 1;
+  margin: 14px 0;
+}
+.get-started-page .screen-content .breadcrumbs hr.passed {
+  border-color: #2DC89A;
+}
+.get-started-page .screen-content .intro-steps {
+  list-style: none;
+  margin: 40px 0 55px;
+  padding: 0;
+}
+.get-started-page .screen-content .intro-steps li {
+  margin: 15px 0;
+}
+.get-started-page .screen-content .intro-steps .step-num {
+  font-size: 15px;
+  margin-right: 15px;
+}
+.get-started-page .screen-content .logo-header {
+  color: #ffffff;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  margin: 6px 0;
+  padding: 25px 0 0 20px;
+}
+.get-started-page .screen-content .logo-header h2 {
+  color: inherit;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-weight: normal;
+  margin-top: 3px;
+}
+.get-started-page .screen-content .logo-header .details {
+  color: #ffffff;
+}
+.get-started-page .screen-content .logo-header .details * {
+  color: inherit;
+}
+.get-started-page .screen-content form {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+}
+.get-started-page .screen-content md-input-container,
+.get-started-page .screen-content .input-container {
+  margin-top: 5px;
+  width: 100%;
+}
+.get-started-page .screen-content md-input-container input,
+.get-started-page .screen-content .input-container input,
+.get-started-page .screen-content md-input-container textarea,
+.get-started-page .screen-content .input-container textarea,
+.get-started-page .screen-content md-input-container .input-label,
+.get-started-page .screen-content .input-container .input-label,
+.get-started-page .screen-content md-input-container label,
+.get-started-page .screen-content .input-container label {
+  border-bottom-width: 1px !important;
+  border-color: #DFE3EB !important;
+  color: #ffffff;
+  font-size: 15pt;
+  font-weight: normal;
+  line-height: 20pt;
+}
+.get-started-page .screen-content md-input-container .input-label,
+.get-started-page .screen-content .input-container .input-label {
+  color: #5a5c5d;
+  width: auto;
+}
+.get-started-page .screen-content md-input-container .input-label:after,
+.get-started-page .screen-content .input-container .input-label:after {
+  color: #5a5c5d !important;
+}
+.get-started-page .screen-content md-input-container.md-input-focused .input-label,
+.get-started-page .screen-content .input-container.md-input-focused .input-label,
+.get-started-page .screen-content md-input-container.md-input-has-value .input-label,
+.get-started-page .screen-content .input-container.md-input-has-value .input-label {
+  margin-bottom: -7px;
+}
+.get-started-page .screen-content md-input-container .md-errors-spacer,
+.get-started-page .screen-content .input-container .md-errors-spacer {
+  display: none;
+}
+.get-started-page .screen-content md-input-container .alert,
+.get-started-page .screen-content .input-container .alert {
+  color: #FF0000;
+  font-size: 11pt;
+  margin: 0;
+  padding: 0;
+}
+.get-started-page .screen-content md-input-container .alert span,
+.get-started-page .screen-content .input-container .alert span {
+  font-size: inherit;
+}
+.get-started-page .screen-content md-input-container .alert.ng-inactive,
+.get-started-page .screen-content .input-container .alert.ng-inactive {
+  display: none;
+}
+.get-started-page .screen-content md-input-container[show-errors] .alert,
+.get-started-page .screen-content .input-container[show-errors] .alert {
+  display: none;
+}
+.get-started-page .screen-content md-input-container.has-error .alert,
+.get-started-page .screen-content .input-container.has-error .alert {
+  display: block;
+}
+.get-started-page .screen-content md-input-container.transparent .input-label,
+.get-started-page .screen-content .input-container.transparent .input-label {
+  color: #8D9AA5;
+  font-size: 1em;
+}
+.get-started-page .screen-content md-input-container.transparent input,
+.get-started-page .screen-content .input-container.transparent input,
+.get-started-page .screen-content md-input-container.transparent textarea,
+.get-started-page .screen-content .input-container.transparent textarea {
+  color: #ffffff;
+}
+.get-started-page .screen-content md-input-container.item-floating-label .input-label,
+.get-started-page .screen-content .input-container.item-floating-label .input-label {
+  font-size: 0.8em;
+  line-height: 10px;
+}
+.get-started-page .screen-content .step0 {
+  padding: 10px 0 20px;
+}
+.get-started-page .screen-content .step0 .sellr-logo {
+  margin-left: 0;
+  margin-top: 10px;
+}
+.get-started-page .screen-content .step0 .get-started {
+  border-radius: 0;
+  font-size: 14pt;
+  padding: 12px 24px;
+}
+.get-started-page .screen-content .step0 .logo-header {
+  margin: 30px 0 10px;
+}
+.get-started-page .screen-content .step0 .signin-container {
+  margin-top: 75px;
+  padding: 0 15px;
+}
+.get-started-page .screen-content .step0 .signin-container a {
+  color: #2DC89A;
+  text-decoration: none;
+}
+.get-started-page .screen-content .step1 {
+  margin: 15px 20px;
+}
+.get-started-page .screen-content .step1 .logo-header {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+.get-started-page .screen-content .step1 .logo-header .details {
+  margin-bottom: 45px;
+}
+.get-started-page .screen-content .step1 .logo-header .details.already-registered {
+  background: #DFE3EB;
+  border-radius: 4px;
+  color: #FF0000;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 0.9em;
+  margin-top: -10px;
+  padding: 5px 10px;
+}
+.get-started-page .screen-content .step1 .logo-header .details.already-registered a {
+  color: #2DC89A;
+  text-decoration: none;
+}
+.get-started-page .screen-content .step1 .breadcrumbs {
+  margin-top: -10px;
+}
+.get-started-page .screen-content .step1 .item {
+  margin-bottom: 12px;
+}
+.get-started-page .screen-content .step1 .item input {
+  height: 30px;
+}
+.get-started-page .screen-content .step2 .details {
+  margin-bottom: 30px;
+}
+.get-started-page .screen-content .step2 .autocomplete-input {
+  padding: 6px 15px 5px 15px;
+  background-color: #fff;
+  height: 47px;
+  margin-top: 20px;
+  width: 100%;
+  font-size: 20px;
+  color: #171625;
+}
+.get-started-page .screen-content .step2 .autocomplete-input::-webkit-input-placeholder {
+  color: #171625;
+  padding-top: 3px;
+}
+.get-started-page .screen-content .step2 .autocomplete-input:-moz-placeholder {
+  color: #171625;
+  padding-top: 3px;
+}
+.get-started-page .screen-content .step2 .autocomplete-input::-moz-placeholder {
+  color: #171625;
+  padding-top: 3px;
+}
+.get-started-page .screen-content .step2 .autocomplete-input:-ms-input-placeholder {
+  color: #171625;
+  padding-top: 3px;
+}
+.get-started-page .screen-content .step3 .list {
+  margin: 0 20px 20px 20px;
+  padding-bottom: 55px;
+}
+.get-started-page .screen-content .step3 .list .toggle {
+  border-radius: 50%;
+  border: 1px solid #000000;
+  display: inline-block;
+  height: 27px;
+  margin-right: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+  width: 27px;
+}
+.get-started-page .screen-content .step3 .list .toggle.active {
+  background: #2DC89A;
+  border: none;
+}
+.get-started-page .screen-content .step3 .list .list-item {
+  border-left: none;
+  border-radius: 0;
+  border-right: none;
+  border-top: none;
+  color: #171625;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  margin: 0;
+  min-height: 60px;
+  padding: 5px 0 8px;
+  line-height: 30px;
+  align-items: center;
+  border-bottom: 1px solid #DFE3EB;
+}
+.get-started-page .screen-content .step3 .list .list-item .category {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.get-started-page .screen-content .step3 .list .list-item .stock {
+  color: #171625;
+  font-weight: bold;
+  padding-right: 15px;
+  text-align: right;
+}
+.get-started-page .screen-content .step3 .list .list-item .stock .small {
+  font-size: 1rem;
+}
+.get-started-page .screen-content .step3 .list .list-item.activated {
+  background: transparent;
+}
+.get-started-page .screen-content .step4 p {
+  color: #ffffff;
+  margin: 30px 0 45px;
+}
+.get-started-page .screen-content .step4 .call-to-action {
+  color: #2DC89A;
+  display: block;
+  font-weight: bold;
+}
+.get-started-page .screen-content .step4 .download-link {
+  display: block;
+  margin-bottom: 40px;
+}
+.get-started-page .screen-content .step4 .download-link img {
+  max-width: 80%;
+}
+.get-started-page .screen-content .footer-custom {
+  background: transparent;
+  min-height: 70px;
+}
+.get-started-page .screen-content .footer-custom .button {
+  border-radius: 0;
+  font-weight: normal;
+  min-height: 70px;
+}
+.get-started-page .screen-content .footer-custom .button.transparent {
+  background: transparent;
+}
+.get-started-page .screen-content .footer-custom .button[disabled] {
+  opacity: 1;
+  background: #1c3f42 !important;
+  color: #414c57 !important;
+}
+.get-started-page .screen-content .footer-custom .button-bar {
+  display: flex;
+  flex-direction: column;
+}
+.get-started-page .screen-content .footer-custom .next {
+  background: #2DC89A;
+  color: #ffffff;
+  font-size: 15pt;
+}
+.get-started-page .screen-content.nomargin {
+  background: #ffffff;
+}
+.get-started-page .screen-content.nomargin .step-container {
+  padding: 44px 0 0 0;
+}
+.get-started-page .screen-content.nomargin .header-custom {
+  background-color: #171625 !important;
+}
+.get-started-page .screen-content.nomargin .footer-custom .next[disabled] {
+  background: #80d9b8 !important;
+  color: #ffffff !important;
+}
+.get-started-page .screen-content[disabled] {
+  pointer-events: none;
+}
+.get-started-page .screen-content .store-profile {
+  background-color: #ffffff;
+}
+.get-started-page .screen-content .store-profile .store-info {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-bottom: 60px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item {
+  display: flex;
+  font-size: 16px;
+  min-height: 50px;
+  border-bottom: 1px solid #efefef;
+  padding: 14px 15px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item.item-input {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .item-row {
+  align-items: center;
+  color: #5a5c5d;
+  margin-left: 10px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .item-row.today {
+  color: #2DC89A;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .item-row.closed {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item.hours .item-row {
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item.about span {
+  font-size: 14px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .input-label {
+  color: #000000;
+  display: inline-block;
+  width: auto;
+  min-width: 80px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 16px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .input-label.address {
+  align-self: flex-start;
+  margin-top: 9px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item span,
+.get-started-page .screen-content .store-profile .store-info .list-item input,
+.get-started-page .screen-content .store-profile .store-info .list-item select,
+.get-started-page .screen-content .store-profile .store-info .list-item textarea {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  color: #5a5c5d;
+  margin-left: 12px;
+  white-space: normal;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item select {
+  margin-left: 4px;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item input,
+.get-started-page .screen-content .store-profile .store-info .list-item select,
+.get-started-page .screen-content .store-profile .store-info .list-item textarea {
+  border: 0;
+  flex: 1;
+  font-size: 100%;
+  padding: 0;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item input::-webkit-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item select::-webkit-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item textarea::-webkit-input-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item input:-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item select:-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item textarea:-moz-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item input::-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item select::-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item textarea::-moz-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item input:-ms-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item select:-ms-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item textarea:-ms-input-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .description {
+  margin-left: 0;
+  padding-right: 0;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .toggle {
+  margin: -10px -10px !important;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container input::-webkit-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container select::-webkit-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container textarea::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container input:-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container select:-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container textarea:-moz-placeholder {
+  color: #ffffff;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container input::-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container select::-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container textarea::-moz-placeholder {
+  color: #ffffff;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container input:-ms-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container select:-ms-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container textarea:-ms-input-placeholder {
+  color: #ffffff;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder input::-webkit-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder select::-webkit-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder textarea::-webkit-input-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder input:-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder select:-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder textarea:-moz-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder input::-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder select::-moz-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder textarea::-moz-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder input:-ms-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder select:-ms-input-placeholder,
+.get-started-page .screen-content .store-profile .store-info .list-item .address-container.placeholder textarea:-ms-input-placeholder {
+  color: #8D9AA5;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item.block {
+  flex-direction: column;
+}
+.get-started-page .screen-content .store-profile .store-info .list-item.block label {
+  margin-bottom: 10px;
+}
+.get-started-page .screen-content .store-profile .alert {
+  font-size: 17px;
+  line-height: 18px;
+  margin: 0 15px 10px 15px;
+}
+.get-started-page .screen-content .store-profile.editing .store-info {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  padding-bottom: 0;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .mobile-ordering {
+  font-weight: bold;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .mobile-ordering .toggle {
+  margin-left: auto !important;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours {
+  padding-right: 14px;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours .item-row {
+  line-height: 40px;
+  margin: 0;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours .work-switch {
+  display: flex;
+  margin-right: 10px;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours .work-switch .switch {
+  margin-left: 0;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours .day {
+  font-weight: normal;
+  min-width: 105px;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours .dash {
+  text-align: center;
+  min-width: 15px;
+}
+.get-started-page .screen-content .store-profile.editing .store-info .hours input[type="time"] {
+  line-height: 32px;
+  height: 32px;
+  min-width: 63px;
+  padding: 0;
+  margin: 0;
+}
+.pac-container {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+}
+.pac-container .pac-item {
+  padding: 6px 15px;
+}
+.pac-container .pac-item .pac-item-query {
+  font-size: 14px;
+}
+.pac-container .pac-item .pac-matched {
+  font-size: 14px;
 }

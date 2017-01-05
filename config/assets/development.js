@@ -16,7 +16,8 @@ module.exports = {
                 'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
                 'public/lib/font-awesome/css/font-awesome.css',
                 'public/lib/selectize/dist/css/selectize.default.css',
-                'public/lib/angular-loading-bar/build/loading-bar.css'
+                'public/lib/angular-loading-bar/build/loading-bar.css',
+                'public/lib/angular-ui-switch/angular-ui-switch.css'
             ],
             js: [
                 'public/lib/jquery/dist/jquery.js',
@@ -74,7 +75,8 @@ module.exports = {
                 'public/lib/ng-autofocus/dist/ng-autofocus.js',
                 'public/lib/filepicker-js-bower/filepicker.js',
                 'public/lib/angular-filepicker/dist/angular_filepicker.js',
-                'public/lib/angular-us-states/build/angular-us-states.js'
+                'public/lib/angular-us-states/build/angular-us-states.js',
+                'public/lib/angular-ui-switch/angular-ui-switch.js'
             ]
         },
         css: [

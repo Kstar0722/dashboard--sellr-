@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics) {
   var me = this
   me.getAccounts = getAccounts
   me.init = function () {
@@ -75,6 +75,16 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function onCreateAccountSuccess (res) {
       toastr.success('New Account Created!')
       console.log('accounts Service, createAccount %O', res)
+
+      $analytics.eventTrack('Account/Store Created', {
+        accountId: res.data.accountId,
+        storeName: res.data.name,
+        storeAddress: res.data.address,
+        storeCity: res.data.city,
+        storeState: res.data.state,
+        storePhone: res.data.phone
+      });
+
       getAccounts().then(function () {
         defer.resolve(res.data)
       })

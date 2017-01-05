@@ -13,6 +13,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $state.go('editor.products')
       } else if (hasRole(1012)) {
         $state.go('supplier.media')
+      } else if (!Authentication.user.accountId) {
+        $state.go('getStarted', { step: 2 });
       }
     }
 

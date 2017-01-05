@@ -1,0 +1,103 @@
+<form name="storeForm" class="store-profile editing" autocomplete="off" novalidate>
+  <div class="list store-info">
+    <div class="input-container" show-errors>
+      <div class="list-item item-input">
+        <div class="input-label required">Name</div>
+        <input name="name" type="text" ng-model="store.name" required placeholder="Enter Store Name">
+      </div>
+      <ng-messages for="storeForm.name.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input">
+        <div class="input-label">Email</div>
+        <input name="email" type="email" ng-model="store.details.contactInfo.email" placeholder="Enter Store Email">
+      </div>
+      <ng-messages for="storeForm.email.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input">
+        <div class="input-label">Phone</div>
+        <input name="phone" type="tel" ng-model="store.details.contactInfo.phone" placeholder="Enter Store Phone Number">
+      </div>
+      <ng-messages for="storeForm.phone.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input">
+        <div class="input-label address">Address</div>
+        <div class="address-container" ng-class="{ placeholder: !store.details.contactInfo.address1 && !store.details.contactInfo.address2 }">
+          <input name="address1" type="text" ng-model="store.details.contactInfo.address1" placeholder="Enter the address where">
+          <ng-messages for="storeForm.address1.$error" class="alert">
+            <ng-messages-include src="error-messages"></ng-messages-include>
+          </ng-messages>
+
+          <input name="address2" type="text" ng-model="store.details.contactInfo.address2" placeholder="store is located">
+          <ng-messages for="storeForm.address2.$error" class="alert">
+            <ng-messages-include src="error-messages"></ng-messages-include>
+          </ng-messages>
+        </div>
+      </div>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input">
+        <div class="input-label required">City</div>
+        <input name="city" type="text" ng-model="store.details.contactInfo.city" required placeholder="Enter Store City">
+      </div>
+      <ng-messages for="storeForm.city.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input item-select">
+        <div class="input-label required">State</div>
+        <select name="state" class="align-left" ng-model="store.details.contactInfo.state" required ng-options="state.abbreviation as state.name for state in states | orderBy:'name'">
+          <option value="" disabled selected>Select Store State</option>
+        </select>
+      </div>
+      <ng-messages for="storeForm.state.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input">
+        <div class="input-label required">Zipcode</div>
+        <input name="zipcode" type="tel" ng-model="store.details.contactInfo.zipcode" required placeholder="Enter Store Zip Code">
+      </div>
+      <ng-messages for="storeForm.zipcode.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+    <div class="list-item block hours">
+      <div class="input-label">Hours</div>
+      <div class="item-row" layout="row" ng-repeat="day in store.details.workSchedule" ng-class="{ closed: !day.open }">
+        <div class="work-switch">
+          <switch ng-model="day.open" ng-change="updateTimes(day)"></switch>
+        </div>
+        <div class="day">{{day.name}}</div>
+        <div class="open-time">
+          <input type="time" ng-model="day.openTime" aria-label="Opening Time" ng-change="day.open=true">
+        </div>
+        <div class="dash">-</div>
+        <div class="close-time">
+          <input type="time" ng-model="day.closeTime" aria-label="Closing Time" ng-change="day.open=true">
+        </div>
+      </div>
+    </div>
+    <div class="input-container" show-errors>
+      <div class="list-item item-input block about">
+        <div class="input-label">About the Store</div>
+        <div class="item-row" layout="row">
+          <textarea name="description" rows="5" ng-model="store.description" class="description" placeholder="Enter Store Description"></textarea>
+        </div>
+      </div>
+      <ng-messages for="storeForm.description.$error" class="alert">
+        <ng-messages-include src="error-messages"></ng-messages-include>
+      </ng-messages>
+    </div>
+  </div>
+</form>

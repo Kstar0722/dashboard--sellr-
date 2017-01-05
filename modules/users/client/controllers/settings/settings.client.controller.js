@@ -1,8 +1,8 @@
 'use strict'
 /* globals angular, moment, $, localStorage */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce', 'UsStates', '$mdMedia', '$mdDialog', 'devicesService',
-  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce, UsStates, $mdMedia, $mdDialog, devicesService) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce', 'UsStates', '$mdMedia', '$mdDialog', 'devicesService', 'storesService',
+  function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce, UsStates, $mdMedia, $mdDialog, devicesService, storesService) {
     $scope.user = initUser(Authentication.user)
     $scope.passwordDetails = {}
     $scope.store = {}
@@ -13,7 +13,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     $scope.accountsService = accountsService
     $scope.descriptionCharsLimit = 200
-    $scope.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     accountsService.bindSelectedAccount($scope)
     $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
       if (selectAccountId == prevValue) return
@@ -264,21 +263,9 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       orderDataService.getAllStores({ accountId: account.accountId }).then(function (stores) {
         var store = $scope.store = _.find(stores, { accountId: account.accountId }) || {}
         console.log(store)
-        store.details = store.details || {}
-        store.details.workSchedule = initWorkSchedule(store.details.workSchedule)
+        storesService.initWorkSchedule(store);
         // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true'
         store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html'
-      })
-    }
-
-    function initWorkSchedule (workSchedule) {
-      workSchedule = workSchedule || {}
-      return $scope.weekdays.map(function (weekday, i) {
-        var day = _.find(workSchedule, { name: weekday })
-        if (!day) return { day: i, name: weekday, open: false, openTime: null, closeTime: null }
-        if (day.openTime) day.openTime = moment.utc(day.openTime).toDate()
-        if (day.closeTime) day.closeTime = moment.utc(day.closeTime).toDate()
-        return day
       })
     }
 
