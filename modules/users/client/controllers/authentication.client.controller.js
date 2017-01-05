@@ -110,43 +110,6 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       });
     }
 
-    $scope.signup = function (isValid, user, account) {
-      if ($scope.busy) return
-
-      $scope.error = null
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'signupForm')
-        return false
-      }
-
-      $scope.busy = true
-
-      var payload = angular.extend({}, user, account)
-      payload.source = 'dashboard'
-      payload.roles = [ USER_ROLE_OWNER ]
-      // console.log(payload)
-
-      $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
-        console.log('user signed up', response.data)
-        toastr.success('You have been signed up as a store owner', 'Sign-Up Success!')
-      }).catch(function (err) {
-        console.log('error')
-        console.error(err)
-        var msg = 'There was a problem during sign up procedure'
-        if ((err.data || {}).message) msg += '. ' + err.data.message
-        toastr.error(msg)
-        throw err
-      }).then(function () {
-        //  auto-signin
-        $scope.credentials = user
-        return $scope.signin(true).catch(function () {
-          $scope.credentials = user
-        })
-      }).finally(function () {
-        $scope.busy = false
-      })
-    }
-
     //  OAuth provider request
     $scope.callOauthProvider = function (url) {
       if ($state.previous && $state.previous.href) {

@@ -846,14 +846,6 @@ section.userList .userbox {
   margin-right: 8px;
   margin-left: 32px;
 }
-.sign-in #signupForm input[type=text],
-.sign-in #signupForm input[type=password] {
-  margin: 0 auto !important;
-}
-.sign-in #signupForm .payment.md-button {
-  margin: 10px 0;
-  width: 100%;
-}
 @media only screen and (max-width: 599px) {
   .sign-in .reset-form {
     box-shadow: none;

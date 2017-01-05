@@ -196,7 +196,7 @@ angular.module('users')
       init();
 
       function init() {
-        productsService.getTemplates('top_selling').then(function (templates) {
+        productsService.getTemplates('top_selling', { ignoreLoadingBar: true }).then(function (templates) {
           $scope.data.importCategories = $scope.template_categories = templates;
         });
 

@@ -3,43 +3,40 @@
 // Authentication service for user variables
 angular.module('users').factory('authenticationService', ['Authentication', '$http', 'constants', '$state', 'SocketAPI', 'toastr', 'authToken',
   function (Authentication, $http, constants, $state, SocketAPI, toastr, authToken) {
+    var me = this;
     var auth = Authentication;
 
-    var setGoSquaredUser = function () {
-      var user = JSON.parse(localStorage.getItem('userObject'))
-      if (!user) {
-        return false
-      }
-      var options = {
-        id: user.userId,
-        name: user.firstName + ' ' + user.lastName,
-        email: user.email,
-        custom: {
-          source: 'Sellr-Dashboard'
-        }
-      }
-      console.log('setting go squared user %O', options)
-
-      _gs('identify', options)
-    }
-
-    // Run once per session (or after login)
-    setGoSquaredUser()
-
-    function signin(credentials) {
+    me.signin = function (credentials) {
       var url = constants.API_URL + '/users/login'
       var payload = {
         payload: credentials
       }
       // console.log(payload)
       return $http.post(url, payload).then(onSigninSuccess, onSigninError)
-    }
+    };
 
-    function signout() {
+    me.signout = function () {
       auth.user = null;
       authToken.removeToken();
       localStorage.clear();
       return $state.go('home');
+    };
+
+    me.setAnalyticsUser = function (user) {
+      if (!user || !analytics) return;
+      console.log('identifying user for Analytics tracking')
+      analytics.identify(user.userId, {
+        name: user.displayName || (user.firstname + ' ' + user.lastname),
+        email: user.email,
+        accountId: user.accountId
+      });
+    };
+
+    init();
+
+    function init() {
+      var user = JSON.parse(localStorage.getItem('userObject'))
+      if (user) me.setAnalyticsUser(user);
     }
 
     function onSigninSuccess (response) {
@@ -58,7 +55,12 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       localStorage.setItem('userId', user.userId)
       localStorage.setItem('userObject', JSON.stringify(user))
       auth.user = user
-      setGoSquaredUser()
+      me.setAnalyticsUser(user);
+      analytics.track('Logged In', {
+        name: user.displayName || (user.firstname + ' ' + user.lastname),
+        email: user.email,
+        app: 'Dashboard'
+      })
       SocketAPI.connect()
 
       // Check if onboarding finished
@@ -90,10 +92,6 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       }
     }
 
-    var me = {
-      signin: signin,
-      signout: signout
-    }
     return me
   }
 ])

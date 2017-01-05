@@ -17,7 +17,7 @@ var ApplicationConfiguration = (function () {
       'stripe.checkout',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.gosquared',
+      'angulartics.segment',
       'angular-clipboard',
       'ng-autofocus',
       'cfp.loadingBar',

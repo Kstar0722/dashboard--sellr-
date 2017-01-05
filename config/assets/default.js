@@ -69,7 +69,7 @@ module.exports = {
                 'public/lib/angular-stripe-checkout/angular-stripe-checkout.js',
                 'public/lib/angular-loading-bar/build/loading-bar.js',
                 'public/lib/angulartics/dist/angulartics.min.js',
-                'public/lib/angulartics/dist/angulartics-gosquared.min.js',
+                'public/lib/angulartics-segment/dist/angulartics-segment.min.js',
                 'public/lib/angular-post-message/dist/angular-post-message.min.js',
                 'public/lib/angular-clipboard/angular-clipboard.js',
                 'public/lib/ng-autofocus/dist/ng-autofocus.js',

@@ -15,11 +15,11 @@ angular.module('users').service('productsService', function ($http, constants, $
     });
   };
 
-  me.getTemplates = function (tag) {
+  me.getTemplates = function (tag, options) {
     var defer = $q.defer();
 
     console.log('getting templates tagged with ' + tag);
-    $http.get(constants.BWS_API + '/choose/templates?tag=' + tag).then(function (res) {
+    $http.get(constants.BWS_API + '/choose/templates?tag=' + tag, options).then(function (res) {
       defer.resolve(res.data);
     });
 
