@@ -8,7 +8,7 @@ angular.module('core')
 
     return {
       restrict: 'E',
-      templateUrl: '/modules/users/client/directives/storeProfileFOrm/storeProfileForm.html',
+      templateUrl: '/modules/users/client/directives/storeProfileForm/storeProfileForm.html',
       scope: {
         account: '=',
         store: '=',
