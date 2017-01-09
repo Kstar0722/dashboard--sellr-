@@ -40,7 +40,7 @@
 
           <div layout class="product-line" layout-align="start center" ng-repeat="product in order.products">
             <div flex=10 flex-xs=15 class="align-center">
-              <div class="item-slot" ng-style="{'background-color': product.planHexColor, 'color': product.planFontColor}">{{product.slot}}</div>
+              <div ng-show="product.slot" class="item-slot" ng-style="{'background-color': product.planHexColor, 'color': product.planFontColor}">{{product.slot}}</div>
             </div>
             <div flex=10 flex-xs=15 class="item-qty align-center">x {{product.quantity}}</div>
             <div flex>
