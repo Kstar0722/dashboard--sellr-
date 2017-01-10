@@ -2279,6 +2279,13 @@ body.editor-products-detail .medium-editor-toolbar {
 .search-box-container .search-button .fa {
   font-size: 16px;
 }
+.search-box-container .search-in-checks legend {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.search-box-container .search-in-checks md-checkbox {
+  font-size: 14px;
+}
 .product-search-table-container {
   position: relative;
 }

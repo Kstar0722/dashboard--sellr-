@@ -149,6 +149,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.ignoreLoadingBar) {
       params.ignoreLoadingBar = true;
     }
+    url += '&in=' + options.inColumns
     url += '&v=sum'
     console.log('getting URL: ', url)
     $http.get(url, params).then(function (response) {

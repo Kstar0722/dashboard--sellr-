@@ -19,7 +19,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.selectedStore = {}
   $scope.allSelected = { value: false }
-  $scope.ui = { searchText: '' };
+  $scope.ui = { searchText: '' }
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
@@ -51,8 +51,9 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.listOptions = {}
   $scope.listOptions.searchLimit = 50
+  $scope.listOptions.searchInName = true
   $scope.listOptions.orderBy = '+name'
-  $scope.listOptions.nomore = true;
+  $scope.listOptions.nomore = true
   if (window.localStorage.getItem('filterByUserId')) {
     $scope.listOptions.filterByUserId = true
   } else {
@@ -61,11 +62,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.listOptions.userId = $scope.userId
 
   $scope.loadMore = function () {
-    $scope.loadingMoreData = true;
+    $scope.loadingMoreData = true
     productEditorService.loadMoreProducts($scope.ui.searchText, searchOptions()).then(function (moreProducts) {
-      $scope.allProducts = productEditorService.allProducts;
+      $scope.allProducts = productEditorService.allProducts
     }).finally(function () {
-      $scope.loadingMoreData = false;
+      $scope.loadingMoreData = false
     })
   }
 
@@ -136,24 +137,24 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.allProducts = []
     $scope.selected = []
 
-    $scope.loadingData = true;
-    $scope.loadingMoreData = false;
+    $scope.loadingData = true
+    $scope.loadingMoreData = false
 
-    $scope.listOptions.searchText = searchText;
+    $scope.listOptions.searchText = searchText
     productEditorService.getProductList(searchText, searchOptions()).then(function (products) {
-      $scope.allProducts = products;
+      $scope.allProducts = products
     }).finally(function () {
       $scope.loadingData = false
-    });
+    })
   }
 
   $scope.highlight = function (text, lookup) {
-    if (lookup) text = text.replace(new RegExp('(' + lookup + ')', 'gi'), '<span class="highlighted">$1</span>');
-    return $sce.trustAsHtml(text);
-  };
+    if (lookup) text = text.replace(new RegExp('(' + lookup + ')', 'gi'), '<span class="highlighted">$1</span>')
+    return $sce.trustAsHtml(text)
+  }
 
   var refreshList = function () {
-    $scope.searchProducts($scope.ui.searchText);
+    $scope.searchProducts($scope.ui.searchText)
   }
 
   $scope.toggleSelected = function (product) {
@@ -478,11 +479,22 @@ angular.module('users').controller('productEditorController', function ($scope, 
     return true
   }
 
-  function searchOptions() {
-    var options = { status: $scope.checkbox.progress, types: $scope.filter, filter: $scope.listOptions, ignoreLoadingBar: true }
+  function searchOptions () {
+    var inColumns = ''
+    if ($scope.listOptions.searchInName) inColumns += 'name+'
+    if ($scope.listOptions.searchInDescription) inColumns += 'description+'
+    if ($scope.listOptions.searchInProductId) inColumns += 'id+'
+    if ($scope.listOptions.searchInSKU) inColumns += 'sku+'
+    if ($scope.listOptions.searchInNotes) inColumns += 'notes'
+    if (inColumns === '') {
+      inColumns = 'name'
+      $scope.listOptions.searchInName = true
+    }
+    inColumns = encodeURIComponent(inColumns)
+    var options = { status: $scope.checkbox.progress, types: $scope.filter, filter: $scope.listOptions, inColumns: inColumns, ignoreLoadingBar: true }
     if ($scope.selectedStore.storeId) {
       options.store = $scope.selectedStore
     }
-    return options;
+    return options
   }
 })
