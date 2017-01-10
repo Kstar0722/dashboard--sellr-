@@ -1,8 +1,8 @@
 'use strict'
 /* global angular, _gs, localStorage */
 // Authentication service for user variables
-angular.module('users').factory('authenticationService', ['Authentication', '$http', 'constants', '$state', 'SocketAPI', 'toastr', 'authToken',
-  function (Authentication, $http, constants, $state, SocketAPI, toastr, authToken) {
+angular.module('users').factory('authenticationService', ['Authentication', '$http', 'constants', '$state', 'SocketAPI', 'toastr', 'authToken', '$analytics',
+  function (Authentication, $http, constants, $state, SocketAPI, toastr, authToken, $analytics) {
     var me = this;
     var auth = Authentication;
 
@@ -23,7 +23,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     };
 
     me.setAnalyticsUser = function (user) {
-      if (!user || !analytics) return;
+      if (!user || !window.analytics) return;
       console.log('identifying user for Analytics tracking')
       analytics.identify(user.userId, {
         name: user.displayName || (user.firstname + ' ' + user.lastname),
@@ -56,7 +56,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       localStorage.setItem('userObject', JSON.stringify(user))
       auth.user = user
       me.setAnalyticsUser(user);
-      analytics.track('Logged In', {
+      $analytics.eventTrack('Logged In', {
         name: user.displayName || (user.firstname + ' ' + user.lastname),
         email: user.email,
         app: 'Dashboard'
