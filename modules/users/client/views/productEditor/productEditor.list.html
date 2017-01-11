@@ -13,6 +13,7 @@
                     <div class="search-in-checks">
                         <legend>Search In ...</legend>
                         <div layout="row" layout-align="start center" layout-wrap>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInAll" ng-change="toggleSearchInAll()">All</md-checkbox>
                             <md-checkbox class="blue-check" ng-model="listOptions.searchInName">Name</md-checkbox>
                             <md-checkbox class="blue-check" ng-model="listOptions.searchInDescription">Description</md-checkbox>
                             <md-checkbox class="blue-check" ng-model="listOptions.searchInProductId">Product Id</md-checkbox>

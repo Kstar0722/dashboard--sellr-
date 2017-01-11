@@ -51,7 +51,12 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.listOptions = {}
   $scope.listOptions.searchLimit = 50
+  $scope.listOptions.searchInAll = true
   $scope.listOptions.searchInName = true
+  $scope.listOptions.searchInDescription = true
+  $scope.listOptions.searchInProductId = true
+  $scope.listOptions.searchInSKU = true
+  $scope.listOptions.searchInNotes = true
   $scope.listOptions.orderBy = '+name'
   $scope.listOptions.nomore = true
   if (window.localStorage.getItem('filterByUserId')) {
@@ -60,6 +65,16 @@ angular.module('users').controller('productEditorController', function ($scope, 
     $scope.listOptions.filterByUserId = false
   }
   $scope.listOptions.userId = $scope.userId
+
+  $scope.toggleSearchInAll = function () {
+    var value
+    $scope.listOptions.searchInAll ? value = true : value = false
+    $scope.listOptions.searchInName = value
+    $scope.listOptions.searchInDescription = value
+    $scope.listOptions.searchInProductId = value
+    $scope.listOptions.searchInSKU = value
+    $scope.listOptions.searchInNotes = value
+  }
 
   $scope.loadMore = function () {
     $scope.loadingMoreData = true
