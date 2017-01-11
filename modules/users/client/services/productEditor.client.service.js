@@ -52,7 +52,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.getProductList = function (searchText, options) {
-    options = options || {};
+    options = options || { filter: {} };
 
     me.show.loading = true
     me.productList = []
@@ -149,7 +149,9 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (options.ignoreLoadingBar) {
       params.ignoreLoadingBar = true;
     }
-    url += '&in=' + options.inColumns
+    if (options.inColumns) {
+      url += '&in=' + options.inColumns
+    }
     url += '&v=sum'
     console.log('getting URL: ', url)
     $http.get(url, params).then(function (response) {
@@ -617,7 +619,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
               defer.resolve(me.productList)
             }
           } else {
-            var url = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
+            var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
             $http.get(url).then(function (results2) {
               me.productList = me.productList.concat(results2.data)
               me.productList = _.uniq(me.productList, function (p) {

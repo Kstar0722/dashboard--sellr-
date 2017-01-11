@@ -20,7 +20,7 @@
                 <p style="color:white;">Name: {{ orderDataService.currentItem.name }}</p>
                 <p style="color:white;">Sku: {{ orderDataService.currentItem.upc }}</p>
                 <p style="color:white;">Type: {{ orderDataService.currentItem.type }}</p>
-                <span>Item Processed: <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
+                <span>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i></span>
             </div>
             <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
                ng-show="orderDataService.currentItem.publicUrl">

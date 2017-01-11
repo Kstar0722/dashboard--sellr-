@@ -18,6 +18,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     var type = orderDataService.currentItem.productTypeId
     if (name) {
       productEditorService.getProductList(null, {
+        filter: {},
         sum: true,
         name: name,
         types: [ { type: type } ]
