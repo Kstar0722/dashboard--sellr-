@@ -4190,29 +4190,44 @@ body.storeOwner-orders {
   max-width: 100%;
 }
 .get-started-page {
-  background: #1f2532;
+  background: #142332;
+  min-height: 100vh;
   padding-bottom: 25px;
 }
 .get-started-page .screen-header {
-  background: #2bbf88;
-  height: 70px;
+  background: transparent;
+  height: 100px;
   margin-bottom: 20px;
-  max-height: 70px;
-  padding: 10px;
+  max-height: 100px;
+  padding: 20px 0px;
 }
 .get-started-page .screen-header .logo {
   margin-left: 30px;
-  max-height: 50px;
+  max-height: 60px;
   max-width: 30vw;
   object-fit: contain;
 }
+@media (max-width: 480px) {
+  .get-started-page .screen-header .logo {
+    margin-left: 15px;
+  }
+}
 .get-started-page .screen-header .download-link {
   margin: 0 1vw;
+  opacity: .4;
+}
+.get-started-page .screen-header .download-link:hover {
+  opacity: 1;
 }
 .get-started-page .screen-header .download-link img {
-  max-height: 50px;
-  max-width: 28vw;
+  max-height: 45px;
   object-fit: contain;
+}
+@media (max-width: 480px) {
+  .get-started-page .screen-header .download-link img {
+    max-height: 32px;
+    margin-top: 15px;
+  }
 }
 .get-started-page .screen-content {
   background: #142332;
@@ -4225,8 +4240,7 @@ body.storeOwner-orders {
   position: relative;
   display: block;
   margin: auto;
-  max-width: 375px;
-  width: 380px;
+  max-width: 600px;
 }
 .get-started-page .screen-content [ng-if] {
   --webkit-animation: none 0s !important;
@@ -4255,7 +4269,12 @@ body.storeOwner-orders {
 }
 .get-started-page .screen-content .step-container {
   min-height: 600px;
-  padding: 44px 20px 20px 20px;
+  padding: 54px 20px 20px 20px;
+}
+@media (max-width: 480px) {
+  .get-started-page .screen-content .step-container {
+    border: none;
+  }
 }
 .get-started-page .screen-content .step-container.has-footer {
   bottom: 65px;
@@ -4394,7 +4413,7 @@ body.storeOwner-orders {
 }
 .get-started-page .screen-content md-input-container .input-label,
 .get-started-page .screen-content .input-container .input-label {
-  color: #5a5c5d;
+  color: rgba(255, 255, 255, 0.5);
   width: auto;
 }
 .get-started-page .screen-content md-input-container .input-label:after,
@@ -4468,6 +4487,7 @@ body.storeOwner-orders {
 .get-started-page .screen-content .step0 .signin-container {
   margin-top: 75px;
   padding: 0 15px;
+  margin-left: 40px;
 }
 .get-started-page .screen-content .step0 .signin-container a {
   color: #2DC89A;

@@ -1,6 +1,6 @@
 .get-started-page {
-  @topnav-height: 70px;
-  @topnav-padding: 10px;
+  @topnav-height: 100px;
+  @topnav-padding: 20px;
 
   @header-height: 44px;
   @footer-height: 70px;
@@ -9,31 +9,43 @@
   //background: @gradientStart; /* Old browsers */
   //background: -webkit-linear-gradient(top, @gradientStart 0%, @darkest-grey 100%); /* Chrome10-25,Safari5.1-6 */
   //background: linear-gradient(to bottom, @gradientStart 0%, @darkest-grey 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  background: @dark-grey;
-
+  background: #142332;
+  min-height: 100vh;
   padding-bottom: 25px;
 
   .screen-header {
-    background: #2bbf88;
+    background: transparent;
     height: @topnav-height;
     margin-bottom: 20px;
     max-height: @topnav-height;
-    padding: @topnav-padding;
+    padding: @topnav-padding 0px;
 
     .logo {
       margin-left: 30px;
       max-height: @topnav-height - 2 * @topnav-padding;
       max-width: 30vw;
       object-fit: contain;
+      @media (max-width: 480px) {
+      margin-left: 15px;
+      }
     }
 
     .download-link {
       margin: 0 1vw;
+      opacity: .4;
+
+      &:hover {
+        opacity: 1;
+      }
 
       img {
-        max-height: @topnav-height - 2 * @topnav-padding;
-        max-width: 28vw;
+        max-height: 45px;
+        //max-width: 28vw;
         object-fit: contain;
+        @media (max-width: 480px) {
+          max-height: 32px;
+          margin-top: 15px;
+        }
       }
     }
   }
@@ -50,8 +62,8 @@
 
     display: block;
     margin: auto;
-    max-width: 375px;
-    width: 380px;
+    max-width: 600px;
+    //width: 380px;
 
     [ng-if] {
       // Use `none 0s` to disable keyframe animations
@@ -88,7 +100,12 @@
 
     .step-container {
       min-height: 600px;
-      padding: 44px 20px 20px 20px;
+      padding: 54px 20px 20px 20px;
+      //border: 1px solid darken(#142332,5%);
+
+      @media (max-width: 480px) {
+        border: none;
+      }
 
       &.has-footer {
         bottom: @footer-height - 5px;
@@ -243,7 +260,7 @@
       }
 
       .input-label {
-        color: @black-text;
+        color: fade(white, 50%);
         width: auto;
 
         &:after {
@@ -324,6 +341,7 @@
       .signin-container {
         margin-top: 75px;
         padding: 0 15px;
+        margin-left: 40px;
 
         a {
           color: @green;
