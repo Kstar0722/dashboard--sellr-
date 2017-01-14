@@ -4191,6 +4191,8 @@ body.storeOwner-orders {
 }
 .get-started-page {
   background: #142332;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   padding-bottom: 25px;
 }
@@ -4278,6 +4280,12 @@ body.storeOwner-orders {
 }
 .get-started-page .screen-content .step-container.has-footer {
   bottom: 65px;
+}
+.get-started-page .screen-content.step0 {
+  align-self: center;
+}
+.get-started-page .screen-content.step0 .step-container {
+  padding: 0 20px 40px 20px;
 }
 .get-started-page .screen-content.step1 .step-container {
   min-height: 515px;
@@ -4525,6 +4533,12 @@ body.storeOwner-orders {
 .get-started-page .screen-content .step1 .item input {
   height: 30px;
 }
+.get-started-page .screen-content .step2 {
+  min-width: 420px;
+}
+.get-started-page .screen-content .step2 .step-container {
+  min-height: 350px;
+}
 .get-started-page .screen-content .step2 .details {
   margin-bottom: 30px;
 }
@@ -4553,9 +4567,11 @@ body.storeOwner-orders {
   color: #171625;
   padding-top: 3px;
 }
+.get-started-page .screen-content .step3 {
+  min-width: 420px;
+}
 .get-started-page .screen-content .step3 .list {
   margin: 0 20px 20px 20px;
-  padding-bottom: 55px;
 }
 .get-started-page .screen-content .step3 .list .toggle {
   border-radius: 50%;
@@ -4620,6 +4636,7 @@ body.storeOwner-orders {
 .get-started-page .screen-content .footer-custom {
   background: transparent;
   min-height: 70px;
+  padding: 0 20px;
 }
 .get-started-page .screen-content .footer-custom .button {
   border-radius: 0;
@@ -4651,6 +4668,9 @@ body.storeOwner-orders {
 }
 .get-started-page .screen-content.nomargin .header-custom {
   background-color: #171625 !important;
+}
+.get-started-page .screen-content.nomargin .footer-custom {
+  padding: 0;
 }
 .get-started-page .screen-content.nomargin .footer-custom .next[disabled] {
   background: #80d9b8 !important;
@@ -4825,7 +4845,7 @@ body.storeOwner-orders {
   padding-right: 14px;
 }
 .get-started-page .screen-content .store-profile.editing .store-info .hours .item-row {
-  line-height: 40px;
+  line-height: 45px;
   margin: 0;
 }
 .get-started-page .screen-content .store-profile.editing .store-info .hours .work-switch {
