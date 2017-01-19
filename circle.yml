@@ -1,4 +1,8 @@
 deployment:
+  release:
+    branch: /release.*/
+    heroku:
+        appname: sellrdashboard-staging
   staging:
     branch: master
     heroku:
