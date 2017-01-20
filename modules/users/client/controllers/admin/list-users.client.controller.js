@@ -6,6 +6,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
         $scope.CurrentUserService = CurrentUserService;
         $scope.userview = $state.params;
+        $scope.sortExpression = '+displayName';
         //CurrentUserService.user = '';
         $scope.locations = [];
 
@@ -19,8 +20,6 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         }
 
         $scope.userEditView = function (user) {
-            //debugger;
-
             $http.get(constants.API_URL + '/users?email=' + user.email).then(function (res, err) {
                 if (err) {
                     console.log(err);
@@ -35,9 +34,8 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         };
 
         $scope.inviteStoreView = function () {
-            $state.go('admin.users.store', {}, {reload: true})
+            $state.go('admin.users.store')
         };
-
 
         $scope.buildPager = function () {
             $scope.pagedItems = [];
@@ -75,6 +73,13 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
         };
 
+        $scope.reOrderList = function (field) {
+            var oldSort = $scope.sortExpression || '';
+            var asc = oldSort[0] != '-';
+            if (oldSort.substr(1) == field) asc = !asc;
+            return $scope.sortExpression = (asc ? '+' : '-') + field;
+        };
+
         //$scope.invite = function (isValid) {
         //  if (!isValid) {
         //    $scope.$broadcast('show-errors-check-validity', 'storeForm');
@@ -110,7 +115,5 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         //    });
         //  }
         //};
-
-
     }
 ]);

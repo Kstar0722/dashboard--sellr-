@@ -22,9 +22,9 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
       return defer.promise
     }
 
-    me.query = function () {
+    me.query = function (params) {
       var defer = $q.defer()
-      $http.get(constants.API_URL + '/users').then(function (response, err) {
+      $http.get(constants.API_URL + '/users', { params: params }).then(function (response, err) {
         if (err) {
           defer.reject(err)
         }
@@ -82,7 +82,7 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
       return $http.post(constants.API_URL + '/users', payload).then(function (response) {
         $analytics.eventTrack('User Signed Up', {
           email: user.email,
-          name: user.name || user.displayName || user.firstname + ' ' + user.lastname,
+          name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
           phone: user.phone
         });
         console.log('user signed up', response.data);

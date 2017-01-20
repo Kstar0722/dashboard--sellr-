@@ -1,9 +1,7 @@
 <!--Right Side view for editing users-->
 <!--Uses UserController in user.client.controller.js-->
-
-<section class="inner edit-user">
-
-  <h1>Editing User: {{user.firstName}} {{user.lastName}}</h1>
+<md-dialog id="EditUserDialog">
+  <h1>Editing User: {{original.user.firstName}} {{original.user.lastName}}</h1>
   <md-button  class="md-button md-raised md-primary"  ng-click="remove();" ng-if="user._id !== authentication.user._id">
     Remove User
   </md-button>
@@ -12,22 +10,23 @@
 
     <div layout-xs="column" layout-sm="column" layout-align="space-between stretch">
 
-     
-      <md-input-container class="md-block">
+     <div layout="row" class="name-fields">
+      <md-input-container class="md-block" flex>
         <label>First Name</label>
-        <input ng-model="user.firstName" required>
+        <input ng-model="user.firstName" required autofocus>
         <div ng-messages="userForm.firstName.$error" role="alert">
           <p class="help-block error-text" ng-message="required">First name is required.</p>
         </div>
       </md-input-container>
 
-      <md-input-container class="md-block">
+      <md-input-container class="md-block" flex>
         <label>Last Name</label>
         <input ng-model="user.lastName" required>
         <div ng-messages="userForm.lastName.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Last name is required.</p>
         </div>
       </md-input-container>
+     </div>
 
       <md-input-container class="md-block">
         <label>Email</label>
@@ -44,7 +43,7 @@
     </div>
 
     <div class="controls">
-      <div id="checks" ng-repeat="role in roles">
+      <div id="checks" ng-repeat="role in roles | orderBy:'text'">
         <md-checkbox ng-model="role.selected">
           {{role.text}}
         </md-checkbox>
@@ -66,10 +65,12 @@
           Reset Password
         </md-button>
 
+        <md-button class="md-button" ng-click="cancel()">Cancel</md-button>
+
         <div class="temp-password" ng-show="data.tempPassword !== ''">Temporary Password: <span ng-bind="data.tempPassword"></span></div>
 
       </div>
     </div>
 
   </form>
-</section>
+</md-dialog>

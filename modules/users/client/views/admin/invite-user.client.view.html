@@ -1,25 +1,27 @@
-<section class="inner">
-
+<md-dialog id="InviteUserDialog">
   <h1>Invite A User</h1>
 
   <form name="userForm" ng-submit="invite(userForm.$valid)" novalidate>
 
+    <div layout-xs="column" layout-sm="column" layout-align="space-between stretch">
 
-    <md-input-container class="md-block">
-      <label>First Name</label>
-      <input ng-model="user.firstName" required>
-      <div ng-messages="userForm.firstName.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">First name is required.</p>
-      </div>
-    </md-input-container>
+    <div layout="row" class="name-fields">
+      <md-input-container class="md-block" flex>
+        <label>First Name</label>
+        <input ng-model="user.firstName" required autofocus>
+        <div ng-messages="userForm.firstName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">First name is required.</p>
+        </div>
+      </md-input-container>
 
-    <md-input-container class="md-block">
-      <label>Last Name</label>
-      <input ng-model="user.lastName" required>
-      <div ng-messages="userForm.lastName.$error" role="alert">
-        <p class="help-block error-text" ng-message="required">Last name is required.</p>
-      </div>
-    </md-input-container>
+      <md-input-container class="md-block" flex>
+        <label>Last Name</label>
+        <input ng-model="user.lastName" required>
+        <div ng-messages="userForm.lastName.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Last name is required.</p>
+        </div>
+      </md-input-container>
+    </div>
 
 
     <md-input-container class="md-block">
@@ -59,10 +61,13 @@
       </md-select>
     </div>
 
-    <md-button type="submit" class="md-raised md-primary">Send Invite</md-button>
+      </div>
+
+    <div class="controls">
+      <md-button type="submit" class="md-raised md-primary">Send Invite</md-button>
+      <md-button type="button" ng-click="cancel()">Cancel</md-button>
+    </div>
 
 
   </form>
-</section>
-
-
+</md-dialog>

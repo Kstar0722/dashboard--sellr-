@@ -32,10 +32,6 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
       })
     }
 
-    $scope.inviteStoreView = function () {
-      $state.go('admin.users.store', {}, {reload: true})
-    }
-
     $scope.buildPager = function () {
       $scope.pagedItems = []
       $scope.itemsPerPage = 15

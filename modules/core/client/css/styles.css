@@ -169,6 +169,64 @@ body.loading .main-content {
 .md-dialog-container {
   z-index: 100;
 }
+.table .t-body,
+.table .t-header {
+  border-bottom: 1px solid #95989a;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  color: #95989a;
+  font-size: 16px;
+}
+.table .t-body div,
+.table .t-header div {
+  padding: 0px 3px;
+  line-height: 20px;
+}
+@media only screen and (max-width: 599px) {
+  .table .t-body div,
+  .table .t-header div {
+    word-wrap: break-word;
+  }
+}
+.table .t-body div md-checkbox,
+.table .t-header div md-checkbox {
+  margin: 0 auto;
+}
+.table .t-body div .fa-sort-asc,
+.table .t-header div .fa-sort-asc,
+.table .t-body div .fa-sort-desc,
+.table .t-header div .fa-sort-desc {
+  cursor: pointer;
+}
+.table .t-header div {
+  cursor: pointer;
+}
+.table .t-body {
+  outline: none;
+  margin-bottom: 0px;
+  padding-bottom: 15px;
+  border-bottom: none;
+  font-weight: bold;
+  color: #5a5c5d;
+}
+.table .t-body .highlighted {
+  background: #00f0e6;
+}
+.table .t-body > div {
+  overflow-wrap: break-word;
+}
+.table .t-body > div.grey-text {
+  color: #95989a;
+}
+.table .t-body > div.product-name {
+  cursor: pointer;
+}
+.table .t-body > div .fa-check {
+  color: #2DC89A;
+}
+.table .t-body > div .fa-times {
+  color: #FF0000;
+}
 .sd-popup {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
@@ -657,23 +715,45 @@ section.userList .invite {
   background-color: #2DC89A;
   color: white;
 }
-section.userList .userbox {
-  background: white;
-  padding: 20px;
+.user-management .md-dialog-container {
+  visibility: hidden;
 }
-.user-management .userbox {
-  padding: 20px;
+#EditUserDialog,
+#InviteUserDialog {
+  max-height: 90%;
+  min-width: 400px;
+  padding: 10px 20px 20px;
 }
-.user-management .edit-user .controls {
+#EditUserDialog .name-fields,
+#InviteUserDialog .name-fields {
+  margin: 0 -10px;
+}
+#EditUserDialog .name-fields md-input-container,
+#InviteUserDialog .name-fields md-input-container {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#EditUserDialog .md-errors-spacer,
+#InviteUserDialog .md-errors-spacer {
+  display: none;
+}
+#EditUserDialog .controls {
   margin-top: 20px;
 }
-.user-management .edit-user .temp-password {
+#EditUserDialog .temp-password {
   font-size: 16px;
   margin-top: 30px;
 }
-.user-management .edit-user .temp-password span {
+#EditUserDialog .temp-password span {
   font-size: 18px;
   font-weight: bold;
+}
+#InviteUserDialog md-radio-button {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+#InviteUserDialog .form-group {
+  margin-top: 30px;
 }
 .content .pagecontent.user-invite {
   padding-top: 3vh;
@@ -2367,66 +2447,11 @@ body.editor-products-detail .medium-editor-toolbar {
 }
 .product-search-table-container .list-container .product-table-container .t-body,
 .product-search-table-container .list-container .product-table-container .t-header {
-  border-bottom: 1px solid #95989a;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  color: #95989a;
-  font-size: 16px;
   text-align: center;
-}
-.product-search-table-container .list-container .product-table-container .t-body div,
-.product-search-table-container .list-container .product-table-container .t-header div {
-  padding: 0px 3px;
-  line-height: 20px;
-}
-@media only screen and (max-width: 599px) {
-  .product-search-table-container .list-container .product-table-container .t-body div,
-  .product-search-table-container .list-container .product-table-container .t-header div {
-    word-wrap: break-word;
-  }
 }
 .product-search-table-container .list-container .product-table-container .t-body div:nth-child(2),
 .product-search-table-container .list-container .product-table-container .t-header div:nth-child(2) {
   text-align: left;
-}
-.product-search-table-container .list-container .product-table-container .t-body div md-checkbox,
-.product-search-table-container .list-container .product-table-container .t-header div md-checkbox {
-  margin: 0 auto;
-}
-.product-search-table-container .list-container .product-table-container .t-body div .fa-sort-asc,
-.product-search-table-container .list-container .product-table-container .t-header div .fa-sort-asc,
-.product-search-table-container .list-container .product-table-container .t-body div .fa-sort-desc,
-.product-search-table-container .list-container .product-table-container .t-header div .fa-sort-desc {
-  cursor: pointer;
-}
-.product-search-table-container .list-container .product-table-container .t-header div {
-  cursor: pointer;
-}
-.product-search-table-container .list-container .product-table-container .t-body {
-  outline: none;
-  margin-bottom: 0px;
-  padding-bottom: 15px;
-  border-bottom: none;
-  font-weight: bold;
-  color: #5a5c5d;
-}
-.product-search-table-container .list-container .product-table-container .t-body > div {
-  overflow-wrap: break-word;
-}
-.product-search-table-container .list-container .product-table-container .t-body > div.grey-text {
-  color: #95989a;
-}
-.product-search-table-container .list-container .product-table-container .t-body > div.product-name {
-  cursor: pointer;
-}
-.product-search-table-container .list-container .product-table-container .t-body > div.product-name .highlighted {
-  background: #00f0e6;
-}
-.product-search-table-container .list-container .product-table-container .t-body > div .fa-check {
-  color: #2DC89A;
-}
-.product-search-table-container .list-container .product-table-container .t-body > div .fa-times {
-  color: #FF0000;
 }
 md-menu-content.user-assign-menu {
   position: fixed;
