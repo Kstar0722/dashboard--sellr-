@@ -4219,6 +4219,20 @@ body.storeOwner-orders {
 .account-manager .edit-box .store-img {
   max-width: 100%;
 }
+.stores-manager .md-dialog-container,
+.account-manager .md-dialog-container {
+  visibility: hidden;
+}
+.stores-manager .table .t-body,
+.account-manager .table .t-body {
+  padding-bottom: 30px;
+}
+#EditAccountDialog,
+#CreateAccountDialog {
+  max-height: 90%;
+  min-width: 400px;
+  padding: 10px 20px 20px;
+}
 .get-started-page {
   background: #142332;
   display: flex;

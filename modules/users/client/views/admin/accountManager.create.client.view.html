@@ -1,10 +1,10 @@
-<section class="inner">
+<md-dialog id="CreateAccountDialog">
   <h1>Create an Account</h1>
-  <form name="accountForm" ng-submit="createAccount()" novalidate>
+  <form name="accountForm" ng-submit="saveNewAccount()" novalidate>
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Account Name</label>
-        <input ng-model="account.name">
+        <input ng-model="account.name" autofocus>
         <div ng-messages="accountForm.name.$error" role="alert">
           <p class="help-block error-text" ng-message="required">account name is required.</p>
         </div>
@@ -64,4 +64,4 @@
       <strong ng-bind="error"></strong>
     </div>
   </form>
-</section>
+</md-dialog>

@@ -1,15 +1,12 @@
 <!--Right Side view for editing accounts-->
 <!--Uses AccountManagerController in accountManager.client.controller.js-->
-<section class="inner">
-    <h1>Editing Account: {{ accountsService.editAccount.name }}</h1>
-    <md-button class="md-button md-raised md-primary"
-               ng-click="accountsService.deleteAccount(accountsService.editAccount.accountId)">Remove Account
-    </md-button>
+<md-dialog id="EditAccountDialog">
+    <h1>Editing Account: {{ editAccountOriginal.name }}</h1>
     <form name="editAccountForm" novalidate>
         <div layout-xs="column" layout-sm="column" layout-align="space-between center">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Name</label>
-                <input ng-model="accountsService.editAccount.name">
+                <input ng-model="accountsService.editAccount.name" autofocus>
                 <div ng-messages="editAccountForm.name.$error" role="alert">
                     <p class="help-block error-text" ng-message="required">Account name is required.</p>
                 </div>
@@ -78,10 +75,15 @@
                 Code
             </md-button>
         </div>
-        <md-button class="md-button md-raised md-primary update-btn" ng-click="accountsService.updateAccount()">Update
-        </md-button>
+        <div>
+            <md-button class="md-raised md-primary update-btn" ng-click="accountsService.updateAccount()">Update</md-button>
+            <md-button class="md-button md-raised md-warn" ng-click="accountsService.deleteAccount(accountsService.editAccount.accountId)">
+                Remove Account
+            </md-button>
+            <md-button ng-click="cancelDialog()">Cancel</md-button>
+        </div>
         <div ng-show="error" class="text-danger">
             <strong ng-bind="error"></strong>
         </div>
     </form>
-</section>
+</md-dialog>

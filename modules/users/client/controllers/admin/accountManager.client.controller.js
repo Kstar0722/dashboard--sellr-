@@ -1,6 +1,6 @@
 /* globals angular, _ */
-angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates) {
-  accountsService.init()
+angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout) {
+  accountsService.init({ expand: 'stores,stats' })
   $scope.accountsService = accountsService
   $scope.determinateValue = 0
   $scope.states = UsStates
@@ -8,10 +8,21 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   $scope.account = {
     createdBy: ''
   }
-  if (Authentication.user) {
-    $scope.account.createdBy = Authentication.user.firstName + Authentication.user.lastName
-  }
-  console.log($scope.account)
+  $scope.sortExpression = '+name';
+
+  $scope.openNestedDialog = function() {
+    $scope.dialog = $mdDialog.show({
+      contentElement: '.md-dialog-container',
+      onRemoving: $scope.cancelDialog,
+      focusOnOpen: false
+    });
+  };
+
+  $scope.cancelDialog = function () {
+    $mdDialog.cancel();
+    $scope.dialog = null;
+    $timeout(function() { $state.go('admin.accounts'); }, 400);
+  };
 
   // changes the view, and sets current edit account
   $scope.editAccount = function (account) {
@@ -20,15 +31,21 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     accountsService.editAccount = account
     console.log('editAccount is now %O', accountsService.editAccount)
     $state.go('admin.accounts.edit', { id: account.accountId })
-    window.scrollTo(0, 0)
+    $scope.editAccountOriginal = { account: angular.copy(accountsService.editAccount) };
+    $timeout($scope.openNestedDialog, 100);
   }
 
-  // changes the view, and sets current edit account
   $scope.createAccount = function () {
+    $state.go('admin.accounts.create');
+    $timeout($scope.openNestedDialog, 100);
+  };
+
+  // changes the view, and sets current edit account
+  $scope.saveNewAccount = function () {
     console.log('creating account %O', $scope.account)
     accountsService.createAccount($scope.account).then(function (newAccount) {
       var newAccountToEdit = _.findWhere(accountsService.accounts, {accountId: newAccount.accountId})
-      $scope.editAccount(newAccountToEdit)
+      if (newAccountToEdit) $scope.editAccount(newAccountToEdit)
     })
   }
 
@@ -66,5 +83,36 @@ angular.module('users.admin').controller('AccountManagerController', function ($
         toastr.success('Store Image Updated', 'Success!')
       }
     })
+  }
+
+  $scope.reOrderList = function (field) {
+    var oldSort = $scope.sortExpression || '';
+    var asc = true;
+    if (oldSort.substr(1) == field) asc = oldSort[0] == '-';
+    return $scope.sortExpression = (asc ? '+' : '-') + field;
+  };
+
+  $scope.$watch('accountsService.accounts', function (accounts) {
+    if (_.isEmpty(accounts)) return;
+
+    if ($scope.dialog) return;
+    $scope.dialog = true;
+
+    if ($state.current.name.match(/edit$/)) {
+      var account = _.find(accounts, { accountId: parseInt($state.params.id, 10) });
+      if (account) $timeout(function() { $scope.editAccount(account); })
+    }
+    if ($state.current.name.match(/create$/)) {
+      $timeout($scope.createAccount);
+    }
+  });
+
+  init();
+
+  function init() {
+    if (Authentication.user) {
+      $scope.account.createdBy = Authentication.user.firstName + Authentication.user.lastName
+    }
+    console.log($scope.account)
   }
 })

@@ -1,24 +1,27 @@
-/* globals angular, localStorage */
-angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics) {
+/* globals angular, localStorage, moment */
+angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates) {
   var me = this
   me.getAccounts = getAccounts
-  me.init = function () {
+  me.init = function (options) {
     me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}
     me.ordersCount = 0
     bindRootProperty($rootScope, 'selectAccountId', me)
-    getAccounts()
+    getAccounts(options)
   }
 
   me.init()
 
-  function getAccounts () {
+  function getAccounts (options) {
+    options = options || {};
     var defer = $q.defer()
     me.accounts = []
     console.log('selectAccountId %O', me.selectAccountId)
-    $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
+    var url = constants.API_URL + '/accounts?status=1';
+    if (options.expand) url += '&expand=' + options.expand;
+    $http.get(url).then(onGetAccountSuccess, onGetAccountError)
     function onGetAccountSuccess (res) {
       // console.log('========= res ' + JSON.stringify(res))
 
@@ -35,7 +38,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
           console.log('setting current account %O', me.currentAccount)
         }
       })
-      me.accounts = res.data
+      me.accounts = _.map(res.data, initAccount)
       defer.resolve(me.accounts)
     }
 
@@ -157,6 +160,20 @@ angular.module('users').service('accountsService', function ($http, constants, t
     $scope.$watch(function () { return (context || $scope)[ name ]; }, function (value) {
       $scope.$root[ name ] = value
     })
+  }
+
+  function initAccount(account) {
+    if (!account) return account;
+
+    account.createdDateMoment = account.createdDate && moment(account.createdDate);
+    account.createdDateStr = account.createdDateMoment && account.createdDateMoment.format('lll');
+
+    if (account.state == 'un') account.state = undefined;
+    var stateUpper = (account.state || '').toUpperCase();
+    var state = account.state && _.find(UsStates, function(s) { return s.abbreviation == stateUpper; });
+    account.stateName = state ? state.name : account.state;
+
+    return account;
   }
 
   return me
