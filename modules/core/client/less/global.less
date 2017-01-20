@@ -206,3 +206,63 @@ body.loading .main-content {
 .md-dialog-container {
   z-index: 100;
 }
+
+.table {
+  .t-body,
+  .t-header{
+    border-bottom: 1px solid  @grey-dark-text;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: @grey-dark-text;
+    font-size: 16px;
+    div{
+      padding: 0px 3px;
+      line-height: 20px;
+      @media @small-only {
+        word-wrap: break-word;
+      }
+      md-checkbox{
+        margin: 0 auto;
+      }
+
+      .fa-sort-asc,
+      .fa-sort-desc{
+        cursor: pointer;
+      }
+    }
+  }
+  .t-header{
+    font-weight: bold;
+
+    div{
+      cursor: pointer;
+    }
+  }
+  .t-body{
+    outline: none;
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+    border-bottom: none;
+    color: @black-text;
+
+    .highlighted {
+      background: @bright-blue;
+    }
+
+    & > div{
+      overflow-wrap: break-word;
+      &.grey-text          {
+        color: @grey-dark-text;
+      }
+      &.product-name{
+        cursor: pointer;
+      }
+      .fa-check{
+        color: @green;
+      }
+      .fa-times{
+        color: @red;
+      }
+    }
+  }
+}

@@ -75,7 +75,7 @@
         <div class="spinner-container" ng-show="(loadingData || pes.show.loading) && !loadingMoreData">
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
-        <div class="product-table-container" ng-show="pes.productList">
+        <div class="table product-table-container" ng-show="pes.productList">
             <div layout class="t-header" layout-align="start center">
                 <div flex>
                     <md-checkbox ng-model="allSelected.value" ng-change="toggleAll()" aria-label="Checkbox all"
@@ -98,7 +98,7 @@
                 </div>
                 <div flex=45 class="product-name">
                     <div layout="row" layout-align="space-between center">
-                        <span ng-bind-html="highlight(product.displayName || product.name, listOptions.searchText)"></span>
+                        <span ng-bind-html="(product.displayName || product.name) | highlight:listOptions.searchText"></span>
                         <i class="fa fa-chevron-circle-right" ng-click="viewProduct(product)"></i>
                     </div>
                 </div>

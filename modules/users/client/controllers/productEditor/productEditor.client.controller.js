@@ -163,11 +163,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
     })
   }
 
-  $scope.highlight = function (text, lookup) {
-    if (lookup) text = text.replace(new RegExp('(' + lookup + ')', 'gi'), '<span class="highlighted">$1</span>')
-    return $sce.trustAsHtml(text)
-  }
-
   var refreshList = function () {
     $scope.searchProducts($scope.ui.searchText)
   }

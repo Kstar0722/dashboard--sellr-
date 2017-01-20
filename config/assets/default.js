@@ -76,7 +76,8 @@ module.exports = {
                 'public/lib/filepicker-js-bower/filepicker.js',
                 'public/lib/angular-filepicker/dist/angular_filepicker.js',
                 'public/lib/angular-us-states/build/angular-us-states.js',
-                'public/lib/angular-ui-switch/angular-ui-switch.js'
+                'public/lib/angular-ui-switch/angular-ui-switch.js',
+                'public/lib/angular-filter/dist/angular-filter.js'
 			]
 		},
 		css: [

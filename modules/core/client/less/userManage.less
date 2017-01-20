@@ -1,40 +1,65 @@
 section.userList {
-
   .invite {
     background-color: @green;
     color: white;
   }
-  .userbox {
-    background: white;
-    padding: 20px;
+}
 
+.user-management {
+  .md-dialog-container {
+    visibility: hidden; // by default
   }
-  @media screen and (max-width: 700px) {
-    .inner {
+
+  .t-body {
+    font-weight: bold;
+  }
+}
+
+#EditUserDialog,
+#InviteUserDialog {
+  max-height: 90%;
+  min-width: 400px;
+  padding: 10px 20px 20px;
+
+  .name-fields {
+    margin: 0 -10px;
+
+    md-input-container {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+  .md-errors-spacer {
+    display: none;
+  }
+}
+
+#EditUserDialog {
+  .controls{
+    margin-top: 20px;
+  }
+  .temp-password{
+    font-size: 16px;
+    margin-top: 30px;
+
+    span{
+      font-size: 18px;
+      font-weight: bold;
 
     }
   }
 }
-.user-management{
-  .userbox {
-    padding: 20px;
-  }
-  .edit-user{
-    .controls{
-      margin-top: 20px;
-    }
-    .temp-password{
-      font-size: 16px;
-      margin-top: 30px;
-      
-      span{
-        font-size: 18px;
-        font-weight: bold;
 
-      }
-    }
+#InviteUserDialog {
+  md-radio-button {
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+  .form-group {
+    margin-top: 30px;
   }
 }
+
 .content{
 
   .pagecontent.user-invite{

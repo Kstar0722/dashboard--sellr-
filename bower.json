@@ -55,7 +55,8 @@
     "filepicker-js-bower": "filepicker-js#^2.4.18",
     "angular-us-states": "^0.1.1",
     "angular-ui-switch": "^0.1.1",
-    "angulartics-segment": "^0.2.0"
+    "angulartics-segment": "^0.2.0",
+    "angular-filter": "^0.5.14"
   },
   "resolutions": {
     "angular": "1.4.x",

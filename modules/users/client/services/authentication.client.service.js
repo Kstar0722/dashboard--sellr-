@@ -26,7 +26,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       if (!user || !window.analytics) return;
       console.log('identifying user for Analytics tracking')
       analytics.identify(user.userId, {
-        name: user.displayName || (user.firstname + ' ' + user.lastname),
+        name: user.displayName || (user.firstName + ' ' + user.lastName),
         email: user.email,
         accountId: user.accountId
       });
@@ -57,7 +57,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       auth.user = user
       me.setAnalyticsUser(user);
       $analytics.eventTrack('Logged In', {
-        name: user.displayName || (user.firstname + ' ' + user.lastname),
+        name: user.displayName || (user.firstName + ' ' + user.lastName),
         email: user.email,
         app: 'Dashboard'
       })
