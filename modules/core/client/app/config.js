@@ -23,7 +23,8 @@ var ApplicationConfiguration = (function () {
       'cfp.loadingBar',
       'angular-filepicker',
       'ngUsStates',
-      'uiSwitch'
+      'uiSwitch',
+      'angular.filter'
     ];
 
   if (angular.element('body').is('.root')) {

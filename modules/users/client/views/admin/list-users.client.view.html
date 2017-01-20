@@ -26,7 +26,7 @@
         <div></div>
       </div>
       <div layout class="t-body" layout-align="start center"
-         ng-repeat="user in CurrentUserService.userList | filter: search | orderBy:sortExpression">
+         ng-repeat="user in CurrentUserService.userList | filterBy:['displayName', 'email', 'store', 'topRole']:search | orderBy:sortExpression">
         <div flex="25" ng-bind-html="user.displayName | highlight:search"></div>
         <div flex="25" ng-bind-html="user.email | highlight:search"></div>
         <div flex="20" ng-bind-html="user.store | highlight:search"></div>
