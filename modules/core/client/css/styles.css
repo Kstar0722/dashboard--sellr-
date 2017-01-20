@@ -198,6 +198,9 @@ body.loading .main-content {
 .table .t-header div .fa-sort-desc {
   cursor: pointer;
 }
+.table .t-header {
+  font-weight: bold;
+}
 .table .t-header div {
   cursor: pointer;
 }
@@ -206,7 +209,6 @@ body.loading .main-content {
   margin-bottom: 0px;
   padding-bottom: 15px;
   border-bottom: none;
-  font-weight: bold;
   color: #5a5c5d;
 }
 .table .t-body .highlighted {
@@ -717,6 +719,9 @@ section.userList .invite {
 }
 .user-management .md-dialog-container {
   visibility: hidden;
+}
+.user-management .t-body {
+  font-weight: bold;
 }
 #EditUserDialog,
 #InviteUserDialog {

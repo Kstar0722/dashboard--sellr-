@@ -75,8 +75,8 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
 
         $scope.reOrderList = function (field) {
             var oldSort = $scope.sortExpression || '';
-            var asc = oldSort[0] != '-';
-            if (oldSort.substr(1) == field) asc = !asc;
+            var asc = true;
+            if (oldSort.substr(1) == field) asc = oldSort[0] == '-';
             return $scope.sortExpression = (asc ? '+' : '-') + field;
         };
 
