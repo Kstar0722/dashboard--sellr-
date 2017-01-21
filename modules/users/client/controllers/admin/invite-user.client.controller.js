@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$mdDialog', '$timeout', 'CurrentUserService',
-    function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $mdDialog, $timeout, CurrentUserService) {
+angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$mdDialog', '$timeout', 'CurrentUserService', 'Users',
+    function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $mdDialog, $timeout, CurrentUserService, Users) {
 
         $scope.myPermissions = localStorage.getItem('roles');
         $scope.accountsService = accountsService;
@@ -75,7 +75,7 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
             console.dir(response);
             $scope.success = true;
             $scope.cancel();
-            CurrentUserService.userList.push(response.data);
+            CurrentUserService.userList.push(Users.initUser(response.data));
         }
 
         function onInviteError(err) {

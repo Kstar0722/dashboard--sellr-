@@ -101,6 +101,8 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
       });
     };
 
+    me.initUser = initUser;
+
     function initUser(user) {
       if (!user) return user;
       user.createdDateMoment = user.createdDate && moment(user.createdDate);
