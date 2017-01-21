@@ -717,11 +717,14 @@ section.userList .invite {
   background-color: #2DC89A;
   color: white;
 }
+.user-management .invite {
+  background: #2DC89A !important;
+  color: #ffffff;
+  display: block;
+  margin-left: auto;
+}
 .user-management .md-dialog-container {
   visibility: hidden;
-}
-.user-management .t-body {
-  font-weight: bold;
 }
 #EditUserDialog,
 #InviteUserDialog {
