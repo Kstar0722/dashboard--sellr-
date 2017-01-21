@@ -4178,12 +4178,23 @@ body.storeOwner-orders {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 24px;
 }
+.stores-manager .create-btn,
+.account-manager .create-btn {
+  background: #2DC89A !important;
+  color: #ffffff;
+  display: block;
+  margin-left: auto;
+}
 @media only screen and (max-width: 599px) {
   .stores-manager .create-btn,
   .account-manager .create-btn {
     width: 100%;
     margin: 0px;
   }
+}
+.stores-manager .search,
+.account-manager .search {
+  margin: 10px 0;
 }
 .stores-manager .edit-box,
 .account-manager .edit-box {
@@ -4227,11 +4238,75 @@ body.storeOwner-orders {
 .account-manager .table .t-body {
   padding-bottom: 30px;
 }
+.stores-manager .table .t-body .logo-img,
+.account-manager .table .t-body .logo-img,
+.stores-manager .table .t-body .store-img,
+.account-manager .table .t-body .store-img {
+  max-width: 100%;
+  max-height: 25px;
+}
 #EditAccountDialog,
 #CreateAccountDialog {
   max-height: 90%;
   min-width: 400px;
-  padding: 10px 20px 20px;
+  padding: 0 10px 10px;
+}
+#EditAccountDialog .inner,
+#CreateAccountDialog .inner {
+  padding: 10px;
+}
+#EditAccountDialog .md-errors-spacer,
+#CreateAccountDialog .md-errors-spacer {
+  display: none;
+}
+#EditAccountDialog md-input-container,
+#CreateAccountDialog md-input-container {
+  margin-top: 20px;
+}
+#EditAccountDialog .upload {
+  margin: 10px 2px;
+}
+#EditAccountDialog .city-state-zip-container {
+  margin: 0 -10px 10px;
+}
+#EditAccountDialog .city-state-zip-container md-input-container {
+  margin: 0 10px;
+}
+#EditAccountDialog .city-state-zip-container .city {
+  flex: 5;
+}
+#EditAccountDialog .city-state-zip-container .state {
+  flex: 5;
+}
+#EditAccountDialog .city-state-zip-container .zip {
+  flex: 2;
+}
+#EditAccountDialog .shoppr-container {
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+#EditAccountDialog .shoppr-container md-checkbox {
+  margin: 0;
+}
+#EditAccountDialog .shoppr-container md-input-container {
+  margin: 0;
+}
+#EditAccountDialog .authcode-container {
+  align-items: center;
+  margin: 15px 0 25px;
+}
+#EditAccountDialog .authcode-container .value {
+  margin: 0 15px 0 5px;
+}
+#EditAccountDialog .authcode-container .md-button {
+  margin: 0;
+}
+#EditAccountDialog .toolbar {
+  margin: 0 -8px;
+}
+#CreateAccountDialog .md-button {
+  margin: 10px 0;
 }
 .get-started-page {
   background: #142332;

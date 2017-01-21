@@ -1,6 +1,7 @@
 <md-dialog id="CreateAccountDialog">
+<div class="inner">
   <h1>Create an Account</h1>
-  <form name="accountForm" ng-submit="saveNewAccount()" novalidate>
+  <form name="accountForm" ng-submit="saveNewAccount()" novalidate layout="column">
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Account Name</label>
@@ -11,7 +12,7 @@
       </md-input-container>
       
       <md-input-container class="md-block" flex-gt-sm>
-        <label>Primary Account Contact Name</label>
+        <label>Primary Contact Name</label>
         <input ng-model="account.contactName">
         <div ng-messages="accountForm.contactName.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Account contactName is required.</p>
@@ -64,4 +65,5 @@
       <strong ng-bind="error"></strong>
     </div>
   </form>
+</div>
 </md-dialog>

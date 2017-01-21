@@ -13,8 +13,7 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   $scope.openNestedDialog = function() {
     $scope.dialog = $mdDialog.show({
       contentElement: '.md-dialog-container',
-      onRemoving: $scope.cancelDialog,
-      focusOnOpen: false
+      onRemoving: $scope.cancelDialog
     });
   };
 
@@ -28,10 +27,10 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   $scope.editAccount = function (account) {
     console.log('editing account %O', account)
     $scope.currentAccountLogo = ''
-    accountsService.editAccount = account
+    accountsService.editAccount = angular.copy(account)
     console.log('editAccount is now %O', accountsService.editAccount)
     $state.go('admin.accounts.edit', { id: account.accountId })
-    $scope.editAccountOriginal = { account: angular.copy(accountsService.editAccount) };
+    $scope.original = { editAccount: account };
     $timeout($scope.openNestedDialog, 100);
   }
 
@@ -91,6 +90,33 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     if (oldSort.substr(1) == field) asc = oldSort[0] == '-';
     return $scope.sortExpression = (asc ? '+' : '-') + field;
   };
+
+  $scope.updateAccount = function(isValid) {
+    if (!isValid) return;
+    accountsService.updateAccount().then(function () {
+      $scope.cancelDialog();
+    });
+  };
+  
+  $scope.confirmDeleteAccount = function(account) {
+    var confirm = $mdDialog.confirm()
+        .title('Delete account?')
+        .htmlContent('Are you sure you want to remove account <b>' + (account.storeName || account.name) + '</b>?')
+        .ok('Delete')
+        .cancel('Cancel')
+
+    $mdDialog.cancel().then(function() {
+      $timeout(function () {
+        $('body > .md-dialog-container').addClass('delete confirm')
+      });
+
+      $mdDialog.show(confirm).then(function () {
+        accountsService.deleteAccount(account).then(function () {
+          $scope.cancelDialog();
+        });
+      });
+    });
+  }
 
   $scope.$watch('accountsService.accounts', function (accounts) {
     if (_.isEmpty(accounts)) return;

@@ -6,15 +6,14 @@
   <div class="titlebar"><h1 class="md-display-2">Account Management</h1></div>
 
   <div class="pagecontent account-manager">
-
-    <div layout="row"  layout-align="space-around start" layout-padding layout-xs="column" layout-align-xs="start stretch">
+    <div layout="row">
       <div flex="45" flex-xs="100" flex-order-xs="2">
-        <md-input-container class="md-block">
+        <md-input-container class="md-block search">
           <label>SEARCH</label>
           <input ng-model="search">
         </md-input-container>
       </div>
-      <div flex="45" flex-xs="100" flex-order-xs="1">
+      <div flex flex-xs="100" flex-order-xs="1">
         <md-button class="md-raised md-success create-btn" ng-click="createAccount()">Create Account</md-button>
       </div>
     </div>
@@ -32,7 +31,7 @@
       <div layout class="t-body" layout-align="start center"
            ng-repeat="account in accountsService.accounts | filterBy:['storeName','createdDateStr','contactName','stateName']:search | orderBy:sortExpression">
         <div flex="20">
-          <img ng-src="{{ account.logo }}" height="25px">
+          <img ng-src="{{ account.logo }}" class="store-img" ng-if="account.logo">
           <div ng-bind-html="account.storeName | highlight:search"></div>
         </div>
         <div flex="20" ng-bind-html="account.createdDateStr | highlight:search"></div>

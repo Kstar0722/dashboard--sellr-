@@ -1,7 +1,24 @@
 /* globals angular, localStorage, moment */
 angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates) {
   var me = this
-  me.getAccounts = getAccounts
+
+  me.loadAccounts = function(options) {
+    me.accounts = []
+    getAccounts(options).then(function(accounts) {
+      me.accounts = []
+      _.each(accounts, function (account) {
+        if (me.selectAccountId && account.accountId == me.selectAccountId) {
+          me.currentAccount = account
+          // intercomService.intercomActivation()
+          console.log('setting current account %O', me.currentAccount)
+        }
+      })
+      me.accounts = accounts
+    })
+  }
+
+  me.getAccounts = getAccounts;
+
   me.init = function (options) {
     me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
     me.accounts = []
@@ -9,7 +26,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     me.currentAccount = {}
     me.ordersCount = 0
     bindRootProperty($rootScope, 'selectAccountId', me)
-    getAccounts(options)
+    me.loadAccounts(options)
   }
 
   me.init()
@@ -17,29 +34,18 @@ angular.module('users').service('accountsService', function ($http, constants, t
   function getAccounts (options) {
     options = options || {};
     var defer = $q.defer()
-    me.accounts = []
     console.log('selectAccountId %O', me.selectAccountId)
-    var url = constants.API_URL + '/accounts?status=1';
+    
+    var url = constants.API_URL + '/accounts';
+    if (options.id) url += '/' + options.id;
+    url += '?status=1';
     if (options.expand) url += '&expand=' + options.expand;
+
     $http.get(url).then(onGetAccountSuccess, onGetAccountError)
     function onGetAccountSuccess (res) {
       // console.log('========= res ' + JSON.stringify(res))
-
-      me.accounts = []
-      res.data.forEach(function (account) {
-        if (account.preferences) {
-          account.logo = account.preferences.logo || account.preferences.s3url
-          account.storeImg = account.preferences.storeImg
-          account.shoppr = Boolean(account.preferences.shoppr)
-        }
-        if (me.selectAccountId && account.accountId == me.selectAccountId) {
-          me.currentAccount = account
-          // intercomService.intercomActivation()
-          console.log('setting current account %O', me.currentAccount)
-        }
-      })
-      me.accounts = _.map(res.data, initAccount)
-      defer.resolve(me.accounts)
+      var accounts = _.map(res.data, initAccount)
+      defer.resolve(accounts)
     }
 
     function onGetAccountError (err) {
@@ -51,20 +57,24 @@ angular.module('users').service('accountsService', function ($http, constants, t
   }
 
   me.deleteAccount = function (account) {
-    var url = constants.API_URL + '/accounts/deactivate/' + account
+    var accountId = account.accountId || account;
+    var url = constants.API_URL + '/accounts/deactivate/' + accountId;
+    var original = _.find(me.accounts, { accountId: accountId });
+    return $http.put(url).then(onCreateAccountSuccess, onCreateAccountError)
 
-    $http.put(url).then(onCreateAccountSuccess, onCreateAccountError)
     function onCreateAccountSuccess (res) {
-      toastr.success('Account Deactivated!')
+      toastr.success('Account Deactivated!', account.storeName || account.name)
       console.log('accounts Service, createAccount %O', res)
-      getAccounts()
+      _.removeItem(me.accounts, original)
     }
 
     function onCreateAccountError (err) {
       toastr.error('There was a problem deactivating this account')
       console.error(err)
+      throw err;
     }
   }
+
   me.createAccount = function (account) {
     var defer = $q.defer()
     var url = constants.API_URL + '/accounts'
@@ -88,7 +98,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
         storePhone: res.data.phone
       });
 
-      getAccounts().then(function () {
+      me.loadAccounts().then(function () {
         defer.resolve(res.data)
       })
       return res
@@ -103,25 +113,34 @@ angular.module('users').service('accountsService', function ($http, constants, t
   }
 
   me.updateAccount = function () {
-    me.editAccount.preferences = me.editAccount.preferences || {}
-    me.editAccount.preferences.logo = me.editAccount.logo
-    me.editAccount.preferences.style = me.editAccount.style
-    me.editAccount.preferences.shoppr = me.editAccount.shoppr
+    var account = me.editAccount;
+    account.preferences = account.preferences || {}
+    account.preferences.logo = account.logo
+    account.preferences.style = account.style
+    account.preferences.shoppr = account.shoppr
     var payload = {
-      payload: me.editAccount
+      payload: account
     }
-    console.log('about to update %O', me.editAccount)
-    var url = constants.API_URL + '/accounts/' + me.editAccount.accountId
+    console.log('about to update %O', account)
+    var url = constants.API_URL + '/accounts/' + account.accountId
     console.log('putting to ' + url)
-    $http.put(url, payload).then(onUpdateSuccess, onUpdateError)
+
+    var original = _.find(me.accounts, { accountId: account.accountId });
+    return $http.put(url, payload).then(onUpdateSuccess, onUpdateError)
+
     function onUpdateSuccess (res) {
       console.log('updated account response %O', res)
-      toastr.success('Account Updated!')
+      return me.getAccounts({ id: original.accountId, expand: 'stores,stats' }).then(function(saved) {
+        toastr.success('Account Updated!', account.storeName || account.name)
+        // update existing account in collection
+        _.replaceItem(me.accounts, original, _.first(saved));
+      })
     }
 
     function onUpdateError (err) {
       console.error('Error updating account %O', err)
       toastr.error('There was a problem updating this account')
+      throw err;
     }
   }
 
@@ -172,6 +191,12 @@ angular.module('users').service('accountsService', function ($http, constants, t
     var stateUpper = (account.state || '').toUpperCase();
     var state = account.state && _.find(UsStates, function(s) { return s.abbreviation == stateUpper; });
     account.stateName = state ? state.name : account.state;
+
+    if (account.preferences) {
+      account.logo = account.preferences.logo || account.preferences.s3url
+      account.storeImg = account.preferences.storeImg
+      account.shoppr = Boolean(account.preferences.shoppr)
+    }
 
     return account;
   }
