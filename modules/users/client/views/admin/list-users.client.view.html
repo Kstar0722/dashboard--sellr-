@@ -19,18 +19,20 @@
 
     <div class="table">
       <div layout class="t-header" layout-align="start center">
-        <div ng-click="reOrderList('displayName')" flex="25">Name <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('email')" flex="25">Email <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('store')" flex="20">Store <i class="fa fa-sort"></i></div>
-        <div ng-click="reOrderList('topRole')" flex>Role <i class="fa fa-sort"></i></div>
+        <div flex="20" ng-click="reOrderList('displayName')">Name <i class="fa fa-sort"></i></div>
+        <div flex="20" ng-click="reOrderList('email')">Email <i class="fa fa-sort"></i></div>
+        <div flex="20" ng-click="reOrderList('store')">Store <i class="fa fa-sort"></i></div>
+        <div flex="10" ng-click="reOrderList('topRole')">Role <i class="fa fa-sort"></i></div>
+        <div flex ng-click="reOrderList('createdDateMoment')">Created Date <i class="fa fa-sort"></i></div>
         <div></div>
       </div>
       <div layout class="t-body" layout-align="start center"
-         ng-repeat="user in CurrentUserService.userList | filterBy:['displayName', 'email', 'store', 'topRole']:search | orderBy:sortExpression">
-        <div flex="25" ng-bind-html="user.displayName | highlight:search"></div>
-        <div flex="25" ng-bind-html="user.email | highlight:search"></div>
+         ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','topRole','createdDateStr']:search | orderBy:sortExpression">
+        <div flex="20" ng-bind-html="user.displayName | highlight:search"></div>
+        <div flex="20" ng-bind-html="user.email | highlight:search"></div>
         <div flex="20" ng-bind-html="user.store | highlight:search"></div>
-        <div flex ng-bind-html="user.topRole | highlight:search"></div>
+        <div flex="10" ng-bind-html="user.topRole | highlight:search"></div>
+        <div flex ng-bind-html="user.createdDateStr | highlight:search"></div>
         <div>
           <md-button class="md-secondary md-raised" ng-click="userEditView(user)">Edit</md-button>
         </div>
