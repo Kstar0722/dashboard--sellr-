@@ -28,6 +28,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
           account.logo = account.preferences.logo || account.preferences.s3url
           account.storeImg = account.preferences.storeImg
           account.shoppr = Boolean(account.preferences.shoppr)
+          account.website = Boolean(account.preferences.website)
         }
         if (me.selectAccountId && account.accountId == me.selectAccountId) {
           me.currentAccount = account
@@ -104,6 +105,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     me.editAccount.preferences.logo = me.editAccount.logo
     me.editAccount.preferences.style = me.editAccount.style
     me.editAccount.preferences.shoppr = me.editAccount.shoppr
+    me.editAccount.preferences.website = me.editAccount.website
     var payload = {
       payload: me.editAccount
     }
