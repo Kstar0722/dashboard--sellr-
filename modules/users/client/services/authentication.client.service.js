@@ -22,25 +22,15 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       return $state.go('home');
     };
 
-    me.setAnalyticsUser = function (user) {
-      if (!user || !window.analytics) return;
-      console.log('identifying user for Analytics tracking')
-      analytics.identify(user.userId, {
-        name: user.displayName || (user.firstName + ' ' + user.lastName),
-        email: user.email,
-        accountId: user.accountId
-      });
-    };
-
     init();
 
     function init() {
-      var user = JSON.parse(localStorage.getItem('userObject'))
-      if (user) me.setAnalyticsUser(user);
+      var user = initUser(JSON.parse(localStorage.getItem('userObject')))
+      if (user) setAnalyticsUser(user);
     }
 
     function onSigninSuccess (response) {
-      var user = response.data;
+      var user = initUser(response.data);
 
       // Check if user role is not set or if it is the only one
       if (user.accountId && user.roles.indexOf(1003) === -1 || (user.roles.indexOf(1003) > -1 && user.roles.length === 1)) {
@@ -55,7 +45,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       localStorage.setItem('userId', user.userId)
       localStorage.setItem('userObject', JSON.stringify(user))
       auth.user = user
-      me.setAnalyticsUser(user);
+      setAnalyticsUser(user);
       $analytics.eventTrack('Logged In', {
         name: user.displayName || (user.firstName + ' ' + user.lastName),
         email: user.email,
@@ -90,6 +80,50 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
         toastr.error('Failed To Connect, Please Contact Support.')
         throw Error();
       }
+    }
+
+    function setAnalyticsUser(user) {
+      if (!user || !window.analytics) return;
+
+      console.log('identifying user for Analytics tracking')
+      var address = user.storeAddress || {};
+      analytics.identify(user.userId, {
+        name: user.displayName,
+        email: user.email,
+        phone: user.phone || address.phone,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        id: user.userId,
+        createdAt: user.createdDate,
+        city: address.city,
+        state: address.state,
+        address: address ? {
+          street: address.address1,
+          city: address.city,
+          state: address.state,
+          postalCode: address.zipcode,
+          country: 'USA'
+        } : undefined
+      });
+    }
+
+    function initUser(user) {
+      if (!user) return;
+
+      if (isEmpty(user.displayName)) {
+        user.displayName = user.firstName + ' ' + user.lastName;
+      }
+      else if (isEmpty(user.firstName) && isEmpty(user.lastName)) {
+        var parts = user.displayName.trim().split(' ');
+        user.firstName = parts[0];
+        user.lastName = parts.slice(1).join(' ').trim();
+      }
+
+      return user;
+    }
+
+    function isEmpty(value) {
+      return !value || value == 'undefined' || value == 'null';
     }
 
     return me
