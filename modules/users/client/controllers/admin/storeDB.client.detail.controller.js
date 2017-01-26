@@ -1,9 +1,9 @@
 /* globals angular */
 angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia,
-  orderDataService, $state, accountsService, CurrentUserService,
-  productEditorService, Authentication, $stateParams, constants, toastr, $q, $rootScope, cfpLoadingBar) {
+                                                                              orderDataService, $state, accountsService, CurrentUserService,
+                                                                              productEditorService, Authentication, $stateParams, constants, toastr, $q, $rootScope, cfpLoadingBar) {
   if (Authentication.user) {
-    $scope.account = { createdBy: Authentication.user.username }
+    $scope.account = { createdBy: Authentication.user.firstName + Authentication.user.lastName }
   }
 
   console.log('stateParams %O', $stateParams, orderDataService.allItems.length === 0)
@@ -18,6 +18,7 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     var type = orderDataService.currentItem.productTypeId
     if (name) {
       productEditorService.getProductList(null, {
+        filter: {},
         sum: true,
         name: name,
         types: [ { type: type } ]
@@ -33,6 +34,15 @@ angular.module('users.admin').controller('StoreDbDetailController', function ($s
     $rootScope.$broadcast('searchdb')
     productEditorService.clearProductList()
     onProductLoad()
+  }
+
+  $scope.viewMatchProduct = function (productId, status) {
+    if (!productId) {
+      toastr.error('Could not get details for product, no productId.')
+      return
+    }
+    console.log('viewing details for ', productId)
+    $state.go('editor.match.view', { productId: productId, status: status }, { reload: true })
   }
 
   $scope.increaseIndex = function () {

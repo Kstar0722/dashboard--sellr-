@@ -17,13 +17,19 @@ var ApplicationConfiguration = (function () {
       'stripe.checkout',
       'angular-loading-bar',
       'angulartics',
-      'angulartics.gosquared',
+      'angulartics.segment',
       'angular-clipboard',
       'ng-autofocus',
       'cfp.loadingBar',
       'angular-filepicker',
-      'ngUsStates'
+      'ngUsStates',
+      'uiSwitch',
+      'angular.filter'
     ];
+
+  if (angular.element('body').is('.root')) {
+    applicationModuleVendorDependencies.push('ngPostMessage');
+  }
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {

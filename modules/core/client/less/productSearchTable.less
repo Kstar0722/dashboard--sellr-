@@ -34,6 +34,15 @@
       font-size: 16px;
     }
   }
+  .search-in-checks{
+    legend{
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    md-checkbox{
+      font-size: 14px;
+    }
+  }
 }
 
 .product-search-table-container{
@@ -112,63 +121,13 @@
         font-weight: bold;
 
       }
+
       .t-body,
-      .t-header{
-        border-bottom: 1px solid  @grey-dark-text;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        color: @grey-dark-text;
-        font-size: 16px;
+      .t-header {
         text-align: center;
-        div{
-          padding: 0px 3px;
-          line-height: 20px;
-          @media @small-only {
-            word-wrap: break-word;
-          }
-          &:nth-child(2){
-            text-align: left;
-          }                     
-          md-checkbox{
-            margin: 0 auto;
-          }
 
-          .fa-sort-asc,
-          .fa-sort-desc{
-            cursor: pointer;
-          }
-        }
-
-      }
-      .t-header{
-        div{
-          cursor: pointer;
-        }
-      }
-
-
-      .t-body{
-        outline: none;
-        margin-bottom: 0px;
-        padding-bottom: 15px;
-        border-bottom: none;
-        font-weight: bold;
-        color: @black-text;
-
-        & > div{
-          overflow-wrap: break-word;
-          &.grey-text          {
-            color: @grey-dark-text;
-          } 
-          &.product-name{
-            cursor: pointer;
-          }
-          .fa-check{
-            color: @green;
-          }
-          .fa-times{
-            color: @red;
-          }
+        div:nth-child(2){
+          text-align: left;
         }
       }
     }

@@ -32,6 +32,10 @@ angular.module('users').config([ '$stateProvider',
         url: '/store',
         templateUrl: 'modules/users/client/views/settings/store-profile.client.view.html'
       })
+      .state('settings.tablets', {
+        url: '/tablets',
+        templateUrl: 'modules/users/client/views/settings/tablets.client.view.html'
+      })
       .state('editProfile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
@@ -54,11 +58,6 @@ angular.module('users').config([ '$stateProvider',
         templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html',
         public: true
       })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html',
-        public: true
-      })
       .state('authentication.acceptInvitation', {
         url: '/signup',
         templateUrl: 'modules/users/client/views/authentication/acceptInvitation.client.view.html',
@@ -72,7 +71,19 @@ angular.module('users').config([ '$stateProvider',
       .state('authentication.signin', {
         url: '/signin?err',
         templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
-        public: true
+        public: true,
+        params: {
+          email: null
+        }
+      })
+      .state('getStarted', {
+        url: '/getstarted',
+        templateUrl: 'modules/users/client/views/authentication/getStarted.client.view.html',
+        public: true,
+        params: {
+          password: null,
+          step: null
+        }
       })
 
       .state('password', {

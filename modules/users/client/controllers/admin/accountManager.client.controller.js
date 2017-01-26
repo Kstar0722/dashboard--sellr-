@@ -9,7 +9,7 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     createdBy: ''
   }
   if (Authentication.user) {
-    $scope.account.createdBy = Authentication.user.username
+    $scope.account.createdBy = Authentication.user.firstName + Authentication.user.lastName
   }
   console.log($scope.account)
 

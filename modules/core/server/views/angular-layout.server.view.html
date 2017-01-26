@@ -4,7 +4,7 @@
 
 {% block content %}
 <header ng-include="'/modules/core/client/views/header.client.view.html'" style=""></header>
-<section ui-view class="main-content loading-bar-container" ng-class="{ 'main-menu-shown': $root.selectAccountId && $mdMedia('gt-sm'), 'top-menu-shown': renderTopMenu, 'cardkit-menu-shown': $state.current.public }">
+<section ui-view class="main-content loading-bar-container" ng-class="{ 'main-menu-shown': renderMenu && $root.selectAccountId && $mdMedia('gt-sm'), 'top-menu-shown': renderMenu && renderTopMenu, 'cardkit-menu-shown': renderMenu && $state.current.public && !$state.is('getStarted') }">
 </section>
 {% endblock %}
 
@@ -49,5 +49,7 @@
 
     {% block extraScripts %}
     {% endblock %}
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lGWm77Yxx1dsuBobAJyLEIVAMnooRCc&libraries=places"></script>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-<div id="menuContainer" data-ng-controller="HeaderController" ng-class="{ 'top-menu-shown': renderTopMenu }">
+<div id="menuContainer" data-ng-controller="HeaderController" ng-class="{ 'top-menu-shown': renderTopMenu }" ng-show="$root.renderMenu">
     <div id="topNav" ng-show="authentication.user && !$state.is('authentication.reset')">
 
       <md-toolbar ng-class="mobileMenuActive.open ? 'md-menu-toolbar md-toolbar-tools mobile-menu' : 'md-menu-toolbar md-toolbar-tools'" layout-xs="column" layout-sm="column"  layout-align-xs="start start" layout-align-sm="start start" ng-if="menu.shouldRender(authentication.user)" ng-click="closeDropdown($event)">

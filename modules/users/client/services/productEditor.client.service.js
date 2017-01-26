@@ -52,11 +52,59 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.getProductList = function (searchText, options) {
+    options = options || { filter: {} };
+
     me.show.loading = true
-    var defer = $q.defer()
     me.productList = []
     me.allProducts = []
+
+    // reset filter to first pgae
+    options.filter.skipNum = null;
+    options.filter.nomore = true;
+
+    return queryProducts(searchText, options).then(function (products) {
+      me.productList = products
+      me.allProducts = products
+      options.filter.nomore = options.filter.searchLimit && products.length < options.filter.searchLimit;
+    }).finally(function () {
+      me.show.loading = false;
+    });
+  }
+
+  me.loadMoreProducts = function (searchText, options) {
+    options = options || {};
+
+    if (!options.ignoreLoadingBar) {
+      me.show.loading = true
+    }
+
+    // adjust page
+    options.filter.skipNum = (options.filter.skipNum || 0) + options.filter.searchLimit;
+
+    return queryProducts(searchText, options).then(function (moreProducts) {
+      if (options.filter.nomore) return;
+      options.filter.nomore = moreProducts.length < options.filter.searchLimit;
+
+      var productIds = _.map(me.allProducts, 'productId');
+      var moreNewProducts = _.filter(moreProducts, function(p) { return !_.contains(productIds, p.productId); });
+      me.productList = me.productList.concat(moreNewProducts)
+      me.allProducts = me.allProducts.concat(moreNewProducts)
+      return moreProducts;
+    }).catch(function (err) {
+      // reset to previous page
+      options.filter.skipNum -= options.filter.searchLimit;
+      throw err;
+    }).finally(function () {
+      me.show.loading = false;
+    });
+  }
+
+  function queryProducts(searchText, options) {
+    options = options || {};
+    var filter = options.filter || {};
+    var defer = $q.defer()
     var url = constants.BWS_API + '/edit/search?'
+    var params = {};
     if (options.types) {
       for (var i in options.types) {
         url += '&type=' + options.types[ i ].type
@@ -86,29 +134,35 @@ angular.module('users').service('productEditorService', function ($http, $locati
     if (searchText) {
       url += '&q=' + encodeURIComponent(searchText)
     }
+    if (filter.searchLimit) {
+      url += '&l=' + filter.searchLimit;
+    }
+    if (filter.skipNum) {
+      url += '&s=' + filter.skipNum;
+    }
+    if (filter.filterByUserId && filter.userId) {
+      url += '&u=' + filter.userId;
+    }
+    if (filter.orderBy) {
+      url += '&o=' + filter.orderBy;
+    }
+    if (options.ignoreLoadingBar) {
+      params.ignoreLoadingBar = true;
+    }
+    if (options.inColumns) {
+      url += '&in=' + options.inColumns
+    }
     url += '&v=sum'
     console.log('getting URL: ', url)
-    $http.get(url).then(function (response) {
-      me.productList = response.data
-      me.allProducts = response.data
-      me.show.loading = false
-      defer.resolve(me.productList)
+    $http.get(url, params).then(function (response) {
+      defer.resolve(response.data);
     }, function (err) {
       console.error('could not get product list %O', err)
+      toastr.error('Failed to fetch products list');
       defer.reject(err)
-      me.show.loading = false
     })
     return defer.promise
-  }
-
-  me.sortAndFilterProductList = function (listOptions) {
-    me.allProducts = $filter('orderBy')(me.allProducts, listOptions.orderBy)
-    me.productList = me.allProducts
-    if (listOptions.filterByUserId) {
-      me.productList = $filter('filter')(me.productList, { userId: listOptions.userId })
-    }
-    me.productList = $filter('limitTo')(me.productList, listOptions.searchLimit)
-  }
+  };
 
   // send in type,status,userid, get back list of products
   me.getMyProducts = function (options) {
@@ -565,7 +619,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
               defer.resolve(me.productList)
             }
           } else {
-            var url = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
+            var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
             $http.get(url).then(function (results2) {
               me.productList = me.productList.concat(results2.data)
               me.productList = _.uniq(me.productList, function (p) {

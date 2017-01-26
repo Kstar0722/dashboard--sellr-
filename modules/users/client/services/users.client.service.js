@@ -1,8 +1,9 @@
 'use strict'
+/* globals angular, moment, _ */
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users.admin').factory('Users', ['$http', 'constants', '$q',
-  function ($http, constants, $q) {
+angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr',
+  function ($http, constants, $q, $analytics, toastr) {
     var me = this
 
     me.get = function (userId) {
@@ -22,13 +23,14 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q',
       return defer.promise
     }
 
-    me.query = function () {
+    me.query = function (params) {
       var defer = $q.defer()
-      $http.get(constants.API_URL + '/users').then(function (response, err) {
+      $http.get(constants.API_URL + '/users', { params: params }).then(function (response, err) {
         if (err) {
           defer.reject(err)
         }
-        defer.resolve(response.data)
+        var users = _.map(response.data, initUser);
+        defer.resolve(users)
       })
       return defer.promise
     }
@@ -72,6 +74,40 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q',
         defer.reject(error)
       })
       return defer.promise
+    }
+
+    me.create = function (user) {
+      var payload = {
+        payload: user
+      };
+
+      return $http.post(constants.API_URL + '/users', payload).then(function (response) {
+        $analytics.eventTrack('User Signed Up', {
+          email: user.email,
+          name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
+          phone: user.phone
+        });
+        console.log('user signed up', response.data);
+        var user = initUser(response.data);
+        return user;
+      }).catch(function (response) {
+        console.error('create user failed', response.data);
+        if (response.data.name != 'AlreadyRegistered') {
+          var msg = 'Failed to create new account';
+          if ((response.data || {}).message) msg += '. ' + response.data.message;
+          toastr.error(msg);
+        }
+        throw response;
+      });
+    };
+
+    me.initUser = initUser;
+
+    function initUser(user) {
+      if (!user) return user;
+      user.createdDateMoment = user.createdDate && moment(user.createdDate);
+      user.createdDateStr = user.createdDateMoment && user.createdDateMoment.format('lll');
+      return user;
     }
 
     return me

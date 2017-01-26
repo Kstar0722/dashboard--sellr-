@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService',
-    function ($scope, $state, $http, Authentication, constants, toastr, accountsService) {
+angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$mdDialog', '$timeout', 'CurrentUserService', 'Users',
+    function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $mdDialog, $timeout, CurrentUserService, Users) {
 
         $scope.myPermissions = localStorage.getItem('roles');
         $scope.accountsService = accountsService;
@@ -74,13 +74,32 @@ angular.module('users.admin').controller('inviteUserController', ['$scope', '$st
             toastr.success('User Invited', 'Invite Success!');
             console.dir(response);
             $scope.success = true;
-            $state.go($state.previous.state.name || 'home', $state.previous.params);
+            $scope.cancel();
+            CurrentUserService.userList.push(Users.initUser(response.data));
         }
 
         function onInviteError(err) {
-            console.log('error')
-            toastr.error('There was a problem inviting this user.');
-            console.error(err)
+            if(err && err.data && err.data.message){
+                toastr.error(err.data.message);                
+            } else {
+                toastr.error('There was a problem inviting this user.');
+            }
+            console.error('Error creating user', err)
+        }
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+            $timeout(function() { $state.go('admin.users'); }, 400);
+        };
+        
+        init();
+
+        function init() {
+            $mdDialog.show({
+                contentElement: '.md-dialog-container',
+                onRemoving: $scope.cancel,
+                focusOnOpen: false
+            });
         }
     }
 ]);

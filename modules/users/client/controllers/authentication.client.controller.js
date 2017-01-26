@@ -1,12 +1,14 @@
 'use strict'
-/* globals angular,localStorage*/
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'SocketAPI',
-  function ($scope, $state, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, SocketAPI) {
+/* globals angular,localStorage */
+angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'authenticationService',
+  function ($scope, $state, $stateParams, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, authenticationService) {
     var USER_ROLE_OWNER = 1009
 
     $scope.reset = false
     $scope.authentication = Authentication
     $scope.popoverMsg = PasswordValidator.getPopoverMsg()
+    $scope.credentials = {};
+    $scope.credentials.email = $stateParams.email;
 
     var userInfo = {}
     //  read userinfo from URL
@@ -19,7 +21,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     //  If user is signed in then redirect back home
-    if ($scope.authentication.user && !$state.is('authentication.reset')) {
+    if ($state.is('home') && $scope.authentication.user && !$state.is('authentication.reset')) {
       $location.path('/')
     }
 
@@ -39,7 +41,6 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
           email: $scope.credentials.email,
           firstName: $scope.credentials.firstName,
           lastName: $scope.credentials.lastName,
-          username: $scope.credentials.username,
           password: $scope.credentials.password,
           roles: userInfo.roles,
           userId: userInfo.regCode,
@@ -94,88 +95,19 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
 
     $scope.signin = function (isValid) {
       $scope.error = null
+
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'userForm')
         return false
       }
-      var url = constants.API_URL + '/users/login'
-      var payload = {
-        payload: $scope.credentials
-      }
-      // console.log(payload)
-      return $http.post(url, payload).then(onSigninSuccess, onSigninError)
-    }
 
-    function onSigninSuccess (response) {
-      // Check if user role is not set or if it is the only one
-      if (response.data.roles.indexOf(1003) === -1 || (response.data.roles.indexOf(1003) > -1 && response.data.roles.length === 1)) {
-        toastr.error('There is an error with your account permissions. Please contact support')
-        return
-      }
-      authToken.setToken(response.data.token.token)
-      localStorage.setItem('roles', response.data.roles)
-      localStorage.setItem('accountId', response.data.accountId)
-      localStorage.setItem('roles', response.data.roles)
-      localStorage.setItem('userId', response.data.userId)
-      localStorage.setItem('userObject', JSON.stringify(response.data))
-      $scope.authentication.user = response.data
-      $scope.authentication.setGoSquaredUser()
-      SocketAPI.connect()
-
-      if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
-        if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
-          $state.go('editor.products')
-        } else if ($scope.authentication.user.roles.indexOf(1011 >= 0)) {
-          $state.go('curator.store')
+      authenticationService.signin($scope.credentials).catch(function (err) {
+        if (err && err.data && err.data.message) {
+          $scope.error = err.data.message
         }
-      } else {
-        $state.go('dashboard', $state.previous.params)
-      }
-    }
-
-    // We could not sign into mongo, so clear everything and show error.
-    function onSigninError (err) {
-      console.error(err)
-      toastr.error('Failed To Connect, Please Contact Support.')
-      $scope.error = err.message
-      $scope.credentials = {}
-    }
-
-    $scope.signup = function (isValid, user, account) {
-      if ($scope.busy) return
-
-      $scope.error = null
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'signupForm')
-        return false
-      }
-
-      $scope.busy = true
-
-      var payload = angular.extend({}, user, account)
-      payload.source = 'dashboard'
-      payload.roles = [ USER_ROLE_OWNER ]
-      // console.log(payload)
-
-      $http.post(constants.API_URL + '/users/signup', { payload: payload }).then(function (response) {
-        console.log('user signed up', response.data)
-        toastr.success('You have been signed up as a store owner', 'Sign-Up Success!')
-      }).catch(function (err) {
-        console.log('error')
-        console.error(err)
-        var msg = 'There was a problem during sign up procedure'
-        if ((err.data || {}).message) msg += '. ' + err.data.message
-        toastr.error(msg)
-        throw err
-      }).then(function () {
-        //  auto-signin
-        $scope.credentials = user
-        return $scope.signin(true).catch(function () {
-          $scope.credentials = user
-        })
-      }).finally(function () {
-        $scope.busy = false
-      })
+        $scope.credentials.password = null
+        $scope.$broadcast('show-errors-reset', 'userForm')
+      });
     }
 
     //  OAuth provider request

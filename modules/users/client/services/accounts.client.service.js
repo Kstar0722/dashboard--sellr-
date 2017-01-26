@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics) {
   var me = this
   me.getAccounts = getAccounts
   me.init = function () {
@@ -20,7 +20,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     console.log('selectAccountId %O', me.selectAccountId)
     $http.get(constants.API_URL + '/accounts?status=1').then(onGetAccountSuccess, onGetAccountError)
     function onGetAccountSuccess (res) {
-      console.log('========= res ' + JSON.stringify(res))
+      // console.log('========= res ' + JSON.stringify(res))
 
       me.accounts = []
       res.data.forEach(function (account) {
@@ -28,6 +28,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
           account.logo = account.preferences.logo || account.preferences.s3url
           account.storeImg = account.preferences.storeImg
           account.shoppr = Boolean(account.preferences.shoppr)
+          account.website = Boolean(account.preferences.website)
         }
         if (me.selectAccountId && account.accountId == me.selectAccountId) {
           me.currentAccount = account
@@ -75,6 +76,16 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function onCreateAccountSuccess (res) {
       toastr.success('New Account Created!')
       console.log('accounts Service, createAccount %O', res)
+
+      $analytics.eventTrack('Account/Store Created', {
+        accountId: res.data.accountId,
+        storeName: res.data.name,
+        storeAddress: res.data.address,
+        storeCity: res.data.city,
+        storeState: res.data.state,
+        storePhone: res.data.phone
+      });
+
       getAccounts().then(function () {
         defer.resolve(res.data)
       })
@@ -94,6 +105,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     me.editAccount.preferences.logo = me.editAccount.logo
     me.editAccount.preferences.style = me.editAccount.style
     me.editAccount.preferences.shoppr = me.editAccount.shoppr
+    me.editAccount.preferences.website = me.editAccount.website
     var payload = {
       payload: me.editAccount
     }

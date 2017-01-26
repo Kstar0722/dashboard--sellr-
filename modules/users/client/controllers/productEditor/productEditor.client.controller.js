@@ -1,7 +1,7 @@
-/* globals angular, _, $*/
+/* globals angular, _, $ */
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog) {
+  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
@@ -19,7 +19,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.selectedStore = {}
   $scope.allSelected = { value: false }
-  $scope.searchText = ''
+  $scope.ui = { searchText: '' }
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
@@ -48,11 +48,17 @@ angular.module('users').controller('productEditorController', function ($scope, 
     spirit: true
   }
   $scope.filter = [{'type': 1}, {'type': 2}, {'type': 3}]
-  $scope.searchLimit = 15
 
   $scope.listOptions = {}
-  $scope.listOptions.searchLimit = 15
+  $scope.listOptions.searchLimit = 50
+  $scope.listOptions.searchInAll = true
+  $scope.listOptions.searchInName = true
+  $scope.listOptions.searchInDescription = true
+  $scope.listOptions.searchInProductId = true
+  $scope.listOptions.searchInSKU = true
+  $scope.listOptions.searchInNotes = true
   $scope.listOptions.orderBy = '+name'
+  $scope.listOptions.nomore = true
   if (window.localStorage.getItem('filterByUserId')) {
     $scope.listOptions.filterByUserId = true
   } else {
@@ -60,10 +66,25 @@ angular.module('users').controller('productEditorController', function ($scope, 
   }
   $scope.listOptions.userId = $scope.userId
 
-  $scope.showMore = function () {
-    $scope.listOptions.searchLimit += 15
-    refreshList()
+  $scope.toggleSearchInAll = function () {
+    var value
+    $scope.listOptions.searchInAll ? value = true : value = false
+    $scope.listOptions.searchInName = value
+    $scope.listOptions.searchInDescription = value
+    $scope.listOptions.searchInProductId = value
+    $scope.listOptions.searchInSKU = value
+    $scope.listOptions.searchInNotes = value
   }
+
+  $scope.loadMore = function () {
+    $scope.loadingMoreData = true
+    productEditorService.loadMoreProducts($scope.ui.searchText, searchOptions()).then(function (moreProducts) {
+      $scope.allProducts = productEditorService.allProducts
+    }).finally(function () {
+      $scope.loadingMoreData = false
+    })
+  }
+
   if (orderDataService.allStores.length === 0) {
     orderDataService.getAllStores()
   }
@@ -90,7 +111,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+n' ? '-name' : '+name'
         break
       case 'sku':
-        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-sku_count' : '+sku_count'
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 4) === '+sku' ? '-sku_count' : '+sku_count'
         break
       case 'audio':
         $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+a' ? '-audio' : '+audio'
@@ -99,7 +120,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
         $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+i' ? '-image' : '+image'
         break
       case 'status':
-        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+s' ? '-status' : '+status'
+        $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 4) === '+sta' ? '-status' : '+status'
         break
       case 'type':
         $scope.listOptions.orderBy = $scope.listOptions.orderBy.substr(0, 2) === '+p' ? '-productTypeId' : '+productTypeId'
@@ -128,25 +149,22 @@ angular.module('users').controller('productEditorController', function ($scope, 
     //  Just reset new products logic
     $scope.newProductsLabel = 'New Products Available'
     $scope.newProductLimit = 0
-    if (!searchText) {
-      searchText = ''
-    }
     $scope.allProducts = []
     $scope.selected = []
+
     $scope.loadingData = true
-    var options = { status: $scope.checkbox.progress, types: $scope.filter }
-    if ($scope.selectedStore.storeId) {
-      options.store = $scope.selectedStore
-    }
-    productEditorService.getProductList(searchText, options).then(function (data) {
-      $scope.allProducts = data
-      refreshList()
+    $scope.loadingMoreData = false
+
+    $scope.listOptions.searchText = searchText
+    productEditorService.getProductList(searchText, searchOptions()).then(function (products) {
+      $scope.allProducts = products
+    }).finally(function () {
       $scope.loadingData = false
     })
   }
 
   var refreshList = function () {
-    productEditorService.sortAndFilterProductList($scope.listOptions)
+    $scope.searchProducts($scope.ui.searchText)
   }
 
   $scope.toggleSelected = function (product) {
@@ -301,14 +319,18 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.deleteProduct = function (product) {
     product.status = 'deleted'
     productEditorService.save(product).then(function () {
-      $state.go('editor.view', {productId: product.productId})
+      if ($state.includes('editor.match')) {
+        $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
+      } else {
+        $state.go('editor.view', {productId: product.productId})
+      }
     })
   }
 
   $scope.assignSelectedToUser = function (editor) {
     $scope.selected.forEach(function (product) {
       var options = {
-        username: editor.displayName || editor.username || editor.email,
+        username: editor.displayName || editor.email,
         userId: $scope.userId,
         productId: product.productId,
         status: 'inprogress'
@@ -336,22 +358,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.removeImage = function (current) {
     productEditorService.removeImage(current)
   }
-  $(window).bind('keydown', function (event) {
-    if (event.ctrlKey || event.metaKey) {
-      var prod = productEditorService.currentProduct
 
-      switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
-          event.preventDefault()
-          $scope.updateProduct(prod)
-          break
-        case 'd':
-          event.preventDefault()
-          $scope.submitForApproval(prod)
-
-      }
-    }
-  })
+  $(window).bind('keydown', handleShortcuts)
+  $scope.$on('$destroy', function() {
+    $(window).unbind('keydown', handleShortcuts);
+  });
 
   $scope.productsSelection = {}
   $scope.productsSelection.contains = false
@@ -432,22 +443,22 @@ angular.module('users').controller('productEditorController', function ($scope, 
     })
   }
 
-  $scope.confirmDeleteProductSKU = function(ev, product, sku) {
+  $scope.confirmDeleteProductSKU = function (ev, product, sku) {
     var confirm = $mdDialog.confirm()
       .title('Delete UPC?')
       .textContent('Please confirm whether you want to remove SKU for this product?')
       .targetEvent(ev)
       .ok('Delete')
-      .cancel('Cancel');
+      .cancel('Cancel')
 
     $timeout(function () {
-      $('.md-dialog-container').addClass('delete confirm');
-    });
+      $('.md-dialog-container').addClass('delete confirm')
+    })
 
     return $mdDialog.show(confirm).then(function () {
-      return productEditorService.deleteProductSKU(product, sku);
-    });
-  };
+      return productEditorService.deleteProductSKU(product, sku)
+    })
+  }
 
   $rootScope.$on('clearProductList', function () {
     $scope.selected = []
@@ -465,5 +476,41 @@ angular.module('users').controller('productEditorController', function ($scope, 
     if (idx < 0) return false
     arr.splice(idx, 1)
     return true
+  }
+
+  function searchOptions () {
+    var inColumns = ''
+    if ($scope.listOptions.searchInName) inColumns += 'name+'
+    if ($scope.listOptions.searchInDescription) inColumns += 'description+'
+    if ($scope.listOptions.searchInProductId) inColumns += 'id+'
+    if ($scope.listOptions.searchInSKU) inColumns += 'sku+'
+    if ($scope.listOptions.searchInNotes) inColumns += 'notes'
+    if (inColumns === '') {
+      inColumns = 'name'
+      $scope.listOptions.searchInName = true
+    }
+    inColumns = encodeURIComponent(inColumns)
+    var options = { status: $scope.checkbox.progress, types: $scope.filter, filter: $scope.listOptions, inColumns: inColumns, ignoreLoadingBar: true }
+    if ($scope.selectedStore.storeId) {
+      options.store = $scope.selectedStore
+    }
+    return options
+  }
+
+  function handleShortcuts(event) {
+    if (event.ctrlKey || event.metaKey) {
+      var prod = productEditorService.currentProduct
+
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+          event.preventDefault()
+          $scope.updateProduct(prod)
+          break
+        case 'd':
+          event.preventDefault()
+          $scope.submitForApproval(prod)
+
+      }
+    }
   }
 })

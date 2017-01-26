@@ -2,18 +2,31 @@
     <div class="list-container">
         <div layout class="search-box-container">
             <div flex=80 type="submit">
-                <form ng-submit="searchProducts(searchText)">
-                    <input id="searchProduct" class="search-input" placeholder="Search Text" type="text" ng-model="searchText">
-                    <md-checkbox class="blue-check" ng-model="listOptions.filterByUserId" ng-change="toggleFilterUserId()">
-                        Show My Products
-                    </md-checkbox>
-                    {{ filterUserId }}
+                <form ng-submit="searchProducts(ui.searchText)">
+                    <input id="searchProduct" class="search-input" placeholder="Search Text" type="text" ng-model="ui.searchText">
+                    <div>
+                        <md-checkbox class="blue-check" ng-model="listOptions.filterByUserId" ng-change="toggleFilterUserId()">
+                            Show My Products
+                        </md-checkbox>
+                        {{ filterUserId }}
+                    </div>
+                    <div class="search-in-checks">
+                        <legend>Search In ...</legend>
+                        <div layout="row" layout-align="start center" layout-wrap>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInAll" ng-change="toggleSearchInAll()">All</md-checkbox>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInName">Name</md-checkbox>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInDescription">Description</md-checkbox>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInProductId">Product Id</md-checkbox>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInSKU">SKU</md-checkbox>
+                            <md-checkbox class="blue-check" ng-model="listOptions.searchInNotes">Notes</md-checkbox>
+                        </div>
+                    </div>
                 </form>
                 <div ng-hide="loadingData || (pes.productList.length === pes.newProducts.length)">
                     <md-button class="md-raised md-primary" md-no-ink ng-show="pes.show.newProducts" ng-click="loadNewProducts()" ng-bind="newProductsLabel"></md-button>
                 </div>
             </div>
-            <div flex class="search-button" ng-click="searchProducts(searchText)">
+            <div flex class="search-button" ng-click="searchProducts(ui.searchText)">
                 Search
                 <md-menu md-offset="0 35">
                     <i class="fa fa-chevron-down" md-menu-origin ng-click="$mdOpenMenu($event)"></i>
@@ -59,16 +72,16 @@
                 </md-menu>
             </div>
         </div>
-        <div class="spinner-container" ng-show="loadingData || pes.show.loading">
+        <div class="spinner-container" ng-show="(loadingData || pes.show.loading) && !loadingMoreData">
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
-        <div class="product-table-container" ng-show="pes.productList">
+        <div class="table product-table-container" ng-show="pes.productList">
             <div layout class="t-header" layout-align="start center">
                 <div flex>
                     <md-checkbox ng-model="allSelected.value" ng-change="toggleAll()" aria-label="Checkbox all"
                     class="blue-check"></md-checkbox>
                 </div>
-                <div ng-click="reOrderList('name')" flex=45>{{pes.productList.length}} Products <i
+                <div ng-click="reOrderList('name')" flex=45>{{pes.productList.length}}{{pes.productList.length && !listOptions.nomore ? '+' : ''}} Products <i
                     class="fa fa-sort"></i>
                 </div>
                 <div ng-click="reOrderList('sku')" flex>Skus <i class="fa fa-sort"></i></div>
@@ -85,7 +98,7 @@
                 </div>
                 <div flex=45 class="product-name">
                     <div layout="row" layout-align="space-between center">
-                        {{product.displayName || product.name}}
+                        <span ng-bind-html="(product.displayName || product.name) | highlight:listOptions.searchText"></span>
                         <i class="fa fa-chevron-circle-right" ng-click="viewProduct(product)"></i>
                     </div>
                 </div>
@@ -98,40 +111,45 @@
                     'Spirit' : ''}}
                 </div>
             </div>
+            <!--
+            Now that we always create products this is deprecated
             <md-button ng-show="$state.includes('editor.match')" ng-click="createNewProduct()">
-                Create New Product
+            Create New Product
             </md-button>
-
-            <md-button class="md-raised btn-more" md-no-ink ng-click="showMore()" ng-hide="products.length === allProducts.length">
-                Show More
-            </md-button>
+        -->
+        <div class="spinner-container" ng-show="loadingMoreData">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
+        <md-button class="md-raised btn-more" md-no-ink ng-click="loadMore()" ng-hide="listOptions.nomore" ng-disabled="loadingMoreData">
+            Load More
+        </md-button>
     </div>
-    <div ng-class="selected.length > 0 ? 'bottom-action-menu active' : 'bottom-action-menu'">
-        <button ng-show="selected.length>1" class="action-btn" ng-click="mergeProducts()">
-            Merge {{ selected.length }} selected products
-        </button>
-        <div class="action-btn" ng-if="!permissions.curator">
-            Assign to me
-        </div>
-        <md-menu ng-if="permissions.curator" md-position-mode="target-right target">
-            <div class="action-btn"  ng-click="$mdOpenMenu($event)">
-                Assign to <i class="fa fa-ellipsis-h"></i>
-            </div>
-            <md-menu-content class="user-assign-menu">
-                <md-list>
-                    <md-list-item ng-repeat="person in people">
-                        <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
-                        {{ person.name }}
-                    </md-list-item>
-                </md-list>
-            </md-menu-content>
-        </md-menu>
-        <div class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
-            Reject
-        </div>
-        <div class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()">
-            Approve
-        </div>
+</div>
+<div ng-class="selected.length > 0 ? 'bottom-action-menu active' : 'bottom-action-menu'">
+    <button ng-show="selected.length>1" class="action-btn" ng-click="mergeProducts()">
+        Merge {{ selected.length }} selected products
+    </button>
+    <div class="action-btn" ng-if="!permissions.curator">
+        Assign to me
     </div>
+    <md-menu ng-if="permissions.curator" md-position-mode="target-right target">
+        <div class="action-btn"  ng-click="$mdOpenMenu($event)">
+            Assign to <i class="fa fa-ellipsis-h"></i>
+        </div>
+        <md-menu-content class="user-assign-menu">
+            <md-list>
+                <md-list-item ng-repeat="person in people">
+                    <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+                    {{ person.name }}
+                </md-list-item>
+            </md-list>
+        </md-menu-content>
+    </md-menu>
+    <div class="action-btn right reject" ng-if="permissions.curator" ng-click="rejectSelectedProducts()">
+        Reject
+    </div>
+    <div class="action-btn right approve" ng-if="permissions.curator" ng-click="approveSelectedProducts()">
+        Approve
+    </div>
+</div>
 </div>

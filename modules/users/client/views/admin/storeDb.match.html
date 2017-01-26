@@ -1,7 +1,12 @@
 <div layout="column" style="height:100vh" class="match">
     <div flex="30" class="current-item-container" ng-controller="StoreDbDetailController">
         <div layout="row" layout-align="space-between">
-            <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i>Search Database
+            <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i> Find Similar Products
+            </md-button>
+
+            <md-button class="md-raised"
+                       ng-click="viewMatchProduct(orderDataService.currentItem.productId,orderDataService.currentItem.status)">
+                <i class="fa fa-edit"></i> View Product
             </md-button>
 
             <md-button class="md-raised" ng-show="orderDataService.selected.length>0" ng-click="matchProduct($event)">
@@ -20,7 +25,7 @@
                 <p style="color:white;">Name: {{ orderDataService.currentItem.name }}</p>
                 <p style="color:white;">Sku: {{ orderDataService.currentItem.upc }}</p>
                 <p style="color:white;">Type: {{ orderDataService.currentItem.type }}</p>
-                <span>Item Processed: <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i>{{ orderDataService.currentItem.productId }}</span>
+                <span>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i></span>
             </div>
             <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
                ng-show="orderDataService.currentItem.publicUrl">

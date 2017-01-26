@@ -1,0 +1,67 @@
+<md-dialog aria-label="Edit device" class="edit-device settings-container">
+    <form name="deviceForm" ng-submit="deviceForm.$valid && saveDeviceConfig(device, config)" ng-cloak novalidate autocomplete="off">
+        <md-toolbar class="header-bar">
+            <div class="md-toolbar-tools">
+                <h1>{{device.name}}</h1>
+                <span flex></span>
+                <md-button type="button" class="delete md-icon-button" aria-label="Delete device" ng-click="confirmDeleteDevice($event, device)" ng-if="authentication.userInRole('admin')">
+                    <i class="fa fa-lg fa-trash" aria-hidden="true"></i>
+                </md-button>
+                <md-button type="submit" class="save green">Save</md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div>Device will update 5-10 min after saving changes.</div>
+
+                <md-input-container class="udid-container" md-no-float ng-if="authentication.userInRole('admin') || config.udid">
+                    <label>UDID</label>
+                    <input name="udid" type="text" ng-model="config.udid" ng-disabled="!authentication.userInRole('admin')">
+                    <ng-messages for="deviceForm.udid.$error" class="alert">
+                        <ng-messages-include src="error-messages"></ng-messages-include>
+                    </ng-messages>
+                </md-input-container>
+
+                <fieldset class="nomargin">
+                    <h3>Home Screen</h3>
+                    <md-switch ng-model="config.showHMC" md-no-ink class="md-hue-3">Enable Help Me Choose</md-switch>
+                    <md-switch ng-model="config.showBrowse" md-no-ink class="md-hue-3">Enable Browse</md-switch>
+                    <md-switch ng-model="config.showCocktails" md-no-ink class="md-hue-3">Enable Cocktails</md-switch>
+                </fieldset>
+
+                <fieldset class="nomargin">
+                    <h3>Prices</h3>
+                    <md-switch ng-model="config.showPrices" md-no-ink class="md-hue-3">Display Prices</md-switch>
+                </fieldset>
+
+                <fieldset class="nomargin">
+                    <h3>Ads</h3>
+                    <md-switch ng-model="config.playAds" md-no-ink class="md-hue-3">Enable Ads</md-switch>
+
+                    <md-slider-container>
+                        <label>Delay Time for Ads</label>
+                        <md-input-container>
+                            <input name="mediaIntervalSec" type="number" ng-model="config.mediaIntervalSec" ng-min="0" ng-max="120"> sec
+                            <ng-messages for="deviceForm.mediaIntervalSec.$error" class="alert">
+                                <ng-messages-include src="error-messages"></ng-messages-include>
+                            </ng-messages>
+                        </md-input-container>
+                        <md-slider flex min="5" max="300" ng-model="config.mediaIntervalSec" aria-label="Delay time" class="md-hue-3"></md-slider>
+                    </md-slider-container>
+
+                    <md-slider-container>
+                        <label>Time Between Ads</label>
+                        <md-input-container>
+                            <input name="betweenMediaIntervalSec" type="number" ng-model="config.betweenMediaIntervalSec" ng-min="2" ng-max="30"> sec
+                            <ng-messages for="deviceForm.betweenMediaIntervalSec.$error" class="alert">
+                                <ng-messages-include src="error-messages"></ng-messages-include>
+                            </ng-messages>
+                        </md-input-container>
+                        <md-slider flex min="2" max="30" ng-model="config.betweenMediaIntervalSec" aria-label="Time between ads" class="md-hue-3"></md-slider>
+                    </md-slider-container>
+                </fieldset>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

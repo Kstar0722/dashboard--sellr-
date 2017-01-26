@@ -184,7 +184,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
         payload = {
           payload: {
             fileName: filename,
-            userName: Authentication.user.username,
+            userName: Authentication.user.firstName + Authentication.user.lastName,
             type: config.type,
             fileType: config.fileType,
             accountId: config.accountId,
@@ -198,7 +198,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
             // fileType: config.fileType || config.type,
             fileType: config.type,
             fileName: filename,
-            userName: Authentication.user.username,
+            userName: Authentication.user.firstName + Authentication.user.lastName,
             accountId: config.accountId
           }
         }
@@ -209,7 +209,7 @@ angular.module('users').service('uploadService', function ($http, constants, toa
         payload: {
           name: config.name,
           fileName: filename,
-          userName: Authentication.user.username,
+          userName: Authentication.user.firstName + Authentication.user.lastName,
           accountId: config.accountId,
           prefs: config.prefs
         }

@@ -1,3 +1,57 @@
+html, body{
+  overflow-y: auto !important;
+}
+
+body {
+  background: @back-default;
+  height: auto;
+  font-size: 15px;
+
+  .content {
+    position: absolute;
+    width: 100vw;
+
+    .titlebar {
+      background: @dark-grey;
+      padding: 20px 30px;
+
+      h1 {
+        margin: 0 auto;
+        color: white;
+        max-width: @globalwidth;
+
+      }
+    }
+    .pagecontent {
+      margin: 2vh auto 0;
+      max-width: @globalwidth;
+      padding: 0 @globalhpad;
+      padding-bottom: 5vh;
+    }
+  }
+
+  a {
+    color: @sellrgreen;
+    text-decoration: none;
+    &:hover {
+      color: @darkest-grey;
+    }
+  }
+
+  md-list .md-subheader {
+    font-size: 24px;
+  }
+
+  button,
+  .md-button,
+  input,
+  [ng-click] {
+    &:focus {
+      outline: none; /* overrides chrome default focus outline */
+    }
+  }
+}
+
 .main-content {
   padding-top: 0;
   position: relative;
@@ -105,7 +159,7 @@ md-input-container {
 
 form.ng-pristine {
   ng-messages, [ng-messages] {
-    display: none !important;
+    display: none;
   }
 }
 
@@ -149,9 +203,66 @@ body.loading .main-content {
   pointer-events: none;
 }
 
-// Adds an ellipses at the end of overflowing strings
-.ellipsized() {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.md-dialog-container {
+  z-index: 100;
+}
+
+.table {
+  .t-body,
+  .t-header{
+    border-bottom: 1px solid  @grey-dark-text;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: @grey-dark-text;
+    font-size: 16px;
+    div{
+      padding: 0px 3px;
+      line-height: 20px;
+      @media @small-only {
+        word-wrap: break-word;
+      }
+      md-checkbox{
+        margin: 0 auto;
+      }
+
+      .fa-sort-asc,
+      .fa-sort-desc{
+        cursor: pointer;
+      }
+    }
+  }
+  .t-header{
+    font-weight: bold;
+
+    div{
+      cursor: pointer;
+    }
+  }
+  .t-body{
+    outline: none;
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+    border-bottom: none;
+    color: @black-text;
+
+    .highlighted {
+      background: @bright-blue;
+    }
+
+    & > div{
+      overflow-wrap: break-word;
+      &.grey-text          {
+        color: @grey-dark-text;
+      }
+      &.product-name{
+        cursor: pointer;
+      }
+      .fa-check{
+        color: @green;
+      }
+      .fa-times{
+        color: @red;
+      }
+    }
+  }
 }
