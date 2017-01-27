@@ -15,6 +15,13 @@
     },
     escapeRegex: function(text) {
       return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    },
+    buildUrl: function(str) {
+      return _.safeUrl((str || '').replace(/\/+/g, '-')).toLowerCase();
+    },
+    safeUrl: function (str) {
+      if (typeof str != 'string') return str;
+      return str.replace(/'"/g, '').replace(/[^a-z0-9\-/%._&+]+/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     }
   });
 

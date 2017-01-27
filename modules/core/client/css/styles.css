@@ -2274,6 +2274,12 @@ body.editor-products-detail .medium-editor-toolbar {
   -o-animation-delay: 1s;
   animation-delay: 1s;
 }
+.loading-anim.fixed-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
 .product-editor-merge .grid-container {
   padding: 40px 20px;
 }
@@ -4914,4 +4920,23 @@ body.storeOwner-orders {
 }
 .pac-container .pac-item .pac-matched {
   font-size: 14px;
+}
+.website-builder iframe {
+  width: 100%;
+  min-height: 400px;
+  height: 90vh;
+}
+.website-builder .busy-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+}
+body.websiteBuilder #loading-bar,
+body.websiteBuilder #loading-bar-spinner {
+  display: none;
 }

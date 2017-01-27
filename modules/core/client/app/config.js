@@ -24,12 +24,9 @@ var ApplicationConfiguration = (function () {
       'angular-filepicker',
       'ngUsStates',
       'uiSwitch',
-      'angular.filter'
+      'angular.filter',
+      'ngPostMessage'
     ];
-
-  if (angular.element('body').is('.root')) {
-    applicationModuleVendorDependencies.push('ngPostMessage');
-  }
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {

@@ -35,22 +35,26 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: {
           env: 'local',
           API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171'
+          BWS_API: 'http://localhost:7171',
+          CARDKIT_URL: 'http://localhost:7474'
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io'
+          BWS_API: 'https://bwsdev.sllr.io',
+          CARDKIT_URL: 'http://beta.cardkit.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://bwsqa.sllr.io'
+          BWS_API: 'https://bwsqa.sllr.io',
+          CARDKIT_URL: 'http://beta.cardkit.io'
         },
         production: {
           env: 'production',
           API_URL: 'https://api.sllr.io',
-          BWS_API: 'https://bws.sllr.io'
+          BWS_API: 'https://bws.sllr.io',
+          CARDKIT_URL: 'http://theme.sllr.io'
         }
       }
     })
@@ -76,6 +80,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   // for debugging purposes only
   $window.$svc = function (name) { return $window[name] = $injector.get(name); };
   $window.$sc = function(el) { return $window.$scope = angular.element(el || document.querySelector('.main-content .ng-scope:first-of-type')).scope(); };
+  $window.$d = function(el) { ($window.$scope || $sc(el)).$digest(); };
 
   initLoadingBar();
 
