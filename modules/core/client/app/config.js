@@ -24,9 +24,13 @@ var ApplicationConfiguration = (function () {
       'angular-filepicker',
       'ngUsStates',
       'uiSwitch',
-      'angular.filter',
-      'ngPostMessage'
+      'angular.filter'
     ];
+
+  // ngPostMessage incompatible with unit testing framework, just exclude it
+  if (angular.element('body').is('.root')) {
+    applicationModuleVendorDependencies.push('ngPostMessage');
+  }
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {
