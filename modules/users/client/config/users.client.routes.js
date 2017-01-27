@@ -1,8 +1,16 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config([ '$stateProvider',
-  function ($stateProvider) {
+angular.module('users').config([ '$stateProvider', '$urlMatcherFactoryProvider',
+  function ($stateProvider, $urlMatcherFactoryProvider) {
+    var valToString = function(val) { return val && val.toString(); };
+    $urlMatcherFactoryProvider.type('uriType', {
+      encode: valToString,
+      decode: valToString,
+      is: function(val) { return this.pattern.test(val); },
+      pattern: /.*/
+    })
+
     // Users state routing
     $stateProvider
       .state('admanager', {
@@ -113,6 +121,13 @@ angular.module('users').config([ '$stateProvider',
       .state('password.reset.form', {
         url: '/:token',
         templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
+      })
+      .state('websiteBuilder', {
+        url: '/website/:accountId/builder{builderPath:uriType}',
+        templateUrl: 'modules/users/client/views/websiteBuilder/websiteBuilder.client.view.html',
+        params: {
+          resource: null
+        }
       });
 
   }

@@ -29,12 +29,20 @@ angular.module('users').config(['$httpProvider',
   }
 ]).run(['Menus', function(Menus) {
   Menus.addMenuItem('main', {
+    title: 'Website',
+    iconFA: 'fa-desktop',
+    state: 'websiteBuilder',
+    type: 'button',
+    roles: [1002],
+    position: 3
+  });
+  Menus.addMenuItem('main', {
     title: 'Account',
     iconFA: 'fa-cogs',
     state: 'settings',
     type: 'button',
     roles: [1002],
-    position: 3
+    position: 4
   });
   Menus.addMenuItem('main', {
     title: 'Products',
@@ -42,6 +50,6 @@ angular.module('users').config(['$httpProvider',
     state: 'productsUploader',
     type: 'button',
     roles: [ 1004 ],
-    position: 4
+    position: 5
   });
 }]);

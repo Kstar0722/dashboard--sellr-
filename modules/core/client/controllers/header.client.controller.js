@@ -68,7 +68,7 @@ angular.module('core').controller('HeaderController', [ '$scope', 'Authenticatio
     init()
     updateMenuVisibility();
 
-    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader)/i)) {
+    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
       $scope.$root.selectAccountId = null
     }
     else if (toState) {
