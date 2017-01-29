@@ -66,6 +66,7 @@
             <img ng-src="{{ accountsService.editAccount.logo || currentAccountLogo }}" class="logo-img" height="100">
         </div>
         <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
+        <md-checkbox ng-model="accountsService.editAccount.website">Website</md-checkbox>
         <md-input-container>
             <label>Remaining Orders</label>
             <input ng-model="accountsService.editAccount.preferences.plan.remainingOrders" type="number">
