@@ -27,19 +27,14 @@ angular.module('users').config(['$httpProvider',
       }
     ]);
   }
-]).run(['Menus', 'accountsService', function(Menus, accountsService) {
+]).run(['Menus', function(Menus) {
   Menus.addMenuItem('main', {
     title: 'Website',
     iconFA: 'fa-desktop',
     state: 'websiteBuilder',
     type: 'button',
-    roles: [1002, 1004, 1009],
-    position: 3,
-    shouldRender: function () {
-      var account = accountsService.currentAccount;
-      var preferences = account && angular.fromJson(account.preferences || null) || {};
-      return preferences.website;
-    }
+    roles: [1002],
+    position: 3
   });
   Menus.addMenuItem('main', {
     title: 'Website',
