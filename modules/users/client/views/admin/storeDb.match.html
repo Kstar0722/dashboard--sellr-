@@ -5,7 +5,8 @@
             </md-button>
 
             <md-button class="md-raised"
-                       ng-click="viewMatchProduct(orderDataService.currentItem.productId,orderDataService.currentItem.status)">
+                       ng-click="viewMatchProduct(orderDataService.currentItem.productId,orderDataService.currentItem.status)"
+                       ng-show="orderDataService.currentItem.productId">
                 <i class="fa fa-edit"></i> View Product
             </md-button>
 
@@ -15,7 +16,8 @@
             </md-button>
             <md-button class="md-raised" ng-click="decreaseIndex()"><i class="fa fa-arrow-left"></i></md-button>
             <md-button class="md-raised" ng-click="increaseIndex()"><i class="fa fa-arrow-right"></i></md-button>
-            <md-button class="md-raised md-warn" ng-click="deleteCurrentItem()"><i class="fa fa-trash-o"></i></md-button>
+            <md-button class="md-raised md-warn" ng-click="deleteCurrentItem()"><i class="fa fa-trash-o"></i>
+            </md-button>
 
         </div>
         <div layout="row">
@@ -25,7 +27,8 @@
                 <p style="color:white;">Name: {{ orderDataService.currentItem.name }}</p>
                 <p style="color:white;">Sku: {{ orderDataService.currentItem.upc }}</p>
                 <p style="color:white;">Type: {{ orderDataService.currentItem.type }}</p>
-                <span>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i></span>
+                <span>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check"
+                                                                                 ng-show="orderDataService.currentItem.productId"></i></span>
             </div>
             <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
                ng-show="orderDataService.currentItem.publicUrl">
