@@ -42,14 +42,6 @@ angular.module('users').config(['$httpProvider',
     }
   });
   Menus.addMenuItem('main', {
-    title: 'Website',
-    iconFA: 'fa-desktop',
-    state: 'websiteBuilder',
-    type: 'button',
-    roles: [1002],
-    position: 3
-  });
-  Menus.addMenuItem('main', {
     title: 'Account',
     iconFA: 'fa-cogs',
     state: 'settings',
