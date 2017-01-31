@@ -2802,6 +2802,15 @@ md-checkbox.md-checked.blue-check .md-icon {
   color: #ecf0f1;
   padding-left: 5%;
 }
+.match .current-item-container .current-item-info p {
+  color: #fff;
+  font-size: 18px;
+  line-height: normal;
+  margin: 0 0 20px;
+}
+.match .current-item-container .current-item-info p:first-child {
+  margin-top: 20px;
+}
 .match .match-image {
   margin-left: 10%;
   max-height: 20vh;
