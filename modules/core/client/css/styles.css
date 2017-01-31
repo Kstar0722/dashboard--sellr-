@@ -929,6 +929,39 @@ section.userList .invite {
   background-color: #142332;
   color: #ffffff;
 }
+.sign-in #login-form .signin-buttons .btn-signin,
+.sign-in #reset-form .signin-buttons .btn-signin {
+  width: 100%;
+  background-color: #2DC89A;
+  color: white;
+  border-radius: 0;
+  height: 54px;
+  line-height: 54px;
+  margin: 0 0 20px 0;
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 20px;
+  text-transform: none;
+}
+.sign-in #login-form .signin-buttons .btn-facebook,
+.sign-in #reset-form .signin-buttons .btn-facebook {
+  height: 54px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #3b5998;
+  margin: 0;
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 20px;
+}
+.sign-in #login-form .signin-buttons .btn-facebook .social-icon,
+.sign-in #reset-form .signin-buttons .btn-facebook .social-icon {
+  margin-right: 20px;
+}
 .sign-in #login-form #remember,
 .sign-in #reset-form #remember {
   margin-right: 8px;
