@@ -2,13 +2,11 @@
 /* globals angular,localStorage */
 angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'authenticationService',
   function ($scope, $state, $stateParams, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, authenticationService) {
-    var USER_ROLE_OWNER = 1009
-
     $scope.reset = false
     $scope.authentication = Authentication
     $scope.popoverMsg = PasswordValidator.getPopoverMsg()
-    $scope.credentials = {};
-    $scope.credentials.email = $stateParams.email;
+    $scope.credentials = {}
+    $scope.credentials.email = $stateParams.email
 
     var userInfo = {}
     //  read userinfo from URL
@@ -93,6 +91,26 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       console.error(err)
     }
 
+    $scope.loginFacebookUser = function () {
+      authenticationService.getFacebookUserData()
+      // authenticationService.getFacebookUserData().then(
+      //   function (facebookData) {
+      //     $scope.ui.busy = true
+      //     var user = {email: facebookData.email}
+      //     authenticationService.login(user, true).catch(function (err) {
+      //       if (err && err.data && err.data.message) {
+      //         toastr.error(err.data.message)
+      //       } else {
+      //         toastr.error('There was a problem with Login Service')
+      //       }
+      //     })
+      //   },
+      //   function (error) {
+      //     var msg = (error && error.errorMessage) ? error.errorMessage : 'There was a problem connecting with Facebook'
+      //     toastr.error(msg)
+      //   })
+    }
+
     $scope.signin = function (isValid) {
       $scope.error = null
 
@@ -107,7 +125,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         }
         $scope.credentials.password = null
         $scope.$broadcast('show-errors-reset', 'userForm')
-      });
+      })
     }
 
     //  OAuth provider request
