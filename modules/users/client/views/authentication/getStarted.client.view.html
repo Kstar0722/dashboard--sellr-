@@ -6,7 +6,6 @@
       <a class="download-link" ng-href="{{data.googlePlayLink}}" target="_blank"><img src="/img/navbar/playstore-badge.svg"></a>
     </div>
   </div>
-
   <div class="screen-content" ng-class="[fullscreen() ? 'nomargin' : '', 'step' + ui.step]" ng-disabled="ui.busy" ng-hide="ui.loading">
     <div class="header-custom" ng-show="ui.step > 0" ng-class="{ transparent: !fullscreen() }">
       <md-button type="button" class="md-icon-button back" ng-click="goPrevStep()" ng-if="ui.step != 4">
@@ -15,7 +14,6 @@
       <div class="title">
         {{fullscreen() && ui.step == 2 ? 'Store Information' : ''}}
         {{fullscreen() && ui.step == 3 ? 'Select Categories' : ''}}
-
         <div class="breadcrumbs" ng-if="ui.step > 0" ng-hide="fullscreen() || ui.step == 4">
           <div ng-repeat="step in [1,2,3]">
             <a class="step-num" ng-class="stepClasses(step)">{{step}}</a>
@@ -24,31 +22,26 @@
         </div>
       </div>
     </div>
-
     <div class="step-container">
       <div class="step0" layout="column" ng-if="ui.step==0">
         <div layout="row">
-          <img src="/img/sellr-icon-tooltip.png" class="sellr-logo">
+          <img src="/img/sellr-icon-tooltip.png" class="sellr-logo" />
           <div>
             <h1>Hey, I'm <span>Sellr</span>.</h1>
             <div>I’m always a tap away to help you with anything. Let’s start setting up your Shoppr store!</div>
-
             <ul class="intro-steps">
               <li><span class="step-num">1</span> Create your account</li>
               <li><span class="step-num">2</span> Setup your store</li>
               <li><span class="step-num">3</span> Add products</li>
             </ul>
-
             <button class="button btn btn-white get-started" ng-click="goNextStep()">Get Started</button>
           </div>
         </div>
-
         <div class="signin-container">
           <div>Already have a Sellr Account?</div>
           <a ui-sref="authentication.signin">Click Here</a> to sign in!
         </div>
       </div>
-
       <div class="step1" layout="column" ng-if="ui.step==1">
         <div class="logo-header" layout="row" ng-hide="!ui.alreadyRegistered && ui.hideDetails">
           <img src="/img/sellr-icon-tooltip.png" class="sellr-logo">
@@ -61,11 +54,8 @@
             <div>Please <a ui-sref="authentication.signin({email:data.user.email})">click here</a> to sign in!</div>
           </div>
         </div>
-
-        <div class="new-user" ng-include="'/modules/users/client/views/authentication/userForm.client.view.html'">
-        </div>
+        <div class="new-user" ng-include="'/modules/users/client/views/authentication/userForm.client.view.html'"></div>
       </div>
-
       <div class="step2" layout="column" ng-if="ui.step==2 && !ui.storeEditorView">
         <div class="logo-header" layout="row">
           <img src="/img/sellr-icon-tooltip.png" class="sellr-logo">
@@ -74,14 +64,11 @@
             <div class="details">Type your store name below to instantly import your store info from Google.</div>
           </div>
         </div>
-
         <gplaces-autocomplete gplace-handler="gplaceHandler(gPlace)"></gplaces-autocomplete>
       </div>
-
       <div class="step2 store-details" layout="column" ng-if="ui.step==2 && ui.storeEditorView">
         <store-profile-form store="data.store" form="scope.storeForm"></store-profile-form>
       </div>
-
       <div class="step3" layout="column" ng-if="ui.step==3 && !ui.addProductsView">
         <div class="logo-header" layout="row">
           <img src="/img/sellr-icon-tooltip.png" class="sellr-logo">
@@ -94,11 +81,9 @@
           </div>
         </div>
       </div>
-
       <div class="step3" layout="column" ng-if="ui.step==3 && ui.addProductsView">
         <div class="list list-inset">
-          <div class="list-item" ng-repeat="category in data.importCategories"
-               ng-click="category.selected=!category.selected" ng-if="category.tag == 'top_selling'" layout="row">
+          <div class="list-item" ng-repeat="category in data.importCategories" ng-click="category.selected=!category.selected" ng-if="category.tag == 'top_selling'" layout="row">
             <div>
               <div class="toggle" ng-class="{ active: category.selected }"></div>
             </div>
@@ -109,7 +94,6 @@
           </div>
         </div>
       </div>
-
       <div class="step4" layout="column" ng-if="ui.step==4">
         <div class="logo-header" layout="row">
           <img src="/img/sellr-icon-tooltip.png" class="sellr-logo">
@@ -128,10 +112,15 @@
         </div>
       </div>
     </div>
-
     <div class="footer-custom" ng-if="ui.step > 0">
-      <div class="button-bar" ng-if="ui.step == 1">
+      <div class="button-bar step1" ng-if="ui.step == 1">
         <button class="button button-balanced next" ng-disabled="!nextEnabled(ui.step)" ng-click="createUser()">Create Account</button>
+        <div class="btn-facebook" ng-click="createFacebookUser()">
+          <div class="social-icon">
+            <img src="img/fbicon.svg" alt="">
+          </div>
+          <div class="social-text">Continue with Facebook</div>
+        </div>
       </div>
       <div class="button-bar" ng-if="ui.step == 2">
         <button class="button transparent next" ng-disabled="!nextEnabled(ui.step)" ng-click="enterStore()" ng-if="!ui.storeEditorView">Enter Store Info Manually</button>

@@ -229,6 +229,23 @@ body.loading .main-content {
 .table .t-body > div .fa-times {
   color: #FF0000;
 }
+.btn-facebook {
+  height: 54px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #3b5998;
+  margin: 0;
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 20px;
+}
+.btn-facebook .social-icon {
+  margin-right: 20px;
+}
 .sd-popup {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
@@ -942,25 +959,6 @@ section.userList .invite {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   font-size: 20px;
   text-transform: none;
-}
-.sign-in #login-form .signin-buttons .btn-facebook,
-.sign-in #reset-form .signin-buttons .btn-facebook {
-  height: 54px;
-  width: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  background-color: #3b5998;
-  margin: 0;
-  padding: 0;
-  font-family: "AvenirNextLTW01-Regular", sans-serif;
-  font-size: 20px;
-}
-.sign-in #login-form .signin-buttons .btn-facebook .social-icon,
-.sign-in #reset-form .signin-buttons .btn-facebook .social-icon {
-  margin-right: 20px;
 }
 .sign-in #login-form #remember,
 .sign-in #reset-form #remember {
@@ -4729,6 +4727,12 @@ body.storeOwner-orders {
 .get-started-page .screen-content .footer-custom .button-bar {
   display: flex;
   flex-direction: column;
+}
+.get-started-page .screen-content .footer-custom .button-bar.step1 button {
+  margin-bottom: 20px;
+}
+.get-started-page .screen-content .footer-custom .button-bar.step1 .btn-facebook {
+  height: 70px;
 }
 .get-started-page .screen-content .footer-custom .next {
   background: #2DC89A;

@@ -28,7 +28,7 @@
       max-width: 30vw;
       object-fit: contain;
       @media (max-width: 480px) {
-      margin-left: 15px;
+        margin-left: 15px;
       }
     }
 
@@ -522,6 +522,14 @@
       .button-bar {
         display: flex;
         flex-direction: column;
+        &.step1{
+          button{
+            margin-bottom: 20px;
+          }
+          .btn-facebook{
+            height: 70px;
+          }
+        }
       }
 
       .next {
@@ -635,7 +643,7 @@
 
             .placeholder({
               color: @med-grey;
-            });
+              });
           }
 
           .description {
@@ -655,14 +663,14 @@
             input, select, textarea {
               .placeholder({
                 color: @white;
-              });
+                });
             }
 
             &.placeholder {
               input, select, textarea {
                 .placeholder({
                   color: @med-grey;
-                });
+                  });
               }
             }
           }

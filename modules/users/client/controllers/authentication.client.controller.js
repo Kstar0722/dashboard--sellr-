@@ -99,7 +99,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
             if (err && err.data && err.data.message) {
               toastr.error(err.data.message)
             } else {
-              toastr.error('Somethign went wrong while trying to login')
+              toastr.error('Something went wrong while trying to login')
             }
           })
         }).catch(
