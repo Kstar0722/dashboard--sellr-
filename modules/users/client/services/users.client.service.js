@@ -82,13 +82,13 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
       };
 
       return $http.post(constants.API_URL + '/users', payload).then(function (response) {
+        console.log('user signed up', response.data);
+        var user = initUser(response.data);
         $analytics.eventTrack('User Signed Up', {
           email: user.email,
           name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
           phone: user.phone
         });
-        console.log('user signed up', response.data);
-        var user = initUser(response.data);
         return user;
       }).catch(function (response) {
         console.error('create user failed', response.data);

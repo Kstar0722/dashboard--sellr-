@@ -1,15 +1,10 @@
 <div layout="column" style="height:100vh" class="match">
     <div flex="30" class="current-item-container" ng-controller="StoreDbDetailController">
         <div layout="row" layout-align="space-between">
-            <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i> Find Similar Products
-            </md-button>
-
-            <md-button class="md-raised"
-                       ng-click="viewMatchProduct(orderDataService.currentItem.productId,orderDataService.currentItem.status)"
-                       ng-show="orderDataService.currentItem.productId">
-                <i class="fa fa-edit"></i> View Product
-            </md-button>
-
+            <md-button class="md-raised" ng-click="searchDatabase()"><i class="fa fa-search"></i> Find Similar Products</md-button>
+            <md-button class="md-raised" ng-click="viewMatchProduct(orderDataService.currentItem.productId,orderDataService.currentItem.status)"
+            ng-show="orderDataService.currentItem.productId">
+            <i class="fa fa-edit"></i> View Product</md-button>
             <md-button class="md-raised" ng-show="orderDataService.selected.length>0" ng-click="matchProduct($event)">
                 <i class="fa fa-link"></i>
                 Save & Match
@@ -18,23 +13,19 @@
             <md-button class="md-raised" ng-click="increaseIndex()"><i class="fa fa-arrow-right"></i></md-button>
             <md-button class="md-raised md-warn" ng-click="deleteCurrentItem()"><i class="fa fa-trash-o"></i>
             </md-button>
-
         </div>
         <div layout="row">
-            <div>
-                <p style="color:white;">Product {{ orderDataService.currentIndex+1 }}/{{
-                    orderDataService.allItems.length }}</p>
-                <p style="color:white;">Name: {{ orderDataService.currentItem.name }}</p>
-                <p style="color:white;">Sku: {{ orderDataService.currentItem.upc }}</p>
-                <p style="color:white;">Type: {{ orderDataService.currentItem.type }}</p>
-                <span>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check"
-                                                                                 ng-show="orderDataService.currentItem.productId"></i></span>
+            <div class="current-item-info">
+                <p>Product {{ orderDataService.currentIndex+1 }}/{{orderDataService.allItems.length }}</p>
+                <p>Name: {{ orderDataService.currentItem.name }}</p>
+                <p>Sku: {{ orderDataService.currentItem.upc }}</p>
+                <p>Type: {{ orderDataService.currentItem.type }}</p>
+                <p>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i></p>
             </div>
             <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
-               ng-show="orderDataService.currentItem.publicUrl">
-                <img ng-src="{{ orderDataService.currentItem.publicUrl }}" class="match-image"></a>
+            ng-show="orderDataService.currentItem.publicUrl">
+            <img ng-src="{{ orderDataService.currentItem.publicUrl }}" class="match-image"></a>
         </div>
-
     </div>
     <div flex="70" style="border:2px solid darkslategray;overflow: scroll;border-radius:5px;">
         <div ui-view="rightSide"></div>
