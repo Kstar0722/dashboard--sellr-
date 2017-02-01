@@ -5,12 +5,19 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
   var me = this
   var auth = Authentication
 
-  me.signin = function (credentials) {
+  me.signin = function (credentials, i) {
     var url = constants.API_URL + '/users/login'
     var payload = {
       payload: credentials
     }
-      // console.log(payload)
+    return $http.post(url, payload).then(onSigninSuccess, onSigninError)
+  }
+
+  me.signinFacebook = function (credentials) {
+    var url = constants.API_URL + '/users/login/facebook'
+    var payload = {
+      payload: credentials
+    }
     return $http.post(url, payload).then(onSigninSuccess, onSigninError)
   }
 
@@ -21,32 +28,29 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     return $state.go('home')
   }
 
-  me.getFacebookUserData = function () {
-    // var defer = $q.defer()
-      // facebookConnectPlugin.login(['public_profile'],
-      //      function (userAuthData) {
-      //        facebookConnectPlugin.api(userAuthData.authResponse.userID + '/?fields=email,first_name,last_name', ['email', 'user_about_me'],
-      //           function (facebookData) {
-      //             defer.resolve(facebookData)
-      //           },
-      //           function (error) {
-      //             defer.reject(error)
-      //           })
-      //      },
-      //     function (error) {
-      //       defer.reject(error)
-      //     })
-
-    // Facebook.getLoginStatus(function (response) {
-    // })
-    // Facebook.login(function (response) {
-    //   console.log('FB RESPONSE', response)
-    //     // Do something with response.
-    // })
-    FB.getLoginStatus(function (response) {
-      console.log(response)
+  function facebookAPIdataFetch (defer) {
+    FB.api('/me', 'get', {fields: 'first_name,last_name,email'}, function (response) {
+      if (!response || response.error) defer.reject(new Error('Facebook session invalid please try again'))
+      defer.resolve(response)
     })
-    // return defer.promise
+  }
+
+  me.getFacebookUserData = function () {
+    var defer = $q.defer()
+    FB.getLoginStatus(function (response) {
+      if (response.status === 'connected') {
+        facebookAPIdataFetch(defer)
+      } else {
+        FB.login(function (response) {
+          if (response.authResponse) {
+            facebookAPIdataFetch(defer)
+          } else {
+            defer.reject(new Error('User cancelled login or did not fully authorize.'))
+          }
+        }, {scope: 'public_profile, email'})
+      }
+    })
+    return defer.promise
   }
 
   init()

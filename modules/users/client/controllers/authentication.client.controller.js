@@ -92,23 +92,20 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
     }
 
     $scope.loginFacebookUser = function () {
-      authenticationService.getFacebookUserData()
-      // authenticationService.getFacebookUserData().then(
-      //   function (facebookData) {
-      //     $scope.ui.busy = true
-      //     var user = {email: facebookData.email}
-      //     authenticationService.login(user, true).catch(function (err) {
-      //       if (err && err.data && err.data.message) {
-      //         toastr.error(err.data.message)
-      //       } else {
-      //         toastr.error('There was a problem with Login Service')
-      //       }
-      //     })
-      //   },
-      //   function (error) {
-      //     var msg = (error && error.errorMessage) ? error.errorMessage : 'There was a problem connecting with Facebook'
-      //     toastr.error(msg)
-      //   })
+      authenticationService.getFacebookUserData().then(
+        function (fbData) {
+          console.log(fbData)
+          authenticationService.signinFacebook({email: fbData.email}).catch(function (err) {
+            if (err && err.data && err.data.message) {
+              toastr.error(err.data.message)
+            } else {
+              toastr.error('Somethign went wrong while trying to login')
+            }
+          })
+        }).catch(
+        function (error) {
+          toastr.error(error.message)
+        })
     }
 
     $scope.signin = function (isValid) {
