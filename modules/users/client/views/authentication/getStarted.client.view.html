@@ -34,7 +34,13 @@
               <li><span class="step-num">2</span> Setup your store</li>
               <li><span class="step-num">3</span> Add products</li>
             </ul>
-            <button class="button btn btn-white get-started" ng-click="goNextStep()">Get Started</button>
+            <button class="get-started" ng-click="goNextStep()">Create Account with Email</button>
+            <div class="btn-facebook" ng-click="createFacebookUser()">
+              <div class="social-icon">
+                <img src="img/fbicon.svg" alt="">
+              </div>
+              <div class="social-text">Continue with Facebook</div>
+            </div>
           </div>
         </div>
         <div class="signin-container">
@@ -114,13 +120,7 @@
     </div>
     <div class="footer-custom" ng-if="ui.step > 0">
       <div class="button-bar step1" ng-if="ui.step == 1">
-        <button class="button button-balanced next" ng-disabled="!nextEnabled(ui.step)" ng-click="createUser()">Create Account</button>
-        <div class="btn-facebook" ng-click="createFacebookUser()">
-          <div class="social-icon">
-            <img src="img/fbicon.svg" alt="">
-          </div>
-          <div class="social-text">Continue with Facebook</div>
-        </div>
+        <button class="button button-balanced next" ng-disabled="!nextEnabled(ui.step)" ng-click="createUser()">Create Account</button>        
       </div>
       <div class="button-bar" ng-if="ui.step == 2">
         <button class="button transparent next" ng-disabled="!nextEnabled(ui.step)" ng-click="enterStore()" ng-if="!ui.storeEditorView">Enter Store Info Manually</button>
