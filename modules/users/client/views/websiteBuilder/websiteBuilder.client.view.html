@@ -1,0 +1,12 @@
+<section ng-controller="WebsiteBuilderController" class="website-builder">
+    <div ng-show="loading" class="busy-overlay">
+        <div class="loading-anim scrollable fixed-center" flex=100 flex-gt-sm=40>
+            <div class='uil-ripple-css' style='transform:scale(0.81);'>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <iframe name="cardkit" ng-src="{{embedPageBuilderUrl}}" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" width="100%" height="100%" ng-if="embedPageBuilderUrl"></iframe>
+</section>

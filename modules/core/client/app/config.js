@@ -27,6 +27,7 @@ var ApplicationConfiguration = (function () {
       'angular.filter'
     ];
 
+  // ngPostMessage incompatible with unit testing framework, just exclude it
   if (angular.element('body').is('.root')) {
     applicationModuleVendorDependencies.push('ngPostMessage');
   }
