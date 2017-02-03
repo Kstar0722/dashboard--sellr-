@@ -1,5 +1,5 @@
 'use strict'
-/* globals angular,localStorage,history, ApplicationConfiguration,$sc,$ */
+/* globals angular,localStorage,history, ApplicationConfiguration,$,$sc */
 // Start by defining the main module and adding the module dependencies
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies)
 
@@ -20,11 +20,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
     var email
     var displayName
-
     if (JSON.parse(localStorage.getItem('userObject'))) {
       email = JSON.parse(localStorage.getItem('userObject')).email
       displayName = JSON.parse(localStorage.getItem('userObject')).displayName
-      return {email:email,displayName:displayName}
+      console.log('email: ', email, 'displayName', displayName)
     }
 
     // set the domains and variables for each environment
@@ -46,13 +45,13 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
           BWS_API: 'https://bwsdev.sllr.io',
-          CARDKIT_URL: 'https://beta.cardkit.io'
+          CARDKIT_URL: 'http://beta.cardkit.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
           BWS_API: 'https://bwsqa.sllr.io',
-          CARDKIT_URL: 'https://beta.cardkit.io'
+          CARDKIT_URL: 'http://beta.cardkit.io'
         },
         production: {
           env: 'production',
@@ -155,12 +154,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     }
   }
 
-  /* eslint-disable */
+/* eslint-disable */
   function cssClassOf (name) {
     if (typeof name !== 'string') return name
     return name.replace(/[^a-z0-9\-]+/gi, '-')
   }
-  /* eslint-enable */
+/* eslint-enable */
 
   function initLoadingBar () {
     var busy = false
