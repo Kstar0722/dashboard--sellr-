@@ -46,7 +46,6 @@ angular.module('users').service('accountsService', function ($http, constants, t
       // console.log('========= res ' + JSON.stringify(res))
       var accounts = _.map(res.data, initAccount)
       defer.resolve(accounts)
-          account.website = Boolean(account.preferences.website)
     }
 
     function onGetAccountError (err) {
@@ -198,6 +197,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
       account.logo = account.preferences.logo || account.preferences.s3url
       account.storeImg = account.preferences.storeImg
       account.shoppr = Boolean(account.preferences.shoppr)
+      account.website = Boolean(account.preferences.website)
     }
 
     return account;
