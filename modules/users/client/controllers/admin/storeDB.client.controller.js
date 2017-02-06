@@ -9,6 +9,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   $scope.importView = null
   $scope.storeFields = null
   $scope.csv = { header: true }
+  $scope.sortExpression = '-status.received';
 
   // selectize control options
   $scope.selectStoreConfig = {
@@ -96,21 +97,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
   }
 
-  $scope.refreshStoreStatus = function (storeId) {
-    // Disabled because of the large inventories weve begun importing
-    // var i = _.findIndex(orderDataService.allStores, function (s) {
-    //   return s.storeId === storeId
-    // })
-    // orderDataService.allStores[ i ].status.barClass = 'blue'
-    // var url = constants.BWS_API + '/storedb/stores/' + storeId
-    // $http.get(url).then(function (res) {
-    //   orderDataService.allStores[ i ] = res.data[ 0 ]
-    //   updateStoreColors()
-    // }, function (err) {
-    //   console.error(err)
-    // })
-  }
-
   $scope.openNewDialog = function (store) {
     if (store !== EMPTY_FIELD_NAME) return
 
@@ -137,6 +123,13 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $('#createStoreModal').modal('hide')
     })
   }
+
+  $scope.reOrderList = function (field) {
+    var oldSort = $scope.sortExpression || '';
+    var asc = true;
+    if (oldSort.substr(1) == field) asc = oldSort[0] == '-';
+    return $scope.sortExpression = (asc ? '+' : '-') + field;
+  };
 
   init()
 
@@ -175,24 +168,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
           elm.status.barClass = 'green'
         }
       }
-    })
-  }
-
-  function selectOrCreateStore (storeId) {
-    var store = findStore(orderDataService.allStores, storeId)
-    if (store) return $q.when(store) // already exists
-
-    store = findStore($scope.storesDropdown, storeId)
-
-    if (!store) {
-      store = {
-        accountId: localStorage.getItem('accountId'),
-        name: storeId.toString().trim()
-      }
-    }
-
-    return storesService.createStore(store).then(function (data) {
-      return storesService.getStoreById(data.storeId)
     })
   }
 
@@ -235,10 +210,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
     if (!$scope.$$phase) $scope.$digest()
     return availableFields
-  }
-
-  function randomId () {
-    return -Math.floor(100000 * Math.random())
   }
 
   function findStore (arr, id) {
