@@ -295,7 +295,7 @@ angular.module('users')
         if (_.isEmpty(selectedCategories)) return $q.resolve([])
 
         var newCategories = _.map(selectedCategories, function (category) {
-          var category = {
+          category = {
             label: category.label,
             accountId: store.accountId,
             storeId: store.storeId,

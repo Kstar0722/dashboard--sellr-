@@ -119,9 +119,28 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "standard": {
-    "globals": [
-      "angular"
+  "standard":{
+    "ignore": ["modules/core/client/directives/show-errors.client.directives.js"],
+    "globals":[
+      "angular",
+      "_",
+      "$",
+      "moment",
+      "alert",
+      "AWS",
+      "ApplicationConfiguration",
+      "FileReader",
+      "MediumEditor",
+      "localStorage",
+      "jasmine",
+      "describe",
+      "before",
+      "after",
+      "beforeEach",
+      "afterEach",
+      "it",
+      "inject",
+      "expect"
     ]
   }
 }

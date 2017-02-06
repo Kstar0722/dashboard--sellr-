@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
 // Setting up route
 angular.module('core.admin.routes').config(['$stateProvider',
     function ($stateProvider) {
-        $stateProvider
+      $stateProvider
             .state('admin', {
-                abstract: true,
-                url: '/admin',
-                template: '<ui-view/>',
-                data: {
-                    roles: [1004]
-                }
-            });
+              abstract: true,
+              url: '/admin',
+              template: '<ui-view/>',
+              data: {
+                roles: [1004]
+              }
+            })
     }
-]);
+])

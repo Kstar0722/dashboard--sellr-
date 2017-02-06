@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Config HTTP Error Handling
 angular.module('users').config(['$httpProvider',
@@ -11,23 +11,23 @@ angular.module('users').config(['$httpProvider',
             switch (rejection.status) {
               case 401:
                 // Deauthenticate the global user
-                Authentication.user = null;
+                Authentication.user = null
 
                 // Redirect to signin page
-                $location.path('signin');
-                break;
+                $location.path('signin')
+                break
               case 403:
                 // Add unauthorized behaviour
-                break;
+                break
             }
 
-            return $q.reject(rejection);
+            return $q.reject(rejection)
           }
-        };
+        }
       }
-    ]);
+    ])
   }
-]).run(['Menus', 'accountsService', function(Menus, accountsService) {
+]).run(['Menus', 'accountsService', function (Menus, accountsService) {
   Menus.addMenuItem('main', {
     title: 'Website',
     iconFA: 'fa-desktop',
@@ -36,11 +36,11 @@ angular.module('users').config(['$httpProvider',
     roles: [1002, 1004, 1009],
     position: 3,
     shouldRender: function () {
-      var account = accountsService.currentAccount;
-      var preferences = account && angular.fromJson(account.preferences || null) || {};
-      return preferences.website;
+      var account = accountsService.currentAccount
+      var preferences = account && angular.fromJson(account.preferences || null) || {}
+      return preferences.website
     }
-  });
+  })
   Menus.addMenuItem('main', {
     title: 'Account',
     iconFA: 'fa-cogs',
@@ -48,7 +48,7 @@ angular.module('users').config(['$httpProvider',
     type: 'button',
     roles: [1002],
     position: 4
-  });
+  })
   Menus.addMenuItem('main', {
     title: 'Products',
     iconFA: 'fa-cart-plus',
@@ -56,5 +56,5 @@ angular.module('users').config(['$httpProvider',
     type: 'button',
     roles: [ 1004 ],
     position: 5
-  });
-}]);
+  })
+}])

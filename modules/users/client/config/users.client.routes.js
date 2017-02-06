@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
 // Setting up route
 angular.module('users').config([ '$stateProvider', '$urlMatcherFactoryProvider',
   function ($stateProvider, $urlMatcherFactoryProvider) {
-    var valToString = function(val) { return val && val.toString(); };
+    var valToString = function (val) { return val && val.toString() }
     $urlMatcherFactoryProvider.type('uriType', {
       encode: valToString,
       decode: valToString,
-      is: function(val) { return this.pattern.test(val); },
+      is: function (val) { return this.pattern.test(val) },
       pattern: /.*/
     })
 
@@ -24,11 +24,11 @@ angular.module('users').config([ '$stateProvider', '$urlMatcherFactoryProvider',
       .state('settings', {
         url: '/account/:accountId?',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        controller: function($state, $stateParams, $timeout) {
+        controller: function ($state, $stateParams, $timeout) {
           if ($state.is('settings')) {
             $timeout(function () {
-              $state.go('settings.profile', $stateParams);
-            });
+              $state.go('settings.profile', $stateParams)
+            })
           }
         }
       })
@@ -128,7 +128,6 @@ angular.module('users').config([ '$stateProvider', '$urlMatcherFactoryProvider',
         params: {
           resource: null
         }
-      });
-
+      })
   }
-]);
+])

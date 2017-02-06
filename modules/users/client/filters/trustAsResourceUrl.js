@@ -1,4 +1,4 @@
-/*globals angular */
+/* globals angular */
 angular.module('users')
   .filter('trustAsResourceUrl', ['$sce', function ($sce) {
     return function (val) {

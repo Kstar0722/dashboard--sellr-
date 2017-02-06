@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('core')
   .directive('sdPopup', function () {
@@ -11,8 +11,8 @@ angular.module('core')
       transclude: true,
       link: function (scope, element, attrs) {
         element.on('click', function (e) {
-          e.stopPropagation();
-        });
+          e.stopPropagation()
+        })
       }
     }
-  });
+  })

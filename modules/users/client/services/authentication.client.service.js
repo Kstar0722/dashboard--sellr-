@@ -118,7 +118,8 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
 
     console.log('identifying user for Analytics tracking')
     var address = user.storeAddress || {}
-    analytics.identify(user.userId, {
+
+    window.analytics.identify(user.userId, {
       name: user.displayName,
       email: user.email,
       phone: user.phone || address.phone,
@@ -153,7 +154,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
   }
 
   function isEmpty (value) {
-    return !value || value == 'undefined' || value == 'null'
+    return !value || value === 'undefined' || value === 'null'
   }
 
   return me

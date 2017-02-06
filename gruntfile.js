@@ -341,8 +341,7 @@ module.exports = function (grunt) {
   grunt.task.registerTask('serve', ['server']);
 
   // Lint CSS and JavaScript files.
-  grunt.registerTask('lint', [ 'less' ]);
-  // grunt.registerTask('lint', [ 'standard', 'less' ]);
+  grunt.registerTask('lint', [ 'standard' ]);
 
   grunt.registerTask('wiredep', function () {
     var wiredep = require('wiredep')().js
@@ -354,7 +353,7 @@ module.exports = function (grunt) {
   // Run the project in production mode
 
   // Lint project files and minify them into two production files.
-  grunt.registerTask('_build', ['env:dev', 'lint', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace']);
+  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace']);
   grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ]);
   grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
   grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);

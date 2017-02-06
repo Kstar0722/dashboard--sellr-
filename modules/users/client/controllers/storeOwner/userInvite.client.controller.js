@@ -57,11 +57,11 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
     }
     $scope.removeLocation = function () {
       if ($scope.locations.length > 1) {
-        var newItemNo = $scope.locations.length - 1
+        // var newItemNo = $scope.locations.length - 1
 
         $scope.locations.pop()
       }
-      if ($scope.locations.length == 1) {
+      if ($scope.locations.length === 1) {
         $scope.removeLocationBox = false
       }
     }

@@ -8,20 +8,20 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   $scope.account = {
     createdBy: ''
   }
-  $scope.sortExpression = '+name';
+  $scope.sortExpression = '+name'
 
-  $scope.openNestedDialog = function() {
+  $scope.openNestedDialog = function () {
     $scope.dialog = $mdDialog.show({
       contentElement: '.md-dialog-container',
       onRemoving: $scope.cancelDialog
-    });
-  };
+    })
+  }
 
   $scope.cancelDialog = function () {
-    $mdDialog.cancel();
-    $scope.dialog = null;
-    $timeout(function() { $state.go('admin.accounts'); }, 400);
-  };
+    $mdDialog.cancel()
+    $scope.dialog = null
+    $timeout(function () { $state.go('admin.accounts') }, 400)
+  }
 
   // changes the view, and sets current edit account
   $scope.editAccount = function (account) {
@@ -30,14 +30,14 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     accountsService.editAccount = angular.copy(account)
     console.log('editAccount is now %O', accountsService.editAccount)
     $state.go('admin.accounts.edit', { id: account.accountId })
-    $scope.original = { editAccount: account };
-    $timeout($scope.openNestedDialog, 100);
+    $scope.original = { editAccount: account }
+    $timeout($scope.openNestedDialog, 100)
   }
 
   $scope.createAccount = function () {
-    $state.go('admin.accounts.create');
-    $timeout($scope.openNestedDialog, 100);
-  };
+    $state.go('admin.accounts.create')
+    $timeout($scope.openNestedDialog, 100)
+  }
 
   // changes the view, and sets current edit account
   $scope.saveNewAccount = function () {
@@ -85,57 +85,58 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   }
 
   $scope.reOrderList = function (field) {
-    var oldSort = $scope.sortExpression || '';
-    var asc = true;
-    if (oldSort.substr(1) == field) asc = oldSort[0] == '-';
-    return $scope.sortExpression = (asc ? '+' : '-') + field;
-  };
+    var oldSort = $scope.sortExpression || ''
+    var asc = true
+    if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
+    $scope.sortExpression = (asc ? '+' : '-') + field
+    return $scope.sortExpression
+  }
 
-  $scope.updateAccount = function(isValid) {
-    if (!isValid) return;
+  $scope.updateAccount = function (isValid) {
+    if (!isValid) return
     accountsService.updateAccount().then(function () {
-      $scope.cancelDialog();
-    });
-  };
-  
-  $scope.confirmDeleteAccount = function(account) {
+      $scope.cancelDialog()
+    })
+  }
+
+  $scope.confirmDeleteAccount = function (account) {
     var confirm = $mdDialog.confirm()
         .title('Delete account?')
         .htmlContent('Are you sure you want to remove account <b>' + (account.storeName || account.name) + '</b>?')
         .ok('Delete')
         .cancel('Cancel')
 
-    $mdDialog.cancel().then(function() {
+    $mdDialog.cancel().then(function () {
       $timeout(function () {
         $('body > .md-dialog-container').addClass('delete confirm')
-      });
+      })
 
       $mdDialog.show(confirm).then(function () {
         accountsService.deleteAccount(account).then(function () {
-          $scope.cancelDialog();
-        });
-      });
-    });
+          $scope.cancelDialog()
+        })
+      })
+    })
   }
 
   $scope.$watch('accountsService.accounts', function (accounts) {
-    if (_.isEmpty(accounts)) return;
+    if (_.isEmpty(accounts)) return
 
-    if ($scope.dialog) return;
-    $scope.dialog = true;
+    if ($scope.dialog) return
+    $scope.dialog = true
 
     if ($state.current.name.match(/edit$/)) {
-      var account = _.find(accounts, { accountId: parseInt($state.params.id, 10) });
-      if (account) $timeout(function() { $scope.editAccount(account); })
+      var account = _.find(accounts, { accountId: parseInt($state.params.id, 10) })
+      if (account) $timeout(function () { $scope.editAccount(account) })
     }
     if ($state.current.name.match(/create$/)) {
-      $timeout($scope.createAccount);
+      $timeout($scope.createAccount)
     }
-  });
+  })
 
-  init();
+  init()
 
-  function init() {
+  function init () {
     if (Authentication.user) {
       $scope.account.createdBy = Authentication.user.firstName + Authentication.user.lastName
     }

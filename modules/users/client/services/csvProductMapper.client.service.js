@@ -10,8 +10,8 @@ angular.module('users').service('csvProductMapper', function (ProductTypes) {
     if (_.isEmpty(mapping)) return []
     var result = _.map(items, function (obj) {
       var item = mapProductDto(obj, mapping)
-      if (_.isNull(item.type)) return null;
-      return item;
+      if (_.isNull(item.type)) return null
+      return item
     })
     // removes nulls with wrong types
     result = _.compact(result)
@@ -19,8 +19,8 @@ angular.module('users').service('csvProductMapper', function (ProductTypes) {
   }
 
   this.mapProductTypeId = function (value) {
-    return mapProductTypeId(value);
-  };
+    return mapProductTypeId(value)
+  }
 
   //
   // PRIVATE FUNCTIONS
@@ -66,7 +66,7 @@ angular.module('users').service('csvProductMapper', function (ProductTypes) {
       return isMatch
     })
     // returns null if not found
-    if (_.isUndefined(productType)) return null;
-    return productType.productTypeId;
+    if (_.isUndefined(productType)) return null
+    return productType.productTypeId
   }
 })

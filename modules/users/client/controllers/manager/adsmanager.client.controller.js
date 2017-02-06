@@ -316,12 +316,12 @@ angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$
       var videoId
       var type = ''
       var youtubeMatch = $scope.modalAd.videoLink.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-      if (youtubeMatch != null) {
+      if (youtubeMatch) {
         videoId = youtubeMatch[1]
         type = 'YOUTUBE'
       } else {
         var vimeoMatch = $scope.modalAd.videoLink.match(/https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/)
-        if (vimeoMatch != null) {
+        if (vimeoMatch) {
           videoId = vimeoMatch[3]
           type = 'VIMEO'
         } else {

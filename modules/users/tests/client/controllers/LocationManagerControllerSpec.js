@@ -1,20 +1,19 @@
 describe('Controller: users.StoreDbController', function () {
-
   // load the controller's module
-  beforeEach(module('mean'));
+  beforeEach(module('mean'))
 
   var ctrl,
-    scope;
+    scope
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
+    scope = $rootScope.$new()
     ctrl = $controller('StoreDbController', {
       $scope: scope
-    });
-  }));
+    })
+  }))
 
   it('should be defined', function () {
-    expect(ctrl).toBeDefined();
-  });
-});
+    expect(ctrl).toBeDefined()
+  })
+})

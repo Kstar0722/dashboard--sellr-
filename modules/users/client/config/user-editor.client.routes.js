@@ -1,5 +1,5 @@
 'use strict'
-/* globals angular*/
+/* globals angular */
 // Setting up route
 angular.module('users.editor.routes').config([ '$stateProvider',
   function ($stateProvider) {

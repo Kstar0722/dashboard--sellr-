@@ -6,32 +6,18 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.user = initUser(Authentication.user)
     $scope.passwordDetails = {}
     $scope.store = {}
-    $scope.devices = [];
+    $scope.devices = []
     $scope.forms = {}
     $scope.states = UsStates
-    $scope.authentication = Authentication;
+    $scope.authentication = Authentication
 
     $scope.accountsService = accountsService
     $scope.descriptionCharsLimit = 200
     accountsService.bindSelectedAccount($scope)
     $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
-      if (selectAccountId == prevValue) return
-      init();
+      if (selectAccountId === prevValue) return
+      init()
     })
-
-    var tablets = [{
-      name: 'Mac\'s Pro 7',
-      installedDate: moment('2016-08-01').toDate(),
-      status: 'on'
-    }, {
-      name: 'Mac\'s Pro 6',
-      installedDate: moment('2016-09-05').toDate(),
-      status: 'on'
-    }, {
-      name: 'Mac\'s Pro 4',
-      installedDate: moment('2016-10-22').toDate(),
-      status: 'off'
-    }];
 
     // Update a user profile
     $scope.updateUserProfile = function (isValid) {
@@ -142,20 +128,20 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     }
 
     $scope.editDevice = function (ev, device) {
-      var scope = $scope.$new();
-      scope.device = device;
+      var scope = $scope.$new()
+      scope.device = device
 
-      scope.config = angular.merge(devicesService.defaultConfig(), scope.device.AccountDeviceCfg, scope.device.config, { udid: device.udid });
-      scope.config.betweenMediaIntervalSec = Math.round(scope.config.betweenMediaInterval / 1000);
-      scope.config.mediaIntervalSec = Math.round(scope.config.mediaInterval / 1000);
+      scope.config = angular.merge(devicesService.defaultConfig(), scope.device.AccountDeviceCfg, scope.device.config, { udid: device.udid })
+      scope.config.betweenMediaIntervalSec = Math.round(scope.config.betweenMediaInterval / 1000)
+      scope.config.mediaIntervalSec = Math.round(scope.config.mediaInterval / 1000)
 
       $mdDialog.show({
         templateUrl: '/modules/users/client/views/settings/edit-tablet-dialog.client.view.html',
         targetEvent: ev,
         scope: scope,
         clickOutsideToClose: true
-      });
-    };
+      })
+    }
 
     $scope.confirmDeleteDevice = function (ev, device) {
       var confirm = $mdDialog.confirm()
@@ -170,32 +156,32 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
       return $mdDialog.show(confirm).then(function () {
         devicesService.deleteDevice(device).then(function () {
-          _.removeItem($scope.devices, device);
-          toastr.success('Removed ' + device.name + ' device');
+          _.removeItem($scope.devices, device)
+          toastr.success('Removed ' + device.name + ' device')
         }).catch(function () {
-          toastr.error('Failed to remove ' + device.name + ' device');
-        });
-      });
-    };
+          toastr.error('Failed to remove ' + device.name + ' device')
+        })
+      })
+    }
 
     $scope.deleteDevice = function (device) {
 
-    };
+    }
 
     $scope.saveDeviceConfig = function (device, config) {
-      config.betweenMediaInterval = config.betweenMediaIntervalSec * 1000;
-      config.mediaInterval = config.mediaIntervalSec * 1000;
+      config.betweenMediaInterval = config.betweenMediaIntervalSec * 1000
+      config.mediaInterval = config.mediaIntervalSec * 1000
 
-      delete config.betweenMediaIntervalSec;
-      delete config.mediaIntervalSec;
+      delete config.betweenMediaIntervalSec
+      delete config.mediaIntervalSec
 
-      $mdDialog.hide(device);
+      $mdDialog.hide(device)
       devicesService.updateDeviceConfig(device, config).then(function () {
-        toastr.success('Device configuration updated');
+        toastr.success('Device configuration updated')
       }).catch(function () {
-        toastr.error('Failed to update device configuration');
-      });
-    };
+        toastr.error('Failed to update device configuration')
+      })
+    }
 
     $scope.lines = function (text) {
       if (!text) return
@@ -216,14 +202,14 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     }, true)
 
     PostMessage.on('store.initialized', function () {
-      PostMessage.send('store.update', $scope.store);
-    });
+      PostMessage.send('store.update', $scope.store)
+    })
 
-    init();
+    init()
 
-    function init() {
-      loadStore(accountsService.accounts);
-      loadDevices();
+    function init () {
+      loadStore(accountsService.accounts)
+      loadDevices()
     }
 
     function updateUserProfile (user) {
@@ -258,24 +244,27 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
       if (_.isEmpty(accounts)) return
 
       var account = _.find(accounts, { accountId: $scope.selectAccountId || $scope.user.accountId })
-      if (!account) return $scope.store = null
+      if (!account) {
+        $scope.store = null
+        return
+      }
 
       orderDataService.getAllStores({ accountId: account.accountId }).then(function (stores) {
         var store = $scope.store = _.find(stores, { accountId: account.accountId }) || {}
         console.log(store)
-        storesService.initWorkSchedule(store);
+        storesService.initWorkSchedule(store)
         // store.previewUrl = constants.SHOPPR_URL + '/embedStore' + $scope.store.accountId + '.html#/stores?storeInfo=true'
         store.previewUrl = '/modules/users/client/views/settings/shoppr-preview.client.view.html'
       })
     }
 
-    function loadDevices() {
-      $scope.devices = null;
+    function loadDevices () {
+      $scope.devices = null
       devicesService.getDevices($scope.selectAccountId).then(function (devices) {
-        $scope.devices = devices;
+        $scope.devices = devices
       }).catch(function () {
-        toastr.error('Failed to load devices list');
-      });
+        toastr.error('Failed to load devices list')
+      })
     }
 
     function unindent (text) {
@@ -286,28 +275,6 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         return line.substr(Math.min(gIndent, indent))
       }).join('\n').trim()
       return result
-    }
-
-    function defaultDeviceConfig() {
-      return {
-        defaultAudioVolume: 1,
-        mediaInterval: 85000,
-        betweenMediaInterval: 8000,
-        showLogo: true,
-        playAds: true,
-        playProductsAds: true,
-        customStyles: false,
-        refreshDeviceDaily: true,
-        showHMC: true,
-        showBrowse: true,
-        showCocktails: true,
-        showPrices: true,
-        showSlots: true,
-        showCustomApp: false,
-        enforceAgeVerification: false,
-        emailTextButton: true,
-        onlyMyProducts: false
-      };
     }
   }
 ])

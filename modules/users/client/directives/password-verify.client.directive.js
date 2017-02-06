@@ -1,28 +1,26 @@
-'use strict';
+'use strict'
 
 angular.module('users')
-  .directive('passwordVerify', [function() {
+  .directive('passwordVerify', function () {
     return {
       require: 'ngModel',
       scope: {
         passwordVerify: '='
       },
-      link: function(scope, element, attrs, ngModel) {
-        var status = true;
-        scope.$watch(function() {
-          var combined;
+      link: function (scope, element, attrs, ngModel) {
+        scope.$watch(function () {
+          var combined
           if (scope.passwordVerify || ngModel) {
-            combined = scope.passwordVerify + '_' + ngModel;
+            combined = scope.passwordVerify + '_' + ngModel
           }
-          return combined;
-        }, function(value) {
+          return combined
+        }, function (value) {
           if (value) {
             ngModel.$validators.passwordVerify = function (password) {
-              var origin = scope.passwordVerify;
-              return (origin !== password) ? false : true;
-            };
+              return scope.passwordVerify === password
+            }
           }
-        });
+        })
       }
-    };
-  }]);
+    }
+  })

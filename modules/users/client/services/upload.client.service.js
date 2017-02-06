@@ -1,4 +1,4 @@
-/*globals angular, localStorage, AWS */
+/* globals angular, localStorage, AWS */
 angular.module('users').service('uploadService', function ($http, constants, toastr, Authentication, $q, cfpLoadingBar, filepickerService) {
   var me = this
 
