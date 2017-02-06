@@ -46,6 +46,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
       // console.log('========= res ' + JSON.stringify(res))
       var accounts = _.map(res.data, initAccount)
       defer.resolve(accounts)
+          account.website = Boolean(account.preferences.website)
     }
 
     function onGetAccountError (err) {
@@ -118,6 +119,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
     account.preferences.logo = account.logo
     account.preferences.style = account.style
     account.preferences.shoppr = account.shoppr
+    account.preferences.website = account.website
     var payload = {
       payload: account
     }

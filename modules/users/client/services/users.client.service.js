@@ -1,4 +1,5 @@
 'use strict'
+/* globals angular, moment, _ */
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr',
@@ -28,7 +29,8 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
         if (err) {
           defer.reject(err)
         }
-        defer.resolve(response.data)
+        var users = _.map(response.data, initUser)
+        defer.resolve(users)
       })
       return defer.promise
     }
@@ -48,7 +50,7 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
         }
       }
       $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response) {
-        var resetLink = 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + response.data.email;
+        var resetLink = 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + response.data.email
 
         var mailOptions = {
           payload: {
@@ -77,26 +79,46 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
     me.create = function (user) {
       var payload = {
         payload: user
-      };
+      }
+      return $http.post(constants.API_URL + '/users', payload).then(successCreateUserHandler).catch(errorCreateUserHandler)
+    }
 
-      return $http.post(constants.API_URL + '/users', payload).then(function (response) {
-        $analytics.eventTrack('User Signed Up', {
-          email: user.email,
-          name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
-          phone: user.phone
-        });
-        console.log('user signed up', response.data);
-        return response.data;
-      }).catch(function (response) {
-        console.error('create user failed', response.data);
-        if (response.data.name != 'AlreadyRegistered') {
-          var msg = 'Failed to create new account';
-          if ((response.data || {}).message) msg += '. ' + response.data.message;
-          toastr.error(msg);
-        }
-        throw response;
-      });
-    };
+    me.createUserFacebook = function (user) {
+      var payload = {
+        payload: user
+      }
+      return $http.post(constants.API_URL + '/users/facebook', payload).then(successCreateUserHandler).catch(errorCreateUserHandler)
+    }
+
+    function successCreateUserHandler (response) {
+      console.log('user signed up', response.data)
+      var user = initUser(response.data)
+      $analytics.eventTrack('User Signed Up', {
+        email: user.email,
+        name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
+        phone: user.phone
+      })
+      return user
+    }
+
+    function errorCreateUserHandler (response) {
+      console.error('create user failed', response.data)
+      if (response.data.name !== 'AlreadyRegistered') {
+        var msg = 'Failed to create new account'
+        if ((response.data || {}).message) msg += '. ' + response.data.message
+        toastr.error(msg)
+      }
+      throw response
+    }
+
+    me.initUser = initUser
+
+    function initUser (user) {
+      if (!user) return user
+      user.createdDateMoment = user.createdDate && moment(user.createdDate)
+      user.createdDateStr = user.createdDateMoment && user.createdDateMoment.format('lll')
+      return user
+    }
 
     return me
   }

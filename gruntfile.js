@@ -290,6 +290,13 @@ module.exports = function (grunt) {
       karma: {
         src: '_karma.conf.js'
       }
+    },
+    standard: {
+      app: {
+        src: [
+          '{config,modules,public/modules}/**/*.js'
+        ]
+      }
     }
   });
 
@@ -308,6 +315,8 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-protractor-coverage');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-standard');
+
   // Make sure upload directory exists
   grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {
     // Get the callback
@@ -333,6 +342,7 @@ module.exports = function (grunt) {
 
   // Lint CSS and JavaScript files.
   grunt.registerTask('lint', [ 'less' ]);
+  // grunt.registerTask('lint', [ 'standard', 'less' ]);
 
   grunt.registerTask('wiredep', function () {
     var wiredep = require('wiredep')().js

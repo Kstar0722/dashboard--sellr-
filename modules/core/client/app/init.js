@@ -1,5 +1,5 @@
 'use strict'
-/* globals angular,localStorage,history, ApplicationConfiguration, rg4js*/
+/* globals angular,localStorage,history, ApplicationConfiguration,$,$sc */
 // Start by defining the main module and adding the module dependencies
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies)
 
@@ -9,18 +9,21 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     $locationProvider.html5Mode({ enabled: true, requireBase: false }).hashPrefix('!')
 
     $mdThemingProvider.theme('default')
-      .accentPalette('green');
+      .accentPalette('green')
 
-    cfpLoadingBarProvider.latencyThreshold = 200;
+    cfpLoadingBarProvider.latencyThreshold = 200
 
     $httpProvider.interceptors.push('authInterceptor') //  MEANJS/Mongo interceptor
     $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
 
     // SET ENVIRONMENT
 
+    var email
+    var displayName
     if (JSON.parse(localStorage.getItem('userObject'))) {
-      var email = JSON.parse(localStorage.getItem('userObject')).email
-      var displayName = JSON.parse(localStorage.getItem('userObject')).displayName
+      email = JSON.parse(localStorage.getItem('userObject')).email
+      displayName = JSON.parse(localStorage.getItem('userObject')).displayName
+      console.log('email: ', email, 'displayName', displayName)
     }
 
     // set the domains and variables for each environment
@@ -35,22 +38,26 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: {
           env: 'local',
           API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171'
+          BWS_API: 'http://localhost:7171',
+          CARDKIT_URL: 'http://localhost:7474'
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io'
+          BWS_API: 'https://bwsdev.sllr.io',
+          CARDKIT_URL: 'https://themedev.sllr.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://bwsqa.sllr.io'
+          BWS_API: 'https://bwsqa.sllr.io',
+          CARDKIT_URL: 'https://themedev.sllr.io'
         },
         production: {
           env: 'production',
           API_URL: 'https://api.sllr.io',
-          BWS_API: 'https://bws.sllr.io'
+          BWS_API: 'https://bws.sllr.io',
+          CARDKIT_URL: 'https://theme.sllr.io'
         }
       }
     })
@@ -67,17 +74,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   ])
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia) {
-  var DEFAULT_PUBLIC = false;
+  var DEFAULT_PUBLIC = false
 
-  $rootScope.$mdMedia = $mdMedia;
-  $rootScope.$state = $state;
+  $rootScope.$mdMedia = $mdMedia
+  $rootScope.$state = $state
   $rootScope.$stateClass = cssClassOf($state.current.name)
 
   // for debugging purposes only
-  $window.$svc = function (name) { return $window[name] = $injector.get(name); };
-  $window.$sc = function(el) { return $window.$scope = angular.element(el || document.querySelector('.main-content .ng-scope:first-of-type')).scope(); };
+  $window.$svc = function (name) {
+    $window[name] = $injector.get(name)
+    return $window[name]
+  }
+  $window.$sc = function (el) {
+    $window.$scope = angular.element(el || document.querySelector('.main-content .ng-scope:first-of-type')).scope()
+    return $window.$scope
+  }
+  $window.$d = function (el) { ($window.$scope || $sc(el)).$digest() }
 
-  initLoadingBar();
+  initLoadingBar()
 
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -122,10 +136,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   })
 
   function isPublicState (state) {
-    if (!state) return DEFAULT_PUBLIC;
+    if (!state) return DEFAULT_PUBLIC
     // take closest state in hierarchy with public property defined
-    while (typeof state.public != 'boolean' && state.parent) state = state.parent;
-    return state.public || DEFAULT_PUBLIC;
+    while (typeof state.public !== 'boolean' && state.parent) state = state.parent
+    return state.public || DEFAULT_PUBLIC
   }
 
   // Store previous state
@@ -140,35 +154,37 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     }
   }
 
+/* eslint-disable */
   function cssClassOf (name) {
     if (typeof name !== 'string') return name
     return name.replace(/[^a-z0-9\-]+/gi, '-')
   }
+/* eslint-enable */
 
-  function initLoadingBar() {
-    var busy = false;
+  function initLoadingBar () {
+    var busy = false
 
     $rootScope.$on('cfpLoadingBar:started', function () {
-      busy = true;
-      $(document.body).addClass('loading');
+      busy = true
+      $(document.body).addClass('loading')
 
       if (document.activeElement) {
-        document.activeElement.blur();
+        document.activeElement.blur()
       }
-    });
+    })
 
-    $rootScope.$on('cfpLoadingBar:completed', function() {
-      busy = false;
-      $(document.body).removeClass('loading');
-    });
+    $rootScope.$on('cfpLoadingBar:completed', function () {
+      busy = false
+      $(document.body).removeClass('loading')
+    })
 
-    document.body.addEventListener('keydown', cancelKeyPress, true);
-    $(document).keydown(cancelKeyPress);
+    document.body.addEventListener('keydown', cancelKeyPress, true)
+    $(document).keydown(cancelKeyPress)
 
-    function cancelKeyPress(ev) {
-      if (!busy) return;
-      ev.preventDefault();
-      ev.stopPropagation();
+    function cancelKeyPress (ev) {
+      if (!busy) return
+      ev.preventDefault()
+      ev.stopPropagation()
     }
   }
 })

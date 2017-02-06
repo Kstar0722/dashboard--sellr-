@@ -174,7 +174,7 @@ body.loading .main-content {
   border-bottom: 1px solid #95989a;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  color: #95989a;
+  color: #5a5c5d;
   font-size: 16px;
 }
 .table .t-body div,
@@ -209,7 +209,6 @@ body.loading .main-content {
   margin-bottom: 0px;
   padding-bottom: 15px;
   border-bottom: none;
-  color: #5a5c5d;
 }
 .table .t-body .highlighted {
   background: #00f0e6;
@@ -228,6 +227,23 @@ body.loading .main-content {
 }
 .table .t-body > div .fa-times {
   color: #FF0000;
+}
+.btn-facebook {
+  height: 54px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #3b5998;
+  margin: 0;
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 20px;
+}
+.btn-facebook .social-icon {
+  margin-right: 20px;
 }
 .sd-popup {
   background: rgba(0, 0, 0, 0.8);
@@ -717,11 +733,14 @@ section.userList .invite {
   background-color: #2DC89A;
   color: white;
 }
+.user-management .invite {
+  background: #2DC89A !important;
+  color: #ffffff;
+  display: block;
+  margin-left: auto;
+}
 .user-management .md-dialog-container {
   visibility: hidden;
-}
-.user-management .t-body {
-  font-weight: bold;
 }
 #EditUserDialog,
 #InviteUserDialog {
@@ -925,6 +944,20 @@ section.userList .invite {
 .sign-in #reset-form .action:hover {
   background-color: #142332;
   color: #ffffff;
+}
+.sign-in #login-form .signin-buttons .btn-signin,
+.sign-in #reset-form .signin-buttons .btn-signin {
+  width: 100%;
+  background-color: #2DC89A;
+  color: white;
+  border-radius: 0;
+  height: 54px;
+  line-height: 54px;
+  margin: 0 0 20px 0;
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 20px;
+  text-transform: none;
 }
 .sign-in #login-form #remember,
 .sign-in #reset-form #remember {
@@ -2271,6 +2304,12 @@ body.editor-products-detail .medium-editor-toolbar {
   -o-animation-delay: 1s;
   animation-delay: 1s;
 }
+.loading-anim.fixed-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
 .product-editor-merge .grid-container {
   padding: 40px 20px;
 }
@@ -2798,6 +2837,15 @@ md-checkbox.md-checked.blue-check .md-icon {
   background: #34495e;
   color: #ecf0f1;
   padding-left: 5%;
+}
+.match .current-item-container .current-item-info p {
+  color: #fff;
+  font-size: 18px;
+  line-height: normal;
+  margin: 0 0 20px;
+}
+.match .current-item-container .current-item-info p:first-child {
+  margin-top: 20px;
 }
 .match .match-image {
   margin-left: 10%;
@@ -3566,9 +3614,6 @@ body.settings-tablets md-backdrop.md-opaque {
   padding-bottom: 10px;
   margin: 0px 40px;
 }
-.store-client-view .orders-header div {
-  font-weight: bold;
-}
 .store-client-view .orders-body {
   text-align: left;
   padding-top: 20px;
@@ -3580,16 +3625,6 @@ body.settings-tablets md-backdrop.md-opaque {
 }
 .store-client-view .orders-body div.done {
   color: #2DC89A;
-}
-.store-client-view .orders-body div.progress-bar-container {
-  background-color: #eaeaea;
-}
-.store-client-view .orders-body div.progress-bar-container .progress-bar {
-  padding: 10px;
-  background-color: #2DC89A;
-  width: 40%;
-  text-align: left;
-  color: #fff;
 }
 .store-client-view .orders-body div .status-bar {
   background-color: #95989a;
@@ -4604,9 +4639,21 @@ body.storeOwner-orders {
   margin-top: 10px;
 }
 .get-started-page .screen-content .step0 .get-started {
-  border-radius: 0;
-  font-size: 14pt;
-  padding: 12px 24px;
+  height: 54px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #2bbf88;
+  margin: 0;
+  padding: 0;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 20px;
+  margin-bottom: 20px;
+  outline: none;
+  border: none;
 }
 .get-started-page .screen-content .step0 .logo-header {
   margin: 30px 0 10px;
@@ -4773,6 +4820,12 @@ body.storeOwner-orders {
 .get-started-page .screen-content .footer-custom .button-bar {
   display: flex;
   flex-direction: column;
+}
+.get-started-page .screen-content .footer-custom .button-bar.step1 button {
+  margin-bottom: 20px;
+}
+.get-started-page .screen-content .footer-custom .button-bar.step1 .btn-facebook {
+  height: 70px;
 }
 .get-started-page .screen-content .footer-custom .next {
   background: #2DC89A;
@@ -5000,4 +5053,23 @@ body.storeOwner-orders {
 }
 .pac-container .pac-item .pac-matched {
   font-size: 14px;
+}
+.website-builder iframe {
+  width: 100%;
+  min-height: 400px;
+  height: 90vh;
+}
+.website-builder .busy-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+}
+body.websiteBuilder #loading-bar,
+body.websiteBuilder #loading-bar-spinner {
+  display: none;
 }

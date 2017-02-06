@@ -27,14 +27,27 @@ angular.module('users').config(['$httpProvider',
       }
     ]);
   }
-]).run(['Menus', function(Menus) {
+]).run(['Menus', 'accountsService', function(Menus, accountsService) {
+  Menus.addMenuItem('main', {
+    title: 'Website',
+    iconFA: 'fa-desktop',
+    state: 'websiteBuilder',
+    type: 'button',
+    roles: [1002, 1004, 1009],
+    position: 3,
+    shouldRender: function () {
+      var account = accountsService.currentAccount;
+      var preferences = account && angular.fromJson(account.preferences || null) || {};
+      return preferences.website;
+    }
+  });
   Menus.addMenuItem('main', {
     title: 'Account',
     iconFA: 'fa-cogs',
     state: 'settings',
     type: 'button',
     roles: [1002],
-    position: 3
+    position: 4
   });
   Menus.addMenuItem('main', {
     title: 'Products',
@@ -42,6 +55,6 @@ angular.module('users').config(['$httpProvider',
     state: 'productsUploader',
     type: 'button',
     roles: [ 1004 ],
-    position: 4
+    position: 5
   });
 }]);

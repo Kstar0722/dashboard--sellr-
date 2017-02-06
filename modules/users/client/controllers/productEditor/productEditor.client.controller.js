@@ -358,22 +358,11 @@ angular.module('users').controller('productEditorController', function ($scope, 
   $scope.removeImage = function (current) {
     productEditorService.removeImage(current)
   }
-  $(window).bind('keydown', function (event) {
-    if (event.ctrlKey || event.metaKey) {
-      var prod = productEditorService.currentProduct
 
-      switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
-          event.preventDefault()
-          $scope.updateProduct(prod)
-          break
-        case 'd':
-          event.preventDefault()
-          $scope.submitForApproval(prod)
-
-      }
-    }
-  })
+  $(window).bind('keydown', handleShortcuts)
+  $scope.$on('$destroy', function() {
+    $(window).unbind('keydown', handleShortcuts);
+  });
 
   $scope.productsSelection = {}
   $scope.productsSelection.contains = false
@@ -506,5 +495,22 @@ angular.module('users').controller('productEditorController', function ($scope, 
       options.store = $scope.selectedStore
     }
     return options
+  }
+
+  function handleShortcuts(event) {
+    if (event.ctrlKey || event.metaKey) {
+      var prod = productEditorService.currentProduct
+
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+          event.preventDefault()
+          $scope.updateProduct(prod)
+          break
+        case 'd':
+          event.preventDefault()
+          $scope.submitForApproval(prod)
+
+      }
+    }
   }
 })
