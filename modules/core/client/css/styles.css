@@ -4316,16 +4316,26 @@ body.storeOwner-orders {
 #EditAccountDialog .city-state-zip-container .zip {
   flex: 2;
 }
-#EditAccountDialog .shoppr-container {
+#EditAccountDialog .shoppr-container,
+#EditAccountDialog .website-container {
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 10px;
 }
-#EditAccountDialog .shoppr-container md-checkbox {
+#EditAccountDialog .shoppr-container md-checkbox,
+#EditAccountDialog .website-container md-checkbox {
   margin: 0;
+  min-width: 90px;
 }
-#EditAccountDialog .shoppr-container md-input-container {
-  margin: 0;
+#EditAccountDialog .shoppr-container md-input-container,
+#EditAccountDialog .website-container md-input-container {
+  margin: 0 0 0 10px;
+}
+#EditAccountDialog .website-container {
+  margin-top: 20px;
+}
+#EditAccountDialog .website-container md-input-container {
+  flex: 100;
 }
 #EditAccountDialog .authcode-container {
   align-items: center;

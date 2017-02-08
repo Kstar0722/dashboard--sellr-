@@ -67,10 +67,16 @@
         </div>
         <div layout="row" class="shoppr-container">
             <md-checkbox ng-model="accountsService.editAccount.shoppr">Shoppr</md-checkbox>
-        <md-checkbox ng-model="accountsService.editAccount.website">Website</md-checkbox>
             <md-input-container>
                 <label>Remaining Orders</label>
                 <input ng-model="accountsService.editAccount.preferences.plan.remainingOrders" type="number">
+            </md-input-container>
+        </div>
+        <div layout="row" class="website-container">
+            <md-checkbox ng-model="accountsService.editAccount.website">Website</md-checkbox>
+            <md-input-container>
+                <label>Website URL</label>
+                <input ng-model="accountsService.editAccount.preferences.websiteUrl" type="text">
             </md-input-container>
         </div>
         <div layout="row" class="authcode-container">

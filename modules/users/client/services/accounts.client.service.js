@@ -119,6 +119,8 @@ angular.module('users').service('accountsService', function ($http, constants, t
     account.preferences.style = account.style
     account.preferences.shoppr = account.shoppr
     account.preferences.website = account.website
+    account.preferences.websiteUrl = normalizeUrl(account.preferences.websiteUrl)
+
     var payload = {
       payload: account
     }
@@ -201,6 +203,20 @@ angular.module('users').service('accountsService', function ($http, constants, t
     }
 
     return account
+  }
+
+  function normalizeUrl(url) {
+    if (!url) return url;
+    if (!url.trim()) return url;
+
+    url = url.trim();
+
+    // make sure websiteUrl starts with http
+    if (!url.trim().match(/^http/i)) {
+      url = 'http://' + url;
+    }
+
+    return url;
   }
 
   return me
