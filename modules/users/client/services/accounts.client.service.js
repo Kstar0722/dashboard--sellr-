@@ -205,18 +205,18 @@ angular.module('users').service('accountsService', function ($http, constants, t
     return account
   }
 
-  function normalizeUrl(url) {
-    if (!url) return url;
-    if (!url.trim()) return url;
+  function normalizeUrl (url) {
+    if (!url) return url
+    if (!url.trim()) return url
 
-    url = url.trim();
+    url = url.trim()
 
     // make sure websiteUrl starts with http
     if (!url.trim().match(/^http/i)) {
-      url = 'http://' + url;
+      url = 'http://' + url
     }
 
-    return url;
+    return url
   }
 
   return me
