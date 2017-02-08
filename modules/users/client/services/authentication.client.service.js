@@ -129,6 +129,8 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       createdAt: user.createdDate,
       city: address.city,
       state: address.state,
+      accountId: user.accountId,
+      storeName: user.storeName,
       address: address ? {
         street: address.address1,
         city: address.city,
