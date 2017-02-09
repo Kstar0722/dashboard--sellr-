@@ -4335,7 +4335,7 @@ body.storeOwner-orders {
   margin-top: 20px;
 }
 #EditAccountDialog .website-container md-input-container {
-  flex: 100;
+  flex: 50;
 }
 #EditAccountDialog .authcode-container {
   align-items: center;
