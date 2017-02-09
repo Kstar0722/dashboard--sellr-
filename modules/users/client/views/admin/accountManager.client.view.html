@@ -20,6 +20,7 @@
 
     <div class="table">
       <div layout class="t-header" layout-align="start center">
+        <div flex="5" ng-click="reOrderList('accountId')">ID <i class="fa fa-sort"></i></div>
         <div flex="20" ng-click="reOrderList('storeName')">Store Name <i class="fa fa-sort"></i></div>
         <div flex="20" ng-click="reOrderList('createdDateMoment')">Date Created <i class="fa fa-sort"></i></div>
         <div flex ng-click="reOrderList('usersNum')"># of Users <i class="fa fa-sort"></i></div>
@@ -29,7 +30,8 @@
         <div flex></div>
       </div>
       <div layout class="t-body" layout-align="start center"
-           ng-repeat="account in accountsService.accounts | filterBy:['storeName','createdDateStr','contactName','stateName']:search | orderBy:sortExpression">
+           ng-repeat="account in accountsService.accounts | filterBy:['accountId','storeName','createdDateStr','contactName','stateName']:search | orderBy:sortExpression">
+        <div flex="5">{{account.accountId}}</div>
         <div flex="20">
           <img ng-src="{{ account.logo }}" class="store-img" ng-if="account.logo">
           <div ng-bind-html="account.storeName | highlight:search"></div>

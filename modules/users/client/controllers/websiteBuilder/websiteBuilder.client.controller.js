@@ -24,9 +24,9 @@ angular.module('users').controller('WebsiteBuilderController', ['$scope', '$sce'
       var builderPath = builderUrl
       builderPath = builderPath.substr(builderUrl.indexOf('/'))
       builderPath = builderPath
-          .replace('/pages/' + $scope.clientName, '')
-          .replace('/pages/' + (encodeURIComponent($scope.clientName)), '')
-          .replace('/pages/' + (_.buildUrl($scope.clientName)), '')
+          .replace('/pages/' + $scope.themeClient, '')
+          .replace('/pages/' + (encodeURIComponent($scope.themeClient)), '')
+          .replace('/pages/' + (_.buildUrl($scope.themeClient)), '')
           .replace('/pages', '')
 
       console.log('routeChange', builderUrl, builderPath)
@@ -50,9 +50,9 @@ angular.module('users').controller('WebsiteBuilderController', ['$scope', '$sce'
     function init (account) {
       $scope.loading = true
       $scope.account = account
-      $scope.clientName = _.buildUrl(account.name)
+      $scope.themeClient = account.preferences.websiteTheme || _.buildUrl(account.name)
 
-      var cardkitRoute = '/pages/' + $scope.clientName
+      var cardkitRoute = '/pages/' + $scope.themeClient
       if ($stateParams.builderPath && $stateParams.builderPath !== '/') {
         cardkitRoute += $stateParams.builderPath
       }

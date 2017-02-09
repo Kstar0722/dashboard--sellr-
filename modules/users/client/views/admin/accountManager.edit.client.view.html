@@ -75,6 +75,12 @@
         <div layout="row" class="website-container">
             <md-checkbox ng-model="accountsService.editAccount.website">Website</md-checkbox>
             <md-input-container>
+                <label>Theme</label>
+                <md-select name="state" ng-model="accountsService.editAccount.preferences.websiteTheme" required ng-disabled="websiteThemes === null">
+                    <md-option ng-repeat="theme in websiteThemes | orderBy:'companyName'" ng-value="theme.slug">{{theme.companyName}}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container>
                 <label>Website URL</label>
                 <input ng-model="accountsService.editAccount.preferences.websiteUrl" type="text">
             </md-input-container>

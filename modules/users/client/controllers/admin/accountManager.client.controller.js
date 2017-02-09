@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout) {
+angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer) {
   accountsService.init({ expand: 'stores,stats' })
   $scope.accountsService = accountsService
   $scope.determinateValue = 0
@@ -9,6 +9,7 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     createdBy: ''
   }
   $scope.sortExpression = '+name'
+  $scope.websiteThemes = null
 
   $scope.openNestedDialog = function () {
     $scope.dialog = $mdDialog.show({
@@ -141,5 +142,22 @@ angular.module('users.admin').controller('AccountManagerController', function ($
       $scope.account.createdBy = Authentication.user.firstName + Authentication.user.lastName
     }
     console.log($scope.account)
+
+    loadCardkitThemes().then(function(themes) {
+      $scope.websiteThemes = themes
+    })
+  }
+
+  function loadCardkitThemes() {
+    var params = {
+      exclude: ['header', 'footer', 'user', 'js', 'css', 'variables', 'site_navigation', 'navigation_card', 'rss_settings']
+    }
+    var url = constants.CARDKIT_URL + '/clients?' + $httpParamSerializer(params)
+    return $http.get(url).then(function(response) {
+      return response.data || []
+    }).catch(function(err) {
+      console.error(err)
+      toastr.error('Failed to load website themes')
+    })
   }
 })
