@@ -21,6 +21,7 @@
                 <p>Sku: {{ orderDataService.currentItem.upc }}</p>
                 <p>Type: {{ orderDataService.currentItem.type }}</p>
                 <p>ProductID: {{ orderDataService.currentItem.productId }} <i class="fa fa-check" ng-show="orderDataService.currentItem.productId"></i></p>
+                <p>Created: {{ orderDataService.currentItem.createdRelative }}</p>
             </div>
             <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank"
             ng-show="orderDataService.currentItem.publicUrl">
