@@ -1,4 +1,4 @@
-/*globals angular */
+/* globals angular */
 angular.module('users')
   .filter('stringToClass', function () {
     return function (input) {

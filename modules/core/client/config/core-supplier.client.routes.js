@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
 // Setting up route
 angular.module('core.supplier.routes').config(['$stateProvider',
     function ($stateProvider) {
-        $stateProvider
+      $stateProvider
             .state('supplier', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
-                data: {
-                    roles: [1007]
-                }
-            });
+              abstract: true,
+              url: '',
+              template: '<ui-view/>',
+              data: {
+                roles: [1007]
+              }
+            })
     }
-]);
+])

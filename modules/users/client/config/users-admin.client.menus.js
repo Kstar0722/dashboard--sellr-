@@ -1,5 +1,5 @@
 'use strict'
-/* globals angular*/
+/* globals angular */
 // Configuring the Articles module
 angular.module('users.admin').run([ 'Menus',
   function (Menus, ord) {
@@ -12,12 +12,12 @@ angular.module('users.admin').run([ 'Menus',
       title: 'User Management',
       state: 'admin.users',
       position: 5
-    });
+    })
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Invite User',
       state: 'storeOwner.inviteUser',
       position: 6
-    });
+    })
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Pricing Calculator',
       state: 'admin.pricing',
@@ -27,6 +27,6 @@ angular.module('users.admin').run([ 'Menus',
       title: 'Stores Manager',
       state: 'manager.stores',
       position: 10
-    });
+    })
   }
 ])

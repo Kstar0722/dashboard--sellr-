@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
 // Setting up route
 angular.module('core.storeOwner.routes').config(['$stateProvider',
     function ($stateProvider) {
-        $stateProvider
+      $stateProvider
             .state('storeOwner', {
-                abstract: true,
-                url: '',
-                template: '<ui-view/>',
-                data: {
-                  roles: [ 1009, 1002, 1004 ]
-                }
-            });
+              abstract: true,
+              url: '',
+              template: '<ui-view/>',
+              data: {
+                roles: [ 1009, 1002, 1004 ]
+              }
+            })
     }
-]);
+])

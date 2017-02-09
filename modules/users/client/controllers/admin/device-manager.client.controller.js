@@ -1,106 +1,100 @@
-'use strict';
+'use strict'
 
 angular.module('users.admin').controller('DeviceManagerController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$stateParams',
     function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $stateParams) {
-        $scope.authentication = Authentication;
-        //$scope.file = '  ';
-        var self = this;
-        $scope.myPermissions = localStorage.getItem('roles');
-        if ($stateParams.accountId)
-            $scope.selectAccountId = $stateParams.accountId;
-        else
-            $scope.selectAccountId = localStorage.getItem('accountId');
+      $scope.authentication = Authentication
+        // $scope.file = '  ';
+      $scope.myPermissions = localStorage.getItem('roles')
+      if ($stateParams.accountId) {
+        $scope.selectAccountId = $stateParams.accountId
+      } else {
+        $scope.selectAccountId = localStorage.getItem('accountId')
+      }
 
-        $scope.accountsService = accountsService;
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
-        $scope.chartOptions = {}
-        $scope.init = function () {
-            $state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
-            $scope.emails = [];
-            $scope.phones = [];
-            $scope.loyalty = [];
-            $scope.analytics = [];
-            $scope.locations = [];
-            $scope.stores = [];
-            $scope.specificLoc = [];
+      $scope.accountsService = accountsService
+      $scope.onClick = function (points, evt) {
+        console.log(points, evt)
+      }
+      $scope.chartOptions = {}
+      $scope.init = function () {
+        $state.go('.', {accountId: $scope.selectAccountId}, {notify: false})
+        $scope.emails = []
+        $scope.phones = []
+        $scope.loyalty = []
+        $scope.analytics = []
+        $scope.locations = []
+        $scope.stores = []
+        $scope.specificLoc = []
 
-            console.log('state params %O', $stateParams)
-            $scope.sources = [];
-            $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function (res, err) {
+        console.log('state params %O', $stateParams)
+        $scope.sources = []
+        $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function (res, err) {
+          if (err) {
+            console.log(err)
+            toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+          }
+          if (res.data.length > 0) {
+                    // this account has at least one location
+            res.data.forEach(function (thisLocation) {
+              thisLocation.devices = []
+              $http.get(constants.API_URL + '/devices/location/' + thisLocation.locationId).then(function (response, err) {
                 if (err) {
-                    console.log(err);
-                    toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-
-
+                  console.log(err)
                 }
-                if (res.data.length > 0) {
-                    //this account has at least one location
-                    res.data.forEach(function (thisLocation) {
-                        thisLocation.devices = [];
-                        $http.get(constants.API_URL + '/devices/location/' + thisLocation.locationId).then(function (response, err) {
-                            if (err) {
-                                console.log(err);
-                            }
-                            if (response.data.length > 0) {
-                                //this location has devices, add to that location
-                                response.data.forEach(function (device) {
-                                    var rightNow = moment();
+                if (response.data.length > 0) {
+                                // this location has devices, add to that location
+                  response.data.forEach(function (device) {
+                    var rightNow = moment()
                                     // var time = moment(device.lastCheck).subtract(4, 'hours');
-                                    var time = moment(device.lastCheck);
-                                    device.moment = moment(time).fromNow();
-                                    var timeDiff = time.diff(rightNow, 'hours');
-                                    device.unhealthy = timeDiff <= -3;
-
-                                });
-                                thisLocation.devices = response.data || [];
-                                $scope.locations.push(thisLocation)
-                            }
-                        });
-                    })
+                    var time = moment(device.lastCheck)
+                    device.moment = moment(time).fromNow()
+                    var timeDiff = time.diff(rightNow, 'hours')
+                    device.unhealthy = timeDiff <= -3
+                  })
+                  thisLocation.devices = response.data || []
+                  $scope.locations.push(thisLocation)
                 }
+              })
             })
-            $http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-                }
-                if (res) {
-                    for (var i in res.data) {
-                        var contact = JSON.parse(res.data[i].contactInfo);
-                        if (contact["email"]) {
-                            $scope.emails.push({
-                                email: contact['email']
-                            });
-                        } else {
-                            $scope.phones.push({
-                                phone: contact['phone']
-                            });
+          }
+        })
+        $http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function (res, err) {
+          if (err) {
+            console.log(err)
+            toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+          }
+          if (res) {
+            for (var i in res.data) {
+              var contact = JSON.parse(res.data[i].contactInfo)
+              if (contact['email']) {
+                $scope.emails.push({
+                  email: contact['email']
+                })
+              } else {
+                $scope.phones.push({
+                  phone: contact['phone']
+                })
+              }
+            }
+          }
+        })
 
-                        }
-
-                    }
-                }
-            });
-
-            var url = constants.API_URL + '/analytics/top-products?account=' + $scope.selectAccountId;
-            $http.get(url).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                    toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-                }
-                if (res) {
-                    console.log('analytics topProducts %O', res);
-                    for (var i in res.data) {
-                        if (res.data[i].action == 'Product-Request') {
-                            $scope.analytics.push(res.data[i])
-                        }
-                    }
-                }
-            });
-
-        };
+        var url = constants.API_URL + '/analytics/top-products?account=' + $scope.selectAccountId
+        $http.get(url).then(function (res, err) {
+          if (err) {
+            console.log(err)
+            toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+          }
+          if (res) {
+            console.log('analytics topProducts %O', res)
+            for (var i in res.data) {
+              if (res.data[i].action === 'Product-Request') {
+                $scope.analytics.push(res.data[i])
+              }
+            }
+          }
+        })
+      }
     }
-]);
+])
 

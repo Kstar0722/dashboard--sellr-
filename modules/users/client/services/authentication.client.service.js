@@ -118,7 +118,8 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
 
     console.log('identifying user for Analytics tracking')
     var address = user.storeAddress || {}
-    analytics.identify(user.userId, {
+
+    window.analytics.identify(user.userId, {
       name: user.displayName,
       email: user.email,
       phone: user.phone || address.phone,
@@ -128,6 +129,8 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       createdAt: user.createdDate,
       city: address.city,
       state: address.state,
+      accountId: user.accountId,
+      storeName: user.storeName,
       address: address ? {
         street: address.address1,
         city: address.city,
@@ -153,7 +156,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
   }
 
   function isEmpty (value) {
-    return !value || value == 'undefined' || value == 'null'
+    return !value || value === 'undefined' || value === 'null'
   }
 
   return me

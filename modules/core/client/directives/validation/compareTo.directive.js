@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 angular.module('core')
   .directive('compareTo', function () {
@@ -9,12 +9,12 @@ angular.module('core')
       },
       link: function (scope, element, attributes, ngModel) {
         ngModel.$validators.compareTo = function (modelValue) {
-          return modelValue === scope.otherModelValue;
-        };
+          return modelValue === scope.otherModelValue
+        }
 
         scope.$watch('otherModelValue', function () {
-          ngModel.$validate();
-        });
+          ngModel.$validate()
+        })
       }
-    };
-  });
+    }
+  })

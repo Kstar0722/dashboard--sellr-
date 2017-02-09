@@ -45,13 +45,13 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
           BWS_API: 'https://bwsdev.sllr.io',
-          CARDKIT_URL: 'https://beta.cardkit.io'
+          CARDKIT_URL: 'https://themedev.sllr.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
           BWS_API: 'https://bwsqa.sllr.io',
-          CARDKIT_URL: 'https://beta.cardkit.io'
+          CARDKIT_URL: 'https://themedev.sllr.io'
         },
         production: {
           env: 'production',

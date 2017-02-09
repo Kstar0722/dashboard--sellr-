@@ -52,59 +52,59 @@ angular.module('users').service('productEditorService', function ($http, $locati
   }
 
   me.getProductList = function (searchText, options) {
-    options = options || { filter: {} };
+    options = options || { filter: {} }
 
     me.show.loading = true
     me.productList = []
     me.allProducts = []
 
     // reset filter to first pgae
-    options.filter.skipNum = null;
-    options.filter.nomore = true;
+    options.filter.skipNum = null
+    options.filter.nomore = true
 
     return queryProducts(searchText, options).then(function (products) {
       me.productList = products
       me.allProducts = products
-      options.filter.nomore = options.filter.searchLimit && products.length < options.filter.searchLimit;
+      options.filter.nomore = options.filter.searchLimit && products.length < options.filter.searchLimit
     }).finally(function () {
-      me.show.loading = false;
-    });
+      me.show.loading = false
+    })
   }
 
   me.loadMoreProducts = function (searchText, options) {
-    options = options || {};
+    options = options || {}
 
     if (!options.ignoreLoadingBar) {
       me.show.loading = true
     }
 
     // adjust page
-    options.filter.skipNum = (options.filter.skipNum || 0) + options.filter.searchLimit;
+    options.filter.skipNum = (options.filter.skipNum || 0) + options.filter.searchLimit
 
     return queryProducts(searchText, options).then(function (moreProducts) {
-      if (options.filter.nomore) return;
-      options.filter.nomore = moreProducts.length < options.filter.searchLimit;
+      if (options.filter.nomore) return
+      options.filter.nomore = moreProducts.length < options.filter.searchLimit
 
-      var productIds = _.map(me.allProducts, 'productId');
-      var moreNewProducts = _.filter(moreProducts, function(p) { return !_.contains(productIds, p.productId); });
+      var productIds = _.map(me.allProducts, 'productId')
+      var moreNewProducts = _.filter(moreProducts, function (p) { return !_.contains(productIds, p.productId) })
       me.productList = me.productList.concat(moreNewProducts)
       me.allProducts = me.allProducts.concat(moreNewProducts)
-      return moreProducts;
+      return moreProducts
     }).catch(function (err) {
       // reset to previous page
-      options.filter.skipNum -= options.filter.searchLimit;
-      throw err;
+      options.filter.skipNum -= options.filter.searchLimit
+      throw err
     }).finally(function () {
-      me.show.loading = false;
-    });
+      me.show.loading = false
+    })
   }
 
-  function queryProducts(searchText, options) {
-    options = options || {};
-    var filter = options.filter || {};
+  function queryProducts (searchText, options) {
+    options = options || {}
+    var filter = options.filter || {}
     var defer = $q.defer()
     var url = constants.BWS_API + '/edit/search?'
-    var params = {};
+    var params = {}
     if (options.types) {
       for (var i in options.types) {
         url += '&type=' + options.types[ i ].type
@@ -135,19 +135,19 @@ angular.module('users').service('productEditorService', function ($http, $locati
       url += '&q=' + encodeURIComponent(searchText)
     }
     if (filter.searchLimit) {
-      url += '&l=' + filter.searchLimit;
+      url += '&l=' + filter.searchLimit
     }
     if (filter.skipNum) {
-      url += '&s=' + filter.skipNum;
+      url += '&s=' + filter.skipNum
     }
     if (filter.filterByUserId && filter.userId) {
-      url += '&u=' + filter.userId;
+      url += '&u=' + filter.userId
     }
     if (filter.orderBy) {
-      url += '&o=' + filter.orderBy;
+      url += '&o=' + filter.orderBy
     }
     if (options.ignoreLoadingBar) {
-      params.ignoreLoadingBar = true;
+      params.ignoreLoadingBar = true
     }
     if (options.inColumns) {
       url += '&in=' + options.inColumns
@@ -155,10 +155,10 @@ angular.module('users').service('productEditorService', function ($http, $locati
     url += '&v=sum'
     console.log('getting URL: ', url)
     $http.get(url, params).then(function (response) {
-      defer.resolve(response.data);
+      defer.resolve(response.data)
     }, function (err) {
       console.error('could not get product list %O', err)
-      toastr.error('Failed to fetch products list');
+      toastr.error('Failed to fetch products list')
       defer.reject(err)
     })
     return defer.promise
@@ -672,16 +672,16 @@ angular.module('users').service('productEditorService', function ($http, $locati
     var params = {
       productId: product.productId,
       sku: sku
-    };
+    }
     return $http.delete(constants.BWS_API + '/edit/sku', { params: params }).then(function (res) {
-      _.removeItem(me.currentProduct.skus, sku);
-      toastr.success('UPC ' + sku + ' removed');
+      _.removeItem(me.currentProduct.skus, sku)
+      toastr.success('UPC ' + sku + ' removed')
     }).catch(function (err) {
-      console.error(err.data);
-      toastr.error('Failed to remove product SKU ' + sku);
-      throw err;
-    });
-  };
+      console.error(err.data)
+      toastr.error('Failed to remove product SKU ' + sku)
+      throw err
+    })
+  }
 
   me.init()
 

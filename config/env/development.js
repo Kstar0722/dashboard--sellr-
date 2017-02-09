@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var defaultEnvConfig = require('./default');
+// var defaultEnvConfig = require('./default')
 
 module.exports = {
     // db: {
@@ -27,5 +27,5 @@ module.exports = {
       }
     }
   },
-    livereload: true
-};
+  livereload: true
+}

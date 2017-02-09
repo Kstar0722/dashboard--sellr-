@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Use applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('suppliers');
+ApplicationConfiguration.registerModule('suppliers')

@@ -53,7 +53,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     $scope.saveYoutubeLink = function () {
       var youTubeVideoId
       var videoId = $scope.youtubeLink.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-      if (videoId != null) {
+      if (videoId) {
         youTubeVideoId = videoId[1]
       } else {
         toastr.error('The video URL is invalid')
@@ -223,7 +223,7 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
     })
 
     $scope.$watch('file', function () {
-      if ($scope.file != null) {
+      if ($scope.file) {
         $scope.files = [$scope.file]
       }
     })
@@ -258,17 +258,6 @@ angular.module('users.manager').controller('AdmanagerController', ['$scope', '$s
       $http.delete(url).then(function () {
         toastr.success('Ad removed', 'Success')
         $scope.getAllMedia()
-      })
-    }
-
-    // set up two-way binding to parent property
-    function bindRootProperty ($scope, name) {
-      $scope.$watch('$root.' + name, function (value) {
-        $scope[name] = value
-      })
-
-      $scope.$watch(name, function (value) {
-        $scope.$root[name] = value
       })
     }
   }

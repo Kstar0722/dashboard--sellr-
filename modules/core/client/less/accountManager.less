@@ -1,10 +1,17 @@
 .stores-manager,
 .account-manager{
   .create-btn{
+    background: @green !important;
+    color: @white;
+    display: block;
+    margin-left: auto;
     @media @small-only {
       width: 100%;
       margin: 0px;
     }
+  }
+  .search {
+    margin: 10px 0;
   }
   .edit-box {
     padding: 20px;
@@ -31,5 +38,101 @@
     .store-img{
       max-width: 100%;
     }
-  } 
+  }
+  .md-dialog-container {
+    visibility: hidden; // by default
+  }
+  .table .t-body {
+    padding-bottom: 30px;
+
+    .logo-img,
+    .store-img{
+      max-width: 100%;
+      max-height: 25px;
+    }
+  }
+}
+
+#EditAccountDialog,
+#CreateAccountDialog {
+  max-height: 90%;
+  min-width: 400px;
+  padding: 0 10px 10px;
+
+  .inner {
+    padding: 10px;
+  }
+
+  .md-errors-spacer {
+    display: none;
+  }
+
+  md-input-container {
+    margin-top: 20px;
+  }
+}
+
+#EditAccountDialog {
+  .upload {
+    margin: 10px 2px;
+  }
+
+  .city-state-zip-container {
+    margin: 0 -10px 10px;
+
+    md-input-container {
+      margin: 0 10px;
+    }
+
+    .city { flex: 5; }
+    .state { flex: 5; }
+    .zip { flex: 2; }
+  }
+
+  .shoppr-container,
+  .website-container {
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+
+    md-checkbox {
+      margin: 0;
+      min-width: 90px;
+    }
+
+    md-input-container {
+      margin: 0 0 0 10px;
+    }
+  }
+
+  .website-container {
+    margin-top: 20px;
+
+    md-input-container {
+      flex: 100;
+    }
+  }
+
+  .authcode-container {
+    align-items: center;
+    margin: 15px 0 25px;
+
+    .value {
+      margin: 0 15px 0 5px;
+    }
+
+    .md-button {
+      margin: 0;
+    }
+  }
+
+  .toolbar {
+    margin: 0 -8px;
+  }
+}
+
+#CreateAccountDialog {
+  .md-button {
+    margin: 10px 0;
+  }
 }

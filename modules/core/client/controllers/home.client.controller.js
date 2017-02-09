@@ -14,7 +14,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       } else if (hasRole(1012)) {
         $state.go('supplier.media')
       } else if (!Authentication.user.accountId) {
-        $state.go('getStarted', { step: 2 });
+        $state.go('getStarted', { step: 2 })
       }
     }
 

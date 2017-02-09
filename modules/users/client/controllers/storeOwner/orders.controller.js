@@ -1,5 +1,5 @@
 'use strict'
-/* global angular, moment, _*/
+/* global angular, moment, _ */
 angular.module('users.admin')
   .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI', 'accountsService',
     function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI, accountsService) {
@@ -19,7 +19,7 @@ angular.module('users.admin')
       }
       accountsService.bindSelectedAccount($scope)
       $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
-        if (selectAccountId == prevValue) return;
+        if (selectAccountId === prevValue) return
         $scope.init()
       })
       SocketAPI = SocketAPI.bindTo($scope)

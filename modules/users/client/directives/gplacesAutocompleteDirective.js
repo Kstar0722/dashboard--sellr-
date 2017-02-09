@@ -22,14 +22,14 @@ angular.module('core')
               radius: 3000
             })
             autocomplete.setBounds(circle.getBounds())
-          });
+          })
         }
 
         autocomplete.addListener('place_changed', function () {
           var place = autocomplete.getPlace()
           // // hide keyboard on selection
           if (document.activeElement) document.activeElement.blur()
-          angular.element(document.body).removeClass('keyboard-open');
+          angular.element(document.body).removeClass('keyboard-open')
           scope.gplaceHandler({gPlace: place})
         })
         // this workaround is needed because of fastclick or doubletap issue
