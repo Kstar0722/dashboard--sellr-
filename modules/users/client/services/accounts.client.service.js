@@ -134,9 +134,10 @@ angular.module('users').service('accountsService', function ($http, constants, t
     function onUpdateSuccess (res) {
       console.log('updated account response %O', res)
       return me.getAccounts({ id: original.accountId, expand: 'stores,stats' }).then(function (saved) {
+        saved = initAccount(_.first(saved))
         toastr.success('Account Updated!', account.storeName || account.name)
         // update existing account in collection
-        _.replaceItem(me.accounts, original, _.first(saved))
+        _.replaceItem(me.accounts, original, saved)
       })
     }
 
@@ -200,6 +201,14 @@ angular.module('users').service('accountsService', function ($http, constants, t
       account.storeImg = account.preferences.storeImg
       account.shoppr = Boolean(account.preferences.shoppr)
       account.website = Boolean(account.preferences.website)
+    }
+
+    if (account.website) {
+      account.websiteDisplayHtml = ''
+      if (account.preferences.websiteUrl) {
+        account.websiteDisplayHtml += '<a href="' + account.preferences.websiteUrl + '" target="_blank">' + account.preferences.websiteUrl.replace(/^http:\/\//i, '') + '</a>'
+      }
+      account.websiteDisplayHtml += '<br><i>Theme: ' + account.preferences.websiteTheme + '</i>'
     }
 
     return account

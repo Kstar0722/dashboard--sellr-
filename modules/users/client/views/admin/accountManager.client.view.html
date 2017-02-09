@@ -21,25 +21,27 @@
     <div class="table">
       <div layout class="t-header" layout-align="start center">
         <div flex="5" ng-click="reOrderList('accountId')">ID <i class="fa fa-sort"></i></div>
-        <div flex="20" ng-click="reOrderList('storeName')">Store Name <i class="fa fa-sort"></i></div>
+        <div flex="15" ng-click="reOrderList('storeName')">Store Name <i class="fa fa-sort"></i></div>
         <div flex="20" ng-click="reOrderList('createdDateMoment')">Date Created <i class="fa fa-sort"></i></div>
         <div flex ng-click="reOrderList('usersNum')"># of Users <i class="fa fa-sort"></i></div>
         <div flex ng-click="reOrderList('ordersNum')"># of Total Orders <i class="fa fa-sort"></i></div>
-        <div flex="20" ng-click="reOrderList('contactName')">Contact Name <i class="fa fa-sort"></i></div>
+        <div flex="10" ng-click="reOrderList('contactName')">Contact Name <i class="fa fa-sort"></i></div>
+        <div flex="15" ng-click="reOrderList('websiteDisplayHtml')">Website <i class="fa fa-sort"></i></div>
         <div flex="10" ng-click="reOrderList('stateName')">State <i class="fa fa-sort"></i></div>
         <div flex></div>
       </div>
       <div layout class="t-body" layout-align="start center"
-           ng-repeat="account in accountsService.accounts | filterBy:['accountId','storeName','createdDateStr','contactName','stateName']:search | orderBy:sortExpression">
-        <div flex="5">{{account.accountId}}</div>
-        <div flex="20">
+           ng-repeat="account in accountsService.accounts | filterBy:['accountId','storeName','createdDateStr','contactName','websiteDisplayHtml','stateName']:search | orderBy:sortExpression">
+        <div flex="5" ng-bind-html="account.accountId | highlight:search"></div>
+        <div flex="15">
           <img ng-src="{{ account.logo }}" class="store-img" ng-if="account.logo">
           <div ng-bind-html="account.storeName | highlight:search"></div>
         </div>
         <div flex="20" ng-bind-html="account.createdDateStr | highlight:search"></div>
         <div flex>{{account.usersNum}}</div>
         <div flex>{{account.ordersNum}}</div>
-        <div flex="20" ng-bind-html="account.contactName | highlight:search"></div>
+        <div flex="10" ng-bind-html="account.contactName | highlight:search"></div>
+        <div flex="15" ng-bind-html="account.websiteDisplayHtml | highlight:search:true"></div>
         <div flex="10" ng-bind-html="account.stateName | highlight:search"></div>
         <div flex>
           <md-button class="md-secondary md-raised" ng-click="editAccount(account)">Edit</md-button>

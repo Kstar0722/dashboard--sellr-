@@ -143,19 +143,19 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     }
     console.log($scope.account)
 
-    loadCardkitThemes().then(function(themes) {
+    loadCardkitThemes().then(function (themes) {
       $scope.websiteThemes = themes
     })
   }
 
-  function loadCardkitThemes() {
+  function loadCardkitThemes () {
     var params = {
       exclude: ['header', 'footer', 'user', 'js', 'css', 'variables', 'site_navigation', 'navigation_card', 'rss_settings']
     }
     var url = constants.CARDKIT_URL + '/clients?' + $httpParamSerializer(params)
-    return $http.get(url).then(function(response) {
+    return $http.get(url).then(function (response) {
       return response.data || []
-    }).catch(function(err) {
+    }).catch(function (err) {
       console.error(err)
       toastr.error('Failed to load website themes')
     })

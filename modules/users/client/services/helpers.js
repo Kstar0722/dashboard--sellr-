@@ -14,7 +14,7 @@
       return true
     },
     escapeRegex: function (text) {
-      return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+      return text.replace(/[-\/\\^$*+?.()|[\]{}:]/g, '\\$&')
     },
     buildUrl: function (str) {
       return _.safeUrl((str || '').replace(/\/+/g, '-')).toLowerCase()
