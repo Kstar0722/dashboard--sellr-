@@ -37,7 +37,7 @@ angular.module('users').service('storesService', function ($http, constants, $q,
     return data
   }
 
-  // BELOW IS COPIED FROM OLD LOCATIONS SERVICE BUT REWORKED to new Store db URLS
+  // BELOW IS COPIED FROM OLD LOCATIONS SERVICE BUT REWORKED to new Store db URLS/**/
   me.stores = []
   me.editStore = {}
   me.accountId = localStorage.getItem('accountId')
