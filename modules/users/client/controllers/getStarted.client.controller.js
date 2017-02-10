@@ -109,6 +109,9 @@ angular.module('users')
           if (response.data.name === 'AlreadyRegistered') {
             $scope.ui.alreadyRegistered = true
           }
+          if (response.data.message) {
+            toastr.error(response.data.message)
+          }
         }
 
         function finallyCreateUserHandler (newUser) {
