@@ -4,7 +4,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
 
   me.loadAccounts = function (options) {
     me.accounts = []
-    getAccounts(options).then(function (accounts) {
+    return getAccounts(options).then(function (accounts) {
       me.accounts = []
       _.each(accounts, function (account) {
         if (me.selectAccountId && account.accountId === me.selectAccountId) {
@@ -14,6 +14,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
         }
       })
       me.accounts = accounts
+      return accounts
     })
   }
 
