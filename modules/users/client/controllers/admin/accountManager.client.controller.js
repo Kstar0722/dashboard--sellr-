@@ -12,6 +12,8 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   $scope.websiteThemes = null
 
   $scope.openNestedDialog = function () {
+    if ($scope.dialog) return
+    if ($('.md-dialog-container').contents().length == 0) return
     $scope.dialog = $mdDialog.show({
       contentElement: '.md-dialog-container',
       onRemoving: $scope.cancelDialog
@@ -30,14 +32,16 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     $scope.currentAccountLogo = ''
     accountsService.editAccount = angular.copy(account)
     console.log('editAccount is now %O', accountsService.editAccount)
-    $state.go('admin.accounts.edit', { id: account.accountId })
     $scope.original = { editAccount: account }
-    $timeout($scope.openNestedDialog, 100)
+    $state.go('admin.accounts.edit', { id: account.accountId }).then(function() {
+      $timeout($scope.openNestedDialog)
+    })
   }
 
   $scope.createAccount = function () {
-    $state.go('admin.accounts.create')
-    $timeout($scope.openNestedDialog, 100)
+    $state.go('admin.accounts.create').then(function() {
+      $timeout($scope.openNestedDialog)
+    })
   }
 
   // changes the view, and sets current edit account
@@ -124,7 +128,6 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     if (_.isEmpty(accounts)) return
 
     if ($scope.dialog) return
-    $scope.dialog = true
 
     if ($state.current.name.match(/edit$/)) {
       var account = _.find(accounts, { accountId: parseInt($state.params.id, 10) })
