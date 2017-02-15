@@ -1,6 +1,4 @@
 'use strict'
-/* globals angular */
-// Configuring the Articles module
 angular.module('users.admin').run([ 'Menus',
   function (Menus, ord) {
     Menus.addSubMenuItem('topbar', 'admin', {
@@ -17,11 +15,6 @@ angular.module('users.admin').run([ 'Menus',
       title: 'Invite User',
       state: 'storeOwner.inviteUser',
       position: 6
-    })
-    Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Pricing Calculator',
-      state: 'admin.pricing',
-      position: 7
     })
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Stores Manager',
