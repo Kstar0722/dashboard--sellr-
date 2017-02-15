@@ -5,6 +5,8 @@ angular.module('users').controller('WebsiteBuilderController', ['$scope', '$sce'
   function ($scope, $sce, constants, PostMessage, Authentication, $state, $stateParams, accountsService, $timeout, $window, $rootScope) {
     $scope.loading = true
 
+    PostMessage.bindTo($scope)
+
     accountsService.bindSelectedAccount($scope)
     $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
       if (selectAccountId === prevValue) return
