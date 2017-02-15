@@ -40,18 +40,20 @@
 
     <div>
       <label class="control-label">Roles</label>
+
+      <div class="roles-list">
+        <div id="checks" ng-repeat="role in roles | orderBy:'text'">
+          <md-checkbox ng-model="role.selected">
+            {{role.text}}
+          </md-checkbox>
+          <div ng-messages="userForm.roles.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">At least one role is required.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="controls">
-      <div id="checks" ng-repeat="role in roles | orderBy:'text'">
-        <md-checkbox ng-model="role.selected">
-          {{role.text}}
-        </md-checkbox>
-        <div ng-messages="userForm.roles.$error" role="alert">
-          <p class="help-block error-text" ng-message="required">At least one role is required.</p>
-        </div>
-      </div>
-
       <div ng-show="error" class="text-danger">
         <strong ng-bind="error"></strong>
       </div>
@@ -63,6 +65,10 @@
         </md-button>
         <md-button class="md-button md-raised" ng-click="resetPassword()">
           Reset Password
+        </md-button>
+
+        <md-button type="button" class="md-button md-raised md-warn delete" ng-click="confirmDeleteUser(original.user)" ng-if="authentication.userInRole('admin')">
+          Delete
         </md-button>
 
         <md-button class="md-button" ng-click="cancel()">Cancel</md-button>

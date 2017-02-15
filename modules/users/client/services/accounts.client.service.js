@@ -1,5 +1,5 @@
 /* globals angular, localStorage, moment */
-angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates) {
+angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout) {
   var me = this
 
   me.loadAccounts = function (options) {
@@ -55,6 +55,53 @@ angular.module('users').service('accountsService', function ($http, constants, t
     }
 
     return defer.promise
+  }
+
+  me.confirmDeactivateAccount = function (account) {
+    var confirm = $mdDialog.confirm()
+      .title('Deactivate account?')
+      .htmlContent('Are you sure you want to deactivate account <b>' + (account.storeName || account.name) + '</b>?')
+      .ok('Deactivate')
+      .cancel('Cancel')
+
+    $mdDialog.cancel().then(function () {
+      $timeout(function () {
+        $('body > .md-dialog-container').addClass('delete confirm')
+      })
+
+      var confirmDialog = $mdDialog.show(confirm).then(function () {
+        deactivateAccount(account).then(function () {
+          $mdDialog.cancel(confirmDialog)
+        })
+      })
+    })
+  }
+
+  me.confirmDeleteAccount = function (account) {
+    var accountName = account.storeName || account.name
+
+    var confirm = $mdDialog.prompt()
+      .title('Delete account `' + accountName + '`?')
+      .textContent('Please type the name of the account to confirm.')
+      .ok('Delete')
+      .cancel('Cancel')
+
+    $mdDialog.cancel().then(function () {
+      $timeout(function () {
+        $('body > .md-dialog-container').addClass('delete confirm')
+      })
+
+      $mdDialog.show(confirm).then(function (code) {
+        if (!code) return
+
+        if (accountName.toUpperCase().trim() != code.toUpperCase().trim()) {
+          toastr.error('Wrong confirmation code')
+          return
+        }
+
+        deleteAccountFOREVER(account)
+      })
+    })
   }
 
   me.deleteAccount = function (account) {
@@ -227,6 +274,44 @@ angular.module('users').service('accountsService', function ($http, constants, t
     }
 
     return url
+  }
+
+  function deactivateAccount (account) {
+    var accountId = account.accountId || account
+    var url = constants.API_URL + '/accounts/deactivate/' + accountId
+    var original = _.find(me.accounts, { accountId: accountId })
+    return $http.put(url).then(onCreateAccountSuccess, onCreateAccountError)
+
+    function onCreateAccountSuccess (res) {
+      toastr.success('Account Deactivated!', account.storeName || account.name)
+      console.log('accounts Service, createAccount %O', res)
+      _.removeItem(me.accounts, original)
+    }
+
+    function onCreateAccountError (err) {
+      toastr.error('There was a problem deactivating this account')
+      console.error(err)
+      throw err
+    }
+  }
+
+  function deleteAccountFOREVER (account) {
+    var accountId = account.accountId || account
+    var url = constants.API_URL + '/accounts/' + accountId
+    var original = _.find(me.accounts, { accountId: accountId })
+    return $http.delete(url).then(onDeleteAccountSuccess, onDeleteAccountError)
+
+    function onDeleteAccountSuccess (res) {
+      toastr.success('Account Deleted!', account.storeName || account.name)
+      console.log('accounts Service, deleteAccount %O', res)
+      _.removeItem(me.accounts, original)
+    }
+
+    function onDeleteAccountError (err) {
+      toastr.error('There was a problem deleting this account')
+      console.error(err)
+      throw err
+    }
   }
 
   return me

@@ -33,6 +33,13 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
       })
     }
 
+    $scope.confirmDeleteUser = function (user) {
+      Users.confirmDeleteUser(user).then(function () {
+        var deletedUser = _.find(CurrentUserService.userList, { userId: user.userId })
+        _.removeItem(CurrentUserService.userList, deletedUser)
+      })
+    }
+
     $scope.update = function (isValid) {
       console.dir(isValid)
       if (!isValid) {

@@ -2,8 +2,8 @@
 /* globals angular, moment, _ */
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr',
-  function ($http, constants, $q, $analytics, toastr) {
+angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr', '$mdDialog', '$timeout',
+  function ($http, constants, $q, $analytics, toastr, $mdDialog, $timeout) {
     var me = this
 
     me.get = function (userId) {
@@ -111,6 +111,40 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
       throw response
     }
 
+    me.confirmDeleteUser = function (user) {
+      var defer = $q.defer()
+      var userFullname = user.displayName || (user.firstName + ' ' + user.lastName)
+
+      var confirm = $mdDialog.prompt()
+        .title('Delete user `' + userFullname + '`?')
+        .textContent('Please type the full name of the user to confirm.')
+        .ok('Delete')
+        .cancel('Cancel')
+
+      $mdDialog.cancel().then(function () {
+        $timeout(function () {
+          $('body > .md-dialog-container').addClass('delete confirm')
+        })
+
+        return $mdDialog.show(confirm).then(function (code) {
+          if (!code) return
+
+          if (userFullname.toUpperCase().trim() != code.toUpperCase().trim()) {
+            toastr.error('Wrong confirmation code')
+            return
+          }
+
+          return deleteUserFOREVER(user).then(function() {
+            defer.resolve(user)
+          })
+        })
+      }).catch(function (err) {
+        defer.reject(err)
+      })
+
+      return defer.promise
+    }
+
     me.initUser = initUser
 
     function initUser (user) {
@@ -118,6 +152,23 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
       user.createdDateMoment = user.createdDate && moment(user.createdDate)
       user.createdDateStr = user.createdDateMoment && user.createdDateMoment.format('lll')
       return user
+    }
+
+    function deleteUserFOREVER (user) {
+      var userId = user.userId || user
+      var url = constants.API_URL + '/users/' + userId
+      return $http.delete(url).then(onDeleteAccountSuccess, onDeleteAccountError)
+
+      function onDeleteAccountSuccess (res) {
+        toastr.success('Account Deleted!', user.displayName || (user.firstName + ' ' + user.lastName))
+        console.log('accounts Service, deleteUser %O', res)
+      }
+
+      function onDeleteAccountError (err) {
+        toastr.error('There was a problem deleting this user')
+        console.error(err)
+        throw err
+      }
     }
 
     return me

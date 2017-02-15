@@ -1,6 +1,7 @@
 /* globals angular, _ */
 angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer) {
   accountsService.init({ expand: 'stores,stats' })
+  $scope.authentication = Authentication
   $scope.accountsService = accountsService
   $scope.determinateValue = 0
   $scope.states = UsStates
@@ -101,26 +102,6 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     if (!isValid) return
     accountsService.updateAccount().then(function () {
       $scope.cancelDialog()
-    })
-  }
-
-  $scope.confirmDeleteAccount = function (account) {
-    var confirm = $mdDialog.confirm()
-        .title('Delete account?')
-        .htmlContent('Are you sure you want to remove account <b>' + (account.storeName || account.name) + '</b>?')
-        .ok('Delete')
-        .cancel('Cancel')
-
-    $mdDialog.cancel().then(function () {
-      $timeout(function () {
-        $('body > .md-dialog-container').addClass('delete confirm')
-      })
-
-      $mdDialog.show(confirm).then(function () {
-        accountsService.deleteAccount(account).then(function () {
-          $scope.cancelDialog()
-        })
-      })
     })
   }
 

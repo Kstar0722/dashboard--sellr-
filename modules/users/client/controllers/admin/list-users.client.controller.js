@@ -18,7 +18,7 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
       }
 
       $scope.userEditView = function (user) {
-        $http.get(constants.API_URL + '/users?email=' + user.email).then(function (res, err) {
+        $http.get(constants.API_URL + '/users?email=' + encodeURIComponent(user.email)).then(function (res, err) {
           if (err) {
             console.log(err)
           }

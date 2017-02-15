@@ -95,8 +95,11 @@
         </div>
         <div class="toolbar">
             <md-button type="submit" class="md-raised md-primary update-btn">Update</md-button>
-            <md-button class="md-button md-raised md-warn" ng-click="confirmDeleteAccount(accountsService.editAccount)">
-                Remove Account
+            <md-button class="md-button md-raised md-warn" ng-click="accountsService.confirmDeactivateAccount(accountsService.editAccount)">
+                Deactivate Account
+            </md-button>
+            <md-button class="md-button md-raised md-warn delete" ng-click="accountsService.confirmDeleteAccount(accountsService.editAccount)" ng-if="authentication.userInRole('admin')">
+                Delete Account
             </md-button>
             <md-button ng-click="cancelDialog()">Cancel</md-button>
         </div>

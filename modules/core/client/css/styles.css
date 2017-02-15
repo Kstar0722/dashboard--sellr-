@@ -761,7 +761,10 @@ section.userList .invite {
 #InviteUserDialog .md-errors-spacer {
   display: none;
 }
-#EditUserDialog .controls {
+#EditUserDialog {
+  min-width: 440px;
+}
+#EditUserDialog .roles-list {
   margin-top: 20px;
 }
 #EditUserDialog .temp-password {
@@ -2109,6 +2112,12 @@ body.editor-products-detail .medium-editor-toolbar {
 .delete.confirm .md-confirm-button {
   background: #FF0000 !important;
   color: #ffffff !important;
+}
+.delete.confirm .md-errors-spacer {
+  display: none;
+}
+.delete.confirm md-input-container {
+  margin: 0;
 }
 @-webkit-keyframes uil-ripple {
   0% {
@@ -4349,6 +4358,9 @@ body.storeOwner-orders {
 }
 #EditAccountDialog .toolbar {
   margin: 0 -8px;
+}
+#EditAccountDialog .delete.md-button {
+  background-color: #FF0000;
 }
 #CreateAccountDialog .md-button {
   margin: 10px 0;
