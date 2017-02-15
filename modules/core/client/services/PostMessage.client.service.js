@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('core').service('PostMessage', ['$rootScope', function ($rootScope) {
-  var context;
+  var context
 
   $rootScope.$on('$messageIncoming', function (event, data) {
         // console.log('in', data);
@@ -30,7 +30,7 @@ angular.module('core').service('PostMessage', ['$rootScope', function ($rootScop
   this.bindTo = function (scope) {
     context = scope
     scope.$on('$destroy', function () {
-      _.each(scope.$postListeners, function(listener) {
+      _.each(scope.$postListeners, function (listener) {
         listener() // unsubscribe
       })
       delete scope.$postListeners
