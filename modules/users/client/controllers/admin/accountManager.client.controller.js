@@ -13,7 +13,7 @@ angular.module('users.admin').controller('AccountManagerController', function ($
 
   $scope.openNestedDialog = function () {
     if ($scope.dialog) return
-    if ($('.md-dialog-container').contents().length == 0) return
+    if ($('.md-dialog-container').contents().length === 0) return
     $scope.dialog = $mdDialog.show({
       contentElement: '.md-dialog-container',
       onRemoving: $scope.cancelDialog
@@ -33,13 +33,13 @@ angular.module('users.admin').controller('AccountManagerController', function ($
     accountsService.editAccount = angular.copy(account)
     console.log('editAccount is now %O', accountsService.editAccount)
     $scope.original = { editAccount: account }
-    $state.go('admin.accounts.edit', { id: account.accountId }).then(function() {
+    $state.go('admin.accounts.edit', { id: account.accountId }).then(function () {
       $timeout($scope.openNestedDialog)
     })
   }
 
   $scope.createAccount = function () {
-    $state.go('admin.accounts.create').then(function() {
+    $state.go('admin.accounts.create').then(function () {
       $timeout($scope.openNestedDialog)
     })
   }
