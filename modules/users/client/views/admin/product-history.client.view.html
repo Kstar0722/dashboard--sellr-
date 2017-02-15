@@ -1,0 +1,22 @@
+<div class="product-history-view">
+  <div class="filter">
+    <md-input-container>
+      <label>Filter Product/User</label>
+      <input ng-model="mainFilter">
+    </md-input-container>
+  </div>
+  <div class="table-header">
+    <div ng-click="reOrderList('')">Product Id <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('')">User Id <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('')">User <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('')">Email <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('')">Date <i class="fa fa-sort"></i></div>
+  </div>
+  <div class="table-body" ng-repeat="rowData in data">
+    <div ng-click="goToMatch()">{{rowData.productId}}</div>
+    <div ng-click="goToMatch()">{{rowData.userId}}</div>
+    <div ng-click="goToMatch()">{{rowData.userName}}</div>
+    <div ng-click="goToMatch()">{{rowData.userEmail}}</div>
+    <div ng-click="goToMatch()">{{rowData.date}}</div>
+  </div>
+</div>

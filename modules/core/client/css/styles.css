@@ -5095,3 +5095,39 @@ body.websiteBuilder #loading-bar,
 body.websiteBuilder #loading-bar-spinner {
   display: none;
 }
+.product-history-view {
+  font-size: 16px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  padding: 10vh 15vw;
+}
+.product-history-view .filter {
+  margin: 0px auto 30px auto;
+  font-weight: bold;
+}
+.product-history-view .filter md-input-container {
+  min-width: 350px;
+}
+.product-history-view .filter md-input-container label {
+  width: 100%;
+}
+.product-history-view .table-header,
+.product-history-view .table-body {
+  border-bottom: 3px solid #95989a;
+  font-weight: bold;
+  text-align: left;
+  padding-bottom: 10px;
+  color: #5a5c5d;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.product-history-view .table-header div,
+.product-history-view .table-body div {
+  width: 20%;
+}
+.product-history-view .table-body {
+  border-bottom: none;
+  font-weight: normal;
+  padding: 12px 0;
+}

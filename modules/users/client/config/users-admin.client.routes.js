@@ -54,13 +54,11 @@ angular.module('users.admin.routes').config([ '$stateProvider',
         url: '/pricing',
         templateUrl: 'modules/users/client/views/admin/pricing.client.view.html',
         controller: 'AdminPricingController'
-
       })
       .state('admin.device', {
         url: '/device',
         templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
         controller: 'DeviceManagerController'
-
       })
   }
 ])

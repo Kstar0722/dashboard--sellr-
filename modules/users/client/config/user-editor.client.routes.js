@@ -85,5 +85,10 @@ angular.module('users.editor.routes').config([ '$stateProvider',
         templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
         controller: 'StoreDbController'
       })
+      .state('productHistory', {
+        url: '/productHistory',
+        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
+        controller: 'ProductHistoryController'
+      })
   }
 ])

@@ -1,0 +1,35 @@
+.product-history-view {
+  font-size: 16px;
+  font-family: @avenir;
+  padding: 10vh 15vw;
+  .filter{
+    margin: 0px auto 30px auto;
+    font-weight: bold;
+    md-input-container{
+      min-width: 350px;
+      label{
+        width: 100%;
+      }
+    }
+  }
+  .table-header,
+  .table-body{
+    border-bottom: 3px solid #95989a;
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 10px;
+    color: #5a5c5d;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    div{
+      width: 20%;
+    }
+  }
+  .table-body{
+    border-bottom: none;
+    font-weight: normal;
+    padding: 12px 0;
+  }
+}
