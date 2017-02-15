@@ -102,7 +102,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
         $scope.passwordDetails = null
         toastr.success('Password changed successfully')
       }).error(function (response) {
-        toastr.error(response.data.message)
+        toastr.error(response.message)
       })
     }
 
