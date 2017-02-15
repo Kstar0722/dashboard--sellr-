@@ -94,7 +94,7 @@ angular.module('users').service('accountsService', function ($http, constants, t
       $mdDialog.show(confirm).then(function (code) {
         if (!code) return
 
-        if (accountName.toUpperCase().trim() != code.toUpperCase().trim()) {
+        if (accountName.toUpperCase().trim() !== code.toUpperCase().trim()) {
           toastr.error('Wrong confirmation code')
           return
         }

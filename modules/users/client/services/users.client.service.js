@@ -129,12 +129,12 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
         return $mdDialog.show(confirm).then(function (code) {
           if (!code) return
 
-          if (userFullname.toUpperCase().trim() != code.toUpperCase().trim()) {
+          if (userFullname.toUpperCase().trim() !== code.toUpperCase().trim()) {
             toastr.error('Wrong confirmation code')
             return
           }
 
-          return deleteUserFOREVER(user).then(function() {
+          return deleteUserFOREVER(user).then(function () {
             defer.resolve(user)
           })
         })
