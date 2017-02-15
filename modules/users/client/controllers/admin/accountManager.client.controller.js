@@ -19,9 +19,9 @@ angular.module('users.admin').controller('AccountManagerController', function ($
   }
 
   $scope.cancelDialog = function () {
-    $mdDialog.cancel()
+    $mdDialog.cancel($scope.dialog)
     $scope.dialog = null
-    $timeout(function () { $state.go('admin.accounts') }, 400)
+    $timeout(function () { $state.go('admin.accounts') }, 500)
   }
 
   // changes the view, and sets current edit account

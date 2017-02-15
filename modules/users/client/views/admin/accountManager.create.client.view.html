@@ -58,9 +58,10 @@
         </div>
       </md-input-container>
     </div>
-    <md-button class="md-button md-raised md-primary" type="submit">
-      Create
-    </md-button>
+    <div class="toolbar">
+      <md-button class="md-button md-raised md-primary" type="submit">Create</md-button>
+      <md-button ng-click="cancelDialog()">Cancel</md-button>
+    </div>
     <div ng-show="error" class="text-danger">
       <strong ng-bind="error"></strong>
     </div>
