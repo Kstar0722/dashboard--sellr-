@@ -1,9 +1,23 @@
 <div class="product-history-view">
-  <div class="filter">
-    <md-input-container>
-      <label>Filter Product/User</label>
-      <input ng-model="mainFilter">
-    </md-input-container>
+  <div class="filter-title">Filter results by:</div>
+  <div class="filter-container">
+    <div class="input-filter">
+      <md-input-container>
+        <label>Product / User</label>
+        <input ng-model="mainFilter">
+      </md-input-container>
+    </div>
+    <div class="buttons-filter">
+      <div ng-class="['btn-filter', {active: btnActive}]" ng-click="btnActive = !btnActive">Today</div>
+      <div ng-class="['btn-filter', {active: btnActive2}]" ng-click="btnActive2 = !btnActive2">Yesterday</div>
+      <div ng-class="['btn-filter', {active: btnActive3}]" ng-click="btnActive3 = !btnActive3">This week</div>
+      <div ng-class="['btn-filter', {active: btnActive4}]" ng-click="btnActive4 = !btnActive4">Last month</div>
+    </div>
+    <div class="date-filter">
+      <div class="custom-range">Custom range</div>
+      <md-datepicker ng-model="ctrl.myDate" md-placeholder="Start date"></md-datepicker>
+      <md-datepicker ng-model="ctrl.myDate" md-placeholder="End date"></md-datepicker>
+    </div>
   </div>
   <div class="table-header">
     <div ng-click="reOrderList('')">Product Id <i class="fa fa-sort"></i></div>

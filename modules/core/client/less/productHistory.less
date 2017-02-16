@@ -2,13 +2,78 @@
   font-size: 16px;
   font-family: @avenir;
   padding: 10vh 15vw;
-  .filter{
-    margin: 0px auto 30px auto;
+  .filter-title{
     font-weight: bold;
-    md-input-container{
-      min-width: 350px;
-      label{
-        width: 100%;
+    text-align: left;
+    padding-bottom: 10px;
+    color: #5a5c5d;
+    margin-bottom: 15px;
+  }
+  .filter-container{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px auto 30px auto;
+    text-align: center;
+    .input-filter{
+      md-input-container{
+        text-align: left;
+        font-weight: bold;
+        min-width: 350px;
+        label{
+          width: 100%;
+        }
+      }
+    }
+    .buttons-filter{
+      .btn-filter{
+        background-color: @light-grey;
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+        display: inline-block;
+        cursor: pointer;
+        min-height: 36px;
+        min-width: 88px;
+        line-height: 36px;
+        vertical-align: middle;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        text-align: center;
+        border-radius: 2px;
+        box-sizing: border-box;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        outline: none;
+        border: 0;
+        padding: 0 6px;
+        margin: 6px 8px;
+        background: transparent;
+        white-space: nowrap;
+        font-weight: 500;
+        font-size: 14px;
+        font-style: inherit;
+        font-variant: inherit;
+        font-family: inherit;
+        text-decoration: none;
+        overflow: hidden;
+        -webkit-transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
+        transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
+        &.active{
+          color: #fff;
+          background-color: @blue;
+          box-shadow: none;
+        }
+      }
+    }
+    .date-filter{
+      text-align: left;
+      .custom-range{
+        color: rgba(0,0,0,0.38);
+        margin-bottom: 7px;
+        font-weight: bold;
       }
     }
   }
