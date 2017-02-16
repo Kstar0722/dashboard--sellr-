@@ -20,13 +20,13 @@
     </div>
   </div>
   <div class="table-header">
-    <div ng-click="reOrderList('')">Product Id <i class="fa fa-sort"></i></div>
-    <div ng-click="reOrderList('')">User Id <i class="fa fa-sort"></i></div>
-    <div ng-click="reOrderList('')">User <i class="fa fa-sort"></i></div>
-    <div ng-click="reOrderList('')">Email <i class="fa fa-sort"></i></div>
-    <div ng-click="reOrderList('')">Date <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('productId')">Product Id <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('userId')">User Id <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('userName')">User <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('userEmail')">Email <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('date')">Date <i class="fa fa-sort"></i></div>
   </div>
-  <div class="table-body" ng-repeat="rowData in ui.data | filter:ui.textFilter">
+  <div class="table-body" ng-repeat="rowData in ui.dataShown | filter:ui.textFilter | orderBy:ui.sortExpression">
     <div ng-click="goToMatch()">{{rowData.productId}}</div>
     <div ng-click="goToMatch()">{{rowData.userId}}</div>
     <div ng-click="goToMatch()">{{rowData.userName}}</div>

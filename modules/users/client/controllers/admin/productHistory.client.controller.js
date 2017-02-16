@@ -14,6 +14,13 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
         userId: '888',
         userName: 'Shwaou Arnold',
         userEmail: 'Shwaou@asd.com',
+        date: undefined
+      },
+      {
+        productId: '223453452',
+        userId: '345435435',
+        userName: 'Nesla Porks',
+        userEmail: 'teslas@asd.com',
         date: moment().subtract(1, 'days').toDate()
       },
       {
@@ -45,16 +52,26 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
         date: moment().subtract(53, 'days').toDate()
       }
     ]
-    _.each(data, function (row) {
-      var dateUI = moment(row.date)
+    // INITIALIZATION
+    $scope.ui = {}
+    $scope.ui.allData = _.map(data, function (row) {
+      var dateUI = moment(row.date || null)
       if (dateUI.isValid()) {
         row.dateUI = dateUI.format('MMM, DD YYYY')
       } else {
         row.dateUI = '-'
       }
+      return row
     })
-    $scope.ui = {}
-    $scope.ui.data = data
+    $scope.ui.dataShown = $scope.ui.allData
+
+    // SCOPE FUNCTIONS
+    $scope.reOrderList = function (field) {
+      var oldSort = $scope.ui.sortExpression || ''
+      var asc = true
+      if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
+      $scope.ui.sortExpression = (asc ? '+' : '-') + field
+    }
     $scope.customRangeHandler = function () {
       if ($scope.ui.startDateInput && $scope.ui.endDateInput) {
         $scope.todayBtn = $scope.yesterdayBtn = $scope.weekBtn = $scope.monthBtn = false
@@ -102,11 +119,14 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
       }
       filterDataByDate()
     }
+
+    // PRIVATE FUNCTIONS
     function filterDataByDate () {
-      $scope.ui.data = $filter('filter')(data, function (row) {
-        var rowMoment = moment(row.date)
-        if (!rowMoment.isValid()) return false
+      $scope.ui.dataShown = $filter('filter')($scope.ui.allData, function (row) {
         if (!$scope.ui.filterStartDate) return true
+        var rowMoment = moment(row.date || null)
+        if (!rowMoment.isValid()) return false
+        if (!$scope.ui.filterStartDate || _.isUndefined(row.date)) return true
         if (rowMoment.isBetween($scope.ui.filterStartDate, $scope.ui.filterEndDate)) {
           return true
         } else {
