@@ -1,69 +1,28 @@
 'use strict'
-angular.module('users.admin').controller('ProductHistoryController', ['$scope', '$filter',
-  function ($scope, $filter) {
-    var data = [
-      {
-        productId: '111',
-        userId: '777',
-        userName: 'Fortes Diego',
-        userEmail: 'frtes@frotes.com',
-        date: moment().toDate()
-      },
-      {
-        productId: '222',
-        userId: '888',
-        userName: 'Shwaou Arnold',
-        userEmail: 'Shwaou@asd.com',
-        date: undefined
-      },
-      {
-        productId: '223453452',
-        userId: '345435435',
-        userName: 'Nesla Porks',
-        userEmail: 'teslas@asd.com',
-        date: moment().subtract(1, 'days').toDate()
-      },
-      {
-        productId: '333',
-        userId: '999',
-        userName: 'Susaz Learny',
-        userEmail: 'Susaz@weqe.com',
-        date: moment().subtract(3, 'days').toDate()
-      },
-      {
-        productId: '444',
-        userId: 'x214534',
-        userName: 'Richmond Ray',
-        userEmail: 'Richmond@trtr.com',
-        date: moment().subtract(15, 'days').toDate()
-      },
-      {
-        productId: '555',
-        userId: '777',
-        userName: 'Fortes Diego',
-        userEmail: 'frtes@frotes.com',
-        date: moment().subtract(13, 'days').toDate()
-      },
-      {
-        productId: '123',
-        userId: '555',
-        userName: 'Fortes Diego',
-        userEmail: 'frtes@frotes.com',
-        date: moment().subtract(53, 'days').toDate()
-      }
-    ]
+angular.module('users.admin').controller('ProductHistoryController', ['$scope', '$filter', '$http', 'constants',
+  function ($scope, $filter, $http, constants) {
     // INITIALIZATION
     $scope.ui = {}
-    $scope.ui.allData = _.map(data, function (row) {
-      var dateUI = moment(row.date || null)
-      if (dateUI.isValid()) {
-        row.dateUI = dateUI.format('MMM, DD YYYY')
-      } else {
-        row.dateUI = '-'
-      }
-      return row
+    var userProductsURL = constants.BWS_API + '/edit/products/users/'
+    $http.get(userProductsURL).then(function (response) {
+      $scope.ui.allData = _.map(response.data, function (row) {
+        // Date treatment
+        var dateUI = moment(row.lastedit || null)
+        if (dateUI.isValid()) {
+          row.dateUI = dateUI.format('MMM, DD YYYY')
+        } else {
+          row.dateUI = '-'
+        }
+        // userName treatment
+        if (row.firstname && row.lastname) {
+          row.userName = row.firstname + ' ' + row.lastname
+        } else {
+          row.userName = row.displayName || row.email || ''
+        }
+        return row
+      })
+      $scope.ui.dataShown = $scope.ui.allData
     })
-    $scope.ui.dataShown = $scope.ui.allData
 
     // SCOPE FUNCTIONS
     $scope.reOrderList = function (field) {
@@ -72,6 +31,7 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
       if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
       $scope.ui.sortExpression = (asc ? '+' : '-') + field
     }
+
     $scope.customRangeHandler = function () {
       if ($scope.ui.startDateInput && $scope.ui.endDateInput) {
         $scope.todayBtn = $scope.yesterdayBtn = $scope.weekBtn = $scope.monthBtn = false
@@ -80,6 +40,7 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
         filterDataByDate()
       }
     }
+
     $scope.filterDate = function (filter) {
       $scope.ui.startDateInput = $scope.ui.endDateInput = undefined
       switch (filter) {
@@ -102,6 +63,7 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
         default:
           break
       }
+
       $scope.ui.filterStartDate = undefined
       $scope.ui.filterEndDate = moment().endOf('day')
       if ($scope.todayBtn) {
@@ -124,9 +86,9 @@ angular.module('users.admin').controller('ProductHistoryController', ['$scope', 
     function filterDataByDate () {
       $scope.ui.dataShown = $filter('filter')($scope.ui.allData, function (row) {
         if (!$scope.ui.filterStartDate) return true
-        var rowMoment = moment(row.date || null)
+        var rowMoment = moment(row.lastedit || null)
         if (!rowMoment.isValid()) return false
-        if (!$scope.ui.filterStartDate || _.isUndefined(row.date)) return true
+        if (!$scope.ui.filterStartDate || _.isUndefined(row.lastedit)) return true
         if (rowMoment.isBetween($scope.ui.filterStartDate, $scope.ui.filterEndDate)) {
           return true
         } else {

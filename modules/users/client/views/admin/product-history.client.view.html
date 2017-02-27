@@ -23,14 +23,14 @@
     <div ng-click="reOrderList('productId')">Product Id <i class="fa fa-sort"></i></div>
     <div ng-click="reOrderList('userId')">User Id <i class="fa fa-sort"></i></div>
     <div ng-click="reOrderList('userName')">User <i class="fa fa-sort"></i></div>
-    <div ng-click="reOrderList('userEmail')">Email <i class="fa fa-sort"></i></div>
-    <div ng-click="reOrderList('date')">Date <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('email')">Email <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('lastedit')">Date <i class="fa fa-sort"></i></div>
   </div>
   <div class="table-body" ng-repeat="rowData in ui.dataShown | filter:ui.textFilter | orderBy:ui.sortExpression">
     <div ng-click="goToMatch()">{{rowData.productId}}</div>
     <div ng-click="goToMatch()">{{rowData.userId}}</div>
     <div ng-click="goToMatch()">{{rowData.userName}}</div>
-    <div ng-click="goToMatch()">{{rowData.userEmail}}</div>
+    <div ng-click="goToMatch()">{{rowData.email}}</div>
     <div ng-click="goToMatch()">{{rowData.dateUI}}</div>
   </div>
 </div>
