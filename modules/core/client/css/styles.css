@@ -1981,6 +1981,10 @@ md-menu-content.adConfigMenu md-radio-button[disabled] .md-on {
 .productEditor .remove.md-button {
   margin: 0;
 }
+.productEditor .submitted-by {
+  font-size: 20px;
+  margin: 10px 0;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -150px;
 }

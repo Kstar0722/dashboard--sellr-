@@ -236,6 +236,12 @@ angular.module('users').service('productEditorService', function ($http, $locati
     me.changes = []
     me.getProduct(product).then(function (formattedProduct) {
       formattedProduct.userId = product.userId
+      var mDate = moment(formattedProduct.lastedit)
+      if (mDate.isValid()) {
+        formattedProduct.submittedFormatedDate = mDate.format('MMM, DD YYYY')
+      } else {
+        formattedProduct.submittedFormatedDate = ' - '
+      }
       me.currentProduct = formattedProduct
       defer.resolve(me.currentProduct)
     })
@@ -359,7 +365,7 @@ angular.module('users').service('productEditorService', function ($http, $locati
 
   me.formatProductDetail = function (product) {
     var defer = $q.defer()
-    product.name = product.title || product.displayName || product.name
+    product.name = product.name || product.title
     product.notes = product.notes || product.text
     try {
       product.feedback = JSON.parse(product.feedback)

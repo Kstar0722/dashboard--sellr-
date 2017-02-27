@@ -1,4 +1,3 @@
-/* globals angular, _, $ */
 angular.module('users').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce) {
@@ -198,6 +197,7 @@ angular.module('users').controller('productEditorController', function ($scope, 
 
   $scope.viewProduct = function (product) {
     productEditorService.setCurrentProduct(product)
+
     if ($state.includes('editor.match')) {
       $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
     } else {
