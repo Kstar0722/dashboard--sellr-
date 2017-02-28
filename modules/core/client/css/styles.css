@@ -245,6 +245,46 @@ body.loading .main-content {
 .btn-facebook .social-icon {
   margin-right: 20px;
 }
+.btn-material-commons {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  background-color: #DFE3EB;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+  min-height: 36px;
+  min-width: 88px;
+  line-height: 36px;
+  vertical-align: middle;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+  border: 0;
+  padding: 0 6px;
+  background: transparent;
+  white-space: nowrap;
+  font-style: inherit;
+  font-variant: inherit;
+  font-family: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  -webkit-transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.btn-material-commons.active {
+  color: #fff;
+  background-color: #3299BB;
+  box-shadow: none;
+}
 .sd-popup {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
@@ -4986,26 +5026,13 @@ body.websiteBuilder #loading-bar-spinner {
   color: #5a5c5d;
   margin-bottom: 15px;
 }
-.product-history-view .filter-container {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px auto 30px auto;
-  text-align: center;
-}
-.product-history-view .filter-container .input-filter md-input-container {
-  text-align: left;
-  font-weight: bold;
-  min-width: 350px;
-}
-.product-history-view .filter-container .input-filter md-input-container label {
-  width: 100%;
-}
-.product-history-view .filter-container .buttons-filter .btn-filter {
+.product-history-view .load-more-btn {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
   background-color: #DFE3EB;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  display: inline-block;
   cursor: pointer;
   min-height: 36px;
   min-width: 88px;
@@ -5024,11 +5051,8 @@ body.websiteBuilder #loading-bar-spinner {
   outline: none;
   border: 0;
   padding: 0 6px;
-  margin: 6px 8px;
   background: transparent;
   white-space: nowrap;
-  font-weight: 500;
-  font-size: 14px;
   font-style: inherit;
   font-variant: inherit;
   font-family: inherit;
@@ -5036,6 +5060,66 @@ body.websiteBuilder #loading-bar-spinner {
   overflow: hidden;
   -webkit-transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin: 0 0 30px 0;
+  padding: 0 20px;
+  font-size: 16px;
+}
+.product-history-view .load-more-btn.active {
+  color: #fff;
+  background-color: #3299BB;
+  box-shadow: none;
+}
+.product-history-view .filter-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px auto 20px auto;
+  text-align: center;
+}
+.product-history-view .filter-container .input-filter md-input-container {
+  text-align: left;
+  font-weight: bold;
+  min-width: 350px;
+}
+.product-history-view .filter-container .input-filter md-input-container label {
+  width: 100%;
+}
+.product-history-view .filter-container .buttons-filter .btn-filter {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  background-color: #DFE3EB;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+  min-height: 36px;
+  min-width: 88px;
+  line-height: 36px;
+  vertical-align: middle;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+  border: 0;
+  padding: 0 6px;
+  background: transparent;
+  white-space: nowrap;
+  font-style: inherit;
+  font-variant: inherit;
+  font-family: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  -webkit-transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin: 6px 8px;
 }
 .product-history-view .filter-container .buttons-filter .btn-filter.active {
   color: #fff;
