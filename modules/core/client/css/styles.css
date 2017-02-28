@@ -5071,3 +5071,6 @@ body.websiteBuilder #loading-bar-spinner {
   font-weight: normal;
   padding: 12px 0;
 }
+.product-history-view .table-body div:first-child {
+  cursor: pointer;
+}

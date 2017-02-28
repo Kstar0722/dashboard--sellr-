@@ -27,10 +27,10 @@
     <div ng-click="reOrderList('lastedit')">Date <i class="fa fa-sort"></i></div>
   </div>
   <div class="table-body" ng-repeat="rowData in ui.dataShown | filter:ui.textFilter | orderBy:ui.sortExpression">
-    <div ng-click="goToMatch()">{{rowData.productId}}</div>
-    <div ng-click="goToMatch()">{{rowData.userId}}</div>
-    <div ng-click="goToMatch()">{{rowData.userName}}</div>
-    <div ng-click="goToMatch()">{{rowData.email}}</div>
-    <div ng-click="goToMatch()">{{rowData.dateUI}}</div>
+    <div ui-sref="editor.view({productId: rowData.productId})">{{rowData.productId}}</div>
+    <div>{{rowData.userId}}</div>
+    <div>{{rowData.userName}}</div>
+    <div>{{rowData.email}}</div>
+    <div>{{rowData.dateUI}}</div>
   </div>
 </div>
