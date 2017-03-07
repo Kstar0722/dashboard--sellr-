@@ -1,6 +1,6 @@
 'use strict'
 /* globals angular, moment, _, localStorage */
-angular.module('core').controller('HeaderController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService',
+angular.module('core').controller('HeaderControllerOLD', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService',
   function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService) {
     var API_URL = constants.API_URL
     $scope.authentication = Authentication

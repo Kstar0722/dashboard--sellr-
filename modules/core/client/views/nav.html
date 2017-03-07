@@ -1,0 +1,43 @@
+<div ng-controller="NavController" class="nav-container">
+  <div class="primary-nav">
+    <div class="left-side">
+      <ul>
+        <li class="active">Dashboard</li>
+        <li>Supplier</li>
+        <li>Admin</li>
+        <li>Product Editor</li>
+        <li>Curator</li>
+        <li>Store Owner</li>
+        <li>Brand</li>
+      </ul>
+    </div>
+    <div class="right-side">
+      <select>
+        <option>OnCue Demo: 11675 Rainwater Drive</option>
+        <option>Oranges</option>
+        <option>Banannas</option>
+      </select>
+    </div>
+  </div>
+  <div class="secondary-nav">
+    <div class="left-side">
+      <div class="logo">
+        <img src="/img/s-l-l-r-icon-green-square.png" alt="logo">
+      </div>
+      <ul>
+        <li class="active">Beer, Wine, Spirits</li>
+        <li>Store Management</li>
+        <li>Product History</li>
+      </ul>
+    </div>
+    <div class="right-side">
+      Select Account
+    </div>
+  </div>
+  <!-- TODO: REVIEW CARDKIT MENU -->
+  <!--
+  <sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
+  </sd-cardkit-nav> -->
+</div>
+<!-- taken as is from old Menu nav -->
+<div class="hide" data-ng-include="'/modules/core/client/views/validation-messages.client.view.html'"></div>
