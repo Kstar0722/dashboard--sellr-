@@ -14,7 +14,9 @@ var path = require('path')
  */
 var getGlobbedPaths = function (globPatterns, excludes) {
   // URL paths regex
+  /* eslint-disable */
   var urlRegex = new RegExp('^(?:[a-z]+:)?\/\/', 'i')
+  /* eslint-enable */
 
   // The output array
   var output = []

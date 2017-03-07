@@ -10,7 +10,7 @@ angular.module('users').directive('mediumInsert', function ($location, $timeout)
       var $mediumInsertCompatible = iElement.filter(withoutLinksInHierarchy)
       if ($mediumInsertCompatible.length === 0) return
 
-      var embedproxy_url = $location.protocol() + '://iframe.ly/api/oembed?iframe=1&api_key=' + IFRAMELY_API_KEY
+      var embedproxyurl = $location.protocol() + '://iframe.ly/api/oembed?iframe=1&api_key=' + IFRAMELY_API_KEY
       iElement.not($mediumInsertCompatible).data('plugin_mediumInsert', {
         disable: $.noop
       })
@@ -30,7 +30,7 @@ angular.module('users').directive('mediumInsert', function ($location, $timeout)
           addons: {
             embeds: {
               placeholder: 'Paste a link and press Enter',
-              oembedProxy: embedproxy_url
+              oembedProxy: embedproxyurl
             }
           }
         })

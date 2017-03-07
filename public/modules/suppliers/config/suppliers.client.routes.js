@@ -2,9 +2,9 @@
 
 // Setting up route
 angular.module('suppliers').config(['$stateProvider',
-	function ($stateProvider) {
+  function ($stateProvider) {
 		// Suppliers state routing
-  $stateProvider
+    $stateProvider
 		.state('listSuppliers', {
   url: '/suppliers',
   templateUrl: 'modules/suppliers/views/list-suppliers.client.view.html'
@@ -21,5 +21,5 @@ angular.module('suppliers').config(['$stateProvider',
   url: '/suppliers/:supplierId/edit',
   templateUrl: 'modules/suppliers/views/edit-supplier.client.view.html'
 })
-}
+  }
 ])

@@ -2,8 +2,8 @@
 
 // Setting up route
 angular.module('core.manager.routes').config(['$stateProvider',
-    function ($stateProvider) {
-      $stateProvider
+  function ($stateProvider) {
+    $stateProvider
             .state('manager', {
               abstract: true,
               url: '',
@@ -12,5 +12,5 @@ angular.module('core.manager.routes').config(['$stateProvider',
                 roles: [1002]
               }
             })
-    }
+  }
 ])

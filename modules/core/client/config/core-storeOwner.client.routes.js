@@ -2,8 +2,8 @@
 
 // Setting up route
 angular.module('core.storeOwner.routes').config(['$stateProvider',
-    function ($stateProvider) {
-      $stateProvider
+  function ($stateProvider) {
+    $stateProvider
             .state('storeOwner', {
               abstract: true,
               url: '',
@@ -12,5 +12,5 @@ angular.module('core.storeOwner.routes').config(['$stateProvider',
                 roles: [ 1009, 1002, 1004 ]
               }
             })
-    }
+  }
 ])

@@ -1,4 +1,8 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-
+    "standard.autoFixOnSave": true,
+    "standard.run": "onSave",
+    "standard.options": {
+        "globals": ["angular", "$", "_"]
+    }
 }

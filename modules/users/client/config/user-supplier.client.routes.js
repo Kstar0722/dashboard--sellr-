@@ -2,8 +2,8 @@
 
 // Setting up route
 angular.module('users.supplier.routes').config(['$stateProvider',
-    function ($stateProvider) {
-      $stateProvider
+  function ($stateProvider) {
+    $stateProvider
             .state('supplier.media', {
               url: '/supplier',
               templateUrl: 'modules/users/client/views/supplier/media.client.view.html'
@@ -12,5 +12,5 @@ angular.module('users.supplier.routes').config(['$stateProvider',
               url: '/supplier/assets',
               templateUrl: 'modules/users/client/views/supplier/assets.client.view.html'
             })
-    }
+  }
 ])

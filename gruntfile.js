@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
 /**
 * Module dependencies.
 */
 var _ = require('lodash'),
-defaultAssets = require('./config/assets/default'),
-testAssets = require('./config/assets/test'),
-testConfig = require('./config/env/test'),
-fs = require('fs'),
-path = require('path');
+  defaultAssets = require('./config/assets/default'),
+  testAssets = require('./config/assets/test'),
+  testConfig = require('./config/env/test'),
+  fs = require('fs'),
+  path = require('path')
 
 module.exports = function (grunt) {
   // Project Configuration
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
           src: './modules/core/client/less/styles.less',
           ext: '.css',
           rename: function (base, src) {
-            return src.replace('/less/', '/css/');
+            return src.replace('/less/', '/css/')
           }
         } ]
       }
@@ -206,7 +206,7 @@ module.exports = function (grunt) {
         src: 'config/env/local.example.js',
         dest: 'config/env/local.js',
         filter: function () {
-          return !fs.existsSync('config/env/local.js');
+          return !fs.existsSync('config/env/local.js')
         }
       },
       build: {
@@ -259,8 +259,8 @@ module.exports = function (grunt) {
           collapseWhitespace: true,
           removeComments: true
         },
-        url: function(url) {
-          return url.replace('public/', '');
+        url: function (url) {
+          return url.replace('public/', '')
         },
         prefix: '/'
       },
@@ -298,85 +298,84 @@ module.exports = function (grunt) {
         ]
       }
     }
-  });
+  })
 
   grunt.event.on('coverage', function (lcovFileContents, done) {
     // Set coverage config so karma-coverage knows to run coverage
-    testConfig.coverage = true;
+    testConfig.coverage = true
     require('coveralls').handleInput(lcovFileContents, function (err) {
       if (err) {
-        return done(err);
+        return done(err)
       }
-      done();
-    });
-  });
+      done()
+    })
+  })
 
   // Load NPM tasks
-  require('load-grunt-tasks')(grunt);
-  grunt.loadNpmTasks('grunt-protractor-coverage');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-standard');
+  require('load-grunt-tasks')(grunt)
+  grunt.loadNpmTasks('grunt-protractor-coverage')
+  grunt.loadNpmTasks('grunt-contrib-concat')
+  grunt.loadNpmTasks('grunt-standard')
 
   // Make sure upload directory exists
   grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {
     // Get the callback
-    var done = this.async();
+    var done = this.async()
 
-    grunt.file.mkdir(path.normalize(__dirname + '/modules/users/client/img/profile/uploads'));
+    grunt.file.mkdir(path.normalize(__dirname + '/modules/users/client/img/profile/uploads'))
 
-    done();
-  });
+    done()
+  })
 
   grunt.task.registerTask('server', 'Starting the server', function () {
     // Get the callback
-    var done = this.async();
+    var done = this.async()
 
-    var path = require('path');
-    var app = require(path.resolve('./config/lib/app'));
+    var path = require('path')
+    var app = require(path.resolve('./config/lib/app'))
     var server = app.start(function () {
-      done();
-    });
-  });
-  
-  grunt.task.registerTask('serve', ['server']);
+      done()
+    })
+  })
+
+  grunt.task.registerTask('serve', ['server'])
 
   // Lint CSS and JavaScript files.
-  grunt.registerTask('lint', [ 'standard' ]);
+  grunt.registerTask('lint', [ 'standard' ])
 
   grunt.registerTask('wiredep', function () {
     var wiredep = require('wiredep')().js
     console.log(wiredep)
   })
 
-
-  grunt.registerTask('default', [ 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default', 'watch' ]);
+  grunt.registerTask('default', [ 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default', 'watch' ])
   // Run the project in production mode
 
   // Lint project files and minify them into two production files.
-  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace']);
-  grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ]);
-  grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ]);
-  grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ]);
+  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace'])
+  grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ])
+  grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ])
+  grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ])
   // grunt.registerTask('test', [ ]); // disabled
-};
+}
 
-function minifiedOrDefaultFiles(files) {
-  var minFilePatterns = ['$1.min.$2', '$1-min.$2'];
+function minifiedOrDefaultFiles (files) {
+  var minFilePatterns = ['$1.min.$2', '$1-min.$2']
 
-  var result = files.map(function(filePath) {
-    var fileName = _.last(filePath.split('/'));
-    var fileExt = (fileName.match(/\.(.+)$/) || [])[1];
-    var dirPath = filePath.replace(fileName, '');
+  var result = files.map(function (filePath) {
+    var fileName = _.last(filePath.split('/'))
+    var fileExt = (fileName.match(/\.(.+)$/) || [])[1]
+    var dirPath = filePath.replace(fileName, '')
 
     for (var i in minFilePatterns) {
-      var minFileName = fileName.replace(new RegExp('^(.+)\.(' + fileExt + ')$', 'i'), minFilePatterns[i]);
+      var minFileName = fileName.replace(new RegExp('^(.+)\.(' + fileExt + ')$', 'i'), minFilePatterns[i])
       if (fs.existsSync(dirPath + minFileName)) {
-        return dirPath + minFileName;
+        return dirPath + minFileName
       }
     }
 
-    return filePath;
-  });
+    return filePath
+  })
 
-  return result;
+  return result
 }

@@ -509,7 +509,6 @@ angular.module('users').controller('productEditorController', function ($scope, 
         case 'd':
           event.preventDefault()
           $scope.submitForApproval(prod)
-
       }
     }
   }

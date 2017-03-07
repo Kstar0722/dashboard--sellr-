@@ -16,4 +16,3 @@ angular.module('users').service('intercomService', function ($http, constants, t
 
   return me
 })
-

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.manager').controller('DashboardController', [ '$scope', '$stateParams', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService', 'toastr',
+angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService', 'toastr',
   function ($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService, toastr) {
     $scope.authentication = Authentication
 
@@ -29,54 +29,21 @@ angular.module('users.manager').controller('DashboardController', [ '$scope', '$
       chartService.groupAndFormatDate($scope.selectAccountId)
       console.log('state params %O', $stateParams)
       $scope.sources = []
-      // $http.get(constants.API_URL + '/locations?account=' + $scope.selectAccountId).then(function(res, err) {
-      // 		if (err) {
-      // 			console.log(err);
-      // 			toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
-      //
-      //
-      // 		}
-      // 		if (res.data.length > 0) {
-      // 			//this account has at least one location
-      // 			res.data.forEach(function(thisLocation) {
-      // 				thisLocation.devices = [];
-      // 				$http.get(constants.API_URL + '/devices/location/' + thisLocation.locationId).then(function(response, err) {
-      // 					if (err) {
-      // 						console.log(err);
-      // 					}
-      // 					if (response.data.length > 0) {
-      // 						//this location has devices, add to that location
-      // 						response.data.forEach(function(device) {
-      // 							var rightNow = moment();
-      //                                  // var time = moment(device.lastCheck).subtract(4, 'hours');
-      //                                  var time = moment(device.lastCheck);
-      // 							device.moment = moment(time).fromNow();
-      //                                  var timeDiff = time.diff(rightNow, 'hours');
-      //                                  device.unhealthy = timeDiff <= -3;
-      //
-      //                              });
-      // 						thisLocation.devices = response.data || [];
-      // 						$scope.locations.push(thisLocation)
-      // 					}
-      // 				});
-      // 			})
-      // 		}
-      // 	})
       $http.get(constants.API_URL + '/loyalty?account=' + $scope.selectAccountId).then(function (res, err) {
         if (err) {
           console.log(err)
-          toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+          toastr.error('We\'re experiencing some technical difficulties with our database, please check back soon')
         }
         if (res) {
           for (var i in res.data) {
-            var contact = JSON.parse(res.data[ i ].contactInfo)
-            if (contact[ 'email' ]) {
+            var contact = JSON.parse(res.data[i].contactInfo)
+            if (contact['email']) {
               $scope.emails.push({
-                email: contact[ 'email' ]
+                email: contact['email']
               })
             } else {
               $scope.phones.push({
-                phone: contact[ 'phone' ]
+                phone: contact['phone']
               })
             }
           }
@@ -87,13 +54,13 @@ angular.module('users.manager').controller('DashboardController', [ '$scope', '$
       $http.get(url).then(function (res, err) {
         if (err) {
           console.log(err)
-          toastr.error("We're experiencing some technical difficulties with our database, please check back soon")
+          toastr.error('We\'re experiencing some technical difficulties with our database, please check back soon')
         }
         if (res) {
           console.log('analytics topProducts %O', res)
           for (var i in res.data) {
-            if (res.data[ i ].action === 'Product-Request') {
-              $scope.analytics.push(res.data[ i ])
+            if (res.data[i].action === 'Product-Request') {
+              $scope.analytics.push(res.data[i])
             }
           }
         }
