@@ -2,17 +2,16 @@
   <div class="primary-nav">
     <div class="left-side">
       <ul>
-        <li class="active" ng-if="shouldRenderPrimaryItem('dash')">Dashboard</li>
-        <li ng-if="shouldRenderPrimaryItem('supplier')">Supplier</li>
-        <li ng-if="shouldRenderPrimaryItem('admin')">Admin</li>
-        <li ng-if="shouldRenderPrimaryItem('editor')">Product Editor</li>
-        <li ng-if="shouldRenderPrimaryItem('curator')">Curator</li>
-        <li ng-if="shouldRenderPrimaryItem('store')">Store Owner</li>
-        <li ng-if="shouldRenderPrimaryItem('brand')">Brand</li>
+        <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="shouldRenderPrimaryItem('supplier')" ui-sref="supplier.media">Supplier</li>
+        <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="shouldRenderPrimaryItem('admin')" ui-sref="admin.users">Admin</li>
+        <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="shouldRenderPrimaryItem('editor')" ui-sref="editor.products">Product Editor</li>
+        <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="shouldRenderPrimaryItem('store')" ui-sref="dashboard">Store Owner</li>
       </ul>
     </div>
     <div class="right-side">
-      <select ng-model="ui.accountSelected" ng-change="accountChangeHandler(ui.accountSelected)" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId"></select>
+      <select ng-model="ui.accountSelected" ng-change="accountChangeHandler(ui.accountSelected)" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId">
+        <option value="">Select Account</option>
+      </select>
     </div>
   </div>
   <div class="secondary-nav">
@@ -21,20 +20,34 @@
         <img src="/img/s-l-l-r-icon-green-square.png" alt="logo">
       </div>
       <ul>
-        <li class="active" ng-if="shouldRenderSecondaryItem('product-search')">Beer, Wine, Spirits</li>
-        <li ng-if="shouldRenderSecondaryItem('store-manager')">Store Management</li>
-        <li ng-if="shouldRenderSecondaryItem('product-history')">Product History</li>
+        <!-- SUPPLIER -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'supplier'" ui-sref="supplier.media">Upload An Asset</li>
+        <!-- EDITOR -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor'" ui-sref="editor.products">Beer, Wine, Spirits</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor'" ui-sref="curator.store">Store Management</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor'" ui-sref="productHistory">Product History</li>
+        <!-- ADMIN -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">Manage Users</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">Manage Accounts</li>
+        <!-- STORE OWNER -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="dashboard">Stats</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
       </ul>
     </div>
     <div class="right-side">
-      Select Account
+      <div class="account-options-select" ng-bind="ui.accountOptionsLabel" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
+    </div>
+    <div class="account-options-box" ng-show="ui.showAccountMenu">
+      <div class="account-option">My Profile</div>
+      <div class="account-option logout">Logout</div>
     </div>
   </div>
 </div>
-
 <!-- taken as is from old Menu nav -->
 <div class="hide" data-ng-include="'/modules/core/client/views/validation-messages.client.view.html'"></div>
-
 <!-- TODO: REVIEW CARDKIT MENU -->
 <!--
 <sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
