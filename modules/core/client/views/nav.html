@@ -2,21 +2,17 @@
   <div class="primary-nav">
     <div class="left-side">
       <ul>
-        <li class="active">Dashboard</li>
-        <li>Supplier</li>
-        <li>Admin</li>
-        <li>Product Editor</li>
-        <li>Curator</li>
-        <li>Store Owner</li>
-        <li>Brand</li>
+        <li class="active" ng-if="shouldRenderPrimaryItem('dash')">Dashboard</li>
+        <li ng-if="shouldRenderPrimaryItem('supplier')">Supplier</li>
+        <li ng-if="shouldRenderPrimaryItem('admin')">Admin</li>
+        <li ng-if="shouldRenderPrimaryItem('editor')">Product Editor</li>
+        <li ng-if="shouldRenderPrimaryItem('curator')">Curator</li>
+        <li ng-if="shouldRenderPrimaryItem('store')">Store Owner</li>
+        <li ng-if="shouldRenderPrimaryItem('brand')">Brand</li>
       </ul>
     </div>
     <div class="right-side">
-      <select>
-        <option>OnCue Demo: 11675 Rainwater Drive</option>
-        <option>Oranges</option>
-        <option>Banannas</option>
-      </select>
+      <select ng-model="ui.accountSelected" ng-change="accountChangeHandler(ui.accountSelected)" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId"></select>
     </div>
   </div>
   <div class="secondary-nav">
@@ -25,19 +21,21 @@
         <img src="/img/s-l-l-r-icon-green-square.png" alt="logo">
       </div>
       <ul>
-        <li class="active">Beer, Wine, Spirits</li>
-        <li>Store Management</li>
-        <li>Product History</li>
+        <li class="active" ng-if="shouldRenderSecondaryItem('product-search')">Beer, Wine, Spirits</li>
+        <li ng-if="shouldRenderSecondaryItem('store-manager')">Store Management</li>
+        <li ng-if="shouldRenderSecondaryItem('product-history')">Product History</li>
       </ul>
     </div>
     <div class="right-side">
       Select Account
     </div>
   </div>
-  <!-- TODO: REVIEW CARDKIT MENU -->
-  <!--
-  <sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
-  </sd-cardkit-nav> -->
 </div>
+
 <!-- taken as is from old Menu nav -->
 <div class="hide" data-ng-include="'/modules/core/client/views/validation-messages.client.view.html'"></div>
+
+<!-- TODO: REVIEW CARDKIT MENU -->
+<!--
+<sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
+</sd-cardkit-nav> -->

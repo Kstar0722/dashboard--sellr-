@@ -437,6 +437,7 @@ body.loading .main-content {
 }
 .nav-container .primary-nav .right-side select,
 .nav-container .secondary-nav .right-side select {
+  direction: rtl;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
