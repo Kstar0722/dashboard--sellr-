@@ -1,11 +1,11 @@
-<div ng-controller="NavController" class="nav-container" ng-show="ui.shouldRenderNav">
-  <div class="primary-nav">
+<div ng-controller="NavController" class="nav-container" ng-show="ui.shouldRenderWholeNav">
+  <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
     <div class="left-side">
       <ul>
-        <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="shouldRenderPrimaryItem('supplier')" ui-sref="supplier.media">Supplier</li>
-        <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="shouldRenderPrimaryItem('admin')" ui-sref="admin.users">Admin</li>
-        <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="shouldRenderPrimaryItem('editor')" ui-sref="editor.products">Product Editor</li>
-        <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="shouldRenderPrimaryItem('store')" ui-sref="dashboard">Store Owner</li>
+        <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="ui.shouldRenderSupplierItem" ui-sref="supplier.media">Supplier</li>
+        <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
+        <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="curator.store">Product Editor</li>
+        <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="ui.shouldRenderOwnerItem" ui-sref="dashboard">Store Owner</li>
       </ul>
     </div>
     <div class="right-side">
@@ -23,9 +23,9 @@
         <!-- SUPPLIER -->
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'supplier'" ui-sref="supplier.media">Upload An Asset</li>
         <!-- EDITOR -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor'" ui-sref="editor.products">Beer, Wine, Spirits</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor'" ui-sref="curator.store">Store Management</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor'" ui-sref="productHistory">Product History</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderStoreManagerItem" ui-sref="curator.store">Store Management</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductEditorItem" ui-sref="editor.products">Beer, Wine, Spirits</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductHistoryItem" ui-sref="productHistory">Product History</li>
         <!-- ADMIN -->
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">Manage Users</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">Manage Accounts</li>

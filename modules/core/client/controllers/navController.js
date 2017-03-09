@@ -12,15 +12,6 @@ angular.module('core')
     localStorage.setItem('accountId', accountsService.currentAccount.accountId)
   }
 
-  $scope.shouldRenderPrimaryItem = function (item) {
-    switch (item) {
-      case 'admin':
-        return Authentication.userInRole('admin')
-      default:
-        return true
-    }
-  }
-
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
     if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
@@ -30,13 +21,29 @@ angular.module('core')
       $state.go(toState.name, toParams, {notify: false})
     }
     setActiveRoute(toState.name)
-    $scope.ui.shouldRenderNav = !toState.public
+    updateNavRendering(toState)
   })
 
   $scope.$watch('$root.selectAccountId', function (accountId) {
     $stateParams.accountId = accountId
     if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
   })
+
+  function updateNavRendering (state) {
+    // Nav Main Sections
+    $scope.ui.shouldRenderWholeNav = !state.public
+    $scope.ui.shouldRenderPrimaryNav = Authentication.userInRole('supplier') || Authentication.userInRole('editor') || Authentication.userInRole('curator')
+    // Nav Primary Items
+    $scope.ui.shouldRenderSupplierItem = Authentication.userInRole('supplier')
+    $scope.ui.shouldRenderAdminItem = Authentication.userInRole('admin')
+    $scope.ui.shouldRenderEditorItem = Authentication.userInRole('editor') || Authentication.userInRole('curator') || Authentication.userInRole('supplier')
+    $scope.ui.shouldRenderOwnerItem = Authentication.userInRole('owner')
+    // Nav Secondary Items
+    $scope.ui.shouldRenderSupplierStoreManagerItem = Authentication.userInRole('supplier')
+    $scope.ui.shouldRenderProductEditorItem = Authentication.userInRole('editor') || Authentication.userInRole('curator')
+    $scope.ui.shouldRenderProductHistoryItem = Authentication.userInRole('curator')
+    $scope.ui.shouldRenderStoreManagerItem = Authentication.userInRole('curator') || Authentication.userInRole('supplier')
+  }
 
   function setActiveRoute (state) {
     if (state.indexOf('supplier') > -1) { $scope.ui.primaryRoute = 'supplier' }
