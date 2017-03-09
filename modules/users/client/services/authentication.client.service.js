@@ -10,7 +10,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     var payload = {
       payload: credentials
     }
-    return $http.post(url, payload).then(function(response) {
+    return $http.post(url, payload).then(function (response) {
       return onSigninSuccess(response, metadata)
     }, onSigninError)
   }
@@ -20,7 +20,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     var payload = {
       payload: credentials
     }
-    return $http.post(url, payload).then(function(response) {
+    return $http.post(url, payload).then(function (response) {
       return onSigninSuccess(response, metadata)
     }, onSigninError)
   }
@@ -162,7 +162,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     window.analytics.identify(user.userId, traits)
   }
 
-  function fullAddress(address, user) {
+  function fullAddress (address, user) {
     // EXAMPLE:
     // Bob Marley ---name
     // 1234 Green Dr. ---street address
@@ -177,8 +177,8 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       address.country
     ])
 
-    function join(delimiter, arr) {
-      return _.compact(arr).join(delimiter);
+    function join (delimiter, arr) {
+      return _.compact(arr).join(delimiter)
     }
   }
 
