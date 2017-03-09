@@ -167,6 +167,7 @@ angular.module('users')
 
       $scope.openDashboard = function () {
         var user = mapUser($scope.data)
+        var metadata = { source: 'Dashboard Sign up', createdOn: new Date() }
         $scope.ui.busy = true
         function okLoginHandler () {
           $state.go('home')
@@ -178,12 +179,12 @@ angular.module('users')
           $scope.ui.busy = false
         }
         if ($scope.data.isFacebookUser) {
-          return authenticationService.signinFacebook(user).then(okLoginHandler).catch(errorLoginHandler).finally(finallyLoginHandler)
+          return authenticationService.signinFacebook(user, metadata).then(okLoginHandler).catch(errorLoginHandler).finally(finallyLoginHandler)
         } else {
           if (!user.password) {
             return $state.go('authentication.signin', { email: user.email })
           }
-          return authenticationService.login(user).then(okLoginHandler).catch(errorLoginHandler).finally(finallyLoginHandler)
+          return authenticationService.signin(user, metadata).then(okLoginHandler).catch(errorLoginHandler).finally(finallyLoginHandler)
         }
       }
 

@@ -5,20 +5,24 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
   var me = this
   var auth = Authentication
 
-  me.signin = function (credentials, i) {
+  me.signin = function (credentials, metadata) {
     var url = constants.API_URL + '/users/login'
     var payload = {
       payload: credentials
     }
-    return $http.post(url, payload).then(onSigninSuccess, onSigninError)
+    return $http.post(url, payload).then(function (response) {
+      return onSigninSuccess(response, metadata)
+    }, onSigninError)
   }
 
-  me.signinFacebook = function (credentials) {
+  me.signinFacebook = function (credentials, metadata) {
     var url = constants.API_URL + '/users/login/facebook'
     var payload = {
       payload: credentials
     }
-    return $http.post(url, payload).then(onSigninSuccess, onSigninError)
+    return $http.post(url, payload).then(function (response) {
+      return onSigninSuccess(response, metadata)
+    }, onSigninError)
   }
 
   me.signout = function () {
@@ -60,7 +64,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     if (user) setAnalyticsUser(user)
   }
 
-  function onSigninSuccess (response) {
+  function onSigninSuccess (response, metadata) {
     var user = initUser(response.data)
 
       // Check if user role is not set or if it is the only one
@@ -76,7 +80,7 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     localStorage.setItem('userId', user.userId)
     localStorage.setItem('userObject', JSON.stringify(user))
     auth.user = user
-    setAnalyticsUser(user)
+    setAnalyticsUser(user, metadata)
     $analytics.eventTrack('Logged In', {
       name: user.displayName || (user.firstName + ' ' + user.lastName),
       email: user.email,
@@ -113,13 +117,17 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
     }
   }
 
-  function setAnalyticsUser (user) {
+  function setAnalyticsUser (user, metadata) {
     if (!user || !window.analytics) return
+    metadata = metadata || {}
 
     console.log('identifying user for Analytics tracking')
     var address = user.storeAddress || {}
+    address.country = address.country || 'USA'
 
-    window.analytics.identify(user.userId, {
+    user.createdDate = user.createdDate || metadata.createdOn
+
+    var traits = {
       name: user.displayName,
       email: user.email,
       phone: user.phone || address.phone,
@@ -131,14 +139,47 @@ angular.module('users').factory('authenticationService', ['Authentication', '$ht
       state: address.state,
       accountId: user.accountId,
       storeName: user.storeName,
-      address: address ? {
+      address: !_.isEmpty(address) ? {
         street: address.address1,
         city: address.city,
         state: address.state,
         postalCode: address.zipcode,
-        country: 'USA'
-      } : undefined
-    })
+        country: address.country
+      } : undefined,
+
+      // ActiveCampaign specific fields
+      sellrUserID: user.userId,
+      sellrAccountID: user.accountId,
+      organization: user.storeName,
+      fullAddress: fullAddress(address, user),
+      zip: address.zipcode,
+      createdOn: user.createdDate,
+      tags: _.compact([metadata.source])
+    }
+
+    console.log('identify traits', traits, 'for user', user)
+
+    window.analytics.identify(user.userId, traits)
+  }
+
+  function fullAddress (address, user) {
+    // EXAMPLE:
+    // Bob Marley ---name
+    // 1234 Green Dr. ---street address
+    // Westchester, CO 80917 ---City, State Zip
+    // USA ---Country
+
+    return join('\n', [
+      user.displayName || join(' ', [user.firstName, user.lastName]),
+      address.address1,
+      address.address2,
+      join(' ', join(', ', [address.city, address.state]), address.zipcode),
+      address.country
+    ])
+
+    function join (delimiter, arr) {
+      return _.compact(arr).join(delimiter)
+    }
   }
 
   function initUser (user) {
