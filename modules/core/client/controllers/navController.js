@@ -1,17 +1,15 @@
 angular.module('core')
 .controller('NavController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService) {
   $scope.ui = {}
-  $scope.ui.accountOptionsLabel = Authentication.user.displayName
-
+  $scope.Authentication = Authentication
   $scope.accountsService = accountsService
-
-  $scope.signOut = function () {
+  $scope.logout = function () {
     authenticationService.signout()
   }
 
-  $scope.accountChangeHandler = function (account) {
-    $scope.$root.selectAccountId = account.accountId
-    localStorage.setItem('accountId', account.accountId)
+  $scope.accountChangeHandler = function () {
+    $scope.$root.selectAccountId = accountsService.currentAccount.accountId
+    localStorage.setItem('accountId', accountsService.currentAccount.accountId)
   }
 
   $scope.shouldRenderPrimaryItem = function (item) {
@@ -24,6 +22,7 @@ angular.module('core')
   }
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
+    init()
     if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
       $scope.$root.selectAccountId = null
     } else if (toState) {
@@ -31,6 +30,12 @@ angular.module('core')
       $state.go(toState.name, toParams, {notify: false})
     }
     setActiveRoute(toState.name)
+    $scope.ui.shouldRenderNav = !toState.public
+  })
+
+  $scope.$watch('$root.selectAccountId', function (accountId) {
+    $stateParams.accountId = accountId
+    if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
   })
 
   function setActiveRoute (state) {
@@ -39,4 +44,17 @@ angular.module('core')
     if (state.indexOf('editor') > -1 || _.contains(['productHistory', 'curator.store'], state)) { $scope.ui.primaryRoute = 'editor' }
     if (_.contains(['dashboard', 'productsUploader', 'websiteBuilder', 'manager.ads', 'storeOwner.orders'], state)) { $scope.ui.primaryRoute = 'store' }
   }
+
+  function init () {
+    if ($stateParams.accountId) {
+      $scope.$root.selectAccountId = $stateParams.accountId
+    } else {
+      $scope.$root.selectAccountId = $scope.$root.selectAccountId || localStorage.getItem('accountId')
+    }
+    if ($scope.$root.selectAccountId) {
+      $scope.$root.selectAccountId = parseInt($scope.$root.selectAccountId, 10) || $scope.$root.selectAccountId
+    }
+  }
+
+  init()
 }])

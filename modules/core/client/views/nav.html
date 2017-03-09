@@ -1,4 +1,4 @@
-<div ng-controller="NavController" class="nav-container">
+<div ng-controller="NavController" class="nav-container" ng-show="ui.shouldRenderNav">
   <div class="primary-nav">
     <div class="left-side">
       <ul>
@@ -9,7 +9,7 @@
       </ul>
     </div>
     <div class="right-side">
-      <select ng-model="ui.accountSelected" ng-change="accountChangeHandler(ui.accountSelected)" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId">
+      <select ng-model="accountsService.currentAccount" ng-change="accountChangeHandler()" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId">
         <option value="">Select Account</option>
       </select>
     </div>
@@ -29,20 +29,23 @@
         <!-- ADMIN -->
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">Manage Users</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">Manage Accounts</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="storeOwner.inviteUser">Invite User</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="manager.stores">Stores Manager</li>
         <!-- STORE OWNER -->
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="dashboard">Stats</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Account</li>
       </ul>
     </div>
     <div class="right-side">
-      <div class="account-options-select" ng-bind="ui.accountOptionsLabel" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
+      <div class="account-options-select" ng-bind="Authentication.user.displayName" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
     </div>
     <div class="account-options-box" ng-show="ui.showAccountMenu">
-      <div class="account-option">My Profile</div>
-      <div class="account-option logout">Logout</div>
+      <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false">My Profile</div>
+      <div class="account-option logout" ng-click="logout(); ui.showAccountMenu = false">Logout</div>
     </div>
   </div>
 </div>
