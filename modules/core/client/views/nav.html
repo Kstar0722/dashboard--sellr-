@@ -1,0 +1,57 @@
+<div ng-controller="NavController" class="nav-container" ng-show="ui.shouldRenderWholeNav">
+  <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
+    <div class="left-side">
+      <ul>
+        <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="ui.shouldRenderSupplierItem" ui-sref="supplier.media">Supplier</li>
+        <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
+        <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="curator.store">Product Editor</li>
+        <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="ui.shouldRenderOwnerItem" ui-sref="dashboard">Store Owner</li>
+      </ul>
+    </div>
+    <div class="right-side">
+      <select ng-model="accountsService.currentAccount" ng-change="accountChangeHandler()" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId">
+        <option value="">Select Account</option>
+      </select>
+    </div>
+  </div>
+  <div class="secondary-nav">
+    <div class="left-side">
+      <div class="logo">
+        <img src="/img/s-l-l-r-icon-green-square.png" alt="logo">
+      </div>
+      <ul>
+        <!-- SUPPLIER -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'supplier'" ui-sref="supplier.media">Upload An Asset</li>
+        <!-- EDITOR -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderStoreManagerItem" ui-sref="curator.store">Store Management</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductEditorItem" ui-sref="editor.products">Beer, Wine, Spirits</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductHistoryItem" ui-sref="productHistory">Product History</li>
+        <!-- ADMIN -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">Manage Users</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">Manage Accounts</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="storeOwner.inviteUser">Invite User</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="manager.stores">Stores Manager</li>
+        <!-- STORE OWNER -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="dashboard">Stats</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Account</li>
+      </ul>
+    </div>
+    <div class="right-side">
+      <div class="account-options-select" ng-bind="Authentication.user.displayName" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
+    </div>
+    <div class="account-options-box" ng-show="ui.showAccountMenu">
+      <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false">My Profile</div>
+      <div class="account-option logout" ng-click="logout(); ui.showAccountMenu = false">Logout</div>
+    </div>
+  </div>
+</div>
+<!-- taken as is from old Menu nav -->
+<div class="hide" data-ng-include="'/modules/core/client/views/validation-messages.client.view.html'"></div>
+<!-- TODO: REVIEW CARDKIT MENU -->
+<!--
+<sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
+</sd-cardkit-nav> -->

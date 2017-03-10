@@ -1,4 +1,3 @@
-/* globals angular, localStorage, moment */
 angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout) {
   var me = this
 
@@ -9,7 +8,6 @@ angular.module('users').service('accountsService', function ($http, constants, t
       _.each(accounts, function (account) {
         if (me.selectAccountId && account.accountId === me.selectAccountId) {
           me.currentAccount = account
-          // intercomService.intercomActivation()
           console.log('setting current account %O', me.currentAccount)
         }
       })
