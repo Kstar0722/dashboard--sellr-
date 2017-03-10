@@ -1,5 +1,5 @@
 /* globals angular */
-angular.module('users').controller('newProductController', function ($scope, productEditorService, orderDataService, $state, toastr) {
+angular.module('core').controller('newProductController', function ($scope, productEditorService, orderDataService, $state, toastr) {
   $scope.pes = productEditorService
   $scope.saveProduct = function () {
     orderDataService.createNewProduct(productEditorService.newProduct).then(function (response) {

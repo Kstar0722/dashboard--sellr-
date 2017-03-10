@@ -1,5 +1,5 @@
 /* globals angular */
-angular.module('users')
+angular.module('core')
   .filter('highlight', ['$sce', '$sanitize', function ($sce, $sanitize) {
     return function (text, lookup, isHtml) {
       if (!text || !lookup) return text

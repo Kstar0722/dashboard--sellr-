@@ -1,7 +1,7 @@
 /* globals angular, localStorage */
 'use strict'
 
-angular.module('users').controller('PasswordController', [ '$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', '$state',
+angular.module('core').controller('PasswordController', [ '$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', '$state',
   function ($scope, $stateParams, $http, $location, Authentication, PasswordValidator, constants, toastr, authToken, $state) {
     $scope.authentication = Authentication
     $scope.popoverMsg = PasswordValidator.getPopoverMsg()

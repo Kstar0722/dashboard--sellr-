@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users').directive('mediumInsert', function ($location, $timeout) {
+angular.module('core').directive('mediumInsert', function ($location, $timeout) {
   var IFRAMELY_API_KEY = '2d78c263b01d3413bf50d3' // logistics@getsellr.com account
 
   return {

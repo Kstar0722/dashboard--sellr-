@@ -1,6 +1,6 @@
 'use strict'
 /* globals angular,localStorage */
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'authenticationService',
+angular.module('core').controller('AuthenticationController', [ '$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'authenticationService',
   function ($scope, $state, $stateParams, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, authenticationService) {
     $scope.reset = false
     $scope.authentication = Authentication

@@ -1,7 +1,7 @@
 'use strict'
 /* globals angular, moment, $, localStorage */
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce', 'UsStates', '$mdMedia', '$mdDialog', 'devicesService', 'storesService',
+angular.module('core').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', '$window', 'Users', 'Authentication', 'constants', 'toastr', 'uploadService', 'accountsService', 'PostMessage', 'orderDataService', '$sce', 'UsStates', '$mdMedia', '$mdDialog', 'devicesService', 'storesService',
   function ($scope, $http, $location, $timeout, $window, Users, Authentication, constants, toastr, uploadService, accountsService, PostMessage, orderDataService, $sce, UsStates, $mdMedia, $mdDialog, devicesService, storesService) {
     $scope.user = initUser(Authentication.user)
     $scope.passwordDetails = {}

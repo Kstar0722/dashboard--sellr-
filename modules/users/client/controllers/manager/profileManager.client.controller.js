@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.manager').controller('ProfileController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants',
+angular.module('core').controller('ProfileController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants',
   function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants) {
     $scope.authentication = Authentication
         // $scope.file = '  ';
@@ -299,9 +299,3 @@ angular.module('users.manager').controller('ProfileController', ['$scope', '$sta
   }
 
 ])
-
-angular.module('users.supplier').filter('trustUrl', ['$sce', function ($sce) {
-  return function (recordingUrl) {
-    return $sce.trustAsResourceUrl(recordingUrl)
-  }
-}])

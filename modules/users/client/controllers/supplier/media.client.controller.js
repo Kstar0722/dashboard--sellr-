@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.supplier').controller('MediaController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', 'constants', 'toastr', 'uploadService',
+angular.module('core').controller('MediaController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', 'constants', 'toastr', 'uploadService',
   function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, constants, toastr, uploadService) {
     $scope.authentication = Authentication
         // $scope.file = '  ';

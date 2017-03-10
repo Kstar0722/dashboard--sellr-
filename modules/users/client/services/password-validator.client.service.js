@@ -1,7 +1,7 @@
 'use strict'
 
 // PasswordValidator service used for testing the password strength
-angular.module('users').factory('PasswordValidator', ['$window',
+angular.module('core').factory('PasswordValidator', ['$window',
   function ($window) {
     var owaspPasswordStrengthTest = $window.owaspPasswordStrengthTest
     owaspPasswordStrengthTest.config({

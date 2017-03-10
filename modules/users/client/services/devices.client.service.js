@@ -1,7 +1,7 @@
 'use strict'
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users.admin').factory('devicesService', ['$http', 'constants', '$q',
+angular.module('core').factory('devicesService', ['$http', 'constants', '$q',
   function ($http, constants, $q) {
     var me = this
 

@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams) {
+angular.module('core').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams) {
   var me = this
 
   me.merge = merge

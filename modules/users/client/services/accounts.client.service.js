@@ -1,4 +1,4 @@
-angular.module('users').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout) {
+angular.module('core').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout) {
   var me = this
 
   me.loadAccounts = function (options) {

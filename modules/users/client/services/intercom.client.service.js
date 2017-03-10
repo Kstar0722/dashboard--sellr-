@@ -1,4 +1,4 @@
-angular.module('users').service('intercomService', function ($http, constants, toastr, Authentication, $q) {
+angular.module('core').service('intercomService', function ($http, constants, toastr, Authentication, $q) {
   var me = this
 
   me.intercomActivation = function () {

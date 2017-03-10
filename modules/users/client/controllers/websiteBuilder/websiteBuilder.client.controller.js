@@ -1,7 +1,7 @@
 'use strict'
 /* globals angular */
 
-angular.module('users').controller('WebsiteBuilderController', ['$scope', '$sce', 'constants', 'PostMessage', 'Authentication', '$state', '$stateParams', 'accountsService', '$timeout', '$window', '$rootScope',
+angular.module('core').controller('WebsiteBuilderController', ['$scope', '$sce', 'constants', 'PostMessage', 'Authentication', '$state', '$stateParams', 'accountsService', '$timeout', '$window', '$rootScope',
   function ($scope, $sce, constants, PostMessage, Authentication, $state, $stateParams, accountsService, $timeout, $window, $rootScope) {
     $scope.loading = true
 

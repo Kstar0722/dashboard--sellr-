@@ -1,4 +1,4 @@
-angular.module('users').controller('productEditorDetailController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
+angular.module('core').controller('productEditorDetailController', function ($scope, Authentication, productEditorService, $location, $state, $stateParams, type, status) {
   $scope.userId = Authentication.userId || localStorage.getItem('userId')
 
     // $scope.permissions.editor = JSON.parse(localStorage.getItem('roles')).indexOf(1010) > -1;

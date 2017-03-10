@@ -1,6 +1,6 @@
 'use strict'
 /* global angular, _, moment */
-angular.module('users.manager').controller('AdsmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
+angular.module('core').controller('AdsmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
   function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
     $scope.data = {}
     $scope.data.nameFilter = ''
