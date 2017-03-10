@@ -1,4 +1,4 @@
-describe('Controller: core.HeaderController', function () {
+describe('Controller: core.NavController', function () {
     // load the controller's module
   beforeEach(module('mean'))
 
@@ -8,7 +8,7 @@ describe('Controller: core.HeaderController', function () {
     // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new()
-    ctrl = $controller('HeaderController', {
+    ctrl = $controller('NavController', {
       $scope: scope
     })
   }))
