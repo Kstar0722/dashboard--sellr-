@@ -9,9 +9,14 @@
       </ul>
     </div>
     <div class="right-side">
-      <select ng-model="accountsService.currentAccount" ng-change="accountChangeHandler()" ng-options="account as (account.name + (account.address ? ': ' + account.address : '')) for account in accountsService.accounts track by account.accountId">
-        <option value="">Select Account</option>
-      </select>
+      <div class="menu-select-trigger" ng-bind="accountsService.currentAccount ? (accountsService.currentAccount.name + (accountsService.currentAccount.address ? ': ' + accountsService.currentAccount.address : '')) : 'Select Account'" ng-click="ui.showAccountsSelector = !ui.showAccountsSelector"></div>
+    </div>
+    <div class="accounts-selector-box" ng-show="ui.showAccountsSelector">
+      <div class="account-item account-search-input">
+        <input type="text" ng-model="ui.accountFilter" ng-autofocus="true" placeholder="Search">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="account-item" ng-repeat="account in accountsService.accounts | filter:ui.accountFilter | orderBy:['name', 'address'] track by account.accountId" ng-click="accountChangeHandler(account)" ng-bind="account.name + (account.address ? ': ' + account.address : '')"></div>
     </div>
   </div>
   <div class="secondary-nav">
@@ -41,7 +46,7 @@
       </ul>
     </div>
     <div class="right-side">
-      <div class="account-options-select" ng-bind="Authentication.user.displayName" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
+      <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
     </div>
     <div class="account-options-box" ng-show="ui.showAccountMenu">
       <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false">My Profile</div>

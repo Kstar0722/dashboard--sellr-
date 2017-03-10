@@ -7,9 +7,10 @@ angular.module('core')
     authenticationService.signout()
   }
 
-  $scope.accountChangeHandler = function () {
-    $scope.$root.selectAccountId = accountsService.currentAccount.accountId
-    localStorage.setItem('accountId', accountsService.currentAccount.accountId)
+  $scope.accountChangeHandler = function (account) {
+    $scope.$root.selectAccountId = account.accountId
+    localStorage.setItem('accountId', account.accountId)
+    $scope.ui.showAccountsSelector = false
   }
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
