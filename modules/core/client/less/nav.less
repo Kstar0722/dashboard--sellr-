@@ -151,7 +151,7 @@
         justify-content: space-between;
         align-items: center;
         position: relative;
-        margin-right: 35px;
+        margin-right: 30px;
         input{
           font-family: @avenir;
           border-radius: 4px;
@@ -176,6 +176,18 @@
           right: 14px;
         }
       }
+      .store-logo{
+        width: 71px;
+        height: 40px;
+        border-radius: 4px;
+        background-color: gray;
+         margin-right: 30px;
+        // change below for an actual image coding
+        color: #fff;
+        line-height: 40px;
+        text-align: center;
+        font-size: 12px;
+      }
     }
     .account-options-box{
       position: absolute;
@@ -187,7 +199,7 @@
       z-index: 10;
       overflow: hidden;
       // Approximately the height of the box
-      max-height: 80px;
+      max-height: 120px;
       .nav-common-accordion-animation;
       .account-option{
         height: 37px;
@@ -197,8 +209,11 @@
         min-width: 243px;
         font-size: 14px;
         font-weight: 600;
-        padding-left: 20px;
+        padding-left: 10px;
         cursor: pointer;
+        .fa{
+          margin-right: 13px;
+        }
         &.logout{
           color: #7f8fa4;
         }

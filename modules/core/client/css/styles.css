@@ -587,7 +587,7 @@ body.loading .main-content {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  margin-right: 35px;
+  margin-right: 30px;
 }
 .nav-container .secondary-nav .right-side .general-search-container input {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
@@ -623,6 +623,17 @@ body.loading .main-content {
   top: 8px;
   right: 14px;
 }
+.nav-container .secondary-nav .right-side .store-logo {
+  width: 71px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: gray;
+  margin-right: 30px;
+  color: #fff;
+  line-height: 40px;
+  text-align: center;
+  font-size: 12px;
+}
 .nav-container .secondary-nav .account-options-box {
   position: absolute;
   top: 71px;
@@ -632,7 +643,7 @@ body.loading .main-content {
   border: solid 1px #313d4f;
   z-index: 10;
   overflow: hidden;
-  max-height: 80px;
+  max-height: 120px;
 }
 .nav-container .secondary-nav .account-options-box.ng-hide {
   max-height: 0;
@@ -660,8 +671,11 @@ body.loading .main-content {
   min-width: 243px;
   font-size: 14px;
   font-weight: 600;
-  padding-left: 20px;
+  padding-left: 10px;
   cursor: pointer;
+}
+.nav-container .secondary-nav .account-options-box .account-option .fa {
+  margin-right: 13px;
 }
 .nav-container .secondary-nav .account-options-box .account-option.logout {
   color: #7f8fa4;
