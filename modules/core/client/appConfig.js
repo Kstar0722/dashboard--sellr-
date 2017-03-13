@@ -474,8 +474,16 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       //
       .state('brand', {
         abstract: true,
-        url: '/password',
+        url: '/brandmanager',
         template: '<ui-view/>'
+      })
+      .state('brand.plans', {
+        url: '/plans',
+        templateUrl: 'modules/users/client/views/brand/plans.html'
+      })
+      .state('brand.products', {
+        url: '/products',
+        templateUrl: 'modules/users/client/views/brand/products.html'
       })
   }
 ])

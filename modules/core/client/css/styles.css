@@ -3604,7 +3604,7 @@ body.storeOwner-orders {
   padding: 0 3vw;
 }
 .orders-view .orders-column .orders-title {
-  font-family: "brandon-grotesque", sans-serif;
+  font-family: "Brandon Grot W01 Bold", sans-serif;
   padding-bottom: 0.5vh;
   border-bottom: 1px solid #142332;
 }
@@ -3849,7 +3849,7 @@ body.storeOwner-orders {
   line-height: 16px;
 }
 .orders-view .orders-stats .stats-title {
-  font-family: "brandon-grotesque", sans-serif;
+  font-family: "Brandon Grot W01 Bold", sans-serif;
   padding-bottom: 0.5vh;
   line-height: 42px;
   border-bottom: 1px solid #142332;
@@ -3865,7 +3865,7 @@ body.storeOwner-orders {
   cursor: pointer;
 }
 .orders-view .orders-stats .stat-count {
-  font-family: "brandon-grotesque", sans-serif;
+  font-family: "Brandon Grot W01 Bold", sans-serif;
   font-size: 72px;
   color: #4f5a65;
   font-weight: bold;
@@ -4894,4 +4894,11 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .product-history-view .table-body div:first-child {
   cursor: pointer;
+}
+.brand-plans-view {
+  background-color: #eff3f6;
+  padding: 4vh 3vw 10vh 3vw;
+}
+.brand-products-view {
+  background-color: yellow;
 }

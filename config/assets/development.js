@@ -14,7 +14,7 @@ module.exports = {
         'public/lib/medium-editor/dist/css/medium-editor.css',
         'public/lib/medium-editor/dist/css/themes/default.css',
         'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
-        'public/lib/font-awesome/css/font-awesome.css',
+        'public/lib/font-awesome/css/font-awesome.min.css',
         'public/lib/selectize/dist/css/selectize.default.css',
         'public/lib/angular-loading-bar/build/loading-bar.css',
         'public/lib/angular-ui-switch/angular-ui-switch.css'
