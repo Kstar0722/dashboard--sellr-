@@ -59,7 +59,6 @@
       width: 400px;
       // Approximately the height of the box
       max-height: 400px;
-
       .nav-common-accordion-animation;
       .account-item{
         height: 37px;
@@ -138,6 +137,43 @@
       ul{
         li{
           opacity: 0.47;
+        }
+      }
+    }
+    .right-side{
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+      align-items: center;
+      .general-search-container{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        margin-right: 35px;
+        input{
+          font-family: @avenir;
+          border-radius: 4px;
+          background-color: #222c3c;
+          border: solid 1px #313d4f;
+          width: 270px;
+          color: #fff;
+          font-weight: bold;
+          outline: none;
+          padding-left: 13px;
+          padding-right: 40px;
+          height: 36px;
+          line-height: 36px;
+          font-size: 14px;
+          box-sizing: border-box;
+          .placeholder({ color: #7f8fa4; });
+        }
+        .fa{
+          color: #a1a7af;
+          position: absolute;
+          top: 8px;
+          right: 14px;
         }
       }
     }

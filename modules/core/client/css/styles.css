@@ -575,6 +575,54 @@ body.loading .main-content {
 .nav-container .secondary-nav .left-side ul li {
   opacity: 0.47;
 }
+.nav-container .secondary-nav .right-side {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+.nav-container .secondary-nav .right-side .general-search-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-right: 35px;
+}
+.nav-container .secondary-nav .right-side .general-search-container input {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  border-radius: 4px;
+  background-color: #222c3c;
+  border: solid 1px #313d4f;
+  width: 270px;
+  color: #fff;
+  font-weight: bold;
+  outline: none;
+  padding-left: 13px;
+  padding-right: 40px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.nav-container .secondary-nav .right-side .general-search-container input::-webkit-input-placeholder {
+  color: #7f8fa4;
+}
+.nav-container .secondary-nav .right-side .general-search-container input:-moz-placeholder {
+  color: #7f8fa4;
+}
+.nav-container .secondary-nav .right-side .general-search-container input::-moz-placeholder {
+  color: #7f8fa4;
+}
+.nav-container .secondary-nav .right-side .general-search-container input:-ms-input-placeholder {
+  color: #7f8fa4;
+}
+.nav-container .secondary-nav .right-side .general-search-container .fa {
+  color: #a1a7af;
+  position: absolute;
+  top: 8px;
+  right: 14px;
+}
 .nav-container .secondary-nav .account-options-box {
   position: absolute;
   top: 71px;
