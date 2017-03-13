@@ -2,10 +2,11 @@
 
 <!-- HEAD - STYLES BLOCK -->
 {% block head %}
-
+    
     {% for cssFile in cssFiles %}
     <link rel="stylesheet" href="{{cssFile}}">
     {% endfor %}
+    
     <!-- EXTERNAL FONT LIBRARIES
       font-family:'Brandon Grot W01 Light';
       font-family:'Brandon Grot W01 Bold';
@@ -21,15 +22,15 @@
 
 <!-- CONTENT BLOCK -->
 {% block content %}
-<header ng-include="'/modules/core/client/views/nav.html'"></header>
-<section ui-view class="main-content loading-bar-container"></section>
+    
+    <header ng-include="'/modules/core/client/views/nav.html'"></header>
+    <section ui-view class="main-content loading-bar-container"></section>
+
 {% endblock %}
 
-
-
 <!-- SCRIPTS BLOCK -->
-
 {% block bodyend %}
+
     <script type="text/javascript">
         window.user = {{user | json | safe}};
         window.appSettings = {{ appSettings | json | safe }};

@@ -4898,6 +4898,89 @@ body.websiteBuilder #loading-bar-spinner {
 .brand-plans-view {
   background-color: #eff3f6;
   padding: 4vh 3vw 10vh 3vw;
+  color: #354052;
+}
+.brand-plans-view .title {
+  font-size: 24px;
+}
+.brand-plans-view .plans-table {
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+}
+.brand-plans-view .plans-table .filter-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand-plans-view .plans-table .filter-header .staus-filter {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.brand-plans-view .plans-table .filter-header .staus-filter .status-option {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  padding: 20px 30px;
+}
+.brand-plans-view .plans-table .filter-header .staus-filter .status-option.active {
+  border-bottom: 3px solid #2bbf88;
+}
+.brand-plans-view .plans-table .filter-header .staus-filter .status-option .status-count {
+  margin-left: 15px;
+  font-size: 14px;
+  color: #7f8fa4;
+}
+.brand-plans-view .plans-table .filter-header .staus-filter .status-option-separator {
+  border-left: 1px solid #dfe3e9;
+}
+.brand-plans-view .plans-table .filter-header .input-filter {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-right: 30px;
+}
+.brand-plans-view .plans-table .filter-header .input-filter input {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #dfe3e9;
+  width: 220px;
+  color: #354052;
+  font-weight: bold;
+  outline: none;
+  padding-left: 13px;
+  padding-right: 40px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.brand-plans-view .plans-table .filter-header .input-filter input::-webkit-input-placeholder {
+  color: #a1a7af;
+}
+.brand-plans-view .plans-table .filter-header .input-filter input:-moz-placeholder {
+  color: #a1a7af;
+}
+.brand-plans-view .plans-table .filter-header .input-filter input::-moz-placeholder {
+  color: #a1a7af;
+}
+.brand-plans-view .plans-table .filter-header .input-filter input:-ms-input-placeholder {
+  color: #a1a7af;
+}
+.brand-plans-view .plans-table .filter-header .input-filter .fa {
+  color: #a1a7af;
+  position: absolute;
+  top: 8px;
+  right: 14px;
 }
 .brand-products-view {
   background-color: yellow;
