@@ -1,0 +1,121 @@
+.common-input,
+.common-textarea{
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #dfe3e9;
+  outline: none;
+  opacity: .5;
+  font-size: 14px;
+  font-weight: bold;
+  color: #354052;
+  padding: 0px 13px;
+  font-family: @avenir;
+  height: 36px;
+  line-height: 36px;
+  box-sizing: border-box;
+  .placeholder({ color: #a1a7af; });
+}
+
+.common-textarea{
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #dfe3e9;
+  outline: none;
+  opacity: .5;
+  font-size: 14px;
+  font-weight: bold;
+  color: #354052;
+  padding: 0px 13px;
+  font-family: @avenir;
+  box-sizing: border-box;
+  min-height: 150px;
+  width: 100%;
+  resize: none;
+  .placeholder({ color: #a1a7af; });
+}
+
+.common-select-arrow{
+  cursor: pointer;
+  background: transparent url('/img/angle-arrow-down.svg') no-repeat;
+  background-size: 7px;
+  background-position: right center;
+}
+
+.common-select-trigger{
+  cursor: pointer;
+  border-radius: 4px;
+  background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+  border: solid 1px #ced0da;
+  font-size: 14px;
+  font-weight: bold;
+  color: #354052;
+  padding: 0px 36px 0 13px;
+  font-family: @avenir;
+  height: 36px;
+  line-height: 36px;
+  box-sizing: border-box;
+  position: relative;
+  max-width: 300px;
+  &:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 36px;
+    width: 36px;
+    cursor: pointer;
+    background: transparent url('/img/angle-arrow-down.svg') no-repeat;
+    background-size: 7px;
+    background-position: center center;
+  }
+}
+
+.common-btns-bar{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.common-btn-positive,
+.common-btn-negative{
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  height: 36px;
+  line-height: 36px;
+  width: 150px;
+  cursor: pointer;
+}
+
+.common-btn-positive{
+  background-image: linear-gradient(to top, #259d71, #2bbf88);
+}
+
+.common-btn-negative{
+  background-image: linear-gradient(to bottom, #a80000, #cf1010);
+}
+
+.common-accordion-animation{
+  &.ng-hide{
+    max-height: 0;
+    overflow: hidden;
+  }
+  &.ng-hide-add{
+    webkit-transition: max-height ease-in 0.2s; 
+    -moz-transition: max-height ease-in 0.2s; 
+    -ms-transition: max-height ease-in 0.2s; 
+    -o-transition: max-height ease-in 0.2s; 
+    transition: max-height ease-in 0.2s; 
+  }
+  &.ng-hide-remove{
+    webkit-transition: max-height ease-out 0.3s; 
+    -moz-transition: max-height ease-out 0.3s; 
+    -ms-transition: max-height ease-out 0.3s; 
+    -o-transition: max-height ease-out 0.3s; 
+    transition: max-height ease-out 0.3s;  
+  }
+}

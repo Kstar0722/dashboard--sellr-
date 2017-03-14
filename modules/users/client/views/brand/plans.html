@@ -1,33 +1,138 @@
 <div class="brand-plans-view">
-  <div class="title">All Plans</div>
-  <div class="plans-table">
-    <div class="filter-header">
-      <div class="staus-filter">
-        <div class="status-option active">
-          <span>Active</span>
-          <span class="status-count">32</span>
+  <div class="auto-save-box">
+    <i class="fa fa-circle"></i> Automatically Saved
+  </div>
+  <div class="left-side-content">
+    <div class="title">All Plans</div>
+    <div class="plans-table">
+      <!--
+      FILTER HEADER
+      -->
+      <div class="filter-header">
+        <div class="staus-filter">
+          <div class="status-option active">
+            <span>Active</span>
+            <span class="status-count">32</span>
+          </div>
+          <div class="status-option-separator">&nbsp;</div>
+          <div class="status-option">
+            <span>Scheduled</span>
+            <span class="status-count">4</span>
+          </div>
+          <div class="status-option-separator">&nbsp;</div>
+          <div class="status-option">
+            <span>Need Approval</span>
+            <span class="status-count">13</span>
+          </div>
+          <div class="status-option-separator">&nbsp;</div>
+          <div class="status-option">
+            <span>Expired</span>
+            <span class="status-count">5</span>
+          </div>
         </div>
-        <div class="status-option-separator">&nbsp;</div>
-        <div class="status-option">
-          <span>Scheduled</span>
-          <span class="status-count">4</span>
-        </div>
-        <div class="status-option-separator">&nbsp;</div>
-        <div class="status-option">
-          <span>Need Approval</span>
-          <span class="status-count">13</span>
-        </div>
-        <div class="status-option-separator">&nbsp;</div>
-        <div class="status-option">
-          <span>Expired</span>
-          <span class="status-count">5</span>
+        <div class="input-filter">
+          <input type="text" placeholder="Search" class="common-input">
+          <i class="fa fa-search"></i>
         </div>
       </div>
-      <div class="input-filter">
-        <input type="text" placeholder="Search">
-        <i class="fa fa-search"></i>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div class="name-col"><span>Store Name</span> <i class="fa fa-sort"></i></div>
+        <div class="submitted-col"><span>Date Submitted</span> <i class="fa fa-sort"></i></div>
+        <div class="promotion-col"><span>Promotion Name</span> <i class="fa fa-sort"></i></div>
+        <div class="start-col"><span>Start Date</span> <i class="fa fa-sort"></i></div>
+        <div class="member-col"><span>Team Member</span> <i class="fa fa-sort"></i></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data">
+        <div class="name-col">
+          <div>Mac’s Beer Wine and Spirits</div>
+          <div class="subname">City, State</div>
+        </div>
+        <div class="submitted-col">11/01/2017</div>
+        <div class="promotion-col">March</div>
+        <div class="start-col">11/01/2017</div>
+        <div class="member-col">Michael Rhodes</div>
+      </div>
+      <div class="columns-data">
+        <div class="name-col">
+          <div>Mac’s Beer Wine and Spirits</div>
+          <div class="subname">City, State</div>
+        </div>
+        <div class="submitted-col">11/01/2017</div>
+        <div class="promotion-col">March</div>
+        <div class="start-col">11/01/2017</div>
+        <div class="member-col">Michael Rhodes</div>
+      </div>
+      <div class="columns-data active">
+        <div class="name-col">
+          <div>Mac’s Beer Wine and Spirits</div>
+          <div class="subname">City, State</div>
+        </div>
+        <div class="submitted-col">11/01/2017</div>
+        <div class="promotion-col">March</div>
+        <div class="start-col">11/01/2017</div>
+        <div class="member-col">Michael Rhodes</div>
+      </div>
+      <div class="columns-data">
+        <div class="name-col">
+          <div>Mac’s Beer Wine and Spirits</div>
+          <div class="subname">City, State</div>
+        </div>
+        <div class="submitted-col">11/01/2017</div>
+        <div class="promotion-col">March</div>
+        <div class="start-col">11/01/2017</div>
+        <div class="member-col">Michael Rhodes</div>
+      </div>
+      <div class="columns-data">
+        <div class="name-col">
+          <div>Mac’s Beer Wine and Spirits</div>
+          <div class="subname">City, State</div>
+        </div>
+        <div class="submitted-col">11/01/2017</div>
+        <div class="promotion-col">March</div>
+        <div class="start-col">11/01/2017</div>
+        <div class="member-col">Michael Rhodes</div>
       </div>
     </div>
-    <div>Store Name</div>
+  </div>
+  <div class="right-side-content">
+    <div class="title">Edit Plan</div>
+    <div class="edit-plan-panel">
+      <div class="field-title">Plan Name</div>
+      <input type="text" class="common-input" placeholder="" value="December 2016">
+      <div class="field-title">Select Store</div>
+      <div class="common-select-trigger">
+        Mac's Beer and Wine
+      </div>
+      <div class="date-inputs">
+        <div class="start-date">
+          <div class="field-title">Start Date</div>
+          <input type="text" class="common-input" placeholder="" value="12/02/2016">
+        </div>
+        <div>
+          <div class="field-title">End Date</div>
+          <input type="text" class="common-input" placeholder="" value="01/02/2017">
+        </div>
+      </div>
+      <div class="field-title">Products in Plan</div>
+      <div class="products-box">
+        
+      </div>
+      <div class="field-title">Status</div>
+      <div class="common-select-trigger">
+        Approved
+      </div>
+      <div class="field-title">Related SKU’s</div>
+      <textarea name="" id="" class="common-textarea"></textarea>
+      <div class="common-btns-bar">
+        <div class="common-btn-negative">Cancel</div>
+        <div class="common-btn-positive">Update</div>
+      </div>
+    </div>
   </div>
 </div>
