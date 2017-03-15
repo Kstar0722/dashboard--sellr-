@@ -1,35 +1,10 @@
+// 
+// PLANS
+// 
 .brand-plans-view{
-  background-color: #eff3f6;
-  min-height: 90vh;
-  padding: 4vh 3vw 10vh 3vw;
-  color: #354052;
-  position: relative;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  .title{
-    font-size: 24px;
-  }
-  .auto-save-box{
-    position: absolute;
-    top: 4vh;
-    right: 3vw;
-    font-size: 12px;
-    font-weight: bold;
-    color: #7f8fa4;
-    .fa{
-      margin-right: 7px;
-      color: #37b148;
-    }
-  }
+  .common-view-layout;
   .left-side-content{
-    width: 58vw;
-    .plans-table{
-      margin-top: 30px;
-      border-radius: 4px;
-      background-color: #ffffff;
-      border: solid 1px #e6eaee;
+    .main-table{
       .filter-header{
         display: flex;
         flex-flow: row nowrap;
@@ -62,22 +37,8 @@
             border-left: 1px solid #dfe3e9;
           }
         }
-        .input-filter{
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-          align-items: center;
-          position: relative;
+        .common-input-with-icon{
           margin-right: 1.5vw;
-          input{
-            padding-right: 40px;
-          }
-          .fa{
-            color: #a1a7af;
-            position: absolute;
-            top: 8px;
-            right: 14px;
-          }
         }
       }
       .columns-header,
@@ -136,13 +97,7 @@
     }
   }
   .right-side-content{
-    width: 32vw;
-    .edit-plan-panel{
-      margin-top: 30px;
-      border-radius: 4px;
-      background-color: #ffffff;
-      border: solid 1px #e6eaee;
-      padding: 0 30px 30px 30px;
+    .side-panel{
       .field-title{
         font-size: 12px;
         font-weight: bold;
@@ -173,6 +128,88 @@
 }
 
 .brand-products-view{
-  background-color: yellow; 
+  .common-view-layout;
+  .left-side-content{
+    .main-table{
+      padding: 15px;
+      .filter-header{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+        .left-filter{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          .common-input-with-icon{
+            margin-left: 20px;
+          }
+        }
+      }
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        .check-col{
+          width: 4%;
+          padding-right: 2%;
+        }
+        .name-col{
+          width: 30%;
+          padding-right: 2%;
+        }
+        .skus-col{
+          width: 45%;
+          padding-right: 2%;
+        }
+        .plan-col{
+          width: 15%;
+        }
+      }
+      .columns-header{
+        color: #7f8fa4;
+        padding: 30px 0 10px 0;
+        .header-check{
+          width: 30px;
+          height: 30px;
+          border-radius: 4px;
+          background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+          border: solid 1px #ced0da;
+          text-align: center;
+          line-height: 30px;
+          box-sizing: border-box;
+          padding-top: 3px;
+        }
+      }
+      .columns-data{
+        padding: 10px 0;
+        border-top: 1px solid #e6eaee;
+        font-size: 14px;
+        font-weight: normal;
+        align-items: flex-start;
+        &.active{
+          background-color: rgba(215,251,232,0.2);
+        }
+        &:hover{
+          background-color: rgba(215,251,232,0.2);
+        }
+        .check-col{
+          input{
+            margin-left: 7px;
+          }
+        }
+        .skus-col{
+          word-wrap: break-word;
+        }
+      }
+    }
+  }
 }
 
