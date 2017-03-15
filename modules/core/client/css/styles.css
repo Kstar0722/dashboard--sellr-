@@ -478,6 +478,9 @@ body.loading .main-content {
 .common-textarea:-ms-input-placeholder {
   color: #a1a7af;
 }
+.common-input {
+  min-width: 250px;
+}
 .common-input-with-icon {
   display: flex;
   flex-flow: row nowrap;
@@ -552,6 +555,7 @@ body.loading .main-content {
   box-sizing: border-box;
   position: relative;
   max-width: 300px;
+  min-width: 250px;
 }
 .common-select-trigger:after {
   content: '';
@@ -564,6 +568,14 @@ body.loading .main-content {
   background: transparent url('/img/angle-arrow-down.svg') no-repeat;
   background-size: 7px;
   background-position: center center;
+}
+.common-field-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8fa4;
+  opacity: .5;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 .common-btns-bar {
   display: flex;
@@ -5213,14 +5225,6 @@ body.websiteBuilder #loading-bar-spinner {
   font-weight: normal;
   margin-top: 3px;
 }
-.brand-plans-view .right-side-content .side-panel .field-title {
-  font-size: 12px;
-  font-weight: bold;
-  color: #7f8fa4;
-  opacity: .5;
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
 .brand-plans-view .right-side-content .side-panel .date-inputs {
   display: flex;
   flex-flow: row nowrap;
@@ -5364,4 +5368,9 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .brand-products-view .left-side-content .main-table .columns-data .skus-col {
   word-wrap: break-word;
+}
+.brand-products-view .right-side-content .side-panel .upload-picture-box {
+  width: 100%;
+  background-color: rgba(223, 227, 233, 0.2);
+  height: 162px;
 }
