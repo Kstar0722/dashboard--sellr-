@@ -1,7 +1,7 @@
 'use strict'
 /* global angular, localStorage */
 // Authentication service for user variables
-angular.module('users').factory('Authentication', ['$window',
+angular.module('core').factory('Authentication', ['$window',
   function () {
     var rolesTable = [
       { text: 'admin', id: 1004 },

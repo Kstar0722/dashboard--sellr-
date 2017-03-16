@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants',
+angular.module('core').controller('UserListController', ['$scope', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants',
   function ($scope, $filter, Users, $http, $state, CurrentUserService, constants) {
     $scope.CurrentUserService = CurrentUserService
     $scope.userview = $state.params

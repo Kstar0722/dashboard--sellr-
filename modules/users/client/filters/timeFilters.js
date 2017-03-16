@@ -1,5 +1,5 @@
 /* globals angular, moment */
-angular.module('users')
+angular.module('core')
 .filter('hour', function () {
   return function (momentDate) {
     // NEW FORMAT USE THIS FROM NOW ON

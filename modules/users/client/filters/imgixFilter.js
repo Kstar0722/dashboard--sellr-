@@ -1,4 +1,4 @@
-angular.module('users')
+angular.module('core')
 .filter('imgix', function () {
   return function (url, w, h, q) {
     var newUrl = url

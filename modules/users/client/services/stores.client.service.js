@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('storesService', function ($http, constants, $q, toastr, $state) {
+angular.module('core').service('storesService', function ($http, constants, $q, toastr, $state) {
   var me = this
 
   me.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']

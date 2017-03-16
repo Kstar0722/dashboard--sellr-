@@ -1,6 +1,6 @@
 'use strict'
 /* global angular, moment, _ */
-angular.module('users.admin')
+angular.module('core')
   .controller('StoreOwnerOrdersController', [ '$scope', '$http', '$state', 'constants', 'toastr', '$stateParams', 'SocketAPI', 'accountsService',
     function ($scope, $http, $state, constants, toastr, $stateParams, SocketAPI, accountsService) {
       var API_URL = constants.API_URL

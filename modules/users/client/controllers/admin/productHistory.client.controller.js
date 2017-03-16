@@ -1,5 +1,5 @@
 'use strict'
-angular.module('users.admin').controller('ProductHistoryController', ['$scope', '$filter', '$http', 'constants', '$q', function ($scope, $filter, $http, constants, $q) {
+angular.module('core').controller('ProductHistoryController', ['$scope', '$filter', '$http', 'constants', '$q', function ($scope, $filter, $http, constants, $q) {
   // INITIALIZATION
   $scope.ui = {}
   $scope.ui.skip = 0

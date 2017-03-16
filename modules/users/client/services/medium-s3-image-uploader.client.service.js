@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users').factory('MediumS3ImageUploader', ['$window', 'uploadService', 'toastr', function ($window, uploadService, toastr) {
+angular.module('core').factory('MediumS3ImageUploader', ['$window', 'uploadService', 'toastr', function ($window, uploadService, toastr) {
   var isContentEmpty = function (element) {
     var $element = $(element)
     return $element.length === 0 || $element.text().trim() === '' && $element.find('img').length === 0

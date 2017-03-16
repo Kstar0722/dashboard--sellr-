@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users.admin').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer) {
+angular.module('core').controller('AccountManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer) {
   accountsService.init({ expand: 'stores,stats' })
   $scope.authentication = Authentication
   $scope.accountsService = accountsService

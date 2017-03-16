@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('users').service('productsService', function ($http, constants, $q) {
+angular.module('core').service('productsService', function ($http, constants, $q) {
   var me = this
 
   me.createCategory = function (newCategory) {

@@ -2,7 +2,7 @@
 /* globals angular, moment, _ */
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr', '$mdDialog', '$timeout',
+angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr', '$mdDialog', '$timeout',
   function ($http, constants, $q, $analytics, toastr, $mdDialog, $timeout) {
     var me = this
 

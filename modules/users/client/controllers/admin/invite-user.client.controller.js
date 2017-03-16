@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.admin').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$mdDialog', '$timeout', 'CurrentUserService', 'Users',
+angular.module('core').controller('inviteUserController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$mdDialog', '$timeout', 'CurrentUserService', 'Users',
   function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $mdDialog, $timeout, CurrentUserService, Users) {
     $scope.myPermissions = localStorage.getItem('roles')
     $scope.accountsService = accountsService

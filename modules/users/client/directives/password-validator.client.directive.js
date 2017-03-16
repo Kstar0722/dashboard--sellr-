@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users')
+angular.module('core')
   .directive('passwordValidator', ['PasswordValidator', function (PasswordValidator) {
     return {
       require: 'ngModel',

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.manager').controller('DashboardController', ['$scope', '$stateParams', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService', 'toastr',
+angular.module('core').controller('DashboardController', ['$scope', '$stateParams', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'chartService', 'accountsService', 'toastr',
   function ($scope, $stateParams, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, chartService, accountsService, toastr) {
     $scope.authentication = Authentication
 

@@ -1,7 +1,7 @@
 'use strict'
 
 /* globals angular */
-angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q', 'Users', '$mdDialog',
+angular.module('core').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q', 'Users', '$mdDialog',
   function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr, $q, Users, $mdDialog) {
     $scope.authentication = Authentication
     $scope.user = userResolve

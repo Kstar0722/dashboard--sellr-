@@ -1,5 +1,5 @@
 /* globals angular, _, $ */
-angular.module('users.admin').controller('ProductsUploaderController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvCustomProductMapper, formatter, storesService) {
+angular.module('core').controller('ProductsUploaderController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvCustomProductMapper, formatter, storesService) {
   var EMPTY_FIELD_NAME = csvCustomProductMapper.EMPTY_FIELD_NAME
   var FIELD_TYPES = csvCustomProductMapper.FIELD_TYPES
 

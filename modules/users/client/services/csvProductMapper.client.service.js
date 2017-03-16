@@ -1,5 +1,5 @@
 /* globals angular, _ */
-angular.module('users').service('csvProductMapper', function (ProductTypes) {
+angular.module('core').service('csvProductMapper', function (ProductTypes) {
   var self = this
 
   this.EMPTY_FIELD_NAME = '-'

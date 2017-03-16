@@ -1,5 +1,5 @@
 /* globals angular */
-angular.module('users.admin').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia,
+angular.module('core').controller('StoreDbDetailController', function ($scope, $location, $mdDialog, $mdMedia,
                                                                               orderDataService, $state, accountsService, CurrentUserService,
                                                                               productEditorService, Authentication, $stateParams, constants, toastr, $q, $rootScope, cfpLoadingBar) {
   if (Authentication.user) {

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.admin').controller('DeviceManagerController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$stateParams',
+angular.module('core').controller('DeviceManagerController', ['$scope', '$state', '$http', 'Authentication', 'constants', 'toastr', 'accountsService', '$stateParams',
   function ($scope, $state, $http, Authentication, constants, toastr, accountsService, $stateParams) {
     $scope.authentication = Authentication
         // $scope.file = '  ';

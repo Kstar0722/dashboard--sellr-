@@ -1,4 +1,4 @@
-angular.module('users').service('CurrentUserService', ['Users', '$state',
+angular.module('core').service('CurrentUserService', ['Users', '$state',
   function (Users, $state) {
     var me = this
     me.user = ''

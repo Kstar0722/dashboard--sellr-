@@ -1,6 +1,6 @@
 'use strict'
 /* globals angular, moment, _ */
-angular.module('users')
+angular.module('core')
   .controller('GetStartedController', ['$scope', '$state', '$stateParams', '$timeout', '$sce', 'storesService', 'Authentication', 'accountsService', '$q', 'toastr', 'Users', '$analytics', 'productsService', 'authenticationService', '$window',
     function ($scope, $state, $stateParams, $timeout, $sce, storesService, Authentication, accountsService, $q, toastr, Users, $analytics, productsService, authenticationService, $window) {
       var DEFAULT_ROLES = [1002, 1003, 1009] // store owner

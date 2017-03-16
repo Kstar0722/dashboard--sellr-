@@ -1,5 +1,5 @@
 /* globals angular */
-angular.module('users')
+angular.module('core')
   .filter('stringToClass', function () {
     return function (input) {
       if (typeof input !== 'string') {

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope', 'Authentication', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
+angular.module('core').controller('StoreOwnerInviteController', [ '$scope', 'Authentication', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
   function ($scope, Authentication, $filter, Users, $http, $state, CurrentUserService, constants, accountsService, toastr) {
     $scope.CurrentUserService = CurrentUserService
     $scope.userview = $state.params

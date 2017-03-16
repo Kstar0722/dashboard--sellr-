@@ -6,7 +6,7 @@
     return -1
   }
 
-  angular.module('users').directive('countrySelect', function () {
+  angular.module('core').directive('countrySelect', function () {
     var allCountries
     allCountries = [
       {

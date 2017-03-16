@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
+angular.module('core').controller('ChangeProfilePictureController', ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader',
   function ($scope, $timeout, $window, Authentication, FileUploader) {
     $scope.user = Authentication.user || { profileImageUrl: '' }
     $scope.imageURL = $scope.user.profileImageURL

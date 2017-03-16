@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users')
+angular.module('core')
   .directive('passwordVerify', function () {
     return {
       require: 'ngModel',

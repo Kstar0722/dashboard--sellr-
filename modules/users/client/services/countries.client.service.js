@@ -1,5 +1,5 @@
 /* globals angular */
-angular.module('users').service('Countries', function () {
+angular.module('core').service('Countries', function () {
   var me = this
   me.allCountries = [
     {
