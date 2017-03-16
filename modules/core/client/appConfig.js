@@ -479,11 +479,13 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('brand.plans', {
         url: '/plans',
-        templateUrl: 'modules/users/client/views/brand/plans.html'
+        templateUrl: 'modules/users/client/views/brand/plans.html',
+        controller: 'BrandPlansController'
       })
       .state('brand.products', {
         url: '/products',
-        templateUrl: 'modules/users/client/views/brand/products.html'
+        templateUrl: 'modules/users/client/views/brand/products.html',
+        controller: 'BrandProductsController'
       })
   }
 ])
