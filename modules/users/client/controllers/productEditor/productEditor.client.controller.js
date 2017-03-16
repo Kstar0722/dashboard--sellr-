@@ -212,20 +212,14 @@ angular.module('core').controller('productEditorController', function ($scope, A
       }
     )
   }
+
   $scope.quickEdit = function (product) {
-    var options = {
-      userId: $scope.userId,
-      productId: product.productId,
-      status: 'inprogress'
+    productEditorService.setCurrentProduct(product)
+    if ($state.includes('editor.match')) {
+      $state.go('editor.match.edit', { productId: product.productId, status: $stateParams.status })
+    } else {
+      $state.go('editor.edit', { productId: product.productId, status: $stateParams.status })
     }
-    productEditorService.claim(options).then(function () {
-      productEditorService.setCurrentProduct(product)
-      if ($state.includes('editor.match')) {
-        $state.go('editor.match.edit', { productId: product.productId, status: $stateParams.status })
-      } else {
-        $state.go('editor.edit', { productId: product.productId, status: $stateParams.status })
-      }
-    })
   }
 
   $scope.updateFilter = function (value) {
@@ -244,9 +238,16 @@ angular.module('core').controller('productEditorController', function ($scope, A
   $scope.submitForApproval = function (product) {
     $analytics.eventTrack('Product Submitted', { productId: product.productId, user: Authentication.user.displayName })
     product.status = 'done'
-    $('.modal-backdrop').remove()
-    productEditorService.save(product)
-  // $scope.viewProduct(product)
+    var options = {
+      userId: $scope.userId,
+      productId: product.productId,
+      status: 'done'
+    }
+    productEditorService.claim(options).then(function () {
+      productEditorService.save(product).then(function () {
+        $('.modal-backdrop').remove()
+      })
+    })
   }
 
   $scope.issues = [
