@@ -1,0 +1,120 @@
+<div class="brand-products-view">
+  <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
+    <i class="fa fa-circle"></i> Automatically Saved
+  </div>
+  <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
+    <div class="title">All Products</div>
+    <div class="main-table">
+      <!--
+      FILTER HEADER
+      -->
+      <div class="filter-header">
+        <div class="left-filter">
+          <div class="common-select-trigger">
+            Choose Program
+          </div>
+          <div class="common-input-with-icon">
+            <input type="text" placeholder="Search" class="common-input">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>
+        <div class="right-filter">
+          <div class="common-btn-positive" ng-click="ui.display = 'addProduct'"><i class="fa fa-plus"></i> New Product</div>
+        </div>
+      </div>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div ng-class="['check-col', {plan: ui.makePlanHeader}]">
+          <div class="header-check">
+            <input type="checkbox" class="common-checkbox" ng-click="allChecksChange()" ng-model="ui.allCheck">
+          </div>
+          <div class="make-plan" ng-show="ui.makePlanHeader">
+            Make New Plan
+          </div>
+          <div class="selected-count" ng-show="ui.makePlanHeader">
+            5 products selected
+          </div>
+          <div class="select-all" ng-show="ui.makePlanHeader" ng-click="allChecksChange(true)">
+            Select All
+          </div>
+        </div>
+        <div class="name-col" ng-show="!ui.makePlanHeader"><span>Product Name</span> <i class="fa fa-sort"></i></div>
+        <div class="skus-col" ng-show="!ui.makePlanHeader"><span>Related SKU’s</span> <i class="fa fa-sort"></i></div>
+        <div class="plan-col" ng-show="!ui.makePlanHeader"><span>Plan</span> <i class="fa fa-sort"></i></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data" ng-repeat="product in products track by product.id">
+        <div class="check-col">
+          <input type="checkbox" class="common-checkbox" ng-model="ui.checkArray[product.id]" ng-change="checkChange()">
+        </div>
+        <div class="name-col" ng-bind="product.name"></div>
+        <div class="skus-col" ng-bind="product.skus"></div>
+        <div class="plan-col" ng-bind="product.plans"></div>
+      </div>
+    </div>
+  </div>
+  <div class="right-side-content" ng-show="ui.display === 'addProduct'" ng-switch="ui.display">
+    <div class="title" ng-switch-when="addProduct">Add Product</div>
+    <div class="title" ng-switch-when="editProduct">Edit Product</div>
+    <div class="title" ng-switch-when="viewProduct">View Product</div>
+    <div class="side-panel">
+      <div class="common-field-title">Picture</div>
+      <div class="upload-picture-box"></div>
+      <div class="common-field-title">Product Name</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">Plan</div>
+      <div class="common-select-trigger">
+        October
+      </div>
+      <div class="common-field-title">Product Description</div>
+      <textarea name="" id="" class="common-textarea"></textarea>
+      <div class="common-field-title">Ingredients</div>
+      <textarea name="" id="" class="common-textarea"></textarea>
+      <div class="common-field-title">Instructions</div>
+      <textarea name="" id="" class="common-textarea"></textarea>
+      <div class="common-field-title">Related SKU’s</div>
+      <textarea name="" id="" class="common-textarea"></textarea>
+      <div class="common-btns-bar">
+        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-positive">Add</div>
+      </div>
+    </div>
+  </div>
+  <div class="right-side-content" ng-show="ui.display === 'addPlan'">
+    <div class="title">Add Plan</div>
+    <div class="side-panel">
+      <div class="common-field-title">Plan Name</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">Select Store</div>
+      <div class="common-select-trigger">
+        Mac's Beer and Wine
+      </div>
+      <div class="date-inputs">
+        <div class="start-date">
+          <div class="common-field-title">Start Date</div>
+          <input type="text" class="common-input" placeholder="" value="12/02/2016">
+        </div>
+        <div>
+          <div class="common-field-title">End Date</div>
+          <input type="text" class="common-input" placeholder="" value="01/02/2017">
+        </div>
+      </div>
+      <div class="common-field-title">Products in Plan</div>
+      <div class="products-box"></div>
+      <div class="common-field-title">Status</div>
+      <div class="common-select-trigger">
+        Needs Approval
+      </div>
+      <div class="common-field-title">Related SKU’s</div>
+      <textarea name="" id="" class="common-textarea"></textarea>
+      <div class="common-btns-bar">
+        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-positive">Submit</div>
+      </div>
+    </div>
+  </div>
+</div>
