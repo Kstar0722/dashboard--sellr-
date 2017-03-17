@@ -2,6 +2,7 @@
   <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
     <div class="left-side">
       <ul>
+        <li ng-class="{active: ui.primaryRoute === 'brand'}" ng-if="ui.shouldRenderBrandItem" ui-sref="brand.plans">Brand</li>
         <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="ui.shouldRenderSupplierItem" ui-sref="supplier.media">Supplier</li>
         <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
         <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="curator.store">Product Editor</li>
@@ -25,6 +26,9 @@
         <img src="/img/s-l-l-r-icon-green-square.png" alt="logo">
       </div>
       <ul>
+        <!-- BRAND -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.products">Products</li> 
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.plans">Plans</li> 
         <!-- SUPPLIER -->
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'supplier'" ui-sref="supplier.media">Upload An Asset</li>
         <!-- EDITOR -->

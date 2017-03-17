@@ -62,6 +62,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
 
     // ROUTES START
     $stateProvider
+      // GENERAL ROUTES
       .state('home', {
         url: '/',
         templateUrl: 'modules/core/client/views/home.client.view.html',
@@ -92,6 +93,42 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         },
         public: true
       })
+      .state('productHistory', {
+        url: '/productHistory',
+        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
+        controller: 'ProductHistoryController'
+      })
+      .state('dashboard', {
+        url: '/dashboard/:accountId?',
+        templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
+      })
+      .state('editProfile', {
+        url: '/profile',
+        templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
+      })
+      .state('productsUploader', {
+        url: '/products/:accountId?',
+        templateUrl: 'modules/users/client/views/admin/products-uploader.client.view.html'
+      })
+      .state('websiteBuilder', {
+        url: '/website/:accountId/builder{builderPath:uriType}',
+        templateUrl: 'modules/users/client/views/websiteBuilder/websiteBuilder.client.view.html',
+        params: {
+          resource: null
+        }
+      })
+      .state('getStarted', {
+        url: '/getstarted',
+        templateUrl: 'modules/users/client/views/authentication/getStarted.client.view.html',
+        public: true,
+        params: {
+          password: null,
+          step: null
+        }
+      })
+      //
+      // ADMIN ROUTES
+      //
       .state('admin', {
         abstract: true,
         url: '/admin',
@@ -151,6 +188,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',
         controller: 'DeviceManagerController'
       })
+      //
+      // EDITOR ROUTES
+      //
       .state('editor', {
         url: '/editor',
         templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
@@ -234,16 +274,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('curator.store', {
-        url: '/store',
-        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
-        controller: 'StoreDbController'
-      })
-      .state('productHistory', {
-        url: '/productHistory',
-        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
-        controller: 'ProductHistoryController'
-      })
+      //
+      // CURATOR ROUTES
+      //
       .state('curator', {
         url: '/curator',
         template: '<ui-view/>',
@@ -252,6 +285,14 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         },
         abstract: true
       })
+      .state('curator.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
+        controller: 'StoreDbController'
+      })
+      //
+      // MANAGER ROUTES
+      //
       .state('manager', {
         abstract: true,
         url: '',
@@ -259,11 +300,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         data: {
           roles: [1002]
         }
-      })
-      .state('dashboard', {
-        url: '/dashboard/:accountId?',
-        templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
-
       })
       .state('manager.ads', {
         url: '/ads/:accountId?',
@@ -301,6 +337,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/new',
         templateUrl: 'modules/users/client/views/manager/accountManager.create.client.view.html'
       })
+      //
+      // STORE OWNER ROUTES
+      //
       .state('storeOwner', {
         abstract: true,
         url: '',
@@ -309,16 +348,19 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           roles: [ 1009, 1002, 1004 ]
         }
       })
-       .state('storeOwner.inviteUser', {
-         url: '/invite',
-         templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
-         controller: 'StoreOwnerInviteController'
-       })
+      .state('storeOwner.inviteUser', {
+        url: '/invite',
+        templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
+        controller: 'StoreOwnerInviteController'
+      })
       .state('storeOwner.orders', {
         url: '/orders/:accountId?',
         templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
         controller: 'StoreOwnerOrdersController'
       })
+      //
+      // SUPPLIER ROUTES
+      //
       .state('supplier', {
         abstract: true,
         url: '',
@@ -335,14 +377,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/supplier/assets',
         templateUrl: 'modules/users/client/views/supplier/assets.client.view.html'
       })
-      .state('admanager', {
-        abstract: true,
-        url: '/admanager',
-        templateUrl: 'modules/users/client/views/settings/admanager.client.view.html',
-        data: {
-          roles: [ 'user' ]
-        }
-      })
+      //
+      // SETTINGS ROUTES
+      //
       .state('settings', {
         url: '/account/:accountId?',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
@@ -366,10 +403,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/tablets',
         templateUrl: 'modules/users/client/views/settings/tablets.client.view.html'
       })
-      .state('editProfile', {
-        url: '/profile',
-        templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
-      })
       .state('settings.accounts', {
         url: '/accounts',
         templateUrl: 'modules/users/client/views/settings/manage-social-accounts.client.view.html'
@@ -378,10 +411,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/picture',
         templateUrl: 'modules/users/client/views/settings/change-profile-picture.client.view.html'
       })
-      .state('productsUploader', {
-        url: '/products/:accountId?',
-        templateUrl: 'modules/users/client/views/admin/products-uploader.client.view.html'
-      })
+      //
+      // AUTHENTICATION ROUTES
+      //
       .state('authentication', {
         abstract: true,
         url: '/authentication',
@@ -406,24 +438,18 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           email: null
         }
       })
-      .state('getStarted', {
-        url: '/getstarted',
-        templateUrl: 'modules/users/client/views/authentication/getStarted.client.view.html',
-        public: true,
-        params: {
-          password: null,
-          step: null
-        }
+      //
+      // PASSWORD ROUTES
+      //
+      .state('mypassword.forgot', {
+        url: '/forgot',
+        templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html',
+        public: true
       })
       .state('password', {
         abstract: true,
         url: '/password',
         template: '<ui-view/>',
-        public: true
-      })
-      .state('mypassword.forgot', {
-        url: '/forgot',
-        templateUrl: 'modules/users/client/views/password/forgot-password.client.view.html',
         public: true
       })
       .state('password.reset', {
@@ -443,12 +469,23 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/:token',
         templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
       })
-      .state('websiteBuilder', {
-        url: '/website/:accountId/builder{builderPath:uriType}',
-        templateUrl: 'modules/users/client/views/websiteBuilder/websiteBuilder.client.view.html',
-        params: {
-          resource: null
-        }
+      //
+      // BRAND MANAGER ROUTES
+      //
+      .state('brand', {
+        abstract: true,
+        url: '/brandmanager',
+        template: '<ui-view/>'
+      })
+      .state('brand.plans', {
+        url: '/plans',
+        templateUrl: 'modules/users/client/views/brand/plans.html',
+        controller: 'BrandPlansController'
+      })
+      .state('brand.products', {
+        url: '/products',
+        templateUrl: 'modules/users/client/views/brand/products.html',
+        controller: 'BrandProductsController'
       })
   }
 ])

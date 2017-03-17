@@ -35,6 +35,7 @@ angular.module('core')
     $scope.ui.shouldRenderWholeNav = !state.public
     $scope.ui.shouldRenderPrimaryNav = Authentication.userInRole('supplier') || Authentication.userInRole('editor') || Authentication.userInRole('curator')
     // Nav Primary Items
+    $scope.ui.shouldRenderBrandItem = Authentication.userInRole('admin')
     $scope.ui.shouldRenderSupplierItem = Authentication.userInRole('supplier')
     $scope.ui.shouldRenderAdminItem = Authentication.userInRole('admin')
     $scope.ui.shouldRenderEditorItem = Authentication.userInRole('editor') || Authentication.userInRole('curator') || Authentication.userInRole('supplier')
@@ -47,6 +48,7 @@ angular.module('core')
   }
 
   function setActiveRoute (state) {
+    if (state.indexOf('brand') > -1) { $scope.ui.primaryRoute = 'brand' }
     if (state.indexOf('supplier') > -1) { $scope.ui.primaryRoute = 'supplier' }
     if (state.indexOf('admin') > -1) { $scope.ui.primaryRoute = 'admin' }
     if (state.indexOf('editor') > -1 || _.contains(['productHistory', 'curator.store'], state)) { $scope.ui.primaryRoute = 'editor' }
