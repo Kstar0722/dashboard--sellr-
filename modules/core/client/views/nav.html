@@ -2,7 +2,7 @@
   <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
     <div class="left-side">
       <ul>
-        <li ng-class="{active: ui.primaryRoute === 'brand'}" ng-if="ui.shouldRenderBrandItem" ui-sref="brand.plans">Brand</li>
+        <!-- <li ng-class="{active: ui.primaryRoute === 'brand'}" ng-if="ui.shouldRenderBrandItem" ui-sref="brand.plans">Brand</li> -->
         <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="ui.shouldRenderSupplierItem" ui-sref="supplier.media">Supplier</li>
         <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
         <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="curator.store">Product Editor</li>
@@ -50,16 +50,16 @@
       </ul>
     </div>
     <div class="right-side">
-      <div class="general-search-container">
+     <!--  <div class="general-search-container">
         <input type="text" placeholder="Search">
         <i class="fa fa-search"></i>
-      </div>
+      </div> -->
       <!--<div class="store-logo">logo</div>-->
       <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
     </div>
     <div class="account-options-box" ng-show="ui.showAccountMenu">
       <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false"><i class="fa fa-user-o"></i> My Profile</div>
-      <div class="account-option" ng-click="ui.showAccountMenu = false"><i class="fa fa-cog"></i> Manage Stores</div>
+      <!-- <div class="account-option" ng-click="ui.showAccountMenu = false"><i class="fa fa-cog"></i> Manage Stores</div> -->
       <div class="account-option logout" ng-click="logout(); ui.showAccountMenu = false"><i class="fa fa-power-off"></i> Logout</div>
     </div>
   </div>
