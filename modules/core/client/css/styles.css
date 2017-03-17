@@ -5240,7 +5240,8 @@ body.websiteBuilder #loading-bar-spinner {
 .brand-plans-view .right-side-content .side-panel .date-inputs .start-date {
   margin-right: 25px;
 }
-.brand-plans-view .right-side-content .side-panel .date-inputs input {
+.brand-plans-view .right-side-content .side-panel .date-inputs input.common-input {
+  min-width: auto;
   max-width: 120px;
 }
 .brand-plans-view .right-side-content .side-panel .products-box {

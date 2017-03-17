@@ -15,8 +15,8 @@
     </div>
     <div class="date-filter">
       <div class="custom-range">Custom range</div>
-      <md-datepicker ng-model="ui.startDateInput" md-placeholder="Start date" ng-change="customRangeHandler()"></md-datepicker>
-      <md-datepicker ng-model="ui.endDateInput" md-placeholder="End date" ng-change="customRangeHandler()"></md-datepicker>
+      <md-datepicker ng-model="ui.startDateInput" md-placeholder="Start date" ng-change="customRangeHandler()" md-open-on-focus></md-datepicker>
+      <md-datepicker ng-model="ui.endDateInput" md-placeholder="End date" ng-change="customRangeHandler()" md-open-on-focus></md-datepicker>
     </div>
   </div>
   <div class="load-more-btn" ng-click="loadMoreHandler()">Load more items ...</div>

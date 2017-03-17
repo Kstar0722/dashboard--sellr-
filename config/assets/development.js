@@ -4,10 +4,7 @@ module.exports = {
   client: {
     lib: {
       css: [
-                // 'public/lib/bootstrap/dist/css/bootstrap.css',
-                // 'public/lib/bootstrap/dist/css/bootstrap-theme.css',
         'public/lib/angular-material/angular-material.min.css',
-        'public/lib/angular-material/angular-material.layouts.min.css',
         'public/lib/angular-chart.js/dist/angular-chart.min.css',
         'public/lib/angular-toastr/dist/angular-toastr.min.css',
         'public/lib/angular-ui-grid/ui-grid.css',
@@ -44,7 +41,7 @@ module.exports = {
         'public/lib/angular-sanitize/angular-sanitize.js',
         'public/lib/ng-csv/build/ng-csv.min.js',
         'public/lib/angular-aria/angular-aria.js',
-        'public/lib/angular-material/angular-material.js',
+        'public/lib/angular-material/angular-material.min.js',
         'public/lib/angular-environment/dist/angular-environment.js',
         'public/lib/Chart.js/Chart.js',
         'public/lib/angular-chart.js/dist/angular-chart.js',

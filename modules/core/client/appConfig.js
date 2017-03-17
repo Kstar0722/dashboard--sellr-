@@ -19,8 +19,11 @@ ApplicationConfiguration.registerModule('core',
     'ngUsStates'
   ])
 
-angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$urlMatcherFactoryProvider',
-  function ($stateProvider, $urlRouterProvider, $httpProvider, $urlMatcherFactoryProvider) {
+angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$urlMatcherFactoryProvider', '$compileProvider',
+  function ($stateProvider, $urlRouterProvider, $httpProvider, $urlMatcherFactoryProvider, $compileProvider) {
+    // To fix angular material datepicker issue with angular 1.6
+    $compileProvider.preAssignBindingsEnabled(true)
+
     // Redirect to 404 when route not found
     $urlRouterProvider.otherwise(function ($injector, $location) {
       $injector.get('$state').transitionTo('not-found', null, {
