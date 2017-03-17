@@ -1,7 +1,7 @@
 {
   "name": "sellr-dashboard",
   "description": "Control center for the OnCue Sellr solution",
-  "version": "1.2.5",
+  "version": "1.2.7",
   "meanjs-version": "0.4.2",
   "private": false,
   "author": "Sellr",
