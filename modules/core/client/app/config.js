@@ -1,48 +1,49 @@
-'use strict';
+'use strict'
 
 // Init the application configuration module for AngularJS application
-var ApplicationConfiguration = (function () {
+window.ApplicationConfiguration = (function () {
   // Init module configuration options
-  var applicationModuleName = 'mean';
-    var applicationModuleVendorDependencies = [
-      'ngResource',
-      'ngAnimate',
-      'ngMessages',
-      'ui.router',
-      'ui.utils',
-      'angularFileUpload',
-      'btford.socket-io',
-      'ngCsvImport',
-      'selectize',
-      'stripe.checkout',
-      'angular-loading-bar',
-      'angulartics',
-      'angulartics.segment',
-      'angular-clipboard',
-      'ng-autofocus',
-      'cfp.loadingBar',
-      'angular-filepicker',
-      'ngUsStates',
-      'uiSwitch',
-      'angular.filter'
-    ];
+  var applicationModuleName = 'mean'
+  var applicationModuleVendorDependencies = [
+    'ngResource',
+    'ngAnimate',
+    'ngMessages',
+    'ui.router',
+    'ui.utils',
+    'angularFileUpload',
+    'btford.socket-io',
+    'ngCsvImport',
+    'selectize',
+    'stripe.checkout',
+    'angular-loading-bar',
+    'angulartics',
+    'angulartics.segment',
+    'angular-clipboard',
+    'ng-autofocus',
+    'cfp.loadingBar',
+    'angular-filepicker',
+    'ngUsStates',
+    'uiSwitch',
+    'angular.filter'
+  ]
 
+  // ngPostMessage incompatible with unit testing framework, just exclude it
   if (angular.element('body').is('.root')) {
-    applicationModuleVendorDependencies.push('ngPostMessage');
+    applicationModuleVendorDependencies.push('ngPostMessage')
   }
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {
     // Create angular module
-    angular.module(moduleName, dependencies || []);
+    angular.module(moduleName, dependencies || [])
 
     // Add the module to the AngularJS configuration file
-    angular.module(applicationModuleName).requires.push(moduleName);
+    angular.module(applicationModuleName).requires.push(moduleName)
   }
 
   return {
     applicationModuleName: applicationModuleName,
     applicationModuleVendorDependencies: applicationModuleVendorDependencies,
     registerModule: registerModule
-  };
-})();
+  }
+})()

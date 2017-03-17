@@ -6,22 +6,27 @@
           <form name="userForm" ng-submit="signin(userForm.$valid)" novalidate autocomplete="off">
             <div class="logo"></div>
             <md-input-container class="md-block" show-errors>
-              <input type="text" id="email" name="email" class="form-control" ng-model="credentials.email"
-                     placeholder="Email" lowercase required>
+              <input type="text" id="email" name="email" class="form-control" ng-model="credentials.email" placeholder="Email" lowercase required>
               <div ng-messages="userForm.email.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Email is required.</p>
               </div>
             </md-input-container>
             <md-input-container class="md-block" show-errors>
-              <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password"
-                     placeholder="Password" required>
+              <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required>
               <div ng-messages="userForm.password.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Password is required.</p>
               </div>
             </md-input-container>
-            <div layout="row" layout-align="space-between center">
-              <md-checkbox ng-model="user.rememberMe" ng-change="rememberMe()" class="hide">Remember me?</md-checkbox>
-              <md-button type="submit" class="  action">Sign in</md-button>
+            <div class="signin-buttons">
+              <md-button type="submit" class="btn-signin">Sign In</md-button>
+              <div>
+                <div class="btn-facebook" ng-click="loginFacebookUser()">
+                  <div class="social-icon">
+                    <img src="img/fbicon.svg" alt="">
+                  </div>
+                  <div class="social-text">Sign In with Facebook</div>
+                </div>
+              </div>
             </div>
           </form>
           <div class="alt-actions" layout="row" layout-align="space-between start">
@@ -29,13 +34,11 @@
             <div>Don't have an account? <a ui-sref="getStarted">Sign Up</a></div>
           </div> <!-- END FORM CONTAINER -->
         </div>
-        <form id="reset-form" ng-show="reset" name="forgotPasswordForm"
-              ng-submit="askForPasswordReset(forgotPasswordForm.$valid)" autocomplete="off" class="text-center"
-              novalidate><div class="logo"/>
+        <form id="reset-form" ng-show="reset" name="forgotPasswordForm" ng-submit="askForPasswordReset(forgotPasswordForm.$valid)" autocomplete="off" class="text-center" novalidate><div class="logo"/>
           <h3>Enter your email address below and we'll send a password reset link to this email</h3>
           <md-input-container class="md-block">
             <label>Email</label>
-            <input type="text" id="passuser" name="passuser" class="form-control" ng-model="stuff.passuser" lowercase required/>
+            <input type="text" id="passuser" name="passuser" class="form-control" ng-model="stuff.passuser" lowercase required />
           </md-input-container>
           <br/>
           <div ng-messages="forgotPasswordForm.passuser.$error" role="alert">

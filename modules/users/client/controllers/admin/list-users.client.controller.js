@@ -1,86 +1,83 @@
-'use strict';
+'use strict'
 
-angular.module('users.admin').controller('UserListController', ['$scope', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants',
-    function ($scope, $filter, Users, $http, $state, CurrentUserService, constants) {
+angular.module('core').controller('UserListController', ['$scope', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants',
+  function ($scope, $filter, Users, $http, $state, CurrentUserService, constants) {
+    $scope.CurrentUserService = CurrentUserService
+    $scope.userview = $state.params
+    $scope.sortExpression = '+displayName'
+        // CurrentUserService.user = '';
+    $scope.locations = []
 
+    if (CurrentUserService.locations) {
+      $scope.locations = CurrentUserService.locations
+    } else {
+      $scope.locations = ['No Locations']
+    }
+    $scope.addLocs = function () {
+      console.log('helllo, %O', $scope.locations)
+    }
 
-        $scope.CurrentUserService = CurrentUserService;
-        $scope.userview = $state.params;
-        $scope.sortExpression = '+displayName';
-        //CurrentUserService.user = '';
-        $scope.locations = [];
-
-
-        if (CurrentUserService.locations)
-            $scope.locations = CurrentUserService.locations;
-        else
-            $scope.locations = ["No Locations"]
-        $scope.addLocs = function () {
-            console.log('helllo, %O', $scope.locations);
+    $scope.userEditView = function (user) {
+      $http.get(constants.API_URL + '/users?email=' + encodeURIComponent(user.email)).then(function (res, err) {
+        if (err) {
+          console.log(err)
         }
+        if (res) {
+          console.log(res)
+          CurrentUserService.userBeingEdited = res.data[0]
+          $state.go('admin.users.user-edit', {userId: user.userId})
+          console.log('currentUserService userBeingEdited %O', CurrentUserService.userBeingEdited)
+        }
+      })
+    }
 
-        $scope.userEditView = function (user) {
-            $http.get(constants.API_URL + '/users?email=' + user.email).then(function (res, err) {
-                if (err) {
-                    console.log(err);
-                }
-                if (res) {
-                    console.log(res);
-                    CurrentUserService.userBeingEdited = res.data[0];
-                    $state.go('admin.users.user-edit', {userId: user.userId});
-                    console.log('currentUserService userBeingEdited %O', CurrentUserService.userBeingEdited)
-                }
-            })
-        };
+    $scope.inviteStoreView = function () {
+      $state.go('admin.users.store')
+    }
 
-        $scope.inviteStoreView = function () {
-            $state.go('admin.users.store')
-        };
+    $scope.buildPager = function () {
+      $scope.pagedItems = []
+      $scope.itemsPerPage = 15
+      $scope.currentPage = 1
+      $scope.figureOutItemsToDisplay()
+    }
 
-        $scope.buildPager = function () {
-            $scope.pagedItems = [];
-            $scope.itemsPerPage = 15;
-            $scope.currentPage = 1;
-            $scope.figureOutItemsToDisplay();
-        };
+    $scope.figureOutItemsToDisplay = function () {
+      $scope.filteredItems = $filter('filter')(CurrentUserService.userList, {
+        $: $scope.search
+      })
+      $scope.newUsers = $scope.filteredItems
+    }
+    $scope.buildPager()
+    $scope.pageChanged = function () {
+      $scope.figureOutItemsToDisplay()
+    }
+    $scope.removeLocationBox = false
+    $scope.addNewLocation = function (locs) {
+      var newItemNo = $scope.locations.length + 1
+      $scope.locations.push({'id': 'location' + newItemNo})
+      $scope.removeLocationBox = true
+    }
+    $scope.removeLocation = function () {
+      if ($scope.locations.length > 1) {
+          // var newItemNo = $scope.locations.length - 1
 
-        $scope.figureOutItemsToDisplay = function () {
+        $scope.locations.pop()
+      }
+      if ($scope.locations.length === 1) {
+        $scope.removeLocationBox = false
+      }
+    }
 
-            $scope.filteredItems = $filter('filter')(CurrentUserService.userList, {
-                $: $scope.search
-            });
-            $scope.newUsers = $scope.filteredItems
-        };
-        $scope.buildPager();
-        $scope.pageChanged = function () {
-            $scope.figureOutItemsToDisplay();
-        };
-        $scope.removeLocationBox = false;
-        $scope.addNewLocation = function (locs) {
-            var newItemNo = $scope.locations.length + 1;
-            $scope.locations.push({'id': 'location' + newItemNo});
-            $scope.removeLocationBox = true;
-        };
-        $scope.removeLocation = function () {
-            if ($scope.locations.length > 1) {
-                var newItemNo = $scope.locations.length - 1;
+    $scope.reOrderList = function (field) {
+      var oldSort = $scope.sortExpression || ''
+      var asc = true
+      if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
+      $scope.sortExpression = (asc ? '+' : '-') + field
+      return $scope.sortExpression
+    }
 
-                $scope.locations.pop();
-            }
-            if ($scope.locations.length == 1)
-                $scope.removeLocationBox = false;
-
-
-        };
-
-        $scope.reOrderList = function (field) {
-            var oldSort = $scope.sortExpression || '';
-            var asc = true;
-            if (oldSort.substr(1) == field) asc = oldSort[0] == '-';
-            return $scope.sortExpression = (asc ? '+' : '-') + field;
-        };
-
-        //$scope.invite = function (isValid) {
+        // $scope.invite = function (isValid) {
         //  if (!isValid) {
         //    $scope.$broadcast('show-errors-check-validity', 'storeForm');
         //    return false;
@@ -114,6 +111,6 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
         //      }
         //    });
         //  }
-        //};
-    }
-]);
+        // };
+  }
+])

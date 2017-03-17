@@ -2,8 +2,8 @@
 /* globals angular, moment, _ */
 
 // Users service used for communicating with the users REST endpoint
-angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr',
-  function ($http, constants, $q, $analytics, toastr) {
+angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr', '$mdDialog', '$timeout',
+  function ($http, constants, $q, $analytics, toastr, $mdDialog, $timeout) {
     var me = this
 
     me.get = function (userId) {
@@ -29,7 +29,7 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
         if (err) {
           defer.reject(err)
         }
-        var users = _.map(response.data, initUser);
+        var users = _.map(response.data, initUser)
         defer.resolve(users)
       })
       return defer.promise
@@ -50,7 +50,7 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
         }
       }
       $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response) {
-        var resetLink = 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + response.data.email;
+        var resetLink = 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + response.data.email
 
         var mailOptions = {
           payload: {
@@ -79,35 +79,96 @@ angular.module('users.admin').factory('Users', ['$http', 'constants', '$q', '$an
     me.create = function (user) {
       var payload = {
         payload: user
-      };
+      }
+      return $http.post(constants.API_URL + '/users', payload).then(successCreateUserHandler).catch(errorCreateUserHandler)
+    }
 
-      return $http.post(constants.API_URL + '/users', payload).then(function (response) {
-        console.log('user signed up', response.data);
-        var user = initUser(response.data);
-        $analytics.eventTrack('User Signed Up', {
-          email: user.email,
-          name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
-          phone: user.phone
-        });
-        return user;
-      }).catch(function (response) {
-        console.error('create user failed', response.data);
-        if (response.data.name != 'AlreadyRegistered') {
-          var msg = 'Failed to create new account';
-          if ((response.data || {}).message) msg += '. ' + response.data.message;
-          toastr.error(msg);
-        }
-        throw response;
-      });
-    };
+    me.createUserFacebook = function (user) {
+      var payload = {
+        payload: user
+      }
+      return $http.post(constants.API_URL + '/users/facebook', payload).then(successCreateUserHandler).catch(errorCreateUserHandler)
+    }
 
-    me.initUser = initUser;
+    function successCreateUserHandler (response) {
+      console.log('user signed up', response.data)
+      var user = initUser(response.data)
+      $analytics.eventTrack('User Signed Up', {
+        email: user.email,
+        name: user.name || user.displayName || (user.firstName + ' ' + user.lastName),
+        phone: user.phone
+      })
+      return user
+    }
 
-    function initUser(user) {
-      if (!user) return user;
-      user.createdDateMoment = user.createdDate && moment(user.createdDate);
-      user.createdDateStr = user.createdDateMoment && user.createdDateMoment.format('lll');
-      return user;
+    function errorCreateUserHandler (response) {
+      console.error('create user failed', response.data)
+      if (response.data.name !== 'AlreadyRegistered') {
+        var msg = 'Failed to create new account'
+        if ((response.data || {}).message) msg += '. ' + response.data.message
+        toastr.error(msg)
+      }
+      throw response
+    }
+
+    me.confirmDeleteUser = function (user) {
+      var defer = $q.defer()
+      var userFullname = user.displayName || (user.firstName + ' ' + user.lastName)
+
+      var confirm = $mdDialog.prompt()
+        .title('Delete user `' + userFullname + '`?')
+        .textContent('Please type the full name of the user to confirm.')
+        .ok('Delete')
+        .cancel('Cancel')
+
+      $mdDialog.cancel().then(function () {
+        $timeout(function () {
+          $('body > .md-dialog-container').addClass('delete confirm')
+        })
+
+        return $mdDialog.show(confirm).then(function (code) {
+          if (!code) return
+
+          if (userFullname.toUpperCase().trim() !== code.toUpperCase().trim()) {
+            toastr.error('Wrong confirmation code')
+            return
+          }
+
+          return deleteUserFOREVER(user).then(function () {
+            defer.resolve(user)
+          })
+        })
+      }).catch(function (err) {
+        defer.reject(err)
+      })
+
+      return defer.promise
+    }
+
+    me.initUser = initUser
+
+    function initUser (user) {
+      if (!user) return user
+      user.createdDateMoment = user.createdDate && moment(user.createdDate)
+      user.createdDateStr = user.createdDateMoment && user.createdDateMoment.format('lll')
+      return user
+    }
+
+    function deleteUserFOREVER (user) {
+      var userId = user.userId || user
+      var url = constants.API_URL + '/users/' + userId
+      return $http.delete(url).then(onDeleteAccountSuccess, onDeleteAccountError)
+
+      function onDeleteAccountSuccess (res) {
+        toastr.success('Account Deleted!', user.displayName || (user.firstName + ' ' + user.lastName))
+        console.log('accounts Service, deleteUser %O', res)
+      }
+
+      function onDeleteAccountError (err) {
+        toastr.error('There was a problem deleting this user')
+        console.error(err)
+        throw err
+      }
     }
 
     return me

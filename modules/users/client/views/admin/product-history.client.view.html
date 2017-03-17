@@ -1,0 +1,37 @@
+<div class="product-history-view">
+  <div class="filter-title">Filter results by:</div>
+  <div class="filter-container">
+    <div class="input-filter">
+      <md-input-container>
+        <label>Product / User</label>
+        <input ng-model="ui.textFilter" >
+      </md-input-container>
+    </div>
+    <div class="buttons-filter">
+      <div ng-class="['btn-filter', {active: todayBtn}]" ng-click="filterDate('today')">Today</div>
+      <div ng-class="['btn-filter', {active: yesterdayBtn}]" ng-click="filterDate('yesterday')">Yesterday</div>
+      <div ng-class="['btn-filter', {active: weekBtn}]" ng-click="filterDate('week')">This week</div>
+      <div ng-class="['btn-filter', {active: monthBtn}]" ng-click="filterDate('month')">Last month</div>
+    </div>
+    <div class="date-filter">
+      <div class="custom-range">Custom range</div>
+      <md-datepicker ng-model="ui.startDateInput" md-placeholder="Start date" ng-change="customRangeHandler()"></md-datepicker>
+      <md-datepicker ng-model="ui.endDateInput" md-placeholder="End date" ng-change="customRangeHandler()"></md-datepicker>
+    </div>
+  </div>
+  <div class="load-more-btn" ng-click="loadMoreHandler()">Load more items ...</div>
+  <div class="table-header">
+    <div ng-click="reOrderList('productId')">Product Id <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('userId')">User Id <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('userName')">User <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('email')">Email <i class="fa fa-sort"></i></div>
+    <div ng-click="reOrderList('lastedit')">Date <i class="fa fa-sort"></i></div>
+  </div>
+  <div class="table-body" ng-repeat="rowData in ui.dataShown | filter:ui.textFilter | orderBy:ui.sortExpression">
+    <div ui-sref="editor.view({productId: rowData.productId})">{{rowData.productId}}</div>
+    <div>{{rowData.userId}}</div>
+    <div>{{rowData.userName}}</div>
+    <div>{{rowData.email}}</div>
+    <div>{{rowData.dateUI}}</div>
+  </div>
+</div>

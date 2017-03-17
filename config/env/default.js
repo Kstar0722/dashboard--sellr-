@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
 module.exports = {
   app: {
     title: 'MEAN.JS',
-      description: 'Sellr Dashboard allows you to edit and manage your store. For more information checkout http://getsellr.com',
-      keywords: 'oncue,sellr,wine,beer,spirits,marketing',
+    description: 'Sellr Dashboard allows you to edit and manage your store. For more information checkout http://getsellr.com',
+    keywords: 'oncue,sellr,wine,beer,spirits,marketing',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID',
     STRIPE_PUBLISH_KEY: process.env.STRIPE_PUBLISH_KEY || 'pk_test_8eCwGxyRav2xemiMy666CWXT', // test api key
     SUBSCRIPTION_PRICE: process.env.SUBSCRIPTION_PRICE || '0.50 USD', // minimum value
@@ -14,7 +14,7 @@ module.exports = {
     AWS_SECRET_KEY: process.env.AWS_SECRET_KEY || 'Q7pMh9RwRExGFKoI+4oUkM0Z/WoKJfoMMAuLTH/t',
     FILEPICKER_KEY: process.env.FILEPICKER_KEY || 'ADpK7klw2ThCd2by8scXHz'
   },
-    port: process.env.PORT || 3000,
+  port: process.env.PORT || 3000,
   templateEngine: 'swig',
   // Session Cookie settings
   sessionCookie: {
@@ -40,8 +40,8 @@ module.exports = {
     profileUpload: {
       dest: './modules/users/client/img/profile/uploads/', // Profile upload destination path
       limits: {
-        fileSize: 1*1024*1024 // Max file size in bytes (1 MB)
+        fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
       }
     }
   }
-};
+}

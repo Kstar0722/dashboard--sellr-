@@ -1,7 +1,7 @@
 'use strict'
 
 /* globals angular */
-angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q', 'Users', '$mdDialog',
+angular.module('core').controller('UserController', ['$scope', '$state', 'Authentication', 'userResolve', '$timeout', 'CurrentUserService', 'constants', '$http', 'toastr', '$q', 'Users', '$mdDialog',
   function ($scope, $state, Authentication, userResolve, $timeout, CurrentUserService, constants, $http, toastr, $q, Users, $mdDialog) {
     $scope.authentication = Authentication
     $scope.user = userResolve
@@ -33,6 +33,13 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
       })
     }
 
+    $scope.confirmDeleteUser = function (user) {
+      Users.confirmDeleteUser(user).then(function () {
+        var deletedUser = _.find(CurrentUserService.userList, { userId: user.userId })
+        _.removeItem(CurrentUserService.userList, deletedUser)
+      })
+    }
+
     $scope.update = function (isValid) {
       console.dir(isValid)
       if (!isValid) {
@@ -44,23 +51,23 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
     }
 
     $scope.cancel = function () {
-      $mdDialog.cancel();
-      $timeout(function() { $state.go('admin.users'); }, 400);
-    };
+      $mdDialog.cancel()
+      $timeout(function () { $state.go('admin.users') }, 400)
+    }
 
-    init();
+    init()
 
-    function init() {
+    function init () {
       $mdDialog.show({
         contentElement: '.md-dialog-container',
         onRemoving: $scope.cancel,
         focusOnOpen: false
-      });
+      })
     }
 
     function updateAPI () {
       $scope.user.roles = []
-      $scope.user.displayName = $scope.user.firstName + ' ' + $scope.user.lastName;
+      $scope.user.displayName = $scope.user.firstName + ' ' + $scope.user.lastName
       $scope.roles.forEach(function (role) {
         if (role.selected) {
           $scope.user.roles.push(role.id)
@@ -77,9 +84,9 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 
       function onUpdateSuccess (res) {
         toastr.success('User updated', 'Success!')
-        $scope.cancel();
-        var saved = res.data;
-        _.replaceItem(CurrentUserService.userList, _.find(CurrentUserService.userList, { userId: saved.userId }), saved);
+        $scope.cancel()
+        var saved = res.data
+        _.replaceItem(CurrentUserService.userList, _.find(CurrentUserService.userList, { userId: saved.userId }), saved)
       }
 
       function onUpdateError (err) {
@@ -87,6 +94,5 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         console.error(err)
       }
     }
-
   }
 ])

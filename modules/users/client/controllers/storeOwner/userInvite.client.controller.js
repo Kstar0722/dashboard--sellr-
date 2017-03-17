@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope', 'Authentication', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
+angular.module('core').controller('StoreOwnerInviteController', [ '$scope', 'Authentication', '$filter', 'Users', '$http', '$state', 'CurrentUserService', 'constants', 'accountsService', 'toastr',
   function ($scope, Authentication, $filter, Users, $http, $state, CurrentUserService, constants, accountsService, toastr) {
     $scope.CurrentUserService = CurrentUserService
     $scope.userview = $state.params
@@ -17,9 +17,7 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
     }
 
     $scope.userEditView = function (user) {
-            // debugger;
-
-      $http.get(constants.API_URL + '/users?email=' + user.email).then(function (res, err) {
+      $http.get(constants.API_URL + '/users?email=' + encodeURIComponent(user.email)).then(function (res, err) {
         if (err) {
           console.log(err)
         }
@@ -57,11 +55,11 @@ angular.module('users.admin').controller('StoreOwnerInviteController', [ '$scope
     }
     $scope.removeLocation = function () {
       if ($scope.locations.length > 1) {
-        var newItemNo = $scope.locations.length - 1
+        // var newItemNo = $scope.locations.length - 1
 
         $scope.locations.pop()
       }
-      if ($scope.locations.length == 1) {
+      if ($scope.locations.length === 1) {
         $scope.removeLocationBox = false
       }
     }

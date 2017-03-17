@@ -1,7 +1,7 @@
-/* globals angular */
-angular.module('users').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService) {
+angular.module('core').factory('orderDataService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, productEditorService) {
   var me = this
   var API_URL = constants.BWS_API
+
   me.allItems = []
   me.selected = []
   me.allStores = []
@@ -57,6 +57,17 @@ angular.module('users').factory('orderDataService', function ($http, $location, 
         }
         return prod
       })
+      me.allItems = _.map(me.allItems, function (p, i) {
+        var createdMoment = moment(p.created)
+        if (createdMoment.isValid()) {
+          p.createdRelative = createdMoment.fromNow()
+        } else {
+          p.createdRelative = ''
+          p.created = moment()
+        }
+        return p
+      })
+      me.allItems = _.sortBy(me.allItems, function (p) { return p.created.valueOf() })
       me.currentItem = me.allItems[ me.currentIndex ]
       console.log('orderDataService::getData response %O', me.allItems)
       defer.resolve(me.allItems)

@@ -1,14 +1,12 @@
 'use strict'
 /* globals angular,localStorage */
-angular.module('users').controller('AuthenticationController', [ '$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'authenticationService',
+angular.module('core').controller('AuthenticationController', [ '$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', 'constants', 'toastr', 'authToken', 'authenticationService',
   function ($scope, $state, $stateParams, $http, $location, $window, Authentication, PasswordValidator, constants, toastr, authToken, authenticationService) {
-    var USER_ROLE_OWNER = 1009
-
     $scope.reset = false
     $scope.authentication = Authentication
     $scope.popoverMsg = PasswordValidator.getPopoverMsg()
-    $scope.credentials = {};
-    $scope.credentials.email = $stateParams.email;
+    $scope.credentials = {}
+    $scope.credentials.email = $stateParams.email
 
     var userInfo = {}
     //  read userinfo from URL
@@ -93,6 +91,23 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
       console.error(err)
     }
 
+    $scope.loginFacebookUser = function () {
+      authenticationService.getFacebookUserData().then(
+        function (fbData) {
+          console.log(fbData)
+          authenticationService.signinFacebook({email: fbData.email}).catch(function (err) {
+            if (err && err.data && err.data.message) {
+              toastr.error(err.data.message)
+            } else {
+              toastr.error('Something went wrong while trying to login')
+            }
+          })
+        }).catch(
+        function (error) {
+          toastr.error(error.message)
+        })
+    }
+
     $scope.signin = function (isValid) {
       $scope.error = null
 
@@ -107,7 +122,7 @@ angular.module('users').controller('AuthenticationController', [ '$scope', '$sta
         }
         $scope.credentials.password = null
         $scope.$broadcast('show-errors-reset', 'userForm')
-      });
+      })
     }
 
     //  OAuth provider request

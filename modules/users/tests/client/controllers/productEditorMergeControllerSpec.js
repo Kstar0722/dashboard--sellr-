@@ -1,4 +1,4 @@
-//describe('Controller: core.productEditorController', function () {
+// describe('Controller: core.productEditorController', function () {
 //
 //    // load the controller's module
 //    beforeEach(module('mean'));
@@ -19,4 +19,4 @@
 //    it('should be defined', function () {
 //        expect(ctrl).toBeDefined();
 //    });
-//});
+// });

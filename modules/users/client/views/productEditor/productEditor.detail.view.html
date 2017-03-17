@@ -20,10 +20,11 @@
     <div class="row">
         <div class="col-md-9">
             <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
+            <div class="submitted-by" ng-if="pes.currentProduct.status === 'done'">Submitted by <strong><i>{{pes.currentProduct.displayName}}</i></strong> on <strong><i>{{pes.currentProduct.submittedFormatedDate}}</i></strong></div>
             <div class="text-danger" ng-if="pes.currentProduct.status === 'deleted'">This product has been deleted. Edit the product to set it back to inprogress status.</div>
             <div>Product Id {{ pes.currentProduct.productId }}</div>
             <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
-            <span>Requested by: {{pes.currentProduct.requestedBy}}</span>
+            <span>Requested by: {{pes.currentProduct.requestedBy}}</span>            
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
     </div>

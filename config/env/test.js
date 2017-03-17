@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var defaultEnvConfig = require('./default');
+var defaultEnvConfig = require('./default')
 
 module.exports = {
   db: {
@@ -23,7 +23,7 @@ module.exports = {
         directoryPath: process.cwd(),
         fileName: 'access.log',
         rotatingLogs: { // for more info on rotating logs - https://github.com/holidayextras/file-stream-rotator#usage
-          active: false, // activate to use rotating logs 
+          active: false, // activate to use rotating logs
           fileName: 'access-%DATE%.log', // if rotating logs are active, this fileName setting will be used
           frequency: 'daily',
           verbose: false
@@ -36,9 +36,9 @@ module.exports = {
     title: defaultEnvConfig.app.title + ' - Test Environment'
   },
   seedDB: {
-    seed: process.env.MONGO_SEED === 'true' ? true : false,
+    seed: process.env.MONGO_SEED === 'true',
     options: {
-      logResults: process.env.MONGO_SEED_LOG_RESULTS === 'false' ? false : true,
+      logResults: process.env.MONGO_SEED_LOG_RESULTS !== 'false',
       seedUser: {
         username: process.env.MONGO_SEED_USER_USERNAME || 'user',
         provider: 'local',
@@ -61,4 +61,4 @@ module.exports = {
   },
   // This config is set to true during grunt coverage
   coverage: process.env.COVERAGE || false
-};
+}

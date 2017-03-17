@@ -13,7 +13,7 @@
       <div class="ad" ng-click="editAd(ad)">
         <iframe class="ad-video-iframe" ng-if="ad.type === 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + ad.value + '?controls=0&iv_load_policy=3&showinfo=0&showinfo=0' | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <iframe class="ad-video-iframe" ng-if="ad.type === 'vimeo'" ng-src="{{'https://player.vimeo.com/video/' + ad.value | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        <div class="ad-image" ng-if="ad.type === 'image'" style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value}});">
+        <div class="ad-image" ng-if="ad.type === 'image'" style="background-image: url({{ 'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value | imgix:300:300:50 }});">
         </div>
         <video  class='ad-video' ng-if="ad.type === 'video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value | trustUrl }}" frameBorder="2" allowfullscreen="true">
         </video>
@@ -136,7 +136,7 @@
         </div>
         <iframe class="ad-video-iframe" ng-if="modalAd.type == 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + modalAd.value + '?iv_load_policy=3&showinfo=0' | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <iframe class="ad-video-iframe" ng-if="modalAd.type === 'vimeo'" ng-src="{{'https://player.vimeo.com/video/' + modalAd.value | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        <div class="ad-image" ng-if="modalAd.type === 'image'" style="background-image: url({{'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + modalAd.value}});">
+        <div class="ad-image" ng-if="modalAd.type === 'image'" style="background-image: url({{ 'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + modalAd.value | imgix:300:300:50 }});">
         </div>
         <video class='ad-video' controls autoplay autostart ng-if="modalAd.type === 'video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + modalAd.value | trustUrl }}" frameBorder="2" allowfullscreen="true">
         </video>

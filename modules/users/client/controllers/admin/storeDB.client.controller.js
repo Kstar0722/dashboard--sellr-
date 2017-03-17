@@ -1,5 +1,5 @@
 /* globals angular, _, localStorage,$ */
-angular.module('users.admin').controller('StoreDbController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, storesService, UsStates) {
+angular.module('core').controller('StoreDbController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, storesService, UsStates) {
   var EMPTY_FIELD_NAME = csvProductMapper.EMPTY_FIELD_NAME
 
   $scope.states = UsStates
@@ -9,6 +9,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   $scope.importView = null
   $scope.storeFields = null
   $scope.csv = { header: true }
+  $scope.sortExpression = '-status.received'
 
   // selectize control options
   $scope.selectStoreConfig = {
@@ -96,21 +97,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
   }
 
-  $scope.refreshStoreStatus = function (storeId) {
-    // Disabled because of the large inventories weve begun importing
-    // var i = _.findIndex(orderDataService.allStores, function (s) {
-    //   return s.storeId === storeId
-    // })
-    // orderDataService.allStores[ i ].status.barClass = 'blue'
-    // var url = constants.BWS_API + '/storedb/stores/' + storeId
-    // $http.get(url).then(function (res) {
-    //   orderDataService.allStores[ i ] = res.data[ 0 ]
-    //   updateStoreColors()
-    // }, function (err) {
-    //   console.error(err)
-    // })
-  }
-
   $scope.openNewDialog = function (store) {
     if (store !== EMPTY_FIELD_NAME) return
 
@@ -136,6 +122,14 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
       $scope.selectedStore = newStore.storeId
       $('#createStoreModal').modal('hide')
     })
+  }
+
+  $scope.reOrderList = function (field) {
+    var oldSort = $scope.sortExpression || ''
+    var asc = true
+    if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
+    $scope.sortExpression = (asc ? '+' : '-') + field
+    return $scope.sortExpression
   }
 
   init()
@@ -178,41 +172,23 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
   }
 
-  function selectOrCreateStore (storeId) {
-    var store = findStore(orderDataService.allStores, storeId)
-    if (store) return $q.when(store) // already exists
-
-    store = findStore($scope.storesDropdown, storeId)
-
-    if (!store) {
-      store = {
-        accountId: localStorage.getItem('accountId'),
-        name: storeId.toString().trim()
-      }
-    }
-
-    return storesService.createStore(store).then(function (data) {
-      return storesService.getStoreById(data.storeId)
-    })
-  }
-
   function toPascalCase (str) {
     if (!str) return str
     var words = _.compact(str.split(/\s+/))
-    var result = words.map(function (w) { return w[ 0 ].toUpperCase() + w.substr(1); }).join(' ')
+    var result = words.map(function (w) { return w[ 0 ].toUpperCase() + w.substr(1) }).join(' ')
     return result
   }
 
   function initCsvColumns (columns) {
     columns = wrapFields(columns)
-    _.each(columns, function (col) { col.mapping = mapStoreField(col.name).name; })
+    _.each(columns, function (col) { col.mapping = mapStoreField(col.name).name })
     return columns
   }
 
   function mapStoreField (column) {
     var cUpper = column && column.toUpperCase()
     var field = cUpper && _.find($scope.storeFields, function (f) {
-      return cUpper == f.name.toUpperCase() || cUpper == f.displayName.toUpperCase()
+      return cUpper === f.name.toUpperCase() || cUpper === f.displayName.toUpperCase()
     })
     return field || _.findWhere($scope.storeFields, { name: EMPTY_FIELD_NAME })
   }
@@ -226,7 +202,7 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
   function populateMappingDropdowns (columns) {
     var selectedMappings = _.pluck(columns, 'mapping')
     var availableFields = _.filter($scope.storeFields, function (f) {
-      return f.name == EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name)
+      return f.name === EMPTY_FIELD_NAME || !_.contains(selectedMappings, f.name)
     })
     _.each(columns, function (column) {
       column.availableFields = availableFields.slice()
@@ -235,10 +211,6 @@ angular.module('users.admin').controller('StoreDbController', function ($scope, 
     })
     if (!$scope.$$phase) $scope.$digest()
     return availableFields
-  }
-
-  function randomId () {
-    return -Math.floor(100000 * Math.random())
   }
 
   function findStore (arr, id) {

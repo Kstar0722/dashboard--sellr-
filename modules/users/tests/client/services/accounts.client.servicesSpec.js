@@ -1,6 +1,5 @@
 /* globals inject,describe,beforeEach,it,expect */
 describe('Service: core.AccountsService', function () {
-
   // load the service's module
   beforeEach(module('mean'))
 
@@ -16,7 +15,6 @@ describe('Service: core.AccountsService', function () {
     // mock background api call response
     $httpBackend.whenGET(/\/users\/editors/).respond(200, {})
     $httpBackend.whenGET(/\/client\/views\/.*/).respond(200, {})
-
   }))
 
   /**
@@ -24,7 +22,7 @@ describe('Service: core.AccountsService', function () {
    * Sample test case to check if the service is injected properly
    * */
   it('should be injected and defined', function () {
-    expect(service).toBeDefined();
+    expect(service).toBeDefined()
   })
 
   it('should get all accounts', function () {

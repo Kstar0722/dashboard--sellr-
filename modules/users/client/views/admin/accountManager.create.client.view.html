@@ -1,17 +1,18 @@
-<section class="inner">
+<md-dialog id="CreateAccountDialog">
+<div class="inner">
   <h1>Create an Account</h1>
-  <form name="accountForm" ng-submit="createAccount()" novalidate>
+  <form name="accountForm" ng-submit="saveNewAccount()" novalidate layout="column">
     <div layout-xs="column" layout-sm="column" layout-align="space-between center">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Account Name</label>
-        <input ng-model="account.name">
+        <input ng-model="account.name" autofocus>
         <div ng-messages="accountForm.name.$error" role="alert">
           <p class="help-block error-text" ng-message="required">account name is required.</p>
         </div>
       </md-input-container>
       
       <md-input-container class="md-block" flex-gt-sm>
-        <label>Primary Account Contact Name</label>
+        <label>Primary Contact Name</label>
         <input ng-model="account.contactName">
         <div ng-messages="accountForm.contactName.$error" role="alert">
           <p class="help-block error-text" ng-message="required">Account contactName is required.</p>
@@ -57,11 +58,13 @@
         </div>
       </md-input-container>
     </div>
-    <md-button class="md-button md-raised md-primary" type="submit">
-      Create
-    </md-button>
+    <div class="toolbar">
+      <md-button class="md-button md-raised md-primary" type="submit">Create</md-button>
+      <md-button ng-click="cancelDialog()">Cancel</md-button>
+    </div>
     <div ng-show="error" class="text-danger">
       <strong ng-bind="error"></strong>
     </div>
   </form>
-</section>
+</div>
+</md-dialog>
