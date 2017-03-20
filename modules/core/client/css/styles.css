@@ -546,6 +546,13 @@ body.loading .main-content {
 .common-select-container {
   position: relative;
 }
+.common-select-container .store-logo {
+  width: 40px;
+  height: 28px;
+  border-radius: 4px;
+  background-color: gray;
+  margin-right: 12px;
+}
 .common-select-container .common-select-trigger {
   cursor: pointer;
   border-radius: 4px;
@@ -561,6 +568,10 @@ body.loading .main-content {
   position: relative;
   width: 300px;
   box-sizing: border-box;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 .common-select-container .common-select-trigger:after {
   content: '';
@@ -581,7 +592,7 @@ body.loading .main-content {
   border-radius: 4px;
   background-image: linear-gradient(to top, #f2f4f7, #ffffff);
   border: solid 1px #ced0da;
-  z-index: 10;
+  z-index: 8;
   overflow-y: auto;
   overflow-x: hidden;
   width: 300px;
@@ -614,6 +625,10 @@ body.loading .main-content {
   font-weight: 600;
   padding: 0 20px;
   cursor: pointer;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -5358,7 +5373,6 @@ body.websiteBuilder #loading-bar-spinner {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  overflow: hidden;
 }
 .brand-products-view .left-side-content .main-table .filter-header .left-filter {
   display: flex;
@@ -5368,6 +5382,9 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .brand-products-view .left-side-content .main-table .filter-header .left-filter .common-input-with-icon {
   margin-left: 20px;
+}
+.brand-products-view .left-side-content .main-table .filter-header .right-filter {
+  overflow: hidden;
 }
 .brand-products-view .left-side-content .main-table .columns-header,
 .brand-products-view .left-side-content .main-table .columns-data {

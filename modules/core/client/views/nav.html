@@ -10,7 +10,7 @@
       </ul>
     </div>
     <div class="right-side">
-      <div class="menu-select-trigger" ng-bind="accountsService.currentAccount ? (accountsService.currentAccount.name + (accountsService.currentAccount.address ? ': ' + accountsService.currentAccount.address : '')) : 'Select Account'" ng-click="openMenu('accountOptionsSelect')" ng-mouseover="openMenu('accountOptionsSelect', true)"></div>
+      <div class="menu-select-trigger" ng-bind="accountsService.currentAccount ? (accountsService.currentAccount.name + (accountsService.currentAccount.address ? ': ' + accountsService.currentAccount.address : '')) : 'Select Account'" ng-click="openMenu('accountOptionsSelect')" ng-mouseover="openMenu('accountOptionsSelect')"></div>
     </div>
     <div class="accounts-selector-box" ng-show="ui.accountOptionsSelect">
       <div class="account-item account-search-input">
@@ -55,7 +55,7 @@
         <i class="fa fa-search"></i>
       </div> -->
       <!--<div class="store-logo">logo</div>-->
-      <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="openMenu('profileOptionsSelect')" ng-mouseover="openMenu('profileOptionsSelect', true)"></div>
+      <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="openMenu('profileOptionsSelect')" ng-mouseover="openMenu('profileOptionsSelect')"></div>
     </div>
     <div class="account-options-box" ng-show="ui.profileOptionsSelect">
       <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false"><i class="fa fa-user-o"></i> My Profile</div>

@@ -10,8 +10,16 @@
       -->
       <div class="filter-header">
         <div class="left-filter">
-          <div class="common-select-trigger">
-            Choose Program
+          <div class="common-select-container">
+            <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('programOptionsSelect')" ng-mouseover="openMenu('programOptionsSelect')">
+              Choose Program
+            </div>
+            <div class="common-select-options" ng-show="ui.programOptionsSelect">
+              <div class="common-select-option">Program 1</div>
+              <div class="common-select-option">Program 2</div>
+              <div class="common-select-option">Program 3</div>
+              <div class="common-select-option">Program 4</div>
+            </div>
           </div>
           <div class="common-input-with-icon">
             <input type="text" placeholder="Search" class="common-input">
@@ -57,6 +65,9 @@
       </div>
     </div>
   </div>
+  <!--
+  PRODUCT RIGHT SIDE
+  -->
   <div class="right-side-content" ng-show="ui.display === 'addProduct'" ng-switch="ui.display">
     <div class="title" ng-switch-when="addProduct">Add Product</div>
     <div class="title" ng-switch-when="editProduct">Edit Product</div>
@@ -67,8 +78,15 @@
       <div class="common-field-title">Product Name</div>
       <input type="text" class="common-input" placeholder="" value="">
       <div class="common-field-title">Plan</div>
-      <div class="common-select-trigger">
-        October
+      <div class="common-select-container">
+        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('productPlanOptionsSelect')" ng-mouseover="openMenu('productPlanOptionsSelect')">
+          October
+        </div>
+        <div class="common-select-options" ng-show="ui.productPlanOptionsSelect">
+          <div class="common-select-option">November</div>
+          <div class="common-select-option">Q4 Plan</div>
+          <div class="common-select-option">Christmas Plan</div>
+        </div>
       </div>
       <div class="common-field-title">Product Description</div>
       <textarea name="" id="" class="common-textarea"></textarea>
@@ -84,6 +102,9 @@
       </div>
     </div>
   </div>
+  <!--
+  ADD PLAN RIGHT SIDE
+  -->
   <div class="right-side-content" ng-show="ui.display === 'addPlan'">
     <div class="title">Add Plan</div>
     <div class="side-panel">

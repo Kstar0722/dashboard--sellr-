@@ -21,19 +21,9 @@ angular.module('core')
     $scope.ui.showAccountsSelector = false
   }
 
-  $scope.openMenu = function (menu, openOnly) {
-    switch (menu) {
-      case 'accountOptionsSelect':
-        $scope.ui.accountOptionsSelect = openOnly || !$scope.ui.accountOptionsSelect
-        $scope.ui.profileOptionsSelect = false
-        break
-      case 'profileOptionsSelect':
-        $scope.ui.profileOptionsSelect = openOnly || !$scope.ui.profileOptionsSelect
-        $scope.ui.accountOptionsSelect = false
-        break
-      default:
-        break
-    }
+  $scope.openMenu = function (menu) {
+    closeMenus()
+    $scope.ui[menu] = true
   }
 
   //
@@ -75,6 +65,11 @@ angular.module('core')
     }
   }
 
+  function closeMenus () {
+    $scope.ui.accountOptionsSelect = false
+    $scope.ui.profileOptionsSelect = false
+  }
+
   //
   // EVENTS
   //
@@ -99,8 +94,7 @@ angular.module('core')
     var excludedElementsId = ['account-search-input']
     if (!_.contains(excludedElementsId, targetElement.id) && targetElement.className.indexOf('menu-select-trigger') === -1) {
       $scope.$apply(function () {
-        $scope.ui.accountOptionsSelect = false
-        $scope.ui.profileOptionsSelect = false
+        closeMenus()
       })
     }
   })

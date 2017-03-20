@@ -106,8 +106,17 @@
       <div class="common-field-title">Plan Name</div>
       <input type="text" class="common-input" placeholder="" value="December 2016">
       <div class="common-field-title">Select Store</div>
-      <div class="common-select-trigger">
-        Mac's Beer and Wine
+      <div class="common-select-container">
+        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStoresOptionsSelect')" ng-mouseover="openMenu('planStoresOptionsSelect')">
+          <div class="store-logo ignore-click-trigger"></div>
+          <div class="ignore-click-trigger">Mac's Beer and Wine</div>
+        </div>
+        <div class="common-select-options" ng-show="ui.planStoresOptionsSelect">
+          <div class="common-select-option"><div class="store-logo"></div> <div>Susy Liquer</div></div>
+          <div class="common-select-option"><div class="store-logo"></div> <div>Wasted Store</div></div>
+          <div class="common-select-option"><div class="store-logo"></div> <div>Mac's Beer and Wine</div></div>
+          <div class="common-select-option"><div class="store-logo"></div> <div>Rony Wines</div></div>
+        </div>
       </div>
       <div class="date-inputs">
         <div class="start-date">
@@ -125,7 +134,7 @@
       </div>
       <div class="common-field-title">Status</div>
       <div class="common-select-container">
-        <div class="common-select-trigger" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect', true)">
+        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect')">
           Approved
         </div>
         <div class="common-select-options" ng-show="ui.planStatusOptionsSelect">

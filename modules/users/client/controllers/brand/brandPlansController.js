@@ -8,27 +8,28 @@ angular.module('core').controller('BrandPlansController', function ($scope, glob
   //
   // SCOPE FUNCTIONS
   //
-  $scope.openMenu = function (menu, openOnly) {
-    switch (menu) {
-      case 'planStatusOptionsSelect':
-        $scope.ui.planStatusOptionsSelect = openOnly || !$scope.ui.planStatusOptionsSelect
-        break
-      default:
-        break
-    }
+  $scope.openMenu = function (menu) {
+    closeMenus()
+    $scope.ui[menu] = true
   }
 
   //
   // INTERNAL FUNCTIONS
   //
+  function closeMenus () {
+    $scope.ui.planStatusOptionsSelect = false
+    $scope.ui.planStoresOptionsSelect = false
+  }
 
   //
   // EVENTS
   //
   var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
-    $scope.$apply(function () {
-      $scope.ui.planStatusOptionsSelect = false
-    })
+    if (targetElement.className.indexOf('ignore-click-trigger') === -1) {
+      $scope.$apply(function () {
+        closeMenus()
+      })
+    }
   })
   // MANDATORY to prevent Leak
   $scope.$on('$destroy', unregisterGlobalClick)

@@ -122,6 +122,13 @@
 
 .common-select-container{
   position: relative;
+  .store-logo{
+    width: 40px;
+    height: 28px;
+    border-radius: 4px;
+    background-color: gray;
+    margin-right: 12px;
+  }
   .common-select-trigger{
     cursor: pointer;
     border-radius: 4px;
@@ -137,6 +144,10 @@
     position: relative;
     width: 300px;
     box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;    
     &:after{
       content: '';
       position: absolute;
@@ -157,7 +168,7 @@
     border-radius: 4px;
     background-image: linear-gradient(to top, #f2f4f7, #ffffff);
     border: solid 1px #ced0da;
-    z-index: 10;
+    z-index: 8;
     overflow-y: auto;
     overflow-x: hidden;
     width: 300px;
@@ -173,10 +184,14 @@
       font-weight: 600;
       padding: 0 20px;
       cursor: pointer;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
       .ellipsized;
       border-bottom: 1px solid #ced0da;
       &:last-child{
-      border-bottom: none;
+        border-bottom: none;
 
       }
       &:hover{
