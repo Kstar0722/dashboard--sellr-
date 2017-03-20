@@ -21,14 +21,14 @@ angular.module('core')
     $scope.ui.showAccountsSelector = false
   }
 
-  $scope.openMenu = function (menu) {
+  $scope.openMenu = function (menu, openOnly) {
     switch (menu) {
       case 'accountOptionsSelect':
-        $scope.ui.accountOptionsSelect = !$scope.ui.accountOptionsSelect
+        $scope.ui.accountOptionsSelect = openOnly || !$scope.ui.accountOptionsSelect
         $scope.ui.profileOptionsSelect = false
         break
       case 'profileOptionsSelect':
-        $scope.ui.profileOptionsSelect = !$scope.ui.profileOptionsSelect
+        $scope.ui.profileOptionsSelect = openOnly || !$scope.ui.profileOptionsSelect
         $scope.ui.accountOptionsSelect = false
         break
       default:
