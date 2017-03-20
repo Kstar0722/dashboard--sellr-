@@ -61,6 +61,8 @@ angular.module('core').controller('BrandProductsController', function ($scope, g
   function closeMenus () {
     $scope.ui.programOptionsSelect = false
     $scope.ui.productPlanOptionsSelect = false
+    $scope.ui.planStoresOptionsSelect = false
+    $scope.ui.planStatusOptionsSelect = false
   }
 
   function checkTableHeaderChange () {

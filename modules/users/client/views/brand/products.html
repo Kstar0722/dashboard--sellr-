@@ -38,7 +38,7 @@
           <div class="header-check">
             <input type="checkbox" class="common-checkbox" ng-click="allChecksChange()" ng-model="ui.allCheck">
           </div>
-          <div class="make-plan" ng-show="ui.makePlanHeader">
+          <div class="make-plan" ng-show="ui.makePlanHeader" ng-click="ui.display = 'addPlan'">
             Make New Plan
           </div>
           <div class="selected-count" ng-show="ui.makePlanHeader">
@@ -111,8 +111,17 @@
       <div class="common-field-title">Plan Name</div>
       <input type="text" class="common-input" placeholder="" value="">
       <div class="common-field-title">Select Store</div>
-      <div class="common-select-trigger">
-        Mac's Beer and Wine
+      <div class="common-select-container">
+        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStoresOptionsSelect')" ng-mouseover="openMenu('planStoresOptionsSelect')">
+          <div class="store-logo ignore-click-trigger"></div>
+          <div class="ignore-click-trigger">Mac's Beer and Wine</div>
+        </div>
+        <div class="common-select-options" ng-show="ui.planStoresOptionsSelect">
+          <div class="common-select-option"><div class="store-logo"></div> <div>Susy Liquer</div></div>
+          <div class="common-select-option"><div class="store-logo"></div> <div>Wasted Store</div></div>
+          <div class="common-select-option"><div class="store-logo"></div> <div>Mac's Beer and Wine</div></div>
+          <div class="common-select-option"><div class="store-logo"></div> <div>Rony Wines</div></div>
+        </div>
       </div>
       <div class="date-inputs">
         <div class="start-date">
@@ -127,8 +136,16 @@
       <div class="common-field-title">Products in Plan</div>
       <div class="products-box"></div>
       <div class="common-field-title">Status</div>
-      <div class="common-select-trigger">
-        Needs Approval
+       <div class="common-select-container">
+        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect')">
+          Needs Approval
+        </div>
+        <div class="common-select-options" ng-show="ui.planStatusOptionsSelect">
+          <div class="common-select-option">Needs Approval</div>
+          <div class="common-select-option">Approved</div>
+          <div class="common-select-option">Epired</div>
+          <div class="common-select-option">Rejected</div>
+        </div>
       </div>
       <div class="common-field-title">Related SKU’s</div>
       <textarea name="" id="" class="common-textarea"></textarea>
