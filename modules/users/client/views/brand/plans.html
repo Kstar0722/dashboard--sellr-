@@ -124,8 +124,16 @@
         
       </div>
       <div class="common-field-title">Status</div>
-      <div class="common-select-trigger">
-        Approved
+      <div class="common-select-container">
+        <div class="common-select-trigger" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect', true)">
+          Approved
+        </div>
+        <div class="common-select-options" ng-show="ui.planStatusOptionsSelect">
+          <div class="common-select-option">Planned</div>
+          <div class="common-select-option">Approved</div>
+          <div class="common-select-option">Epired</div>
+          <div class="common-select-option">Rejected</div>
+        </div>
       </div>
       <div class="common-field-title">Related SKU’s</div>
       <textarea name="" id="" class="common-textarea"></textarea>

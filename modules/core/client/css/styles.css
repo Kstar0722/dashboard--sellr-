@@ -543,7 +543,10 @@ body.loading .main-content {
   background-size: 7px;
   background-position: right center;
 }
-.common-select-trigger {
+.common-select-container {
+  position: relative;
+}
+.common-select-container .common-select-trigger {
   cursor: pointer;
   border-radius: 4px;
   background-image: linear-gradient(to top, #f2f4f7, #ffffff);
@@ -555,12 +558,11 @@ body.loading .main-content {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   height: 36px;
   line-height: 36px;
-  box-sizing: border-box;
   position: relative;
-  max-width: 300px;
-  min-width: 250px;
+  width: 300px;
+  box-sizing: border-box;
 }
-.common-select-trigger:after {
+.common-select-container .common-select-trigger:after {
   content: '';
   position: absolute;
   top: 0;
@@ -571,6 +573,57 @@ body.loading .main-content {
   background: transparent url('/img/angle-arrow-down.svg') no-repeat;
   background-size: 7px;
   background-position: center center;
+}
+.common-select-container .common-select-options {
+  position: absolute;
+  top: 37px;
+  left: 0;
+  border-radius: 4px;
+  background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+  border: solid 1px #ced0da;
+  z-index: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 300px;
+  box-sizing: border-box;
+  max-height: 160px;
+}
+.common-select-container .common-select-options.ng-hide {
+  max-height: 0;
+  overflow: hidden;
+}
+.common-select-container .common-select-options.ng-hide-add {
+  webkit-transition: max-height ease-in 0.2s;
+  -moz-transition: max-height ease-in 0.2s;
+  -ms-transition: max-height ease-in 0.2s;
+  -o-transition: max-height ease-in 0.2s;
+  transition: max-height ease-in 0.2s;
+}
+.common-select-container .common-select-options.ng-hide-remove {
+  webkit-transition: max-height ease-out 0.3s;
+  -moz-transition: max-height ease-out 0.3s;
+  -ms-transition: max-height ease-out 0.3s;
+  -o-transition: max-height ease-out 0.3s;
+  transition: max-height ease-out 0.3s;
+}
+.common-select-container .common-select-options .common-select-option {
+  height: 37px;
+  line-height: 37px;
+  min-width: 243px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 20px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px solid #ced0da;
+}
+.common-select-container .common-select-options .common-select-option:last-child {
+  border-bottom: none;
+}
+.common-select-container .common-select-options .common-select-option:hover {
+  background-color: rgba(42, 191, 136, 0.1);
 }
 .common-field-title {
   font-size: 12px;

@@ -73,7 +73,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     { productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur' }
   ])
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia) {
+angular.module(ApplicationConfiguration.applicationModuleName).constant('globalClickEventName', 'globalEvent.documentClick')
+
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia, globalClickEventName) {
   var DEFAULT_PUBLIC = false
 
   $rootScope.$mdMedia = $mdMedia
@@ -133,6 +135,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     console.log('changed state from %O to %O', fromState, toState)
     storePreviousState(fromState, fromParams)
     $rootScope.$stateClass = cssClassOf(toState.name)
+  })
+
+  // Bind a global click anywhere handler to be used in needed controller
+  angular.element($window).on('click', function (e) {
+    $rootScope.$broadcast(globalClickEventName, e.target)
   })
 
   function isPublicState (state) {

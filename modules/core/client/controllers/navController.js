@@ -1,5 +1,5 @@
 angular.module('core')
-.controller('NavController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService', 'globalClickEventName', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName) {
+.controller('NavController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService', 'globalClickEventName', '$rootScope', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope) {
   //
   // DEFINITIONS - INITIALIZATION
   //
@@ -83,16 +83,6 @@ angular.module('core')
     if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
   })
 
-  $scope.$on(globalClickEventName, function (event, targetElement) {
-    var excludedElementsId = ['account-search-input']
-    if (!_.contains(excludedElementsId, targetElement.id) && targetElement.className.indexOf('menu-select-trigger') === -1) {
-      $scope.$apply(function () {
-        $scope.ui.accountOptionsSelect = false
-        $scope.ui.profileOptionsSelect = false
-      })
-    }
-  })
-
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
     if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
@@ -104,4 +94,16 @@ angular.module('core')
     setActiveRoute(toState.name)
     updateNavRendering(toState)
   })
+
+  var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
+    var excludedElementsId = ['account-search-input']
+    if (!_.contains(excludedElementsId, targetElement.id) && targetElement.className.indexOf('menu-select-trigger') === -1) {
+      $scope.$apply(function () {
+        $scope.ui.accountOptionsSelect = false
+        $scope.ui.profileOptionsSelect = false
+      })
+    }
+  })
+  // Sort of not needed because Nav Scope will never be destroyed but this is mandatory elsewhere to prevent Leak
+  $scope.$on('$destroy', unregisterGlobalClick)
 }])

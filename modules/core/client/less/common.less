@@ -120,33 +120,69 @@
   background-position: right center;
 }
 
-.common-select-trigger{
-  cursor: pointer;
-  border-radius: 4px;
-  background-image: linear-gradient(to top, #f2f4f7, #ffffff);
-  border: solid 1px #ced0da;
-  font-size: 14px;
-  font-weight: bold;
-  color: #354052;
-  padding: 0px 36px 0 13px;
-  font-family: @avenir;
-  height: 36px;
-  line-height: 36px;
-  box-sizing: border-box;
+.common-select-container{
   position: relative;
-  max-width: 300px;
-  min-width: 250px;
-  &:after{
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 36px;
-    width: 36px;
+  .common-select-trigger{
     cursor: pointer;
-    background: transparent url('/img/angle-arrow-down.svg') no-repeat;
-    background-size: 7px;
-    background-position: center center;
+    border-radius: 4px;
+    background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+    border: solid 1px #ced0da;
+    font-size: 14px;
+    font-weight: bold;
+    color: #354052;
+    padding: 0px 36px 0 13px;
+    font-family: @avenir;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+    width: 300px;
+    box-sizing: border-box;
+    &:after{
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 36px;
+      width: 36px;
+      cursor: pointer;
+      background: transparent url('/img/angle-arrow-down.svg') no-repeat;
+      background-size: 7px;
+      background-position: center center;
+    }
+  }
+  .common-select-options{
+    position: absolute;
+    top: 37px;
+    left: 0;
+    border-radius: 4px;
+    background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+    border: solid 1px #ced0da;
+    z-index: 10;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 300px;
+    box-sizing: border-box;
+    // Approximately the height of the box
+    max-height: 160px;
+    .common-accordion-animation;
+    .common-select-option{
+      height: 37px;
+      line-height: 37px;
+      min-width: 243px;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 0 20px;
+      cursor: pointer;
+      .ellipsized;
+      border-bottom: 1px solid #ced0da;
+      &:last-child{
+      border-bottom: none;
+
+      }
+      &:hover{
+        background-color: rgba(42, 191, 136, 0.1);
+      }
+    }
   }
 }
 
