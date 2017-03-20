@@ -1,8 +1,16 @@
 angular.module('core')
-.controller('NavController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService) {
+.controller('NavController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService', 'globalClickEventName', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName) {
+  //
+  // DEFINITIONS - INITIALIZATION
+  //
   $scope.ui = {}
   $scope.Authentication = Authentication
   $scope.accountsService = accountsService
+  init()
+
+  //
+  // SCOPE FUNCTIONS
+  //
   $scope.logout = function () {
     authenticationService.signout()
   }
@@ -13,23 +21,24 @@ angular.module('core')
     $scope.ui.showAccountsSelector = false
   }
 
-  $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
-    init()
-    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
-      $scope.$root.selectAccountId = null
-    } else if (toState) {
-      toParams.accountId = $scope.$root.selectAccountId
-      $state.go(toState.name, toParams, {notify: false})
+  $scope.openMenu = function (menu) {
+    switch (menu) {
+      case 'accountOptionsSelect':
+        $scope.ui.accountOptionsSelect = !$scope.ui.accountOptionsSelect
+        $scope.ui.profileOptionsSelect = false
+        break
+      case 'profileOptionsSelect':
+        $scope.ui.profileOptionsSelect = !$scope.ui.profileOptionsSelect
+        $scope.ui.accountOptionsSelect = false
+        break
+      default:
+        break
     }
-    setActiveRoute(toState.name)
-    updateNavRendering(toState)
-  })
+  }
 
-  $scope.$watch('$root.selectAccountId', function (accountId) {
-    $stateParams.accountId = accountId
-    if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
-  })
-
+  //
+  // INTERNAL FUNCTIONS
+  //
   function updateNavRendering (state) {
     // Nav Main Sections
     $scope.ui.shouldRenderWholeNav = !state.public
@@ -66,5 +75,33 @@ angular.module('core')
     }
   }
 
-  init()
+  //
+  // EVENTS
+  //
+  $scope.$watch('$root.selectAccountId', function (accountId) {
+    $stateParams.accountId = accountId
+    if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
+  })
+
+  $scope.$on(globalClickEventName, function (event, targetElement) {
+    var excludedElementsId = ['account-search-input']
+    if (!_.contains(excludedElementsId, targetElement.id) && targetElement.className.indexOf('menu-select-trigger') === -1) {
+      $scope.$apply(function () {
+        $scope.ui.accountOptionsSelect = false
+        $scope.ui.profileOptionsSelect = false
+      })
+    }
+  })
+
+  $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
+    init()
+    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
+      $scope.$root.selectAccountId = null
+    } else if (toState) {
+      toParams.accountId = $scope.$root.selectAccountId
+      $state.go(toState.name, toParams, {notify: false})
+    }
+    setActiveRoute(toState.name)
+    updateNavRendering(toState)
+  })
 }])

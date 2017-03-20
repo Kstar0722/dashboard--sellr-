@@ -1,4 +1,4 @@
-<div ng-controller="NavController" class="nav-container" ng-show="ui.shouldRenderWholeNav">
+<div ng-controller="NavController" class="nav-container" ng-show="ui.shouldRenderWholeNav" on-click-anywhere>
   <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
     <div class="left-side">
       <ul>
@@ -10,11 +10,11 @@
       </ul>
     </div>
     <div class="right-side">
-      <div class="menu-select-trigger" ng-bind="accountsService.currentAccount ? (accountsService.currentAccount.name + (accountsService.currentAccount.address ? ': ' + accountsService.currentAccount.address : '')) : 'Select Account'" ng-click="ui.showAccountsSelector = !ui.showAccountsSelector"></div>
+      <div class="menu-select-trigger" ng-bind="accountsService.currentAccount ? (accountsService.currentAccount.name + (accountsService.currentAccount.address ? ': ' + accountsService.currentAccount.address : '')) : 'Select Account'" ng-click="openMenu('accountOptionsSelect')"></div>
     </div>
-    <div class="accounts-selector-box" ng-show="ui.showAccountsSelector">
+    <div class="accounts-selector-box" ng-show="ui.accountOptionsSelect">
       <div class="account-item account-search-input">
-        <input type="text" ng-model="ui.accountFilter" ng-autofocus="true" placeholder="Search">
+        <input type="text" ng-model="ui.accountFilter" ng-autofocus="true" placeholder="Search" id="account-search-input">
         <i class="fa fa-search"></i>
       </div>
       <div class="account-item" ng-repeat="account in accountsService.accounts | filter:ui.accountFilter | orderBy:['name', 'address'] track by account.accountId" ng-click="accountChangeHandler(account)" ng-bind="account.name + (account.address ? ': ' + account.address : '')"></div>
@@ -55,9 +55,9 @@
         <i class="fa fa-search"></i>
       </div> -->
       <!--<div class="store-logo">logo</div>-->
-      <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="ui.showAccountMenu = !ui.showAccountMenu"></div>
+      <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="openMenu('profileOptionsSelect')"></div>
     </div>
-    <div class="account-options-box" ng-show="ui.showAccountMenu">
+    <div class="account-options-box" ng-show="ui.profileOptionsSelect">
       <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false"><i class="fa fa-user-o"></i> My Profile</div>
       <!-- <div class="account-option" ng-click="ui.showAccountMenu = false"><i class="fa fa-cog"></i> Manage Stores</div> -->
       <div class="account-option logout" ng-click="logout(); ui.showAccountMenu = false"><i class="fa fa-power-off"></i> Logout</div>
