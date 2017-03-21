@@ -142,16 +142,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('admin.accounts', {
         url: '/accounts',
-        templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
-        controller: 'AccountManagerController'
-      })
-      .state('admin.accounts.edit', {
-        url: '/edit/:id',
-        templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
-      })
-      .state('admin.accounts.create', {
-        url: '/new',
-        templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
+        templateUrl: 'modules/users/client/views/admin/accountsManager.html',
+        controller: 'AccountsManagerController'
       })
       .state('admin.users', {
         url: '/users',

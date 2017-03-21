@@ -24,18 +24,37 @@
     }
   }
   .left-side-content{
+    transition: width ease .2s; 
     &.full{
       width: 100%;
     }
     width: 58vw;
     .main-table{
+      padding: 0px;
       margin-top: 30px;
       border-radius: 4px;
       background-color: #ffffff;
       border: solid 1px #e6eaee;
+      .filter-header{
+        padding: 15px 15px 0px 15px;
+      }
+      .columns-data,
+      .columns-header{
+        padding: 0px 15px;
+      }
     }
   }
   .right-side-content{
+    &.ng-hide{
+      width: 0;
+      overflow: hidden;
+    }
+    &.ng-hide-add{
+      transition: width ease-in .2s; 
+    }
+    &.ng-hide-remove{
+      transition: width ease-out .2s;  
+    } 
     width: 32vw;
     .side-panel{
       margin-top: 30px;
@@ -43,20 +62,38 @@
       background-color: #ffffff;
       border: solid 1px #e6eaee;
       padding: 0 30px 30px 30px;
+      .state-zip-container{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        .state{
+          width: 58%;
+          .common-select-container{
+            width: 100%;
+            .common-select-trigger,
+            .common-select-options{
+              width: 100%;
+            }
+          }
+        }
+        .zip{
+          width: 37%;
+        }
+      }
       .date-inputs{
         display: flex;
         flex-flow: row nowrap;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: flex-start;
         .start-date{
-          margin-right: 25px;
+          width: 45%;
         }
-        input.common-input{
-          min-width: auto;
-          max-width: 120px;
+        .end-date{
+          width: 45%;
         }
       }
-      .products-box{
+      .upload-image-box{
         width: 100%;
         background-color: rgba(223,227,233,0.3);
         height: 340px;
@@ -80,10 +117,8 @@
   height: 36px;
   line-height: 36px;
   box-sizing: border-box;
+  width: 100%;
   .placeholder({ color: #a1a7af; });
-}
-.common-input{
-  min-width: 250px;
 }
 
 .common-input-with-icon{
@@ -116,7 +151,6 @@
   font-family: @avenir;
   box-sizing: border-box;
   min-height: 150px;
-  width: 100%;
   resize: none;
   .placeholder({ color: #a1a7af; });
 }
@@ -160,7 +194,7 @@
     height: 36px;
     line-height: 36px;
     position: relative;
-    width: 300px;
+    width: 100%;
     box-sizing: border-box;
     display: flex;
     flex-flow: row nowrap;
@@ -200,7 +234,7 @@
     z-index: 8;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 300px;
+    width: 100%;
     box-sizing: border-box;
     // Approximately the height of the box
     max-height: 160px;
@@ -208,7 +242,6 @@
     .common-select-option{
       height: 37px;
       line-height: 37px;
-      min-width: 243px;
       font-size: 14px;
       font-weight: 600;
       padding: 0 20px;
@@ -248,6 +281,7 @@
 }
 
 .common-btn-positive,
+.common-btn-black,
 .common-btn-negative{
   border-radius: 4px;
   font-size: 14px;
@@ -262,6 +296,10 @@
 
 .common-btn-positive{
   background-image: linear-gradient(to top, #259d71, #2bbf88);
+}
+
+.common-btn-black{
+  background-image: linear-gradient(to bottom, #4a586d, #3b4657);
 }
 
 .common-btn-negative{
@@ -287,4 +325,27 @@
     -o-transition: max-height ease-out 0.3s; 
     transition: max-height ease-out 0.3s;  
   }
+}
+
+.fa-check,
+.fa-times{
+  font-size: 20px;
+  &.checkbox{
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border: 1px solid gray;
+    cursor: pointer;
+    border-radius: 4px;
+    background-image: linear-gradient(to top, #f2f4f8, #feffff);
+    border: solid 1px #ced0da;
+  }
+}
+.fa-check{
+ color: #2bbf88;
+
+}
+.fa-times{
+ color: #d40000;
 }

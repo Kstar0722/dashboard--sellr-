@@ -1,0 +1,152 @@
+<div class="accounts-manager-view">
+  <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
+    <i class="fa fa-circle"></i> Automatically Saved
+  </div>
+  <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
+    <div class="title">All Accounts</div>
+    <div class="main-table">
+      <!--
+      FILTER HEADER
+      -->
+      <div class="filter-header">
+        <div class="left-filter">
+          <div class="common-select-container">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.filterOptionsSelect}]" ng-click="openMenu('filterOptionsSelect')" ng-mouseover="openMenu('filterOptionsSelect')">
+              Filter
+            </div>
+            <div class="common-select-options" ng-show="ui.filterOptionsSelect">
+              <div class="common-select-option">Filter 1</div>
+              <div class="common-select-option">Filter 2</div>
+              <div class="common-select-option">Filter 3</div>
+              <div class="common-select-option">Filter 4</div>
+            </div>
+          </div>
+          <div class="common-input-with-icon">
+            <input type="text" placeholder="Search" class="common-input">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>
+        <div class="right-filter">
+          <div class="common-btn-black" ng-click="ui.display = 'newAccount'">Create Account</div>
+        </div>
+      </div>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div class="id-col"><span>ID</span> <i class="fa fa-sort"></i></div>
+        <div class="name-col"><span>Name</span> <i class="fa fa-sort"></i></div>
+        <div class="created-col"><span>Created</span> <i class="fa fa-sort"></i></div>
+        <div class="users-col"><span>Users</span> <i class="fa fa-sort"></i></div>
+        <div class="products-col"><span>Products</span> <i class="fa fa-sort"></i></div>
+        <div class="contact-col"><span>Contact</span> <i class="fa fa-sort"></i></div>
+        <div class="website-col"><span>Website</span> <i class="fa fa-sort"></i></div>
+        <div class="actions-col"><span>&nbsp;</span></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data">
+        <div class="id-col">5432</div>
+        <div class="name-col">Beam</div>
+        <div class="created-col">11/23/16</div>
+        <div class="users-col">4</div>
+        <div class="products-col">55</div>
+        <div class="contact-col">
+          <div>Maurice Chavez</div>
+          <div>mcglynn_claudie@klein.org</div>
+          <div>048-913-0031</div>
+        </div>
+        <div class="website-col"><i class="fa fa-check"></i></div>
+        <div class="actions-col">
+          <div class="common-select-container">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.actionsOptionsSelect}]" ng-click="openMenu('actionsOptionsSelect')" ng-mouseover="openMenu('actionsOptionsSelect')">
+              Actions
+            </div>
+            <div class="common-select-options" ng-show="ui.actionsOptionsSelect">
+              <div class="common-select-option" ng-click="ui.display = 'editAccount'">Edit Account</div>
+              <div class="common-select-option">Manage Stores</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+  ACCOUNT RIGHT SIDE
+  -->
+  <div class="right-side-content" ng-show="ui.display !== 'fulltable'" ng-switch="ui.display">
+    <div class="title" ng-switch-when="newAccount">New Account</div>
+    <div class="title" ng-switch-when="editAccount">Edit Account</div>
+    <div class="side-panel">
+      <div class="common-field-title">Account Name</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">Contact Name</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">Email</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">Phone</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">Address</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="common-field-title">City</div>
+      <input type="text" class="common-input" placeholder="" value="">
+      <div class="state-zip-container">
+        <div class="state">
+          <div class="common-field-title">State</div>
+          <div class="common-select-container">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.stateOptionsSelect}]" ng-click="openMenu('stateOptionsSelect')" ng-mouseover="openMenu('stateOptionsSelect')">
+              Select State
+            </div>
+            <div class="common-select-options" ng-show="ui.stateOptionsSelect">
+              <div class="common-select-option">New York</div>
+              <div class="common-select-option">New York</div>
+              <div class="common-select-option">New York</div>
+              <div class="common-select-option">New York</div>
+            </div>
+          </div>
+        </div>
+        <div class="zip">
+          <div class="common-field-title">Zip</div>
+          <input type="text" class="common-input" placeholder="" value="">
+        </div>
+      </div>
+      <div ng-switch-when="editAccount">
+        <div class="common-field-title">Account Image</div>
+        <div class="upload-image-box"></div>
+        <div class="checks-container">
+          <div class="shoppr-check">
+            <div class="common-field-title">Shoppr</div>
+            <i class="fa fa-times checkbox"></i>
+          </div>
+          <div class="website-check">
+            <div class="common-field-title">Website</div>
+            <i class="fa fa-check checkbox"></i>
+          </div>
+        </div>
+        <div class="common-field-title">Website Theme</div>
+        <div class="common-select-container">
+          <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')" ng-mouseover="openMenu('websiteThemesOptionsSelect')">
+            Website Theme
+          </div>
+          <div class="common-select-options" ng-show="ui.websiteThemesOptionsSelect">
+            <div class="common-select-option">Theme 1</div>
+            <div class="common-select-option">Theme 2</div>
+            <div class="common-select-option">Theme 3</div>
+            <div class="common-select-option">Theme 4</div>
+          </div>
+        </div>
+        <div class="common-field-title">Website Url</div>
+        <input type="text" class="common-input" placeholder="" value="">
+        <div class="auth-code">
+          <div class="auth-text">Device Authentication Code: <span>1228</span></div>
+          <div class="common-btn-black">Get New Code</div>
+        </div>
+      </div>
+      <div class="common-btns-bar">
+        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-positive">Create</div>
+      </div>
+    </div>
+  </div>
+</div>
