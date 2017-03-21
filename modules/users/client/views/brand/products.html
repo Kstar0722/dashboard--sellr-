@@ -11,7 +11,7 @@
       <div class="filter-header">
         <div class="left-filter">
           <div class="common-select-container">
-            <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('programOptionsSelect')" ng-mouseover="openMenu('programOptionsSelect')">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.programOptionsSelect}]" ng-click="openMenu('programOptionsSelect')" ng-mouseover="openMenu('programOptionsSelect')">
               Choose Program
             </div>
             <div class="common-select-options" ng-show="ui.programOptionsSelect">
@@ -79,7 +79,7 @@
       <input type="text" class="common-input" placeholder="" value="">
       <div class="common-field-title">Plan</div>
       <div class="common-select-container">
-        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('productPlanOptionsSelect')" ng-mouseover="openMenu('productPlanOptionsSelect')">
+        <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.productPlanOptionsSelect}]" ng-click="openMenu('productPlanOptionsSelect')" ng-mouseover="openMenu('productPlanOptionsSelect')">
           October
         </div>
         <div class="common-select-options" ng-show="ui.productPlanOptionsSelect">
@@ -112,7 +112,7 @@
       <input type="text" class="common-input" placeholder="" value="">
       <div class="common-field-title">Select Store</div>
       <div class="common-select-container">
-        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStoresOptionsSelect')" ng-mouseover="openMenu('planStoresOptionsSelect')">
+        <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.planStoresOptionsSelect}]" ng-click="openMenu('planStoresOptionsSelect')" ng-mouseover="openMenu('planStoresOptionsSelect')">
           <div class="store-logo ignore-click-trigger"></div>
           <div class="ignore-click-trigger">Mac's Beer and Wine</div>
         </div>
@@ -137,7 +137,7 @@
       <div class="products-box"></div>
       <div class="common-field-title">Status</div>
        <div class="common-select-container">
-        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect')">
+        <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.planStatusOptionsSelect}]" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect')">
           Needs Approval
         </div>
         <div class="common-select-options" ng-show="ui.planStatusOptionsSelect">

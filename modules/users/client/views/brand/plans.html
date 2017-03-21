@@ -107,7 +107,7 @@
       <input type="text" class="common-input" placeholder="" value="December 2016">
       <div class="common-field-title">Select Store</div>
       <div class="common-select-container">
-        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStoresOptionsSelect')" ng-mouseover="openMenu('planStoresOptionsSelect')">
+        <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.planStoresOptionsSelect}]" ng-click="openMenu('planStoresOptionsSelect')" ng-mouseover="openMenu('planStoresOptionsSelect')">
           <div class="store-logo ignore-click-trigger"></div>
           <div class="ignore-click-trigger">Mac's Beer and Wine</div>
         </div>
@@ -134,7 +134,7 @@
       </div>
       <div class="common-field-title">Status</div>
       <div class="common-select-container">
-        <div class="common-select-trigger ignore-click-trigger" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect')">
+        <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.planStatusOptionsSelect}]" ng-click="openMenu('planStatusOptionsSelect')" ng-mouseover="openMenu('planStatusOptionsSelect')">
           Approved
         </div>
         <div class="common-select-options" ng-show="ui.planStatusOptionsSelect">

@@ -590,8 +590,10 @@ body.loading .main-content {
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+  transition: all ease .2s;
 }
 .common-select-container .common-select-trigger:after {
+  transition: all ease .2s;
   content: '';
   position: absolute;
   top: 0;
@@ -603,13 +605,22 @@ body.loading .main-content {
   background-size: 7px;
   background-position: center center;
 }
+.common-select-container .common-select-trigger.active {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.common-select-container .common-select-trigger.active:after {
+  transform: rotate(180deg);
+}
 .common-select-container .common-select-options {
   position: absolute;
-  top: 37px;
+  top: 36px;
   left: 0;
-  border-radius: 4px;
-  background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+  background-color: #fff;
   border: solid 1px #ced0da;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   z-index: 8;
   overflow-y: auto;
   overflow-x: hidden;
@@ -656,7 +667,8 @@ body.loading .main-content {
   border-bottom: none;
 }
 .common-select-container .common-select-options .common-select-option:hover {
-  background-color: rgba(42, 191, 136, 0.1);
+  color: #29b575;
+  background-color: #f1f4f8;
 }
 .common-field-title {
   font-size: 12px;
