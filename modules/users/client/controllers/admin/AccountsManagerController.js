@@ -4,13 +4,29 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   //
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
+  $scope.ui.sortExpression = '+name'
+  accountsService.init({ expand: 'stores,stats' })
+  $scope.accountsService = accountsService
+  $scope.ui.actionsOptionsSelect = []
 
   //
   // SCOPE FUNCTIONS
   //
-  $scope.openMenu = function (menu) {
+  $scope.openMenu = function (menu, index) {
     closeMenus()
-    $scope.ui[menu] = true
+    if (!_.isUndefined(index)) {
+      $scope.ui[menu][index] = true
+    } else {
+      $scope.ui[menu] = true
+    }
+  }
+
+  $scope.reOrderList = function (field) {
+    var oldSort = $scope.ui.sortExpression || ''
+    var asc = true
+    if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
+    $scope.ui.sortExpression = (asc ? '+' : '-') + field
+    return $scope.ui.sortExpression
   }
 
   //
@@ -18,9 +34,9 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   //
   function closeMenus () {
     $scope.ui.filterOptionsSelect = false
-    $scope.ui.actionsOptionsSelect = false
     $scope.ui.stateOptionsSelect = false
     $scope.ui.websiteThemesOptionsSelect = false
+    $scope.ui.actionsOptionsSelect = []
   }
 
   //

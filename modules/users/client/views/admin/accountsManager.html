@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="common-input-with-icon">
-            <input type="text" placeholder="Search" class="common-input">
+            <input type="text" placeholder="Search" class="common-input" ng-model="ui.search">
             <i class="fa fa-search"></i>
           </div>
         </div>
@@ -34,37 +34,40 @@
       COLUMNS HEADER
       -->
       <div class="columns-header">
-        <div class="id-col"><span>ID</span> <i class="fa fa-sort"></i></div>
-        <div class="name-col"><span>Name</span> <i class="fa fa-sort"></i></div>
-        <div class="created-col"><span>Created</span> <i class="fa fa-sort"></i></div>
-        <div class="users-col"><span>Users</span> <i class="fa fa-sort"></i></div>
-        <div class="products-col"><span>Products</span> <i class="fa fa-sort"></i></div>
-        <div class="contact-col"><span>Contact</span> <i class="fa fa-sort"></i></div>
-        <div class="website-col"><span>Website</span> <i class="fa fa-sort"></i></div>
+        <div class="id-col" ng-click="reOrderList('accountId')"><span>ID</span> <i class="fa fa-sort"></i></div>
+        <div class="name-col" ng-click="reOrderList('name')"><span>Name</span> <i class="fa fa-sort"></i></div>
+        <div class="created-col" ng-click="reOrderList('createdDateMoment')"><span>Created</span> <i class="fa fa-sort"></i></div>
+        <div class="users-col" ng-click="reOrderList('usersNum')"><span>Users</span> <i class="fa fa-sort"></i></div>
+        <div class="orders-col" ng-click="reOrderList('ordersNum')"><span>Orders</span> <i class="fa fa-sort"></i></div>
+        <div class="contact-col" ng-click="reOrderList('contactName')"><span>Contact</span> <i class="fa fa-sort"></i></div>
+        <div class="website-col" ng-click="reOrderList('website')"><span>Website</span> <i class="fa fa-sort"></i></div>
         <div class="actions-col"><span>&nbsp;</span></div>
       </div>
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data">
-        <div class="id-col">5432</div>
-        <div class="name-col">Beam</div>
-        <div class="created-col">11/23/16</div>
-        <div class="users-col">4</div>
-        <div class="products-col">55</div>
+      <div class="columns-data" ng-repeat="account in accountsService.accounts | filterBy:['accountId','name','contactName','email']:ui.search | orderBy:ui.sortExpression track by account.accountId">
+        <div class="id-col" ng-bind-html="account.accountId | highlight:ui.search"></div>
+        <div class="name-col" ng-bind-html="account.name | highlight:ui.search">Beam</div>
+        <div class="created-col" ng-bind="account.createdDateStr"></div>
+        <div class="users-col" ng-bind="account.usersNum"></div>
+        <div class="orders-col" ng-bind="account.ordersNum">55</div>
         <div class="contact-col">
-          <div>Maurice Chavez</div>
-          <div>mcglynn_claudie@klein.org</div>
-          <div>048-913-0031</div>
+          <div ng-bind-html="account.contactName | highlight:ui.search">Maurice Chavez</div>
+          <div ng-if="account.email" ng-bind-html="account.email | highlight:ui.search"></div>
+          <div ng-if="account.phone" ng-bind="account.phone"></div>
         </div>
-        <div class="website-col"><i class="fa fa-check"></i></div>
+        <div class="website-col">
+          <i class="fa fa-check common-fa" ng-if="account.website"></i>
+          <i class="fa fa-times common-fa" ng-if="!account.website"></i>
+        </div>
         <div class="actions-col">
           <div class="common-select-container">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.actionsOptionsSelect}]" ng-click="openMenu('actionsOptionsSelect')" ng-mouseover="openMenu('actionsOptionsSelect')">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.actionsOptionsSelect[$index]}]" ng-click="openMenu('actionsOptionsSelect', $index)" ng-mouseover="openMenu('actionsOptionsSelect', $index)">
               Actions
             </div>
-            <div class="common-select-options" ng-show="ui.actionsOptionsSelect">
-              <div class="common-select-option" ng-click="ui.display = 'editAccount'">Edit Account</div>
+            <div class="common-select-options" ng-show="ui.actionsOptionsSelect[$index]">
+              <div class="common-select-option" ng-click="openEditSideBar(account)">Edit Account</div>
               <div class="common-select-option">Manage Stores</div>
             </div>
           </div>
@@ -117,11 +120,11 @@
         <div class="checks-container">
           <div class="shoppr-check">
             <div class="common-field-title">Shoppr</div>
-            <i class="fa fa-times checkbox"></i>
+            <i class="fa fa-times common-fa checkbox"></i>
           </div>
           <div class="website-check">
             <div class="common-field-title">Website</div>
-            <i class="fa fa-check checkbox"></i>
+            <i class="fa fa-check common-fa checkbox"></i>
           </div>
         </div>
         <div class="common-field-title">Website Theme</div>

@@ -758,12 +758,12 @@ body.loading .main-content {
   -o-transition: max-height ease-out 0.3s;
   transition: max-height ease-out 0.3s;
 }
-.fa-check,
-.fa-times {
+.common-fa.fa-check,
+.common-fa.fa-times {
   font-size: 20px;
 }
-.fa-check.checkbox,
-.fa-times.checkbox {
+.common-fa.fa-check.checkbox,
+.common-fa.fa-times.checkbox {
   width: 22px;
   height: 22px;
   line-height: 22px;
@@ -774,11 +774,14 @@ body.loading .main-content {
   background-image: linear-gradient(to top, #f2f4f8, #feffff);
   border: solid 1px #ced0da;
 }
-.fa-check {
+.common-fa.fa-check {
   color: #2bbf88;
 }
-.fa-times {
+.common-fa.fa-times {
   color: #d40000;
+}
+.highlighted {
+  background: #00f0e6;
 }
 .nav-container {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
@@ -5830,8 +5833,8 @@ body.websiteBuilder #loading-bar-spinner {
   width: 8%;
   padding-right: 1%;
 }
-.accounts-manager-view .left-side-content .main-table .columns-header .products-col,
-.accounts-manager-view .left-side-content .main-table .columns-data .products-col {
+.accounts-manager-view .left-side-content .main-table .columns-header .orders-col,
+.accounts-manager-view .left-side-content .main-table .columns-data .orders-col {
   width: 8%;
   padding-right: 1%;
 }
