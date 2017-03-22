@@ -8,6 +8,8 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   accountsService.init({ expand: 'stores,stats' })
   $scope.accountsService = accountsService
   $scope.ui.actionsOptionsSelect = []
+  $scope.UsStates = UsStates
+  $scope.ui.currentAccount = {}
 
   //
   // SCOPE FUNCTIONS
@@ -27,6 +29,37 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
     $scope.ui.sortExpression = (asc ? '+' : '-') + field
     return $scope.ui.sortExpression
+  }
+
+  $scope.openCreateAccountSidebar = function () {
+    $scope.ui.currentAccount = {}
+    $scope.ui.display = 'createAccount'
+  }
+
+  $scope.setUsState = function (state) {
+    $scope.ui.currentAccount.state = state.abbreviation
+    $scope.ui.currentAccount.stateName = state.name
+    $scope.ui.stateError = false
+  }
+
+  $scope.saveAccount = function (state) {
+    // Unfortunately we need to treat custom select boxes errors separately
+    if (!$scope.ui.currentAccount.state) {
+      $scope.ui.stateError = true
+    } else {
+      $scope.ui.stateError = false
+    }
+    // If form invalid set all controls to touched to show input border
+    if ($scope.accountForm.$invalid) {
+      angular.forEach($scope.accountForm.$error, function (field) {
+        angular.forEach(field, function (errorField) {
+          errorField.$setTouched()
+        })
+      })
+    }
+    if ($scope.ui.currentAccount.state && $scope.accountForm.$valid) {
+      console.log('VALIDD')
+    }
   }
 
   //

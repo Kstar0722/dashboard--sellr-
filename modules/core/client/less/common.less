@@ -119,6 +119,17 @@
   box-sizing: border-box;
   width: 100%;
   .placeholder({ color: #a1a7af; });
+  &.ng-invalid.ng-touched {
+    border: solid 1px #d40000;
+  }
+}
+
+.common-input-error-msg{
+  font-size: 12px;
+  font-weight: bold;
+  color: #d40000;
+  opacity: .8;
+  line-height: 1.8;
 }
 
 .common-input-with-icon{
@@ -200,7 +211,10 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center; 
-    transition: all ease .2s;       
+    transition: all ease .2s; 
+    &.error {
+      border: solid 1px #d40000;
+    }      
     &:after{
       transition: all ease .2s;       
       content: '';
@@ -292,6 +306,9 @@
   line-height: 36px;
   width: 150px;
   cursor: pointer;
+  outline: none;
+  cursor: pointer;
+  border: none;
 }
 
 .common-btn-positive{

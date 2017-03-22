@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="right-filter">
-          <div class="common-btn-black" ng-click="ui.display = 'newAccount'">Create Account</div>
+          <div class="common-btn-black" ng-click="openCreateAccountSidebar()">Create Account</div>
         </div>
       </div>
       <!--
@@ -67,7 +67,7 @@
               Actions
             </div>
             <div class="common-select-options" ng-show="ui.actionsOptionsSelect[$index]">
-              <div class="common-select-option" ng-click="openEditSideBar(account)">Edit Account</div>
+              <div class="common-select-option" ng-click="openEditAccountSidebar(account)">Edit Account</div>
               <div class="common-select-option">Manage Stores</div>
             </div>
           </div>
@@ -79,77 +79,81 @@
   ACCOUNT RIGHT SIDE
   -->
   <div class="right-side-content" ng-show="ui.display !== 'fulltable'" ng-switch="ui.display">
-    <div class="title" ng-switch-when="newAccount">New Account</div>
+    <div class="title" ng-switch-when="createAccount">New Account</div>
     <div class="title" ng-switch-when="editAccount">Edit Account</div>
     <div class="side-panel">
-      <div class="common-field-title">Account Name</div>
-      <input type="text" class="common-input" placeholder="" value="">
-      <div class="common-field-title">Contact Name</div>
-      <input type="text" class="common-input" placeholder="" value="">
-      <div class="common-field-title">Email</div>
-      <input type="text" class="common-input" placeholder="" value="">
-      <div class="common-field-title">Phone</div>
-      <input type="text" class="common-input" placeholder="" value="">
-      <div class="common-field-title">Address</div>
-      <input type="text" class="common-input" placeholder="" value="">
-      <div class="common-field-title">City</div>
-      <input type="text" class="common-input" placeholder="" value="">
-      <div class="state-zip-container">
-        <div class="state">
-          <div class="common-field-title">State</div>
+      <form name="accountForm" ng-submit="saveAccount(ui.display)" novalidate>
+        <div class="common-field-title">Account Name</div>
+        <input type="text" class="common-input" name="name" ng-model="ui.currentAccount.name" required>
+        <input-error-msg form="accountForm" field="name" errors="{required: 'Account name is required'}"></input-error-msg>
+        <div class="common-field-title">Contact Name</div>
+        <input type="text" class="common-input" name="contactName" ng-model="ui.currentAccount.contactName" required>
+        <input-error-msg form="accountForm" field="contactName" errors="{required: 'Contact name is required'}"></input-error-msg>
+        <div class="common-field-title">Email</div>
+        <input type="email" class="common-input" name="email" ng-model="ui.currentAccount.email" required>
+        <input-error-msg form="accountForm" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+        <div class="common-field-title">Phone</div>
+        <input type="text" class="common-input" ng-model="ui.currentAccount.phone">
+        <div class="common-field-title">Address</div>
+        <input type="text" class="common-input" name="address" ng-model="ui.currentAccount.address" required>
+        <input-error-msg form="accountForm" field="address" errors="{required: 'Address is required'}"></input-error-msg>
+        <div class="common-field-title">City</div>
+        <input type="text" class="common-input" name="city" ng-model="ui.currentAccount.city" required>
+        <input-error-msg form="accountForm" field="city" errors="{required: 'City is required'}"></input-error-msg>
+        <div class="state-zip-container">
+          <div class="state">
+            <div class="common-field-title">State</div>
+            <div class="common-select-container">
+              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.stateOptionsSelect}, {error: ui.stateError}]" ng-click="openMenu('stateOptionsSelect')" ng-mouseover="openMenu('stateOptionsSelect')" ng-bind="ui.currentAccount.stateName || 'Select State'"></div>
+              <div class="common-select-options" ng-show="ui.stateOptionsSelect">
+                <div class="common-select-option" ng-repeat="state in UsStates" ng-bind="state.name" ng-click="setUsState(state)"></div>
+              </div>
+              <div class="common-input-error-msg" ng-show="ui.stateError">State is required</div>
+            </div>
+          </div>
+          <div class="zip">
+            <div class="common-field-title">Zip</div>
+            <input type="text" class="common-input" name="zipCode" ng-model="ui.currentAccount.zipCode" required maxlength="5" ng-pattern="/^\d{5}$/">
+            <input-error-msg form="accountForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
+          </div>
+        </div>
+        <div ng-switch-when="editAccount">
+          <div class="common-field-title">Account Image</div>
+          <div class="upload-image-box"></div>
+          <div class="checks-container">
+            <div class="shoppr-check">
+              <div class="common-field-title">Shoppr</div>
+              <i class="fa fa-times common-fa checkbox"></i>
+            </div>
+            <div class="website-check">
+              <div class="common-field-title">Website</div>
+              <i class="fa fa-check common-fa checkbox"></i>
+            </div>
+          </div>
+          <div class="common-field-title">Website Theme</div>
           <div class="common-select-container">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.stateOptionsSelect}]" ng-click="openMenu('stateOptionsSelect')" ng-mouseover="openMenu('stateOptionsSelect')">
-              Select State
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')" ng-mouseover="openMenu('websiteThemesOptionsSelect')">
+              Website Theme
             </div>
-            <div class="common-select-options" ng-show="ui.stateOptionsSelect">
-              <div class="common-select-option">New York</div>
-              <div class="common-select-option">New York</div>
-              <div class="common-select-option">New York</div>
-              <div class="common-select-option">New York</div>
+            <div class="common-select-options" ng-show="ui.websiteThemesOptionsSelect">
+              <div class="common-select-option">Theme 1</div>
+              <div class="common-select-option">Theme 2</div>
+              <div class="common-select-option">Theme 3</div>
+              <div class="common-select-option">Theme 4</div>
             </div>
           </div>
-        </div>
-        <div class="zip">
-          <div class="common-field-title">Zip</div>
+          <div class="common-field-title">Website Url</div>
           <input type="text" class="common-input" placeholder="" value="">
-        </div>
-      </div>
-      <div ng-switch-when="editAccount">
-        <div class="common-field-title">Account Image</div>
-        <div class="upload-image-box"></div>
-        <div class="checks-container">
-          <div class="shoppr-check">
-            <div class="common-field-title">Shoppr</div>
-            <i class="fa fa-times common-fa checkbox"></i>
-          </div>
-          <div class="website-check">
-            <div class="common-field-title">Website</div>
-            <i class="fa fa-check common-fa checkbox"></i>
+          <div class="auth-code">
+            <div class="auth-text">Device Authentication Code: <span>1228</span></div>
+            <div class="common-btn-black">Get New Code</div>
           </div>
         </div>
-        <div class="common-field-title">Website Theme</div>
-        <div class="common-select-container">
-          <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')" ng-mouseover="openMenu('websiteThemesOptionsSelect')">
-            Website Theme
-          </div>
-          <div class="common-select-options" ng-show="ui.websiteThemesOptionsSelect">
-            <div class="common-select-option">Theme 1</div>
-            <div class="common-select-option">Theme 2</div>
-            <div class="common-select-option">Theme 3</div>
-            <div class="common-select-option">Theme 4</div>
-          </div>
+        <div class="common-btns-bar">
+          <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+          <button class="common-btn-positive" type="submit">Create</button>
         </div>
-        <div class="common-field-title">Website Url</div>
-        <input type="text" class="common-input" placeholder="" value="">
-        <div class="auth-code">
-          <div class="auth-text">Device Authentication Code: <span>1228</span></div>
-          <div class="common-btn-black">Get New Code</div>
-        </div>
-      </div>
-      <div class="common-btns-bar">
-        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
-        <div class="common-btn-positive">Create</div>
-      </div>
+      </form>
     </div>
   </div>
 </div>

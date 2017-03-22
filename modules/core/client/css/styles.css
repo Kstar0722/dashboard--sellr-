@@ -537,6 +537,17 @@ body.loading .main-content {
 .common-textarea:-ms-input-placeholder {
   color: #a1a7af;
 }
+.common-input.ng-invalid.ng-touched,
+.common-textarea.ng-invalid.ng-touched {
+  border: solid 1px #d40000;
+}
+.common-input-error-msg {
+  font-size: 12px;
+  font-weight: bold;
+  color: #d40000;
+  opacity: .8;
+  line-height: 1.8;
+}
 .common-input-with-icon {
   display: flex;
   flex-flow: row nowrap;
@@ -625,6 +636,9 @@ body.loading .main-content {
   justify-content: flex-start;
   align-items: center;
   transition: all ease .2s;
+}
+.common-select-container .common-select-trigger.error {
+  border: solid 1px #d40000;
 }
 .common-select-container .common-select-trigger:after {
   transition: all ease .2s;
@@ -729,7 +743,9 @@ body.loading .main-content {
   height: 36px;
   line-height: 36px;
   width: 150px;
+  outline: none;
   cursor: pointer;
+  border: none;
 }
 .common-btn-positive {
   background-image: linear-gradient(to top, #259d71, #2bbf88);
