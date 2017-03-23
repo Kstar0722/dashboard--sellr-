@@ -101,6 +101,10 @@
             <label>Research Notes</label>
             <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
         </div>
+        <div class="form-group">
+            <label for="verified-checkbox">Brand Verified</label>
+            <md-checkbox id="verified-checkbox" ng-model="ui.verifiedCheck" aria-label="Verified" ng-change="setVerified()"></md-checkbox>
+        </div>
     </form>
     <div class="row product-type-box" ng-if="permissions.curator">
         <div class="col-md-12">

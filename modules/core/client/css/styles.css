@@ -2070,6 +2070,10 @@ body.editor-products-detail .medium-editor-toolbar {
 .delete.confirm md-input-container {
   margin: 0;
 }
+.verified-icon {
+  width: 20px;
+  height: 20px;
+}
 @-webkit-keyframes uil-ripple {
   0% {
     width: 0;
