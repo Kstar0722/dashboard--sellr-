@@ -36,6 +36,11 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.ui.display = 'createAccount'
   }
 
+  $scope.openEditAccountSidebar = function (account) {
+    $scope.ui.currentAccount = account
+    $scope.ui.display = 'editAccount'
+  }
+
   $scope.setUsState = function (state) {
     $scope.ui.currentAccount.state = state.abbreviation
     $scope.ui.currentAccount.stateName = state.name
@@ -62,15 +67,34 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
       delete accountPayload.stateName
       if (view === 'createAccount') {
         console.log(accountPayload)
-        // 
+        //
         // TO BE REVIEWED THIS OLD LOGIC MAY CHANGE
-        // 
+        //
         // accountsService.createAccount(accountPayload).then(function (newAccount) {
         //   var newAccountToEdit = _.findWhere(accountsService.accounts, {accountId: newAccount.accountId})
         //   if (newAccountToEdit) $scope.editAccount(newAccountToEdit)
         // })
       }
     }
+  }
+
+  $scope.showManageStoresDialog = function (ev) {
+    $scope.diego = 'yyy'
+    $mdDialog.show({
+      controller: ManageStoreController,
+      templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
+      parent: angular.element(document.body),
+      scope: $scope
+    })
+    .then(function (answer) {
+      console.log('OK')
+    }, function () {
+      console.log('cacelled')
+    })
+  }
+
+  function ManageStoreController ($scope, $mdDialog) {
+    console.log($scope.diego)
   }
 
   //

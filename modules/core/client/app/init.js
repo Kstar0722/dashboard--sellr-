@@ -17,15 +17,6 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     $httpProvider.interceptors.push('oncueAuthInterceptor') //  Oncue Auth Interceptor (which adds token) to outgoing HTTP requests
 
     // SET ENVIRONMENT
-
-    var email
-    var displayName
-    if (JSON.parse(localStorage.getItem('userObject'))) {
-      email = JSON.parse(localStorage.getItem('userObject')).email
-      displayName = JSON.parse(localStorage.getItem('userObject')).displayName
-      console.log('email: ', email, 'displayName', displayName)
-    }
-
     // set the domains and variables for each environment
     envServiceProvider.config({
       domains: {

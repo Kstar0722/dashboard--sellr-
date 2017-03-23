@@ -68,7 +68,7 @@
             </div>
             <div class="common-select-options" ng-show="ui.actionsOptionsSelect[$index]">
               <div class="common-select-option" ng-click="openEditAccountSidebar(account)">Edit Account</div>
-              <div class="common-select-option">Manage Stores</div>
+              <div class="common-select-option" ng-click="showManageStoresDialog($event, account)">Manage Stores</div>
             </div>
           </div>
         </div>
@@ -123,11 +123,13 @@
           <div class="checks-container">
             <div class="shoppr-check">
               <div class="common-field-title">Shoppr</div>
-              <i class="fa fa-times common-fa checkbox"></i>
+              <i class="fa fa-check common-fa checkbox" ng-show="ui.currentAccount.shoppr" ng-click="ui.currentAccount.shoppr = false"></i>
+              <i class="fa fa-times common-fa checkbox" ng-show="!ui.currentAccount.shoppr" ng-click="ui.currentAccount.shoppr = true"></i>
             </div>
             <div class="website-check">
               <div class="common-field-title">Website</div>
-              <i class="fa fa-check common-fa checkbox"></i>
+              <i class="fa fa-check common-fa checkbox" ng-show="ui.currentAccount.website" ng-click="ui.currentAccount.website = false"></i>
+              <i class="fa fa-times common-fa checkbox" ng-show="!ui.currentAccount.website" ng-click="ui.currentAccount.website = true"></i>
             </div>
           </div>
           <div class="common-field-title">Website Theme</div>
@@ -143,9 +145,9 @@
             </div>
           </div>
           <div class="common-field-title">Website Url</div>
-          <input type="text" class="common-input" placeholder="" value="">
+          <input type="text" class="common-input" ng-model="ui.currentAccount.preferences.websiteUrl">
           <div class="auth-code">
-            <div class="auth-text">Device Authentication Code: <span>1228</span></div>
+            <div class="auth-text">Device Authentication Code: <span ng-bind="ui.currentAccount.authCode"></span></div>
             <div class="common-btn-black">Get New Code</div>
           </div>
         </div>
