@@ -20,7 +20,7 @@
             <div ng-repeat="sku in pes.currentProduct.skus">
                 <span>UPC: {{ sku }}</span>
                 <md-button type="button" class="md-icon-button remove" ng-if="permissions.curator" ng-click="confirmDeleteProductSKU($event, pes.currentProduct, sku)" aria-label="Delete product SKU">
-                    <i class="fa fa-times"></i>
+                <i class="fa fa-times"></i>
                 </md-button>
             </div>
             <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
@@ -100,6 +100,11 @@
         <div class="form-group">
             <label>Research Notes</label>
             <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Brand Verified</label>
+            <i class="fa fa-check common-fa cus-checkbox" ng-show="pes.currentProduct.verified === 1" ng-click="pes.currentProduct.verified = 0"></i>
+            <i class="fa fa-times common-fa cus-checkbox" ng-show="pes.currentProduct.verified === 0" ng-click="pes.currentProduct.verified = 1"></i>
         </div>
     </form>
     <div class="row product-type-box" ng-if="permissions.curator">

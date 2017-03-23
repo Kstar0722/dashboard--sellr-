@@ -24,7 +24,7 @@
             <div class="text-danger" ng-if="pes.currentProduct.status === 'deleted'">This product has been deleted. Edit the product to set it back to inprogress status.</div>
             <div>Product Id {{ pes.currentProduct.productId }}</div>
             <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
-            <span>Requested by: {{pes.currentProduct.requestedBy}}</span>            
+            <div>Requested by: {{pes.currentProduct.requestedBy}}</div>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
     </div>
@@ -92,6 +92,10 @@
         <div class="form-group">
             <label>Research Notes</label>
             <div name="beer_research_notes" id="beer_research_notes">{{ pes.currentProduct.notes }}</div>
+        </div>
+        <div class="form-group">
+            <label>Brand Verified:</label>
+            <span><img ng-src="/img/verified.svg" class="verified-icon" ng-if="pes.currentProduct.verified" /> {{pes.currentProduct.verified ? 'Yes' : 'No'}}</span>
         </div>
     </form>
     <!-- Send Back MODAL -->
