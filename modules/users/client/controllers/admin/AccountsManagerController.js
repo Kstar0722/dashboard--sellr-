@@ -42,7 +42,7 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.ui.stateError = false
   }
 
-  $scope.saveAccount = function (state) {
+  $scope.saveAccount = function (view) {
     // Unfortunately we need to treat custom select boxes errors separately
     if (!$scope.ui.currentAccount.state) {
       $scope.ui.stateError = true
@@ -58,7 +58,18 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
       })
     }
     if ($scope.ui.currentAccount.state && $scope.accountForm.$valid) {
-      console.log('VALIDD')
+      var accountPayload = angular.copy($scope.currentAccount)
+      delete accountPayload.stateName
+      if (view === 'createAccount') {
+        console.log(accountPayload)
+        // 
+        // TO BE REVIEWED THIS OLD LOGIC MAY CHANGE
+        // 
+        // accountsService.createAccount(accountPayload).then(function (newAccount) {
+        //   var newAccountToEdit = _.findWhere(accountsService.accounts, {accountId: newAccount.accountId})
+        //   if (newAccountToEdit) $scope.editAccount(newAccountToEdit)
+        // })
+      }
     }
   }
 
