@@ -82,9 +82,10 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.diego = 'yyy'
     $mdDialog.show({
       controller: ManageStoreController,
-      templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
+      // templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
       parent: angular.element(document.body),
-      scope: $scope
+      scope: $scope,
+      preserveScope: true
     })
     .then(function (answer) {
       console.log('OK')
