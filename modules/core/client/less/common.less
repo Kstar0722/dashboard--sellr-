@@ -371,3 +371,87 @@
 .highlighted {
   background: @bright-blue;
 }
+
+// MODAL DIALOG 
+.common-modal-dialog{
+  font-family: @avenir;
+  background: #fff;
+  border-radius: 4px;
+  width: 70vw;
+  .dialog-title{
+    height: 60px;
+    background-color: #f0f3f8;
+    line-height: 60px;
+    padding-left: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #252e3e;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .main-container{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    .left-side{
+      width: 25%;
+      background-color: #222c3c;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: space-between;
+      .store-list{
+        .store-item{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 10px 10px 20px;
+          box-sizing: border-box;
+          font-weight: bold;
+          border-bottom: 1px solid #2a3546;
+          cursor: pointer;
+          &:last-child{
+            border-bottom: none;
+          }
+          .store-name{
+            font-size: 14px;
+            color: #848c98;
+          }
+          .store-counter{
+            font-size: 12px;
+            color: #7f8fa4;
+            border-radius: 50px;
+            background-color: #323c4e;
+            padding: 4px 8px;
+          }
+          &.active{
+            .store-counter,
+            .store-name{
+              color: #ffffff;
+            }
+            .store-counter{
+              background-color: #222c3c;
+            }
+          }
+        }
+      }
+      .add-store{
+        margin: 20px auto 20px 20px;
+        border-radius: 4px;
+        background-image: linear-gradient(to top, #259d71, #2bbf88);
+        padding: 10px 15px;
+        cursor: pointer;
+        .fa{
+          color: #fff;
+          font-size: 18px;
+        }
+      }
+    }
+    .right-side{
+      width: 75%;
+    }
+  }
+
+}

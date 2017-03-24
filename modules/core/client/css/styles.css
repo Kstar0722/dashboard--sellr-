@@ -799,6 +799,83 @@ body.loading .main-content {
 .highlighted {
   background: #00f0e6;
 }
+.common-modal-dialog {
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  background: #fff;
+  border-radius: 4px;
+  width: 70vw;
+}
+.common-modal-dialog .dialog-title {
+  height: 60px;
+  background-color: #f0f3f8;
+  line-height: 60px;
+  padding-left: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #252e3e;
+  width: 100%;
+  box-sizing: border-box;
+}
+.common-modal-dialog .main-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.common-modal-dialog .main-container .left-side {
+  width: 25%;
+  background-color: #222c3c;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: space-between;
+}
+.common-modal-dialog .main-container .left-side .store-list .store-item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px 10px 20px;
+  box-sizing: border-box;
+  font-weight: bold;
+  border-bottom: 1px solid #2a3546;
+  cursor: pointer;
+}
+.common-modal-dialog .main-container .left-side .store-list .store-item:last-child {
+  border-bottom: none;
+}
+.common-modal-dialog .main-container .left-side .store-list .store-item .store-name {
+  font-size: 14px;
+  color: #848c98;
+}
+.common-modal-dialog .main-container .left-side .store-list .store-item .store-counter {
+  font-size: 12px;
+  color: #7f8fa4;
+  border-radius: 50px;
+  background-color: #323c4e;
+  padding: 4px 8px;
+}
+.common-modal-dialog .main-container .left-side .store-list .store-item.active .store-counter,
+.common-modal-dialog .main-container .left-side .store-list .store-item.active .store-name {
+  color: #ffffff;
+}
+.common-modal-dialog .main-container .left-side .store-list .store-item.active .store-counter {
+  background-color: #222c3c;
+}
+.common-modal-dialog .main-container .left-side .add-store {
+  margin: 20px auto 20px 20px;
+  border-radius: 4px;
+  background-image: linear-gradient(to top, #259d71, #2bbf88);
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.common-modal-dialog .main-container .left-side .add-store .fa {
+  color: #fff;
+  font-size: 18px;
+}
+.common-modal-dialog .main-container .right-side {
+  width: 75%;
+}
 .nav-container {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
 }
