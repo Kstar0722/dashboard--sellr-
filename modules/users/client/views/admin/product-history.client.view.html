@@ -19,7 +19,10 @@
       <md-datepicker ng-model="ui.endDateInput" md-placeholder="End date" ng-change="customRangeHandler()" md-open-on-focus></md-datepicker>
     </div>
   </div>
-  <div class="load-more-btn" ng-click="loadMoreHandler()">Load more items ...</div>
+  <div class="actions-container">
+    <div class="load-more-btn" ng-click="loadMoreHandler()">Load more items ...</div>
+    <div class="filter-count">Products Count: <span ng-bind="ui.filteredResults.length"></span></div>
+  </div>
   <div class="table-header">
     <div ng-click="reOrderList('productId')">Product Id <i class="fa fa-sort"></i></div>
     <div ng-click="reOrderList('userId')">User Id <i class="fa fa-sort"></i></div>
@@ -27,7 +30,7 @@
     <div ng-click="reOrderList('email')">Email <i class="fa fa-sort"></i></div>
     <div ng-click="reOrderList('lastedit')">Date <i class="fa fa-sort"></i></div>
   </div>
-  <div class="table-body" ng-repeat="rowData in ui.dataShown | filter:ui.textFilter | orderBy:ui.sortExpression">
+  <div class="table-body" ng-repeat="rowData in (ui.filteredResults = (ui.dataShown | filter:ui.textFilter)) | orderBy:ui.sortExpression track by rowData.productId">
     <div ui-sref="editor.view({productId: rowData.productId})">{{rowData.productId}}</div>
     <div>{{rowData.userId}}</div>
     <div>{{rowData.userName}}</div>
