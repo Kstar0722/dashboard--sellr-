@@ -81,21 +81,20 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   $scope.showManageStoresDialog = function (ev) {
     $scope.diego = 'yyy'
     $mdDialog.show({
-      controller: ManageStoreController,
-      // templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
+      templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
+      autoWrap: true,
       parent: angular.element(document.body),
       scope: $scope,
-      preserveScope: true
-    })
-    .then(function (answer) {
-      console.log('OK')
-    }, function () {
-      console.log('cacelled')
+      preserveScope: true,
+      hasBackdrop: true,
+      clickOutsideToClose: false,
+      escapeToClose: false,
+      fullscreen: true
     })
   }
 
-  function ManageStoreController ($scope, $mdDialog) {
-    console.log($scope.diego)
+  $scope.closeDialog = function () {
+    $mdDialog.hide()
   }
 
   //
