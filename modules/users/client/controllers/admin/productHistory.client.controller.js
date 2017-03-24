@@ -4,6 +4,7 @@ angular.module('core').controller('ProductHistoryController', ['$scope', '$filte
   $scope.ui = {}
   $scope.ui.skip = 0
   $scope.ui.allData = []
+  $scope.ui.filteredResults = []
   var userProductsURL = constants.BWS_API + '/edit/products/users'
   getData(userProductsURL).then(function (data) {
     $scope.ui.allData = data
