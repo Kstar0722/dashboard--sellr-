@@ -284,6 +284,8 @@
   opacity: .5;
   margin-top: 30px;
   margin-bottom: 10px;
+  font-family: @avenir;
+  text-transform: uppercase;
 }
 
 .common-btns-bar{
@@ -296,6 +298,7 @@
 
 .common-btn-positive,
 .common-btn-black,
+.common-btn-gray,
 .common-btn-negative{
   border-radius: 4px;
   font-size: 14px;
@@ -304,11 +307,24 @@
   color: #ffffff;
   height: 36px;
   line-height: 36px;
-  width: 150px;
   cursor: pointer;
   outline: none;
   cursor: pointer;
   border: none;
+  display: inline-block;
+  width: 150px;
+  &.small{
+    width: 80px;
+  }
+  &.has-left-icon{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    .fa{
+      margin-right: 5px;
+    }
+  }
 }
 
 .common-btn-positive{
@@ -321,6 +337,12 @@
 
 .common-btn-negative{
   background-image: linear-gradient(to bottom, #a80000, #cf1010);
+}
+
+.common-btn-gray{
+  background-image: linear-gradient(to bottom, #ffffff, #f2f4f7);
+  border: solid 1px #ced0da;
+  color: #7383a1;
 }
 
 .common-accordion-animation{
@@ -393,16 +415,16 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: stretch;
     .left-side{
       width: 25%;
       background-color: #222c3c;
       display: flex;
       flex-flow: column nowrap;
-      justify-content: flex-start;
-      align-items: space-between;
-      .store-list{
-        .store-item{
+      justify-content: space-between;
+      align-items: stretch;
+      .item-list{
+        .item-item{
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-between;
@@ -415,11 +437,11 @@
           &:last-child{
             border-bottom: none;
           }
-          .store-name{
+          .item-name{
             font-size: 14px;
             color: #848c98;
           }
-          .store-counter{
+          .item-counter{
             font-size: 12px;
             color: #7f8fa4;
             border-radius: 50px;
@@ -427,17 +449,17 @@
             padding: 4px 8px;
           }
           &.active{
-            .store-counter,
-            .store-name{
+            .item-counter,
+            .item-name{
               color: #ffffff;
             }
-            .store-counter{
+            .item-counter{
               background-color: #222c3c;
             }
           }
         }
       }
-      .add-store{
+      .add-item{
         margin: 20px auto 20px 20px;
         border-radius: 4px;
         background-image: linear-gradient(to top, #259d71, #2bbf88);
@@ -451,7 +473,40 @@
     }
     .right-side{
       width: 75%;
+      .columns{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding: 25px 0;
+        .first-column,
+        .second-column{
+          width: 45%;
+          .common-field-title{
+            margin-top: 20px;
+            &:first-child{
+              margin-top: 0;
+            }
+          }
+        }
+        .upload-image-box{
+          width: 100%;
+          background-color: rgba(223,227,233,0.3);
+          height: 200px;
+          border-radius: 4px;
+        }
+      }
+      .action-footer{
+        width: 100%;
+        height: 60px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 12px;
+        box-sizing: border-box;
+        background-color: #f0f3f8;
+      }
     }
   }
-
 }
