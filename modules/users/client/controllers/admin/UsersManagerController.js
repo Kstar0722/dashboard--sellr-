@@ -43,14 +43,16 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
     $scope.ui.stateError = false
   }
 
+  // mockup data
+  $scope.roles = [{name: 'Admin'}, {name: 'Store Employee'}, {name: 'Product Editor'}, {name: 'Brand Manager'}, {name: 'Brand Rep'}]
+  $scope.stores = [{name: 'Mac’s Beer and Wine'}, {name: 'Mac’s Beer and Wine'}, {name: 'Mac’s Beer and Wine'}]
+
   //
   // INTERNAL FUNCTIONS
   //
   function closeMenus () {
-    $scope.ui.filterOptionsSelect = false
-    $scope.ui.stateOptionsSelect = false
-    $scope.ui.websiteThemesOptionsSelect = false
-    $scope.ui.actionsOptionsSelect = []
+    $scope.ui.rolesOptionsSelect = false
+    $scope.ui.storesOptionsSelect = false
   }
 
   //
