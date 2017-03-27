@@ -11,7 +11,6 @@ angular.module('core').service('accountsService', function ($http, constants, to
           console.log('setting current account %O', me.currentAccount)
         }
       })
-      console.log(accounts)
       me.accounts = accounts
       return accounts
     })

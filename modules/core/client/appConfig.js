@@ -147,36 +147,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('admin.users', {
         url: '/users',
-        templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-        controller: 'UserListController'
-      })
-      .state('admin.users.edit', {
-        url: '/:userId',
-        templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
-        controller: 'UserController',
-        resolve: {
-          userResolve: [ '$stateParams', 'Users', function ($stateParams, Users) {
-            return Users.get({
-              userId: $stateParams.userId
-            })
-          } ]
-        }
-      })
-      .state('admin.users.store', {
-        templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
-        controller: 'inviteUserController'
-      })
-      .state('admin.users.user-edit', {
-        url: '/:userId/edit',
-        templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
-        controller: 'UserController',
-        resolve: {
-          userResolve: [ '$stateParams', 'Users', function ($stateParams, Users) {
-            return Users.get({
-              userId: $stateParams.userId
-            })
-          } ]
-        }
+        templateUrl: 'modules/users/client/views/admin/usersManager.html',
+        controller: 'UsersManagerController'
       })
       .state('admin.device', {
         url: '/device',

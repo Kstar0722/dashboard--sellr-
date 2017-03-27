@@ -152,8 +152,9 @@
           </div>
         </div>
         <div class="common-btns-bar">
-          <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
-          <button class="common-btn-positive" type="submit">Create</button>
+          <div class="common-btn-negative" ng-click="ui.display = 'fulltable'" ng-if="ui.display === 'editAccount'"><i class="fa fa-trash-o"></i> Delete</div>
+          <div ng-class="['common-btn-gray', {small: ui.display === 'editAccount'}]" ng-click="ui.display = 'fulltable'">Cancel</div>
+          <button ng-class="['common-btn-positive', {small: ui.display === 'editAccount'}]" type="submit" ng-bind="ui.display === 'createAccount' ? 'Create' : 'Update'"></button>
         </div>
       </form>
     </div>

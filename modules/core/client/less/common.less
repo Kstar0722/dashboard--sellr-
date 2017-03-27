@@ -24,11 +24,11 @@
     }
   }
   .left-side-content{
+    width: 58vw;
     transition: width ease .2s; 
     &.full{
       width: 100%;
     }
-    width: 58vw;
     .main-table{
       padding: 0px;
       margin-top: 30px;
@@ -45,6 +45,7 @@
     }
   }
   .right-side-content{
+    width: 32vw;
     &.ng-hide{
       width: 0;
       overflow: hidden;
@@ -55,7 +56,6 @@
     &.ng-hide-remove{
       transition: width ease-out .2s;  
     } 
-    width: 32vw;
     .side-panel{
       margin-top: 30px;
       border-radius: 4px;
@@ -97,6 +97,37 @@
         width: 100%;
         background-color: rgba(223,227,233,0.3);
         height: 340px;
+      }
+    }
+  }
+  &.large-sidebar{
+    .left-side-content{
+      width: 48vw;
+      &.full{
+        width: 100%;
+      }
+    }
+    .right-side-content{
+      width: 42vw;
+      .side-panel{
+        .columns{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 0;
+          .first-column,
+          .second-column{
+            width: 48%;
+          }
+        }
+        .action-footer{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 40px;
+        }
       }
     }
   }
@@ -286,6 +317,17 @@
   margin-bottom: 10px;
   font-family: @avenir;
   text-transform: uppercase;
+  &.has-info{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    .info{
+      color: #354052;
+      font-size: 12px;
+      text-transform: none;
+    }
+  }
 }
 
 .common-btns-bar{
