@@ -1,4 +1,9 @@
-angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService) {
+angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService, toastr) {
+  toastr.info('diegooo asdsad diegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsad ')
+  toastr.error('diegooo asdsad diegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsad ')
+  toastr.success('diegooo asdsad diegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsaddiegooo asdsad ')
+  toastr.success('diegooo asdsad')
+  toastr.error('diegooo asdsad')
   //
   // DEFINITIONS - INITIALIZATION
   //
