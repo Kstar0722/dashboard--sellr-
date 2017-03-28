@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorStoreManagementController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, storesService, UsStates) {
+angular.module('core').controller('EditorStoreManagementController', function ($scope, orderDataService, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, $q, csvProductMapper, storesService, UsStates, $mdDialog) {
 //
   // DEFINITIONS - INITIALIZATION
   //
@@ -19,6 +19,41 @@ angular.module('core').controller('EditorStoreManagementController', function ($
     return $scope.ui.sortExpression
   }
 
+  $scope.goToMatch = function (store, status) {
+    if (store.status[status] === 0) return
+    orderDataService.currentOrderId = store.storeId
+    orderDataService.getData(store, status).then(function () {
+      $state.go('editor.old.match', { id: store.storeId, status: status })
+    })
+  }
+
+  $scope.showUploadCVSDialog = function (ev) {
+    $mdDialog.show({
+      templateUrl: '/modules/users/client/views/editor/uploadCVSDialog.html',
+      autoWrap: true,
+      parent: angular.element(document.body),
+      scope: $scope,
+      preserveScope: true,
+      hasBackdrop: true,
+      clickOutsideToClose: false,
+      escapeToClose: false,
+      fullscreen: true
+    })
+  }
+
+  $scope.closeDialog = function () {
+    $mdDialog.hide()
+  }
+
+  $scope.openMenu = function (menu, index) {
+    closeMenus()
+    if (!_.isUndefined(index)) {
+      $scope.ui[menu][index] = true
+    } else {
+      $scope.ui[menu] = true
+    }
+  }
+
   //
   // PRIVATE FUNCTIONS
   //
@@ -29,6 +64,11 @@ angular.module('core').controller('EditorStoreManagementController', function ($
       })
     }
   }
+
+  function closeMenus () {
+    $scope.ui.storeOptionsSelect = false
+  }
+
   function updateStoreColors () {
     _.each(orderDataService.allStores, function (elm) {
       if (!elm.status) {

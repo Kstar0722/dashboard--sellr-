@@ -7,24 +7,13 @@
       -->
       <div class="filter-header">
         <div class="left-filter">
-          <div class="common-select-container">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.filterOptionsSelect}]" ng-click="openMenu('filterOptionsSelect')" ng-mouseover="openMenu('filterOptionsSelect')">
-              Filter
-            </div>
-            <div class="common-select-options" ng-show="ui.filterOptionsSelect">
-              <div class="common-select-option">Filter 1</div>
-              <div class="common-select-option">Filter 2</div>
-              <div class="common-select-option">Filter 3</div>
-              <div class="common-select-option">Filter 4</div>
-            </div>
-          </div>
           <div class="common-input-with-icon">
             <input type="text" placeholder="Search" class="common-input" ng-model="ui.search">
             <i class="fa fa-search"></i>
           </div>
         </div>
         <div class="right-filter">
-          <div class="common-btn-black" ng-click="uploadCVS()">Upload</div>
+          <div class="common-btn-black" ng-click="showUploadCVSDialog($event)">Upload</div>
         </div>
       </div>
       <!--
@@ -49,11 +38,11 @@
         <div class="store-id-col" ng-bind-html="store.storeId | highlight:ui.search"></div>
         <div class="store-name-col" ng-bind-html="store.name | highlight:ui.search"></div>
         <div class="account-id-col" ng-bind-html="store.accountId | highlight:ui.search"></div>
-        <div class="received-col" ng-bind="store.status.received"></div>
-        <div class="new-col" ng-bind="store.status.new"></div>
-        <div class="in-progress-col" ng-bind="store.status.inprogress"></div>
-        <div class="done-col" ng-bind="store.status.done"></div>
-        <div class="approved-col" ng-bind="store.status.approved"></div>
+        <div ng-click="goToMatch(store, 'received')" class="received-col" ng-bind="store.status.received"></div>
+        <div ng-click="goToMatch(store, 'new')" class="new-col" ng-bind="store.status.new"></div>
+        <div ng-click="goToMatch(store, 'inprogress')" class="in-progress-col" ng-bind="store.status.inprogress"></div>
+        <div ng-click="goToMatch(store, 'done')" class="done-col" ng-bind="store.status.done"></div>
+        <div ng-click="goToMatch(store, 'approved')" class="approved-col" ng-bind="store.status.approved"></div>
         <div class="total-col" ng-bind="store.status.total"></div>
         <div class="status-col">
           <div ng-class="['status-icon', store.status.barClass]"></div>

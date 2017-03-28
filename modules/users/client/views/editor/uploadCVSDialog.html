@@ -1,0 +1,26 @@
+<div class="common-modal-dialog upload-cvs-dialog">
+  <div class="dialog-title">Upload CVS</div>
+  <div class="main-container">
+    <div class="single-side">
+      <div class="single-side-content">
+        <div class="common-btn-black">Select a File</div>
+        <div class="common-field-title">Select a Store</div>
+        <div class="common-select-container">
+          <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.storeOptionsSelect}]" ng-click="openMenu('storeOptionsSelect')" ng-mouseover="openMenu('storeOptionsSelect')">
+            Select a Store
+          </div>
+          <div class="common-select-options" ng-show="ui.storeOptionsSelect">
+            <div class="common-select-option">Store 1</div>
+            <div class="common-select-option">Store 2</div>
+            <div class="common-select-option">Store 3</div>
+            <div class="common-select-option">Store 4</div>
+          </div>
+        </div>
+      </div>
+      <div class="action-footer">
+        <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
+        <div class="common-btn-positive small" ng-click="closeDialog()">Next</div>
+      </div>
+    </div>
+  </div>
+</div>

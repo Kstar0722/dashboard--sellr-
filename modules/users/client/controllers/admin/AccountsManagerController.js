@@ -79,7 +79,6 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   }
 
   $scope.showManageStoresDialog = function (ev) {
-    $scope.diego = 'yyy'
     $mdDialog.show({
       templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
       autoWrap: true,

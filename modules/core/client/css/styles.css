@@ -969,7 +969,13 @@ body.loading .main-content {
   height: 200px;
   border-radius: 4px;
 }
-.common-modal-dialog .main-container .right-side .action-footer {
+.common-modal-dialog .main-container .single-side {
+  width: 100%;
+}
+.common-modal-dialog .main-container .single-side .single-side-content {
+  padding: 30px;
+}
+.common-modal-dialog .main-container .action-footer {
   width: 100%;
   height: 60px;
   display: flex;
@@ -6631,9 +6637,6 @@ body.websiteBuilder #loading-bar-spinner {
   justify-content: flex-start;
   align-items: center;
 }
-.editor-store-management-view .left-side-content .main-table .filter-header .left-filter .common-input-with-icon {
-  margin-left: 20px;
-}
 .editor-store-management-view .left-side-content .main-table .filter-header .right-filter {
   overflow: hidden;
 }
@@ -6732,4 +6735,13 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.none,
 .editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.green {
   background-image: linear-gradient(to top, #088456, #079560);
+}
+.upload-cvs-dialog {
+  width: 40vw;
+}
+.upload-cvs-dialog .main-container .single-side .single-side-content {
+  min-height: 300px;
+}
+.upload-cvs-dialog .main-container .single-side .single-side-content .common-btn-black {
+  width: 100%;
 }
