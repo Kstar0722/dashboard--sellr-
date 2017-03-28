@@ -147,7 +147,6 @@ angular.module('core').controller('StoreDbController', function ($scope, orderDa
     if (orderDataService.allStores.length === 0) {
       orderDataService.getAllStores().then(function (stores) {
         updateStoreColors()
-
         $scope.storesDropdown = stores.slice()
         $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name')
         $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' })

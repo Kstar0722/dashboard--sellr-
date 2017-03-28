@@ -161,10 +161,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           roles: [ 1010, 1011, 1004 ]
         }
       })
-      .state('editor.store', {
-        url: '/store',
-        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
-        controller: 'StoreDbController'
+      .state('editor.storeManagement', {
+        url: '/storeManagement',
+        templateUrl: 'modules/users/client/views/editor/editorStoreManagement.html',
+        controller: 'EditorStoreManagementController'
       })
       .state('editor.productHistory', {
         url: '/productHistory',

@@ -8,7 +8,6 @@ angular.module('core').service('CurrentUserService', ['Users', '$state',
     me.myPermissions = localStorage.getItem('roles')
     Users.query({ expand: 'stores' }).then(function (data, err) {
       me.userList = data
-      console.log(data)
     })
     me.update = function () {
       Users.query(function (data) {

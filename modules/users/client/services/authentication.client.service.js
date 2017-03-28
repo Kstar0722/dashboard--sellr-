@@ -98,7 +98,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
       if (auth.user.roles.indexOf(1010) >= 0) {
         $state.go('editor.old.products')
       } else if (auth.user.roles.indexOf(1011 >= 0)) {
-        $state.go('editor.store')
+        $state.go('editor.storeManagement')
       }
     } else {
       $state.go('dashboard', $state.previous.params)

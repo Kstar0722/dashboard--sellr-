@@ -6489,3 +6489,247 @@ body.websiteBuilder #loading-bar-spinner {
 .users-manager-view .right-side-content .side-panel .checks-container .shoppr-check {
   width: 50%;
 }
+.editor-store-management-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 3vw 10vh 3vw;
+  color: #354052;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.editor-store-management-view .title {
+  font-size: 24px;
+}
+.editor-store-management-view .auto-save-box {
+  position: absolute;
+  top: 4vh;
+  right: 3vw;
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8fa4;
+}
+.editor-store-management-view .auto-save-box .fa {
+  margin-right: 7px;
+  color: #37b148;
+}
+.editor-store-management-view .left-side-content {
+  width: 58vw;
+  transition: width ease .2s;
+}
+.editor-store-management-view .left-side-content.full {
+  width: 100%;
+}
+.editor-store-management-view .left-side-content .main-table {
+  padding: 0px;
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+}
+.editor-store-management-view .left-side-content .main-table .filter-header {
+  padding: 15px 15px 0px 15px;
+}
+.editor-store-management-view .left-side-content .main-table .columns-data,
+.editor-store-management-view .left-side-content .main-table .columns-header {
+  padding: 0px 15px;
+}
+.editor-store-management-view .right-side-content {
+  width: 32vw;
+}
+.editor-store-management-view .right-side-content.ng-hide {
+  width: 0;
+  overflow: hidden;
+}
+.editor-store-management-view .right-side-content.ng-hide-add {
+  transition: width ease-in 0.2s;
+}
+.editor-store-management-view .right-side-content.ng-hide-remove {
+  transition: width ease-out 0.2s;
+}
+.editor-store-management-view .right-side-content .side-panel {
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+  padding: 0 30px 30px 30px;
+}
+.editor-store-management-view .right-side-content .side-panel .state-zip-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.editor-store-management-view .right-side-content .side-panel .state-zip-container .state {
+  width: 58%;
+}
+.editor-store-management-view .right-side-content .side-panel .state-zip-container .state .common-select-container {
+  width: 100%;
+}
+.editor-store-management-view .right-side-content .side-panel .state-zip-container .state .common-select-container .common-select-trigger,
+.editor-store-management-view .right-side-content .side-panel .state-zip-container .state .common-select-container .common-select-options {
+  width: 100%;
+}
+.editor-store-management-view .right-side-content .side-panel .state-zip-container .zip {
+  width: 37%;
+}
+.editor-store-management-view .right-side-content .side-panel .date-inputs {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.editor-store-management-view .right-side-content .side-panel .date-inputs .start-date {
+  width: 45%;
+}
+.editor-store-management-view .right-side-content .side-panel .date-inputs .end-date {
+  width: 45%;
+}
+.editor-store-management-view .right-side-content .side-panel .upload-image-box {
+  width: 100%;
+  background-color: rgba(223, 227, 233, 0.3);
+  height: 340px;
+}
+.editor-store-management-view.large-sidebar .left-side-content {
+  width: 48vw;
+}
+.editor-store-management-view.large-sidebar .left-side-content.full {
+  width: 100%;
+}
+.editor-store-management-view.large-sidebar .right-side-content {
+  width: 42vw;
+}
+.editor-store-management-view.large-sidebar .right-side-content .side-panel .columns {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0;
+}
+.editor-store-management-view.large-sidebar .right-side-content .side-panel .columns .first-column,
+.editor-store-management-view.large-sidebar .right-side-content .side-panel .columns .second-column {
+  width: 48%;
+}
+.editor-store-management-view.large-sidebar .right-side-content .side-panel .action-footer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+.editor-store-management-view .left-side-content .main-table .filter-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.editor-store-management-view .left-side-content .main-table .filter-header .left-filter {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.editor-store-management-view .left-side-content .main-table .filter-header .left-filter .common-input-with-icon {
+  margin-left: 20px;
+}
+.editor-store-management-view .left-side-content .main-table .filter-header .right-filter {
+  overflow: hidden;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header,
+.editor-store-management-view .left-side-content .main-table .columns-data {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .store-id-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .store-id-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .store-name-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .store-name-col {
+  width: 19%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .account-id-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .account-id-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .received-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .received-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .new-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .new-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .in-progress-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .in-progress-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .done-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .done-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .approved-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .approved-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .total-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .total-col {
+  width: 8%;
+  padding-right: 1%;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header .status-col,
+.editor-store-management-view .left-side-content .main-table .columns-data .status-col {
+  width: 8%;
+  text-align: center;
+}
+.editor-store-management-view .left-side-content .main-table .columns-header {
+  color: #7f8fa4;
+  padding: 30px 20px 10px 20px;
+}
+.editor-store-management-view .left-side-content .main-table .columns-data {
+  padding: 20px;
+  border-top: 1px solid #dfe2e5;
+  font-size: 14px;
+  font-weight: bold;
+  align-items: center;
+}
+.editor-store-management-view .left-side-content .main-table .columns-data:hover {
+  background-color: rgba(215, 251, 232, 0.2);
+}
+.editor-store-management-view .left-side-content .main-table .columns-data.inactive {
+  opacity: 0.8;
+  color: #9fa9ba;
+}
+.editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon {
+  width: 23px;
+  height: 23px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: solid 1px #ced0da;
+  margin: auto;
+}
+.editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.red {
+  background-image: linear-gradient(to bottom, #f5515f, #9f031b);
+}
+.editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.orange {
+  background-image: linear-gradient(to bottom, #f59751, #ff7a00);
+}
+.editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.none,
+.editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.green {
+  background-image: linear-gradient(to top, #088456, #079560);
+}
