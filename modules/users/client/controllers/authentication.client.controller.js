@@ -78,7 +78,7 @@ angular.module('core').controller('AuthenticationController', [ '$scope', '$stat
 
         if ($scope.authentication.user.roles.indexOf(1002) < 0 && $scope.authentication.user.roles.indexOf(1009) < 0 && $scope.authentication.user.roles.indexOf(1004) < 0) {
           if ($scope.authentication.user.roles.indexOf(1010) >= 0) {
-            $state.go('editor.products')
+            $state.go('editor.old.products')
           }
         } else {
           $state.go('dashboard', $state.previous.params)

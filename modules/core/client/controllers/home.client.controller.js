@@ -10,7 +10,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       if (hasRole(1002) || hasRole(1004) || hasRole(1007) || hasRole(1009)) {
         $state.go('dashboard')
       } else if (hasRole(1010) || hasRole(1011)) {
-        $state.go('editor.products')
+        $state.go('editor.old.products')
       } else if (hasRole(1012)) {
         $state.go('supplier.media')
       } else if (!Authentication.user.accountId) {

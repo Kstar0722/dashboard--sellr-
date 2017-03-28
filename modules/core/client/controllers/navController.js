@@ -50,7 +50,7 @@ angular.module('core')
     if (state.indexOf('brand') > -1) { $scope.ui.primaryRoute = 'brand' }
     if (state.indexOf('supplier') > -1) { $scope.ui.primaryRoute = 'supplier' }
     if (state.indexOf('admin') > -1) { $scope.ui.primaryRoute = 'admin' }
-    if (state.indexOf('editor') > -1 || _.contains(['productHistory', 'curator.store'], state)) { $scope.ui.primaryRoute = 'editor' }
+    if (state.indexOf('editor') > -1) { $scope.ui.primaryRoute = 'editor' }
     if (_.contains(['dashboard', 'productsUploader', 'websiteBuilder', 'manager.ads', 'storeOwner.orders'], state)) { $scope.ui.primaryRoute = 'store' }
   }
 

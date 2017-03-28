@@ -96,11 +96,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         },
         public: true
       })
-      .state('productHistory', {
-        url: '/productHistory',
-        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
-        controller: 'ProductHistoryController'
-      })
       .state('dashboard', {
         url: '/dashboard/:accountId?',
         templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
@@ -159,13 +154,31 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       // EDITOR ROUTES
       //
       .state('editor', {
+        abstract: true,
         url: '/editor',
+        template: '<ui-view/>',
+        data: {
+          roles: [ 1010, 1011, 1004 ]
+        }
+      })
+      .state('editor.store', {
+        url: '/store',
+        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
+        controller: 'StoreDbController'
+      })
+      .state('editor.productHistory', {
+        url: '/productHistory',
+        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
+        controller: 'ProductHistoryController'
+      })
+      .state('editor.old', {
+        url: '/old',
         templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
         data: {
           roles: [ 1010, 1011, 1004 ]
         }
       })
-      .state('editor.products', {
+      .state('editor.old.products', {
         url: '/products',
         views: {
           'detail': {
@@ -173,7 +186,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.view', {
+      .state('editor.old.view', {
         url: '/view/:productId',
         views: {
           'detail': {
@@ -181,7 +194,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.edit', {
+      .state('editor.old.edit', {
         url: '/edit/:productId',
         views: {
           'detail': {
@@ -189,7 +202,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.merge', {
+      .state('editor.old.merge', {
         url: '/merge',
         views: {
           'detail': {
@@ -197,7 +210,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.match', {
+      .state('editor.old.match', {
         url: '/match/:id?status',
         views: {
           'detail': {
@@ -208,7 +221,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           status: null
         }
       })
-      .state('editor.match.view', {
+      .state('editor.old.match.view', {
         url: '/view/:productId',
         views: {
           'rightSide': {
@@ -216,7 +229,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.match.edit', {
+      .state('editor.old.match.edit', {
         url: '/edit/:productId',
         views: {
           'rightSide': {
@@ -224,7 +237,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.match.merge', {
+      .state('editor.old.match.merge', {
         url: '/merge',
         views: {
           'rightSide': {
@@ -232,7 +245,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      .state('editor.match.new', {
+      .state('editor.old.match.new', {
         url: '/new',
         views: {
           'rightSide': {
@@ -240,22 +253,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
             controller: 'newProductController'
           }
         }
-      })
-      //
-      // CURATOR ROUTES
-      //
-      .state('curator', {
-        url: '/curator',
-        template: '<ui-view/>',
-        data: {
-          role: [ 1011, 1004 ]
-        },
-        abstract: true
-      })
-      .state('curator.store', {
-        url: '/store',
-        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
-        controller: 'StoreDbController'
       })
       //
       // MANAGER ROUTES

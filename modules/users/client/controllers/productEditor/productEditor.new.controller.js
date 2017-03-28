@@ -10,7 +10,7 @@ angular.module('core').controller('newProductController', function ($scope, prod
       throw response
     }).then(function (product) {
       toastr.success('Created new product', 'Success!')
-      $state.go('editor.match.view', { productId: product.productId })
+      $state.go('editor.old.match.view', { productId: product.productId })
     })
   }
 })

@@ -93,7 +93,7 @@ angular.module('core').controller('StoreDbController', function ($scope, orderDa
     if (store.status[status] === 0) return
     orderDataService.currentOrderId = store.storeId
     orderDataService.getData(store, status).then(function (response) {
-      $state.go('editor.match', { id: store.storeId, status: status })
+      $state.go('editor.old.match', { id: store.storeId, status: status })
     })
   }
 

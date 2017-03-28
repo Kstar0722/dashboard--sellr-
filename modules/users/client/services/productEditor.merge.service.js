@@ -187,9 +187,9 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
       if (res.data.productId) {
         toastr.success('Product Merged!')
         if ($state.includes('editor.match.merge')) {
-          $state.go('editor.match.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
+          $state.go('editor.old.match.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
         } else {
-          $state.go('editor.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
+          $state.go('editor.old.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
         }
       } else {
         console.error('No productId returned from server %O', res)

@@ -34,9 +34,9 @@ angular.module('core').controller('productEditorController', function ($scope, A
   if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.view', { productId: $stateParams.productId, status: $stateParams.status })
+      $state.go('editor.old.match.view', { productId: $stateParams.productId, status: $stateParams.status })
     } else {
-      $state.go('editor.view', { productId: $stateParams.productId, status: $stateParams.status })
+      $state.go('editor.old.view', { productId: $stateParams.productId, status: $stateParams.status })
     }
   }
   $scope.search = {}
@@ -199,9 +199,9 @@ angular.module('core').controller('productEditorController', function ($scope, A
     productEditorService.setCurrentProduct(product)
 
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.old.match.view', { productId: product.productId, status: $stateParams.status })
     } else {
-      $state.go('editor.view', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.old.view', { productId: product.productId, status: $stateParams.status })
     }
   }
 
@@ -216,9 +216,9 @@ angular.module('core').controller('productEditorController', function ($scope, A
   $scope.quickEdit = function (product) {
     productEditorService.setCurrentProduct(product)
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.edit', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.old.match.edit', { productId: product.productId, status: $stateParams.status })
     } else {
-      $state.go('editor.edit', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.old.edit', { productId: product.productId, status: $stateParams.status })
     }
   }
 
@@ -321,9 +321,9 @@ angular.module('core').controller('productEditorController', function ($scope, A
     product.status = 'deleted'
     productEditorService.save(product).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
+        $state.go('editor.old.match.view', { productId: product.productId, status: $stateParams.status })
       } else {
-        $state.go('editor.view', {productId: product.productId})
+        $state.go('editor.old.view', {productId: product.productId})
       }
     })
   }
@@ -373,10 +373,10 @@ angular.module('core').controller('productEditorController', function ($scope, A
     cfpLoadingBar.start()
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.merge', $stateParams, { reload: true })
+        $state.go('editor.old.match.merge', $stateParams, { reload: true })
         $scope.selected = []
       } else {
-        $state.go('editor.merge')
+        $state.go('editor.old.merge')
       }
     }).finally(function () {
       cfpLoadingBar.complete()
@@ -431,7 +431,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
   $scope.createNewProduct = function () {
     var product = orderDataService.currentItem
     productEditorService.createNewProduct(product)
-    $state.go('editor.match.new', $stateParams)
+    $state.go('editor.old.match.new', $stateParams)
   }
 
   $scope.deleteFeedback = function (feedback) {
@@ -469,7 +469,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
   })
   $rootScope.$on('searchdb', function () {
     console.log('clearing search text')
-    $state.go('editor.match', $stateParams, { reload: true })
+    $state.go('editor.old.match', $stateParams, { reload: true })
   })
 
   function removeItem (arr, item) {
