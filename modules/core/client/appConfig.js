@@ -171,89 +171,94 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
         controller: 'ProductHistoryController'
       })
-      .state('editor.old', {
+      .state('editor.products', {
         url: '/old',
-        templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
-        data: {
-          roles: [ 1010, 1011, 1004 ]
-        }
+        templateUrl: 'modules/users/client/views/editor/products.html',
+        controller: 'ProductEditorMasterController'
       })
-      .state('editor.old.products', {
-        url: '/products',
-        views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
-          }
-        }
-      })
-      .state('editor.old.view', {
-        url: '/view/:productId',
-        views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-          }
-        }
-      })
-      .state('editor.old.edit', {
-        url: '/edit/:productId',
-        views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-          }
-        }
-      })
-      .state('editor.old.merge', {
-        url: '/merge',
-        views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-          }
-        }
-      })
-      .state('editor.old.match', {
-        url: '/match/:id?status',
-        views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
-          }
-        },
-        params: {
-          status: null
-        }
-      })
-      .state('editor.old.match.view', {
-        url: '/view/:productId',
-        views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-          }
-        }
-      })
-      .state('editor.old.match.edit', {
-        url: '/edit/:productId',
-        views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-          }
-        }
-      })
-      .state('editor.old.match.merge', {
-        url: '/merge',
-        views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-          }
-        }
-      })
-      .state('editor.old.match.new', {
-        url: '/new',
-        views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.new.html',
-            controller: 'newProductController'
-          }
-        }
-      })
+      // .state('editor.old', {
+      //   url: '/old',
+      //   templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
+      //   data: {
+      //     roles: [ 1010, 1011, 1004 ]
+      //   }
+      // })
+      // .state('editor.old.products', {
+      //   url: '/products',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.view', {
+      //   url: '/view/:productId',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.edit', {
+      //   url: '/edit/:productId',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.merge', {
+      //   url: '/merge',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.match', {
+      //   url: '/match/:id?status',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
+      //     }
+      //   },
+      //   params: {
+      //     status: null
+      //   }
+      // })
+      // .state('editor.old.match.view', {
+      //   url: '/view/:productId',
+      //   views: {
+      //     'rightSide': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.match.edit', {
+      //   url: '/edit/:productId',
+      //   views: {
+      //     'rightSide': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.match.merge', {
+      //   url: '/merge',
+      //   views: {
+      //     'rightSide': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.match.new', {
+      //   url: '/new',
+      //   views: {
+      //     'rightSide': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.new.html',
+      //       controller: 'newProductController'
+      //     }
+      //   }
+      // })
       //
       // MANAGER ROUTES
       //

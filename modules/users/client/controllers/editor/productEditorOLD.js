@@ -1,4 +1,4 @@
-angular.module('core').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
+angular.module('core').controller('ProductEditorControllerOLD', function ($scope, Authentication, $q, $http, productEditorService,
   $location, $state, $stateParams, Countries, orderDataService,
   $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce) {
   // we should probably break this file into smaller files,

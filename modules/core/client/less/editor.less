@@ -1,4 +1,117 @@
 // 
+// PRODUCTS MASTER VIEW
+// 
+.editor-products-view{
+  .common-view-layout;
+  .left-side-content{
+    .main-table{
+      .filter-header{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        .left-filter{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+        }
+        .right-filter{
+          overflow: hidden; 
+        }
+      }
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        .store-id-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .store-name-col{
+          width: 19%;
+          padding-right: 1%;
+        } 
+        .account-id-col{
+          width: 8%;
+          padding-right: 1%;
+        } 
+        .received-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .new-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .in-progress-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .done-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .approved-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .total-col{
+          width: 8%;
+          padding-right: 1%;
+        }
+        .status-col{
+          width: 8%;
+          text-align: center;
+        }
+      }
+      .columns-header{
+        color: #7f8fa4;
+        padding: 30px 20px 10px 20px;
+      }
+      .columns-data{
+        padding: 20px;
+        border-top: 1px solid #dfe2e5;
+        font-size: 14px;
+        font-weight: bold;
+        align-items: center;
+        &:hover{
+          background-color: rgba(215,251,232,0.2);
+        }
+        &.inactive{
+          opacity: 0.8;
+          color: #9fa9ba;
+        }
+        .status-col{
+          .status-icon{
+            width: 23px;
+            height: 23px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: solid 1px #ced0da;
+            margin: auto;
+            &.red{
+              background-image: linear-gradient(to bottom, #f5515f, #9f031b);
+            }
+            &.orange{
+              background-image: linear-gradient(to bottom, #f59751, #ff7a00);
+            }
+            &.none,
+            &.green{
+              background-image: linear-gradient(to top, #088456, #079560);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+// 
 // STORE MANAGEMENT VIEW
 // 
 .editor-store-management-view{
