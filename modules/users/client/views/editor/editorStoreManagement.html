@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="right-filter">
-          <div class="common-btn-black" ng-click="showUploadCVSDialog($event)">Upload</div>
+          <div class="common-btn-black" ng-click="showUploadCsvDialog($event)">Upload</div>
         </div>
       </div>
       <!--
@@ -36,7 +36,7 @@
       -->
       <div ng-class="['columns-data', {inactive: store.status.total === 0}]" ng-repeat="store in orderDataService.allStores | filterBy:['name','storeId','accountId']:ui.search | orderBy:ui.sortExpression track by store.storeId">
         <div class="store-id-col" ng-bind-html="store.storeId | highlight:ui.search"></div>
-        <div class="store-name-col" ng-bind-html="store.name | highlight:ui.search"></div>
+        <div ng-click="goToMatch(store)" class="store-name-col" ng-bind-html="store.name | highlight:ui.search"></div>
         <div class="account-id-col" ng-bind-html="store.accountId | highlight:ui.search"></div>
         <div ng-click="goToMatch(store, 'received')" class="received-col" ng-bind="store.status.received"></div>
         <div ng-click="goToMatch(store, 'new')" class="new-col" ng-bind="store.status.new"></div>

@@ -788,6 +788,8 @@ body.loading .main-content {
   border: none;
   display: inline-block;
   width: 150px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  padding: 0;
 }
 .common-btn-positive.small,
 .common-btn-black.small,
@@ -809,6 +811,15 @@ body.loading .main-content {
 .common-btn-gray.has-left-icon .fa,
 .common-btn-negative.has-left-icon .fa {
   margin-right: 5px;
+}
+.common-btn-positive[disabled],
+.common-btn-black[disabled],
+.common-btn-gray[disabled],
+.common-btn-negative[disabled] {
+  color: #7383a1;
+  background-image: none;
+  background-color: transparent;
+  border: solid 1px #ced0da;
 }
 .common-btn-positive {
   background-image: linear-gradient(to top, #259d71, #2bbf88);
@@ -6736,12 +6747,33 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.green {
   background-image: linear-gradient(to top, #088456, #079560);
 }
-.upload-cvs-dialog {
+.upload-csv-dialog {
   width: 40vw;
 }
-.upload-cvs-dialog .main-container .single-side .single-side-content {
+.upload-csv-dialog.confirm {
+  overflow: hidden;
+}
+.upload-csv-dialog.confirm .single-side-content {
+  min-height: 100px !important;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content {
   min-height: 300px;
 }
-.upload-cvs-dialog .main-container .single-side .single-side-content .common-btn-black {
+.upload-csv-dialog .main-container .single-side .single-side-content .common-btn-black {
   width: 100%;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .ng-csv-import-directive {
+  display: none;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .instructions {
+  margin-bottom: 30px;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox .common-field-title {
+  margin: 0 10px 0 0;
 }

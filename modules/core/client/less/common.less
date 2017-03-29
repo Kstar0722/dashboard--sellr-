@@ -355,6 +355,8 @@
   border: none;
   display: inline-block;
   width: 150px;
+  font-family: @avenir;
+  padding: 0;
   &.small{
     width: 80px;
   }
@@ -366,6 +368,12 @@
     .fa{
       margin-right: 5px;
     }
+  }
+  &[disabled]{
+    color: #7383a1;
+    background-image: none;
+    background-color: transparent;
+    border: solid 1px #ced0da;
   }
 }
 
