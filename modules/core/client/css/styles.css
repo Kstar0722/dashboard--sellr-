@@ -10,6 +10,7 @@ body {
   background: #ffffff;
   height: auto;
   font-size: 15px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif !important;
 }
 body .content {
   position: absolute;
@@ -6676,10 +6677,20 @@ body.websiteBuilder #loading-bar-spinner {
   border-bottom-left-radius: 0px;
   border-left: none;
   color: rgba(53, 64, 82, 0.5);
-  padding: 0px 40px 0 30px;
+  padding: 0;
+  justify-content: center;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-trigger:after {
+  background: none;
 }
 .editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options {
-  max-height: 550px;
+  max-height: 630px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options.ng-hide-add {
+  transition: none;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options.ng-hide-remove {
+  transition: none;
 }
 .editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option {
   padding: 10px;
@@ -6688,11 +6699,18 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option .common-field-title {
   margin-top: 0px;
 }
-.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option:nth-child(odd) {
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option:nth-child(even) {
   background-color: #fff;
 }
 .editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option .filter-item {
   margin: 5px 20px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option.close {
+  text-align: center;
+  font-size: 20px;
+  padding: 4px;
+  cursor: pointer;
+  color: rgba(53, 64, 82, 0.5);
 }
 .editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container.active .search-input {
   border-bottom-left-radius: 0px;
@@ -6744,13 +6762,12 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .editor-products-view .left-side-content .main-table .columns-header {
   color: #7f8fa4;
-  padding: 30px 20px 10px 20px;
+  padding: 30px 10px 10px 10px;
 }
 .editor-products-view .left-side-content .main-table .columns-data {
-  padding: 20px;
+  padding: 10px;
   border-top: 1px solid #dfe2e5;
   font-size: 14px;
-  font-weight: bold;
   align-items: center;
 }
 .editor-products-view .left-side-content .main-table .columns-data:hover {

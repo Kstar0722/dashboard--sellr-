@@ -11,131 +11,142 @@
       <div class="filter-header">
         <div class="left-filter">
           <div ng-class="['common-select-container', {active:ui.searchOptionsMenu}]">
-            <input type="text" placeholder="" class="common-input search-input" ng-model="ui.search">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.searchOptionsMenu}]" ng-click="openMenu('searchOptionsMenu')" ng-mouseover="openMenu('searchOptionsMenu')">
+            <input type="text" placeholder="" class="common-input search-input" ng-model="ui.searchText" ng-focus="openMenu('searchOptionsMenu')">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.searchOptionsMenu}]" ng-mouseover="openMenu('searchOptionsMenu')">
               Search
             </div>
             <div class="common-select-options" ng-show="ui.searchOptionsMenu">
+              <div class="search-option close" ng-click="ui.searchOptionsMenu = false">
+                <i class="fa fa-caret-up"></i>
+              </div>
+              <div class="search-option">
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="myproductscheck" checked ng-model="ui.beercheck" ng-change="checkchange()" />
+                  <label for="myproductscheck">Show only my products</label>
+                </div>
+              </div>
               <div class="search-option">
                 <div class="common-field-title">Select store</div>
-              <selectize class="custom-selectize" config="selectStoreFilterConfig" options="column.availableFields" ng-model="column.mapping"></selectize>
-            </div>
-            <div class="search-option">
-              <div class="common-field-title">Category</div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="beercheck" checked ng-model="ui.beercheck" ng-change="checkchange()" />
-                <label for="beercheck">Beer</label>
+                <selectize class="custom-selectize" config="selectStoreFilterConfig" options="column.availableFields" ng-model="column.mapping">
+                </selectize>
               </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="winecheck" checked />
-                <label for="winecheck">Wine</label>
+              <div class="search-option">
+                <div class="common-field-title">Category</div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="beercheck" checked ng-model="ui.beercheck" ng-change="checkchange()" />
+                  <label for="beercheck">Beer</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="winecheck" checked />
+                  <label for="winecheck">Wine</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="spiritcheck" checked />
+                  <label for="spiritcheck">Spirit</label>
+                </div>
               </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="spiritcheck" checked />
-                <label for="spiritcheck">Spirit</label>
+              <div class="search-option">
+                <div class="common-field-title">Status</div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="allradio" name="statusfilterradio" />
+                  <label for="allradio"><span></span>All</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="newradio" name="statusfilterradio" />
+                  <label for="newradio"><span></span>New</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="progressradio" name="statusfilterradio" />
+                  <label for="progressradio"><span></span>In Progress</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="doneradio" name="statusfilterradio" />
+                  <label for="doneradio"><span></span>Done</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="approvedradio" name="statusfilterradio" />
+                  <label for="approvedradio"><span></span>Approved</label>
+                </div>
               </div>
-            </div>
-            <div class="search-option">
-              <div class="common-field-title">Status</div>
-              <div class="filter-item">
-                <input class="custom-radio" type="radio" id="allradio" name="statusfilterradio" />
-                <label for="allradio"><span></span>All</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-radio" type="radio" id="newradio" name="statusfilterradio" />
-                <label for="newradio"><span></span>New</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-radio" type="radio" id="progressradio" name="statusfilterradio" />
-                <label for="progressradio"><span></span>In Progress</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-radio" type="radio" id="doneradio" name="statusfilterradio" />
-                <label for="doneradio"><span></span>Done</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-radio" type="radio" id="approvedradio" name="statusfilterradio" />
-                <label for="approvedradio"><span></span>Approved</label>
-              </div>
-            </div>
-            <div class="search-option">
-              <div class="common-field-title">Search In...</div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="allcheck" checked ng-model="ui.allcheck" ng-change="checkchange()" />
-                <label for="allcheck">All</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="namecheck" checked ng-model="ui.namecheck" ng-change="checkchange()" />
-                <label for="namecheck">Name</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="descriptioncheck" checked />
-                <label for="descriptioncheck">Description</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="productidcheck" checked />
-                <label for="productidcheck">Product Id</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="skucheck" checked />
-                <label for="skucheck">SKU</label>
-              </div>
-              <div class="filter-item">
-                <input class="custom-checkbox" type="checkbox" id="notescheck" checked />
-                <label for="notescheck">Notes</label>
+              <div class="search-option">
+                <div class="common-field-title">Search In...</div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="allcheck" checked ng-model="ui.allcheck" ng-change="checkchange()" />
+                  <label for="allcheck">All</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="namecheck" checked ng-model="ui.namecheck" ng-change="checkchange()" />
+                  <label for="namecheck">Name</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="descriptioncheck" checked />
+                  <label for="descriptioncheck">Description</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="productidcheck" checked />
+                  <label for="productidcheck">Product Id</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="skucheck" checked />
+                  <label for="skucheck">SKU</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="notescheck" checked />
+                  <label for="notescheck">Notes</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="right-filter">
-        <div class="common-btn-black autowidth" ng-click="openCreateAccountSidebar()">New products available</div>
-      </div>
-    </div>
-    <!--
-    COLUMNS HEADER
-    -->
-    <div class="columns-header">
-      <div ng-class="['check-col', {plan: ui.mergeProductsButton}]">
-        <div class="header-check">
-          <input type="checkbox" class="common-checkbox" ng-click="allChecksChange()" ng-model="ui.allCheck">
-        </div>
-        <div class="make-plan" ng-show="ui.mergeProductsButton" ng-click="ui.display = 'addPlan'">
-          Merge Products
-        </div>
-        <div class="selected-count" ng-show="ui.mergeProductsButton">
-          5 products selected
-        </div>
-        <div class="select-all" ng-show="ui.mergeProductsButton" ng-click="allChecksChange(true)">
-          Select All
+        <div class="right-filter">
+          <div ng-show="pes.show.newProducts" class="common-btn-black autowidth" ng-click="loadNewProducts()" ng-bind="newProductsLabel"></div>
         </div>
       </div>
-      <div class="name-col" ng-click="reOrderList('name')" ng-show="!ui.mergeProductsButton"><span>Product Name</span> <i class="fa fa-sort"></i></div>
-      <div class="sku-col" ng-click="reOrderList('sku')" ng-show="!ui.mergeProductsButton"><span>SKU's</span> <i class="fa fa-sort"></i></div>
-      <div class="image-col" ng-click="reOrderList('image')" ng-show="!ui.mergeProductsButton"><span>Image</span> <i class="fa fa-sort"></i></div>
-      <div class="status-col" ng-click="reOrderList('status')" ng-show="!ui.mergeProductsButton"><span>Status</span> <i class="fa fa-sort"></i></div>
-      <div class="type-col" ng-click="reOrderList('type')" ng-show="!ui.mergeProductsButton"><span>Type</span> <i class="fa fa-sort"></i></div>
-    </div>
-    <!--
-    COLUMNS DATA ROWS
-    -->
-    <div class="columns-data" ng-repeat="account in accountsService.accounts | filterBy:['accountId','name','contactName','email']:ui.search | orderBy:ui.sortExpression track by account.accountId">
-      <div class="check-col">
-        <input type="checkbox" class="common-checkbox" ng-model="ui.checkArray[product.id]" ng-change="checkChange()">
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div ng-class="['check-col', {plan: ui.mergeProductsButton}]">
+          <div class="header-check">
+            <input id="productcheckall" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-click="toggleSelected(product)">
+            <label for="productcheckall">&nbsp;</label>
+          </div>
+          <div class="make-plan" ng-show="ui.mergeProductsButton" ng-click="ui.display = 'addPlan'">
+            Merge Products
+          </div>
+          <div class="selected-count" ng-show="ui.mergeProductsButton">
+            5 products selected
+          </div>
+          <div class="select-all" ng-show="ui.mergeProductsButton" ng-click="allChecksChange(true)">
+            Select All
+          </div>
+        </div>
+        <div class="name-col" ng-click="reOrderList('name')" ng-show="!ui.mergeProductsButton"><span>Product Name</span> <i class="fa fa-sort"></i></div>
+        <div class="sku-col" ng-click="reOrderList('sku')" ng-show="!ui.mergeProductsButton"><span>SKU's</span> <i class="fa fa-sort"></i></div>
+        <div class="image-col" ng-click="reOrderList('image')" ng-show="!ui.mergeProductsButton"><span>Image</span> <i class="fa fa-sort"></i></div>
+        <div class="status-col" ng-click="reOrderList('status')" ng-show="!ui.mergeProductsButton"><span>Status</span> <i class="fa fa-sort"></i></div>
+        <div class="type-col" ng-click="reOrderList('type')" ng-show="!ui.mergeProductsButton"><span>Type</span> <i class="fa fa-sort"></i></div>
       </div>
-      <div class="name-col" ng-bind-html="account.accountId | highlight:ui.search"></div>
-      <div class="sku-col"></div>
-      <div class="image-col">
-        <i class="fa fa-check common-fa" ng-if="account.website"></i>
-        <i class="fa fa-times common-fa" ng-if="!account.website"></i>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data" ng-repeat="product in pes.productList track by product.productId">
+        <div class="check-col">
+          <input id="productcheck{{$index}}" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-click="toggleSelected(product)">
+          <label for="productcheck{{$index}}">&nbsp;</label>
+        </div>
+        <div class="name-col" ng-bind-html="(product.displayName || product.name) | highlight:listOptions.searchText"></div>
+        <div class="sku-col" ng-bind="product.sku_count"></div>
+        <div class="image-col">
+          <i ng-class="['fa common-fa', {'fa-check': product.image >= 1, 'fa-times': product.image === 0}]"></i>
+        </div>
+        <div class="status-col" ng-bind="product.status"></div>
+        <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''"></div>
       </div>
-      <div class="status-col"></div>
-      <div class="type-col"></div>
     </div>
   </div>
-</div>
-<!--
-DYNAMIC RIGHT SIDE
--->
-<div ui-view class="right-side-content" ng-show="ui.display !== 'fulltable'"></div>
+  <!--
+  DYNAMIC RIGHT SIDE
+  -->
+  <div ui-view class="right-side-content" ng-show="ui.display !== 'fulltable'"></div>
 </div>

@@ -35,21 +35,38 @@
               // border: solid 1px #dfe3e9;
               border-left: none;
               color: rgba(53, 64, 82, .5);
-              padding: 0px 40px 0 30px;
+              padding: 0;
+              justify-content: center;
+              &:after{
+                background: none;
+              }
             }
             .common-select-options{
-              max-height: 550px;
+              max-height: 630px;
+              &.ng-hide-add{
+                transition: none; 
+              }
+              &.ng-hide-remove{
+                transition: none;  
+              }
               .search-option{
                 padding: 10px;
                 background-color: #f1f4f8;
                 .common-field-title{
                   margin-top: 0px;
                 }
-                &:nth-child(odd){
+                &:nth-child(even){
                   background-color: #fff;
                 }
                 .filter-item{
                   margin: 5px 20px;
+                }
+                &.close{
+                  text-align: center;
+                  font-size: 20px;
+                  padding: 4px;
+                  cursor: pointer;
+                  color: rgba(53, 64, 82, 0.5);
                 }
               }
             }
@@ -103,13 +120,12 @@
       }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 20px 10px 20px;
+        padding: 30px 10px 10px 10px;
       }
       .columns-data{
-        padding: 20px;
+        padding: 10px;
         border-top: 1px solid #dfe2e5;
         font-size: 14px;
-        font-weight: bold;
         align-items: center;
         &:hover{
           background-color: rgba(215,251,232,0.2);

@@ -14,6 +14,23 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     sortField: 'displayName',
     searchField: [ 'displayName' ]
   }
+  $scope.pes = productEditorService
+  $scope.mergeService = mergeService
+  $scope.orderDataService = orderDataService
+  productEditorService.checkForNewProducts()
+  $scope.newProductsLabel = 'New Products Available'
+  $scope.newProductLimit = 0
+  $scope.loadNewProducts = function () {
+    $scope.newProductsLabel = 'Load more new products'
+    $scope.loadingData = true
+    $scope.newProductLimit += 100
+    // this is a hack to force angular to redraw the page
+    $timeout(function () {
+      productEditorService.viewNewProducts($scope.newProductLimit).then(function () {
+        $scope.loadingData = false
+      })
+    }, 0)
+  }
 
   //
   // SCOPE FUNCTIONS
