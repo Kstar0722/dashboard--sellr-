@@ -790,12 +790,20 @@ body.loading .main-content {
   width: 150px;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   padding: 0;
+  box-sizing: border-box;
 }
 .common-btn-positive.small,
 .common-btn-black.small,
 .common-btn-gray.small,
 .common-btn-negative.small {
   width: 80px;
+}
+.common-btn-positive.autowidth,
+.common-btn-black.autowidth,
+.common-btn-gray.autowidth,
+.common-btn-negative.autowidth {
+  width: auto;
+  padding: 0 20px;
 }
 .common-btn-positive.has-left-icon,
 .common-btn-black.has-left-icon,
@@ -6636,6 +6644,10 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: center;
   margin-top: 40px;
 }
+.editor-products-view .left-side-content.full {
+  width: 70%;
+  margin: 0 auto;
+}
 .editor-products-view .left-side-content .main-table .filter-header {
   display: flex;
   flex-flow: row nowrap;
@@ -6643,10 +6655,47 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: center;
 }
 .editor-products-view .left-side-content .main-table .filter-header .left-filter {
+  width: 35%;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .search-input {
+  border: 1px solid #ced0da;
+  width: 70%;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-trigger {
+  border: 1px solid #ced0da;
+  width: 30%;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left: none;
+  color: rgba(53, 64, 82, 0.5);
+  padding: 0px 40px 0 30px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options {
+  max-height: 550px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option {
+  padding: 10px;
+  background-color: #f1f4f8;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option .common-field-title {
+  margin-top: 0px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option:nth-child(odd) {
+  background-color: #fff;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container .common-select-options .search-option .filter-item {
+  margin: 5px 20px;
+}
+.editor-products-view .left-side-content .main-table .filter-header .left-filter .common-select-container.active .search-input {
+  border-bottom-left-radius: 0px;
 }
 .editor-products-view .left-side-content .main-table .filter-header .right-filter {
   overflow: hidden;
@@ -6661,55 +6710,37 @@ body.websiteBuilder #loading-bar-spinner {
   font-weight: bold;
   cursor: pointer;
 }
-.editor-products-view .left-side-content .main-table .columns-header .store-id-col,
-.editor-products-view .left-side-content .main-table .columns-data .store-id-col {
-  width: 8%;
+.editor-products-view .left-side-content .main-table .columns-header .check-col,
+.editor-products-view .left-side-content .main-table .columns-data .check-col {
+  width: 5%;
+  padding-right: 1%;
+  text-align: center;
+}
+.editor-products-view .left-side-content .main-table .columns-header .name-col,
+.editor-products-view .left-side-content .main-table .columns-data .name-col {
+  width: 32%;
   padding-right: 1%;
 }
-.editor-products-view .left-side-content .main-table .columns-header .store-name-col,
-.editor-products-view .left-side-content .main-table .columns-data .store-name-col {
-  width: 19%;
+.editor-products-view .left-side-content .main-table .columns-header .sku-col,
+.editor-products-view .left-side-content .main-table .columns-data .sku-col {
+  width: 14%;
   padding-right: 1%;
+  text-align: center;
 }
-.editor-products-view .left-side-content .main-table .columns-header .account-id-col,
-.editor-products-view .left-side-content .main-table .columns-data .account-id-col {
-  width: 8%;
+.editor-products-view .left-side-content .main-table .columns-header .image-col,
+.editor-products-view .left-side-content .main-table .columns-data .image-col {
+  width: 14%;
   padding-right: 1%;
-}
-.editor-products-view .left-side-content .main-table .columns-header .received-col,
-.editor-products-view .left-side-content .main-table .columns-data .received-col {
-  width: 8%;
-  padding-right: 1%;
-}
-.editor-products-view .left-side-content .main-table .columns-header .new-col,
-.editor-products-view .left-side-content .main-table .columns-data .new-col {
-  width: 8%;
-  padding-right: 1%;
-}
-.editor-products-view .left-side-content .main-table .columns-header .in-progress-col,
-.editor-products-view .left-side-content .main-table .columns-data .in-progress-col {
-  width: 8%;
-  padding-right: 1%;
-}
-.editor-products-view .left-side-content .main-table .columns-header .done-col,
-.editor-products-view .left-side-content .main-table .columns-data .done-col {
-  width: 8%;
-  padding-right: 1%;
-}
-.editor-products-view .left-side-content .main-table .columns-header .approved-col,
-.editor-products-view .left-side-content .main-table .columns-data .approved-col {
-  width: 8%;
-  padding-right: 1%;
-}
-.editor-products-view .left-side-content .main-table .columns-header .total-col,
-.editor-products-view .left-side-content .main-table .columns-data .total-col {
-  width: 8%;
-  padding-right: 1%;
+  text-align: center;
 }
 .editor-products-view .left-side-content .main-table .columns-header .status-col,
 .editor-products-view .left-side-content .main-table .columns-data .status-col {
-  width: 8%;
-  text-align: center;
+  width: 15%;
+  padding-right: 1%;
+}
+.editor-products-view .left-side-content .main-table .columns-header .type-col,
+.editor-products-view .left-side-content .main-table .columns-data .type-col {
+  width: 15%;
 }
 .editor-products-view .left-side-content .main-table .columns-header {
   color: #7f8fa4;
@@ -7017,4 +7048,141 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox .common-field-title {
   margin: 0 10px 0 0;
+}
+/* Base for label styling */
+.custom-checkbox[type="checkbox"]:not(:checked),
+.custom-checkbox[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+.custom-checkbox[type="checkbox"]:not(:checked) + label,
+.custom-checkbox[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #354052;
+}
+/* checkbox aspect */
+.custom-checkbox[type="checkbox"]:not(:checked) + label:before,
+.custom-checkbox[type="checkbox"]:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.custom-checkbox[type="checkbox"]:checked + label:before {
+  border: none;
+  background: #32a279;
+}
+/* checked mark aspect */
+.custom-checkbox[type="checkbox"]:not(:checked) + label:after,
+.custom-checkbox[type="checkbox"]:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 12px;
+  line-height: 0.8;
+  color: #fff;
+  transition: all .2s;
+}
+/* checked mark aspect changes */
+.custom-checkbox[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+.custom-checkbox[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+/* disabled checkbox */
+.custom-checkbox[type="checkbox"]:disabled:not(:checked) + label:before,
+.custom-checkbox[type="checkbox"]:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+.custom-checkbox[type="checkbox"]:disabled:checked + label:after {
+  color: #999;
+}
+.custom-checkbox[type="checkbox"]:disabled + label {
+  color: #aaa;
+}
+/* hover style just for information */
+.custom-checkbox[type="checkbox"]label:hover:before {
+  border: 1px solid #4778d9!important;
+}
+.custom-radio[type="radio"] {
+  display: none;
+}
+.custom-radio[type="radio"] + label {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #354052;
+  position: relative;
+}
+.custom-radio[type="radio"] + label span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: -1px 10px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.custom-radio[type="radio"] + label span {
+  background-image: linear-gradient(to top, #f2f4f8, #feffff);
+  border: solid 1px #ced0da;
+}
+.custom-radio[type="radio"]:checked + label span {
+  background-image: linear-gradient(to bottom, #2ea77a, #32a279);
+  border: solid 1px #27aa11;
+}
+.custom-radio[type="radio"] + label span,
+.custom-radio[type="radio"]:checked + label span {
+  -webkit-transition: background-color 0.4s linear;
+  -o-transition: background-color 0.4s linear;
+  -moz-transition: background-color 0.4s linear;
+  transition: background-color 0.4s linear;
+}
+/* checked mark aspect */
+.custom-radio[type="radio"]:not(:checked) + label span:after,
+.custom-radio[type="radio"]:checked + label span:after {
+  content: '\2022';
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  font-size: 20px;
+  line-height: 0.8;
+  color: #fff;
+  transition: all .2s;
+}
+/* checked mark aspect changes */
+.custom-radio[type="radio"]:not(:checked) + label span:after {
+  opacity: 0;
+  transform: scale(0);
+}
+.custom-radio[type="radio"]:checked + label span:after {
+  opacity: 1;
+  transform: scale(1);
 }

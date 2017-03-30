@@ -172,9 +172,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         controller: 'ProductHistoryController'
       })
       .state('editor.products', {
-        url: '/old',
+        url: '/products',
         templateUrl: 'modules/users/client/views/editor/products.html',
-        controller: 'ProductEditorMasterController'
+        controller: 'EditorProductsMasterController'
       })
       // .state('editor.old', {
       //   url: '/old',

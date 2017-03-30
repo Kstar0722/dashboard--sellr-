@@ -4,6 +4,10 @@
 .editor-products-view{
   .common-view-layout;
   .left-side-content{
+    &.full{
+      width: 70%;
+      margin: 0 auto;
+    }
     .main-table{
       .filter-header{
         display: flex;
@@ -11,10 +15,50 @@
         justify-content: space-between;
         align-items: center;
         .left-filter{
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: flex-start;
-          align-items: center;
+          width: 35%;
+          .common-select-container{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            align-items: center;
+            .search-input{
+              border: 1px solid #ced0da;
+              width: 70%;
+              border-top-right-radius: 0px;
+              border-bottom-right-radius: 0px;
+            }
+            .common-select-trigger{
+              border: 1px solid #ced0da;
+              width: 30%;
+              border-top-left-radius: 0px;
+              border-bottom-left-radius: 0px;
+              // border: solid 1px #dfe3e9;
+              border-left: none;
+              color: rgba(53, 64, 82, .5);
+              padding: 0px 40px 0 30px;
+            }
+            .common-select-options{
+              max-height: 550px;
+              .search-option{
+                padding: 10px;
+                background-color: #f1f4f8;
+                .common-field-title{
+                  margin-top: 0px;
+                }
+                &:nth-child(odd){
+                  background-color: #fff;
+                }
+                .filter-item{
+                  margin: 5px 20px;
+                }
+              }
+            }
+            &.active{
+              .search-input{
+                border-bottom-left-radius: 0px;
+              }
+            }
+          }
         }
         .right-filter{
           overflow: hidden; 
@@ -29,46 +73,33 @@
         font-size: 14px;
         font-weight: bold;
         cursor: pointer;
-        .store-id-col{
-          width: 8%;
+        .check-col{
+          width: 5%;
           padding-right: 1%;
-        }
-        .store-name-col{
-          width: 19%;
-          padding-right: 1%;
-        } 
-        .account-id-col{
-          width: 8%;
-          padding-right: 1%;
-        } 
-        .received-col{
-          width: 8%;
-          padding-right: 1%;
-        }
-        .new-col{
-          width: 8%;
-          padding-right: 1%;
-        }
-        .in-progress-col{
-          width: 8%;
-          padding-right: 1%;
-        }
-        .done-col{
-          width: 8%;
-          padding-right: 1%;
-        }
-        .approved-col{
-          width: 8%;
-          padding-right: 1%;
-        }
-        .total-col{
-          width: 8%;
-          padding-right: 1%;
-        }
-        .status-col{
-          width: 8%;
           text-align: center;
         }
+        .name-col{
+          width: 32%;
+          padding-right: 1%;
+        } 
+        .sku-col{
+          width: 14%;
+          padding-right: 1%;
+          text-align: center;
+        } 
+        .image-col{
+          width: 14%;
+          padding-right: 1%;
+          text-align: center;
+        }
+        .status-col{
+          width: 15%;
+          padding-right: 1%;
+        }
+        .type-col{
+          width: 15%;
+        }
+
       }
       .columns-header{
         color: #7f8fa4;
