@@ -121,6 +121,55 @@
       .columns-header{
         color: #7f8fa4;
         padding: 30px 10px 10px 10px;
+        box-sizing: border-box;
+        height: 74px;
+        .check-col{
+          .merge-products{
+            display: none;
+            width: auto;
+            height: 34px;
+            line-height: 34px;
+            border-radius: 4px;
+            background-image: linear-gradient(to top, #f2f4f7, #ffffff);
+            border: solid 1px #ced0da;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 0 30px;
+            font-size: 12px;
+          }
+          .select-all{
+            display: none;
+            font-size: 12px;
+            color: #1fab89;
+            margin-left: 8px;
+            padding: 8px;
+            border-left: 1px solid #dfe3e9;
+          }
+          .selected-count{
+            display: none;
+            font-size: 12px;
+            color: #7f8fa4;
+            margin-left: 16px;
+          }      
+          &.merge{
+            width: 98%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            align-items: center;
+            background: transparent;
+            .header-check{
+              width: 5%;
+              padding-right: 1%;
+              text-align: center;
+            }
+            .merge-products,
+            .selected-count,
+            .select-all{
+              display: block;
+            }
+          }
+        }
       }
       .columns-data{
         padding: 10px;

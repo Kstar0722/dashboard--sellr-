@@ -5,6 +5,8 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.searchText = ''
+  $scope.selectedProducts = []
+  $scope.ui.allProductsSelected = false
   $scope.selectStoreFilterConfig = {
     create: false,
     maxItems: 1,
@@ -128,6 +130,37 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
       $scope.ui[menu][index] = true
     } else {
       $scope.ui[menu] = true
+    }
+  }
+
+  $scope.toggleSelectProduct = function (product) {
+    $scope.selectedProducts = $scope.selectedProducts || []
+    var i = _.findIndex($scope.selectedProducts, function (selectedProduct) {
+      return selectedProduct.productId === product.productId
+    })
+    if (i < 0) {
+      $scope.selectedProducts.push(product)
+    } else {
+      $scope.selectedProducts.splice(i, 1)
+    }
+    $scope.ui.showMergeProductsBar = $scope.selectedProducts.length > 1
+    if ($state.includes('editor.match')) {
+      orderDataService.storeSelected($scope.selectedProducts)
+    }
+  }
+
+  $scope.toggleSelectAllProducts = function (forcedValue) {
+    var flag = forcedValue || $scope.ui.allProductsSelected
+    $scope.selectedProducts = []
+    _.forEach(productEditorService.productList, function (p) {
+      if (flag) {
+        $scope.selectedProducts.push(p)
+      }
+      p.selected = flag
+    })
+    $scope.ui.showMergeProductsBar = $scope.selectedProducts.length > 1
+    if ($state.includes('editor.match')) {
+      orderDataService.storeSelected($scope.selectedProducts)
     }
   }
 
