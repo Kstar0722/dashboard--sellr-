@@ -414,7 +414,8 @@ body.loading .main-content {
   align-items: flex-start;
 }
 .common-view-layout .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .common-view-layout .auto-save-box {
   position: absolute;
@@ -5547,7 +5548,8 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: flex-start;
 }
 .brand-plans-view .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .brand-plans-view .auto-save-box {
   position: absolute;
@@ -5769,7 +5771,8 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: flex-start;
 }
 .brand-products-view .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .brand-products-view .auto-save-box {
   position: absolute;
@@ -6031,7 +6034,8 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: flex-start;
 }
 .accounts-manager-view .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .accounts-manager-view .auto-save-box {
   position: absolute;
@@ -6288,7 +6292,8 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: flex-start;
 }
 .users-manager-view .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .users-manager-view .auto-save-box {
   position: absolute;
@@ -6527,7 +6532,8 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: flex-start;
 }
 .editor-products-view .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .editor-products-view .auto-save-box {
   position: absolute;
@@ -6807,7 +6813,8 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: flex-start;
 }
 .editor-store-management-view .title {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .editor-store-management-view .auto-save-box {
   position: absolute;
@@ -7202,4 +7209,9 @@ body.websiteBuilder #loading-bar-spinner {
 .custom-radio[type="radio"]:checked + label span:after {
   opacity: 1;
   transform: scale(1);
+}
+.selectize-input {
+  height: 36px;
+  border-radius: 4px;
+  border: solid 1px #ced0da;
 }
