@@ -1,5 +1,5 @@
 /* globals angular, localStorage,jQuery,_ */
-angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter) {
+angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -242,7 +242,9 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       } else {
         formattedProduct.submittedFormatedDate = ' - '
       }
+      formattedProduct.typeObj = _.find(ProductTypes, function (t) { return t.productTypeId === formattedProduct.productTypeId })
       me.currentProduct = formattedProduct
+      console.log(me.currentProduct)
       defer.resolve(me.currentProduct)
     })
     return defer.promise

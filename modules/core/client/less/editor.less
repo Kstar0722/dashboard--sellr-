@@ -1,7 +1,7 @@
 // 
 // PRODUCTS MASTER VIEW
 // 
-.editor-products-view{
+.editor-products-view-content.large-sidebar {
   .common-view-layout;
   .left-side-content{
     &.full{
@@ -203,6 +203,30 @@
             }
           }
         }
+      }
+    }
+  }
+  .right-side-content{
+    .sidebar-view-product{
+      font-size: 16px;
+      .columns.status-action{
+        align-items: flex-end;
+        .common-btns-bar{
+          justify-content: center;
+          .common-btn-gray{
+            margin-right: 20px;
+          }
+        } 
+      }
+      .product-name{
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 30px;
+        margin-bottom: 5px;
+      }
+      .separator{
+        margin: 30px 20px;
+        border-bottom: 1px solid #e6eaee;
       }
     }
   }

@@ -1,0 +1,30 @@
+<div class="sidebar-view-product">
+  <div class="title">View Product</div>
+  <div class="side-panel">
+    <div class="columns status-action">
+      <div class="first-column">
+        <div class="common-field-title">Status</div>
+        <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
+      </div>
+      <div class="second-column common-btns-bar">
+        <div class="common-btn-gray autowidth" ng-click="ui.display = 'fulltable'">Edit Product</div>
+        <div class="common-btn-black autowidth" ng-click="ui.display = 'fulltable'">Mark as done</div>
+      </div>
+    </div>
+    <div class="product-name" ng-bind="pes.currentProduct.name"></div>
+    <p><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
+    <p><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
+    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span ng-bind="pes.currentProduct.requestedBy"></span></p>
+    <div class="separator"></div>
+    <div class="common-field-title">Product Type</div>
+    <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.typeObj.name" disabled>
+    <div class="action-footer">
+      <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'"><i class="fa fa-trash-o"></i> <span>Delete</span></div>
+      <div>&nbsp;</div>
+      <div>
+        <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-positive small" ng-bind="ui.display === 'inviteUser' ? 'Create' : 'Update'"></div>
+      </div>
+    </div>
+  </div>
+</div>

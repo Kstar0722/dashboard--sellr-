@@ -164,6 +164,10 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     }
   }
 
+  $scope.viewProduct = function (product) {
+    $state.go('editor.products.view', { productId: product.productId })
+  }
+
   //
   // INTERNAL FUNCTIONS
   //

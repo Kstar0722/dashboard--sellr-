@@ -1,4 +1,4 @@
-<div class="editor-products-view">
+<div class="editor-products-view-content large-sidebar">
   <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
     <i class="fa fa-circle"></i> Automatically Saved
   </div>
@@ -135,13 +135,13 @@
           <input id="productcheck{{$index}}" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-change="toggleSelectProduct(product)">
           <label for="productcheck{{$index}}">&nbsp;</label>
         </div>
-        <div class="name-col" ng-bind-html="(product.displayName || product.name) | highlight:searchOptions.searchText"></div>
-        <div class="sku-col" ng-bind="product.sku_count"></div>
-        <div class="image-col">
+        <div class="name-col" ng-bind-html="(product.displayName || product.name) | highlight:searchOptions.searchText" ng-click="viewProduct(product)"></div>
+        <div class="sku-col" ng-bind="product.sku_count" ng-click="viewProduct(product)"></div>
+        <div class="image-col" ng-click="viewProduct(product)">
           <i ng-class="['fa common-fa', {'fa-check': product.image >= 1, 'fa-times': product.image === 0}]"></i>
         </div>
-        <div class="status-col" ng-bind="product.status"></div>
-        <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''"></div>
+        <div class="status-col" ng-bind="product.status" ng-click="viewProduct(product)"></div>
+        <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div>
       </div>
     </div>
   </div>

@@ -140,10 +140,9 @@
   background-color: #ffffff;
   border: solid 1px #dfe3e9;
   outline: none;
-  opacity: .5;
   font-size: 14px;
   font-weight: bold;
-  color: #354052;
+  color: rgba(53,64,82,.5);
   padding: 0px 13px;
   font-family: @avenir;
   height: 36px;
@@ -153,6 +152,10 @@
   .placeholder({ color: #a1a7af; });
   &.ng-invalid.ng-touched {
     border: solid 1px #d40000;
+  }
+  &[disabled]{
+    text-transform: capitalize;
+     background-color: #f8f9fb;
   }
 }
 
