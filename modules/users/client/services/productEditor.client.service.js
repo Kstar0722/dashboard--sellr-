@@ -164,6 +164,18 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     return defer.promise
   };
 
+  me.markAsNew = function () {
+    if (me.currentProduct.status === 'new') return
+    me.currentProduct.status = 'new'
+    me.save(me.currentProduct)
+  }
+
+  me.markAsApprove = function () {
+    $analytics.eventTrack('Approved Product', { productId: me.currentProduct.productId })
+    me.currentProduct.status = 'approved'
+    me.save(me.currentProduct)
+  }
+
   me.submitForApproval = function () {
     var defer = $q.defer()
     var userId = window.localStorage.getItem('userId')

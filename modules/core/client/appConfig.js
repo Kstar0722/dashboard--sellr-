@@ -181,6 +181,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/editor/viewProduct.html',
         controller: 'EditorProductsViewController'
       })
+      .state('editor.products.edit', {
+        url: '/edit/:productId',
+        templateUrl: 'modules/users/client/views/editor/editProduct.html',
+        controller: 'EditorProductsEditController'
+      })
       // .state('editor.old', {
       //   url: '/old',
       //   templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',

@@ -2,13 +2,11 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
   //
   // DEFINITIONS
   //
-  productEditorService.setCurrentProduct($stateParams)
   $scope.ui.display = 'viewProduct'
-  $scope.markAsNew = function (product) {
-    if (product.status === 'new') return
-    product.status = 'new'
-    productEditorService.save(product)
-  }
+  $scope.loading = true
+  productEditorService.setCurrentProduct($stateParams).then(function () {
+    $scope.loading = false
+  })
 
   $scope.showMarkAsDoneDialog = function (ev) {
     $scope.genericDialog = {}
@@ -34,5 +32,9 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
 
   $scope.closeDialog = function () {
     $mdDialog.hide()
+  }
+
+  $scope.editProduct = function () {
+    $state.go('editor.products.edit', { productId: productEditorService.currentProduct.productId })
   }
 })
