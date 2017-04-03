@@ -7,8 +7,9 @@
         <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
       </div>
       <div class="second-column common-btns-bar">
-        <div class="common-btn-gray autowidth" ng-click="ui.display = 'fulltable'">Edit Product</div>
-        <div class="common-btn-black autowidth" ng-click="ui.display = 'fulltable'">Mark as done</div>
+        <div class="common-btn-gray autowidth" ng-click="">Edit Product</div>
+        <div ng-if="pes.currentProduct.status != 'new'" ng-click="markAsNew(pes.currentProduct)" class="common-btn-black autowidth" ng-click="markAsNew(pes.currentProduct)" >Mark as New</div>
+        <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black autowidth" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
       </div>
     </div>
     <div class="product-name" ng-bind="pes.currentProduct.name"></div>

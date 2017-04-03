@@ -1,5 +1,5 @@
 /* globals angular, localStorage,jQuery,_ */
-angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes) {
+angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes, $analytics) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -163,6 +163,24 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     })
     return defer.promise
   };
+
+  me.submitForApproval = function () {
+    var defer = $q.defer()
+    var userId = window.localStorage.getItem('userId')
+    $analytics.eventTrack('Product Submitted', { productId: me.currentProduct.productId, user: Authentication.user.displayName })
+    me.currentProduct.status = 'done'
+    var options = {
+      userId: userId,
+      productId: me.currentProduct.productId,
+      status: 'done'
+    }
+    me.claim(options).then(function () {
+      me.save(me.currentProduct).then(function () {
+        defer.resolve()
+      })
+    })
+    return defer.promise
+  }
 
   // send in type,status,userid, get back list of products
   me.getMyProducts = function (options) {
