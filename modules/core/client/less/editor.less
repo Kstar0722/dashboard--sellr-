@@ -207,14 +207,14 @@
     }
   }
   .right-side-content{
+    font-size: 16px;
     .sidebar-view-product{
-      font-size: 16px;
       .columns.status-action{
         align-items: flex-end;
         .common-btns-bar{
-          justify-content: center;
+          justify-content: flex-end;
           .common-btn-gray{
-            margin-right: 20px;
+            margin-right: 15px;
           }
         } 
       }
@@ -227,6 +227,56 @@
       .separator{
         margin: 30px 20px;
         border-bottom: 1px solid #e6eaee;
+      }
+      .verified{
+        margin-top: 30px;
+        margin-bottom: 10px;
+        .custom-checkbox[type="checkbox"]:disabled:not(:checked) + label:before{
+          border: 1px solid #ccc;
+          background: #fff;
+        }
+        .custom-checkbox[type="checkbox"]:disabled:checked + label:before {
+          box-shadow: none;
+          border: none;
+          background: #32a279;
+        }
+        .custom-checkbox[type="checkbox"]:disabled:checked + label:after {
+          color: #fff;
+        }
+        .custom-checkbox[type="checkbox"]:disabled + label {
+          color: #354052;
+          cursor: default;
+          font-weight: normal;
+        }
+      }
+      .media-columns{
+        .common-btn-black,
+        .common-btn-positive{
+          display: block;
+          margin: 20px auto 20px 0;
+          width: auto;
+          max-width: 200px;
+          .fa{
+            margin-right: 15px;
+          }
+        }
+        .product-image{
+          max-width: 80%;
+          text-align: center;
+          margin: auto;
+          img{
+            width: 100%;
+          }
+        }
+      }
+      .disabled-textarea{
+        padding: 10px;
+        box-sizing: border-box;
+        min-height: 100px;
+        width: 100%;
+        border-radius: 4px;
+        background-color: #f8f9fb;
+        border: solid 1px #dfe3e9;
       }
     }
   }

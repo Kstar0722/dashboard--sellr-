@@ -243,6 +243,11 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         formattedProduct.submittedFormatedDate = ' - '
       }
       formattedProduct.typeObj = _.find(ProductTypes, function (t) { return t.productTypeId === formattedProduct.productTypeId })
+      var requestedByObj = _.find(formattedProduct.properties, {label: 'requested_by'})
+      if (!_.isUndefined(requestedByObj)) {
+        formattedProduct.requestedBy = requestedByObj.value
+        formattedProduct.properties.splice(_.findIndex(formattedProduct.properties, {label: 'requested_by'}), 1)
+      }
       me.currentProduct = formattedProduct
       console.log(me.currentProduct)
       defer.resolve(me.currentProduct)

@@ -12,19 +12,59 @@
       </div>
     </div>
     <div class="product-name" ng-bind="pes.currentProduct.name"></div>
-    <p><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
-    <p><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
-    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span ng-bind="pes.currentProduct.requestedBy"></span></p>
+    <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
+    <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
+    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
     <div class="separator"></div>
     <div class="common-field-title">Product Type</div>
     <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.typeObj.name" disabled>
-    <div class="action-footer">
-      <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'"><i class="fa fa-trash-o"></i> <span>Delete</span></div>
-      <div>&nbsp;</div>
-      <div>
-        <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>
-        <div class="common-btn-positive small" ng-bind="ui.display === 'inviteUser' ? 'Create' : 'Update'"></div>
+    <div class="verified">
+      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" disabled />
+      <label for="verifiedByBrand">Verified by Brand</label>
+    </div>
+    <div class="columns media-columns">
+      <div class="first-column">
+        <div class="common-field-title">Audio</div>
+        <div ng-show="pes.currentProduct.audio">
+          <div class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
+          <div class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
+        </div>
+        <div ng-show="!pes.currentProduct.audio">
+          No audio File Uploaded
+        </div>
       </div>
+      <div class="second-column">
+        <div class="common-field-title">Image</div>
+        <div class="product-image" ng-repeat="image in pes.currentProduct.images">
+          <a ng-href="{{ image.publicUrl }}" target="_blank">
+            <img ng-src="{{image.publicUrl}}" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="common-field-title">Description / Script</div>
+    <div class="disabled-textarea" ng-bind-html="pes.currentProduct.description"></div>
+    <div class="columns prop-columns">
+      <div class="first-column">
+        <div ng-repeat="prop in pes.currentProduct.properties" ng-if="$even && prop.visibility && prop.value.length > 0">
+          <div class="common-field-title"  ng-bind="prop.label"></div>
+          <input type="text" class="common-input" ng-model="prop.value" disabled>
+        </div>
+      </div>
+      <div class="second-column">
+        <div ng-repeat="prop in pes.currentProduct.properties" ng-if="$odd && prop.visibility && prop.value.length > 0">
+          <div class="common-field-title"  ng-bind="prop.label"></div>
+          <input type="text" class="common-input" ng-model="prop.value" disabled>
+        </div>
+      </div>
+    </div>
+    <div ng-if="pes.currentProduct.displayName && pes.currentProduct.displayName !== pes.currentProduct.name">
+      <div class="common-field-title">Display Name</div>
+      <input type="text" class="common-input" ng-model="pes.currentProduct.displayName" disabled>
+    </div>
+    <div ng-if="pes.currentProduct.notes">
+      <div class="common-field-title" >Research Notes</div>
+      <div class="disabled-textarea" ng-bind-html="pes.currentProduct.notes"></div>
     </div>
   </div>
 </div>

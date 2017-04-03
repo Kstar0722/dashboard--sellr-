@@ -754,7 +754,6 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
-  opacity: .5;
   margin-top: 30px;
   margin-bottom: 10px;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
@@ -797,6 +796,9 @@ body.loading .main-content {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .common-btn-positive.small,
 .common-btn-black.small,
@@ -1034,6 +1036,9 @@ body.loading .main-content {
 }
 #toast-container > .toast-error {
   background-image: url('/img/error.png'), linear-gradient(to top, #f5515f, #9f031b) !important;
+}
+.capitalize {
+  text-transform: capitalize;
 }
 .nav-container {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
@@ -6852,17 +6857,17 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .left-side-content .main-table .columns-data .status-col .status-icon.green {
   background-image: linear-gradient(to top, #088456, #079560);
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product {
+.editor-products-view-content.large-sidebar .right-side-content {
   font-size: 16px;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action {
   align-items: flex-end;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .common-btns-bar {
-  justify-content: center;
+  justify-content: flex-end;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .common-btns-bar .common-btn-gray {
-  margin-right: 20px;
+  margin-right: 15px;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-name {
   font-size: 20px;
@@ -6873,6 +6878,55 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .separator {
   margin: 30px 20px;
   border-bottom: 1px solid #e6eaee;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled:not(:checked) + label:before {
+  border: 1px solid #ccc;
+  background: #fff;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:before {
+  box-shadow: none;
+  border: none;
+  background: #32a279;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:after {
+  color: #fff;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled + label {
+  color: #354052;
+  cursor: default;
+  font-weight: normal;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive {
+  display: block;
+  margin: 20px auto 20px 0;
+  width: auto;
+  max-width: 200px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-black .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive .fa {
+  margin-right: 15px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .product-image {
+  max-width: 80%;
+  text-align: center;
+  margin: auto;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .product-image img {
+  width: 100%;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .disabled-textarea {
+  padding: 10px;
+  box-sizing: border-box;
+  min-height: 100px;
+  width: 100%;
+  border-radius: 4px;
+  background-color: #f8f9fb;
+  border: solid 1px #dfe3e9;
 }
 .editor-store-management-view {
   background-color: #eff3f6;
