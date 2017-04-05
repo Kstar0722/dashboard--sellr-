@@ -10,11 +10,6 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     $scope.loading = false
   })
 
-  $scope.permissions = {
-    editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
-    curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
-  }
-
   var genericDialogOptions = {
     templateUrl: '/modules/users/client/views/editor/confirmationDialog.html',
     autoWrap: true,

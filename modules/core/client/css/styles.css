@@ -6793,34 +6793,23 @@ body.websiteBuilder #loading-bar-spinner {
   box-sizing: border-box;
   height: 74px;
 }
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col .merge-products {
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col .common-btn-gray,
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col .common-btn-positive,
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col .common-btn-negative {
   display: none;
-  width: auto;
   height: 34px;
-  line-height: 34px;
-  border-radius: 4px;
-  background-image: linear-gradient(to top, #f2f4f7, #ffffff);
-  border: solid 1px #ced0da;
-  text-align: center;
-  box-sizing: border-box;
-  padding: 0 30px;
+  line-height: 32px;
   font-size: 12px;
-}
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col .select-all {
-  display: none;
-  font-size: 12px;
-  color: #1fab89;
-  margin-left: 8px;
-  padding: 8px;
-  border-left: 1px solid #dfe3e9;
+  margin-right: 12px;
 }
 .editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col .selected-count {
   display: none;
   font-size: 12px;
   color: #7f8fa4;
-  margin-left: 16px;
+  border-left: 1px solid #dfe3e9;
+  padding: 8px 8px 8px 12px;
 }
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.merge {
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.productsactionsbar {
   width: 98%;
   display: flex;
   flex-flow: row nowrap;
@@ -6828,14 +6817,15 @@ body.websiteBuilder #loading-bar-spinner {
   align-items: center;
   background: transparent;
 }
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.merge .header-check {
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.productsactionsbar .header-check {
   width: 5%;
   padding-right: 1%;
   text-align: center;
 }
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.merge .merge-products,
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.merge .selected-count,
-.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.merge .select-all {
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.productsactionsbar .common-btn-gray,
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.productsactionsbar .common-btn-positive,
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.productsactionsbar .common-btn-negative,
+.editor-products-view-content.large-sidebar .left-side-content .main-table .columns-header .check-col.productsactionsbar .selected-count {
   display: block;
 }
 .editor-products-view-content.large-sidebar .left-side-content .main-table .columns-data {
@@ -6872,24 +6862,30 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .right-side-content {
   font-size: 16px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action {
   align-items: flex-start;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column {
   text-align: center;
   margin-top: 20px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column .common-btn-black,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-black,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column .common-btn-gray,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-gray,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-gray,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column .common-btn-positive,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-positive,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-positive {
   margin: 5px auto;
   display: block;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-name,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-name,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-name {
   font-size: 20px;
@@ -6897,43 +6893,53 @@ body.websiteBuilder #loading-bar-spinner {
   margin-top: 30px;
   margin-bottom: 5px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .separator,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .separator,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .separator {
   margin: 30px 20px;
   border-bottom: 1px solid #e6eaee;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .verified,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .verified,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified {
   margin-top: 30px;
   margin-bottom: 10px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .verified .custom-checkbox[type="checkbox"]:disabled:not(:checked) + label:before,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .verified .custom-checkbox[type="checkbox"]:disabled:not(:checked) + label:before,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled:not(:checked) + label:before {
   border: 1px solid #ccc;
   background: #fff;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:before,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:before,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:before {
   box-shadow: none;
   border: none;
   background: #32a279;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:after,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:after,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled:checked + label:after {
   color: #fff;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .verified .custom-checkbox[type="checkbox"]:disabled + label,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .verified .custom-checkbox[type="checkbox"]:disabled + label,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified .custom-checkbox[type="checkbox"]:disabled + label {
   color: #354052;
   cursor: default;
   font-weight: normal;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-negative,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-negative,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-negative,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-silver,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-silver,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-silver,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-black,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-black,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-positive,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-positive,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive {
   display: block;
@@ -6941,26 +6947,33 @@ body.websiteBuilder #loading-bar-spinner {
   width: 100%;
   max-width: 200px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-negative .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-negative .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-negative .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-silver .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-silver .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-silver .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-black .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-black .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-black .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-positive .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-positive .fa,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive .fa {
   margin-right: 5px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .product-image,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .product-image,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .product-image {
   max-width: 80%;
   text-align: center;
   margin: auto;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .product-image img,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .product-image img,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .product-image img {
   width: 100%;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .disabled-textarea,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .disabled-textarea,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .disabled-textarea {
   padding: 10px;
@@ -6971,6 +6984,7 @@ body.websiteBuilder #loading-bar-spinner {
   background-color: #f8f9fb;
   border: solid 1px #dfe3e9;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .shortcuts-action,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .shortcuts-action,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .shortcuts-action {
   display: flex;
@@ -6978,6 +6992,7 @@ body.websiteBuilder #loading-bar-spinner {
   justify-content: space-between;
   align-items: center;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .shortcuts-action code,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .shortcuts-action code,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .shortcuts-action code {
   padding: 2px 6px;
@@ -6985,6 +7000,9 @@ body.websiteBuilder #loading-bar-spinner {
   color: #c7254e;
   background-color: #f9f2f4;
   border-radius: 4px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .name-radio {
+  margin: 10px 0;
 }
 .editor-store-management-view {
   background-color: #eff3f6;

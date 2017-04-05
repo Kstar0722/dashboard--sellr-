@@ -124,34 +124,23 @@
         box-sizing: border-box;
         height: 74px;
         .check-col{
-          .merge-products{
+          .common-btn-gray,
+          .common-btn-positive,
+          .common-btn-negative{
             display: none;
-            width: auto;
             height: 34px;
-            line-height: 34px;
-            border-radius: 4px;
-            background-image: linear-gradient(to top, #f2f4f7, #ffffff);
-            border: solid 1px #ced0da;
-            text-align: center;
-            box-sizing: border-box;
-            padding: 0 30px;
+            line-height: 32px;
             font-size: 12px;
-          }
-          .select-all{
-            display: none;
-            font-size: 12px;
-            color: #1fab89;
-            margin-left: 8px;
-            padding: 8px;
-            border-left: 1px solid #dfe3e9;
+            margin-right: 12px;
           }
           .selected-count{
             display: none;
             font-size: 12px;
             color: #7f8fa4;
-            margin-left: 16px;
+            border-left: 1px solid #dfe3e9;
+            padding: 8px 8px 8px 12px;
           }      
-          &.merge{
+          &.productsactionsbar{
             width: 98%;
             display: flex;
             flex-flow: row nowrap;
@@ -163,9 +152,10 @@
               padding-right: 1%;
               text-align: center;
             }
-            .merge-products,
-            .selected-count,
-            .select-all{
+            .common-btn-gray,
+            .common-btn-positive,
+            .common-btn-negative,
+            .selected-count{
               display: block;
             }
           }
@@ -208,6 +198,7 @@
   }
   .right-side-content{
     font-size: 16px;
+    .sidebar-merge-product,
     .sidebar-edit-product,
     .sidebar-view-product{
       .columns.status-action{
@@ -297,6 +288,11 @@
           background-color: #f9f2f4; 
           border-radius: 4px;
         }
+      }
+    }
+    .sidebar-merge-product{
+      .name-radio{
+        margin: 10px 0;
       }
     }
   }

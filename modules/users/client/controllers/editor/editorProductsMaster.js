@@ -39,6 +39,11 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.searchOptions.beerTypeCheck = true
   $scope.searchOptions.spiritTypeCheck = true
 
+  $scope.permissions = {
+    editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
+    curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
+  }
+
   //
   // INITIALIZATION
   //
@@ -66,6 +71,15 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     $scope.ui.searchOptionsMenu = false
 
     productEditorService.getProductList($scope.searchOptions.searchText, buildSearchOptions()).then(function (products) {})
+  }
+
+  $scope.mergeProducts = function () {
+    cfpLoadingBar.start()
+    mergeService.merge($scope.selectedProducts).then(function () {
+      $state.go('editor.products.merge')
+    }).finally(function () {
+      cfpLoadingBar.complete()
+    })
   }
 
   $scope.reOrderList = function (field) {
@@ -143,7 +157,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     } else {
       $scope.selectedProducts.splice(i, 1)
     }
-    $scope.ui.showMergeProductsBar = $scope.selectedProducts.length > 1
+    $scope.ui.showProductsSelectedActions = $scope.selectedProducts.length > 0
     if ($state.includes('editor.match')) {
       orderDataService.storeSelected($scope.selectedProducts)
     }
@@ -158,7 +172,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
       }
       p.selected = flag
     })
-    $scope.ui.showMergeProductsBar = $scope.selectedProducts.length > 1
+    $scope.ui.showProductsSelectedActions = $scope.selectedProducts.length > 0
     if ($state.includes('editor.match')) {
       orderDataService.storeSelected($scope.selectedProducts)
     }
