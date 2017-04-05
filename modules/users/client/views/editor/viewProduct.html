@@ -6,10 +6,10 @@
         <div class="common-field-title">Status</div>
         <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
       </div>
-      <div class="second-column common-btns-bar">
-        <div class="common-btn-gray autowidth" ng-click="editProduct()">Edit Product</div>
-        <div ng-if="pes.currentProduct.status != 'new'" ng-click="markAsNew(pes.currentProduct)" class="common-btn-black autowidth" ng-click="pes.markAsNew()" >Mark as New</div>
-        <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black autowidth" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
+      <div class="second-column">
+        <div ng-if="pes.currentProduct.status != 'new'" ng-click="markAsNew(pes.currentProduct)" class="common-btn-black" ng-click="pes.markAsNew()" >Mark as New</div>
+        <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
+        <div class="common-btn-gray" ng-click="editProduct()">Edit Product</div>
       </div>
     </div>
     <div class="product-name" ng-bind="pes.currentProduct.name"></div>

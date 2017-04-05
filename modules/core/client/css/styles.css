@@ -6874,15 +6874,21 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action {
-  align-items: flex-end;
+  align-items: flex-start;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .common-btns-bar,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .common-btns-bar {
-  justify-content: flex-end;
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column {
+  text-align: center;
+  margin-top: 20px;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .common-btns-bar .common-btn-gray,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .common-btns-bar .common-btn-gray {
-  margin-right: 15px;
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-gray,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-gray,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-positive,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-positive {
+  margin: 5px auto;
+  display: block;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-name,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-name {
@@ -6932,7 +6938,7 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive {
   display: block;
   margin: 10px auto 10px auto;
-  width: auto;
+  width: 100%;
   max-width: 200px;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-negative .fa,
@@ -6965,19 +6971,20 @@ body.websiteBuilder #loading-bar-spinner {
   background-color: #f8f9fb;
   border: solid 1px #dfe3e9;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action {
-  align-items: flex-start;
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .shortcuts-action,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .shortcuts-action {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column {
-  text-align: center;
-  margin-top: 20px;
-}
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-black,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-positive {
-  margin: 5px auto;
-}
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-positive {
-  display: block;
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .shortcuts-action code,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .shortcuts-action code {
+  padding: 2px 6px;
+  font-size: 85%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
 }
 .editor-store-management-view {
   background-color: #eff3f6;
@@ -7393,4 +7400,17 @@ body.websiteBuilder #loading-bar-spinner {
   border-radius: 4px;
   background-image: linear-gradient(to top, #f2f4f7, #ffffff) !important;
   border-color: #ced0da !important;
+}
+.custom-medium-editor {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #dfe3e9;
+  min-height: 150px;
+  outline: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(53, 64, 82, 0.5);
+  display: block;
+  padding: 0px 13px;
+  box-sizing: border-box;
 }

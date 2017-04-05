@@ -211,13 +211,17 @@
     .sidebar-edit-product,
     .sidebar-view-product{
       .columns.status-action{
-        align-items: flex-end;
-        .common-btns-bar{
-          justify-content: flex-end;
-          .common-btn-gray{
-            margin-right: 15px;
+        align-items: flex-start;
+        .second-column{
+          text-align: center;
+          margin-top: 20px;
+          .common-btn-black,
+          .common-btn-gray,
+          .common-btn-positive{
+            margin: 5px auto;
+            display: block;
           }
-        } 
+        }
       }
       .product-name{
         font-size: 20px;
@@ -257,7 +261,7 @@
         .common-btn-positive{
           display: block;
           margin: 10px auto 10px auto;
-          width: auto;
+          width: 100%;
           max-width: 200px;
           .fa{
             margin-right: 5px;
@@ -281,20 +285,17 @@
         background-color: #f8f9fb;
         border: solid 1px #dfe3e9;
       }
-    }
-    .sidebar-edit-product{
-      .columns.status-action{
-        align-items: flex-start;
-        .second-column{
-          text-align: center;
-          margin-top: 20px;
-          .common-btn-black,
-          .common-btn-positive{
-            margin: 5px auto;
-          }
-          .common-btn-positive{
-            display: block;
-          }
+      .shortcuts-action{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        code{
+          padding: 2px 6px;
+          font-size: 85%;
+          color: #c7254e; 
+          background-color: #f9f2f4; 
+          border-radius: 4px;
         }
       }
     }

@@ -5,7 +5,7 @@
       <div class="single-side-content" ng-bind="genericDialog.body"></div>
       <div class="action-footer">
         <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
-        <button class="common-btn-positive" ng-click="genericDialog.action()" ng-bind="genericDialog.actionText"></button>
+        <button ng-class="genericDialog.actionClass" ng-click="genericDialog.action()" ng-bind="genericDialog.actionText"></button>
       </div>
     </div>
   </div>

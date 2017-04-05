@@ -276,7 +276,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       var requestedByObj = _.find(formattedProduct.properties, {label: 'requested_by'})
       if (!_.isUndefined(requestedByObj)) {
         formattedProduct.requestedBy = requestedByObj.value
-        formattedProduct.properties.splice(_.findIndex(formattedProduct.properties, {label: 'requested_by'}), 1)
+        // formattedProduct.properties.splice(_.findIndex(formattedProduct.properties, {label: 'requested_by'}), 1)
       }
       me.currentProduct = formattedProduct
       console.log(me.currentProduct)
