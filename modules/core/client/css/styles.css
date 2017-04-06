@@ -801,6 +801,13 @@ body.loading .main-content {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.common-btn-silver .fa,
+.common-btn-positive .fa,
+.common-btn-black .fa,
+.common-btn-gray .fa,
+.common-btn-negative .fa {
+  margin-right: 5px;
+}
 .common-btn-silver.small,
 .common-btn-positive.small,
 .common-btn-black.small,
@@ -6981,12 +6988,19 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .disabled-textarea,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .disabled-textarea {
   padding: 10px;
+  font-size: 14px;
+  color: rgba(53, 64, 82, 0.5);
   box-sizing: border-box;
   min-height: 100px;
   width: 100%;
   border-radius: 4px;
   background-color: #f8f9fb;
   border: solid 1px #dfe3e9;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .disabled-textarea p,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .disabled-textarea p,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .disabled-textarea p {
+  margin-top: 0;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .shortcuts-action,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .shortcuts-action,
@@ -7285,6 +7299,70 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox .common-field-title {
   margin: 0 10px 0 0;
+}
+.top-match-container {
+  height: 170px;
+  background: #fff;
+  width: 100%;
+  padding: 10px 3vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-match-container .store-info {
+  align-self: flex-start;
+  color: #7f8fa4;
+}
+.top-match-container .store-info .name {
+  font-size: 24px;
+  font-weight: bold;
+}
+.top-match-container .store-info .prod-count {
+  font-size: 14px;
+}
+.top-match-container .main-info {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.top-match-container .main-info .control-arrow {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 18px;
+  border: solid 1px #e6eaee;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.top-match-container .main-info .control-arrow .fa {
+  font-size: 28px;
+  color: #ced0da;
+  line-height: 50px;
+}
+.top-match-container .main-info .prod-info {
+  margin-left: 40px;
+}
+.top-match-container .main-info .prod-info .info-item {
+  font-size: 16px;
+  color: #354052;
+  margin: 5px 0;
+}
+.top-match-container .main-info .prod-image {
+  margin: 0 20px;
+}
+.top-match-container .main-info .prod-actions {
+  margin-right: 40px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.top-match-container .main-info .prod-actions .common-btn-gray {
+  margin-bottom: 12px;
 }
 /* Base for label styling */
 .custom-checkbox[type="checkbox"]:not(:checked),

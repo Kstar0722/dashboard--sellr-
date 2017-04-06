@@ -1,3 +1,4 @@
+<div ui-view="match"></div>
 <div class="editor-products-view-content large-sidebar">
   <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
     <i class="fa fa-circle"></i> Automatically Saved
@@ -151,5 +152,5 @@
   <!--
   DYNAMIC RIGHT SIDE
   -->
-  <div ui-view class="right-side-content" ng-show="ui.display !== 'fulltable'"></div>
+  <div ui-view="sidepanel" class="right-side-content" ng-show="ui.display !== 'fulltable'"></div>
 </div>

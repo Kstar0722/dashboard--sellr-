@@ -193,7 +193,11 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   }
 
   $scope.viewProduct = function (product) {
-    $state.go('editor.products.view', { productId: product.productId })
+    if ($state.current.name.indexOf('editor.products.match') === 0) {
+      $state.go('editor.products.matchview', { storeId: $state.params.storeId, productId: product.productId, status: $state.params.status })
+    } else {
+      $state.go('editor.products.view', { productId: product.productId })
+    }
   }
 
   //

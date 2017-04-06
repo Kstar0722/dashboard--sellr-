@@ -35,6 +35,10 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
   }
 
   $scope.editProduct = function () {
-    $state.go('editor.products.edit', { productId: productEditorService.currentProduct.productId })
+    if ($state.current.name.indexOf('editor.products.match') === 0) {
+      $state.go('editor.products.matchedit', { storeId: $state.params.storeId, productId: $state.params.productId, status: $state.params.status })
+    } else {
+      $state.go('editor.products.edit', { productId: $state.params.productId })
+    }
   }
 })

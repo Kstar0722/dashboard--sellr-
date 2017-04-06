@@ -273,12 +273,17 @@
       }
       .disabled-textarea{
         padding: 10px;
+        font-size: 14px;
+        color: rgba(53, 64, 82, 0.5);
         box-sizing: border-box;
         min-height: 100px;
         width: 100%;
         border-radius: 4px;
         background-color: #f8f9fb;
         border: solid 1px #dfe3e9;
+        p{
+          margin-top: 0;
+        }
       }
       .shortcuts-action{
         display: flex;
@@ -453,6 +458,73 @@
             margin: 0 10px 0 0;
           }
         }
+      }
+    }
+  }
+}
+// 
+// MATCH CONTAINER
+// 
+.top-match-container{
+  height: 170px;
+  background: #fff;
+  width: 100%;
+  padding: 10px 3vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  .store-info{
+    align-self: flex-start;
+    color: #7f8fa4;
+    .name{
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .prod-count{
+      font-size: 14px;
+    }
+  }
+  .main-info{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    .control-arrow{
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 18px;
+      border: solid 1px #e6eaee;
+      box-sizing: border-box;
+      cursor: pointer;
+      .fa{
+        font-size: 28px;
+        color: #ced0da;
+        line-height: 50px;
+      }
+    }
+    .prod-info{
+      margin-left: 40px;
+      .info-item{
+        font-size: 16px;
+        color: #354052;
+        margin: 5px 0;
+      }
+    }
+    .prod-image{
+      margin: 0 20px;
+    }
+    .prod-actions{
+      margin-right: 40px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      .common-btn-gray{
+        margin-bottom: 12px;
       }
     }
   }

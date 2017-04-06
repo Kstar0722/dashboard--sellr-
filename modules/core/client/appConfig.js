@@ -178,18 +178,69 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('editor.products.view', {
         url: '/view/:productId',
-        templateUrl: 'modules/users/client/views/editor/viewProduct.html',
-        controller: 'EditorProductsViewController'
+        views: {
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/viewProduct.html',
+            controller: 'EditorProductsViewController'
+          }
+        }
       })
       .state('editor.products.edit', {
         url: '/edit/:productId',
-        templateUrl: 'modules/users/client/views/editor/editProduct.html',
-        controller: 'EditorProductsEditController'
+        views: {
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/editProduct.html',
+            controller: 'EditorProductsEditController'
+          }
+        }
       })
       .state('editor.products.merge', {
         url: '/merge',
-        templateUrl: 'modules/users/client/views/editor/mergeProducts.html',
-        controller: 'EditorProductsMergeController'
+        views: {
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/mergeProducts.html',
+            controller: 'EditorProductsMergeController'
+          }
+        }
+      })
+      .state('editor.products.match', {
+        url: '/match/:storeId?status',
+        views: {
+          'match': {
+            templateUrl: 'modules/users/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
+          }
+        },
+        params: {
+          status: null,
+          storeId: null
+        }
+      })
+      .state('editor.products.matchview', {
+        url: '/match/:storeId/view/:productId?status',
+        views: {
+          'match': {
+            templateUrl: 'modules/users/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
+          },
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/viewProduct.html',
+            controller: 'EditorProductsViewController'
+          }
+        }
+      })
+      .state('editor.products.matchedit', {
+        url: '/match/:storeId/edit/:productId?status',
+        views: {
+          'match': {
+            templateUrl: 'modules/users/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
+          },
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/editProduct.html',
+            controller: 'EditorProductsEditController'
+          }
+        }
       })
       // .state('editor.old', {
       //   url: '/old',
@@ -257,22 +308,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       //     }
       //   }
       // })
-      // .state('editor.old.match.merge', {
-      //   url: '/merge',
-      //   views: {
-      //     'rightSide': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-      //     }
-      //   }
-      // })
-      // .state('editor.old.match.new', {
-      //   url: '/new',
-      //   views: {
-      //     'rightSide': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.new.html',
-      //       controller: 'newProductController'
-      //     }
-      //   }
       // })
       //
       // MANAGER ROUTES
