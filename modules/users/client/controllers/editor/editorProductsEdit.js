@@ -97,20 +97,6 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     productEditorService.removeAudio(currentAudio)
   }
 
-  $scope.mediumEditorOptions = {
-    imageDragging: false,
-    extensions: {
-      's3-image-uploader': new MediumS3ImageUploader()
-    },
-    toolbar: {
-      buttons: ['bold', 'italic', 'underline', 'strikethrough']
-    },
-    placeholder: {
-      text: 'Type the product description',
-      hideOnClick: true
-    }
-  }
-
   $(window).bind('keydown', handleShortcuts)
   $scope.$on('$destroy', function () {
     $(window).unbind('keydown', handleShortcuts)

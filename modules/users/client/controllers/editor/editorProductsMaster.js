@@ -44,6 +44,20 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
   }
 
+  $scope.mediumEditorOptions = {
+    imageDragging: false,
+    extensions: {
+      's3-image-uploader': new MediumS3ImageUploader()
+    },
+    toolbar: {
+      buttons: ['bold', 'italic', 'underline', 'strikethrough']
+    },
+    placeholder: {
+      text: '',
+      hideOnClick: true
+    }
+  }
+
   //
   // INITIALIZATION
   //

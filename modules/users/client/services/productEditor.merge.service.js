@@ -74,7 +74,7 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
       product.properties.forEach(function (prop) {
         if (prop.visibility) {
           var i = _.findIndex(properties, function (p) {
-            return p.propId === prop.propId
+            return p.label === prop.label
           })
           if (i < 0) {
             properties.push({
