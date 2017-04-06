@@ -35,6 +35,9 @@
           </a>
           <div class="common-btn-negative" ng-click="removeMergedImage($index)"><i class="fa fa-trash-o"></i> Remove</div>
         </div>
+        <small ng-show="!mergeService.newProduct.images || mergeService.newProduct.images.length === 0">
+        No images uploaded yet.
+        </small>
         <button class="common-btn-silver" ngf-select="uploadMergeImage($files)">Upload Image</button>
       </div>
     </div>

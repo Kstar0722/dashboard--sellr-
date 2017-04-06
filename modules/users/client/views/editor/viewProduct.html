@@ -30,9 +30,9 @@
           <div class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
           <div class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
         </div>
-        <div ng-show="!pes.currentProduct.audio">
-          No audio File Uploaded
-        </div>
+        <small ng-show="!pes.currentProduct.audio">
+        No audio uploaded yet.
+        </small>
       </div>
       <div class="second-column">
         <div class="common-field-title">Image</div>
@@ -41,6 +41,9 @@
             <img ng-src="{{image.publicUrl}}" />
           </a>
         </div>
+        <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
+        No images uploaded yet.
+        </small>
       </div>
     </div>
     <div class="common-field-title">Description / Script</div>
