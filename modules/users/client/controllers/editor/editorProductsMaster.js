@@ -248,6 +248,11 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   //
   // EVENTS
   //
+
+  $rootScope.$on('clearProductList', function () {
+    $scope.selectedProducts = []
+  })
+
   // var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
   //   if (targetElement.className.indexOf('ignore-click-trigger') === -1) {
   //     $scope.$apply(function () {

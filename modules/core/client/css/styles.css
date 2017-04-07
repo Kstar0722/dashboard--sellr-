@@ -7308,10 +7308,11 @@ body.websiteBuilder #loading-bar-spinner {
   box-sizing: border-box;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 .top-match-container .store-info {
+  width: 25%;
   align-self: flex-start;
   color: #7f8fa4;
 }
@@ -7323,10 +7324,12 @@ body.websiteBuilder #loading-bar-spinner {
   font-size: 14px;
 }
 .top-match-container .main-info {
+  width: 50%;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  height: 100%;
 }
 .top-match-container .main-info .control-arrow {
   width: 50px;
@@ -7343,19 +7346,19 @@ body.websiteBuilder #loading-bar-spinner {
   color: #ced0da;
   line-height: 50px;
 }
-.top-match-container .main-info .prod-info {
-  margin-left: 40px;
-}
 .top-match-container .main-info .prod-info .info-item {
   font-size: 16px;
   color: #354052;
   margin: 5px 0;
 }
 .top-match-container .main-info .prod-image {
-  margin: 0 20px;
+  height: 100%;
+  text-align: center;
+}
+.top-match-container .main-info .prod-image img {
+  height: 100%;
 }
 .top-match-container .main-info .prod-actions {
-  margin-right: 40px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -7363,6 +7366,10 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .top-match-container .main-info .prod-actions .common-btn-gray {
   margin-bottom: 12px;
+}
+.top-match-container .actions {
+  width: 25%;
+  text-align: center;
 }
 /* Base for label styling */
 .custom-checkbox[type="checkbox"]:not(:checked),

@@ -1,32 +1,35 @@
 <div class="top-match-container">
   <div class="store-info">
-    <div class="name">That Other Alcohol Store</div>
-    <div class="prod-count">43 reveived products</div>
+    <div class="name" ng-bind="storeUI.name">That Other Alcohol Store</div>
+    <div class="prod-count">{{orderDataService.allItems.length }} {{statusLabel}} products</div>
   </div>
   <div class="main-info">
-    <div class="control-arrow">
+    <div class="control-arrow" ng-click="decreaseIndex()">
       <i class="fa fa-caret-left"></i>
     </div>
     <div class="prod-info">
-      <div class="info-item">Product 1/8598</div>
-      <div class="info-item">Name: Undefined</div>
-      <div class="info-item">Sku: 027724197502</div>
-      <div class="info-item">Type: Spirits</div>
-      <div class="info-item">Product ID: 203806</div>
+      <div class="info-item">Product {{ orderDataService.currentIndex+1 }}/{{orderDataService.allItems.length }}</div>
+      <div class="info-item">Name: {{ orderDataService.currentItem.name }}</div>
+      <div class="info-item">Sku: {{ orderDataService.currentItem.upc }}</div>
+      <div class="info-item">Type: {{ orderDataService.currentItem.type }}</div>
+      <div class="info-item">Product ID: {{ orderDataService.currentItem.productId }}</div>
+      <div class="info-item" ng-if="orderDataService.currentItem.createdRelative">Created: {{ orderDataService.currentItem.createdRelative }}</div>
     </div>
     <div class="prod-image">
-      YYY
+      <a ng-href="{{ orderDataService.currentItem.publicUrl }}" target="_blank" ng-if="orderDataService.currentItem.publicUrl">
+        <img ng-src="{{ orderDataService.currentItem.publicUrl }}">
+      </a>
     </div>
     <div class="prod-actions">
-      <div class="common-btn-gray"><i class="fa fa-expand"></i> View Product</div>
-      <div class="common-btn-gray"><i class="fa fa-search"></i> Find Similar</div>
-      <div class="common-btn-negative"><i class="fa fa-trash-o"></i> Remove</div>
+      <div class="common-btn-gray" ng-click="viewMatchProduct(orderDataService.currentItem.productId, orderDataService.currentItem.status)" ng-show="orderDataService.currentItem.productId"><i class="fa fa-expand"></i> View Product</div>
+      <div class="common-btn-gray" ng-click="findSimilarProducts()"><i class="fa fa-search"></i> Find Similar</div>
+      <div class="common-btn-negative" ng-click="deleteCurrentProduct()"><i class="fa fa-trash-o"></i> Remove</div>
     </div>
-    <div class="control-arrow">
+    <div class="control-arrow" ng-click="increaseIndex()">
       <i class="fa fa-caret-right"></i>
     </div>
   </div>
   <div class="actions">
-    <div class="common-btn-positive">Save and Exit</div>
+    <div class="common-btn-gray" ng-click="closePanel()">Close Panel</div>
   </div>
 </div>

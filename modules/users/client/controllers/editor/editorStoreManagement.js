@@ -41,7 +41,7 @@ angular.module('core').controller('EditorStoreManagementController', function ($
     if (store.status[status] === 0) return
     orderDataService.currentOrderId = store.storeId
     orderDataService.getData(store, status).then(function () {
-      $state.go('editor.old.match', { id: store.storeId, status: status })
+      $state.go('editor.products.match', { storeId: store.storeId, status: status })
     })
   }
 
@@ -120,16 +120,19 @@ angular.module('core').controller('EditorStoreManagementController', function ($
   function init () {
     if (orderDataService.allStores.length === 0) {
       orderDataService.getAllStores().then(function (stores) {
-        updateStoreColors()
-        $scope.storesDropdown = stores.slice()
-        $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name')
-        console.log($scope.storesDropdown)
-        // Create Store is not ready for implementation yet
-        // $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' })
+        initStores(stores)
       })
+    } else {
+      initStores(orderDataService.allStores)
     }
     $scope.storeFields = wrapFields(csvProductMapper.PRODUCT_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' })
+  }
+
+  function initStores (stores) {
+    updateStoreColors()
+    $scope.storesDropdown = stores.slice()
+    $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name')
   }
 
   function closeMenus () {
