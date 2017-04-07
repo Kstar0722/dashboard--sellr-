@@ -4,7 +4,7 @@
     <div class="prod-count">{{orderDataService.allItems.length }} {{statusLabel}} products</div>
   </div>
   <div class="main-info">
-    <div class="control-arrow" ng-click="decreaseIndex()">
+    <div class="control-arrow" ng-click="orderDataService.decreaseIndex()">
       <i class="fa fa-caret-left"></i>
     </div>
     <div class="prod-info">
@@ -25,7 +25,7 @@
       <div class="common-btn-gray" ng-click="findSimilarProducts()"><i class="fa fa-search"></i> Find Similar</div>
       <div class="common-btn-negative" ng-click="deleteCurrentProduct()"><i class="fa fa-trash-o"></i> Remove</div>
     </div>
-    <div class="control-arrow" ng-click="increaseIndex()">
+    <div class="control-arrow" ng-click="orderDataService.increaseIndex()">
       <i class="fa fa-caret-right"></i>
     </div>
   </div>

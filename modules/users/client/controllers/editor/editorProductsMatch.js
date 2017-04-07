@@ -1,4 +1,13 @@
-angular.module('core').controller('EditorProductsMatchController', function ($scope, Authentication, $q, $http, productEditorService, $location, $state, $stateParams, Countries, orderDataService, $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce, globalClickEventName, toastr, storesService) {
+angular.module('core').controller('EditorProductsMatchController', function ($scope, $state, $stateParams, orderDataService, productEditorService, toastr) {
+  //
+  // DEFINITIONS
+  //
+  $scope.orderDataService = orderDataService
+  $scope.statusLabel = $stateParams.status || ''
+
+  //
+  // INITIALIZATION
+  //
   if (orderDataService.allItems.length === 0 && $stateParams.storeId) {
     orderDataService.getData({ storeId: $stateParams.storeId }, $stateParams.status).then(function () {})
   }
@@ -10,18 +19,9 @@ angular.module('core').controller('EditorProductsMatchController', function ($sc
     setStoreUI()
   }
 
-  function setStoreUI () {
-    if ($stateParams.storeId) {
-      var storeId = parseInt($stateParams.storeId, 10)
-      $scope.storeUI = _.find(orderDataService.allStores, {storeId: storeId})
-    } else {
-      $scope.storeUI = {}
-    }
-  }
-
-  $scope.orderDataService = orderDataService
-  $scope.statusLabel = $stateParams.status || ''
-
+  //
+  // SCOPE FUNCTIONS
+  //
   $scope.closePanel = function () {
     if ($state.params.productId) {
       if ($state.current.name.indexOf('matchview') > -1) {
@@ -61,23 +61,23 @@ angular.module('core').controller('EditorProductsMatchController', function ($sc
     $state.go('editor.products.matchview', { storeId: $state.params.storeId, productId: productId, status: status })
   }
 
-  $scope.increaseIndex = function () {
-    // $state.go('editor.old.match', $stateParams, { reload: true })
-    productEditorService.clearProductList()
-    orderDataService.increaseIndex()
-  }
-
-  $scope.decreaseIndex = function () {
-    // $state.go('editor.old.match', $stateParams, { reload: true })
-    productEditorService.clearProductList()
-    orderDataService.decreaseIndex()
-  }
-
   $scope.deleteCurrentProduct = function () {
     orderDataService.deleteCurrentItem().then(function () {
       toastr.success('Product Deleted')
     }, function () {
       toastr.error('Somethign went wrong while trying to delete the Product')
     })
+  }
+
+  //
+  // INTERNAL FUNCTIONS
+  //
+  function setStoreUI () {
+    if ($stateParams.storeId) {
+      var storeId = parseInt($stateParams.storeId, 10)
+      $scope.storeUI = _.find(orderDataService.allStores, {storeId: storeId})
+    } else {
+      $scope.storeUI = {}
+    }
   }
 })

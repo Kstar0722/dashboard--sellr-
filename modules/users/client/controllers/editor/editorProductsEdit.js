@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsEditController', function ($scope, Authentication, $q, $http, productEditorService, $location, $state, $stateParams, Countries, orderDataService, $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce, globalClickEventName) {
+angular.module('core').controller('EditorProductsEditController', function ($scope, productEditorService, $state, $stateParams, Countries, ProductTypes, $analytics, $mdDialog) {
   //
   // DEFINITIONS
   //
@@ -6,10 +6,22 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   $scope.ProductTypes = ProductTypes
   $scope.Countries = Countries
   $scope.loading = true
-  productEditorService.setCurrentProduct($stateParams).then(function () {
-    $scope.loading = false
-  })
-
+  $scope.productTypeConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'productTypeId',
+    labelField: 'name'
+  }
+  $scope.countrySelectConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'name',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
+  }
   var genericDialogOptions = {
     templateUrl: '/modules/users/client/views/editor/confirmationDialog.html',
     autoWrap: true,
@@ -22,6 +34,16 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     fullscreen: true
   }
 
+  //
+  // INITIALIZATION
+  //
+  productEditorService.setCurrentProduct($stateParams).then(function () {
+    $scope.loading = false
+  })
+
+  //
+  // SCOPE FUNCTIONS
+  //
   $scope.showMarkAsDoneDialog = function (ev) {
     $scope.genericDialog = {}
     $scope.genericDialog.title = 'Submit for Approval'
@@ -74,34 +96,14 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     productEditorService.save(productEditorService.currentProduct)
   }
 
-  $scope.productTypeConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'productTypeId',
-    labelField: 'name'
-  }
-
-  $scope.countrySelectConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'name',
-    labelField: 'name',
-    sortField: 'name',
-    searchField: [ 'name' ]
-  }
-
   $scope.removeAudio = function () {
     var currentAudio = productEditorService.currentProduct.audio.mediaAssetId
     productEditorService.removeAudio(currentAudio)
   }
 
-  $(window).bind('keydown', handleShortcuts)
-  $scope.$on('$destroy', function () {
-    $(window).unbind('keydown', handleShortcuts)
-  })
-
+  //
+  // INTERNAL FUNCTIONS
+  //
   function handleShortcuts (event) {
     if (event.ctrlKey || event.metaKey) {
       switch (String.fromCharCode(event.which).toLowerCase()) {
@@ -115,4 +117,12 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
       }
     }
   }
+
+  //
+  // EVENTS
+  //
+  $(window).bind('keydown', handleShortcuts)
+  $scope.$on('$destroy', function () {
+    $(window).unbind('keydown', handleShortcuts)
+  })
 })

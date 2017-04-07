@@ -1,5 +1,4 @@
-/* globals angular, localStorage,jQuery,_ */
-angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes, $analytics) {
+angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes, $analytics, cfpLoadingBar) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -702,12 +701,13 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.viewNewProducts = function (limit) {
-    // This is to allow Controller to display their own custom loading animation
+    cfpLoadingBar.start()
     var defer = $q.defer()
     me.productList = $filter('limitTo')(me.newProducts, limit)
     $timeout(function () {
+      cfpLoadingBar.complete()
       defer.resolve()
-    }, 600)
+    }, 400)
     return defer.promise
   }
 

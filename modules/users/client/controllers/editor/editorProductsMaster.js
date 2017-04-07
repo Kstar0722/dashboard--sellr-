@@ -1,26 +1,17 @@
-angular.module('core').controller('EditorProductsMasterController', function ($scope, Authentication, $q, $http, productEditorService, $location, $state, $stateParams, Countries, orderDataService, $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce, globalClickEventName) {
+angular.module('core').controller('EditorProductsMasterController', function ($scope, Authentication, productEditorService, $state, orderDataService, mergeService, $rootScope, $timeout, cfpLoadingBar) {
   //
   // DEFINITIONS
   //
+  var localStorage = window.localStorage
+  var userId = localStorage.getItem('userId')
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.searchText = ''
-  $scope.selectedProducts = []
   $scope.ui.allProductsSelected = false
-  $scope.selectStoreFilterConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'storeId',
-    labelField: 'name',
-    sortField: 'name',
-    searchField: [ 'name' ]
-  }
+  $scope.selectedProducts = []
   $scope.pes = productEditorService
   $scope.newProductsLabel = 'New Products Available'
   $scope.newProductLimit = 0
-  var localStorage = window.localStorage
-  var userId = localStorage.getItem('userId')
   $scope.searchOptions = {}
   $scope.searchOptions.orderBy = '+name'
   $scope.searchOptions.searchLimit = 50
@@ -38,17 +29,21 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.searchOptions.wineTypeCheck = true
   $scope.searchOptions.beerTypeCheck = true
   $scope.searchOptions.spiritTypeCheck = true
-
+  $scope.selectStoreFilterConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'storeId',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
+  }
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
   }
-
   $scope.mediumEditorOptions = {
     imageDragging: false,
-    extensions: {
-      's3-image-uploader': new MediumS3ImageUploader()
-    },
     toolbar: {
       buttons: ['bold', 'italic', 'underline', 'strikethrough']
     },
@@ -79,12 +74,10 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   // SCOPE FUNCTIONS
   //
   $scope.searchProducts = function () {
-    //  Reset new products logic
     $scope.newProductsLabel = 'New Products Available'
     $scope.newProductLimit = 0
     $scope.ui.searchOptionsMenu = false
-
-    productEditorService.getProductList($scope.searchOptions.searchText, buildSearchOptions()).then(function (products) {})
+    productEditorService.getProductList($scope.searchOptions.searchText, buildSearchOptions()).then(function () {})
   }
 
   $scope.mergeProducts = function () {
@@ -142,14 +135,8 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
 
   $scope.loadNewProducts = function () {
     $scope.newProductsLabel = 'Load more new products'
-    $scope.loadingData = true
     $scope.newProductLimit += 100
-    // this is a hack to force angular to redraw the page
-    $timeout(function () {
-      productEditorService.viewNewProducts($scope.newProductLimit).then(function () {
-        $scope.loadingData = false
-      })
-    }, 0)
+    productEditorService.viewNewProducts($scope.newProductLimit)
   }
 
   $scope.openMenu = function (menu, index) {
@@ -187,9 +174,6 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
       p.selected = flag
     })
     $scope.ui.showProductsSelectedActions = $scope.selectedProducts.length > 0
-    if ($state.includes('editor.match')) {
-      orderDataService.storeSelected($scope.selectedProducts)
-    }
   }
 
   $scope.viewProduct = function (product) {
@@ -248,19 +232,10 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   //
   // EVENTS
   //
-
-  $rootScope.$on('clearProductList', function () {
+  var unregisterClearProductList = $rootScope.$on('clearProductList', function () {
     $scope.selectedProducts = []
   })
 
-  // var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
-  //   if (targetElement.className.indexOf('ignore-click-trigger') === -1) {
-  //     $scope.$apply(function () {
-  //       closeMenus()
-  //     })
-  //   }
-  // })
-
   // MANDATORY to prevent Leak
-  // $scope.$on('$destroy', unregisterGlobalClick)
+  $scope.$on('$destroy', unregisterClearProductList)
 })

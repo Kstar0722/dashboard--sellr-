@@ -1,11 +1,10 @@
-angular.module('core').controller('EditorProductsMergeController', function ($scope, Authentication, $q, $http, productEditorService, $location, $state, $stateParams, Countries, orderDataService, $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce, globalClickEventName) {
+angular.module('core').controller('EditorProductsMergeController', function ($scope, mergeService, productEditorService, ProductTypes) {
   //
   // DEFINITIONS
   //
   $scope.ui.display = 'mergeProduct'
   $scope.mergeService = mergeService
   $scope.ProductTypes = ProductTypes
-
   $scope.productTypeConfig = {
     create: false,
     maxItems: 1,
@@ -14,6 +13,13 @@ angular.module('core').controller('EditorProductsMergeController', function ($sc
     labelField: 'name'
   }
 
+  //
+  // INITIALIZATION
+  //
+
+  //
+  // SCOPE FUNCTIONS
+  //
   $scope.removeMergedImage = function (i) {
     mergeService.newProduct.images.splice(i, 1)
   }
@@ -50,11 +56,9 @@ angular.module('core').controller('EditorProductsMergeController', function ($sc
     })
   }
 
-  $(window).bind('keydown', handleShortcuts)
-  $scope.$on('$destroy', function () {
-    $(window).unbind('keydown', handleShortcuts)
-  })
-
+  //
+  // INTERNAL FUNCTIONS
+  //
   function handleShortcuts (event) {
     if (event.ctrlKey || event.metaKey) {
       switch (String.fromCharCode(event.which).toLowerCase()) {
@@ -65,4 +69,12 @@ angular.module('core').controller('EditorProductsMergeController', function ($sc
       }
     }
   }
+
+  //
+  // EVENTS
+  //
+  $(window).bind('keydown', handleShortcuts)
+  $scope.$on('$destroy', function () {
+    $(window).unbind('keydown', handleShortcuts)
+  })
 })
