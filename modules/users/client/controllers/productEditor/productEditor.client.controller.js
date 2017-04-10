@@ -1,10 +1,10 @@
 angular.module('core').controller('productEditorController', function ($scope, Authentication, $q, $http, productEditorService,
-  $location, $state, $stateParams, Countries, orderDataService,
-  $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce) {
+                                                                       $location, $state, $stateParams, Countries, orderDataService,
+                                                                       $mdMenu, constants, MediumS3ImageUploader, $filter, mergeService, $rootScope, $timeout, ProductTypes, cfpLoadingBar, $analytics, $mdDialog, $sce, categories) {
   // we should probably break this file into smaller files,
   // it's a catch-all for the entire productEditor
 
-  Authentication.user = Authentication.user || { roles: '' }
+  Authentication.user = Authentication.user || {roles: ''}
   $scope.$state = $state
   $scope.pes = productEditorService
   $scope.mergeService = mergeService
@@ -17,12 +17,13 @@ angular.module('core').controller('productEditorController', function ($scope, A
     template: ''
   }
   $scope.selectedStore = {}
-  $scope.allSelected = { value: false }
-  $scope.ui = { searchText: '' }
+  $scope.allSelected = {value: false}
+  $scope.ui = {searchText: ''}
   $scope.permissions = {
     editor: Authentication.user.roles.indexOf(1010) > -1 || Authentication.user.roles.indexOf(1004) > -1,
     curator: Authentication.user.roles.indexOf(1011) > -1 || Authentication.user.roles.indexOf(1004) > -1
   }
+  $scope.categories = categories
 
   $scope.mediumEditorOptions = {
     imageDragging: false,
@@ -34,9 +35,9 @@ angular.module('core').controller('productEditorController', function ($scope, A
   if ($stateParams.productId) {
     productEditorService.setCurrentProduct($stateParams)
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.view', { productId: $stateParams.productId, status: $stateParams.status })
+      $state.go('editor.match.view', {productId: $stateParams.productId, status: $stateParams.status})
     } else {
-      $state.go('editor.view', { productId: $stateParams.productId, status: $stateParams.status })
+      $state.go('editor.view', {productId: $stateParams.productId, status: $stateParams.status})
     }
   }
   $scope.search = {}
@@ -45,6 +46,9 @@ angular.module('core').controller('productEditorController', function ($scope, A
     beer: true,
     wine: true,
     spirit: true
+  }
+  $scope.newTag = {
+    value: ''
   }
   $scope.filter = [{'type': 1}, {'type': 2}, {'type': 3}]
 
@@ -91,13 +95,13 @@ angular.module('core').controller('productEditorController', function ($scope, A
     var i = _.findIndex(orderDataService.allStores, function (s) {
       return s.storeId === store.storeId
     })
-    return orderDataService.allStores[ i ].selected
+    return orderDataService.allStores[i].selected
   }
   $scope.toggleSearchStore = function (store) {
     var i = _.findIndex(orderDataService.allStores, function (s) {
       return s.storeId === store.storeId
     })
-    orderDataService.allStores[ i ].selected = !orderDataService.allStores[ i ].selected
+    orderDataService.allStores[i].selected = !orderDataService.allStores[i].selected
   }
 
   $scope.testSelectedStore = function () {
@@ -199,33 +203,32 @@ angular.module('core').controller('productEditorController', function ($scope, A
     productEditorService.setCurrentProduct(product)
 
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.match.view', {productId: product.productId, status: $stateParams.status})
     } else {
-      $state.go('editor.view', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.view', {productId: product.productId, status: $stateParams.status})
     }
   }
 
   $scope.getModalData = function () {
-    productEditorService.getProduct($scope.selected[ $scope.selected.length - 1 ])
+    productEditorService.getProduct($scope.selected[$scope.selected.length - 1])
       .then(function (response) {
-        $scope.modalData = response
-      }
-    )
+          $scope.modalData = response
+        })
   }
 
   $scope.quickEdit = function (product) {
     productEditorService.setCurrentProduct(product)
     if ($state.includes('editor.match')) {
-      $state.go('editor.match.edit', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.match.edit', {productId: product.productId, status: $stateParams.status})
     } else {
-      $state.go('editor.edit', { productId: product.productId, status: $stateParams.status })
+      $state.go('editor.edit', {productId: product.productId, status: $stateParams.status})
     }
   }
 
   $scope.updateFilter = function (value) {
     $scope.checked = false
     for (var i in $scope.filter) {
-      if ($scope.filter[ i ].type === value.type) {
+      if ($scope.filter[i].type === value.type) {
         $scope.filter.splice(i, 1)
         $scope.checked = true
       }
@@ -236,7 +239,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
   }
 
   $scope.submitForApproval = function (product) {
-    $analytics.eventTrack('Product Submitted', { productId: product.productId, user: Authentication.user.displayName })
+    $analytics.eventTrack('Product Submitted', {productId: product.productId, user: Authentication.user.displayName})
     product.status = 'done'
     var options = {
       userId: $scope.userId,
@@ -273,7 +276,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
       date: new Date()
     }
     productEditorService.updateFeedback(feedback).then(function () {
-      var productItem = _.find(productEditorService.productList, { productId: product.productId }) || {}
+      var productItem = _.find(productEditorService.productList, {productId: product.productId}) || {}
       product.status = productItem.status = 'new'
       product.feedback = product.feedback || []
       product.feedback.push(feedback)
@@ -289,13 +292,13 @@ angular.module('core').controller('productEditorController', function ($scope, A
   }
 
   $scope.approveProduct = function (product) {
-    $analytics.eventTrack('Approved Product', { productId: product.productId })
+    $analytics.eventTrack('Approved Product', {productId: product.productId})
     product.status = 'approved'
     productEditorService.save(product)
   }
 
   $scope.save = function (product) {
-    $analytics.eventTrack('Product Saved', { productId: product.productId })
+    $analytics.eventTrack('Product Saved', {productId: product.productId})
     product.status = 'inprogress'
     productEditorService.save(product)
   }
@@ -321,7 +324,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
     product.status = 'deleted'
     productEditorService.save(product).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.view', { productId: product.productId, status: $stateParams.status })
+        $state.go('editor.match.view', {productId: product.productId, status: $stateParams.status})
       } else {
         $state.go('editor.view', {productId: product.productId})
       }
@@ -373,7 +376,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
     cfpLoadingBar.start()
     mergeService.merge($scope.selected).then(function () {
       if ($state.includes('editor.match')) {
-        $state.go('editor.match.merge', $stateParams, { reload: true })
+        $state.go('editor.match.merge', $stateParams, {reload: true})
         $scope.selected = []
       } else {
         $state.go('editor.merge')
@@ -384,10 +387,10 @@ angular.module('core').controller('productEditorController', function ($scope, A
   }
 
   $scope.uploadNewImageFromMerge = function (file) {
-    productEditorService.setCurrentProduct(mergeService.products[ 0 ]).then(function () {
+    productEditorService.setCurrentProduct(mergeService.products[0]).then(function () {
       productEditorService.uploadMedia(file).then(function () {
-        productEditorService.getProductDetail(mergeService.products[ 0 ]).then(function (response) {
-          var refreshedProduct = response.data[ 0 ]
+        productEditorService.getProductDetail(mergeService.products[0]).then(function (response) {
+          var refreshedProduct = response.data[0]
           mergeService.refreshProductImage(_.last(refreshedProduct.mediaAssets))
         })
       })
@@ -400,10 +403,10 @@ angular.module('core').controller('productEditorController', function ($scope, A
 
   $scope.playMergedAudio = function (i) {
     for (var a = 0; a < mergeService.newProduct.audio.length; a++) {
-      mergeService.newProduct.audio[ a ].pause()
-      mergeService.newProduct.audio[ a ].currentTime = 0
+      mergeService.newProduct.audio[a].pause()
+      mergeService.newProduct.audio[a].currentTime = 0
       if (a === i) {
-        mergeService.newProduct.audio[ i ].play()
+        mergeService.newProduct.audio[i].play()
       }
     }
   }
@@ -415,7 +418,7 @@ angular.module('core').controller('productEditorController', function ($scope, A
   }
 
   $scope.removeMergedAudio = function (i) {
-    mergeService.newProduct.audio[ i ].pause()
+    mergeService.newProduct.audio[i].pause()
     mergeService.newProduct.audio.splice(i, 1)
   }
 
@@ -469,8 +472,16 @@ angular.module('core').controller('productEditorController', function ($scope, A
   })
   $rootScope.$on('searchdb', function () {
     console.log('clearing search text')
-    $state.go('editor.match', $stateParams, { reload: true })
+    $state.go('editor.match', $stateParams, {reload: true})
   })
+
+  $scope.addTag = function (newTag) {
+    productEditorService.currentProduct = categories.addTag(productEditorService.currentProduct, newTag)
+    $scope.newTag.value = ''
+  }
+  $scope.removeTag = function (i) {
+    productEditorService.currentProduct = categories.removeTag(productEditorService.currentProduct, i)
+  }
 
   function removeItem (arr, item) {
     var idx = _.indexOf(arr, item)
@@ -491,7 +502,13 @@ angular.module('core').controller('productEditorController', function ($scope, A
       $scope.listOptions.searchInName = true
     }
     inColumns = encodeURIComponent(inColumns)
-    var options = { status: $scope.checkbox.progress, types: $scope.filter, filter: $scope.listOptions, inColumns: inColumns, ignoreLoadingBar: true }
+    var options = {
+      status: $scope.checkbox.progress,
+      types: $scope.filter,
+      filter: $scope.listOptions,
+      inColumns: inColumns,
+      ignoreLoadingBar: true
+    }
     if ($scope.selectedStore.storeId) {
       options.store = $scope.selectedStore
     }

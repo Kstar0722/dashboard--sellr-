@@ -1,5 +1,6 @@
 /* globals angular, localStorage,jQuery,_ */
-angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter) {
+angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication,
+                                                                 $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, categories) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -24,15 +25,15 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.init = function () {
-    me.productTypes = [ { name: 'wine', productTypeId: 1 }, { name: 'beer', productTypeId: 2 }, {
+    me.productTypes = [{name: 'wine', productTypeId: 1}, {name: 'beer', productTypeId: 2}, {
       name: 'spirits',
       productTypeId: 3
-    } ]
+    }]
     me.productStatuses = [
-      { name: 'Available', value: 'new' },
-      { name: 'In Progress', value: 'inprogress' },
-      { name: 'Done', value: 'done' },
-      { name: 'Approved', value: 'approved' }
+      {name: 'Available', value: 'new'},
+      {name: 'In Progress', value: 'inprogress'},
+      {name: 'Done', value: 'done'},
+      {name: 'Approved', value: 'approved'}
     ]
     me.productStorage = {}
     me.productStats = {}
@@ -52,7 +53,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.getProductList = function (searchText, options) {
-    options = options || { filter: {} }
+    options = options || {filter: {}}
 
     me.show.loading = true
     me.productList = []
@@ -107,7 +108,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var params = {}
     if (options.types) {
       for (var i in options.types) {
-        url += '&type=' + options.types[ i ].type
+        url += '&type=' + options.types[i].type
       }
     }
     if (options.name) {
@@ -162,7 +163,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       defer.reject(err)
     })
     return defer.promise
-  };
+  }
 
   // send in type,status,userid, get back list of products
   me.getMyProducts = function (options) {
@@ -196,26 +197,26 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   me.getProduct = function (product) {
     var defer = $q.defer()
     if (!product.productId) {
-      defer.reject({ message: 'no product Id' })
+      defer.reject({message: 'no product Id'})
     }
-    if (me.productStorage[ product.productId ]) {
+    if (me.productStorage[product.productId]) {
       //  use cached product if exists
-      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
-      defer.resolve(me.productStorage[ product.productId ])
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[product.productId])
+      defer.resolve(me.productStorage[product.productId])
     } else {
       //  get from api and format
       me.getProductDetail(product).then(function (res) {
         if (res.data.length > 0) {
-          me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+          me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
             log('formattedProduct', formattedProduct)
             // store product for faster load next time
-            me.productStorage[ product.productId ] = formattedProduct
+            me.productStorage[product.productId] = formattedProduct
             //  cache current product for comparison
             cachedProduct = jQuery.extend(true, {}, formattedProduct)
             defer.resolve(formattedProduct)
           })
         } else {
-          var error = { message: 'Could not get product detail for ' + product.name }
+          var error = {message: 'Could not get product detail for ' + product.name}
           toastr.error(error.message)
           defer.reject(error)
         }
@@ -308,16 +309,19 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       toastr.error('There was a problem saving this product. Please sign out and sign in again.')
       return
     }
+    product = compareToCachedProduct(product)
+    product = categories.setProductCategory(product)
+    product = categories.setProductTags(product)
     var payload = {
-      payload: compareToCachedProduct(product)
+      payload: product
     }
     var url = constants.BWS_API + '/edit/products/' + product.productId
     $http.put(url, payload).then(onSaveSuccess, onSaveError)
     function onSaveSuccess (response) {
       window.scrollTo(0, 0)
       // socket.emit('product-saved')
-      me.productStorage[ product.productId ] = product
-      cachedProduct = jQuery.extend(true, {}, me.productStorage[ product.productId ])
+      me.productStorage[product.productId] = product
+      cachedProduct = jQuery.extend(true, {}, me.productStorage[product.productId])
       toastr.success('Product Updated!')
       defer.resolve()
     }
@@ -423,6 +427,8 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           break
       }
     })
+    product = categories.getProductTags(product)
+    product = categories.getProductCategory(product)
     if (product.description && !product.description.match(/[<>]/)) {
       product.description = '<p>' + product.description + '</p>'
     }
@@ -444,7 +450,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       accountId: localStorage.getItem('accountId'),
       productId: me.currentProduct.productId
     }
-    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+    uploadService.upload(files[0], mediaConfig).then(function (response, err) {
       if (response) {
         toastr.success('Product Image Updated!')
         me.save(me.currentProduct).then(function (err, response) {
@@ -471,7 +477,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       productId: me.currentProduct.productId
     }
     // log('product config %0', files)
-    uploadService.upload(files[ 0 ], mediaConfig).then(function (response, err) {
+    uploadService.upload(files[0], mediaConfig).then(function (response, err) {
       if (response) {
         toastr.success('Product Audio Updated!')
 
@@ -525,19 +531,25 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     }
     if (prod.properties) {
       for (var i = 0; i < prod.properties.length; i++) {
-        var updated = prod.properties[ i ]
-        var cached = cachedProduct.properties[ i ]
-
-        if (updated.value !== cached.value) {
-          if (!cached.valueId) {
-            updated.changed = 'new'
-            me.changes.push('Added ' + updated.label + ' as ' + updated.value)
-          } else {
-            updated.changed = 'update'
-            me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+        var updated = prod.properties[i]
+        var cached = cachedProduct.properties[i]
+        if (cached) {
+          if (!updated.changed) {
+            if (updated.value !== cached.value) {
+              if (!cached.valueId) {
+                updated.changed = 'new'
+                me.changes.push('Added ' + updated.label + ' as ' + updated.value)
+              } else {
+                updated.changed = 'update'
+                me.changes.push('Updated ' + updated.label + '. Changed ' + '"' + cached.value + '"' + ' to ' + '"' + updated.value + '"')
+              }
+            } else {
+              updated.changed = 'false'
+            }
           }
         } else {
-          updated.changed = 'false'
+          // new property
+          updated.changed = 'new'
         }
       }
       log('changes added', prod)
@@ -550,7 +562,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   function refreshProduct (product) {
     me.getProductDetail(product).then(function (res) {
       if (res.data.length > 0) {
-        me.formatProductDetail(res.data[ 0 ]).then(function (formattedProduct) {
+        me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
           log('formattedProduct', formattedProduct)
           me.currentProduct = formattedProduct
 
@@ -558,7 +570,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           cachedProduct = jQuery.extend(true, {}, formattedProduct)
 
           // store product for faster load next time
-          me.productStorage[ product.productId ] = formattedProduct
+          me.productStorage[product.productId] = formattedProduct
         })
       } else {
         toastr.error('Could not get product detail for ' + product.name)
@@ -616,8 +628,8 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         me.productList = options.productList || []
         console.log('I have to query %s names', me.remainingQueries)
         for (var i in skuResult.data) {
-          me.productList = me.productList.concat(skuResult.data[ i ])
-          if (skuResult.data[ i ].name.toLowerCase() === 'na') {
+          me.productList = me.productList.concat(skuResult.data[i])
+          if (skuResult.data[i].name.toLowerCase() === 'na') {
             me.remainingQueries--
             console.log('skipping na results')
             if (me.remainingQueries <= 0) {
@@ -625,7 +637,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
               defer.resolve(me.productList)
             }
           } else {
-            var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&name=' + skuResult.data[ i ].name
+            var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&name=' + skuResult.data[i].name
             $http.get(url).then(function (results2) {
               me.productList = me.productList.concat(results2.data)
               me.productList = _.uniq(me.productList, function (p) {
@@ -679,7 +691,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       productId: product.productId,
       sku: sku
     }
-    return $http.delete(constants.BWS_API + '/edit/sku', { params: params }).then(function (res) {
+    return $http.delete(constants.BWS_API + '/edit/sku', {params: params}).then(function (res) {
       _.removeItem(me.currentProduct.skus, sku)
       toastr.success('UPC ' + sku + ' removed')
     }).catch(function (err) {
