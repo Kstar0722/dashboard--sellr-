@@ -166,10 +166,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/editor/editorStoreManagement.html',
         controller: 'EditorStoreManagementController'
       })
-      .state('editor.productHistory', {
-        url: '/productHistory',
-        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
-        controller: 'ProductHistoryController'
+      .state('editor.history', {
+        url: '/history',
+        templateUrl: 'modules/users/client/views/editor/productHistory.html',
+        controller: 'EditorProductHistoryController'
       })
       .state('editor.products', {
         url: '/products',

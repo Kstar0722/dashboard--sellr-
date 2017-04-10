@@ -1,0 +1,55 @@
+<div class="editor-products-history-view">
+  <div class="left-side-content full">
+    <div class="main-table">
+      <!--
+      FILTER HEADER
+      -->
+      <div class="filter-header">
+        <div>
+          <div class="common-field-title">Products Count: <span ng-bind="ui.filteredResults.length"></span></div>
+          <div class="common-btn-gray" ng-click="loadMoreHandler()">Load more items ...</div>
+        </div>
+        <div class="text-filter">
+          <div class="common-field-title">Filter Results by:</div>
+          <input type="text" class="common-input" name="name" ng-model="ui.textFilter">
+        </div>
+        <div class="buttons-filter">
+          <div ng-class="['btn-date-filter', {active: todayBtn}]" ng-click="filterDate('today')">Today</div>
+          <div ng-class="['btn-date-filter', {active: yesterdayBtn}]" ng-click="filterDate('yesterday')">Yesterday</div>
+          <div ng-class="['btn-date-filter', {active: weekBtn}]" ng-click="filterDate('week')">This week</div>
+          <div ng-class="['btn-date-filter', {active: monthBtn}]" ng-click="filterDate('month')">Last month</div>
+        </div>
+        <div class="date-filter">
+          <div class="start-date">
+            <div class="common-field-title">Custom Start Date:</div>
+            <md-datepicker class="custom-md-datepicker" ng-model="ui.startDateInput" md-placeholder="Start date" ng-change="customRangeHandler()" md-open-on-focus></md-datepicker>
+          </div>
+          <div>
+            <div class="common-field-title">Custom End Date:</div>
+            <md-datepicker class="custom-md-datepicker" ng-model="ui.endDateInput" md-placeholder="End date" ng-change="customRangeHandler()" md-open-on-focus></md-datepicker>
+          </div>
+        </div>
+      </div>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div class="product-id-col" ng-click="reOrderList('productId')"><span>Product Id</span> <i class="fa fa-sort"></i></div>
+        <div class="user-id-col" ng-click="reOrderList('userId')"><span>User Id</span> <i class="fa fa-sort"></i></div>
+        <div class="user-col" ng-click="reOrderList('userName')"><span>User</span> <i class="fa fa-sort"></i></div>
+        <div class="email-col" ng-click="reOrderList('email')"><span>Email</span> <i class="fa fa-sort"></i></div>
+        <div class="date-col" ng-click="reOrderList('lastedit')"><span>Date</span> <i class="fa fa-sort"></i></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data" ng-repeat="rowData in (ui.filteredResults = (ui.dataShown | filter:ui.textFilter)) | orderBy:ui.sortExpression track by rowData.productId">
+        <div ui-sref="editor.products.view({productId: rowData.productId})" class="product-id-col" ng-bind-html="rowData.productId | highlight:ui.textFilter" ng-click="viewProduct(rowData.productId)"></div>
+        <div class="user-id-col" ng-bind-html="rowData.userId | highlight:ui.textFilter"></div>
+        <div class="user-col" ng-bind-html="rowData.userName | highlight:ui.textFilter"></div>
+        <div class="email-col" ng-bind-html="rowData.email | highlight:ui.textFilter"></div>
+        <div class="date-col" ng-bind="rowData.dateUI"></div>
+      </div>
+    </div>
+  </div>
+</div>
