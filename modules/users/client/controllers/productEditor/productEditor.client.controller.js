@@ -212,8 +212,8 @@ angular.module('core').controller('productEditorController', function ($scope, A
   $scope.getModalData = function () {
     productEditorService.getProduct($scope.selected[$scope.selected.length - 1])
       .then(function (response) {
-          $scope.modalData = response
-        })
+        $scope.modalData = response
+      })
   }
 
   $scope.quickEdit = function (product) {
