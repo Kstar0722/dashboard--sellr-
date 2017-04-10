@@ -175,6 +175,27 @@
     font-size: 20px;
     margin: 10px 0;
   }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    .tag-button {
+      margin: 1%;
+      border: 2px solid #00bc58;
+      border-radius: 20px;
+      padding: 4px;
+      background: #00bc58;
+      color: white;
+      .tag-value {
+        padding-right: 10px;
+      }
+      .tag-delete {
+        background: transparent;
+        border: none;
+      }
+    }
+
+  }
 }
 
 body.editor-products-detail {

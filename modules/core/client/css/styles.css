@@ -2057,6 +2057,25 @@ section.userList .invite {
   font-size: 20px;
   margin: 10px 0;
 }
+.productEditor .tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+}
+.productEditor .tag-cloud .tag-button {
+  margin: 1%;
+  border: 2px solid #00bc58;
+  border-radius: 20px;
+  padding: 4px;
+  background: #00bc58;
+  color: white;
+}
+.productEditor .tag-cloud .tag-button .tag-value {
+  padding-right: 10px;
+}
+.productEditor .tag-cloud .tag-button .tag-delete {
+  background: transparent;
+  border: none;
+}
 body.editor-products-detail .medium-editor-toolbar {
   margin-top: -220px;
 }
