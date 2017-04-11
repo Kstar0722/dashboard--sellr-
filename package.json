@@ -127,6 +127,7 @@
       "angular",
       "_",
       "$",
+      "jQuery",
       "moment",
       "alert",
       "AWS",

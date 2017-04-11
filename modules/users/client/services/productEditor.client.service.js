@@ -1,4 +1,4 @@
-angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes, $analytics, cfpLoadingBar) {
+angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes, $analytics, cfpLoadingBar, categories) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
