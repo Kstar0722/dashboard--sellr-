@@ -1,83 +1,95 @@
 <div class="main-col container-fluid" ng-show="pes.currentProduct.name.length>0">
-    <div class="row">
-        <div class="pull-left">
-            <button class="btn btn-info btn-sm fa fa-pencil" ng-click="quickEdit(pes.currentProduct)">Edit This
-            Product
-            </button>
-        </div>
-        <div class="pull-right">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-info" ng-if="pes.currentProduct.status != 'new'"
-                ng-click="markAsNew(pes.currentProduct)">Mark as New</button>
-                <button class="btn btn-warning" type="button"
+  <div class="row">
+    <div class="pull-left">
+      <button class="btn btn-info btn-sm fa fa-pencil" ng-click="quickEdit(pes.currentProduct)">Edit This
+        Product
+      </button>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-info" ng-if="pes.currentProduct.status != 'new'"
+                ng-click="markAsNew(pes.currentProduct)">Mark as New
+        </button>
+        <button class="btn btn-warning" type="button"
                 ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'"
                 data-toggle="modal"
                 data-target="#submitforapproval">Mark as Done
-                </button>
-            </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
+      <div class="submitted-by" ng-if="pes.currentProduct.status === 'done'">Submitted by <strong><i>{{pes.currentProduct.displayName}}</i></strong>
+        on <strong><i>{{pes.currentProduct.submittedFormatedDate}}</i></strong></div>
+      <div class="text-danger" ng-if="pes.currentProduct.status === 'deleted'">This product has been deleted. Edit the
+        product to set it back to inprogress status.
+      </div>
+      <div>Product Id {{ pes.currentProduct.productId }}</div>
+      <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
+      <div>Requested by: {{pes.currentProduct.requestedBy}}</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+  </div>
+  <div ng-show="pes.currentProduct.feedback && pes.currentProduct.feedback.length>0">
+    <hr>
+    <div class="feedback alert alert-info" role="alert"
+         ng-show="display.feedback  && pes.currentProduct.feedback !== 0">
+      <h4>Product Feedback:</h4>
+      <div ng-repeat="feedback in pes.currentProduct.feedback" layout="row">
+        <span>{{ feedback.issue }} - </span>
+        <span>{{ feedback.comments }} - </span>
+        <span>{{feedback.date|date}}</span>
+        <button class="btn delete" ng-click="deleteFeedback(feedback)" ng-disabled="feedback.deleting">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
+    </div>
+    <button class="btn btn-small" ng-show="!display.feedback" ng-click="display.feedback=true">Show
+      Feedback
+    </button>
+  </div>
+  <hr>
+  <form role="form">
+    <div class="row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div class="form-group">
+          <label>Title</label>
+          <span name="title" id="title" size="50" maxlength="100">{{ pes.currentProduct.name }}</span>
         </div>
+      </div>
     </div>
     <div class="row">
-        <div class="col-md-9">
-            <h4><i>Viewing:</i> {{ pes.currentProduct.name }} </h4>
-            <div class="submitted-by" ng-if="pes.currentProduct.status === 'done'">Submitted by <strong><i>{{pes.currentProduct.displayName}}</i></strong> on <strong><i>{{pes.currentProduct.submittedFormatedDate}}</i></strong></div>
-            <div class="text-danger" ng-if="pes.currentProduct.status === 'deleted'">This product has been deleted. Edit the product to set it back to inprogress status.</div>
-            <div>Product Id {{ pes.currentProduct.productId }}</div>
-            <div ng-repeat="sku in pes.currentProduct.skus">UPC: {{ sku }}</div>
-            <div>Requested by: {{pes.currentProduct.requestedBy}}</div>
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div class="form-group">
+          <label>Category</label>
+          <span name="title" id="category">{{ pes.currentProduct.category }}</span>
         </div>
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+      </div>
     </div>
-    <div ng-show="pes.currentProduct.feedback && pes.currentProduct.feedback.length>0">
-        <hr>
-        <div class="feedback alert alert-info" role="alert"
-            ng-show="display.feedback  && pes.currentProduct.feedback !== 0">
-            <h4>Product Feedback:</h4>
-            <div ng-repeat="feedback in pes.currentProduct.feedback" layout="row">
-                <span>{{ feedback.issue }} - </span>
-                <span>{{ feedback.comments }} - </span>
-                <span>{{feedback.date|date}}</span>
-                <button class="btn delete" ng-click="deleteFeedback(feedback)" ng-disabled="feedback.deleting">
-                <i class="fa fa-times"></i>
-                </button>
-            </div>
-            <button class="btn btn-small" ng-click="display.feedback=false">Hide</button>
-        </div>
-        <button class="btn btn-small" ng-show="!display.feedback" ng-click="display.feedback=true">Show
-        Feedback
+    <div layout="row" layout-align="space-between">
+      <label>Audio:</label>
+      <div layout="row" ng-show="pes.currentProduct.audio">
+        <button class="btn btn-success" ng-click="playAudio()"><i class="fa fa-play"></i>Play</button>
+        <button class="btn btn-info" ng-click="pauseAudio()"><i class="fa fa-pause"></i>Pause</button>
+        <button class="btn btn-danger" ng-click="removeAudio()"><i class="fa fa-trash"></i>Remove
         </button>
+      </div>
     </div>
-    <hr>
-    <form role="form">
-        <div class="row">
-            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                <div class="form-group">
-                    <label>Title</label>
-                    <span name="title" id="title" size="50" maxlength="100">{{ pes.currentProduct.name }}</span>
-                </div>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-between">
-            <label>Audio:</label>
-            <div layout="row" ng-show="pes.currentProduct.audio">
-                <button class="btn btn-success" ng-click="playAudio()"><i class="fa fa-play"></i>Play</button>
-                <button class="btn btn-info" ng-click="pauseAudio()"><i class="fa fa-pause"></i>Pause</button>
-                <button class="btn btn-danger" ng-click="removeAudio()"><i class="fa fa-trash"></i>Remove
-                </button>
-            </div>
-        </div>
-        <h4 ng-show="pes.currentProduct.hasImages">Product Images:</h4>
-        <div layout="row" layout-align="space-between center">
-            <div layout="column" ng-repeat="image in pes.currentProduct.images">
-                <a ng-href="{{ image.publicUrl }}" target="_blank">
-                <img ng-src="{{image.publicUrl}}" class="product-image"></a>
-            </div>
-        </div>
-        <h4 ng-show="pes.currentProduct.researchImages.length>0">Research Images:</h4>
-        <div layout="row">
-            <div layout="column" ng-repeat="researchImage in pes.currentProduct.researchImages">
-                <!--insert image from upload-->
-                <a ng-href="{{ researchImage.publicUrl }}" target="_blank"><img
+    <h4 ng-show="pes.currentProduct.hasImages">Product Images:</h4>
+    <div layout="row" layout-align="space-between center">
+      <div layout="column" ng-repeat="image in pes.currentProduct.images">
+        <a ng-href="{{ image.publicUrl }}" target="_blank">
+          <img ng-src="{{image.publicUrl}}" class="product-image"></a>
+      </div>
+    </div>
+    <h4 ng-show="pes.currentProduct.researchImages.length>0">Research Images:</h4>
+    <div layout="row">
+      <div layout="column" ng-repeat="researchImage in pes.currentProduct.researchImages">
+        <!--insert image from upload-->
+        <a ng-href="{{ researchImage.publicUrl }}" target="_blank"><img
                 ng-src="{{researchImage.publicUrl}}" class="product-image"></a>
             </div>
         </div>
@@ -93,7 +105,7 @@
             <label>Research Notes</label>
             <div name="beer_research_notes" id="beer_research_notes">{{ pes.currentProduct.notes }}</div>
         </div>
-        <div class="form-group">
+    <div class="form-group">
             <label>Brand Verified:</label>
             <span><img ng-src="/img/verified.svg" class="verified-icon" ng-if="pes.currentProduct.verified" /> {{pes.currentProduct.verified ? 'Yes' : 'No'}}</span>
         </div>

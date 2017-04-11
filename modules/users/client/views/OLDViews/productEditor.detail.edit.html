@@ -20,7 +20,7 @@
             <div ng-repeat="sku in pes.currentProduct.skus">
                 <span>UPC: {{ sku }}</span>
                 <md-button type="button" class="md-icon-button remove" ng-if="permissions.curator" ng-click="confirmDeleteProductSKU($event, pes.currentProduct, sku)" aria-label="Delete product SKU">
-                <i class="fa fa-times"></i>
+                    <i class="fa fa-times"></i>
                 </md-button>
             </div>
             <div style="color:green" ng-repeat="change in pes.changes" ng-show="pes.changes.length>0">{{ change }}</div>
@@ -52,7 +52,49 @@
                 <div class="form-group">
                     <label>Title</label>
                     <input class="form-control" type="text" name="title" id="title" size="50" maxlength="100" ng-model="pes.currentProduct.name">
-                </div>
+                </div></div>
+    </div>
+    <div class="row product-type-box" ng-if="permissions.curator">
+      <div class="col-md-12">
+        <div><label>Product Type</label></div>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 1)"
+                  ng-disabled="pes.currentProduct.productTypeId === 1"
+                  ng-bind="pes.currentProduct.productTypeId === 1 ? 'Wine' : 'Mark as Wine'"></button>
+          <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 2)"
+                  ng-disabled="pes.currentProduct.productTypeId === 2"
+                  ng-bind="pes.currentProduct.productTypeId === 2 ? 'Beer' : 'Mark as Beer'"></button>
+          <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 3)"
+                  ng-disabled="pes.currentProduct.productTypeId === 3"
+                  ng-bind="pes.currentProduct.productTypeId === 3 ? 'Spirit' : 'Mark as Spirit'"></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div class="form-group">
+          <label>Category</label>
+          <select ng-model="pes.currentProduct.category">
+            <option ng-repeat="category in categories.categories[pes.currentProduct.productTypeId]"
+                    value="{{ category }}">{{ category }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div class="form-group">
+          <label>Tags</label>
+          <input ng-model="newTag.value" />
+          <button class="btn btn-small btn-info" ng-click="addTag(newTag.value)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="tag-cloud">
+      <div ng-repeat="tag in pes.currentProduct.tags" class="tag-button">
+        <span class="tag-value">{{ tag.value }}</span>
+        <button class="tag-delete" ng-click="removeTag($index)">x</button>
             </div>
         </div>
         <div layout="row" layout-align="space-between">
@@ -101,22 +143,13 @@
             <label>Research Notes</label>
             <textarea class="form-control" rows="3" ng-model="pes.currentProduct.notes"></textarea>
         </div>
-        <div class="form-group">
+    <div class="form-group">
             <label>Brand Verified</label>
             <i class="fa fa-check common-fa cus-checkbox" ng-show="pes.currentProduct.verified === 1" ng-click="pes.currentProduct.verified = 0"></i>
             <i class="fa fa-times common-fa cus-checkbox" ng-show="pes.currentProduct.verified === 0" ng-click="pes.currentProduct.verified = 1"></i>
         </div>
     </form>
-    <div class="row product-type-box" ng-if="permissions.curator">
-        <div class="col-md-12">
-            <div><label>Product Type</label></div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 1)" ng-disabled="pes.currentProduct.productTypeId === 1" ng-bind="pes.currentProduct.productTypeId === 1 ? 'Wine' : 'Mark as Wine'"></button>
-                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 2)" ng-disabled="pes.currentProduct.productTypeId === 2" ng-bind="pes.currentProduct.productTypeId === 2 ? 'Beer' : 'Mark as Beer'"></button>
-                <button type="button" class="btn btn-info" ng-click="changeType(pes.currentProduct, 3)" ng-disabled="pes.currentProduct.productTypeId === 3" ng-bind="pes.currentProduct.productTypeId === 3 ? 'Spirit' : 'Mark as Spirit'"></button>
-            </div>
-        </div>
-    </div>
+
     <!-- Send Back MODAL -->
     <div class="modal" id="sendback" ng-show="permissions.curator">
         <div class="modal-dialog">
