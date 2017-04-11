@@ -7695,3 +7695,44 @@ body.websiteBuilder #loading-bar-spinner {
 .custom-md-datepicker .md-datepicker-input:-ms-input-placeholder {
   color: #a1a7af;
 }
+.store-owner-reports-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  color: #354052;
+  position: relative;
+}
+.store-owner-reports-view .top-bar {
+  background-color: #fff;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.store-owner-reports-view .top-bar .date-filter {
+  width: 60%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.store-owner-reports-view .top-bar .date-filter .fa-minus {
+  margin-right: 15px;
+  color: #7383a1;
+  font-size: 10px;
+}
+.store-owner-reports-view .top-bar .date-filter .common-btn-gray {
+  margin-right: 15px;
+}
+.store-owner-reports-view .top-bar .date-filter .common-btn-gray:last-child {
+  margin-right: 0px;
+}
+.store-owner-reports-view .top-bar .date-filter .common-btn-gray.active {
+  background-image: linear-gradient(to bottom, #2ea77a, #32a279);
+  border-color: #2bbf88;
+  color: #fff;
+}
+.store-owner-reports-view .main-content {
+  padding: 30px 3vw 10vh 3vw;
+}

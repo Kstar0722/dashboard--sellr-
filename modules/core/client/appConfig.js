@@ -64,8 +64,12 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
     })
 
     // ROUTES START
+    // ROUTES START
+    // ROUTES START
     $stateProvider
+      //
       // GENERAL ROUTES
+      //
       .state('home', {
         url: '/',
         templateUrl: 'modules/core/client/views/home.client.view.html',
@@ -95,10 +99,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           ignoreState: true
         },
         public: true
-      })
-      .state('dashboard', {
-        url: '/dashboard/:accountId?',
-        templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
       })
       .state('editProfile', {
         url: '/profile',
@@ -242,73 +242,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
-      // .state('editor.old', {
-      //   url: '/old',
-      //   templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
-      //   data: {
-      //     roles: [ 1010, 1011, 1004 ]
-      //   }
-      // })
-      // .state('editor.old.products', {
-      //   url: '/products',
-      //   views: {
-      //     'detail': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
-      //     }
-      //   }
-      // })
-      // .state('editor.old.view', {
-      //   url: '/view/:productId',
-      //   views: {
-      //     'detail': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-      //     }
-      //   }
-      // })
-      // .state('editor.old.edit', {
-      //   url: '/edit/:productId',
-      //   views: {
-      //     'detail': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-      //     }
-      //   }
-      // })
-      // .state('editor.old.merge', {
-      //   url: '/merge',
-      //   views: {
-      //     'detail': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-      //     }
-      //   }
-      // })
-      // .state('editor.old.match', {
-      //   url: '/match/:id?status',
-      //   views: {
-      //     'detail': {
-      //       templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
-      //     }
-      //   },
-      //   params: {
-      //     status: null
-      //   }
-      // })
-      // .state('editor.old.match.view', {
-      //   url: '/view/:productId',
-      //   views: {
-      //     'rightSide': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
-      //     }
-      //   }
-      // })
-      // .state('editor.old.match.edit', {
-      //   url: '/edit/:productId',
-      //   views: {
-      //     'rightSide': {
-      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
-      //     }
-      //   }
-      // })
-      // })
       //
       // MANAGER ROUTES
       //
@@ -361,7 +294,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       //
       .state('storeOwner', {
         abstract: true,
-        url: '',
+        url: '/storeOwner',
         template: '<ui-view/>',
         data: {
           roles: [ 1009, 1002, 1004 ]
@@ -376,6 +309,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/orders/:accountId?',
         templateUrl: 'modules/users/client/views/storeOwner/orders.client.view.html',
         controller: 'StoreOwnerOrdersController'
+      })
+      .state('storeOwner.reports', {
+        url: '/reports/:accountId?',
+        templateUrl: 'modules/users/client/views/storeOwner/reports.html',
+        controller: 'StoreOwnerReportsController'
       })
       //
       // SUPPLIER ROUTES

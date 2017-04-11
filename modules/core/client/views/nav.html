@@ -6,7 +6,7 @@
         <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="ui.shouldRenderSupplierItem" ui-sref="supplier.media">Supplier</li>
         <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
         <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="editor.storeManagement">Product Editor</li>
-        <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="ui.shouldRenderOwnerItem" ui-sref="dashboard">Store Owner</li>
+        <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="ui.shouldRenderOwnerItem" ui-sref="storeOwner.reports">Store Owner</li>
       </ul>
     </div>
     <div class="right-side">
@@ -41,12 +41,12 @@
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="storeOwner.inviteUser">Invite User</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="manager.stores">Stores Manager</li>
         <!-- STORE OWNER -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="dashboard">Stats</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Account</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports">Reports</li>
       </ul>
     </div>
     <div class="right-side">

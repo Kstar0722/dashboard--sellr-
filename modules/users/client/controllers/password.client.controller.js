@@ -55,7 +55,7 @@ angular.module('core').controller('PasswordController', [ '$scope', '$stateParam
           localStorage.setItem('userObject', JSON.stringify(response.data))
           $scope.authentication.user = response.data
 
-          $state.go('dashboard', $state.previous.params)
+          $state.go('storeOwner.reports', $state.previous.params)
         })
       })
     }

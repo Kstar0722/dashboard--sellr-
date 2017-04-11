@@ -101,7 +101,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
         $state.go('editor.storeManagement')
       }
     } else {
-      $state.go('dashboard', $state.previous.params)
+      $state.go('storeOwner.reports', $state.previous.params)
     }
   }
 
