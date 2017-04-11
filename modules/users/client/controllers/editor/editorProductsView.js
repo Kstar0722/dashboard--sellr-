@@ -7,7 +7,15 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
   //
   // INITIALIZATION
   //
-  productEditorService.setCurrentProduct($stateParams).then(function () {})
+  productEditorService.setCurrentProduct($stateParams).then(function (product) {
+    $scope.ui.productTagsView = ''
+    _.each(product.tags, function (t, i) {
+      $scope.ui.productTagsView += t.value
+      if (i !== (product.tags.length - 1)) {
+        $scope.ui.productTagsView += ', '
+      }
+    })
+  })
 
   //
   // SCOPE FUNCTIONS

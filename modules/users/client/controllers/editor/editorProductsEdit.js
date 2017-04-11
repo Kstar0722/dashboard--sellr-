@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsEditController', function ($scope, productEditorService, $state, $stateParams, Countries, ProductTypes, $analytics, $mdDialog) {
+angular.module('core').controller('EditorProductsEditController', function ($scope, productEditorService, $state, $stateParams, Countries, ProductTypes, $analytics, $mdDialog, categories) {
   //
   // DEFINITIONS
   //
@@ -32,6 +32,20 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     clickOutsideToClose: true,
     escapeToClose: true,
     fullscreen: true
+  }
+
+  // ROSS
+  $scope.categories = categories
+  $scope.newTag = {
+    value: ''
+  }
+
+  $scope.addTag = function (newTag) {
+    productEditorService.currentProduct = categories.addTag(productEditorService.currentProduct, newTag)
+    $scope.newTag.value = ''
+  }
+  $scope.removeTag = function (i) {
+    productEditorService.currentProduct = categories.removeTag(productEditorService.currentProduct, i)
   }
 
   //

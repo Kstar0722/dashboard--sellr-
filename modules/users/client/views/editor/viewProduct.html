@@ -19,6 +19,14 @@
     <div class="separator"></div>
     <div class="common-field-title">Product Type</div>
     <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.typeObj.name" disabled>
+    <div ng-if="pes.currentProduct.category">
+      <div class="common-field-title">Category</div>
+      <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.category" disabled>
+    </div>
+    <div ng-if="pes.currentProduct.tags.length > 1">
+      <div class="common-field-title">Tags</div>
+      <input type="text" class="common-input" name="name" ng-model="ui.productTagsView" disabled>
+    </div>
     <div class="verified">
       <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" disabled />
       <label for="verifiedByBrand">Verified by Brand</label>
