@@ -25,7 +25,7 @@
     </div>
     <div ng-if="pes.currentProduct.tags.length > 1">
       <div class="common-field-title">Tags</div>
-      <input type="text" class="common-input" name="name" ng-model="ui.productTagsView" disabled>
+      <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag" ng-bind="tag.value"></div>
     </div>
     <div class="verified">
       <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" disabled />

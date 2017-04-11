@@ -11,7 +11,22 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     maxItems: 1,
     allowEmptyOption: false,
     valueField: 'productTypeId',
-    labelField: 'name'
+    labelField: 'name',
+    onChange: function () {
+      productEditorService.currentProduct.category = ''
+      $scope.categoriesOptions = categories.categories[productEditorService.currentProduct.productTypeId].map(function (x) { return { item: x } })
+      $scope.categorySelectize.refreshItems()
+    }
+  }
+  $scope.productCategoryConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    labelField: 'item',
+    valueField: 'item',
+    onInitialize: function (selectize) {
+      $scope.categorySelectize = selectize
+    }
   }
   $scope.countrySelectConfig = {
     create: false,
@@ -34,30 +49,30 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     fullscreen: true
   }
 
-  // ROSS
-  $scope.categories = categories
   $scope.newTag = {
     value: ''
-  }
-
-  $scope.addTag = function (newTag) {
-    productEditorService.currentProduct = categories.addTag(productEditorService.currentProduct, newTag)
-    $scope.newTag.value = ''
-  }
-  $scope.removeTag = function (i) {
-    productEditorService.currentProduct = categories.removeTag(productEditorService.currentProduct, i)
   }
 
   //
   // INITIALIZATION
   //
   productEditorService.setCurrentProduct($stateParams).then(function () {
+    $scope.categoriesOptions = categories.categories[productEditorService.currentProduct.productTypeId].map(function (x) { return { item: x } })
     $scope.loading = false
   })
 
   //
   // SCOPE FUNCTIONS
   //
+  $scope.addTag = function (newTag) {
+    productEditorService.currentProduct = categories.addTag(productEditorService.currentProduct, newTag)
+    $scope.newTag.value = ''
+  }
+
+  $scope.removeTag = function (i) {
+    productEditorService.currentProduct = categories.removeTag(productEditorService.currentProduct, i)
+  }
+
   $scope.showMarkAsDoneDialog = function (ev) {
     $scope.genericDialog = {}
     $scope.genericDialog.title = 'Submit for Approval'

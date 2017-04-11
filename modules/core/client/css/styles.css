@@ -6884,6 +6884,34 @@ body.websiteBuilder #loading-bar-spinner {
   background-color: #f9f2f4;
   border-radius: 4px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-tag,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-tag,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-tag {
+  background-color: #dfe3e9;
+  border-radius: 8px;
+  color: rgba(53, 64, 82, 0.5);
+  padding: 0px 15px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  height: 36px;
+  line-height: 36px;
+  box-sizing: border-box;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-tag .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-tag .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-tag .fa {
+  margin-left: 5px;
+  color: rgba(53, 64, 82, 0.4);
+  cursor: pointer;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .tags-columns .first-column .common-btn-positive,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .tags-columns .first-column .common-btn-positive,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .tags-columns .first-column .common-btn-positive {
+  margin-top: 8px;
+}
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .radio-item {
   margin: 10px 0;
 }
@@ -7604,11 +7632,20 @@ body.websiteBuilder #loading-bar-spinner {
   opacity: 1;
   transform: scale(1);
 }
+.custom-selectize {
+  font-size: 14px !important;
+  font-weight: bold !important;
+  color: rgba(53, 64, 82, 0.5) !important;
+}
 .custom-selectize .selectize-input {
   height: 36px;
   border-radius: 4px;
   background-image: linear-gradient(to top, #f2f4f7, #ffffff) !important;
   border-color: #ced0da !important;
+}
+.custom-selectize .item {
+  color: rgba(53, 64, 82, 0.5) !important;
+  font-size: 14px !important;
 }
 .custom-medium-editor {
   border-radius: 4px;

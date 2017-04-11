@@ -23,6 +23,20 @@
     <div class="common-field-title">Product Type</div>
     <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="pes.currentProduct.productTypeId">
     </selectize>
+    <div class="common-field-title">Category</div>
+    <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category">
+    </selectize>
+    <div class="columns tags-columns">
+      <div class="first-column">
+        <div class="common-field-title">Add new tag</div>
+        <input type="text" class="common-input" ng-model="newTag.value">
+        <div class="common-btn-positive small" ng-click="addTag(newTag.value)">Add <i class="fa fa-plus"></i></div>
+      </div>
+      <div class="second-column" ng-hide="loading">
+        <div class="common-field-title">Current tags</div>
+        <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag"><span ng-bind="tag.value"></span> <i class="fa fa-times" ng-click="removeTag($index)"></i></div>
+      </div>
+    </div>
     <div class="verified">
       <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" />
       <label for="verifiedByBrand">Verified by Brand</label>
