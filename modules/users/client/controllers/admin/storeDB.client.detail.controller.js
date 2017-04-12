@@ -42,17 +42,17 @@ angular.module('core').controller('StoreDbDetailController', function ($scope, $
       return
     }
     console.log('viewing details for ', productId)
-    $state.go('editor.match.view', { productId: productId, status: status }, { reload: true })
+    $state.go('editor.old.match.view', { productId: productId, status: status }, { reload: true })
   }
 
   $scope.increaseIndex = function () {
-    $state.go('editor.match', $stateParams, { reload: true })
+    $state.go('editor.old.match', $stateParams, { reload: true })
     productEditorService.clearProductList()
     orderDataService.increaseIndex()
   }
 
   $scope.decreaseIndex = function () {
-    $state.go('editor.match', $stateParams, { reload: true })
+    $state.go('editor.old.match', $stateParams, { reload: true })
     productEditorService.clearProductList()
     orderDataService.decreaseIndex()
   }

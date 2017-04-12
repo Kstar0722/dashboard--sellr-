@@ -1,6 +1,4 @@
-/* globals angular, localStorage,jQuery,_ */
-angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication,
-                                                                 $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, categories) {
+angular.module('core').service('productEditorService', function ($http, $location, constants, Authentication, $stateParams, $q, toastr, $rootScope, uploadService, $timeout, $filter, ProductTypes, $analytics, cfpLoadingBar, categories) {
   var me = this
   var debugLogs = false
   var log = function (title, data) {
@@ -165,6 +163,36 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     return defer.promise
   }
 
+  me.markAsNew = function () {
+    if (me.currentProduct.status === 'new') return
+    me.currentProduct.status = 'new'
+    me.save(me.currentProduct)
+  }
+
+  me.markAsApprove = function () {
+    $analytics.eventTrack('Approved Product', { productId: me.currentProduct.productId })
+    me.currentProduct.status = 'approved'
+    me.save(me.currentProduct)
+  }
+
+  me.submitForApproval = function () {
+    var defer = $q.defer()
+    var userId = window.localStorage.getItem('userId')
+    $analytics.eventTrack('Product Submitted', { productId: me.currentProduct.productId, user: Authentication.user.displayName })
+    me.currentProduct.status = 'done'
+    var options = {
+      userId: userId,
+      productId: me.currentProduct.productId,
+      status: 'done'
+    }
+    me.claim(options).then(function () {
+      me.save(me.currentProduct).then(function () {
+        defer.resolve()
+      })
+    })
+    return defer.promise
+  }
+
   // send in type,status,userid, get back list of products
   me.getMyProducts = function (options) {
     options = options | {}
@@ -243,7 +271,14 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       } else {
         formattedProduct.submittedFormatedDate = ' - '
       }
+      formattedProduct.typeObj = _.find(ProductTypes, function (t) { return t.productTypeId === formattedProduct.productTypeId })
+      var requestedByObj = _.find(formattedProduct.properties, {label: 'requested_by'})
+      if (!_.isUndefined(requestedByObj)) {
+        formattedProduct.requestedBy = requestedByObj.value
+        // formattedProduct.properties.splice(_.findIndex(formattedProduct.properties, {label: 'requested_by'}), 1)
+      }
       me.currentProduct = formattedProduct
+      console.log(me.currentProduct)
       defer.resolve(me.currentProduct)
     })
     return defer.promise
@@ -677,12 +712,13 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.viewNewProducts = function (limit) {
-    // This is to allow Controller to display their own custom loading animation
+    cfpLoadingBar.start()
     var defer = $q.defer()
     me.productList = $filter('limitTo')(me.newProducts, limit)
     $timeout(function () {
+      cfpLoadingBar.complete()
       defer.resolve()
-    }, 600)
+    }, 400)
     return defer.promise
   }
 

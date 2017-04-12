@@ -96,11 +96,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         },
         public: true
       })
-      .state('productHistory', {
-        url: '/productHistory',
-        templateUrl: 'modules/users/client/views/admin/product-history.client.view.html',
-        controller: 'ProductHistoryController'
-      })
       .state('dashboard', {
         url: '/dashboard/:accountId?',
         templateUrl: 'modules/users/client/views/manager/dashboard.client.view.html'
@@ -142,49 +137,13 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('admin.accounts', {
         url: '/accounts',
-        templateUrl: 'modules/users/client/views/admin/accountManager.client.view.html',
-        controller: 'AccountManagerController'
-      })
-      .state('admin.accounts.edit', {
-        url: '/edit/:id',
-        templateUrl: 'modules/users/client/views/admin/accountManager.edit.client.view.html'
-      })
-      .state('admin.accounts.create', {
-        url: '/new',
-        templateUrl: 'modules/users/client/views/admin/accountManager.create.client.view.html'
+        templateUrl: 'modules/users/client/views/admin/accountsManager.html',
+        controller: 'AccountsManagerController'
       })
       .state('admin.users', {
         url: '/users',
-        templateUrl: 'modules/users/client/views/admin/list-users.client.view.html',
-        controller: 'UserListController'
-      })
-      .state('admin.users.edit', {
-        url: '/:userId',
-        templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
-        controller: 'UserController',
-        resolve: {
-          userResolve: [ '$stateParams', 'Users', function ($stateParams, Users) {
-            return Users.get({
-              userId: $stateParams.userId
-            })
-          } ]
-        }
-      })
-      .state('admin.users.store', {
-        templateUrl: 'modules/users/client/views/admin/invite-user.client.view.html',
-        controller: 'inviteUserController'
-      })
-      .state('admin.users.user-edit', {
-        url: '/:userId/edit',
-        templateUrl: 'modules/users/client/views/admin/edit-user.client.view.html',
-        controller: 'UserController',
-        resolve: {
-          userResolve: [ '$stateParams', 'Users', function ($stateParams, Users) {
-            return Users.get({
-              userId: $stateParams.userId
-            })
-          } ]
-        }
+        templateUrl: 'modules/users/client/views/admin/usersManager.html',
+        controller: 'UsersManagerController'
       })
       .state('admin.device', {
         url: '/device',
@@ -195,104 +154,161 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       // EDITOR ROUTES
       //
       .state('editor', {
+        abstract: true,
         url: '/editor',
-        templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
+        template: '<ui-view/>',
         data: {
           roles: [ 1010, 1011, 1004 ]
         }
       })
+      .state('editor.storeManagement', {
+        url: '/storeManagement',
+        templateUrl: 'modules/users/client/views/editor/editorStoreManagement.html',
+        controller: 'EditorStoreManagementController'
+      })
+      .state('editor.history', {
+        url: '/history',
+        templateUrl: 'modules/users/client/views/editor/productHistory.html',
+        controller: 'EditorProductHistoryController'
+      })
       .state('editor.products', {
         url: '/products',
-        views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
-          }
-        }
+        templateUrl: 'modules/users/client/views/editor/products.html',
+        controller: 'EditorProductsMasterController'
       })
-      .state('editor.view', {
+      .state('editor.products.view', {
         url: '/view/:productId',
         views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/viewProduct.html',
+            controller: 'EditorProductsViewController'
           }
         }
       })
-      .state('editor.edit', {
+      .state('editor.products.edit', {
         url: '/edit/:productId',
         views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/editProduct.html',
+            controller: 'EditorProductsEditController'
           }
         }
       })
-      .state('editor.merge', {
+      .state('editor.products.merge', {
         url: '/merge',
         views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/mergeProducts.html',
+            controller: 'EditorProductsMergeController'
           }
         }
       })
-      .state('editor.match', {
-        url: '/match/:id?status',
+      .state('editor.products.match', {
+        url: '/match/:storeId?status',
         views: {
-          'detail': {
-            templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
+          'match': {
+            templateUrl: 'modules/users/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
           }
         },
         params: {
-          status: null
+          status: null,
+          storeId: null
         }
       })
-      .state('editor.match.view', {
-        url: '/view/:productId',
+      .state('editor.products.matchview', {
+        url: '/match/:storeId/view/:productId?status',
         views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+          'match': {
+            templateUrl: 'modules/users/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
+          },
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/viewProduct.html',
+            controller: 'EditorProductsViewController'
           }
         }
       })
-      .state('editor.match.edit', {
-        url: '/edit/:productId',
+      .state('editor.products.matchedit', {
+        url: '/match/:storeId/edit/:productId?status',
         views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+          'match': {
+            templateUrl: 'modules/users/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
+          },
+          'sidepanel': {
+            templateUrl: 'modules/users/client/views/editor/editProduct.html',
+            controller: 'EditorProductsEditController'
           }
         }
       })
-      .state('editor.match.merge', {
-        url: '/merge',
-        views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
-          }
-        }
-      })
-      .state('editor.match.new', {
-        url: '/new',
-        views: {
-          'rightSide': {
-            templateUrl: 'modules/users/client/views/productEditor/productEditor.new.html',
-            controller: 'newProductController'
-          }
-        }
-      })
-      //
-      // CURATOR ROUTES
-      //
-      .state('curator', {
-        url: '/curator',
-        template: '<ui-view/>',
-        data: {
-          role: [ 1011, 1004 ]
-        },
-        abstract: true
-      })
-      .state('curator.store', {
-        url: '/store',
-        templateUrl: 'modules/users/client/views/admin/storeDB.client.view.html',
-        controller: 'StoreDbController'
-      })
+      // .state('editor.old', {
+      //   url: '/old',
+      //   templateUrl: 'modules/users/client/views/productEditor/productEditor.parent.html',
+      //   data: {
+      //     roles: [ 1010, 1011, 1004 ]
+      //   }
+      // })
+      // .state('editor.old.products', {
+      //   url: '/products',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.view', {
+      //   url: '/view/:productId',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.edit', {
+      //   url: '/edit/:productId',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.merge', {
+      //   url: '/merge',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.merge.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.match', {
+      //   url: '/match/:id?status',
+      //   views: {
+      //     'detail': {
+      //       templateUrl: 'modules/users/client/views/admin/storeDb.match.html'
+      //     }
+      //   },
+      //   params: {
+      //     status: null
+      //   }
+      // })
+      // .state('editor.old.match.view', {
+      //   url: '/view/:productId',
+      //   views: {
+      //     'rightSide': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.view.html'
+      //     }
+      //   }
+      // })
+      // .state('editor.old.match.edit', {
+      //   url: '/edit/:productId',
+      //   views: {
+      //     'rightSide': {
+      //       templateUrl: 'modules/users/client/views/productEditor/productEditor.detail.edit.html'
+      //     }
+      //   }
+      // })
+      // })
       //
       // MANAGER ROUTES
       //

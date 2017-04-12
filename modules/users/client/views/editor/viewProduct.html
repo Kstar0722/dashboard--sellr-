@@ -1,0 +1,82 @@
+<div class="sidebar-view-product">
+  <div class="title">View Product</div>
+  <div class="side-panel">
+    <div class="columns status-action">
+      <div class="first-column">
+        <div class="common-field-title">Status</div>
+        <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
+      </div>
+      <div class="second-column">
+        <div ng-if="pes.currentProduct.status != 'new'" ng-click="markAsNew(pes.currentProduct)" class="common-btn-black" ng-click="pes.markAsNew()" >Mark as New</div>
+        <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
+        <div class="common-btn-gray" ng-click="editProduct()">Edit Product</div>
+      </div>
+    </div>
+    <div class="product-name" ng-bind="pes.currentProduct.name"></div>
+    <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
+    <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
+    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
+    <div class="separator"></div>
+    <div class="common-field-title">Product Type</div>
+    <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.typeObj.name" disabled>
+    <div ng-if="pes.currentProduct.category">
+      <div class="common-field-title">Category</div>
+      <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.category" disabled>
+    </div>
+    <div ng-if="pes.currentProduct.tags.length > 1">
+      <div class="common-field-title">Tags</div>
+      <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag" ng-bind="tag.value"></div>
+    </div>
+    <div class="verified">
+      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" disabled />
+      <label for="verifiedByBrand">Verified by Brand</label>
+    </div>
+    <div class="columns media-columns">
+      <div class="first-column">
+        <div class="common-field-title">Audio</div>
+        <div ng-show="pes.currentProduct.audio">
+          <div class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
+          <div class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
+        </div>
+        <small ng-show="!pes.currentProduct.audio">
+        No audio uploaded yet.
+        </small>
+      </div>
+      <div class="second-column">
+        <div class="common-field-title">Image</div>
+        <div class="product-image" ng-repeat="image in pes.currentProduct.images">
+          <a ng-href="{{ image.publicUrl }}" target="_blank">
+            <img ng-src="{{image.publicUrl}}" />
+          </a>
+        </div>
+        <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
+        No images uploaded yet.
+        </small>
+      </div>
+    </div>
+    <div class="common-field-title">Description / Script</div>
+    <div class="disabled-textarea" ng-bind-html="pes.currentProduct.description"></div>
+    <div class="columns prop-columns">
+      <div class="first-column">
+        <div ng-repeat="prop in pes.currentProduct.properties" ng-if="$even && prop.visibility && prop.value.length > 0">
+          <div class="common-field-title"  ng-bind="prop.label"></div>
+          <input type="text" class="common-input" ng-model="prop.value" disabled>
+        </div>
+      </div>
+      <div class="second-column">
+        <div ng-repeat="prop in pes.currentProduct.properties" ng-if="$odd && prop.visibility && prop.value.length > 0">
+          <div class="common-field-title"  ng-bind="prop.label"></div>
+          <input type="text" class="common-input" ng-model="prop.value" disabled>
+        </div>
+      </div>
+    </div>
+    <div ng-if="pes.currentProduct.displayName && pes.currentProduct.displayName !== pes.currentProduct.name">
+      <div class="common-field-title">Display Name</div>
+      <input type="text" class="common-input" ng-model="pes.currentProduct.displayName" disabled>
+    </div>
+    <div ng-if="pes.currentProduct.notes">
+      <div class="common-field-title" >Research Notes</div>
+      <div class="disabled-textarea" ng-bind-html="pes.currentProduct.notes"></div>
+    </div>
+  </div>
+</div>

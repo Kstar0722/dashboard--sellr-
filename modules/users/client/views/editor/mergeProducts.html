@@ -1,0 +1,71 @@
+<div class="sidebar-merge-product">
+  <div class="title">Merging Products</div>
+  <div class="side-panel">
+    <div class="common-field-title">Title</div>
+    <input type="text" class="common-input" name="name" ng-model="mergeService.finalProduct.name">
+    <div class="radio-item" ng-repeat="name in mergeService.newProduct.name">
+      <input class="custom-radio" type="radio" id="nameradio{{$index}}" name="nameradio" ng-model="mergeService.finalProduct.name" ng-value="name" />
+      <label for="nameradio{{$index}}"><span></span>{{name}}</label>
+    </div>
+    <div class="common-field-title">Product Type</div>
+    <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="mergeService.finalProduct.productTypeId">
+    </selectize>
+    <div class="columns media-columns">
+      <div class="first-column">
+        <div class="common-field-title">Audio</div>
+        <small>Product should only have one audio. If more than one audio, only the first will be used.</small>
+        <div ng-repeat="audio in mergeService.newProduct.audio track by $index" ng-show="mergeService.newProduct.audio.length > 0">
+          <p>
+            <small>Audio {{$index + 1}}:</small>
+            <div class="common-btn-positive" ng-click="playMergedAudio($index)"><i class="fa fa-play"></i> Play</div>
+            <div class="common-btn-black" ng-click="pauseMergedAudio()"><i class="fa fa-pause"></i> Pause</div>
+            <div class="common-btn-negative" ng-click="removeMergedAudio($index)"><i class="fa fa-trash-o"></i> Remove</div>
+          </p>
+        </div>
+        <div ng-show="mergeService.newProduct.audio.length === 0">
+          No audio File found in products
+        </div>
+      </div>
+      <div class="second-column">
+        <div class="common-field-title">Image</div>
+        <small>Products can have multiple images.</small>
+        <div class="product-image" ng-repeat="image in mergeService.newProduct.images track by $index">
+          <a ng-href="{{ image.publicUrl }}" target="_blank">
+            <img ng-src="{{image.publicUrl}}" />
+          </a>
+          <div class="common-btn-negative" ng-click="removeMergedImage($index)"><i class="fa fa-trash-o"></i> Remove</div>
+        </div>
+        <small ng-show="!mergeService.newProduct.images || mergeService.newProduct.images.length === 0">
+        No images uploaded yet.
+        </small>
+        <button class="common-btn-silver" ngf-select="uploadMergeImage($files)">Upload Image</button>
+      </div>
+    </div>
+    <div class="common-field-title">Description / Script</div>
+    <medium-editor class="custom-medium-editor" ng-model="mergeService.finalProduct.description" bind-options="mediumEditorOptions">
+    </medium-editor>
+    <div class="radio-item" ng-repeat="desc in mergeService.newProduct.description">
+      <input class="custom-radio" type="radio" id="descradio{{$index}}" name="descradio" ng-model="mergeService.finalProduct.description" ng-value="desc" />
+      <label for="descradio{{$index}}"><span></span>{{desc}}</label>
+    </div>
+    <div ng-repeat="(propInd,prop) in mergeService.newProduct.properties">
+      <div class="common-field-title">{{prop.label}} <span ng-show="prop.info"> - ({{ prop.info }})</span></div>
+      <input class="common-input" ng-model="mergeService.finalProduct.properties[propInd].value"">
+      <div class="radio-item" ng-repeat="val in prop.value" ng-if="prop.value.length > 1">
+        <input class="custom-radio" type="radio" id="{{val + $index}}" name="{{prop.label}}" ng-model="mergeService.finalProduct.properties[propInd].value" ng-value="val" />
+        <label for="{{val + $index}}"><span></span>{{val}}</label>
+      </div>
+    </div>
+    <div class="common-field-title" >Research Notes</div>
+    <textarea class="common-textarea" ng-model="mergeService.newProduct.notes"></textarea>
+    <div class="common-field-title" >Keyboard Shortcuts:</div>
+    <div class="shortcuts-action">
+      <div>
+        <p>
+          <code>Ctrl + S / ⌘ + S</code> <strong>-- Save Product</strong>
+        </p>
+      </div>
+      <div class="common-btn-positive" ng-click="mergeService.save()">Save</div>
+    </div>
+  </div>
+</div>

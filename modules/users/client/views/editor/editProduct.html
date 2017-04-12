@@ -1,0 +1,102 @@
+<div class="sidebar-edit-product">
+  <div class="title">Edit Product</div>
+  <div class="side-panel">
+    <div class="columns status-action">
+      <div class="first-column">
+        <div class="common-field-title">Status</div>
+        <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
+      </div>
+      <div class="second-column" ng-hide="loading">
+        <div ng-if="pes.currentProduct.status != 'new'" class="common-btn-black" ng-click="pes.markAsNew()" >Mark as New</div>
+        <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
+        <div ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsApproveDialog()">Mark as Approved</div>
+        <div class="common-btn-positive" ng-click="saveProduct()">Save</div>
+      </div>
+    </div>
+    <div class="product-name" ng-bind="pes.currentProduct.name"></div>
+    <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
+    <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
+    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
+    <div class="separator"></div>
+    <div class="common-field-title">Title</div>
+    <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.name">
+    <div class="common-field-title">Product Type</div>
+    <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="pes.currentProduct.productTypeId">
+    </selectize>
+    <div class="common-field-title">Category</div>
+    <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category">
+    </selectize>
+    <div class="columns tags-columns">
+      <div class="first-column">
+        <div class="common-field-title">Add new tag</div>
+        <input type="text" class="common-input" ng-model="newTag.value">
+        <div class="common-btn-positive small" ng-click="addTag(newTag.value)">Add <i class="fa fa-plus"></i></div>
+      </div>
+      <div class="second-column" ng-hide="loading">
+        <div class="common-field-title">Current tags</div>
+        <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag"><span ng-bind="tag.value"></span> <i class="fa fa-times" ng-click="removeTag($index)"></i></div>
+      </div>
+    </div>
+    <div class="verified">
+      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" />
+      <label for="verifiedByBrand">Verified by Brand</label>
+    </div>
+    <div class="columns media-columns">
+      <div class="first-column">
+        <div class="common-field-title">Audio</div>
+        <div ng-show="pes.currentProduct.audio">
+          <div class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
+          <div class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
+          <div class="common-btn-negative" ng-click="removeAudio()"><i class="fa fa-trash-o"></i> Remove</div>
+          <button class="common-btn-silver" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
+        </div>
+        <small ng-show="!pes.currentProduct.audio">
+        No audio uploaded yet.
+        </small>
+      </div>
+      <div class="second-column">
+        <div class="common-field-title">Image</div>
+        <div class="product-image" ng-repeat="image in pes.currentProduct.images">
+          <a ng-href="{{ image.publicUrl }}" target="_blank">
+            <img ng-src="{{image.publicUrl}}" />
+          </a>
+          <div class="common-btn-negative" ng-click="pes.removeImage(image)"><i class="fa fa-trash-o"></i> Remove</div>
+        </div>
+        <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
+        No images uploaded yet.
+        </small>
+        <button class="common-btn-silver" ngf-select="pes.uploadMedia($files)">Upload Image</button>
+      </div>
+    </div>
+    <div class="common-field-title">Description / Script</div>
+    <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions">
+    </medium-editor>
+    <div ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type" ng-if="prop.visibility">
+      <div class="common-field-title">{{prop.label}} <span ng-show="prop.info"> - ({{ prop.info }})</span></div>
+      <input class="common-input" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
+      <textarea class="common-textarea" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{ prop.info }}"></textarea>
+      <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig" options="Countries.allCountries" ng-model="prop.value">
+      </selectize>
+    </div>
+    <div ng-if="pes.currentProduct.displayName && pes.currentProduct.displayName !== pes.currentProduct.name">
+      <div class="common-field-title">Display Name</div>
+      <input type="text" class="common-input" ng-model="pes.currentProduct.displayName">
+    </div>
+    <div ng-if="pes.currentProduct.notes">
+      <div class="common-field-title" >Research Notes</div>
+      <textarea class="common-textarea" ng-model="pes.currentProduct.notes"></textarea>
+    </div>
+    <div class="common-field-title" >Keyboard Shortcuts:</div>
+    <div class="shortcuts-action">
+      <div>
+        <p>
+          <code>Ctrl + S / ⌘ + S</code> <strong>-- Save Product</strong>
+        </p>
+        <p>
+          <code>Ctrl + D / ⌘ + D</code> <strong>-- Mark As Done</strong>
+        </p>
+      </div>
+      <div class="common-btn-negative" ng-if="permissions.curator" ng-click="showDeleteProductDialog()">Delete Product</div>
+    </div>
+  </div>
+</div>

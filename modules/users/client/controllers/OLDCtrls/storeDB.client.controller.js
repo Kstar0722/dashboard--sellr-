@@ -93,7 +93,7 @@ angular.module('core').controller('StoreDbController', function ($scope, orderDa
     if (store.status[status] === 0) return
     orderDataService.currentOrderId = store.storeId
     orderDataService.getData(store, status).then(function (response) {
-      $state.go('editor.match', { id: store.storeId, status: status })
+      $state.go('editor.old.match', { id: store.storeId, status: status })
     })
   }
 
@@ -147,7 +147,6 @@ angular.module('core').controller('StoreDbController', function ($scope, orderDa
     if (orderDataService.allStores.length === 0) {
       orderDataService.getAllStores().then(function (stores) {
         updateStoreColors()
-
         $scope.storesDropdown = stores.slice()
         $scope.storesDropdown = _.sortBy($scope.storesDropdown, 'name')
         $scope.storesDropdown.unshift({ storeId: EMPTY_FIELD_NAME, name: 'Create New Store' })

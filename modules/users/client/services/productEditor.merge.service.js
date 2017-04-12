@@ -1,4 +1,3 @@
-/* globals angular, _ */
 angular.module('core').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams) {
   var me = this
 
@@ -74,7 +73,7 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
       product.properties.forEach(function (prop) {
         if (prop.visibility) {
           var i = _.findIndex(properties, function (p) {
-            return p.propId === prop.propId
+            return p.label === prop.label
           })
           if (i < 0) {
             properties.push({
@@ -187,9 +186,9 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
       if (res.data.productId) {
         toastr.success('Product Merged!')
         if ($state.includes('editor.match.merge')) {
-          $state.go('editor.match.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
+          $state.go('editor.old.match.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
         } else {
-          $state.go('editor.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
+          $state.go('editor.old.view', { productId: res.data.productId, status: $stateParams.status }, { reload: true })
         }
       } else {
         console.error('No productId returned from server %O', res)

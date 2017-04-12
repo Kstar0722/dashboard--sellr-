@@ -235,7 +235,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     if (!account) return account
 
     account.createdDateMoment = account.createdDate && moment(account.createdDate)
-    account.createdDateStr = account.createdDateMoment && account.createdDateMoment.format('lll')
+    account.createdDateStr = account.createdDateMoment && account.createdDateMoment.format('Do MMM, YY')
 
     if (account.state === 'un') account.state = undefined
     var stateUpper = (account.state || '').toUpperCase()
@@ -255,6 +255,8 @@ angular.module('core').service('accountsService', function ($http, constants, to
         account.websiteDisplayHtml += '<a href="' + account.preferences.websiteUrl + '" target="_blank">' + account.preferences.websiteUrl.replace(/^http:\/\//i, '') + '</a>'
       }
       account.websiteDisplayHtml += '<br><i>Theme: ' + account.preferences.websiteTheme + '</i>'
+    } else {
+      account.website = false
     }
 
     return account

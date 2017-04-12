@@ -1,0 +1,53 @@
+<div class="editor-store-management-view">
+  <div class="left-side-content full">
+    <div class="title">All Stores</div>
+    <div class="main-table">
+      <!--
+      FILTER HEADER
+      -->
+      <div class="filter-header">
+        <div class="left-filter">
+          <div class="common-input-with-icon">
+            <input type="text" placeholder="Search" class="common-input" ng-model="ui.search">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>
+        <div class="right-filter">
+          <div class="common-btn-black" ng-click="showUploadCsvDialog($event)">Upload</div>
+        </div>
+      </div>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div class="store-id-col" ng-click="reOrderList('storeId')"><span>Store Id</span> <i class="fa fa-sort"></i></div>
+        <div class="store-name-col" ng-click="reOrderList('name')"><span>Store Name</span> <i class="fa fa-sort"></i></div>
+        <div class="account-id-col" ng-click="reOrderList('accountId')"><span>Account Id</span> <i class="fa fa-sort"></i></div>
+        <div class="received-col" ng-click="reOrderList('status.received')"><span>Received</span> <i class="fa fa-sort"></i></div>
+        <div class="new-col" ng-click="reOrderList('status.new')"><span>New</span> <i class="fa fa-sort"></i></div>
+        <div class="in-progress-col" ng-click="reOrderList('status.inprogress')"><span>In Progress</span> <i class="fa fa-sort"></i></div>
+        <div class="done-col" ng-click="reOrderList('status.done')"><span>Done</span> <i class="fa fa-sort"></i></div>
+        <div class="approved-col" ng-click="reOrderList('status.approved')"><span>Approved</span> <i class="fa fa-sort"></i></div>
+        <div class="total-col" ng-click="reOrderList('status.total')"><span>Total</span> <i class="fa fa-sort"></i></div>
+        <div class="status-col" ng-click="reOrderList('status.barClass')"><span>Status</span> <i class="fa fa-sort"></i></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div ng-class="['columns-data', {inactive: store.status.total === 0}]" ng-repeat="store in orderDataService.allStores | filterBy:['name','storeId','accountId']:ui.search | orderBy:ui.sortExpression track by store.storeId">
+        <div class="store-id-col" ng-bind-html="store.storeId | highlight:ui.search"></div>
+        <div ng-click="goToMatch(store)" class="store-name-col" ng-bind-html="store.name | highlight:ui.search"></div>
+        <div class="account-id-col" ng-bind-html="store.accountId | highlight:ui.search"></div>
+        <div ng-click="goToMatch(store, 'received')" class="received-col" ng-bind="store.status.received"></div>
+        <div ng-click="goToMatch(store, 'new')" class="new-col" ng-bind="store.status.new"></div>
+        <div ng-click="goToMatch(store, 'inprogress')" class="in-progress-col" ng-bind="store.status.inprogress"></div>
+        <div ng-click="goToMatch(store, 'done')" class="done-col" ng-bind="store.status.done"></div>
+        <div ng-click="goToMatch(store, 'approved')" class="approved-col" ng-bind="store.status.approved"></div>
+        <div class="total-col" ng-bind="store.status.total"></div>
+        <div class="status-col">
+          <div ng-class="['status-icon', store.status.barClass]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

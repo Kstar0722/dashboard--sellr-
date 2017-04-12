@@ -1,0 +1,12 @@
+<div class="common-modal-dialog small-dialog">
+  <div class="dialog-title" ng-bind="genericDialog.title"></div>
+  <div class="main-container">
+    <div class="single-side">
+      <div class="single-side-content" ng-bind="genericDialog.body"></div>
+      <div class="action-footer">
+        <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
+        <button ng-class="genericDialog.actionClass" ng-click="genericDialog.action()" ng-bind="genericDialog.actionText"></button>
+      </div>
+    </div>
+  </div>
+</div>
