@@ -533,6 +533,20 @@ body.loading .main-content {
   align-items: center;
   margin-top: 40px;
 }
+.common-white-box {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #dfe2e5;
+  padding: 25px 0px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+.common-white-box .title {
+  font-size: 18px;
+  color: #354052;
+  padding: 0 30px;
+  margin-bottom: 15px;
+}
 .common-input,
 .common-textarea {
   border-radius: 4px;
@@ -7735,4 +7749,78 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .store-owner-reports-view .main-content {
   padding: 30px 3vw 10vh 3vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-reports-view .main-content .main-left-column {
+  width: 25%;
+}
+.store-owner-reports-view .main-content .main-left-column .top-products {
+  padding: 25px 0 0 0;
+}
+.store-owner-reports-view .main-content .main-left-column .top-products .top-product {
+  border-top: 1px solid #dfe2e5;
+  padding: 15px 15px 15px 30px;
+  font-size: 14px;
+  color: #354052;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.store-owner-reports-view .main-content .main-left-column .top-products .top-product .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+.store-owner-reports-view .main-content .main-left-column .top-products .top-product .view-prod {
+  color: #29b575;
+}
+.store-owner-reports-view .main-content .main-left-column .top-products .top-product:hover {
+  background-color: #fafbfc;
+}
+.store-owner-reports-view .main-content .main-right-column {
+  width: 73%;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box {
+  width: 23%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 25px 15px 25px 30px;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .icon-container {
+  margin-right: 15px;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .number {
+  font-size: 28px;
+  line-height: 28px;
+  color: #354052;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator {
+  font-size: 12px;
+  font-weight: bold;
+  vertical-align: super;
+  color: #2bbf88;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator.negative {
+  color: #c10101;
+}
+.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .text {
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8fa4;
+  text-transform: uppercase;
+  margin-top: 5px;
 }
