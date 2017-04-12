@@ -8,7 +8,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     function redirect () {
       if (hasRole(1002) || hasRole(1004) || hasRole(1007) || hasRole(1009)) {
-        $state.go('dashboard')
+        $state.go('storeOwner.reports')
       } else if (hasRole(1010) || hasRole(1011)) {
         $state.go('editor.products')
       } else if (hasRole(1012)) {

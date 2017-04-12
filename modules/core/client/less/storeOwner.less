@@ -1,0 +1,121 @@
+// 
+// REPORTS VIEW
+// 
+.store-owner-reports-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  color: #354052;
+  position: relative;
+  .top-bar{
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    .date-filter{
+      width: 60%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      .fa-minus{
+        margin-right: 15px;
+        color: #7383a1;
+        font-size: 10px;
+      }
+      .common-btn-gray{
+        margin-right: 15px;
+        &:last-child{
+          margin-right:0px;
+        }
+        &.active{
+          background-image: linear-gradient(to bottom, #2ea77a, #32a279);
+          border-color: #2bbf88;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .main-content{
+    padding: 30px 3vw 10vh 3vw;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    .main-left-column{
+      width: 25%;
+      .top-products{
+        padding: 25px 0 0 0;
+        .top-product{
+          border-top: 1px solid #dfe2e5;
+          padding: 15px 15px 15px 30px;
+          font-size: 14px;
+          color: #354052;
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer;
+          .name{
+            .ellipsized;
+            margin-right: 10px;
+          }
+          .view-prod{
+            color: #29b575;
+          }
+          &:hover{
+            background-color: #fafbfc;
+          }
+        }
+      }
+      
+    }
+    .main-right-column{
+      width: 73%;
+      .top-stats{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: stretch;
+        .common-white-box{
+          width: 23%;
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 25px 15px 25px 30px;
+          .icon-container{
+            margin-right: 15px;
+          }
+          .info-container{
+            .number{
+              font-size: 28px;
+              line-height: 28px;
+              color: #354052;
+            }
+            .indicator{
+              font-size: 12px;
+              font-weight: bold;
+              vertical-align: super;
+              color: #2bbf88;
+              &.negative{
+                color: #c10101;
+              }
+            }
+            .text{
+              font-size: 12px;
+              font-weight: bold;
+              color: #7f8fa4;
+              text-transform: uppercase;
+              margin-top: 5px;
+              text-transform: uppercase;
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

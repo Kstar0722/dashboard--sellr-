@@ -51,7 +51,7 @@ angular.module('core')
     if (state.indexOf('supplier') > -1) { $scope.ui.primaryRoute = 'supplier' }
     if (state.indexOf('admin') > -1) { $scope.ui.primaryRoute = 'admin' }
     if (state.indexOf('editor') > -1) { $scope.ui.primaryRoute = 'editor' }
-    if (_.contains(['dashboard', 'productsUploader', 'websiteBuilder', 'manager.ads', 'storeOwner.orders'], state)) { $scope.ui.primaryRoute = 'store' }
+    if (state.indexOf('storeOwner') > -1 || (_.contains(['productsUploader', 'websiteBuilder', 'manager.ads'], state))) { $scope.ui.primaryRoute = 'store' }
   }
 
   function init () {
@@ -80,7 +80,7 @@ angular.module('core')
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
-    if (!toState.name.match(/^(dashboard|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
+    if (!toState.name.match(/^(storeOwner.reports|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
       $scope.$root.selectAccountId = null
     } else if (toState) {
       toParams.accountId = $scope.$root.selectAccountId

@@ -81,7 +81,7 @@ angular.module('core').controller('AuthenticationController', [ '$scope', '$stat
             $state.go('editor.products')
           }
         } else {
-          $state.go('dashboard', $state.previous.params)
+          $state.go('storeOwner.reports', $state.previous.params)
         }
       }
     }
