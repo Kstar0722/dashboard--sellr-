@@ -31,7 +31,7 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
       productEditorService.submitForApproval()
     }
     $mdDialog.show({
-      templateUrl: '/modules/users/client/views/editor/confirmationDialog.html',
+      templateUrl: '/modules/users/client/views/popupDialogs/confirmationDialog.html',
       autoWrap: true,
       parent: angular.element(document.body),
       scope: $scope,

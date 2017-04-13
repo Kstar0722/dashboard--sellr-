@@ -38,7 +38,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     searchField: [ 'name' ]
   }
   var genericDialogOptions = {
-    templateUrl: '/modules/users/client/views/editor/confirmationDialog.html',
+    templateUrl: '/modules/users/client/views/popupDialogs/confirmationDialog.html',
     autoWrap: true,
     parent: angular.element(document.body),
     scope: $scope,

@@ -1,5 +1,5 @@
 angular.module('core')
-.controller('NavController', [ '$scope', 'Authentication', 'Menus', '$http', '$window', '$state', '$stateParams', 'accountsService', 'constants', 'authenticationService', 'globalClickEventName', '$rootScope', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope) {
+.controller('NavController', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog) {
   //
   // DEFINITIONS - INITIALIZATION
   //
@@ -13,6 +13,21 @@ angular.module('core')
   //
   $scope.logout = function () {
     authenticationService.signout()
+  }
+
+  $scope.showEditProfileDialog = function (ev) {
+    $scope.ui.showAccountMenu = false
+    $mdDialog.show({
+      templateUrl: '/modules/users/client/views/popupDialogs/editProfileDialog.html',
+      autoWrap: true,
+      parent: angular.element(document.body),
+      preserveScope: false,
+      hasBackdrop: true,
+      clickOutsideToClose: false,
+      escapeToClose: false,
+      fullscreen: true,
+      controller: 'EditProfileController'
+    })
   }
 
   $scope.accountChangeHandler = function (account) {
@@ -80,7 +95,7 @@ angular.module('core')
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
-    if (!toState.name.match(/^(storeOwner.reports|storeOwner.orders|manager.ads|settings|editProfile|productsUploader|websiteBuilder)/i)) {
+    if (!toState.name.match(/^(storeOwner.reports|storeOwner.orders|manager.ads|settings|productsUploader|websiteBuilder)/i)) {
       $scope.$root.selectAccountId = null
     } else if (toState) {
       toParams.accountId = $scope.$root.selectAccountId
@@ -100,4 +115,4 @@ angular.module('core')
   })
   // Sort of not needed because Nav Scope will never be destroyed but this is mandatory elsewhere to prevent Leak
   $scope.$on('$destroy', unregisterGlobalClick)
-}])
+})

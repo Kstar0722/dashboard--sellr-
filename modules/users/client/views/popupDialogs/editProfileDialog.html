@@ -1,0 +1,54 @@
+<div class="common-modal-dialog profile-dialog">
+  <div class="dialog-title" ng-bind="dialog.title"></div>
+  <div class="main-container">
+    <div class="left-side">
+      <div class="item-list">
+        <div class="item-item active">
+          <div class="item-name">Edit Account</div>
+        </div>
+        <div class="item-item">
+          <div class="item-name">Plan & Billing</div>
+        </div>
+      </div>
+    </div>
+    <div class="right-side">
+      <div class="columns">
+        <div class="first-column">
+          <form name="userForm" ng-submit="updateUserProfile(userForm.$valid)" novalidate>
+            <div class="common-field-title">First Name</div>
+            <input type="text" class="common-input" name="firstname" ng-model="dialog.user.firstName" required>
+            <input-error-msg form="userForm" field="firstname" errors="{required: 'First name is required'}"></input-error-msg>
+            <div class="common-field-title">Last Name</div>
+            <input type="text" class="common-input" name="lastname" ng-model="dialog.user.lastName" required>
+            <input-error-msg form="userForm" field="lastname" errors="{required: 'Last name is required'}"></input-error-msg>
+            <div class="common-field-title">Email</div>
+            <input type="email" class="common-input" name="email" ng-model="dialog.user.email" required>
+            <input-error-msg form="userForm" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+            <div class="common-field-title">Phone</div>
+            <input type="text" class="common-input" ng-model="dialog.user.phone">
+          </form>
+        </div>
+        <div class="second-column">
+          <form name="passwordForm" ng-submit="changeUserPassword(passwordForm.$valid)" novalidate>
+            <div class="common-field-title">Current Password</div>
+            <input type="password" class="common-input" name="currentpassword" ng-model="dialog.passwordDetails.currentPassword" required minlength="8">
+            <input-error-msg form="passwordForm" field="currentpassword" errors="{required: 'Current Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+            <div class="common-field-title">ENTER NEW PASSWORD</div>
+            <input type="password" class="common-input" name="newpassword1" ng-model="dialog.passwordDetails.newPassword" required minlength="8">
+            <input-error-msg form="passwordForm" field="newpassword1" errors="{required: 'New Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+            <div class="common-field-title">CONFIRM NEW PASSWORD</div>
+            <input type="password" class="common-input" name="newpassword2" ng-model="dialog.passwordDetails.newPassword2" required minlength="8">
+            <input-error-msg form="passwordForm" field="newpassword2" errors="{required: 'New Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+          </form>
+        </div>
+      </div>
+      <div class="action-footer">
+        <div>
+          <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
+          <div class="common-btn-positive small" ng-click="updateUserProfile(userForm.$valid)">Save</div>
+        </div>
+        <div class="common-btn-black autowidth" ng-click="changeUserPassword(passwordForm.$valid)">Change Password</div>
+      </div>
+    </div>
+  </div>
+</div>

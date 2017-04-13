@@ -963,7 +963,7 @@ body.loading .main-content {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10px 10px 20px;
+  padding: 12px 10px 12px 20px;
   box-sizing: border-box;
   font-weight: bold;
   border-bottom: 1px solid #2a3546;

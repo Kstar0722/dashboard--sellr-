@@ -100,10 +100,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         },
         public: true
       })
-      .state('editProfile', {
-        url: '/profile',
-        templateUrl: 'modules/users/client/views/settings/edit-account.client.view.html'
-      })
       .state('productsUploader', {
         url: '/products/:accountId?',
         templateUrl: 'modules/users/client/views/admin/products-uploader.client.view.html'

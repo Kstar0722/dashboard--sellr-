@@ -73,7 +73,7 @@ angular.module('core').controller('EditorStoreManagementController', function ($
 
   $scope.showUploadCsvDialog = function (ev) {
     $mdDialog.show({
-      templateUrl: '/modules/users/client/views/editor/uploadCsvDialog.html',
+      templateUrl: '/modules/users/client/views/popupDialogs/uploadCsvDialog.html',
       autoWrap: true,
       parent: angular.element(document.body),
       scope: $scope,

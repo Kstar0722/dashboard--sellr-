@@ -80,7 +80,7 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
 
   $scope.showManageStoresDialog = function (ev) {
     $mdDialog.show({
-      templateUrl: '/modules/users/client/views/admin/manageStoreDialog.html',
+      templateUrl: '/modules/users/client/views/popupDialogs/manageStoreDialog.html',
       autoWrap: true,
       parent: angular.element(document.body),
       scope: $scope,

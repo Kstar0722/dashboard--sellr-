@@ -58,7 +58,7 @@
       <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="openMenu('profileOptionsSelect')" ng-mouseover="openMenu('profileOptionsSelect')"></div>
     </div>
     <div class="account-options-box" ng-show="ui.profileOptionsSelect">
-      <div class="account-option" ui-sref="editProfile" ng-click="ui.showAccountMenu = false"><i class="fa fa-user-o"></i> My Profile</div>
+      <div class="account-option" ng-click="showEditProfileDialog()"><i class="fa fa-user-o"></i> My Profile</div>
       <!-- <div class="account-option" ng-click="ui.showAccountMenu = false"><i class="fa fa-cog"></i> Manage Stores</div> -->
       <div class="account-option logout" ng-click="logout(); ui.showAccountMenu = false"><i class="fa fa-power-off"></i> Logout</div>
     </div>
