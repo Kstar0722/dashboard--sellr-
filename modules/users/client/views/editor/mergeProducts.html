@@ -46,7 +46,8 @@
     </medium-editor>
     <div class="radio-item" ng-repeat="desc in mergeService.newProduct.description">
       <input class="custom-radio" type="radio" id="descradio{{$index}}" name="descradio" ng-model="mergeService.finalProduct.description" ng-value="desc" />
-      <label for="descradio{{$index}}"><span></span>{{desc}}</label>
+      <label for="descradio{{$index}}"><span></span> Use text below</label>
+      <div ng-bind-html="desc"></div>
     </div>
     <div ng-repeat="(propInd,prop) in mergeService.newProduct.properties">
       <div class="common-field-title">{{prop.label}} <span ng-show="prop.info"> - ({{ prop.info }})</span></div>

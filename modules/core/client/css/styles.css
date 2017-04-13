@@ -6927,13 +6927,7 @@ body.websiteBuilder #loading-bar-spinner {
   margin-top: 8px;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .radio-item {
-  margin: 10px 0;
-}
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .desc-radio-label {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
+  margin: 20px 0;
 }
 .editor-products-history-view {
   background-color: #eff3f6;
