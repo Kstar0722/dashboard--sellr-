@@ -139,7 +139,7 @@
           <input id="productcheck{{$index}}" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-change="toggleSelectProduct(product)">
           <label for="productcheck{{$index}}">&nbsp;</label>
         </div>
-        <div class="name-col" ng-bind-html="(product.displayName || product.name) | highlight:searchOptions.searchText" ng-click="viewProduct(product)"></div>
+        <div class="name-col" ng-bind-html="product.name | highlight:searchOptions.searchText" ng-click="viewProduct(product)"></div>
         <div class="sku-col" ng-bind="product.sku_count" ng-click="viewProduct(product)"></div>
         <div class="image-col" ng-click="viewProduct(product)">
           <i ng-class="['fa common-fa', {'fa-check': product.image >= 1, 'fa-times': product.image === 0}]"></i>

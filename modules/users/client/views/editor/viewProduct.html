@@ -70,10 +70,6 @@
         </div>
       </div>
     </div>
-    <div ng-if="pes.currentProduct.displayName && pes.currentProduct.displayName !== pes.currentProduct.name">
-      <div class="common-field-title">Display Name</div>
-      <input type="text" class="common-input" ng-model="pes.currentProduct.displayName" disabled>
-    </div>
     <div ng-if="pes.currentProduct.notes">
       <div class="common-field-title" >Research Notes</div>
       <div class="disabled-textarea" ng-bind-html="pes.currentProduct.notes"></div>

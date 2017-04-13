@@ -78,10 +78,6 @@
       <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig" options="Countries.allCountries" ng-model="prop.value">
       </selectize>
     </div>
-    <div ng-if="pes.currentProduct.displayName && pes.currentProduct.displayName !== pes.currentProduct.name">
-      <div class="common-field-title">Display Name</div>
-      <input type="text" class="common-input" ng-model="pes.currentProduct.displayName">
-    </div>
     <div ng-if="pes.currentProduct.notes">
       <div class="common-field-title" >Research Notes</div>
       <textarea class="common-textarea" ng-model="pes.currentProduct.notes"></textarea>
