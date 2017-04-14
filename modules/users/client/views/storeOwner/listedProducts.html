@@ -1,0 +1,249 @@
+<div class="store-owner-listed-products-view">
+  <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
+    <div class="title">All Listed Products</div>
+    <div class="main-table">
+      <!--
+      FILTER HEADER
+      -->
+      <div class="filter-header">
+        <div class="left-filter">
+          <div ng-class="['common-select-container', {active:ui.searchOptionsMenu}]">
+            <input type="text" placeholder="" class="common-input search-input" ng-model="searchOptions.searchText" ng-focus="openMenu('searchOptionsMenu')">
+            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.searchOptionsMenu}]" ng-click="searchProducts()">
+              Search
+            </div>
+            <div class="common-select-options" ng-show="ui.searchOptionsMenu">
+              <div class="search-option close" ng-click="ui.searchOptionsMenu = false">
+                <i class="fa fa-caret-up"></i>
+              </div>
+              <div class="search-option">
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="myproductscheck" checked ng-model="searchOptions.filterByUserId" ng-change="toggleFilterByUserId()" />
+                  <label for="myproductscheck">Show only my products</label>
+                </div>
+              </div>
+              <div class="search-option">
+                <div class="common-field-title">Select store</div>
+                <selectize class="custom-selectize" config="selectStoreFilterConfig" options="searchOptions.allStores" ng-model="searchOptions.storeId">
+                </selectize>
+              </div>
+              <div class="search-option">
+                <div class="common-field-title">Category</div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="beercheck" ng-model="searchOptions.beerTypeCheck" />
+                  <label for="beercheck">Beer</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="winecheck" ng-model="searchOptions.wineTypeCheck" />
+                  <label for="winecheck">Wine</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="spiritcheck" ng-model="searchOptions.spiritTypeCheck" />
+                  <label for="spiritcheck">Spirit</label>
+                </div>
+              </div>
+              <div class="search-option">
+                <div class="common-field-title">Status</div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="allradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="" />
+                  <label for="allradio"><span></span>All</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="newradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="new" />
+                  <label for="newradio"><span></span>New</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="progressradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="inprogress" />
+                  <label for="progressradio"><span></span>In Progress</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="doneradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="done" />
+                  <label for="doneradio"><span></span>Done</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-radio" type="radio" id="approvedradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="approved" />
+                  <label for="approvedradio"><span></span>Approved</label>
+                </div>
+              </div>
+              <div class="search-option">
+                <div class="common-field-title">Search In...</div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="allcheck" ng-model="searchOptions.searchInAll" ng-change="toggleSearchInAll()" />
+                  <label for="allcheck">All</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="namecheck" ng-model="searchOptions.searchInName" />
+                  <label for="namecheck">Name</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="descriptioncheck" ng-model="searchOptions.searchInDescription" />
+                  <label for="descriptioncheck">Description</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="productidcheck" ng-model="searchOptions.searchInProductId" />
+                  <label for="productidcheck">Product Id</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="skucheck" ng-model="searchOptions.searchInSKU" />
+                  <label for="skucheck">SKU</label>
+                </div>
+                <div class="filter-item">
+                  <input class="custom-checkbox" type="checkbox" id="notescheck" ng-model="searchOptions.searchInNotes" />
+                  <label for="notescheck">Notes</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-filter">
+          <div ng-show="pes.show.newProducts" class="common-btn-black autowidth" ng-click="loadNewProducts()" ng-bind="newProductsLabel"></div>
+        </div>
+      </div>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div ng-class="['check-col', {productsactionsbar: ui.showProductsSelectedActions}]">
+          <div class="header-check">
+            <input id="productcheckall" type="checkbox" class="custom-checkbox" ng-model="ui.allProductsSelected" ng-change="toggleSelectAllProducts()">
+            <label for="productcheckall">&nbsp;</label>
+          </div>
+          <div class="common-btn-gray" ng-show="ui.showProductsSelectedActions && selectedProducts.length > 1" ng-click="mergeProducts()">
+            Merge Products
+          </div>
+          <div class="common-btn-negative small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(selectedProducts, 'inprogress')">
+            Reject
+          </div>
+          <div class="common-btn-positive small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(selectedProducts, 'approved')">
+            Approve
+          </div>
+          <div class="selected-count" ng-show="ui.showProductsSelectedActions">
+            {{selectedProducts.length}} products selected
+          </div>
+        </div>
+        <div class="name-col" ng-click="reOrderList('name')" ng-show="!ui.showProductsSelectedActions"><span>Product Name</span> <i class="fa fa-sort"></i></div>
+        <div class="sku-col" ng-click="reOrderList('sku')" ng-show="!ui.showProductsSelectedActions"><span>SKU's</span> <i class="fa fa-sort"></i></div>
+        <div class="image-col" ng-click="reOrderList('image')" ng-show="!ui.showProductsSelectedActions"><span>Image</span> <i class="fa fa-sort"></i></div>
+        <div class="status-col" ng-click="reOrderList('status')" ng-show="!ui.showProductsSelectedActions"><span>Status</span> <i class="fa fa-sort"></i></div>
+        <div class="type-col" ng-click="reOrderList('type')" ng-show="!ui.showProductsSelectedActions"><span>Type</span> <i class="fa fa-sort"></i></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data" ng-repeat="product in pes.productList track by product.productId">
+        <div class="check-col">
+          <input id="productcheck{{$index}}" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-change="toggleSelectProduct(product)">
+          <label for="productcheck{{$index}}">&nbsp;</label>
+        </div>
+        <div class="name-col" ng-bind-html="product.name | highlight:searchOptions.searchText" ng-click="viewProduct(product)"></div>
+        <div class="sku-col" ng-bind="product.sku_count" ng-click="viewProduct(product)"></div>
+        <div class="image-col" ng-click="viewProduct(product)">
+          <i ng-class="['fa common-fa', {'fa-check': product.image >= 1, 'fa-times': product.image === 0}]"></i>
+        </div>
+        <div class="status-col" ng-bind="product.status" ng-click="viewProduct(product)"></div>
+        <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div>
+      </div>
+    </div>
+  </div>
+  <!--
+  RIGHT SIDE
+  -->
+  <div class="right-side-content" ng-show="ui.display !== 'fulltable'">
+    <div class="title">Edit Product</div>
+    <div class="side-panel">
+      <div class="columns status-action">
+        <div class="first-column">
+          <div class="common-field-title">Status</div>
+          <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
+        </div>
+        <div class="second-column" ng-hide="loading">
+          <div ng-if="pes.currentProduct.status != 'new'" class="common-btn-black" ng-click="pes.markAsNew()" >Mark as New</div>
+          <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
+          <div ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsApproveDialog()">Mark as Approved</div>
+          <div class="common-btn-positive" ng-click="saveProduct()">Save</div>
+        </div>
+      </div>
+      <div class="product-name" ng-bind="pes.currentProduct.name"></div>
+      <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
+      <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
+      <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
+      <div class="separator"></div>
+      <div class="common-field-title">Title</div>
+      <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.name">
+      <div class="common-field-title">Product Type</div>
+      <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="pes.currentProduct.productTypeId">
+      </selectize>
+      <div class="common-field-title">Category</div>
+      <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category">
+      </selectize>
+      <div class="columns tags-columns">
+        <div class="first-column">
+          <div class="common-field-title">Add new tag</div>
+          <input type="text" class="common-input" ng-model="newTag.value">
+          <div class="common-btn-positive small" ng-click="addTag(newTag.value)">Add <i class="fa fa-plus"></i></div>
+        </div>
+        <div class="second-column" ng-hide="loading">
+          <div class="common-field-title">Current tags</div>
+          <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag"><span ng-bind="tag.value"></span> <i class="fa fa-times" ng-click="removeTag($index)"></i></div>
+        </div>
+      </div>
+      <div class="verified">
+        <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" />
+        <label for="verifiedByBrand">Verified by Brand</label>
+      </div>
+      <div class="columns media-columns">
+        <div class="first-column">
+          <div class="common-field-title">Audio</div>
+          <div ng-show="pes.currentProduct.audio">
+            <div class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
+            <div class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
+            <div class="common-btn-negative" ng-click="removeAudio()"><i class="fa fa-trash-o"></i> Remove</div>
+            <button class="common-btn-silver" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
+          </div>
+          <small ng-show="!pes.currentProduct.audio">
+          No audio uploaded yet.
+          </small>
+        </div>
+        <div class="second-column">
+          <div class="common-field-title">Image</div>
+          <div class="product-image" ng-repeat="image in pes.currentProduct.images">
+            <a ng-href="{{ image.publicUrl }}" target="_blank">
+              <img ng-src="{{image.publicUrl}}" />
+            </a>
+            <div class="common-btn-negative" ng-click="pes.removeImage(image)"><i class="fa fa-trash-o"></i> Remove</div>
+          </div>
+          <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
+          No images uploaded yet.
+          </small>
+          <button class="common-btn-silver" ngf-select="pes.uploadMedia($files)">Upload Image</button>
+        </div>
+      </div>
+      <div class="common-field-title">Description / Script</div>
+      <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions">
+      </medium-editor>
+      <div ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type" ng-if="prop.visibility">
+        <div class="common-field-title">{{prop.label}} <span ng-show="prop.info"> - ({{ prop.info }})</span></div>
+        <input class="common-input" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
+        <textarea class="common-textarea" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{ prop.info }}"></textarea>
+        <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig" options="Countries.allCountries" ng-model="prop.value">
+        </selectize>
+      </div>
+      <div ng-if="pes.currentProduct.notes">
+        <div class="common-field-title" >Research Notes</div>
+        <textarea class="common-textarea" ng-model="pes.currentProduct.notes"></textarea>
+      </div>
+      <div class="common-field-title" >Keyboard Shortcuts:</div>
+      <div class="shortcuts-action">
+        <div>
+          <p>
+            <code>Ctrl + S / ⌘ + S</code> <strong>-- Save Product</strong>
+          </p>
+          <p>
+            <code>Ctrl + D / ⌘ + D</code> <strong>-- Mark As Done</strong>
+          </p>
+        </div>
+        <div class="common-btn-negative" ng-if="permissions.curator" ng-click="showDeleteProductDialog()">Delete Product</div>
+      </div>
+    </div>
+  </div>
+</div>

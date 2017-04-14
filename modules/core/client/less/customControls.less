@@ -213,3 +213,33 @@
     .placeholder({ color: #a1a7af; });
   }
 }
+
+// TOASTR
+// TOASTR
+// TOASTR
+#toast-container{
+  .toast{
+    width: 520px;
+    border-radius: 4px;
+    font-family: @avenir;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    padding: 10px 10px 10px 39px;
+    box-shadow: 0px 0px 8px #999 !important;
+    background-position: 11px center, center;
+  }
+  &>.toast-success{
+    background-image: url('/img/success.png'), linear-gradient(to top, #088456, #079560) !important;
+  }
+  &>.toast-info{
+    background-image: url('/img/info.png'), linear-gradient(to top, #e1e4e9, #f3f7fa) !important;
+    color: #252e3e;
+  }
+  &>.toast-error{
+    background-image: url('/img/error.png'), linear-gradient(to top, #f5515f, #9f031b) !important;
+  }
+}

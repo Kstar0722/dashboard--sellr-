@@ -41,11 +41,12 @@
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="storeOwner.inviteUser">Invite User</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="manager.stores">Stores Manager</li>
         <!-- STORE OWNER -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.products.listed">Products</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products Uploader</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Account</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Settings</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports">Reports</li>
       </ul>
     </div>

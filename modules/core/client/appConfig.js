@@ -311,6 +311,29 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/storeOwner/reports.html',
         controller: 'StoreOwnerReportsController'
       })
+      .state('storeOwner.products', {
+        url: '/products',
+        templateUrl: 'modules/users/client/views/storeOwner/products.html',
+        controller: 'StoreOwnerProductsController'
+      })
+      .state('storeOwner.products.listed', {
+        url: '/listed',
+        views: {
+          'pagecontent': {
+            templateUrl: 'modules/users/client/views/storeOwner/listedProducts.html',
+            controller: 'StoreOwnerListedProductsController'
+          }
+        }
+      })
+      .state('storeOwner.products.promoted', {
+        url: '/promoted',
+        views: {
+          'pagecontent': {
+            templateUrl: 'modules/users/client/views/storeOwner/promotedProducts.html',
+            controller: 'StoreOwnerPromotedProductsController'
+          }
+        }
+      })
       //
       // SUPPLIER ROUTES
       //
