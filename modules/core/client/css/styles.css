@@ -7729,6 +7729,105 @@ body.websiteBuilder #loading-bar-spinner {
 #toast-container > .toast-error {
   background-image: url('/img/error.png'), linear-gradient(to top, #f5515f, #9f031b) !important;
 }
+.md-tooltip {
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #313d4f !important;
+  padding: 10px 15px;
+}
+.md-tooltip.md-show {
+  opacity: 1 !important;
+}
+.store-owner-promoted-products-view {
+  background-color: #eff3f6;
+  padding: 4vh 3vw 10vh 3vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #354052;
+}
+.store-owner-promoted-products-view .promoted-box {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+  width: 300px;
+  padding: 10px 10px 20px;
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-bottom: 30px;
+}
+.store-owner-promoted-products-view .promoted-box.add {
+  color: #fff;
+  background-color: #ccd3da;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 260px;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+.store-owner-promoted-products-view .promoted-box.add .fa {
+  font-size: 34px;
+  margin-bottom: 15px;
+}
+.store-owner-promoted-products-view .promoted-box .image-container {
+  width: 100%;
+  height: 100px;
+  border-radius: 4px;
+  background-color: #f8f9fb;
+}
+.store-owner-promoted-products-view .promoted-box .name {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 25px;
+}
+.store-owner-promoted-products-view .promoted-box .aux-text {
+  font-size: 12px;
+  color: #7f8fa4;
+  margin-top: 8px;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container .icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container .icon:last-child {
+  margin-right: 0px;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container .icon img {
+  width: 100%;
+  height: 100%;
+}
+.store-owner-promoted-products-view .promoted-box .btns-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+.store-owner-promoted-products-view .promoted-box .btns-container .trash {
+  color: #fff;
+  background-color: #a80000;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 12px;
+}
 .store-owner-listed-products-view {
   background-color: #eff3f6;
   min-height: 90vh;

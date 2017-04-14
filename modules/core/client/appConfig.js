@@ -313,8 +313,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('storeOwner.products', {
         url: '/products',
-        templateUrl: 'modules/users/client/views/storeOwner/products.html',
-        controller: 'StoreOwnerProductsController'
+        templateUrl: 'modules/users/client/views/storeOwner/products.html'
       })
       .state('storeOwner.products.listed', {
         url: '/listed',

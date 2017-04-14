@@ -1,4 +1,96 @@
 // 
+// PROMOTED PRODUCTS
+// 
+.store-owner-promoted-products-view {
+  background-color: #eff3f6;
+  padding: 4vh 3vw 10vh 3vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #354052;
+  .promoted-box{
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: solid 1px #e6eaee;
+    width: 300px;
+    padding: 10px 10px 20px;
+    margin-left: 18px;
+    margin-right: 18px;
+    margin-bottom: 30px;
+    &.add{
+      color: #fff;
+      background-color: #ccd3da;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      min-height: 260px;
+      font-size: 24px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      .fa{
+        font-size: 34px;
+        margin-bottom: 15px;
+      }
+    }
+    .image-container{
+      width: 100%;
+      height: 100px;
+      border-radius: 4px;
+      background-color: #f8f9fb;
+    }
+    .name{
+      font-weight: bold;
+      .ellipsized;
+      margin-top: 25px;
+    }
+    .aux-text{
+      font-size: 12px;
+      color: #7f8fa4;
+      margin-top: 8px;
+    }
+    .icons-container{
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 10px;
+      .icon{
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        &:last-child{
+          margin-right: 0px;
+        }
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .btns-container{
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      .trash{
+        color: #fff;
+        background-color: #a80000;
+        border-radius: 4px;
+        cursor: pointer;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 12px;
+      }
+    }
+  }
+}
+
+// 
 // LISTED PRODUCTS
 // 
 .store-owner-listed-products-view {
@@ -136,6 +228,7 @@
     }
   }
 }
+
 // 
 // REPORTS VIEW
 // 
