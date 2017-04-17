@@ -63,6 +63,21 @@
       background-color: #ffffff;
       border: solid 1px #e6eaee;
       padding: 0 30px 30px 30px;
+      .separator{
+        margin: 30px 20px;
+        border-bottom: 1px solid #e6eaee;
+      }
+      .columns{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0;
+        .first-column,
+        .second-column{
+          width: 48%;
+        }
+      }
       .state-zip-container{
         display: flex;
         flex-flow: row nowrap;
@@ -111,17 +126,6 @@
     .right-side-content{
       width: 42vw;
       .side-panel{
-        .columns{
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-          align-items: flex-start;
-          padding: 0;
-          .first-column,
-          .second-column{
-            width: 48%;
-          }
-        }
         .action-footer{
           display: flex;
           flex-flow: row nowrap;
