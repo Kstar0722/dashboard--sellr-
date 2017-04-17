@@ -1,6 +1,104 @@
 // 
 // PROMOTED PRODUCTS
 // 
+.store-owner-subscribers-view {
+  .common-view-layout;
+  padding: 4vh 10vw 10vh 10vw;
+  .left-side-content{
+    .main-table{
+      margin-top: 0px;
+      .main-header{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+        padding: 0px 20px;
+        .title-container{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          .title{
+            font-size: 24px;
+            font-weight: normal;
+            padding: 20px 10px 20px 0;
+          }
+          .separator{
+            border-left: 1px solid #dfe3e9;
+          }
+          .email-count{
+            margin-left: 10px;
+            font-size: 14px;
+            color: #7f8fa4;
+          }
+        }
+        .header-right{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center; 
+          .common-input-with-icon{
+            margin-right: 20px;
+          }
+        }
+      }
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 10px 40px;
+        .email-col{
+          width: 34%;
+          padding-right: 1%;
+        }
+        .date-col
+        {
+          width: 19%;
+          padding-right: 1%;
+        }
+        .campaign-col{
+          width: 19%;
+          padding-right: 1%;
+        }
+        .action-col{
+          width: 25%;
+          text-align: center;
+        }
+      }
+      .columns-header{
+        background-color: #f5f8fa;
+        border-top: solid 1px #e6eaee;
+        border-bottom: solid 1px #e6eaee;
+        color: #7f8fa4;
+        .fa{
+          margin-left: 10px;
+        }
+      }
+      .columns-data{
+        border-bottom: 1px solid #e6eaee;
+        &:last-child{
+          border-bottom: none;
+        }
+        &:hover{
+          background-color: rgba(215,251,232,0.2);
+        }
+        .campaign-col,
+        .date-col{
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+// 
+// PROMOTED PRODUCTS
+// 
 .store-owner-promoted-products-view {
   background-color: #eff3f6;
   padding: 4vh 3vw 10vh 3vw;

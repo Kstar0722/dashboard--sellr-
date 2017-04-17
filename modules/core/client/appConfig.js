@@ -311,6 +311,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/storeOwner/reports.html',
         controller: 'StoreOwnerReportsController'
       })
+      .state('storeOwner.subscribers', {
+        url: '/subscribers',
+        templateUrl: 'modules/users/client/views/storeOwner/subscribers.html',
+        controller: 'StoreOwnerSubscribersController'
+      })
       .state('storeOwner.products', {
         url: '/products',
         templateUrl: 'modules/users/client/views/storeOwner/products.html'

@@ -7764,6 +7764,234 @@ body.websiteBuilder #loading-bar-spinner {
 .md-tooltip.md-show {
   opacity: 1 !important;
 }
+.store-owner-subscribers-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 3vw 10vh 3vw;
+  color: #354052;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4vh 10vw 10vh 10vw;
+}
+.store-owner-subscribers-view .title {
+  font-size: 22px;
+  font-weight: bold;
+}
+.store-owner-subscribers-view .auto-save-box {
+  position: absolute;
+  top: 4vh;
+  right: 3vw;
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8fa4;
+}
+.store-owner-subscribers-view .auto-save-box .fa {
+  margin-right: 7px;
+  color: #37b148;
+}
+.store-owner-subscribers-view .left-side-content {
+  width: 58vw;
+  transition: width ease .2s;
+}
+.store-owner-subscribers-view .left-side-content.full {
+  width: 100%;
+}
+.store-owner-subscribers-view .left-side-content .main-table {
+  padding: 0px;
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+}
+.store-owner-subscribers-view .left-side-content .main-table .filter-header {
+  padding: 15px 15px 0px 15px;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-data,
+.store-owner-subscribers-view .left-side-content .main-table .columns-header {
+  padding: 0px 15px;
+}
+.store-owner-subscribers-view .right-side-content {
+  width: 32vw;
+}
+.store-owner-subscribers-view .right-side-content.ng-hide {
+  width: 0;
+  overflow: hidden;
+}
+.store-owner-subscribers-view .right-side-content.ng-hide-add {
+  transition: width ease-in 0.2s;
+}
+.store-owner-subscribers-view .right-side-content.ng-hide-remove {
+  transition: width ease-out 0.2s;
+}
+.store-owner-subscribers-view .right-side-content .side-panel {
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+  padding: 0 30px 30px 30px;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .separator {
+  margin: 30px 20px;
+  border-bottom: 1px solid #e6eaee;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .columns {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .columns .first-column,
+.store-owner-subscribers-view .right-side-content .side-panel .columns .second-column {
+  width: 48%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .state-zip-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .state-zip-container .state {
+  width: 58%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .state-zip-container .state .common-select-container {
+  width: 100%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .state-zip-container .state .common-select-container .common-select-trigger,
+.store-owner-subscribers-view .right-side-content .side-panel .state-zip-container .state .common-select-container .common-select-options {
+  width: 100%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .state-zip-container .zip {
+  width: 37%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .date-inputs {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .date-inputs .start-date {
+  width: 45%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .date-inputs .end-date {
+  width: 45%;
+}
+.store-owner-subscribers-view .right-side-content .side-panel .upload-image-box {
+  width: 100%;
+  background-color: rgba(223, 227, 233, 0.3);
+  height: 340px;
+}
+.store-owner-subscribers-view.large-sidebar .left-side-content {
+  width: 48vw;
+}
+.store-owner-subscribers-view.large-sidebar .left-side-content.full {
+  width: 100%;
+}
+.store-owner-subscribers-view.large-sidebar .right-side-content {
+  width: 42vw;
+}
+.store-owner-subscribers-view.large-sidebar .right-side-content .side-panel .action-footer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+.store-owner-subscribers-view .left-side-content .main-table {
+  margin-top: 0px;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding: 0px 20px;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header .title-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header .title-container .title {
+  font-size: 24px;
+  font-weight: normal;
+  padding: 20px 10px 20px 0;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header .title-container .separator {
+  border-left: 1px solid #dfe3e9;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header .title-container .email-count {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #7f8fa4;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header .header-right {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.store-owner-subscribers-view .left-side-content .main-table .main-header .header-right .common-input-with-icon {
+  margin-right: 20px;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header,
+.store-owner-subscribers-view .left-side-content .main-table .columns-data {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 40px;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header .email-col,
+.store-owner-subscribers-view .left-side-content .main-table .columns-data .email-col {
+  width: 34%;
+  padding-right: 1%;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header .date-col,
+.store-owner-subscribers-view .left-side-content .main-table .columns-data .date-col {
+  width: 19%;
+  padding-right: 1%;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header .campaign-col,
+.store-owner-subscribers-view .left-side-content .main-table .columns-data .campaign-col {
+  width: 19%;
+  padding-right: 1%;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header .action-col,
+.store-owner-subscribers-view .left-side-content .main-table .columns-data .action-col {
+  width: 25%;
+  text-align: center;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header {
+  background-color: #f5f8fa;
+  border-top: solid 1px #e6eaee;
+  border-bottom: solid 1px #e6eaee;
+  color: #7f8fa4;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-header .fa {
+  margin-left: 10px;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-data {
+  border-bottom: 1px solid #e6eaee;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-data:last-child {
+  border-bottom: none;
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-data:hover {
+  background-color: rgba(215, 251, 232, 0.2);
+}
+.store-owner-subscribers-view .left-side-content .main-table .columns-data .campaign-col,
+.store-owner-subscribers-view .left-side-content .main-table .columns-data .date-col {
+  font-weight: normal;
+}
 .store-owner-promoted-products-view {
   background-color: #eff3f6;
   padding: 4vh 3vw 10vh 3vw;

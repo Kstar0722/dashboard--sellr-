@@ -1,0 +1,45 @@
+<div class="store-owner-subscribers-view">
+  <div class="left-side-content full">
+    <div class="main-table">
+      <!--
+      MAIN HEADER
+      -->
+      <div class="main-header">
+        <div class="title-container">
+          <div class="title">
+            Email Subscribers
+          </div>
+          <div class="separator">&nbsp;</div>
+          <div class="email-count">420 total</div>
+        </div>
+        <div class="header-right">
+          <div class="common-input-with-icon">
+            <input type="text" placeholder="Search" class="common-input">
+            <i class="fa fa-search"></i>
+          </div>
+          <div class="common-btn-black"><i class="fa fa-upload"></i> Export List</div>
+        </div>
+      </div>
+      <!--
+      COLUMNS HEADER
+      -->
+      <div class="columns-header">
+        <div class="email-col"><span>Email Address</span></div>
+        <div class="date-col"><span>Date Subscribed</span></div>
+        <div class="campaign-col"><span>Email Campaigns</span></div>
+        <div class="action-col"><span>&nbsp;</span></div>
+      </div>
+      <!--
+      COLUMNS DATA ROWS
+      -->
+      <div class="columns-data" ng-click="ui.display = 'editPlan'" ng-repeat="i in [1,2,3,4,5,6,7,8,9,0,11,22,33,44]">
+        <div class="email-col">isom.heidenreich@gmail.com</div>
+        <div class="date-col">June 7, 2016</div>
+        <div class="campaign-col">99</div>
+        <div class="action-col">
+          <div class="common-btn-gray">See Email History</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
