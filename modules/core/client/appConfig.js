@@ -338,6 +338,28 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
+      .state('storeOwner.marketing', {
+        url: '/marketing',
+        templateUrl: 'modules/users/client/views/storeOwner/marketing.html'
+      })
+      .state('storeOwner.marketing.channels', {
+        url: '/channels',
+        views: {
+          'pagecontent': {
+            templateUrl: 'modules/users/client/views/storeOwner/marketingChannels.html',
+            controller: 'StoreOwnerMarketingChannelsController'
+          }
+        }
+      })
+      .state('storeOwner.marketing.posts', {
+        url: '/posts',
+        views: {
+          'pagecontent': {
+            templateUrl: 'modules/users/client/views/storeOwner/marketingPosts.html',
+            controller: 'StoreOwnerMarketingPostsController'
+          }
+        }
+      })
       //
       // SUPPLIER ROUTES
       //

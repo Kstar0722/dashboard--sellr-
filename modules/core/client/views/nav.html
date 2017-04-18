@@ -41,14 +41,15 @@
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="storeOwner.inviteUser">Invite User</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="manager.stores">Stores Manager</li>
         <!-- STORE OWNER -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.products.promoted">Products</li>
+        <li ui-sref-active="{active: 'storeOwner.products'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.products.promoted">Products</li>
+        <li ui-sref-active="{active: 'storeOwner.marketing'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.marketing.channels">Marketing Channels</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.subscribers">Subscribers</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports">Reports</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products Uploader</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Settings</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports">Reports</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.subscribers">Subscribers</li>
       </ul>
     </div>
     <div class="right-side">

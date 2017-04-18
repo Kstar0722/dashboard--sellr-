@@ -7764,6 +7764,200 @@ body.websiteBuilder #loading-bar-spinner {
 .md-tooltip.md-show {
   opacity: 1 !important;
 }
+.store-owner-marketing-channels-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 3vw 10vh 3vw;
+  color: #354052;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-marketing-channels-view .left-column,
+.store-owner-marketing-channels-view .right-column {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: 1px solid #e6eaee;
+}
+.store-owner-marketing-channels-view .left-column {
+  width: 29%;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item {
+  padding: 15px;
+  border-bottom: 1px solid #e6eaee;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item:last-child {
+  border-bottom: none;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item .icon-container {
+  margin-right: 20px;
+  width: 30px;
+  height: 30px;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item .icon-container img {
+  height: 30px;
+  width: 30px;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item .channel-container {
+  font-size: 14px;
+  color: #354052;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item .channel-container .title {
+  font-weight: bold;
+}
+.store-owner-marketing-channels-view .left-column .marketing-item .channel-container .subtitle {
+  opacity: .6;
+}
+.store-owner-marketing-channels-view .right-column {
+  width: 69%;
+  height: 800px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 144px;
+  color: #ebebeb;
+}
+.store-owner-marketing-posts-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 3vw 10vh 3vw;
+  color: #354052;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-marketing-posts-view .title {
+  font-size: 22px;
+  font-weight: bold;
+}
+.store-owner-marketing-posts-view .auto-save-box {
+  position: absolute;
+  top: 4vh;
+  right: 3vw;
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8fa4;
+}
+.store-owner-marketing-posts-view .auto-save-box .fa {
+  margin-right: 7px;
+  color: #37b148;
+}
+.store-owner-marketing-posts-view .left-side-content {
+  width: 58vw;
+  transition: width ease .2s;
+}
+.store-owner-marketing-posts-view .left-side-content.full {
+  width: 100%;
+}
+.store-owner-marketing-posts-view .left-side-content .main-table {
+  padding: 0px;
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+}
+.store-owner-marketing-posts-view .left-side-content .main-table .filter-header {
+  padding: 15px 15px 0px 15px;
+}
+.store-owner-marketing-posts-view .left-side-content .main-table .columns-data,
+.store-owner-marketing-posts-view .left-side-content .main-table .columns-header {
+  padding: 0px 15px;
+}
+.store-owner-marketing-posts-view .right-side-content {
+  width: 32vw;
+}
+.store-owner-marketing-posts-view .right-side-content.ng-hide {
+  width: 0;
+  overflow: hidden;
+}
+.store-owner-marketing-posts-view .right-side-content.ng-hide-add {
+  transition: width ease-in 0.2s;
+}
+.store-owner-marketing-posts-view .right-side-content.ng-hide-remove {
+  transition: width ease-out 0.2s;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel {
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e6eaee;
+  padding: 0 30px 30px 30px;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .separator {
+  margin: 30px 20px;
+  border-bottom: 1px solid #e6eaee;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .columns {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .columns .first-column,
+.store-owner-marketing-posts-view .right-side-content .side-panel .columns .second-column {
+  width: 48%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .state-zip-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .state-zip-container .state {
+  width: 58%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .state-zip-container .state .common-select-container {
+  width: 100%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .state-zip-container .state .common-select-container .common-select-trigger,
+.store-owner-marketing-posts-view .right-side-content .side-panel .state-zip-container .state .common-select-container .common-select-options {
+  width: 100%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .state-zip-container .zip {
+  width: 37%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .date-inputs {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .date-inputs .start-date {
+  width: 45%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .date-inputs .end-date {
+  width: 45%;
+}
+.store-owner-marketing-posts-view .right-side-content .side-panel .upload-image-box {
+  width: 100%;
+  background-color: rgba(223, 227, 233, 0.3);
+  height: 340px;
+}
+.store-owner-marketing-posts-view.large-sidebar .left-side-content {
+  width: 48vw;
+}
+.store-owner-marketing-posts-view.large-sidebar .left-side-content.full {
+  width: 100%;
+}
+.store-owner-marketing-posts-view.large-sidebar .right-side-content {
+  width: 42vw;
+}
+.store-owner-marketing-posts-view.large-sidebar .right-side-content .side-panel .action-footer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
 .store-owner-subscribers-view {
   background-color: #eff3f6;
   min-height: 90vh;

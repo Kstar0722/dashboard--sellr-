@@ -1,4 +1,72 @@
 // 
+// MARKETING CHANNELS
+// 
+.store-owner-marketing-channels-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 3vw 10vh 3vw;
+  color: #354052;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  .left-column,
+  .right-column{
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: 1px solid #e6eaee;
+  }
+  .left-column{
+    width: 29%;
+    .marketing-item{
+      padding: 15px;
+      border-bottom: 1px solid #e6eaee;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      &:last-child{
+        border-bottom: none;
+      }
+      .icon-container{
+        margin-right: 20px;
+        width: 30px;
+        height: 30px;
+        img{
+          height: 30px;
+          width: 30px;
+        }
+      }
+      .channel-container{
+        font-size: 14px;
+        color: #354052;
+        .title{
+          font-weight: bold;
+        }
+        .subtitle{
+          opacity: .6;
+        }
+      }
+    }
+  }
+  .right-column{
+    width: 69%;
+    height: 800px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 144px;
+    color: #ebebeb;
+  }
+}
+// 
+// MARKETING POSTS
+// 
+.store-owner-marketing-posts-view {
+  .common-view-layout;
+}
+// 
 // PROMOTED PRODUCTS
 // 
 .store-owner-subscribers-view {
