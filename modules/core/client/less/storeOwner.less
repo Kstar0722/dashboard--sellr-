@@ -4,7 +4,7 @@
 .store-owner-marketing-channels-view {
   background-color: #eff3f6;
   min-height: 90vh;
-  padding: 4vh 3vw 10vh 3vw;
+  padding: 4vh 10vw 10vh 10vw;
   color: #354052;
   display: flex;
   flex-flow: row nowrap;
@@ -64,7 +64,94 @@
 // MARKETING POSTS
 // 
 .store-owner-marketing-posts-view {
-  .common-view-layout;
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 10vw 10vh 10vw;
+  color: #354052;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  .email-column,
+  .twitter-column,
+  .facebook-column,
+  .ads-column{
+    width: 22%;
+    .title-container{
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+      img{
+        margin: 0 10px;
+      }
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .white-column-box{
+      border-radius: 4px;
+      background-color: #f7f9fb;
+      border: solid 1px #e6eaee;
+      padding: 10px 10px 0px 10px;
+      .ad-preview{
+        height: 130px;
+        background-color: #fff;
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: #c3c5d1;
+        margin-bottom: 15px;
+      }
+      .card{
+        background-color: #fff;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        .post-image-container{
+          height: 130px;
+          background-color: #e8eaf1;
+          width: 100%;
+        }        
+        .title{
+          padding: 10px 15px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .info{
+          padding: 5px 15px;
+          font-size: 12px;
+          color: #7f8fa4;
+          .fa{
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+  .email-column{
+    .white-column-box{
+      border-top: 4px solid #313d4f;
+    }
+  }
+  .twitter-column{
+    .white-column-box{
+      border-top: 4px solid #1da1f2;
+    }
+  }
+  .facebook-column{
+    .white-column-box{
+      border-top: 4px solid #3b5998;
+    }
+  }
+  .ads-column{
+    .white-column-box{
+      border-top: 4px solid #7f8fa4;
+    }
+  }
 }
 // 
 // PROMOTED PRODUCTS
