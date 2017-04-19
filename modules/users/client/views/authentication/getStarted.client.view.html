@@ -45,7 +45,7 @@
         </div>
         <div class="signin-container">
           <div>Already have a Sellr Account?</div>
-          <a ui-sref="authentication.signin">Click Here</a> to sign in!
+          <a ui-sref="signin">Click Here</a> to sign in!
         </div>
       </div>
       <div class="step1" layout="column" ng-if="ui.step==1">
@@ -57,7 +57,7 @@
           </div>
           <div class="details already-registered" ng-if="ui.alreadyRegistered" ng-hide="ui.hideDetails">
             <div>An account with that email already exists.</div>
-            <div>Please <a ui-sref="authentication.signin({email:data.user.email})">click here</a> to sign in!</div>
+            <div>Please <a ui-sref="signin({email:data.user.email})">click here</a> to sign in!</div>
           </div>
         </div>
         <div class="new-user" ng-include="'/modules/users/client/views/authentication/userForm.client.view.html'"></div>

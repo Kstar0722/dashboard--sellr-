@@ -8,7 +8,7 @@ angular.module('core').factory('authInterceptor', ['$q', '$injector',
           if (!rejection.config.ignoreAuthModule) {
             switch (rejection.status) {
               case 401:
-                $injector.get('$state').transitionTo('authentication.signin')
+                $injector.get('$state').transitionTo('signin')
                 break
               case 403:
                 $injector.get('$state').transitionTo('forbidden')

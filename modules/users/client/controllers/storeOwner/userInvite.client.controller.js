@@ -109,7 +109,7 @@ angular.module('core').controller('StoreOwnerInviteController', [ '$scope', 'Aut
     function onInviteSuccess (response) {
       toastr.success('User Invited', 'Invite Success!')
       console.dir(response)
-      $state.go($state.previous.state.name || 'home', $state.previous.params)
+      $state.go($state.previous.state.name || 'signin', $state.previous.params)
     }
 
     function onInviteError (err) {

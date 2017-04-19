@@ -795,6 +795,7 @@ body.loading .main-content {
   align-items: center;
   margin-top: 30px;
 }
+.common-btn,
 .common-btn-silver,
 .common-btn-positive,
 .common-btn-black,
@@ -819,6 +820,7 @@ body.loading .main-content {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.common-btn .fa,
 .common-btn-silver .fa,
 .common-btn-positive .fa,
 .common-btn-black .fa,
@@ -826,6 +828,7 @@ body.loading .main-content {
 .common-btn-negative .fa {
   margin-right: 5px;
 }
+.common-btn.small,
 .common-btn-silver.small,
 .common-btn-positive.small,
 .common-btn-black.small,
@@ -833,6 +836,7 @@ body.loading .main-content {
 .common-btn-negative.small {
   width: 80px;
 }
+.common-btn.autowidth,
 .common-btn-silver.autowidth,
 .common-btn-positive.autowidth,
 .common-btn-black.autowidth,
@@ -841,6 +845,7 @@ body.loading .main-content {
   width: auto;
   padding: 0 20px;
 }
+.common-btn.has-left-icon,
 .common-btn-silver.has-left-icon,
 .common-btn-positive.has-left-icon,
 .common-btn-black.has-left-icon,
@@ -851,6 +856,7 @@ body.loading .main-content {
   justify-content: center;
   align-items: center;
 }
+.common-btn.has-left-icon .fa,
 .common-btn-silver.has-left-icon .fa,
 .common-btn-positive.has-left-icon .fa,
 .common-btn-black.has-left-icon .fa,
@@ -858,6 +864,7 @@ body.loading .main-content {
 .common-btn-negative.has-left-icon .fa {
   margin-right: 5px;
 }
+.common-btn[disabled],
 .common-btn-silver[disabled],
 .common-btn-positive[disabled],
 .common-btn-black[disabled],
@@ -1360,6 +1367,90 @@ body.loading .main-content {
 }
 .nav-container .secondary-nav .account-options-box .account-option:hover {
   background-color: rgba(42, 191, 136, 0.1);
+}
+.public-signin-view {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+}
+.public-signin-view .left-column {
+  background-color: #fff;
+  height: 100vh;
+  width: 50vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+.public-signin-view .left-column .left-content {
+  position: relative;
+  margin-right: 70px;
+  padding-bottom: 40px;
+}
+.public-signin-view .left-column .left-content .title {
+  font-size: 26px;
+  color: #354052;
+  margin-bottom: 10px;
+}
+.public-signin-view .left-column .left-content .subtitle {
+  font-size: 20px;
+  color: #7f8fa4;
+}
+.public-signin-view .left-column .left-content img {
+  position: absolute;
+  top: -70px;
+  left: -40px;
+}
+.public-signin-view .right-column {
+  background-color: #2bbf88;
+  height: 100vh;
+  width: 50vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.public-signin-view .right-column .right-content .login-text {
+  font-size: 26px;
+  color: #ffffff;
+  padding-left: 40px;
+}
+.public-signin-view .right-column .right-content .login-box {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 15px 70px 45px 40px;
+}
+.public-signin-view .right-column .right-content .login-box .common-input {
+  width: 370px;
+}
+.public-signin-view .right-column .right-content .login-box .reset-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #7f8fa4;
+  max-width: 370px;
+}
+.public-signin-view .right-column .right-content .login-buttons {
+  margin-top: 20px;
+  padding-left: 40px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.public-signin-view .right-column .right-content .login-buttons .sign-up,
+.public-signin-view .right-column .right-content .login-buttons .forgot-pass {
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+  margin-left: 25px;
+}
+.public-signin-view .right-column .right-content .login-buttons .sign-up span,
+.public-signin-view .right-column .right-content .login-buttons .forgot-pass span {
+  text-decoration: underline;
+}
+.public-signin-view .right-column .right-content .login-buttons .facebook {
+  background-color: #3b5998;
 }
 section.userList .invite {
   background-color: #2DC89A;

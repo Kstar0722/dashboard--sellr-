@@ -62,19 +62,21 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       is: function (val) { return this.pattern.test(val) },
       pattern: /.*/
     })
-
     // ROUTES START
     // ROUTES START
     // ROUTES START
     $stateProvider
       //
-      // GENERAL ROUTES
+      // UNPROTECTED ROUTES
       //
-      .state('home', {
+      .state('signin', {
         url: '/',
-        templateUrl: 'modules/core/client/views/home.client.view.html',
-        controller: 'HomeController',
-        public: true
+        templateUrl: 'modules/users/client/views/unprotected/signin.html',
+        controller: 'SigninController',
+        public: true,
+        params: {
+          email: null
+        }
       })
       .state('not-found', {
         url: '/not-found',
@@ -431,14 +433,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/reset',
         templateUrl: 'modules/users/client/views/password/reset-password.client.view.html',
         public: true
-      })
-      .state('authentication.signin', {
-        url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
-        public: true,
-        params: {
-          email: null
-        }
       })
       //
       // PASSWORD ROUTES
