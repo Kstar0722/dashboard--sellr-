@@ -8,31 +8,41 @@
   </div>
   <div class="right-column">
     <div class="right-content">
-      <div class="login-text" ng-bind="ui.resetpass ? 'Reset Password' : 'Login to your account'"></div>
-      <div class="login-box">
-        <div ng-if="ui.resetpass">
-          <div class="reset-text">Enter your email address below and we'll send a password reset link to this email</div>
-          <div class="common-field-title">Email</div>
-          <input type="text" class="common-input" placeholder="" value="">
-        </div>
-        <div ng-if="!ui.resetpass">
-          <div class="common-field-title">Email</div>
-          <input type="text" class="common-input" placeholder="" value="">
-          <div class="common-field-title">Password</div>
-          <input type="password" class="common-input" placeholder="" value="">
-        </div>
+      <div ng-if="!ui.resetpass">
+        <div class="login-text">Login to your account</div>
+        <form name="signinform" ng-submit="signin(signinform.$valid)" novalidate autocomplete="off">
+          <div class="login-box">
+            <div class="common-field-title">Email</div>
+            <input type="email" class="common-input" name="email" ng-model="ui.credentials.email" required>
+            <input-error-msg form="signinform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+            <div class="common-field-title">Password</div>
+            <input type="password" class="common-input" name="password" ng-model="ui.credentials.password" required minlength="8">
+            <input-error-msg form="signinform" field="password" errors="{required: 'Current Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+          </div>
+          <div class="login-buttons">
+            <button class="common-btn-black" type="submit">Sign In</button>
+            <div class="forgot-pass" ng-click="ui.resetpass = true">Forgot Password?</div>
+          </div>
+          <div class="login-buttons">
+            <div class="common-btn facebook" ng-click="loginFacebookUser()">Facebook login</div>
+            <div class="sign-up">Don't have an account? <span ui-sref="getStarted">Sign Up</span></div>
+          </div>
+        </form>
       </div>
-      <div class="login-buttons" ng-if="ui.resetpass">
-        <div class="common-btn-black">Send Email</div>
-        <div class="forgot-pass" ng-click="ui.resetpass = false">Cancel</div>
-      </div>
-      <div class="login-buttons" ng-if="!ui.resetpass">
-        <div class="common-btn-black">Sign In</div>
-        <div class="forgot-pass" ng-click="ui.resetpass = true">Forgot Password?</div>
-      </div>
-      <div class="login-buttons" ng-if="!ui.resetpass">
-        <div class="common-btn facebook">Facebook login</div>
-        <div class="sign-up">Don't have an account? <span ui-sref="getStarted">Sign Up</span></div>
+      <div ng-if="ui.resetpass">
+        <div class="login-text">Reset Password</div>
+        <form name="resetform" ng-submit="resetPassword(resetform.$valid)" novalidate autocomplete="off">
+          <div class="login-box">
+            <div class="reset-text">Enter your email address below and we'll send a password reset link to this email</div>
+            <div class="common-field-title">Email</div>
+            <input type="email" class="common-input" name="email" ng-model="ui.resetEmail" required>
+            <input-error-msg form="resetform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+          </div>
+          <div class="login-buttons">
+            <button class="common-btn-black" type="submit">Send Email</button>
+            <div class="forgot-pass" ng-click="ui.resetpass = false">Cancel</div>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -29,7 +29,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
     auth.user = null
     authToken.removeToken()
     localStorage.clear()
-    return $state.go('home')
+    return $state.go('signin')
   }
 
   function facebookAPIdataFetch (defer) {
