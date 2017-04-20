@@ -65,16 +65,16 @@
           <div class="second-column">
             <div class="common-field-title">Store</div>
             <div class="common-select-container">
-              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.storesOptionsSelect}, {error: ui.stateError}]" ng-click="openMenu('storesOptionsSelect')" ng-mouseover="openMenu('storesOptionsSelect')" ng-bind="ui.currentUser.stateName || 'Select Store'"></div>
-              <div class="common-select-options" ng-show="ui.storesOptionsSelect">
+              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.storesOptionsSelect}, {error: ui.stateError}]" ng-click="openMenu('storesOptionsSelect')" ng-bind="ui.currentUser.stateName || 'Select Store'"></div>
+              <div class="common-select-options" ng-show="ui.storesOptionsSelect" ng-mouseleave="ui.storesOptionsSelect = false">
                 <div class="common-select-option" ng-repeat="store in stores" ng-bind="store.name" ng-click="setStore(store)"></div>
               </div>
               <div class="common-input-error-msg" ng-show="ui.storeError">Store is required</div>
             </div>
             <div class="common-field-title">Select Role</div>
             <div class="common-select-container">
-              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.rolesOptionsSelect}, {error: ui.roleError}]" ng-click="openMenu('rolesOptionsSelect')" ng-mouseover="openMenu('rolesOptionsSelect')" ng-bind="ui.currentUser.stateName || 'Select Role'"></div>
-              <div class="common-select-options" ng-show="ui.rolesOptionsSelect">
+              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.rolesOptionsSelect}, {error: ui.roleError}]" ng-click="openMenu('rolesOptionsSelect')" ng-bind="ui.currentUser.stateName || 'Select Role'"></div>
+              <div class="common-select-options" ng-show="ui.rolesOptionsSelect" ng-mouseleave="ui.rolesOptionsSelect = false">
                 <div class="common-select-option" ng-repeat="role in roles" ng-bind="role.name" ng-click="setRole(role)"></div>
               </div>
               <div class="common-input-error-msg" ng-show="ui.roleError">Role is required</div>

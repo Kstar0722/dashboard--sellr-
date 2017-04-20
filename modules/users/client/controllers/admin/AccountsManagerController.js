@@ -5,11 +5,11 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.sortExpression = '+name'
-  accountsService.init({ expand: 'stores,stats' })
   $scope.accountsService = accountsService
   $scope.ui.actionsOptionsSelect = []
   $scope.UsStates = UsStates
   $scope.ui.currentAccount = {}
+  accountsService.init({ expand: 'stores,stats' })
 
   //
   // SCOPE FUNCTIONS
