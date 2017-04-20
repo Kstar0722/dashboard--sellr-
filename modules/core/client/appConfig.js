@@ -143,6 +143,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/users/client/views/admin/usersManager.html',
         controller: 'UsersManagerController'
       })
+      .state('admin.types', {
+        url: '/types',
+        templateUrl: 'modules/users/client/views/admin/productTypesManager.html',
+        controller: 'ProductTypesManagerController'
+      })
       .state('admin.device', {
         url: '/device',
         templateUrl: 'modules/users/client/views/admin/device-manager.client.view.html',

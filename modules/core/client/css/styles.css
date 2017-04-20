@@ -6540,6 +6540,153 @@ body.websiteBuilder #loading-bar-spinner {
 .users-manager-view .right-side-content .side-panel .checks-container .shoppr-check {
   width: 50%;
 }
+.product-types-manager-view {
+  background-color: #eff3f6;
+  min-height: 90vh;
+  padding: 4vh 10vw 10vh 10vw;
+  color: #354052;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.product-types-manager-view .left-column,
+.product-types-manager-view .right-column {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: 1px solid #e6eaee;
+}
+.product-types-manager-view .left-column {
+  width: 20%;
+}
+.product-types-manager-view .left-column .gray-container {
+  background-color: #f4f7f9;
+  padding: 15px 25px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.product-types-manager-view .left-column .gray-container .custom-selectize {
+  width: 100%;
+}
+.product-types-manager-view .left-column .gray-container:last-child {
+  border-top: 1px solid #e6eaee;
+}
+.product-types-manager-view .left-column .type-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px 25px;
+  border-top: 1px solid #e6eaee;
+}
+.product-types-manager-view .left-column .type-container .type-image {
+  width: 6%;
+  margin-right: 20px;
+}
+.product-types-manager-view .left-column .type-container .type-image img {
+  width: 100%;
+}
+.product-types-manager-view .left-column .type-container .industry {
+  font-size: 14px;
+  font-weight: bold;
+  color: #7f8fa4;
+}
+.product-types-manager-view .right-column {
+  width: 76%;
+}
+.product-types-manager-view .right-column .top-section {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+.product-types-manager-view .right-column .top-section .type-definition {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.product-types-manager-view .right-column .top-section .type-definition .type-definition-input {
+  margin-right: 35px;
+}
+.product-types-manager-view .right-column .top-section .type-definition .type-definition-input .common-field-title {
+  margin-top: 0px;
+}
+.product-types-manager-view .right-column .top-section .type-definition .type-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 4px;
+  border: solid 1px #dfe3e9;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+.product-types-manager-view .right-column .top-section .type-definition .type-image img {
+  height: 100%;
+}
+.product-types-manager-view .right-column .top-section .save-btn {
+  display: block;
+  margin-bottom: 20px;
+}
+.product-types-manager-view .right-column .separator {
+  background-color: #f5f8fa;
+  border-top: solid 1px #e6eaee;
+  border-bottom: solid 1px #e6eaee;
+  padding: 15px 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #7f8fa4;
+}
+.product-types-manager-view .right-column .form-element {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e6eaee;
+}
+.product-types-manager-view .right-column .form-element .form-element-definition {
+  width: 70%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.product-types-manager-view .right-column .form-element .form-element-definition .element-definition-input {
+  width: 33%;
+  padding-right: 35px;
+  box-sizing: border-box;
+}
+.product-types-manager-view .right-column .form-element .form-element-definition .element-definition-input .common-field-title {
+  margin-top: 0px;
+}
+.product-types-manager-view .right-column .form-element .form-element-definition .element-definition-input-single {
+  width: 99%;
+  padding-right: 35px;
+}
+.product-types-manager-view .right-column .form-element .form-element-definition .element-definition-input-single .common-field-title {
+  margin-top: 20px;
+}
+.product-types-manager-view .right-column .form-element .element-definition-checkbox {
+  margin-bottom: 15px;
+}
+.product-types-manager-view .right-column .add-more {
+  text-align: right;
+  padding: 20px 30px;
+}
+.product-types-manager-view .right-column .add-more .add-container {
+  color: #fff;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background-image: linear-gradient(to top, #259d71, #2bbf88);
+}
 .editor-products-view-content.large-sidebar {
   background-color: #eff3f6;
   min-height: 90vh;
