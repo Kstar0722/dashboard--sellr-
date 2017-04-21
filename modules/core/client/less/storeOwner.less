@@ -1,4 +1,127 @@
 // 
+// HOME
+//
+.common-sub-nav-bar{
+  font-size: 14px;
+  font-weight: bold;
+  color: #848c98;
+  .step{
+    margin-left: 15px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    .circle{
+      width: 27px;
+      height: 27px;
+      border-radius: 27px;
+      background-color: #fafbfc;
+      border: solid 1px #e6eaee;
+      text-align: center;
+      line-height: 27px;
+      font-size: 12px;
+      color: #828a96;
+      margin-right: 7px;
+    }
+    &.active{
+      color: #354052;
+      .circle{
+        background-color:#32a279;
+        color: #fff;
+        border: none;
+      }
+    }
+  }
+} 
+.store-owner-home-view {
+  text-align: center;
+  padding: 4vh 10vw 10vh 10vw;
+  box-sizing: border-box;
+  color: #354052;
+  .welcome-text{
+    font-size: 22px;
+    font-weight: bold;
+  }
+  .welcome-sub-text{
+    font-size: 18px;
+    color: #7f8fa4;
+    margin-top: 15px;
+  }
+  .top-white-boxes,
+  .bottom-white-boxes{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 5vw;
+    box-sizing: border-box;
+  }
+  .top-white-boxes{
+    margin-top: 30px;
+    .top-white-box{
+      width: 31%;
+      height: 320px;
+      border-radius: 4px;
+      background-color: #ffffff;
+      border: solid 1px #e6eaee;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      .icon{
+        background: #e6eaee;
+        width: 120px;
+        height: 100px;
+      }
+      .text{
+        font-size: 16px;
+        font-weight: bold;
+        margin: 12px auto;
+        line-height: 1.6;
+      }
+    }
+  }
+  .bottom-white-boxes{
+    flex-flow: row wrap;
+    .bottom-white-box-container{
+      width: 48%;
+      .title{
+        font-size: 20px;
+        font-weight: bold;
+        margin: 30px 0 20px 0;
+        text-align: left;
+      }
+      .bottom-white-box{
+        width: 100%;
+        height: 370px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: solid 1px #e6eaee;
+      }
+    }
+  }
+  .separator{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+    .line{
+      border-bottom: 1px solid #dfe2e5;
+      width: 100%;
+      height: 1px;
+    }
+    .text{
+      font-size: 12px;
+      font-weight: bold;
+      color: #7f8fa4;
+      margin: 0 50px;
+    }
+  }
+}
+// 
 // MARKETING CHANNELS
 // 
 .store-owner-marketing-channels-view {

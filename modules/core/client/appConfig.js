@@ -303,6 +303,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           roles: [ 1009, 1002, 1004 ]
         }
       })
+      .state('storeOwner.home', {
+        url: '/home',
+        templateUrl: 'modules/users/client/views/storeOwner/home.html',
+        controller: 'StoreOwnerHomeController'
+      })
       .state('storeOwner.inviteUser', {
         url: '/invite',
         templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
