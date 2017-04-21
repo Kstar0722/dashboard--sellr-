@@ -45,7 +45,7 @@
           width: 8%;
           padding-right: 1%;
         }
-        .orders-col{
+        .products-col{
           width: 8%;
           padding-right: 1%;
         }
@@ -94,11 +94,17 @@
         }
         .actions-col{
           .common-select-container{
-            width: 100%;
+            width: 130px;
             margin: auto;
             .common-select-trigger,
             .common-select-options{
               width: 100%;
+            }
+            .common-select-trigger{
+              padding: 0px 36px 0 8px;
+            }
+            .common-select-option{
+              padding: 0 8px;
             }
           } 
         }
@@ -134,6 +140,7 @@
     }
   }
 }
+
 // 
 // USERS VIEW
 // 
@@ -251,18 +258,18 @@
     }
   }
 }
+
 // 
 // PRODUCT TYPES MANAGER VIEW
 //
 .product-types-manager-view{
-  background-color: #eff3f6;
-  min-height: 90vh;
-  padding: 4vh 10vw 10vh 10vw;
+  padding: 4vh 10vw 0px 10vw;
   color: #354052;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
+  overflow: hidden;
   .left-column,
   .right-column{
     border-radius: 4px;
@@ -311,6 +318,8 @@
   }
   .right-column{
     width: 76%;
+    max-height: 75vh;
+    overflow: auto;
     .top-section{
       display: flex;
       flex-flow: row nowrap;

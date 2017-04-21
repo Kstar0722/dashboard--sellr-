@@ -264,20 +264,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       .state('manager.uploads', {
         url: '/manager/uploader',
         templateUrl: 'modules/users/client/views/manager/managerUpload.client.view.html'
-
-      })
-      .state('manager.stores', {
-        url: '/manager/stores',
-        templateUrl: 'modules/users/client/views/manager/storeManager.client.view.html',
-        controller: 'StoreManagerController'
-      })
-      .state('manager.stores.edit', {
-        url: '/edit/:id',
-        templateUrl: 'modules/users/client/views/manager/storeManager.edit.client.view.html'
-      })
-      .state('manager.stores.create', {
-        url: '/new',
-        templateUrl: 'modules/users/client/views/manager/storeManager.create.client.view.html'
       })
       .state('manager.accounts', {
         url: '/manager/accounts',
@@ -307,11 +293,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/home',
         templateUrl: 'modules/users/client/views/storeOwner/home.html',
         controller: 'StoreOwnerHomeController'
-      })
-      .state('storeOwner.inviteUser', {
-        url: '/invite',
-        templateUrl: 'modules/users/client/views/storeOwner/userInvite.client.view.html',
-        controller: 'StoreOwnerInviteController'
       })
       .state('storeOwner.orders', {
         url: '/orders/:accountId?',

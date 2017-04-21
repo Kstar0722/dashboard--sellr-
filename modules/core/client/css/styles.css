@@ -48,10 +48,6 @@ body [ng-click]:focus {
   outline: none;
   /* overrides chrome default focus outline */
 }
-.main-content {
-  padding-top: 0;
-  position: relative;
-}
 @media only screen and (min-width:961px) {
   .main-content.top-menu-shown  {
     top: 120px;
@@ -6258,8 +6254,8 @@ body.websiteBuilder #loading-bar-spinner {
   width: 8%;
   padding-right: 1%;
 }
-.accounts-manager-view .left-side-content .main-table .columns-header .orders-col,
-.accounts-manager-view .left-side-content .main-table .columns-data .orders-col {
+.accounts-manager-view .left-side-content .main-table .columns-header .products-col,
+.accounts-manager-view .left-side-content .main-table .columns-data .products-col {
   width: 8%;
   padding-right: 1%;
 }
@@ -6306,12 +6302,18 @@ body.websiteBuilder #loading-bar-spinner {
   font-weight: bold;
 }
 .accounts-manager-view .left-side-content .main-table .columns-data .actions-col .common-select-container {
-  width: 100%;
+  width: 130px;
   margin: auto;
 }
 .accounts-manager-view .left-side-content .main-table .columns-data .actions-col .common-select-container .common-select-trigger,
 .accounts-manager-view .left-side-content .main-table .columns-data .actions-col .common-select-container .common-select-options {
   width: 100%;
+}
+.accounts-manager-view .left-side-content .main-table .columns-data .actions-col .common-select-container .common-select-trigger {
+  padding: 0px 36px 0 8px;
+}
+.accounts-manager-view .left-side-content .main-table .columns-data .actions-col .common-select-container .common-select-option {
+  padding: 0 8px;
 }
 .accounts-manager-view .right-side-content .side-panel .auth-code {
   display: flex;
@@ -6593,14 +6595,13 @@ body.websiteBuilder #loading-bar-spinner {
   width: 50%;
 }
 .product-types-manager-view {
-  background-color: #eff3f6;
-  min-height: 90vh;
-  padding: 4vh 10vw 10vh 10vw;
+  padding: 4vh 10vw 0px 10vw;
   color: #354052;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
+  overflow: hidden;
 }
 .product-types-manager-view .left-column,
 .product-types-manager-view .right-column {
@@ -6649,6 +6650,8 @@ body.websiteBuilder #loading-bar-spinner {
 }
 .product-types-manager-view .right-column {
   width: 76%;
+  max-height: 75vh;
+  overflow: auto;
 }
 .product-types-manager-view .right-column .top-section {
   display: flex;

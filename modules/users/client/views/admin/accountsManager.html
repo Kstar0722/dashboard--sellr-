@@ -27,7 +27,7 @@
         <div class="name-col" ng-click="reOrderList('name')"><span>Name</span> <i class="fa fa-sort"></i></div>
         <div class="created-col" ng-click="reOrderList('createdDateMoment')"><span>Created</span> <i class="fa fa-sort"></i></div>
         <div class="users-col" ng-click="reOrderList('usersNum')"><span>Users</span> <i class="fa fa-sort"></i></div>
-        <div class="orders-col" ng-click="reOrderList('ordersNum')"><span>Orders</span> <i class="fa fa-sort"></i></div>
+        <div class="products-col" ng-click="reOrderList('productsNum')"><span>Products</span> <i class="fa fa-sort"></i></div>
         <div class="contact-col" ng-click="reOrderList('contactName')"><span>Contact</span> <i class="fa fa-sort"></i></div>
         <div class="website-col" ng-click="reOrderList('website')"><span>Website</span> <i class="fa fa-sort"></i></div>
         <div class="actions-col"><span>&nbsp;</span></div>
@@ -40,7 +40,7 @@
         <div class="name-col" ng-bind-html="account.name | highlight:ui.search">Beam</div>
         <div class="created-col" ng-bind="account.createdDateStr"></div>
         <div class="users-col" ng-bind="account.usersNum"></div>
-        <div class="orders-col" ng-bind="account.ordersNum">55</div>
+        <div class="products-col" ng-bind="account.productsNum || 0" ></div>
         <div class="contact-col">
           <div ng-bind-html="account.contactName | highlight:ui.search">Maurice Chavez</div>
           <div ng-if="account.email" ng-bind-html="account.email | highlight:ui.search"></div>

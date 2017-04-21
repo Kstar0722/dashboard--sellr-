@@ -83,17 +83,13 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
       templateUrl: '/modules/users/client/views/popupDialogs/manageStoreDialog.html',
       autoWrap: true,
       parent: angular.element(document.body),
-      scope: $scope,
-      preserveScope: true,
+      preserveScope: false,
       hasBackdrop: true,
       clickOutsideToClose: false,
       escapeToClose: false,
-      fullscreen: true
+      fullscreen: true,
+      controller: 'StoreManagerController'
     })
-  }
-
-  $scope.closeDialog = function () {
-    $mdDialog.hide()
   }
 
   //
