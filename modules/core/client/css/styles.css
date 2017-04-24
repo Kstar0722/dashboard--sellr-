@@ -8687,11 +8687,17 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   border-radius: 4px;
   background-color: #ffffff;
   border: solid 1px #e6eaee;
-  width: 300px;
-  padding: 10px 10px 20px;
-  margin-left: 18px;
-  margin-right: 18px;
+  width: 16vw;
+  padding: 10px 15px 20px 15px;
+  margin-left: 1.2vw;
+  margin-right: 1.2vw;
   margin-bottom: 30px;
+  box-sizing: border-box;
+  height: 320px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 .store-owner-promoted-products-view .promoted-box.add {
   color: #fff;
@@ -8718,51 +8724,57 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 }
 .store-owner-promoted-products-view .promoted-box .name {
   font-weight: bold;
+  width: 100%;
+  line-height: 20px;
+  font-size: 16px;
+  height: 40px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 25px;
 }
 .store-owner-promoted-products-view .promoted-box .aux-text {
   font-size: 12px;
   color: #7f8fa4;
-  margin-top: 8px;
+  width: 100%;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container {
+.store-owner-promoted-products-view .promoted-box .icons-container .tooltip-container {
+  height: 0px;
+  max-height: 0px;
+  width: 100%;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container .icons {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 20px;
-  margin-top: 10px;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icon {
+.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon {
   width: 30px;
   height: 30px;
-  margin-right: 10px;
+  margin-right: 7px;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icon:last-child {
+.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon:last-child {
   margin-right: 0px;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icon img {
+.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon.add {
+  background-color: #7F8FA4;
+  border-radius: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #fff;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon.add .fa {
+  font-size: 14px;
+}
+.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon img {
   width: 100%;
   height: 100%;
 }
 .store-owner-promoted-products-view .promoted-box .btns-container {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 25px;
-}
-.store-owner-promoted-products-view .promoted-box .btns-container .trash {
-  color: #fff;
-  background-color: #a80000;
-  border-radius: 4px;
-  cursor: pointer;
+  text-align: center;
+  width: 100%;
   height: 36px;
-  line-height: 36px;
-  padding: 0 12px;
+}
+.store-owner-promoted-products-view .promoted-box .btns-container .common-btn-gray {
+  margin: 0 auto;
 }
 .store-owner-listed-products-view {
   background-color: #eff3f6;
