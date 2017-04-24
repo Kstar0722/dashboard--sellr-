@@ -48,7 +48,7 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data" ng-click="ui.display = 'editPlan'">
+      <div ng-class="['columns-data', {active: ui.activeIndex === i}]" ng-click="ui.display = 'editPlan'; ui.activeIndex = i;" ng-repeat="i in [1,2,3,4,5,6,7,8,9,0]">
         <div class="name-col">
           <div>Mac’s Beer Wine and Spirits</div>
           <div class="subname">City, State</div>
@@ -57,47 +57,7 @@
         <div class="promotion-col">March</div>
         <div class="start-col">11/01/2017</div>
         <div class="member-col">Michael Rhodes</div>
-      </div>
-      <div class="columns-data" ng-click="ui.display = 'editPlan'">
-        <div class="name-col">
-          <div>Mac’s Beer Wine and Spirits</div>
-          <div class="subname">City, State</div>
-        </div>
-        <div class="submitted-col">11/01/2017</div>
-        <div class="promotion-col">March</div>
-        <div class="start-col">11/01/2017</div>
-        <div class="member-col">Michael Rhodes</div>
-      </div>
-      <div class="columns-data active" ng-click="ui.display = 'editPlan'">
-        <div class="name-col">
-          <div>Mac’s Beer Wine and Spirits</div>
-          <div class="subname">City, State</div>
-        </div>
-        <div class="submitted-col">11/01/2017</div>
-        <div class="promotion-col">March</div>
-        <div class="start-col">11/01/2017</div>
-        <div class="member-col">Michael Rhodes</div>
-      </div>
-      <div class="columns-data" ng-click="ui.display = 'editPlan'">
-        <div class="name-col">
-          <div>Mac’s Beer Wine and Spirits</div>
-          <div class="subname">City, State</div>
-        </div>
-        <div class="submitted-col">11/01/2017</div>
-        <div class="promotion-col">March</div>
-        <div class="start-col">11/01/2017</div>
-        <div class="member-col">Michael Rhodes</div>
-      </div>
-      <div class="columns-data" ng-click="ui.display = 'editPlan'">
-        <div class="name-col">
-          <div>Mac’s Beer Wine and Spirits</div>
-          <div class="subname">City, State</div>
-        </div>
-        <div class="submitted-col">11/01/2017</div>
-        <div class="promotion-col">March</div>
-        <div class="start-col">11/01/2017</div>
-        <div class="member-col">Michael Rhodes</div>
-      </div>
+      </div> 
     </div>
   </div>
   <div class="right-side-content" ng-show="ui.display === 'editPlan'">
@@ -145,7 +105,7 @@
       <div class="common-field-title">Related SKU’s</div>
       <textarea name="" id="" class="common-textarea"></textarea>
       <div class="common-btns-bar">
-        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-gray" ng-click="ui.display = 'fulltable'; ui.activeIndex = null;">Cancel</div>
         <div class="common-btn-positive">Update</div>
       </div>
     </div>

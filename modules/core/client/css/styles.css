@@ -5706,15 +5706,19 @@ body.websiteBuilder #loading-bar-spinner {
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+  max-width: 80%;
 }
 .brand-plans-view .left-side-content .main-table .filter-header .staus-filter .status-option {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  font-size: 22px;
-  padding: 20px 1.5vw;
+  font-size: 18px;
+  padding: 18px;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .brand-plans-view .left-side-content .main-table .filter-header .staus-filter .status-option.active {
   border-bottom: 3px solid #2bbf88;
@@ -5764,7 +5768,17 @@ body.websiteBuilder #loading-bar-spinner {
   padding: 10px 20px;
 }
 .brand-plans-view .left-side-content .main-table .columns-header .fa {
-  margin-left: 10px;
+  margin-left: 3px;
+}
+.brand-plans-view .left-side-content .main-table .columns-header .name-col,
+.brand-plans-view .left-side-content .main-table .columns-header .submitted-col,
+.brand-plans-view .left-side-content .main-table .columns-header .promotion-col,
+.brand-plans-view .left-side-content .main-table .columns-header .start-col,
+.brand-plans-view .left-side-content .main-table .columns-header .member-col {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .brand-plans-view .left-side-content .main-table .columns-data {
   padding: 20px;
