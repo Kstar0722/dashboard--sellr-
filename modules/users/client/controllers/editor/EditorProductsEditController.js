@@ -122,7 +122,9 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   $scope.saveProduct = function () {
     $analytics.eventTrack('Product Saved', { productId: productEditorService.currentProduct.productId })
     productEditorService.currentProduct.status = 'inprogress'
-    productEditorService.save(productEditorService.currentProduct)
+    productEditorService.save(productEditorService.currentProduct).then(function () {
+      $scope.ui.display = 'fulltable'
+    })
   }
 
   $scope.removeAudio = function () {

@@ -204,12 +204,12 @@
       .columns.status-action{
         align-items: flex-start;
         .second-column{
-          text-align: center;
+          text-align: right;
           margin-top: 20px;
           .common-btn-black,
           .common-btn-gray,
           .common-btn-positive{
-            margin: 5px auto;
+            margin: 5px 0 5px auto;
             display: block;
           }
         }
@@ -329,6 +329,7 @@
     }
   }
 }
+
 // 
 // PRODUCTS HISTORY VIEW
 // 
@@ -435,6 +436,7 @@
   }
 
 }
+
 // 
 // STORE MANAGEMENT VIEW
 // 
@@ -548,6 +550,7 @@
     }
   }
 }
+
 // 
 // UPLOAD CVS DIALOG
 // 
@@ -585,6 +588,7 @@
     }
   }
 }
+
 // 
 // MATCH CONTAINER
 // 
@@ -598,6 +602,11 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
   .store-info{
     width: 25%;
     align-self: flex-start;
@@ -659,5 +668,26 @@
   .actions{
     width: 25%;
     text-align: center;
+  }
+}
+
+// 
+// MATCH TOP SPECIFICS
+// 
+body.editor-products-match,
+body.editor-products-matchview,
+body.editor-products-matchedit{
+  .editor-products-view-content{
+    padding: 80px 3vw 0px 3vw;
+    .left-side-content{
+      .main-table{
+        max-height: 70vh;
+      }
+    }
+    .right-side-content{
+      .side-panel{
+        max-height: 70vh;
+      }
+    }
   }
 }

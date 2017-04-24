@@ -7103,7 +7103,7 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column {
-  text-align: center;
+  text-align: right;
   margin-top: 20px;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column .common-btn-black,
@@ -7115,7 +7115,7 @@ body.websiteBuilder #loading-bar-spinner {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .columns.status-action .second-column .common-btn-positive,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .columns.status-action .second-column .common-btn-positive,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .columns.status-action .second-column .common-btn-positive {
-  margin: 5px auto;
+  margin: 5px 0 5px auto;
   display: block;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-name,
@@ -7813,6 +7813,11 @@ body.websiteBuilder #loading-bar-spinner {
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
 }
 .top-match-container .store-info {
   width: 25%;
@@ -7873,6 +7878,21 @@ body.websiteBuilder #loading-bar-spinner {
 .top-match-container .actions {
   width: 25%;
   text-align: center;
+}
+body.editor-products-match .editor-products-view-content,
+body.editor-products-matchview .editor-products-view-content,
+body.editor-products-matchedit .editor-products-view-content {
+  padding: 80px 3vw 0px 3vw;
+}
+body.editor-products-match .editor-products-view-content .left-side-content .main-table,
+body.editor-products-matchview .editor-products-view-content .left-side-content .main-table,
+body.editor-products-matchedit .editor-products-view-content .left-side-content .main-table {
+  max-height: 70vh;
+}
+body.editor-products-match .editor-products-view-content .right-side-content .side-panel,
+body.editor-products-matchview .editor-products-view-content .right-side-content .side-panel,
+body.editor-products-matchedit .editor-products-view-content .right-side-content .side-panel {
+  max-height: 70vh;
 }
 /* Base for label styling */
 .custom-checkbox[type="checkbox"]:not(:checked),
