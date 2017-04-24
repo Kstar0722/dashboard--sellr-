@@ -29,10 +29,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: {
           env: 'local',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io',
-          CARDKIT_URL: 'https://themedev.sllr.io'
+          // BWS_API: 'https://bwsdev.sllr.io',
+          CARDKIT_URL: 'https://themedev.sllr.io',
           // API_URL: 'http://localhost:7272',
-          // BWS_API: 'http://localhost:7171',
+          BWS_API: 'http://localhost:7171',
           // CARDKIT_URL: 'http://localhost:7474'
         },
         development: {
@@ -64,7 +64,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
   .value('ProductTypes', [
     { productTypeId: 1, name: 'Wine', similarNames: 'w,wines' },
     { productTypeId: 2, name: 'Beer', similarNames: 'b,beers,ale,lager' },
-    { productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur' }
+    {productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur'},
+    {productTypeId: 12, name: 'Generic', similarNames: 'generic,undefined,unknown'},
+    {productTypeId: 15, name: 'Cocktails', similarNames: 'cocktails,cocktail'},
+    {productTypeId: 16, name: 'Art', similarNames: 'art'},
+    {productTypeId: 17, name: 'Health', similarNames: 'health,vitamins,supplements'}
   ])
 
 angular.module(ApplicationConfiguration.applicationModuleName).constant('globalClickEventName', 'globalEvent.documentClick')

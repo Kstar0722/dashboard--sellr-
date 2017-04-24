@@ -29,6 +29,10 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.searchOptions.wineTypeCheck = true
   $scope.searchOptions.beerTypeCheck = true
   $scope.searchOptions.spiritTypeCheck = true
+  $scope.searchOptions.genericProductsCheck = true
+  $scope.searchOptions.cocktailsCheck = true
+  $scope.searchOptions.healthProductsCheck = true
+  $scope.searchOptions.artProductsCheck = true
   $scope.selectStoreFilterConfig = {
     create: false,
     maxItems: 1,
@@ -217,6 +221,10 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     if ($scope.searchOptions.wineTypeCheck) typeFilter.push({'type': 1})
     if ($scope.searchOptions.beerTypeCheck) typeFilter.push({'type': 2})
     if ($scope.searchOptions.spiritTypeCheck) typeFilter.push({'type': 3})
+    if ($scope.searchOptions.genericProductsCheck) typeFilter.push({'type': 12})
+    if ($scope.searchOptions.cocktailsCheck) typeFilter.push({'type': 15})
+    if ($scope.searchOptions.healthProductsCheck) typeFilter.push({'type': 17})
+    if ($scope.searchOptions.artProductsCheck) typeFilter.push({'type': 16})
     return typeFilter
   }
 

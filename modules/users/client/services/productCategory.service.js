@@ -3,7 +3,8 @@ angular.module('core').service('categories', function () {
   me.categories = {
     1: ['Red', 'White', 'Rose', 'Sparkling', 'Dessert'],
     2: ['Domestic', 'Imported', 'Craft'],
-    3: ['Brandy', 'Gin', 'Liqueur/Cordial', 'Rum', 'Tequila', 'Vodka', 'Whiskey']
+    3: ['Brandy', 'Gin', 'Liqueur/Cordial', 'Rum', 'Tequila', 'Vodka', 'Whiskey'],
+    17: ['Supplements', 'Multivitamins', 'Fish Oil']
   }
 
   me.getProductCategory = function (product) {
