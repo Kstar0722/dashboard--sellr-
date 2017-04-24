@@ -35,8 +35,8 @@
         <div ng-show="csv.view === 'configure'">
           <div class="instructions">Tell us which fields you would like to match and which you would like to create.</div>
           <div class="headers-checkbox">
-            <div class="common-field-title">First row is used for titles</div>
-            <input type="checkbox" ng-model="csv.header" class="common-checkbox">
+            <input class="custom-checkbox" type="checkbox" id="firstrowusedfortitle" ng-model="csv.header" />
+            <label for="firstrowusedfortitle">First row is used for titles</label>
           </div>
           <div ng-repeat="column in csv.columns">
             <div class="common-field-title" ng-bind="(csv.header && csv.loaded) ? column.name : 'Column' + ($index+1)"></div>

@@ -10,17 +10,9 @@
       -->
       <div class="filter-header">
         <div class="left-filter">
-          <div class="common-select-container">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.programOptionsSelect}]" ng-click="openMenu('programOptionsSelect')">
-              Choose Program
-            </div>
-            <div class="common-select-options" ng-show="ui.programOptionsSelect" ng-mouseleave="ui.programOptionsSelect = false">
-              <div class="common-select-option">Program 1</div>
-              <div class="common-select-option">Program 2</div>
-              <div class="common-select-option">Program 3</div>
-              <div class="common-select-option">Program 4</div>
-            </div>
-          </div>
+          <selectize class="custom-selectize" config="selectProgramConfig" options="selectPrograms" ng-model="ui.programSelected"
+            placeholder="Choose Program" >
+          </selectize>
           <div class="common-input-with-icon">
             <input type="text" placeholder="Search" class="common-input">
             <i class="fa fa-search"></i>
@@ -36,7 +28,8 @@
       <div class="columns-header">
         <div ng-class="['check-col', {plan: ui.makePlanHeader}]">
           <div class="header-check">
-            <input type="checkbox" class="common-checkbox" ng-click="allChecksChange()" ng-model="ui.allCheck">
+            <input class="custom-checkbox" type="checkbox" id="allcheck" ng-change="allChecksChange()" ng-model="ui.allCheck" />
+            <label for="allcheck">&nbsp;</label>
           </div>
           <div class="make-plan" ng-show="ui.makePlanHeader" ng-click="ui.display = 'addPlan'">
             Make New Plan
@@ -55,9 +48,10 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data" ng-repeat="product in products track by product.id">
+      <div ng-class="['columns-data', {active: ui.checkArray[product.id]}]" ng-repeat="product in products track by product.id">
         <div class="check-col">
-          <input type="checkbox" class="common-checkbox" ng-model="ui.checkArray[product.id]" ng-change="checkChange()">
+          <input class="custom-checkbox" type="checkbox" id="prodcheck{{$index}}" ng-change="checkChange()" ng-model="ui.checkArray[product.id]" />
+          <label for="prodcheck{{$index}}">&nbsp;</label>
         </div>
         <div class="name-col" ng-bind="product.name"></div>
         <div class="skus-col" ng-bind="product.skus"></div>
@@ -97,7 +91,7 @@
       <div class="common-field-title">Related SKU’s</div>
       <textarea name="" id="" class="common-textarea"></textarea>
       <div class="common-btns-bar">
-        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-gray" ng-click="ui.display = 'fulltable'">Cancel</div>
         <div class="common-btn-positive">Add</div>
       </div>
     </div>
@@ -136,7 +130,7 @@
       <div class="common-field-title">Products in Plan</div>
       <div class="upload-image-box"></div>
       <div class="common-field-title">Status</div>
-       <div class="common-select-container">
+      <div class="common-select-container">
         <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.planStatusOptionsSelect}]" ng-click="openMenu('planStatusOptionsSelect')">
           Needs Approval
         </div>
@@ -150,7 +144,7 @@
       <div class="common-field-title">Related SKU’s</div>
       <textarea name="" id="" class="common-textarea"></textarea>
       <div class="common-btns-bar">
-        <div class="common-btn-negative" ng-click="ui.display = 'fulltable'">Cancel</div>
+        <div class="common-btn-gray" ng-click="ui.display = 'fulltable'">Cancel</div>
         <div class="common-btn-positive">Submit</div>
       </div>
     </div>

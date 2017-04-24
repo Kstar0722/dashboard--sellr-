@@ -1,6 +1,6 @@
 angular.module('core').controller('BrandProductsController', function ($scope, globalClickEventName, $rootScope) {
   //
-  // DEFINITIONS - INITIALIZATION
+  // DEFINITIONS
   //
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
@@ -24,8 +24,124 @@ angular.module('core').controller('BrandProductsController', function ($scope, g
       name: 'Cucumber Drink',
       skus: '88857003382',
       plans: 'July'
+    },
+    {
+      id: 000,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 4,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 5,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 6,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 7,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 8,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 9,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 12,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 13,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 14,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 15,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 16,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 17,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 18,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 19,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 219,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
+    },
+    {
+      id: 229,
+      name: 'Cucumber Drink',
+      skus: '88857003382',
+      plans: 'July'
     }
   ]
+  $scope.selectPrograms = [{name: 'Program 1'}, {name: 'Program 2'}, {name: 'Program 3'}]
+  $scope.selectProgramConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'name',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
+  }
+
+  //
+  // INITIALIZATION
+  //
   _.each($scope.products, function (p) {
     $scope.ui.checkArray[p.id] = false
   })
@@ -59,7 +175,6 @@ angular.module('core').controller('BrandProductsController', function ($scope, g
   // INTERNAL FUNCTIONS
   //
   function closeMenus () {
-    $scope.ui.programOptionsSelect = false
     $scope.ui.productPlanOptionsSelect = false
     $scope.ui.planStoresOptionsSelect = false
     $scope.ui.planStatusOptionsSelect = false
