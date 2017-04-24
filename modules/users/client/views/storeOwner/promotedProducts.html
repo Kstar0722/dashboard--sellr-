@@ -1,173 +1,40 @@
 <div class="store-owner-promoted-products-view">
-  <div class="promoted-box">
+  <div class="promoted-box" ng-repeat="i in ui.promotedProducts" ng-click="selectProduct($index)">
     <div class="image-container">
+      
     </div>
-    <div class="name">Kim Bourbon</div>
+    <div class="name">Kim Bourbon Bourbon Bourbon Bourbon Bourbon</div>
     <div class="aux-text">Promoting this product on:</div>
     <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
+     <div class="tooltip-container">
+        <md-tooltip md-direction="top" md-visible="ui.channelsIconsTriggers[$index][0]">Website explanation</md-tooltip>
+        <md-tooltip md-direction="top" md-visible="ui.channelsIconsTriggers[$index][1]">Facebook explanation</md-tooltip>
+        <md-tooltip md-direction="top" md-visible="ui.channelsIconsTriggers[$index][2]">Twitter Explanation</md-tooltip>
+        <md-tooltip md-direction="top" md-visible="ui.channelsIconsTriggers[$index][3]">Weekly email blast to all subscribers</md-tooltip>
       </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
+      <div class="icons">
+        <div class="icon" ng-click="displayTooltip($index, 0, $event)" ng-mouseleave="ui.channelsIconsTriggers[$index][0]=false">
+          <img src="/img/placeholdericon60x60.png" alt="icon">
+        </div>
+        <div class="icon" ng-click="displayTooltip($index, 1, $event)" ng-mouseleave="ui.channelsIconsTriggers[$index][1]=false">
+          <img src="/img/facebook-icon.svg" alt="icon">
+        </div>
+        <div class="icon" ng-click="displayTooltip($index, 2, $event)" ng-mouseleave="ui.channelsIconsTriggers[$index][2]=false">
+          <img src="/img/twitter-icon.svg" alt="icon">
+        </div>
+        <div class="icon" ng-click="displayTooltip($index, 3, $event)" ng-mouseleave="ui.channelsIconsTriggers[$index][3]=false">
+          <img src="/img/subscribers-icon.svg" alt="icon">
+        </div> 
+        <div class="icon add" ng-if="ui.selectedProduct[$index] === true">
+          <i class="fa fa-plus"></i>
+        </div>
+      </div>     
     </div>
     <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
+      <div class="common-btn-gray autowidth" ng-if="ui.selectedProduct[$index] === true">Stop promoting product</div>
     </div>
   </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box">
-    <div class="image-container">
-    </div>
-    <div class="name">Kim Bourbon</div>
-    <div class="aux-text">Promoting this product on:</div>
-    <div class="icons-container">
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-      <div class="icon">
-        <md-tooltip md-direction="top">Weekly email blast to all subscribers</md-tooltip>
-        <img src="/img/placeholdericon60x60.png" alt="icon">
-      </div>
-    </div>
-    <div class="btns-container">
-      <div class="common-btn-gray autowidth">End Promotion</div>
-      <div class="trash"><i class="fa fa-trash-o"></i></div>
-    </div>
-  </div>
-  <div class="promoted-box add">
+  <div class="promoted-box add" ng-repeat="i in [1,2,3]">
     <div><i class="fa fa-plus"></i></div>
     <div>Add Product to Promote</div>
   </div>
