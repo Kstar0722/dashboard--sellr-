@@ -5,21 +5,7 @@
       <div>Weekly Email Campaign</div>
     </div>
     <div class="white-column-box">
-      <div class="card">
-        <div class="post-image-container"></div>
-        <div class="title">
-          Title of Email
-        </div>
-        <div class="info">
-          <i class="fa fa-user"></i>
-          Sending to 320 subscribers
-        </div>
-        <div class="info">
-          <i class="fa fa-clock-o"></i>
-          Monday, April 11
-        </div>
-      </div>
-      <div class="card">
+      <div class="card" ng-repeat="i in [1,2]">
         <div class="post-image-container"></div>
         <div class="title">
           Title of Email
@@ -41,7 +27,7 @@
       <div>Twitter Posts</div>
     </div>
     <div class="white-column-box">
-      <div class="card">
+      <div class="card" ng-repeat="i in [1]">
         <div class="post-image-container"></div>
         <div class="title">
           Title of Post
@@ -59,7 +45,7 @@
       <div>Facebook Posts</div>
     </div>
     <div class="white-column-box">
-      <div class="card">
+      <div class="card" ng-repeat="i in [1,2,3,4,5,6]">
         <div class="post-image-container"></div>
         <div class="title">
           Title of Post
@@ -77,11 +63,7 @@
       <div>Digital Ads</div>
     </div>
     <div class="white-column-box">
-      <div class="ad-preview">Digital Ad Preview</div>
-      <div class="ad-preview">Digital Ad Preview</div>
-      <div class="ad-preview">Digital Ad Preview</div>
-      <div class="ad-preview">Digital Ad Preview</div>
-      <div class="ad-preview">Digital Ad Preview</div>
+      <div class="ad-preview" ng-repeat="i in [1,2,3,4,5,6,7]">Digital Ad Preview</div>
     </div>
   </div>
 </div>

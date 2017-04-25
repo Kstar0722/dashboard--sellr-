@@ -47,8 +47,8 @@
           <div ng-if="account.phone" ng-bind="account.phone"></div>
         </div>
         <div class="website-col">
-          <i class="fa fa-check common-fa" ng-if="account.website"></i>
-          <i class="fa fa-times common-fa" ng-if="!account.website"></i>
+          <input class="custom-checkbox" type="checkbox" id="accountwebsite{$index}" ng-model="account.website" disabled />
+          <label for="accountwebsite{$index}">&nbsp;</label>
         </div>
         <div class="actions-col">
           <div class="common-select-container">
@@ -112,13 +112,13 @@
           <div class="checks-container">
             <div class="shoppr-check">
               <div class="common-field-title">Shoppr</div>
-              <i class="fa fa-check common-fa checkbox" ng-show="ui.currentAccount.shoppr" ng-click="ui.currentAccount.shoppr = false"></i>
-              <i class="fa fa-times common-fa checkbox" ng-show="!ui.currentAccount.shoppr" ng-click="ui.currentAccount.shoppr = true"></i>
+              <input class="custom-checkbox" type="checkbox" id="currentaccountshoppr" ng-model="ui.currentAccount.shoppr" />
+              <label for="currentaccountshoppr">&nbsp;</label>
             </div>
             <div class="website-check">
               <div class="common-field-title">Website</div>
-              <i class="fa fa-check common-fa checkbox" ng-show="ui.currentAccount.website" ng-click="ui.currentAccount.website = false"></i>
-              <i class="fa fa-times common-fa checkbox" ng-show="!ui.currentAccount.website" ng-click="ui.currentAccount.website = true"></i>
+              <input class="custom-checkbox" type="checkbox" id="currentaccountwebsite" ng-model="ui.currentAccount.website" />
+              <label for="currentaccountwebsite">&nbsp;</label>
             </div>
           </div>
           <div class="common-field-title">Website Theme</div>

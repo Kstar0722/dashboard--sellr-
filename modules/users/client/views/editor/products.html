@@ -47,22 +47,22 @@
                 </div>
                 <div class="filter-item">
                   <input class="custom-checkbox" type="checkbox" id="genericcheck"
-                         ng-model="searchOptions.genericProductsCheck" />
+                  ng-model="searchOptions.genericProductsCheck" />
                   <label for="genericcheck">Generic</label>
                 </div>
                 <div class="filter-item">
                   <input class="custom-checkbox" type="checkbox" id="healthProductCheck"
-                         ng-model="searchOptions.healthProductsCheck" />
+                  ng-model="searchOptions.healthProductsCheck" />
                   <label for="healthProductCheck">Health</label>
                 </div>
                 <div class="filter-item">
                   <input class="custom-checkbox" type="checkbox" id="artProductsCheck"
-                         ng-model="searchOptions.artProductsCheck" />
+                  ng-model="searchOptions.artProductsCheck" />
                   <label for="artProductsCheck">Art</label>
                 </div>
                 <div class="filter-item">
                   <input class="custom-checkbox" type="checkbox" id="cocktailCheck"
-                         ng-model="searchOptions.cocktailsCheck" />
+                  ng-model="searchOptions.cocktailsCheck" />
                   <label for="cocktailCheck">Cocktails</label>
                 </div>
               </div>
@@ -162,7 +162,8 @@
         <div class="name-col" ng-bind-html="product.name | highlight:searchOptions.searchText" ng-click="viewProduct(product)"></div>
         <div class="sku-col" ng-bind="product.sku_count" ng-click="viewProduct(product)"></div>
         <div class="image-col" ng-click="viewProduct(product)">
-          <i ng-class="['fa common-fa', {'fa-check': product.image >= 1, 'fa-times': product.image === 0}]"></i>
+          <input class="custom-checkbox" type="checkbox" id="productimage{$index}" ng-checked="product.image >= 1" disabled />
+          <label for="productimage{$index}">&nbsp;</label>
         </div>
         <div class="status-col" ng-bind="product.status" ng-click="viewProduct(product)"></div>
         <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div>

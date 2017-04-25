@@ -1,29 +1,32 @@
-@black:         #000000;
-@blue:          #3299BB;
-@bright-blue:    #00f0e6;
-@dark-blue:     #43619C;
-@green:         @sellrgreen;
-@pink:          #FE3A6D;
-@darkest-grey:  #171625;
-@dark-grey:     #1f2532;
-@med-grey:      #8D9AA5;
-@light-grey:    @lightgray;
-@red:           #FF0000;
-@white:         #ffffff;
-@orange:        #FFA500;
+@sellrgreen:      #2DC89A;
+@lightgray:       #DFE3EB;
+@sellrdark:       #142332;
+@navactiveback:   #37434f;
+@black:           #000000;
+@blue:            #3299BB;
+@bright-blue:     #00f0e6;
+@dark-blue:       #43619C;
+@green:           @sellrgreen;
+@pink:            #FE3A6D;
+@darkest-grey:    #171625;
+@dark-grey:       #1f2532;
+@med-grey:        #8D9AA5;
+@light-grey:      @lightgray;
+@red:             #FF0000;
+@white:           #ffffff;
+@orange:          #FFA500;
 @status-blue:     #22d2f4;
-@status-orange:        #ffb42a;
-@status-green:        #31c693;
-@status-red:        #ff0400;
-
-@back-black: #151922;
-@back-green: #549788;
-@back-grey: #454545;
+@status-orange:   #ffb42a;
+@status-green:    #31c693;
+@status-red:      #ff0400;
+@back-black:      #151922;
+@back-green:      #549788;
+@back-grey:       #454545;
 @back-grey-light: #eaeaea;
-@back-default: #ffffff;
-@grey-text: #d1d1d1;
-@grey-dark-text: #95989a;
-@black-text: #5a5c5d;
+@back-default:    #ffffff;
+@grey-text:       #d1d1d1;
+@grey-dark-text:  #95989a;
+@black-text:      #5a5c5d;
 
 /* VIRTUAL COLORS */
 @brand-primary: @sellrgreen;
@@ -38,11 +41,6 @@
 @brand-danger: @red;
 @alert-info: #46c4d4;
 
-
-@sellrgreen:#2DC89A;
-@lightgray:#DFE3EB;
-@sellrdark:#142332;
-@navactiveback:#37434f;
 
 // FONTS
 @brandon: "Brandon Grot W01 Bold",sans-serif;
@@ -81,3 +79,41 @@
 @navitemwidth:  140px;
 @mobileNavheight: 64px;
 @subnavheight:  100px;
+
+// 
+// MIXINS
+// 
+.position(@type; @top: auto; @right: auto; @bottom: auto; @left: auto; @width: auto; @height: auto) {
+  position: @type;
+  top: @top;
+  right: @right;
+  bottom: @bottom;
+  left: @left;
+  width: @width;
+  height: @height;
+}
+
+.placeholder(@rules){
+  &::-webkit-input-placeholder{
+    @rules();
+  }
+
+  &:-moz-placeholder{
+    @rules();
+  }
+
+  &::-moz-placeholder{
+    @rules();
+  }
+
+  &:-ms-input-placeholder{
+    @rules();
+  }
+}
+
+// Adds an ellipses at the end of overflowing strings
+.ellipsized() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

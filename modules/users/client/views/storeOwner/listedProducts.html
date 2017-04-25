@@ -39,7 +39,8 @@
           <span>Domaine de la Chapelle des Bois</span>
         </div>
         <div class="promoted-col">
-          <i ng-class="['fa common-fa', {'fa-check': true, 'fa-times': false}]"></i>
+          <input class="custom-checkbox" type="checkbox" id="promotedcheck{$index}" ng-model="ui.checkmarkplaceholder" disabled />
+          <label for="promotedcheck{$index}">&nbsp;</label>
         </div>
         <div class="sku-col" ng-click="viewProduct(product)">1234567893</div>
         <div class="size-col" ng-click="viewProduct(product)">750 ML</div>
