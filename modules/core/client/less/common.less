@@ -377,23 +377,30 @@
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-  text-align: center;
   color: #ffffff;
   height: 36px;
   line-height: 36px;
   cursor: pointer;
   outline: none;
-  cursor: pointer;
   border: none;
   display: inline-block;
   width: 150px;
   font-family: @avenir;
   padding: 0;
   box-sizing: border-box;
+  text-align: center;
   .ellipsized;
+  .centered-content{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  img,
   .fa{
     margin-right: 5px;
   }
+
   &.small{
     width: 80px;
   }
@@ -460,7 +467,7 @@
     transition: max-height ease-out 0.3s;  
   }
 }
- 
+
 .common-fa.fa-check{
  color: #2bbf88;
 }

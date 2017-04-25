@@ -322,7 +322,7 @@ module.exports = function (grunt) {
     // Get the callback
     var done = this.async()
 
-    grunt.file.mkdir(path.normalize(__dirname + '/modules/users/client/img/profile/uploads'))
+    grunt.file.mkdir(path.normalize(__dirname + '/modules/core/client/img/profile/uploads'))
 
     done()
   })

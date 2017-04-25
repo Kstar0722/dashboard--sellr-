@@ -18,7 +18,7 @@ angular.module('core')
   $scope.showEditProfileDialog = function (ev) {
     $scope.ui.showAccountMenu = false
     $mdDialog.show({
-      templateUrl: '/modules/users/client/views/popupDialogs/editProfileDialog.html',
+      templateUrl: '/modules/core/client/views/popupDialogs/editProfileDialog.html',
       autoWrap: true,
       parent: angular.element(document.body),
       preserveScope: false,
@@ -66,7 +66,7 @@ angular.module('core')
     if (state.indexOf('supplier') > -1) { $scope.ui.primaryRoute = 'supplier' }
     if (state.indexOf('admin') > -1) { $scope.ui.primaryRoute = 'admin' }
     if (state.indexOf('editor') > -1) { $scope.ui.primaryRoute = 'editor' }
-    if (state.indexOf('storeOwner') > -1 || (_.contains(['productsUploader', 'websiteBuilder', 'manager.ads'], state))) { $scope.ui.primaryRoute = 'store' }
+    if (state.indexOf('storeOwner') > -1) { $scope.ui.primaryRoute = 'store' }
   }
 
   function init () {
@@ -95,9 +95,7 @@ angular.module('core')
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
-    if (!toState.name.match(/^(storeOwner.reports|storeOwner.orders|manager.ads|settings|productsUploader|websiteBuilder)/i)) {
-      $scope.$root.selectAccountId = null
-    } else if (toState) {
+    if (toState) {
       toParams.accountId = $scope.$root.selectAccountId
       $state.go(toState.name, toParams, {notify: false})
     }

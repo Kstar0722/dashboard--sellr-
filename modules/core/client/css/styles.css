@@ -760,22 +760,39 @@ body.loading .main-content {
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-  text-align: center;
   color: #ffffff;
   height: 36px;
   line-height: 36px;
-  outline: none;
   cursor: pointer;
+  outline: none;
   border: none;
   display: inline-block;
   width: 150px;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   padding: 0;
   box-sizing: border-box;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.common-btn .centered-content,
+.common-btn-silver .centered-content,
+.common-btn-positive .centered-content,
+.common-btn-black .centered-content,
+.common-btn-gray .centered-content,
+.common-btn-negative .centered-content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.common-btn img,
+.common-btn-silver img,
+.common-btn-positive img,
+.common-btn-black img,
+.common-btn-gray img,
+.common-btn-negative img,
 .common-btn .fa,
 .common-btn-silver .fa,
 .common-btn-positive .fa,

@@ -2,11 +2,10 @@
   <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
     <div class="left-side">
       <ul>
-        <li ng-class="{active: ui.primaryRoute === 'brand'}" ng-if="ui.shouldRenderBrandItem" ui-sref="brand.plans">Brand</li>
-        <li ng-class="{active: ui.primaryRoute === 'supplier'}" ng-if="ui.shouldRenderSupplierItem" ui-sref="supplier.media">Supplier</li>
         <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
         <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="editor.storeManagement">Product Editor</li>
         <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="ui.shouldRenderOwnerItem" ui-sref="storeOwner.reports">Store Owner</li>
+        <li ng-class="{active: ui.primaryRoute === 'brand'}" ng-if="ui.shouldRenderBrandItem" ui-sref="brand.plans">Brand</li>
       </ul>
     </div>
     <div class="right-side">
@@ -26,29 +25,23 @@
         <img src="/img/s-l-l-r-icon-green-square.png" alt="logo">
       </div>
       <ul>
-        <!-- BRAND -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.products">Products</li> 
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.plans">Plans</li> 
-        <!-- SUPPLIER -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'supplier'" ui-sref="supplier.media">Upload An Asset</li>
-        <!-- EDITOR -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderStoreManagerItem" ui-sref="editor.storeManagement">Store Management</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductEditorItem" ui-sref="editor.products">Products</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductHistoryItem" ui-sref="editor.history">Product History</li>
         <!-- ADMIN -->
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">Manage Users</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">Manage Accounts</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.types">Product Types Manager</li>
+        <!-- EDITOR -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderStoreManagerItem" ui-sref="editor.storeManagement">Store Management</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductEditorItem" ui-sref="editor.products">Products</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductHistoryItem" ui-sref="editor.history">Product History</li>
         <!-- STORE OWNER -->
         <li ui-sref-active="{active: 'storeOwner.products'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.products.promoted">Products</li>
         <li ui-sref-active="{active: 'storeOwner.marketing'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.marketing.channels">Marketing Channels</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.websiteEditor">Website Editor</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.subscribers">Subscribers</li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports">Reports</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="productsUploader">Products Uploader</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="websiteBuilder">Website</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="manager.ads">Ads</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.orders">Orders</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="settings">Settings</li>
+        <!-- BRAND -->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.products">Products</li> 
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.plans">Plans</li> 
       </ul>
     </div>
     <div class="right-side">
@@ -66,8 +59,6 @@
     </div>
   </div>
 </div>
-<!-- taken as is from old Menu nav -->
-<div class="hide" data-ng-include="'/modules/core/client/views/validation-messages.client.view.html'"></div>
 <!-- TODO: REVIEW CARDKIT MENU -->
 <!--
 <sd-cardkit-nav ng-if="$state.current.public || !authentication.user || cardkitNavLoaded" ng-show="$state.current.public || !authentication.user" ng-init="$parent.cardkitNavLoaded = true">
