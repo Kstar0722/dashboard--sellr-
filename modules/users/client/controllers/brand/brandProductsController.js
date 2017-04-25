@@ -26,7 +26,7 @@ angular.module('core').controller('BrandProductsController', function ($scope, g
       plans: 'July'
     },
     {
-      id: 000,
+      id: 1234,
       name: 'Cucumber Drink',
       skus: '88857003382',
       plans: 'July'
