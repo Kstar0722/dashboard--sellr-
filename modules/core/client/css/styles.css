@@ -751,6 +751,12 @@ body.loading .main-content {
   align-items: center;
   margin-top: 30px;
 }
+.common-centered-content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
 .common-btn,
 .common-btn-silver,
 .common-btn-positive,
@@ -775,17 +781,6 @@ body.loading .main-content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.common-btn .centered-content,
-.common-btn-silver .centered-content,
-.common-btn-positive .centered-content,
-.common-btn-black .centered-content,
-.common-btn-gray .centered-content,
-.common-btn-negative .centered-content {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
 }
 .common-btn img,
 .common-btn-silver img,
@@ -2955,6 +2950,9 @@ body.loading .main-content {
 .users-manager-view .right-side-content .side-panel .checks-container .website-check,
 .users-manager-view .right-side-content .side-panel .checks-container .shoppr-check {
   width: 50%;
+}
+.users-manager-view .right-side-content .side-panel .action-footer button {
+  margin-left: 15px;
 }
 .product-types-manager-view {
   padding: 4vh 10vw 0px 10vw;

@@ -1,7 +1,7 @@
 <div class="users-manager-view large-sidebar">
-  <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
+  <!-- <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
     <i class="fa fa-circle"></i> Automatically Saved
-  </div>
+  </div> -->
   <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
     <div class="title">All Users</div>
     <div class="main-table">
@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="right-filter">
-          <div class="common-btn-black" ng-click="openInviteUserSidebar()">New User</div>
+          <div class="common-btn-black" ng-click="openInviteUserSidebar()">Invite User</div>
         </div>
       </div>
       <!--
@@ -45,50 +45,42 @@
   <div class="right-side-content" ng-show="ui.display !== 'fulltable'" ng-switch="ui.display">
     <div class="title" ng-switch-when="inviteUser">Invite A New User</div>
     <div class="title" ng-switch-when="editUser">Edit User</div>
-    <form name="userForm" ng-submit="saveUsers(ui.display)" novalidate>
+    <form name="currentuserform" ng-submit="submitUser(ui.display, currentuserform.$valid)" novalidate>
       <div class="side-panel">
         <div class="columns">
           <div class="first-column">
             <div class="common-field-title">First Name</div>
-            <input type="text" class="common-input" name="firstname" ng-model="ui.currentUser.firstname" required>
-            <input-error-msg form="userForm" field="firstname" errors="{required: 'First name is required'}"></input-error-msg>
+            <input type="text" class="common-input" name="firstname" ng-model="ui.currentUser.firstName" required>
+            <input-error-msg form="currentuserform" field="firstname" errors="{required: 'First name is required'}"></input-error-msg>
             <div class="common-field-title">Last Name</div>
-            <input type="text" class="common-input" name="lastname" ng-model="ui.currentUser.lastname" required>
-            <input-error-msg form="userForm" field="lastname" errors="{required: 'Last name is required'}"></input-error-msg>
+            <input type="text" class="common-input" name="lastname" ng-model="ui.currentUser.lastName" required>
+            <input-error-msg form="currentuserform" field="lastname" errors="{required: 'Last name is required'}"></input-error-msg>
             <div class="common-field-title">Email</div>
             <input type="email" class="common-input" name="email" ng-model="ui.currentUser.email" required>
-            <input-error-msg form="userForm" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+            <input-error-msg form="currentuserform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
             <div class="common-field-title" ng-bind="ui.display === 'inviteUser' ? 'Set Password' : 'Reset Password'"></div>
-            <input type="text" class="common-input" name="password" ng-model="ui.currentUser.password" required>
-            <input-error-msg form="userForm" field="password" errors="{required: 'Password is required'}"></input-error-msg>
+            <input type="password" class="common-input" name="password" ng-model="ui.currentUser.password" required minlength="8">
+            <input-error-msg form="currentuserform" field="password" errors="{required: 'Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
           </div>
           <div class="second-column">
-            <div class="common-field-title">Store</div>
-            <div class="common-select-container">
-              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.storesOptionsSelect}, {error: ui.stateError}]" ng-click="openMenu('storesOptionsSelect')" ng-bind="ui.currentUser.stateName || 'Select Store'"></div>
-              <div class="common-select-options" ng-show="ui.storesOptionsSelect" ng-mouseleave="ui.storesOptionsSelect = false">
-                <div class="common-select-option" ng-repeat="store in stores" ng-bind="store.name" ng-click="setStore(store)"></div>
-              </div>
-              <div class="common-input-error-msg" ng-show="ui.storeError">Store is required</div>
-            </div>
+            <div class="common-field-title">Account</div>
+            <selectize placeholder="Select an account" class="custom-selectize" config="accountSelectConfig" options="accountSelectOptions" ng-model="ui.currentUser.accountId">
+            </selectize>
+            <div ng-if="ui.accountRequired" class="common-input-error-msg">Account is required</div>
             <div class="common-field-title">Select Role</div>
-            <div class="common-select-container">
-              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.rolesOptionsSelect}, {error: ui.roleError}]" ng-click="openMenu('rolesOptionsSelect')" ng-bind="ui.currentUser.stateName || 'Select Role'"></div>
-              <div class="common-select-options" ng-show="ui.rolesOptionsSelect" ng-mouseleave="ui.rolesOptionsSelect = false">
-                <div class="common-select-option" ng-repeat="role in roles" ng-bind="role.name" ng-click="setRole(role)"></div>
-              </div>
-              <div class="common-input-error-msg" ng-show="ui.roleError">Role is required</div>
-            </div>
-            <div class="common-field-title has-info"><span>Message</span> <span class="info">max. 40 characters</span></div>
-            <textarea name="" id="" class="common-textarea"></textarea>
+            <selectize placeholder="Select a role" class="custom-selectize" config="rolesSelectConfig" options="rolesSelectOptions" ng-model="ui.currentUser.roles">
+            </selectize>
+            <div ng-if="ui.roleRequired" class="common-input-error-msg">Role is required</div>
+            <!--  <div class="common-field-title has-info"><span>Message</span> <span class="info">max. 40 characters</span></div>
+            <textarea name="" id="" class="common-textarea"></textarea> -->
           </div>
         </div>
         <div class="action-footer">
           <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'"><i class="fa fa-trash-o"></i> <span>Delete</span></div>
           <div>&nbsp;</div>
-          <div>
+          <div class="common-centered-content">
             <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>
-            <div class="common-btn-positive small" ng-bind="ui.display === 'inviteUser' ? 'Create' : 'Update'"></div>
+            <button class="common-btn-positive" ng-bind="ui.display === 'inviteUser' ? 'Send Invite' : 'Update'" type="submit"></button>
           </div>
         </div>
       </form>

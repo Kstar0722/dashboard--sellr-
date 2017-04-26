@@ -1,24 +1,67 @@
-angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService, toastr) {
+angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService, toastr, accountsService, $http, constants, Users) {
   //
-  // DEFINITIONS - INITIALIZATION
+  // DEFINITIONS
   //
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.sortExpression = '+displayName'
+  $scope.ui.currentUser = {}
   $scope.CurrentUserService = CurrentUserService
+  $scope.accountSelectConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'accountId',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
+  }
+  $scope.rolesSelectConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'roles',
+    labelField: 'label',
+    sortField: 'label',
+    searchField: [ 'label' ]
+  }
+  $scope.rolesSelectOptions = [
+    {
+      label: 'Administrator',
+      roles: [1004, 1009, 1002, 1007, 1003, 1010, 1011]
+    },
+    {
+      label: 'Owner',
+      roles: [1009, 1002, 1003]
+    },
+    {
+      label: 'Manager',
+      roles: [1002, 1007, 1003]
+    },
+    {
+      label: 'Supplier',
+      roles: [1007, 1003]
+    },
+    {
+      label: 'Editor',
+      roles: [1010, 1003]
+    },
+    {
+      label: 'Curator',
+      roles: [1011, 1010, 1003]
+    }
+  ]
+
+  //
+  // INITIALIZATION
+  //
+  accountsService.loadAccounts().then(function () {
+    $scope.accountSelectOptions = accountsService.accounts
+  })
 
   //
   // SCOPE FUNCTIONS
   //
-  $scope.openMenu = function (menu, index) {
-    closeMenus()
-    if (!_.isUndefined(index)) {
-      $scope.ui[menu][index] = true
-    } else {
-      $scope.ui[menu] = true
-    }
-  }
-
   $scope.reOrderList = function (field) {
     var oldSort = $scope.ui.sortExpression || ''
     var asc = true
@@ -36,36 +79,52 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
     $scope.ui.currentUser = user
     $scope.ui.display = 'editUser'
   }
-
-  $scope.setUsState = function (state) {
-    $scope.ui.currentAccount.state = state.abbreviation
-    $scope.ui.currentAccount.stateName = state.name
-    $scope.ui.stateError = false
+  $scope.submitUser = function (view, formValid) {
+    $scope.ui.roleRequired = false
+    $scope.ui.accountRequired = false
+    var flag = formValid
+    if (!$scope.ui.currentUser.accountId) {
+      $scope.ui.accountRequired = true
+      flag = false
+    }
+    if (!$scope.ui.currentUser.roles) {
+      $scope.ui.roleRequired = true
+      flag = false
+    }
+    if (!flag) {
+      return false
+    }
+    // Selectize do not support array as value so need to reconvert to array
+    $scope.ui.currentUser.roles = $scope.ui.currentUser.roles.split(',')
+    var payload = {
+      payload: $scope.ui.currentUser
+    }
+    $http.post(constants.API_URL + '/users', payload).then(onInviteSuccess, onInviteError)
   }
-
-  // mockup data
-  $scope.roles = [{name: 'Admin'}, {name: 'Store Employee'}, {name: 'Product Editor'}, {name: 'Brand Manager'}, {name: 'Brand Rep'}]
-  $scope.stores = [{name: 'Mac’s Beer and Wine'}, {name: 'Mac’s Beer and Wine'}, {name: 'Mac’s Beer and Wine'}]
 
   //
   // INTERNAL FUNCTIONS
   //
-  function closeMenus () {
-    $scope.ui.rolesOptionsSelect = false
-    $scope.ui.storesOptionsSelect = false
+  function onInviteSuccess (response) {
+    toastr.success('User invited successfully!')
+    CurrentUserService.userList.push(Users.initUser(response.data))
+    $scope.ui.display = 'fulltable'
+    resetForm()
   }
-
+  function onInviteError (err) {
+    if (err && err.data && err.data.message) {
+      toastr.error(err.data.message)
+    } else {
+      toastr.error('There was a problem inviting this user.')
+    }
+    resetForm()
+  }
+  function resetForm () {
+    $scope.ui.currentUser = {}
+    $scope.currentuserform.$setPristine()
+    $scope.currentuserform.$setUntouched()
+  }
   //
   // EVENTS
   //
-  var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
-    if (targetElement.className.indexOf('ignore-click-trigger') === -1) {
-      $scope.$apply(function () {
-        closeMenus()
-      })
-    }
-  })
-
-  // MANDATORY to prevent Leak
-  $scope.$on('$destroy', unregisterGlobalClick)
 })
