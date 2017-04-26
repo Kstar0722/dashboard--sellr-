@@ -1,0 +1,13 @@
+<div class="login-text">Reset Password</div>
+<form name="resetform" ng-submit="sendResetPasswordRequest(resetform.$valid)" novalidate autocomplete="off">
+  <div class="login-box">
+    <div class="reset-text">Enter your email address below and we'll send a password reset link to this email</div>
+    <div class="common-field-title">Email</div>
+    <input type="email" class="common-input" name="email" ng-model="ui.resetEmail" required>
+    <input-error-msg form="resetform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+  </div>
+  <div class="login-buttons">
+    <button class="common-btn-black" type="submit">Send Email</button>
+    <div class="forgot-pass" ui-sref="authentication.signin">Cancel</div>
+  </div>
+</form>

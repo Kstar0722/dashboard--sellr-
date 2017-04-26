@@ -102,7 +102,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
       localStorage.clear()
       $window.localStorage.clear()
       Authentication.user = undefined
-      $state.go('signin')
+      $state.go('authentication.signin')
       return false
     }
     // Authentication AND AUthorization based on Roles
@@ -120,7 +120,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
         if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
           $state.go('forbidden')
         } else {
-          $state.go('signin').then(function () {
+          $state.go('authentication.signin').then(function () {
             storePreviousState(toState, toParams)
           })
         }

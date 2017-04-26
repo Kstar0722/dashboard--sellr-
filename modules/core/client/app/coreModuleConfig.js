@@ -24,6 +24,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
     // To fix angular material datepicker issue with angular 1.6
     $compileProvider.preAssignBindingsEnabled(true)
 
+    // ROOT Redirect
+    $urlRouterProvider.when('/', '/authentication/signin')
+
     // Redirect to 404 when route not found
     $urlRouterProvider.otherwise(function ($injector, $location) {
       $injector.get('$state').transitionTo('not-found', null, {
@@ -69,14 +72,31 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       //
       // UNPROTECTED PUBLIC ROUTES
       //
-      .state('signin', {
-        url: '/',
-        templateUrl: 'modules/core/client/views/unprotected/signin.html',
-        controller: 'SigninController',
+      .state('authentication', {
+        url: '/authentication',
+        templateUrl: 'modules/core/client/views/unprotected/authentication.html',
+        controller: 'AuthenticationController',
         public: true,
+        abstract: true
+      })
+      // There is a root '/' redirect to this state
+      .state('authentication.signin', {
+        url: '/signin',
+        public: true,
+        templateUrl: 'modules/core/client/views/unprotected/authentication.signin.html',
         params: {
           email: null
         }
+      })
+      .state('authentication.forgotPass', {
+        url: '/forgotPass',
+        public: true,
+        templateUrl: 'modules/core/client/views/unprotected/authentication.forgotPass.html'
+      })
+      .state('authentication.reset', {
+        url: '/reset?token&email',
+        public: true,
+        templateUrl: 'modules/core/client/views/unprotected/authentication.reset.html'
       })
       .state('getStarted', {
         url: '/getstarted',
@@ -90,7 +110,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('not-found', {
         url: '/not-found',
-        templateUrl: 'modules/core/client/views/404.html',
+        templateUrl: 'modules/core/client/views/unprotected/404.html',
         data: {
           ignoreState: true
         },
@@ -98,7 +118,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('bad-request', {
         url: '/bad-request',
-        templateUrl: 'modules/core/client/views/400.html',
+        templateUrl: 'modules/core/client/views/unprotected/400.html',
         data: {
           ignoreState: true
         },
@@ -106,7 +126,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       .state('forbidden', {
         url: '/forbidden',
-        templateUrl: 'modules/core/client/views/403.html',
+        templateUrl: 'modules/core/client/views/unprotected/403.html',
         data: {
           ignoreState: true
         },

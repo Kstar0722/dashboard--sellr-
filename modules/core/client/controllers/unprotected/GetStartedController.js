@@ -49,7 +49,7 @@ angular.module('core')
         var step = $scope.ui.step
 
         if (step === 0) {
-          return $state.go('signin')
+          return $state.go('authentication.signin')
         } else if (step === 2 && $scope.ui.storeEditorView) {
           $scope.data.storeSelected = null
           $scope.ui.storeEditorView = false
@@ -170,7 +170,7 @@ angular.module('core')
         var metadata = { source: 'Dashboard Sign up', createdOn: new Date() }
         $scope.ui.busy = true
         function okLoginHandler () {
-          $state.go('signin')
+          $state.go('authentication.signin')
         }
         function errorLoginHandler (err) {
           toastr.error(err.data.message)
@@ -182,7 +182,7 @@ angular.module('core')
           return authenticationService.signinFacebook(user, metadata).then(okLoginHandler).catch(errorLoginHandler).finally(finallyLoginHandler)
         } else {
           if (!user.password) {
-            return $state.go('signin', { email: user.email })
+            return $state.go('authentication.signin', { email: user.email })
           }
           return authenticationService.signin(user, metadata).then(okLoginHandler).catch(errorLoginHandler).finally(finallyLoginHandler)
         }
