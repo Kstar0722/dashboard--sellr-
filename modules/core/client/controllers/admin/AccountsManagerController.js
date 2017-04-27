@@ -18,6 +18,17 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     searchField: [ 'name' ]
   }
   $scope.stateSelectOptions = UsStates
+  var confirmationDialogOptions = {
+    templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
+    autoWrap: true,
+    parent: angular.element(document.body),
+    scope: $scope,
+    preserveScope: true,
+    hasBackdrop: true,
+    clickOutsideToClose: true,
+    escapeToClose: true,
+    fullscreen: true
+  }
 
   //
   // INITIALIZATION
@@ -27,6 +38,29 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   //
   // SCOPE FUNCTIONS
   //
+  $scope.closeDialog = function () {
+    $mdDialog.hide()
+  }
+
+  $scope.showDeleteAccountDialog = function (ev) {
+    $scope.genericDialog = {}
+    $scope.genericDialog.title = 'Delete Account'
+    $scope.genericDialog.body = 'Are you sure you want to delete this Account?'
+    $scope.genericDialog.actionText = 'Delete Account'
+    $scope.genericDialog.actionClass = 'common-btn-negative'
+    $scope.genericDialog.action = function () {
+      accountsService.deleteAccountFOREVER($scope.ui.currentAccount).then(function (response) {
+        $scope.closeDialog()
+        $scope.ui.display = 'fulltable'
+      }, function (error) {
+        console.log(error)
+        toastr.error('There was a problem deleting this account')
+        $scope.closeDialog()
+      })
+    }
+    $mdDialog.show(confirmationDialogOptions)
+  }
+
   $scope.openMenu = function (menu, index) {
     closeMenus()
     if (!_.isUndefined(index)) {

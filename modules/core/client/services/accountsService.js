@@ -295,6 +295,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     }
   }
 
+  me.deleteAccountFOREVER = deleteAccountFOREVER
   function deleteAccountFOREVER (account) {
     var accountId = account.accountId || account
     var url = constants.API_URL + '/accounts/' + accountId
