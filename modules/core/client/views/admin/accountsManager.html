@@ -71,7 +71,7 @@
     <div class="title" ng-switch-when="createAccount">New Account</div>
     <div class="title" ng-switch-when="editAccount">Edit Account</div>
     <div class="side-panel">
-      <form name="accountForm" ng-submit="saveAccount(ui.display)" novalidate>
+      <form name="accountForm" ng-submit="submitAccount(accountForm.$valid)" novalidate>
         <div class="common-field-title">Account Name</div>
         <input type="text" class="common-input" name="name" ng-model="ui.currentAccount.name" required>
         <input-error-msg form="accountForm" field="name" errors="{required: 'Account name is required'}"></input-error-msg>
@@ -92,13 +92,9 @@
         <div class="state-zip-container">
           <div class="state">
             <div class="common-field-title">State</div>
-            <div class="common-select-container">
-              <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.stateOptionsSelect}, {error: ui.stateError}]" ng-click="openMenu('stateOptionsSelect')" ng-bind="ui.currentAccount.stateName || 'Select State'"></div>
-              <div class="common-select-options" ng-show="ui.stateOptionsSelect" ng-mouseleave="ui.stateOptionsSelect = false">
-                <div class="common-select-option" ng-repeat="state in UsStates" ng-bind="state.name" ng-click="setUsState(state)"></div>
-              </div>
-              <div class="common-input-error-msg" ng-show="ui.stateError">State is required</div>
-            </div>
+            <selectize placeholder="Select a state" class="custom-selectize" config="stateSelectConfig" options="stateSelectOptions" ng-model="ui.currentAccount.state">
+            </selectize>
+            <div class="common-input-error-msg" ng-show="ui.stateRequired">State is required</div>
           </div>
           <div class="zip">
             <div class="common-field-title">Zip</div>
