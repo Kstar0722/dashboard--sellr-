@@ -31,7 +31,7 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data" ng-click="openEditUserSidebar()" ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','topRole']:ui.search | orderBy:ui.sortExpression track by user.userId">
+      <div class="columns-data" ng-click="openEditUserSidebar(user)" ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','topRole']:ui.search | orderBy:ui.sortExpression track by user.userId">
         <div class="name-col" ng-bind-html="user.displayName | highlight:ui.search">Name</div>
         <div class="email-col" ng-bind-html="user.email | highlight:ui.search">Email</div>
         <div class="store-col" ng-bind-html="user.store | highlight:ui.search">Store</div>
@@ -45,7 +45,7 @@
   <div class="right-side-content" ng-show="ui.display !== 'fulltable'" ng-switch="ui.display">
     <div class="title" ng-switch-when="inviteUser">Invite A New User</div>
     <div class="title" ng-switch-when="editUser">Edit User</div>
-    <form name="currentuserform" ng-submit="submitUser(ui.display, currentuserform.$valid)" novalidate>
+    <form name="currentuserform" ng-submit="submitUser(currentuserform.$valid)" novalidate>
       <div class="side-panel">
         <div class="columns">
           <div class="first-column">
@@ -58,9 +58,15 @@
             <div class="common-field-title">Email</div>
             <input type="email" class="common-input" name="email" ng-model="ui.currentUser.email" required>
             <input-error-msg form="currentuserform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
-            <div class="common-field-title" ng-bind="ui.display === 'inviteUser' ? 'Set Password' : 'Reset Password'"></div>
-            <input type="password" class="common-input" name="password" ng-model="ui.currentUser.password" required minlength="8">
-            <input-error-msg form="currentuserform" field="password" errors="{required: 'Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+            <div ng-switch-when="inviteUser">
+              <div class="common-field-title">Set Password</div>
+              <input type="password" class="common-input" name="password" ng-model="ui.currentUser.password" required minlength="8">
+              <input-error-msg form="currentuserform" field="password" errors="{required: 'Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+            </div>
+            <div ng-switch-when="editUser">
+              <div class="common-field-title">New Password</div>
+              <input type="text" class="common-input" ng-model="ui.currentUser.newPassword" disabled>
+            </div>
           </div>
           <div class="second-column">
             <div class="common-field-title">Account</div>
@@ -76,7 +82,10 @@
           </div>
         </div>
         <div class="action-footer">
-          <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'"><i class="fa fa-trash-o"></i> <span>Delete</span></div>
+          <div class="common-centered-content">
+            <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'" ng-click="showDeleteUserDialog()"><i class="fa fa-trash-o"></i> <span>Delete</span></div> 
+            <button class="common-btn-black autowidth" ng-if="ui.display === 'editUser'" ng-click="showResetPasswordDialog()">Reset Password</button>
+          </div>
           <div>&nbsp;</div>
           <div class="common-centered-content">
             <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>

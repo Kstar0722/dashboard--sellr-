@@ -37,7 +37,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     sortField: 'name',
     searchField: [ 'name' ]
   }
-  var genericDialogOptions = {
+  var confirmationDialogOptions = {
     templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
     autoWrap: true,
     parent: angular.element(document.body),
@@ -83,7 +83,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
       $scope.closeDialog()
       productEditorService.submitForApproval()
     }
-    $mdDialog.show(genericDialogOptions)
+    $mdDialog.show(confirmationDialogOptions)
   }
 
   $scope.showMarkAsApproveDialog = function (ev) {
@@ -96,7 +96,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
       $scope.closeDialog()
       productEditorService.markAsApprove()
     }
-    $mdDialog.show(genericDialogOptions)
+    $mdDialog.show(confirmationDialogOptions)
   }
 
   $scope.showDeleteProductDialog = function (ev) {
@@ -112,7 +112,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
         $state.go('editor.products.view', {productId: productEditorService.currentProduct.productId})
       })
     }
-    $mdDialog.show(genericDialogOptions)
+    $mdDialog.show(confirmationDialogOptions)
   }
 
   $scope.closeDialog = function () {

@@ -154,18 +154,17 @@ angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics
       return user
     }
 
+    me.deleteUserFOREVER = deleteUserFOREVER
     function deleteUserFOREVER (user) {
       var userId = user.userId || user
       var url = constants.API_URL + '/users/' + userId
       return $http.delete(url).then(onDeleteAccountSuccess, onDeleteAccountError)
 
       function onDeleteAccountSuccess (res) {
-        toastr.success('Account Deleted!', user.displayName || (user.firstName + ' ' + user.lastName))
         console.log('accounts Service, deleteUser %O', res)
       }
 
       function onDeleteAccountError (err) {
-        toastr.error('There was a problem deleting this user')
         console.error(err)
         throw err
       }

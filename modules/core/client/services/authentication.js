@@ -24,7 +24,8 @@ angular.module('core').factory('Authentication', ['$window',
 
     var auth = {
       user: JSON.parse(localStorage.getItem('userObject')),
-      userInRole: userInRole
+      userInRole: userInRole,
+      rolesMap: rolesMap
     }
 
     return auth

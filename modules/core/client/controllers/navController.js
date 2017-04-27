@@ -1,5 +1,5 @@
 angular.module('core')
-.controller('NavController', function ($scope, Authentication, Menus, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog) {
+.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog) {
   //
   // DEFINITIONS - INITIALIZATION
   //

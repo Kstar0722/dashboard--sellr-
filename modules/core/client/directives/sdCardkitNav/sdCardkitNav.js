@@ -3,7 +3,7 @@
 angular.module('core')
   .directive('sdCardkitNav', ['$http', 'constants', function ($http, constants) {
     return {
-      templateUrl: '/modules/core/client/directives/sdCardkitNav/sdCardkitNav.directive.html',
+      templateUrl: '/modules/core/client/directives/sdCardkitNav/sdCardkitNav.html',
       link: function (scope, element, attrs) {
         $http.get(combinePath(constants.CARDKIT_URL, 'pages/json/Sellr/Live/_blank')).then(function (response) {
           var page = response.data[0]
