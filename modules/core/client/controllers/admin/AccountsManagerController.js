@@ -84,6 +84,15 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.ui.display = 'createAccount'
   }
 
+  $scope.getNewAuthCode = function (formValid) {
+    accountsService.generateAuthCode($scope.ui.currentAccount).then(function (response) {
+      toastr.success('New authentication code was generated successfully')
+      $scope.ui.currentAccount.authCode = response.data.authCode
+    }, function () {
+      toastr.error('There was a problem generating a new Auth Code')
+    })
+  }
+
   $scope.submitAccount = function (formValid) {
     if (!formValid) {
       setFieldsTouched($scope.accountForm.$error)

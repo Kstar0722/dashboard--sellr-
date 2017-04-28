@@ -97,7 +97,7 @@
         <input type="text" class="common-input" ng-model="ui.currentAccount.preferences.websiteUrl">
         <div class="auth-code" ng-switch-when="editAccount">
           <div class="auth-text">Device Authentication Code: <span ng-bind="ui.currentAccount.authCode"></span></div>
-          <div class="common-btn-black">Get New Code</div>
+          <div class="common-btn-black" ng-click="getNewAuthCode()">Get New Code</div>
         </div>
         <!-- CONTACT INFO ADDRESS is Store info -->
         <!-- CONTACT INFO ADDRESS is Store info -->

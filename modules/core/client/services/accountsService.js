@@ -173,7 +173,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     function onUpdateSuccess (res) {
       return me.getAccounts({ id: original.accountId, expand: 'stores,stats' }).then(function (saved) {
         saved = initAccount(_.first(saved))
-        toastr.success('Account Updated!', account.name)
+        toastr.success('Account Updated!')
         _.replaceItem(me.accounts, original, saved)
       })
     }
@@ -184,22 +184,15 @@ angular.module('core').service('accountsService', function ($http, constants, to
     }
   }
 
-  me.generateAuthCode = function (authCode) {
+  me.generateAuthCode = function (account) {
     var url = constants.API_URL + '/accounts/auth'
     var payload = {
       payload: {
-        accountId: me.editAccount.accountId,
-        authCode: authCode
+        accountId: account.accountId,
+        authCode: account.authCode
       }
     }
-    console.log('authCode Payload %O', payload)
-    $http.post(url, payload).then(function (res, err) {
-      if (err) {
-        console.error(err)
-      } else {
-        me.editAccount.authCode = res.data.authCode
-      }
-    })
+    return $http.post(url, payload)
   }
 
   me.bindSelectedAccount = function (scope) {
