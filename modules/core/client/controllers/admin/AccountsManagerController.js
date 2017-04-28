@@ -80,27 +80,25 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
 
   $scope.openCreateAccountSidebar = function () {
     $scope.ui.currentAccount = {}
+    $scope.ui.currentAccount.preferences = {}
     $scope.ui.display = 'createAccount'
   }
 
   $scope.submitAccount = function (formValid) {
-    $scope.ui.stateRequired = false
-    var flag = formValid
-    if (!$scope.ui.currentAccount.state) {
-      $scope.ui.stateRequired = true
-      flag = false
-    }
-    if (!flag) {
+    if (!formValid) {
       setFieldsTouched($scope.accountForm.$error)
       return false
     }
 
     if ($scope.ui.display === 'createAccount') {
-      accountsService.createAccount($scope.ui.currentAccount).then(function (newAccount) {
+      accountsService.createAccount($scope.ui.currentAccount).then(function () {
         $scope.ui.display = 'fulltable'
       })
     }
     if ($scope.ui.display === 'editAccount') {
+      accountsService.updateAccount($scope.ui.currentAccount).then(function () {
+        $scope.ui.display = 'fulltable'
+      })
     }
   }
 

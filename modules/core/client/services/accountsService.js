@@ -125,6 +125,8 @@ angular.module('core').service('accountsService', function ($http, constants, to
     var defer = $q.defer()
     var url = constants.API_URL + '/accounts'
     account.status = 1
+    account.preferences = account.preferences || {}
+    account.preferences.websiteUrl = normalizeUrl(account.preferences.websiteUrl)
     var payload = {
       payload: account
     }
@@ -158,35 +160,23 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return defer.promise
   }
 
-  me.updateAccount = function () {
-    var account = me.editAccount
+  me.updateAccount = function (account) {
     account.preferences = account.preferences || {}
-    account.preferences.logo = account.logo
-    account.preferences.style = account.style
-    account.preferences.shoppr = account.shoppr
-    account.preferences.website = account.website
     account.preferences.websiteUrl = normalizeUrl(account.preferences.websiteUrl)
-
     var payload = {
       payload: account
     }
-    console.log('about to update %O', account)
     var url = constants.API_URL + '/accounts/' + account.accountId
-    console.log('putting to ' + url)
-
     var original = _.find(me.accounts, { accountId: account.accountId })
     return $http.put(url, payload).then(onUpdateSuccess, onUpdateError)
 
     function onUpdateSuccess (res) {
-      console.log('updated account response %O', res)
       return me.getAccounts({ id: original.accountId, expand: 'stores,stats' }).then(function (saved) {
         saved = initAccount(_.first(saved))
-        toastr.success('Account Updated!', account.storeName || account.name)
-        // update existing account in collection
+        toastr.success('Account Updated!', account.name)
         _.replaceItem(me.accounts, original, saved)
       })
     }
-
     function onUpdateError (err) {
       console.error('Error updating account %O', err)
       toastr.error('There was a problem updating this account')

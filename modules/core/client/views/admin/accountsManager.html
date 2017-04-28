@@ -81,7 +81,28 @@
         <div class="common-field-title">Email</div>
         <input type="email" class="common-input" name="email" ng-model="ui.currentAccount.email" required>
         <input-error-msg form="accountForm" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
-        <div class="common-field-title">Phone</div>
+        <div class="checks-container">
+          <div class="shoppr-check">
+            <div class="common-field-title">Shoppr</div>
+            <input class="custom-checkbox" type="checkbox" id="currentaccountshoppr" ng-model="ui.currentAccount.preferences.shoppr" />
+            <label for="currentaccountshoppr">&nbsp;</label>
+          </div>
+          <div class="website-check">
+            <div class="common-field-title">Website</div>
+            <input class="custom-checkbox" type="checkbox" id="currentaccountwebsite" ng-model="ui.currentAccount.preferences.website" />
+            <label for="currentaccountwebsite">&nbsp;</label>
+          </div>
+        </div>
+        <div class="common-field-title">Website Url</div>
+        <input type="text" class="common-input" ng-model="ui.currentAccount.preferences.websiteUrl">
+        <div class="auth-code" ng-switch-when="editAccount">
+          <div class="auth-text">Device Authentication Code: <span ng-bind="ui.currentAccount.authCode"></span></div>
+          <div class="common-btn-black">Get New Code</div>
+        </div>
+        <!-- CONTACT INFO ADDRESS is Store info -->
+        <!-- CONTACT INFO ADDRESS is Store info -->
+        <!-- CONTACT INFO ADDRESS is Store info -->
+        <!--   <div class="common-field-title">Phone</div>
         <input type="text" class="common-input" ng-model="ui.currentAccount.phone">
         <div class="common-field-title">Address</div>
         <input type="text" class="common-input" name="address" ng-model="ui.currentAccount.address" required>
@@ -101,45 +122,26 @@
             <input type="text" class="common-input" name="zipCode" ng-model="ui.currentAccount.zipCode" required maxlength="5" ng-pattern="/^\d{5}$/">
             <input-error-msg form="accountForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
           </div>
-        </div>
-        <div ng-switch-when="editAccount">
-          <div class="common-field-title">Account Image</div>
-          <div class="upload-image-box"></div>
-          <div class="checks-container">
-            <div class="shoppr-check">
-              <div class="common-field-title">Shoppr</div>
-              <input class="custom-checkbox" type="checkbox" id="currentaccountshoppr" ng-model="ui.currentAccount.shoppr" />
-              <label for="currentaccountshoppr">&nbsp;</label>
-            </div>
-            <div class="website-check">
-              <div class="common-field-title">Website</div>
-              <input class="custom-checkbox" type="checkbox" id="currentaccountwebsite" ng-model="ui.currentAccount.website" />
-              <label for="currentaccountwebsite">&nbsp;</label>
-            </div>
+        </div> -->
+        <!-- WEBSITE THEME -->
+        <!-- WEBSITE THEME -->
+        <!-- WEBSITE THEME -->
+        <!--   <div class="common-field-title">Website Theme</div>
+        <div class="common-select-container">
+          <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')">
+            Website Theme
           </div>
-          <div class="common-field-title">Website Theme</div>
-          <div class="common-select-container">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')">
-              Website Theme
-            </div>
-            <div class="common-select-options" ng-show="ui.websiteThemesOptionsSelect" ng-mouseleave="ui.websiteThemesOptionsSelect = false">
-              <div class="common-select-option">Theme 1</div>
-              <div class="common-select-option">Theme 2</div>
-              <div class="common-select-option">Theme 3</div>
-              <div class="common-select-option">Theme 4</div>
-            </div>
+          <div class="common-select-options" ng-show="ui.websiteThemesOptionsSelect" ng-mouseleave="ui.websiteThemesOptionsSelect = false">
+            <div class="common-select-option">Theme 1</div>
+            <div class="common-select-option">Theme 2</div>
+            <div class="common-select-option">Theme 3</div>
+            <div class="common-select-option">Theme 4</div>
           </div>
-          <div class="common-field-title">Website Url</div>
-          <input type="text" class="common-input" ng-model="ui.currentAccount.preferences.websiteUrl">
-          <div class="auth-code">
-            <div class="auth-text">Device Authentication Code: <span ng-bind="ui.currentAccount.authCode"></span></div>
-            <div class="common-btn-black">Get New Code</div>
-          </div>
-        </div>
+        </div> -->
         <div class="common-btns-bar">
-          <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editAccount'" ng-click="showDeleteAccountDialog()"><i class="fa fa-trash-o"></i> Delete</div>
-          <div ng-class="['common-btn-gray', {small: ui.display === 'editAccount'}]" ng-click="ui.display = 'fulltable'">Cancel</div>
-          <button ng-class="['common-btn-positive', {small: ui.display === 'editAccount'}]" type="submit" ng-bind="ui.display === 'createAccount' ? 'Create' : 'Update'"></button>
+          <div class="common-btn-negative small has-left-icon" ng-click="showDeleteAccountDialog()" ng-switch-when="editAccount"><i class="fa fa-trash-o"></i> Delete</div>
+          <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>
+          <button class="common-btn-positive" type="submit" ng-bind="ui.display === 'createAccount' ? 'Create' : 'Update'"></button>
         </div>
       </form>
     </div>

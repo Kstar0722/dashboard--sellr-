@@ -121,7 +121,7 @@
   },
   "standard": {
     "ignore": [
-      "modules/core/client/directives/show-errors.client.directives.js"
+      "modules/core/client/directives/showErrors.js"
     ],
     "globals": [
       "angular",
