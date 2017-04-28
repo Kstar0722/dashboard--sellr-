@@ -1,7 +1,4 @@
 <div class="accounts-manager-view">
-  <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
-    <i class="fa fa-circle"></i> Automatically Saved
-  </div>
   <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
     <div class="title">All Accounts</div>
     <div class="main-table">
@@ -81,6 +78,15 @@
         <div class="common-field-title">Email</div>
         <input type="email" class="common-input" name="email" ng-model="ui.currentAccount.email" required>
         <input-error-msg form="accountForm" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+        <div class="common-field-title">Account Logo</div>
+        <div class="common-btn-silver" ngf-select="uploadLogo($files)">Upload Image</div>
+        <div class="common-btn-negative small" ng-click="removeLogo()" ng-if="ui.currentAccount.preferences.logo || ui.tempLogo">Remove</div>
+        <div class="logo-container" ng-if="ui.tempLogo">
+          <img ngf-src="ui.tempLogo" alt="account logo" />
+        </div>
+        <div class="logo-container" ng-if="ui.currentAccount.preferences.logo && !ui.tempLogo">
+          <img ng-src="{{ui.currentAccount.preferences.logo}}" alt="account logo" />
+        </div>
         <div class="checks-container">
           <div class="shoppr-check">
             <div class="common-field-title">Shoppr</div>

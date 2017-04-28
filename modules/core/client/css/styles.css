@@ -2686,6 +2686,14 @@ body.loading .main-content {
   font-weight: bold;
   margin-right: 30px;
 }
+.accounts-manager-view .right-side-content .side-panel .logo-container {
+  width: 60%;
+  margin: 20px auto;
+  text-align: center;
+}
+.accounts-manager-view .right-side-content .side-panel .logo-container img {
+  width: 100%;
+}
 .accounts-manager-view .right-side-content .side-panel .checks-container {
   display: flex;
   flex-flow: row nowrap;

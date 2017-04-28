@@ -1,4 +1,4 @@
-angular.module('core').controller('AccountsManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer, $rootScope, globalClickEventName) {
+angular.module('core').controller('AccountsManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer, $rootScope, globalClickEventName, $q) {
   //
   // DEFINITIONS
   //
@@ -38,6 +38,13 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   //
   // SCOPE FUNCTIONS
   //
+  $scope.uploadLogo = function (files) {
+    if (_.isEmpty(files)) {
+      return
+    }
+    $scope.ui.tempLogo = files[0]
+  }
+
   $scope.closeDialog = function () {
     $mdDialog.hide()
   }
@@ -100,20 +107,40 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     }
 
     if ($scope.ui.display === 'createAccount') {
-      accountsService.createAccount($scope.ui.currentAccount).then(function () {
+      accountsService.createAccount($scope.ui.currentAccount).then(function (response) {
+        // SAVE ACCOUNTID FOR LOGO CREATION
+        $scope.ui.currentAccount.accountId = response.accountId
+        saveLogo().then(function (response) {
+          if (response) {
+            var newAccount = _.find(accountsService.accounts, { accountId: $scope.ui.currentAccount.accountId })
+            newAccount.preferences.logo = response.publicUrl
+          }
+        })
         $scope.ui.display = 'fulltable'
       })
     }
     if ($scope.ui.display === 'editAccount') {
-      accountsService.updateAccount($scope.ui.currentAccount).then(function () {
-        $scope.ui.display = 'fulltable'
+      saveLogo().then(function (response) {
+        if (response) {
+          $scope.ui.currentAccount.preferences.logo = response.publicUrl
+        }
+        accountsService.updateAccount($scope.ui.currentAccount).then(function () {
+          $scope.ui.display = 'fulltable'
+        })
       })
     }
   }
 
   $scope.openEditAccountSidebar = function (account) {
     $scope.ui.currentAccount = account
+    $scope.ui.tempLogo = null
+    console.log(account)
     $scope.ui.display = 'editAccount'
+  }
+
+  $scope.removeLogo = function () {
+    $scope.ui.tempLogo = null
+    $scope.ui.currentAccount.preferences.logo = ''
   }
 
   $scope.showManageStoresDialog = function (ev) {
@@ -138,6 +165,25 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.ui.stateOptionsSelect = false
     $scope.ui.websiteThemesOptionsSelect = false
     $scope.ui.actionsOptionsSelect = []
+  }
+
+  function saveLogo () {
+    var defer = $q.defer()
+    if (!$scope.ui.tempLogo) {
+      defer.resolve()
+    } else {
+      var mediaConfig = {
+        mediaRoute: 'media',
+        folder: 'logo',
+        type: 'LOGO',
+        fileType: 'IMAGE',
+        accountId: $scope.ui.currentAccount.accountId
+      }
+      uploadService.upload($scope.ui.tempLogo, mediaConfig).then(function (response) {
+        defer.resolve(response)
+      })
+    }
+    return defer.promise
   }
 
   function setFieldsTouched (formErrors) {
