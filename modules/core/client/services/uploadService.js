@@ -1,4 +1,3 @@
-/* globals angular, localStorage, AWS */
 angular.module('core').service('uploadService', function ($http, constants, toastr, Authentication, $q, cfpLoadingBar, filepickerService) {
   var me = this
 
@@ -195,8 +194,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
         payload = {
           payload: {
             type: config.type,
-            // fileType: config.fileType || config.type,
-            fileType: config.type,
+            fileType: config.fileType,
             fileName: filename,
             userName: Authentication.user.firstName + Authentication.user.lastName,
             accountId: config.accountId
