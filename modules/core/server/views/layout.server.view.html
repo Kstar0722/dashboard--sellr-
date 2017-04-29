@@ -27,6 +27,21 @@
         }}();
     </script>
     {% endif %}
+
+    <!-- BugHerd Issue Tracker -->
+    {% if process.env.NODE_ENV != 'production' %}
+
+    <script type='text/javascript'>
+      (function (d, t) {
+        var bh = d.createElement(t), s = d.getElementsByTagName(t)[0]
+        bh.type = 'text/javascript'
+        bh.src = 'https://www.bugherd.com/sidebarv2.js?apikey=ckxtssxwp0u3w0m8b9lefw'
+        s.parentNode.insertBefore(bh, s)
+      })(document, 'script')
+    </script>
+
+    {% endif %}
+
 </head>
 
 <body ng-class="$stateClass">
