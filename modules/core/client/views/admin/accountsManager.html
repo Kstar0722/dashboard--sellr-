@@ -54,7 +54,7 @@
             </div>
             <div class="common-select-options" ng-show="ui.actionsOptionsSelect[$index]" ng-mouseleave="ui.actionsOptionsSelect[$index] = false">
               <div class="common-select-option" ng-click="openEditAccountSidebar(account)">Edit Account</div>
-              <div class="common-select-option" ng-click="showManageStoresDialog($event)">Manage Stores</div>
+              <div class="common-select-option" ng-click="showManageStoresDialog(account, $event)">Manage Stores</div>
             </div>
           </div>
         </div>
@@ -105,30 +105,6 @@
           <div class="auth-text">Device Authentication Code: <span ng-bind="ui.currentAccount.authCode"></span></div>
           <div class="common-btn-black" ng-click="getNewAuthCode()">Get New Code</div>
         </div>
-        <!-- CONTACT INFO ADDRESS is Store info -->
-        <!-- CONTACT INFO ADDRESS is Store info -->
-        <!-- CONTACT INFO ADDRESS is Store info -->
-        <!--   <div class="common-field-title">Phone</div>
-        <input type="text" class="common-input" ng-model="ui.currentAccount.phone">
-        <div class="common-field-title">Address</div>
-        <input type="text" class="common-input" name="address" ng-model="ui.currentAccount.address" required>
-        <input-error-msg form="accountForm" field="address" errors="{required: 'Address is required'}"></input-error-msg>
-        <div class="common-field-title">City</div>
-        <input type="text" class="common-input" name="city" ng-model="ui.currentAccount.city" required>
-        <input-error-msg form="accountForm" field="city" errors="{required: 'City is required'}"></input-error-msg>
-        <div class="state-zip-container">
-          <div class="state">
-            <div class="common-field-title">State</div>
-            <selectize placeholder="Select a state" class="custom-selectize" config="stateSelectConfig" options="stateSelectOptions" ng-model="ui.currentAccount.state">
-            </selectize>
-            <div class="common-input-error-msg" ng-show="ui.stateRequired">State is required</div>
-          </div>
-          <div class="zip">
-            <div class="common-field-title">Zip</div>
-            <input type="text" class="common-input" name="zipCode" ng-model="ui.currentAccount.zipCode" required maxlength="5" ng-pattern="/^\d{5}$/">
-            <input-error-msg form="accountForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
-          </div>
-        </div> -->
         <!-- WEBSITE THEME -->
         <!-- WEBSITE THEME -->
         <!-- WEBSITE THEME -->

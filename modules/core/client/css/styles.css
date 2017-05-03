@@ -142,7 +142,6 @@ form.ng-pristine [ng-messages] {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 95;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -986,11 +985,17 @@ body.loading .main-content {
 .common-modal-dialog .main-container .right-side .columns .second-column .common-field-title:first-child {
   margin-top: 0;
 }
-.common-modal-dialog .main-container .right-side .columns .upload-image-box {
+.common-modal-dialog .main-container .right-side .columns .image-buttons {
+  text-align: center;
+  margin: 0 auto;
+}
+.common-modal-dialog .main-container .right-side .columns .store-image-container {
+  width: 80%;
+  margin: 10px auto 0 auto;
+  text-align: center;
+}
+.common-modal-dialog .main-container .right-side .columns .store-image-container img {
   width: 100%;
-  background-color: rgba(223, 227, 233, 0.3);
-  height: 200px;
-  border-radius: 4px;
 }
 .common-modal-dialog .main-container .single-side {
   width: 100%;

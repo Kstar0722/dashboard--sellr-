@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('core').service('storesService', function ($http, constants, $q, toastr, $state) {
+angular.module('core').service('storesService', function ($http, constants, $q, toastr) {
   var me = this
 
   me.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -8,10 +8,6 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
     return $http.get(constants.BWS_API + '/storedb/stores/' + storeId + '?supc=true').then(handleResponse).then(function (data) {
       return data instanceof Array ? data[ 0 ] : data
     })
-  }
-
-  me.createStore = function (store) {
-    return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(handleResponse)
   }
 
   me.importStoreProducts = function (store, storeItems) {
@@ -39,13 +35,12 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
   // BELOW IS COPIED FROM OLD LOCATIONS SERVICE BUT REWORKED to new Store db URLS/**/
   me.stores = []
-  me.editStore = {}
-  me.accountId = localStorage.getItem('accountId')
 
-  me.getStores = function () {
+  me.getStores = function (accountId) {
     var defer = $q.defer()
     me.stores = []
-    var url = constants.BWS_API + '/storedb/stores?info=true&acc=' + me.accountId
+    me.currentAccountId = accountId
+    var url = constants.BWS_API + '/storedb/stores?info=true&acc=' + accountId
     $http.get(url).then(function (res) {
       console.log('storesService getStores %O', res.data)
       me.stores = res.data
@@ -54,16 +49,13 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
     return defer.promise
   }
 
-  me.createStoreManager = function (store) {
-    console.log(store)
-    $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(onAPISuccess.bind(this, 'create'), onAPIError.bind(this, 'create'))
+  me.createStore = function (store) {
+    store.accountId = me.currentAccountId
+    return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(onAPISuccess.bind(this, 'create'), onAPIError.bind(this, 'create'))
   }
 
   me.updateStore = function (store) {
-    var payload = {
-      payload: store
-    }
-    $http.put(constants.BWS_API + '/storedb/stores/details', payload).then(onAPISuccess.bind(this, 'update'), onAPIError.bind(this, 'update'))
+    return $http.put(constants.BWS_API + '/storedb/stores/details', { payload: store }).then(onAPISuccess.bind(this, 'update'), onAPIError.bind(this, 'update'))
   }
 
   me.deleteStore = function (storeId) {
@@ -104,34 +96,33 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
   // API RESPONSE/ERROR HANDLING
   function onAPISuccess (operation) {
-    me.getStores().then(function () {
+    me.getStores(me.currentAccountId).then(function () {
       switch (operation) {
         case 'create':
-          toastr.success('New Store Created', 'Success!')
+          toastr.success('New Store created successfully')
           break
         case 'delete':
-          toastr.success('Store deleted', 'Success!')
+          toastr.success('Store deleted successfully')
           break
         case 'update':
-          toastr.success('Store Updated', 'Success!')
+          toastr.success('Store updated successfully')
           break
         default:
           break
       }
-      $state.go('manager.stores')
     })
   }
 
   function onAPIError (operation) {
     switch (operation) {
       case 'create':
-        toastr.error('The Store could not be created', 'Error')
+        toastr.error('The store could not be created')
         break
       case 'delete':
-        toastr.error('The Store could not be deleted', 'Error')
+        toastr.error('The store could not be deleted')
         break
       case 'update':
-        toastr.error('The Store could not be udpated', 'Error')
+        toastr.error('The store could not be udpated')
         break
       default:
         break

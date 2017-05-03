@@ -3,60 +3,64 @@
   <div class="main-container">
     <div class="left-side">
       <div class="item-list">
-        <div class="item-item">
-          <div class="item-name">Alcohol Store 34</div>
-          <div class="item-counter">55</div>
-        </div>
-        <div class="item-item">
-          <div class="item-name">That Other Alcohol Store</div>
-          <div class="item-counter">44</div>
-        </div>
-        <div class="item-item active">
-          <div class="item-name">Bruces Bubbly Beverages</div>
-          <div class="item-counter">22</div>
+        <div ng-class="['item-item', {active: activeStore.storeId === store.storeId}]" ng-repeat="store in storesService.stores" ng-click="changeStore($index)">
+          <div class="item-name" ng-bind="store.name"></div>
+          <!-- <div class="item-counter"></div> -->
         </div>
       </div>
-      <div class="add-item">
+      <div class="add-item" ng-click="newStore()">
         <i class="fa fa-plus"></i>
       </div>
     </div>
     <div class="right-side">
-      <div class="columns">
-        <div class="first-column">
-          <form name="storeForm" ng-submit="saveStoreImplementationGoesHere()" novalidate>
+      <form name="storeForm" ng-submit="submitStore(storeForm.$valid)" novalidate>
+        <div class="columns">
+          <div class="first-column">
             <div class="common-field-title">Store Name</div>
-            <input type="text" class="common-input" name="name" ng-model="ui.currentStore.name" required>
-            <div class="common-field-title">Phone</div>
-            <input type="text" class="common-input" ng-model="ui.currentStore.phone">
+            <input type="text" class="common-input" name="name" ng-model="activeStore.name" required>
             <input-error-msg form="storeForm" field="name" errors="{required: 'Store name is required'}"></input-error-msg>
+            <div class="common-field-title">Description</div>
+            <input type="text" class="common-input" ng-model="activeStore.description">
+            <div class="common-field-title">Phone</div>
+            <input type="text" class="common-input" ng-model="activeStore.details.contactInfo.phone">
+            <div class="common-field-title">Store Picture</div>
+            <div class="image-buttons">
+              <div class="common-btn-silver small" ngf-select="uploadStoreImage($files)">Upload</div>
+              <div class="common-btn-negative small" ng-click="removeStoreImage()" ng-if="activeStore.details.storeImg || tempStoreImage">Remove</div>
+            </div>
+            <div class="store-image-container" ng-if="tempStoreImage">
+              <img ngf-src="tempStoreImage" alt="store Image" />
+            </div>
+            <div class="store-image-container" ng-if="activeStore.details.storeImg && !tempStoreImage">
+              <img ng-src="{{activeStore.details.storeImg}}" alt="store Image" />
+            </div>
+          </div>
+          <div class="second-column">
             <div class="common-field-title">STREET ADDRESS</div>
-            <input type="text" class="common-input" name="address" ng-model="ui.currentStore.address" required>
+            <input type="text" class="common-input" name="address" ng-model="activeStore.details.contactInfo.address1" required>
             <input-error-msg form="storeForm" field="address" errors="{required: 'Address is required'}"></input-error-msg>
             <div class="common-field-title">ADDRESS LINE 2</div>
-            <input type="text" class="common-input" name="address2" ng-model="ui.currentStore.address2">
+            <input type="text" class="common-input" name="address2" ng-model="activeStore.details.contactInfo.address2">
             <div class="common-field-title">City</div>
-            <input type="text" class="common-input" name="city" ng-model="ui.currentStore.city" required>
-            <input-error-msg form="storeForm" field="city" errors="{required: 'City is required'}"></input-error-msg>            
-          </form>
+            <input type="text" class="common-input" name="city" ng-model="activeStore.details.contactInfo.city" required>
+            <input-error-msg form="storeForm" field="city" errors="{required: 'City is required'}"></input-error-msg>
+            <div class="common-field-title">State</div>
+            <selectize class="custom-selectize" config="stateSelectConfig" options="UsStates" ng-model="activeStore.details.contactInfo.state">
+            </selectize>
+            <div class="common-field-title">Zip</div>
+            <input type="text" class="common-input" name="zipCode" ng-model="activeStore.details.contactInfo.zipcode" required maxlength="5" ng-pattern="/^\d{5}$/">
+            <input-error-msg form="storeForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
+          </div>
         </div>
-        <div class="second-column">
-          <div class="common-field-title">State</div>
-          <selectize class="custom-selectize" config="stateSelectConfig" options="UsStates" ng-model="ui.currentStore.state">
-          </selectize>
-          <div class="common-field-title">Zip</div>
-          <input type="text" class="common-input" name="zipCode" ng-model="ui.currentStore.zipCode" required maxlength="5" ng-pattern="/^\d{5}$/">
-          <input-error-msg form="storeForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
-          <div class="common-field-title">Store Picture</div>
-          <div class="upload-image-box"></div>
+        
+        <div class="action-footer">
+          <div class="common-btn-negative" ng-click="closeDialog()"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
+          <div>
+            <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
+            <button type="submit" class="common-btn-positive small">Save</button>
+          </div>
         </div>
-      </div>
-      <div class="action-footer">
-        <div class="common-btn-negative" ng-click="closeDialog()"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
-        <div>
-          <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
-          <div class="common-btn-positive small" ng-click="closeDialog()">Save</div>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>

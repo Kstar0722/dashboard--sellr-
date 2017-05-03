@@ -1,4 +1,4 @@
-angular.module('core').controller('AccountsManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer, $rootScope, globalClickEventName, $q) {
+angular.module('core').controller('AccountsManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer, $rootScope, globalClickEventName, $q, storesService) {
   //
   // DEFINITIONS
   //
@@ -143,17 +143,19 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.ui.currentAccount.preferences.logo = ''
   }
 
-  $scope.showManageStoresDialog = function (ev) {
-    $mdDialog.show({
-      templateUrl: '/modules/core/client/views/popupDialogs/manageStoreDialog.html',
-      autoWrap: true,
-      parent: angular.element(document.body),
-      preserveScope: false,
-      hasBackdrop: true,
-      clickOutsideToClose: false,
-      escapeToClose: false,
-      fullscreen: true,
-      controller: 'StoreManagerController'
+  $scope.showManageStoresDialog = function (account, ev) {
+    storesService.getStores(account.accountId).then(function () {
+      $mdDialog.show({
+        templateUrl: '/modules/core/client/views/popupDialogs/manageStoreDialog.html',
+        autoWrap: true,
+        parent: angular.element(document.body),
+        preserveScope: false,
+        hasBackdrop: true,
+        clickOutsideToClose: false,
+        escapeToClose: false,
+        fullscreen: true,
+        controller: 'StoreManagerController'
+      })
     })
   }
 
