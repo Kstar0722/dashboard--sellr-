@@ -10,8 +10,6 @@ angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics
       var defer = $q.defer()
       $http.get(constants.API_URL + '/users/' + userId.userId).then(function (response, err) {
         $http.get(constants.API_URL + '/users/roles/' + userId.userId).then(function (res, err) {
-          console.log(res)
-          console.log(response)
           response.data[0].roles = []
           res.data.forEach(function (role) {
             response.data[0].roles.push(role['roleId'])
