@@ -81,7 +81,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
       })
       // There is a root '/' redirect to this state
       .state('authentication.signin', {
-        url: '/signin',
+        url: '/signin?email',
         public: true,
         templateUrl: 'modules/core/client/views/unprotected/authentication.signin.html',
         params: {

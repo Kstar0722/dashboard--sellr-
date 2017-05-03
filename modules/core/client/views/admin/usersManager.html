@@ -45,7 +45,7 @@
   <div class="right-side-content" ng-show="ui.display !== 'fulltable'" ng-switch="ui.display">
     <div class="title" ng-switch-when="inviteUser">Invite A New User</div>
     <div class="title" ng-switch-when="editUser">Edit User</div>
-    <form name="currentuserform" ng-submit="submitUser(currentuserform.$valid)" novalidate>
+    <form name="currentuserform" ng-submit="submitUser(currentuserform.$valid)" novalidate autocomplete="off">
       <div class="side-panel">
         <div class="columns">
           <div class="first-column">

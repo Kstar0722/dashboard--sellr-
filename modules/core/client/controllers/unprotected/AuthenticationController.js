@@ -1,6 +1,7 @@
 angular.module('core').controller('AuthenticationController', function ($scope, $stateParams, $state, $location, constants, $http, authToken, authenticationService, toastr, Users) {
   $scope.ui = {}
   $scope.ui.credentials = {}
+  $scope.ui.credentials.email = $stateParams.email || $state.params.email
   $scope.ui.resetPassword = {}
   $scope.ui.resetEmail = ''
   $scope.signin = function (formValid) {
