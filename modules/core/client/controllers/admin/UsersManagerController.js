@@ -86,7 +86,8 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
     $scope.ui.display = 'inviteUser'
   }
 
-  $scope.openEditUserSidebar = function (user) {
+  $scope.openEditUserSidebar = function (user, index) {
+    $scope.ui.activeIndex = index
     var rolesTemp = user.roles
     rolesTemp = rolesTemp.split(',')
     rolesTemp = _.map(rolesTemp, function (strNum) { return Authentication.rolesMap[strNum] })
@@ -147,6 +148,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
         _.removeItem(CurrentUserService.userList, deletedUser)
         $scope.closeDialog()
         $scope.ui.display = 'fulltable'
+        $scope.ui.activeIndex = null
       }, function (error) {
         console.log(error)
         toastr.error('There was a problem deleting this user')
@@ -189,17 +191,17 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
   // INTERNAL FUNCTIONS
   //
   function onSaveSuccess (response) {
-    if ($scope.ui.display === 'inviteUser') {
-      toastr.success('User invited successfully!')
-      CurrentUserService.userList.push(Users.initUser(response.data))
-    }
-    if ($scope.ui.display === 'editUser') {
-      toastr.success('User updated successfully!')
-      var saved = response.data
-      _.replaceItem(CurrentUserService.userList, _.find(CurrentUserService.userList, { userId: saved.userId }), saved)
-    }
-    $scope.ui.display = 'fulltable'
-    resetForm()
+    CurrentUserService.refreshUserList().then(function () {
+      if ($scope.ui.display === 'inviteUser') {
+        toastr.success('User invited successfully!')
+      }
+      if ($scope.ui.display === 'editUser') {
+        toastr.success('User updated successfully!')
+      }
+      $scope.ui.display = 'fulltable'
+      $scope.ui.activeIndex = null
+      resetForm()
+    })
   }
 
   function onSaveError (err) {

@@ -31,7 +31,7 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data" ng-click="openEditUserSidebar(user)" ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','topRole']:ui.search | orderBy:ui.sortExpression track by user.userId">
+      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-click="openEditUserSidebar(user, $index)" ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','topRole']:ui.search | orderBy:ui.sortExpression track by user.userId">
         <div class="name-col" ng-bind-html="user.displayName | highlight:ui.search">Name</div>
         <div class="email-col" ng-bind-html="user.email | highlight:ui.search">Email</div>
         <div class="store-col" ng-bind-html="user.store | highlight:ui.search">Store</div>
@@ -88,7 +88,7 @@
           </div>
           <div>&nbsp;</div>
           <div class="common-centered-content">
-            <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>
+            <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'; ui.activeIndex = null">Cancel</div>
             <button class="common-btn-positive" ng-bind="ui.display === 'inviteUser' ? 'Send Invite' : 'Update'" type="submit"></button>
           </div>
         </div>
