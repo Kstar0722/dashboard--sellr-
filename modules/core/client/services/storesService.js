@@ -60,7 +60,7 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
   me.deleteStore = function (storeId) {
     var url = constants.BWS_API + '/storedb/stores/' + storeId
-    $http.delete(url).then(onAPISuccess.bind(this, 'delete'), onAPIError.bind(this, 'delete'))
+    return $http.delete(url).then(onAPISuccess.bind(this, 'delete'), onAPIError.bind(this, 'delete'))
   }
 
   me.initWorkSchedule = function (store) {
@@ -96,16 +96,16 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
   // API RESPONSE/ERROR HANDLING
   function onAPISuccess (operation) {
-    me.getStores(me.currentAccountId).then(function () {
+    return me.getStores(me.currentAccountId).then(function () {
       switch (operation) {
         case 'create':
           toastr.success('New Store created successfully')
           break
-        case 'delete':
-          toastr.success('Store deleted successfully')
-          break
         case 'update':
           toastr.success('Store updated successfully')
+          break
+        case 'delete':
+          toastr.success('Store deleted successfully')
           break
         default:
           break
@@ -118,11 +118,11 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
       case 'create':
         toastr.error('The store could not be created')
         break
-      case 'delete':
-        toastr.error('The store could not be deleted')
-        break
       case 'update':
         toastr.error('The store could not be udpated')
+        break
+      case 'delete':
+        toastr.error('The store could not be deleted')
         break
       default:
         break

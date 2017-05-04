@@ -1014,6 +1014,9 @@ body.loading .main-content {
   box-sizing: border-box;
   background-color: #f0f3f8;
 }
+.common-modal-dialog .main-container .action-footer .submit {
+  margin-left: 10px;
+}
 .capitalize {
   text-transform: capitalize;
 }

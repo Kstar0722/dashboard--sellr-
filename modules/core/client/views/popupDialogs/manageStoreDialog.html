@@ -51,13 +51,20 @@
             <input type="text" class="common-input" name="zipCode" ng-model="activeStore.details.contactInfo.zipcode" required maxlength="5" ng-pattern="/^\d{5}$/">
             <input-error-msg form="storeForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
           </div>
+        </div>       
+        <div class="action-footer" ng-if="!ui.deleteStoreMsg">
+          <div ng-if="isNewStore">&nbsp;</div>
+          <div class="common-btn-negative" ng-click="ui.deleteStoreMsg = true" ng-if="!isNewStore"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
+          <div class="common-centered-content">
+            <div class="common-btn-gray small" ng-click="closeDialog()">Close</div>
+            <button type="submit" class="common-btn-positive small submit" ng-bind="isNewStore ? 'Create' : 'Update'"></button>
+          </div>
         </div>
-        
-        <div class="action-footer">
-          <div class="common-btn-negative" ng-click="closeDialog()"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
-          <div>
-            <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
-            <button type="submit" class="common-btn-positive small">Save</button>
+        <div class="action-footer" ng-if="ui.deleteStoreMsg">
+          <div><strong>You are about to delete the store: {{activeStore.name}}</strong></div>
+          <div class="common-centered-content">
+            <div class="common-btn-gray small" ng-click="ui.deleteStoreMsg = false">Cancel</div>
+            <div class="common-btn-negative small submit" ng-click="deleteStore()">Delete</div>
           </div>
         </div>
       </form>

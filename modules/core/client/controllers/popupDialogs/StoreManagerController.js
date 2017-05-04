@@ -14,15 +14,28 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
     sortField: 'name',
     searchField: [ 'name' ]
   }
+  $scope.ui = {}
 
   //
   // SCOPE FUNCTIONS
   //
-  $scope.changeStore = function (index) {
-    $scope.activeStore = storesService.stores[index]
+  $scope.newStore = function () {
+    $scope.isNewStore = true
+    $scope.activeStore = {}
     initActiveStore()
-    $scope.isNewStore = false
+    $scope.storeForm.$setPristine()
+    $scope.storeForm.$setUntouched()
+  }
+
+  $scope.changeStore = function (index) {
     $scope.tempStoreImage = null
+    if (storesService.stores[index]) {
+      $scope.activeStore = storesService.stores[index]
+      initActiveStore()
+      $scope.isNewStore = false
+    } else {
+      $scope.newStore()
+    }
   }
 
   $scope.removeStoreImage = function () {
@@ -57,10 +70,14 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
     })
   }
 
-  $scope.newStore = function () {
-    $scope.isNewStore = true
-    $scope.activeStore = {}
-    initActiveStore()
+  $scope.deleteStore = function () {
+    storesService.deleteStore($scope.activeStore.storeId).then(function () {
+      if (storesService.stores.length) {
+        $scope.changeStore(0)
+      } else {
+        $scope.newStore()
+      }
+    })
   }
 
   $scope.closeDialog = function () {
@@ -76,6 +93,7 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
   // INTERNAL FUNCTIONS
   //
   function initActiveStore () {
+    $scope.ui.deleteStoreMsg = false
     $scope.activeStore.details = $scope.activeStore.details || {}
     $scope.activeStore.details.contactInfo = $scope.activeStore.details.contactInfo || {}
     $scope.activeStore.details.workSchedule = $scope.activeStore.details.workSchedule || []
