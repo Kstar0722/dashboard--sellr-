@@ -1,7 +1,7 @@
 <div class="login-text">Enter a new password</div>
 <form name="resetpasswordform" ng-submit="submitResetPassword(resetpasswordform.$valid)" novalidate autocomplete="off">
   <div class="login-box">
-    <div class="common-field-title">Password</div>
+    <div class="common-field-title no-margin-top">Password</div>
     <input type="password" class="common-input" name="newpassword" ng-model="ui.resetPassword.newPassword" required minlength="8">
     <input-error-msg form="resetpasswordform" field="newpassword" errors="{required: 'Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
     <div class="common-field-title">Confirm Password</div>

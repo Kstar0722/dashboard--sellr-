@@ -732,6 +732,9 @@ body.loading .main-content {
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   text-transform: uppercase;
 }
+.common-field-title.no-margin-top {
+  margin-top: 0;
+}
 .common-field-title.has-info {
   display: flex;
   flex-flow: row nowrap;
@@ -2355,14 +2358,22 @@ body.loading .main-content {
   height: 100vh;
   width: 50vw;
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-end;
-  align-items: center;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  box-sizing: border-box;
 }
 .public-signin-view .left-column .left-content {
+  padding-left: 80px;
+  box-sizing: border-box;
   position: relative;
-  margin-right: 70px;
-  padding-bottom: 40px;
+  background-color: #eff3f6;
+  height: 250px;
+  width: 550px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
 }
 .public-signin-view .left-column .left-content .title {
   font-size: 26px;
@@ -2371,31 +2382,54 @@ body.loading .main-content {
 }
 .public-signin-view .left-column .left-content .subtitle {
   font-size: 20px;
-  color: #7f8fa4;
+  color: rgba(0, 0, 0, 0.6);
 }
 .public-signin-view .left-column .left-content img {
   position: absolute;
-  top: -70px;
-  left: -40px;
+  top: -45px;
+  left: 30px;
+  width: 90px;
+  height: 90px;
+}
+.public-signin-view .left-column .left-footer {
+  margin-right: 40px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+}
+.public-signin-view .left-column .left-footer a {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 .public-signin-view .right-column {
   background-color: #2bbf88;
   height: 100vh;
   width: 50vw;
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 .public-signin-view .right-column .right-content .login-text {
   font-size: 26px;
+  line-height: 26px;
+  height: 26px;
   color: #ffffff;
   padding-left: 40px;
 }
 .public-signin-view .right-column .right-content .login-box {
-  margin-top: 20px;
+  margin-top: 31px;
   background-color: #fff;
-  padding: 15px 70px 45px 40px;
+  height: 250px;
+  width: 550px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 40px;
+  box-sizing: border-box;
 }
 .public-signin-view .right-column .right-content .login-box .common-input {
   width: 370px;
@@ -2427,6 +2461,14 @@ body.loading .main-content {
 }
 .public-signin-view .right-column .right-content .login-buttons .facebook {
   background-color: #3b5998;
+}
+.public-signin-view .right-column .right-footer {
+  margin-left: 40px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
 }
 .accounts-manager-view {
   background-color: #eff3f6;

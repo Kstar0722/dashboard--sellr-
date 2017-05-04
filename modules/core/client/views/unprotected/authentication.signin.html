@@ -1,7 +1,7 @@
 <div class="login-text">Login to your account</div>
 <form name="signinform" ng-submit="signin(signinform.$valid)" novalidate autocomplete="off">
   <div class="login-box">
-    <div class="common-field-title">Email</div>
+    <div class="common-field-title no-margin-top">Email</div>
     <input type="email" class="common-input" name="email" ng-model="ui.credentials.email" required>
     <input-error-msg form="signinform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
     <div class="common-field-title">Password</div>
@@ -12,8 +12,8 @@
     <button class="common-btn-black" type="submit">Sign In</button>
     <div class="forgot-pass" ui-sref="authentication.forgotPass">Forgot Password?</div>
   </div>
-  <div class="login-buttons">
+<!--   <div class="login-buttons">
     <div class="common-btn facebook" ng-click="loginFacebookUser()">Facebook login</div>
     <div class="sign-up">Don't have an account? <span ui-sref="getStarted">Sign Up</span></div>
-  </div>
+  </div> -->
 </form>
