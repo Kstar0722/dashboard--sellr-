@@ -30,19 +30,31 @@
     &.full{
       width: 100%;
     }
-    .main-table{
+    .main-table-header{
       padding: 0px;
       margin-top: 25px;
-      border-radius: 4px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
       background-color: #ffffff;
       border: solid 1px #e6eaee;
-      max-height: 75vh;
-      overflow: auto;
       .filter-header{
         padding: 15px 15px 0px 15px;
       }
-      .columns-data,
       .columns-header{
+        padding: 0px 15px;
+      }
+    }
+    .main-table{
+      padding: 0px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      background-color: #ffffff;
+      border-left: solid 1px #e6eaee;
+      border-right: solid 1px #e6eaee;
+      border-bottom: solid 1px #e6eaee;
+      max-height: 65vh;
+      overflow: auto;
+      .columns-data{
         padding: 0px 15px;
       }
     }

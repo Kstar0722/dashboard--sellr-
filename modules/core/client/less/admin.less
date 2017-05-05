@@ -1,25 +1,11 @@
 // 
 // ACCOUNTS VIEW
 // 
-.accounts-manager-view{
+.accounts-manager-view{ 
   .common-view-layout;
   .left-side-content{
-    .main-table{
-      .filter-header{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: center;
-        .left-filter{
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: flex-start;
-          align-items: center;
-        }
-        .right-filter{
-          overflow: hidden;
-        }
-      }
+    .main-table-header,
+    .main-table{      
       .columns-header,
       .columns-data{
         display: flex;
@@ -31,7 +17,7 @@
         cursor: pointer;
         .id-col{
           width: 8%;
-          padding-right: 1%;        
+          padding-right: 1%;
         }
         .name-col{
           width: 16%;
@@ -63,16 +49,39 @@
           text-align: center;
         }
       }
+    }
+    .main-table-header{
+      .filter-header{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        .left-filter{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+        }
+        .right-filter{
+          overflow: hidden;
+        }
+      }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 20px 10px 20px;
+        // add scrollbar width to right padding
+        padding: 30px 37px 10px 20px;
       }
+    }
+    .main-table{
       .columns-data{
         padding: 20px;
-        border-top: 1px solid #dfe2e5;
+        border-bottom: 1px solid #dfe2e5;
         font-size: 14px;
         font-weight: bold;
         align-items: center;
+        &:last-child{
+          border-bottom: none;
+        }
         &.active{
           background-color: rgba(215,251,232,0.2);
         }
@@ -155,16 +164,8 @@
 .users-manager-view{
   .common-view-layout;
   .left-side-content{
+    .main-table-header,
     .main-table{
-      .filter-header{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: center;
-        .right-filter{
-          overflow: hidden;
-        }
-      }
       .columns-header,
       .columns-data{
         display: flex;
@@ -195,16 +196,34 @@
           text-transform: capitalize;
         }
       }
+    }
+    .main-table-header{
+      .filter-header{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        .right-filter{
+          overflow: hidden;
+        }
+      }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 20px 10px 20px;
+        // add scrollbar width to right padding
+        padding: 30px 37px 10px 20px;
       }
+
+    }
+    .main-table{
       .columns-data{
         padding: 20px;
-        border-top: 1px solid #dfe2e5;
+        border-bottom: 1px solid #dfe2e5;
         font-size: 14px;
         font-weight: bold;
         align-items: center;
+        &:last-child{
+          border-bottom: none;
+        }
         &.active{
           background-color: rgba(215,251,232,0.2);
         }

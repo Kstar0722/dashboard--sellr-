@@ -8,7 +8,47 @@
       width: 70%;
       margin: 0 auto;
     }
+    .main-table-header,
     .main-table{
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        .check-col{
+          width: 5%;
+          padding-right: 1%;
+          text-align: center;
+        }
+        .name-col{
+          width: 32%;
+          padding-right: 1%;
+        } 
+        .sku-col{
+          width: 14%;
+          padding-right: 1%;
+          text-align: center;
+        } 
+        .image-col{
+          width: 14%;
+          padding-right: 1%;
+          text-align: center;
+        }
+        .status-col{
+          width: 15%;
+          padding-right: 1%;
+        }
+        .type-col{
+          width: 15%;
+        }
+
+      }
+    }
+    .main-table-header{
       .filter-header{
         display: flex;
         flex-flow: row nowrap;
@@ -81,46 +121,9 @@
           overflow: hidden; 
         }
       }
-      .columns-header,
-      .columns-data{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        .check-col{
-          width: 5%;
-          padding-right: 1%;
-          text-align: center;
-        }
-        .name-col{
-          width: 32%;
-          padding-right: 1%;
-        } 
-        .sku-col{
-          width: 14%;
-          padding-right: 1%;
-          text-align: center;
-        } 
-        .image-col{
-          width: 14%;
-          padding-right: 1%;
-          text-align: center;
-        }
-        .status-col{
-          width: 15%;
-          padding-right: 1%;
-        }
-        .type-col{
-          width: 15%;
-        }
-
-      }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 10px 10px 10px;
+        padding: 30px 37px 10px 10px;
         box-sizing: border-box;
         height: 74px;
         .check-col{
@@ -161,11 +164,16 @@
           }
         }
       }
+    }
+    .main-table{
       .columns-data{
         padding: 10px;
-        border-top: 1px solid #dfe2e5;
+        border-bottom: 1px solid #dfe2e5;
         font-size: 14px;
         align-items: center;
+        &:last-child{
+          border-bottom: none;
+        }
         &:hover{
           background-color: rgba(215,251,232,0.2);
         }
@@ -320,7 +328,39 @@
   .common-view-layout;
   padding: 4vh 10vw 10vh 10vw;
   .left-side-content{
+    .main-table-header,
     .main-table{
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        .product-id-col{
+          width: 15%;
+          padding-right: 1%;
+        }
+        .user-id-col{
+          width: 15%;
+          padding-right: 1%;
+        } 
+        .user-col{
+          width: 22%;
+          padding-right: 1%;
+        }
+        .email-col{
+          width: 22%;
+          padding-right: 1%;
+        } 
+        .date-col{
+          width: 22%;
+        }
+      }
+    }
+    .main-table-header{
       .filter-header{
         display: flex;
         flex-flow: row nowrap;
@@ -372,45 +412,21 @@
           }
         }
       }
-      .columns-header,
-      .columns-data{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        .product-id-col{
-          width: 15%;
-          padding-right: 1%;
-        }
-        .user-id-col{
-          width: 15%;
-          padding-right: 1%;
-        } 
-        .user-col{
-          width: 22%;
-          padding-right: 1%;
-        }
-        .email-col{
-          width: 22%;
-          padding-right: 1%;
-        } 
-        .date-col{
-          width: 22%;
-        }
-      }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 20px 10px 20px;
+        padding: 30px 37px 10px 20px;
       }
+    }
+    .main-table{
       .columns-data{
         padding: 20px;
-        border-top: 1px solid #dfe2e5;
         font-size: 14px;
         font-weight: bold;
         align-items: center;
+        border-bottom: 1px solid #dfe2e5;
+        &:last-child{
+          border-bottom: none;
+        }
         &:hover{
           background-color: rgba(215,251,232,0.2);
         }
@@ -426,22 +442,8 @@
 .editor-store-management-view{
   .common-view-layout;
   .left-side-content{
-    .main-table{
-      .filter-header{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: center;
-        .left-filter{
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: flex-start;
-          align-items: center;
-        }
-        .right-filter{
-          overflow: hidden; 
-        }
-      }
+    .main-table-header,
+    .main-table{      
       .columns-header,
       .columns-data{
         display: flex;
@@ -492,16 +494,38 @@
           text-align: center;
         }
       }
+    }
+    .main-table-header{
+      .filter-header{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        .left-filter{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+        }
+        .right-filter{
+          overflow: hidden; 
+        }
+      }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 20px 10px 20px;
+        padding: 30px 37px 10px 20px;
       }
+    }
+    .main-table{
       .columns-data{
         padding: 20px;
-        border-top: 1px solid #dfe2e5;
+        border-bottom: 1px solid #dfe2e5;
         font-size: 14px;
         font-weight: bold;
         align-items: center;
+        &:last-child{
+          border-bottom: none;
+        }
         &:hover{
           background-color: rgba(215,251,232,0.2);
         }

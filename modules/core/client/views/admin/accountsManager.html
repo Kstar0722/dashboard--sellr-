@@ -1,7 +1,7 @@
 <div class="accounts-manager-view">
   <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
     <div class="title">All Accounts</div>
-    <div class="main-table">
+    <div class="main-table-header">
       <!--
       FILTER HEADER
       -->
@@ -29,6 +29,9 @@
         <div class="website-col" ng-click="reOrderList('website')"><span>Website</span> <i class="fa fa-sort"></i></div>
         <div class="actions-col"><span>&nbsp;</span></div>
       </div>
+    </div>
+    <div class="main-table">
+      
       <!--
       COLUMNS DATA ROWS
       -->

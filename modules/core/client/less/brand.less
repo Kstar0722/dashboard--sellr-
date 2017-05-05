@@ -4,7 +4,32 @@
 .brand-plans-view{
   .common-view-layout;
   .left-side-content{
+    .main-table-header,
     .main-table{
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        .name-col{
+          width: 30%;
+        }
+        .submitted-col,
+        .promotion-col,
+        .start-col,
+        {
+          width: 15%;
+        }
+        .member-col{
+          width: 25%;
+        }
+      }
+    }
+    .main-table-header{
       .filter-header{
         display: flex;
         flex-flow: row nowrap;
@@ -44,34 +69,11 @@
           margin-right: 1.5vw;
         }
       }
-      .columns-header,
-      .columns-data{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        .name-col{
-          width: 30%;
-        }
-        .submitted-col,
-        .promotion-col,
-        .start-col,
-        {
-          width: 15%;
-        }
-        .member-col{
-          width: 25%;
-        }
-      }
       .columns-header{
         background-color: #f5f8fa;
         border-top: solid 1px #e6eaee;
-        border-bottom: solid 1px #e6eaee;
         color: #7f8fa4;
-        padding: 10px 20px;
+        padding: 10px 37px 10px 20px;
         .fa{
           margin-left: 3px;
         }
@@ -84,6 +86,8 @@
           .ellipsized;
         }
       }
+    }
+    .main-table{
       .columns-data{
         padding: 20px;
         border-bottom: 1px solid #e6eaee;
@@ -118,7 +122,36 @@
 .brand-products-view{
   .common-view-layout;
   .left-side-content{
+    .main-table-header,
     .main-table{
+      .columns-header,
+      .columns-data{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        .check-col{
+          width: 4%;
+          box-sizing: border-box;
+          padding-right: 2%;        
+        }
+        .name-col{
+          width: 30%;
+          padding-right: 2%;
+        }
+        .skus-col{
+          width: 45%;
+          padding-right: 2%;
+        }
+        .plan-col{
+          width: 15%;
+        }
+      }
+    }
+    .main-table-header{
       .filter-header{
         display: flex;
         flex-flow: row nowrap;
@@ -142,38 +175,14 @@
           overflow: hidden;
         }
       }
-      .columns-header,
-      .columns-data{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        .check-col{
-          width: 4%;
-          padding-right: 2%;        
-        }
-        .name-col{
-          width: 30%;
-          padding-right: 2%;
-        }
-        .skus-col{
-          width: 45%;
-          padding-right: 2%;
-        }
-        .plan-col{
-          width: 15%;
-        }
-      }
       .columns-header{
         color: #7f8fa4;
-        padding: 30px 15px 10px 15px;
+        padding: 30px 32px 10px 15px;
         .check-col{
           .header-check{
             width: 34px;
             height: 34px;
+            margin: 0;
             border-radius: 4px;
             background-image: linear-gradient(to top, #f2f4f7, #ffffff);
             border: solid 1px #ced0da;
@@ -235,12 +244,17 @@
           }
         }
       }
+    }
+    .main-table{
       .columns-data{
         padding: 10px 15px;
-        border-top: 1px solid #e6eaee;
         font-size: 13px;
         font-weight: normal;
         align-items: flex-start;
+        border-bottom: 1px solid #e6eaee;
+        &:last-child{
+          border-bottom: none;
+        }
         &.active{
           background-color: rgba(215,251,232,0.2);
         }
@@ -248,8 +262,7 @@
           background-color: rgba(215,251,232,0.2);
         }
         .check-col{
-          width: 34px;
-          text-align: center;
+          padding-left: 8px;
           label{
             padding-left: 15px;
           }
