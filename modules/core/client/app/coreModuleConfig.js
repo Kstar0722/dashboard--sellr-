@@ -314,8 +314,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/channels',
         views: {
           'pagecontent': {
-            templateUrl: 'modules/core/client/views/storeOwner/marketingChannels.html',
-            controller: 'StoreOwnerMarketingChannelsController'
+            templateUrl: 'modules/core/client/views/storeOwner/marketingSettings.html',
+            controller: 'StoreOwnerMarketingSettingsController'
           }
         }
       })
