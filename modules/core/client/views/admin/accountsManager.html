@@ -47,8 +47,7 @@
           <div ng-if="account.phone" ng-bind="account.phone"></div>
         </div>
         <div class="website-col">
-          <input class="custom-checkbox" type="checkbox" id="accountwebsite{$index}" ng-model="account.website" disabled />
-          <label for="accountwebsite{$index}">&nbsp;</label>
+          <img ng-src="{{account.website ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">
         </div>
         <div class="actions-col">
           <div class="common-select-container">

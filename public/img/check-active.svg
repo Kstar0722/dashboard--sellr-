@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="13px" viewBox="0 0 17 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Checkbox Active</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="PRODUCT-EDITING" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Editor/Curator-View-Product" transform="translate(-501.000000, -665.000000)" fill="#2BBF88">
+            <g id="Checkbox-Active" transform="translate(501.500000, 665.000000)">
+                <g id="Active">
+                    <g id="Tick">
+                        <path d="M12.4089789,0.627892613 L5.33315805,7.83072552 L3.58944359,6.05785226 C2.76911953,5.22066211 1.43767049,5.22066211 0.615243041,6.05785226 C-0.205081014,6.89290126 -0.205081014,8.24825002 0.615243041,9.08544017 L3.84605778,12.3721074 C4.66638183,13.2092975 5.99783087,13.2092975 6.82025832,12.3721074 L15.3831794,3.65548052 C16.2056069,2.82043152 16.2056069,1.46508276 15.3831794,0.627892613 C14.560752,-0.209297538 13.2293029,-0.209297538 12.4089789,0.627892613 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
