@@ -4,7 +4,6 @@ angular.module('core')
   // DEFINITIONS - INITIALIZATION
   //
   $scope.ui = {}
-  $scope.ui.shouldRenderWholeNav = true
   $scope.Authentication = Authentication
   $scope.accountsService = accountsService
   init()
