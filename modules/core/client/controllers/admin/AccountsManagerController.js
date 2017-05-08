@@ -59,6 +59,7 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
       accountsService.deleteAccountFOREVER($scope.ui.currentAccount).then(function (response) {
         $scope.closeDialog()
         $scope.ui.display = 'fulltable'
+        $scope.ui.activeIndex = null
       }, function (error) {
         console.log(error)
         toastr.error('There was a problem deleting this account')
@@ -130,12 +131,14 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
         }
         accountsService.updateAccount($scope.ui.currentAccount).then(function () {
           $scope.ui.display = 'fulltable'
+          $scope.ui.activeIndex = null
         })
       })
     }
   }
 
-  $scope.openEditAccountSidebar = function (account) {
+  $scope.openEditAccountSidebar = function (account, index) {
+    $scope.ui.activeIndex = index
     $scope.ui.currentAccount = account
     $scope.ui.tempLogo = null
     console.log(account)

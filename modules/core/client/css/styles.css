@@ -1105,13 +1105,12 @@ body.loading .main-content {
   height: 16px;
   border: 1px solid #ccc;
   background: #fff;
-  border-radius: 5px;
+  border-radius: 4px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .custom-checkbox[type="checkbox"]:checked + label:before {
   border: none;
-  background: #31b690;
-  border: 1px solid #27aa11;
+  background-image: linear-gradient(to top, #259d71, #2bbf88);
 }
 /* checked mark aspect */
 .custom-checkbox[type="checkbox"]:not(:checked) + label:after,
@@ -1120,7 +1119,7 @@ body.loading .main-content {
   position: absolute;
   top: 5px;
   left: 5px;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: normal;
   line-height: 0.8;
   color: #fff;
@@ -1145,8 +1144,7 @@ body.loading .main-content {
 .custom-checkbox[type="checkbox"]:disabled:checked + label:before {
   box-shadow: none;
   border: none;
-  background: #31b690;
-  border: 1px solid #27aa11;
+  background-image: linear-gradient(to top, #259d71, #2bbf88);
 }
 .custom-checkbox[type="checkbox"]:disabled:checked + label:after {
   color: #fff;
@@ -1158,7 +1156,7 @@ body.loading .main-content {
 }
 /* hover style just for information */
 .custom-checkbox[type="checkbox"]label:hover:before {
-  border: 1px solid #4778d9!important;
+  border: 1px solid #4778d9 !important;
 }
 .custom-radio[type="radio"] {
   display: none;
@@ -1539,16 +1537,10 @@ body.loading .main-content {
   margin-left: 35px;
   width: 44px;
   height: 44px;
-  border-radius: 4px;
-  background-color: #2bbf88;
-  text-align: center;
-  line-height: 44px;
 }
 .nav-container .secondary-nav .left-side .logo img {
-  width: 25px;
-  height: 33px;
-  margin-top: 5px;
-  vertical-align: baseline;
+  width: 100%;
+  height: 100%;
 }
 .nav-container .secondary-nav .left-side ul li {
   opacity: 0.47;

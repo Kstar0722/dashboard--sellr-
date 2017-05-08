@@ -55,7 +55,7 @@
               Actions
             </div>
             <div class="common-select-options" ng-show="ui.actionsOptionsSelect[$index]" ng-mouseleave="ui.actionsOptionsSelect[$index] = false">
-              <div class="common-select-option" ng-click="openEditAccountSidebar(account)">Edit Account</div>
+              <div class="common-select-option" ng-click="openEditAccountSidebar(account, $index)">Edit Account</div>
               <div class="common-select-option" ng-click="showManageStoresDialog(account, $event)">Manage Stores</div>
             </div>
           </div>
@@ -124,7 +124,7 @@
         </div> -->
         <div class="common-btns-bar">
           <div class="common-btn-negative small has-left-icon" ng-click="showDeleteAccountDialog()" ng-switch-when="editAccount"><i class="fa fa-trash-o"></i> Delete</div>
-          <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'">Cancel</div>
+          <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'; ui.activeIndex = null">Cancel</div>
           <button class="common-btn-positive" type="submit" ng-bind="ui.display === 'createAccount' ? 'Create' : 'Update'"></button>
         </div>
       </form>
