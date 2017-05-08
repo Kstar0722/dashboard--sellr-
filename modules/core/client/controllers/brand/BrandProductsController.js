@@ -128,7 +128,7 @@ angular.module('core').controller('BrandProductsController', function ($scope, g
       plans: 'July'
     }
   ]
-  $scope.selectPrograms = [{name: 'Program 1'}, {name: 'Program 2'}, {name: 'Program 3'}]
+  $scope.selectPrograms = [{name: 'Program 1'}, {name: 'Program New S'}, {name: 'Program October'}]
   $scope.selectProgramConfig = {
     create: false,
     maxItems: 1,
