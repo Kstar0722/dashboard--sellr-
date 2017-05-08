@@ -1222,7 +1222,7 @@ body.loading .main-content {
 .custom-selectize {
   font-size: 14px !important;
   font-weight: bold !important;
-  color: rgba(53, 64, 82, 0.5) !important;
+  color: #7f8fa4 !important;
 }
 .custom-selectize .selectize-input {
   height: 36px;
@@ -1230,29 +1230,42 @@ body.loading .main-content {
   background-image: linear-gradient(to top, #f2f4f7, #ffffff) !important;
   border-color: #ced0da !important;
 }
-.custom-selectize .item {
-  color: rgba(53, 64, 82, 0.5) !important;
+.custom-selectize .selectize-input.dropdown-active {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.custom-selectize .selectize-input .item {
+  color: #7f8fa4 !important;
   font-size: 14px !important;
 }
-.custom-selectize input::-webkit-input-placeholder {
-  font-size: 13px !important;
+.custom-selectize .selectize-input input {
+  font-size: 14px !important;
   font-weight: bold !important;
-  color: rgba(53, 64, 82, 0.5) !important;
+  color: #7f8fa4 !important;
 }
-.custom-selectize input:-moz-placeholder {
-  font-size: 13px !important;
+.custom-selectize .selectize-input input::-webkit-input-placeholder {
+  font-size: 14px !important;
   font-weight: bold !important;
-  color: rgba(53, 64, 82, 0.5) !important;
+  color: #7f8fa4 !important;
 }
-.custom-selectize input::-moz-placeholder {
-  font-size: 13px !important;
+.custom-selectize .selectize-input input:-moz-placeholder {
+  font-size: 14px !important;
   font-weight: bold !important;
-  color: rgba(53, 64, 82, 0.5) !important;
+  color: #7f8fa4 !important;
 }
-.custom-selectize input:-ms-input-placeholder {
-  font-size: 13px !important;
+.custom-selectize .selectize-input input::-moz-placeholder {
+  font-size: 14px !important;
   font-weight: bold !important;
-  color: rgba(53, 64, 82, 0.5) !important;
+  color: #7f8fa4 !important;
+}
+.custom-selectize .selectize-input input:-ms-input-placeholder {
+  font-size: 14px !important;
+  font-weight: bold !important;
+  color: #7f8fa4 !important;
+}
+.custom-selectize .selectize-dropdown .active {
+  background-color: #eff3f6;
+  color: #2DC89A;
 }
 .custom-medium-editor {
   border-radius: 4px;
