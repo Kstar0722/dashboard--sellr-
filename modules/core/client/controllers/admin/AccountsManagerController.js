@@ -111,12 +111,16 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
         // SAVE ACCOUNTID FOR LOGO CREATION
         $scope.ui.currentAccount.accountId = response.accountId
         saveLogo().then(function (response) {
+          $scope.reOrderList('accountId')
+          $scope.reOrderList('accountId')
+          var newAccountIndex = _.findIndex(accountsService.accounts, { accountId: $scope.ui.currentAccount.accountId })
+          $scope.ui.activeIndex = 0
+          // Save new Logo only if it was uploaded first
           if (response) {
-            var newAccount = _.find(accountsService.accounts, { accountId: $scope.ui.currentAccount.accountId })
-            newAccount.preferences.logo = response.publicUrl
+            accountsService.accounts[newAccountIndex].preferences.logo = response.publicUrl
           }
+          $scope.ui.display = 'fulltable'
         })
-        $scope.ui.display = 'fulltable'
       })
     }
     if ($scope.ui.display === 'editAccount') {

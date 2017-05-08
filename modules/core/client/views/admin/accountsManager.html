@@ -35,7 +35,7 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data" ng-repeat="account in accountsService.accounts | filterBy:['accountId','name','contactName','email']:ui.search | orderBy:ui.sortExpression track by account.accountId">
+      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-repeat="account in accountsService.accounts | filterBy:['accountId','name','contactName','email']:ui.search | orderBy:ui.sortExpression track by account.accountId">
         <div class="id-col" ng-bind-html="account.accountId | highlight:ui.search"></div>
         <div class="name-col" ng-bind-html="account.name | highlight:ui.search">Beam</div>
         <div class="created-col" ng-bind="account.createdDateStr"></div>
@@ -90,11 +90,11 @@
           <img ng-src="{{ui.currentAccount.preferences.logo}}" alt="account logo" />
         </div>
         <div class="checks-container">
-          <div class="shoppr-check">
+        <!--   <div class="shoppr-check">
             <div class="common-field-title">Shoppr</div>
             <input class="custom-checkbox" type="checkbox" id="currentaccountshoppr" ng-model="ui.currentAccount.preferences.shoppr" />
             <label for="currentaccountshoppr">&nbsp;</label>
-          </div>
+          </div> -->
           <div class="website-check">
             <div class="common-field-title">Website</div>
             <input class="custom-checkbox" type="checkbox" id="currentaccountwebsite" ng-model="ui.currentAccount.preferences.website" />
