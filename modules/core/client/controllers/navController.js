@@ -4,6 +4,7 @@ angular.module('core')
   // DEFINITIONS - INITIALIZATION
   //
   $scope.ui = {}
+  $scope.ui.shouldRenderWholeNav = true
   $scope.Authentication = Authentication
   $scope.accountsService = accountsService
   init()
@@ -46,7 +47,12 @@ angular.module('core')
   //
   function updateNavRendering (state) {
     // Nav Main Sections
-    $scope.ui.shouldRenderWholeNav = !state.public
+    if (state) {
+      $scope.ui.shouldRenderWholeNav = !state.public
+    } else {
+      // for some reason if state is not passed on page refresh then just render the nav
+      $scope.ui.shouldRenderWholeNav = true
+    }
     $scope.ui.shouldRenderPrimaryNav = Authentication.userInRole('supplier') || Authentication.userInRole('editor') || Authentication.userInRole('curator')
     // Nav Primary Items
     $scope.ui.shouldRenderBrandItem = Authentication.userInRole('admin')
