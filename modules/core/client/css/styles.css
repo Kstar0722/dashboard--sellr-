@@ -412,6 +412,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .common-view-layout .left-side-content .main-table .columns-data {
@@ -2551,6 +2552,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .accounts-manager-view .left-side-content .main-table .columns-data {
@@ -2868,6 +2870,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .users-manager-view .left-side-content .main-table .columns-data {
@@ -3299,6 +3302,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .brand-plans-view .left-side-content .main-table .columns-data {
@@ -3574,6 +3578,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .brand-products-view .left-side-content .main-table .columns-data {
@@ -3890,6 +3895,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .editor-products-view-content.large-sidebar .left-side-content .main-table .columns-data {
@@ -4406,6 +4412,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .editor-products-history-view .left-side-content .main-table .columns-data {
@@ -4678,6 +4685,7 @@ body.loading .main-content {
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .editor-store-management-view .left-side-content .main-table .columns-data {
@@ -5462,6 +5470,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .store-owner-subscribers-view .left-side-content .main-table .columns-data {
@@ -5823,6 +5832,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   border-right: solid 1px #e6eaee;
   border-bottom: solid 1px #e6eaee;
   max-height: 65vh;
+  min-height: 65vh;
   overflow: auto;
 }
 .store-owner-listed-products-view .left-side-content .main-table .columns-data {
