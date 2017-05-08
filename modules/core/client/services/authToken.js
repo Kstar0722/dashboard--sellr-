@@ -20,7 +20,7 @@ angular.module('core').factory('authToken', function ($window) {
   }
 
   // Returns true or false based on whether or not token exists in storage
-  function isAuthenticated () {
+  function tokenPresent () {
     return !!getToken()
   }
 
@@ -37,7 +37,7 @@ angular.module('core').factory('authToken', function ($window) {
 
   me.setToken = setToken
   me.getToken = getToken
-  me.isAuthenticated = isAuthenticated
+  me.tokenPresent = tokenPresent
   me.removeToken = removeToken
   me.hasTokenInStorage = hasTokenInStorage
 

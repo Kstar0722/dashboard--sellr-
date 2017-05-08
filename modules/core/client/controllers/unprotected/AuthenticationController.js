@@ -1,9 +1,23 @@
-angular.module('core').controller('AuthenticationController', function ($scope, $stateParams, $state, $location, constants, $http, authToken, authenticationService, toastr, Users) {
+angular.module('core').controller('AuthenticationController', function ($scope, $stateParams, $state, $location, constants, $http, authenticationService, toastr, Users, $timeout) {
+  //
+  // DEFINITIONS
+  //
   $scope.ui = {}
   $scope.ui.credentials = {}
   $scope.ui.credentials.email = $stateParams.email || $state.params.email
   $scope.ui.resetPassword = {}
   $scope.ui.resetEmail = ''
+
+  //
+  // INITIALIZATION
+  //
+  if (authenticationService.isLoggedIn()) {
+    $timeout(authenticationService.goToUserHome)
+  }
+
+  //
+  // SCOPE FUNCTIONS
+  //
   $scope.signin = function (formValid) {
     if (!formValid) {
       return false

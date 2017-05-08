@@ -5,6 +5,10 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
   var me = this
   var auth = Authentication
 
+  me.isLoggedIn = function () {
+    return authToken.tokenPresent() && !_.isEmpty(auth.user)
+  }
+
   me.signin = function (credentials, metadata) {
     var url = constants.API_URL + '/users/login'
     var payload = {
@@ -23,6 +27,23 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
     return $http.post(url, payload).then(function (response) {
       return onSigninSuccess(response, metadata)
     }, onSigninError)
+  }
+
+  me.goToUserHome = function () {
+    // Check if onboarding finished
+    if (!auth.user.accountId && !auth.user.storeId) {
+      $state.go('getStarted', { step: 2, password: auth.user.password })
+    }
+
+    if (auth.user.roles.indexOf(1002) < 0 && auth.user.roles.indexOf(1009) < 0 && auth.user.roles.indexOf(1004) < 0) {
+      if (auth.user.roles.indexOf(1010) >= 0) {
+        $state.go('editor.products')
+      } else if (auth.user.roles.indexOf(1011 >= 0)) {
+        $state.go('editor.storeManagement')
+      }
+    } else {
+      $state.go('storeOwner.reports')
+    }
   }
 
   me.signout = function () {
@@ -88,21 +109,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
     })
     SocketAPI.connect()
 
-      // Check if onboarding finished
-    if (!user.accountId && !user.storeId) {
-      $state.go('getStarted', { step: 2, password: user.password })
-      return
-    }
-
-    if (auth.user.roles.indexOf(1002) < 0 && auth.user.roles.indexOf(1009) < 0 && auth.user.roles.indexOf(1004) < 0) {
-      if (auth.user.roles.indexOf(1010) >= 0) {
-        $state.go('editor.products')
-      } else if (auth.user.roles.indexOf(1011 >= 0)) {
-        $state.go('editor.storeManagement')
-      }
-    } else {
-      $state.go('storeOwner.reports', $state.previous.params)
-    }
+    me.goToUserHome()
   }
 
     // We could not sign into mongo, so clear everything and show error.
