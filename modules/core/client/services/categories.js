@@ -1,9 +1,9 @@
 angular.module('core').service('categories', function () {
   var me = this
   me.categories = {
-    1: ['Red', 'White', 'Rose', 'Sparkling', 'Dessert'],
+    1: ['Red', 'White', 'Rose', 'Sparkling', 'Dessert', 'Fruit Wine'],
     2: ['Domestic', 'Imported', 'Craft'],
-    3: ['Brandy', 'Gin', 'Liqueur/Cordial', 'Rum', 'Tequila', 'Vodka', 'Whiskey'],
+    3: ['Brandy', 'Gin', 'Liqueur/Cordial', 'Rum', 'Tequila', 'Vodka', 'Whiskey', 'Sake'],
     17: ['Supplements', 'Multivitamins', 'Fish Oil']
   }
 
