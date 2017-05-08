@@ -42,7 +42,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
         $state.go('editor.storeManagement')
       }
     } else {
-      $state.go('storeOwner.reports')
+      $state.go('editor.storeManagement')
     }
   }
 
