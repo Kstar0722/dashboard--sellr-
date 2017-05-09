@@ -22,3 +22,5 @@ public/build
 .build
 .dist
 /_karma.conf.js
+/yarn.lock
+/.nvmrc

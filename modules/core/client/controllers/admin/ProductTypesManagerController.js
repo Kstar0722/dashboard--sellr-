@@ -5,8 +5,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       name: 'Spirit',
       industry: 'Beverage',
       image: '/img/beer_grey_placeholder.png',
-      fields:
-      [
+      fields: [
         {
           type: 'Text Input',
           label: 'label example',
@@ -37,8 +36,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       name: 'Wine',
       industry: 'Beverage',
       image: '/img/beer_grey_placeholder.png',
-      fields:
-      [
+      fields: [
         {
           type: 'Text Input',
           label: 'Wine Label',
@@ -53,8 +51,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       name: 'Atron++',
       industry: 'Pharmacy',
       image: '/img/beer_grey_placeholder.png',
-      fields:
-      [
+      fields: [
         {
           type: 'Text Input',
           label: 'Pharmaco Label',
@@ -76,8 +73,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
     name: 'New Type',
     industry: '',
     image: '/img/beer_grey_placeholder.png',
-    fields:
-    [
+    fields: [
       {
         type: 'Text Input',
         label: '',
@@ -104,7 +100,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
     valueField: 'name',
     labelField: 'name',
     sortField: 'name',
-    searchField: [ 'name' ]
+    searchField: ['name']
   }
   $scope.industryTypesConfig = {
     create: false,
@@ -113,7 +109,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
     valueField: 'value',
     labelField: 'name',
     sortField: 'name',
-    searchField: [ 'name' ]
+    searchField: ['name']
   }
 
   //
