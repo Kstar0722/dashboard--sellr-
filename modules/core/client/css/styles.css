@@ -3143,6 +3143,13 @@ body.loading .main-content {
   align-items: center;
   padding: 15px 25px;
   border-top: 1px solid #e6eaee;
+  cursor: pointer;
+}
+.product-types-manager-view .left-column .type-container.active {
+  background-color: rgba(215, 251, 232, 0.2);
+}
+.product-types-manager-view .left-column .type-container:hover {
+  background-color: rgba(215, 251, 232, 0.2);
 }
 .product-types-manager-view .left-column .type-container .type-image {
   width: 6%;

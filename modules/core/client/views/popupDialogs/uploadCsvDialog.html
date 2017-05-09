@@ -22,7 +22,7 @@
           acceptSize="4194304"
           callback="initCsvImport"></ng-csv-import>
           <div class="common-field-title">Select a Store</div>
-          <selectize config="selectStoresConfig" options="orderDataService.allStores" ng-model="csv.storeId">
+          <selectize class="custom-selectize" config="selectStoresConfig" options="orderDataService.allStores" ng-model="csv.storeId">
           </selectize>
           <div ng-if="csv.result">
             <div class="common-field-title">CSV File chosen</div>
@@ -40,7 +40,7 @@
           </div>
           <div ng-repeat="column in csv.columns">
             <div class="common-field-title" ng-bind="(csv.header && csv.loaded) ? column.name : 'Column' + ($index+1)"></div>
-            <selectize config="selectFieldsConfig" options="column.availableFields" ng-model="column.mapping">
+            <selectize class="custom-selectize" config="selectFieldsConfig" options="column.availableFields" ng-model="column.mapping">
             </selectize>
           </div>
         </div>

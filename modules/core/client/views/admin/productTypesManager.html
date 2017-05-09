@@ -1,105 +1,78 @@
 <div class="product-types-manager-view">
   <div class="left-column">
     <div class="gray-container">
-      <selectize class="custom-selectize" config="industryTypeConfig" options="industryTypes" ng-model="ui.industryFilter">
+      <selectize class="custom-selectize" config="industryTypesConfig" options="industryTypes" ng-model="ui.industryFilter">
       </selectize>
     </div>
-    <div class="type-container">
+    <div ng-class="['type-container', {active: ui.activeType === type}]" ng-repeat="type in hardcodedTypesData | filter : {industry: ui.industryFilter}" ng-click="ui.activeType = type">
       <div class="type-image">
-        <img src="/img/beer_grey_placeholder.png" alt="icon">
+        <img ng-src="{{type.image}}" alt="icon">
       </div>
       <div>
-        <div><strong>Spirit</strong></div>
-        <div class="industry">Beverage</div>
-      </div>
-    </div>
-    <div class="type-container">
-      <div class="type-image">
-        <img src="/img/beer_grey_placeholder.png" alt="icon">
-      </div>
-      <div>
-        <div><strong>Spirit</strong></div>
-        <div class="industry">Beverage</div>
-      </div>
-    </div>
-    <div class="type-container">
-      <div class="type-image">
-        <img src="/img/beer_grey_placeholder.png" alt="icon">
-      </div>
-      <div>
-        <div><strong>Spirit</strong></div>
-        <div class="industry">Beverage</div>
-      </div>
-    </div>
-    <div class="type-container">
-      <div class="type-image">
-        <img src="/img/beer_grey_placeholder.png" alt="icon">
-      </div>
-      <div>
-        <div><strong>Spirit</strong></div>
-        <div class="industry">Beverage</div>
+        <div><strong ng-bind="type.name"></strong></div>
+        <div class="industry" ng-bind="type.industry"></div>
       </div>
     </div>
     <div class="gray-container">
-      <div class="common-btn-black small">New Type</div>
+      <div class="common-btn-black small" ng-click="addNewType()">New Type</div>
     </div>
   </div>
-  <div class="right-column">
+  <div class="right-column" ng-if="ui.activeType">
     <div class="top-section">
       <div class="type-definition">
         <div class="type-definition-input">
           <div class="common-field-title">Type Name</div>
-          <input type="text" class="common-input" name="name" ng-model="type">
+          <input type="text" class="common-input" ng-model="ui.activeType.name">
         </div>
         <div class="type-definition-input">
           <div class="common-field-title">Industry</div>
-          <input type="text" class="common-input" name="name" ng-model="type">
+          <input type="text" class="common-input" ng-model="ui.activeType.industry">
         </div>
         <div class="type-image">
-          <img src="/img/beer_grey_placeholder.png" alt="icon">
+          <img ng-src="{{ui.activeType.image}}" alt="icon">
         </div>
       </div>
       <div>
-        <div class="common-btn-positive small save-btn">Save</div>
-        <div class="common-btn-gray small">Cancel</div>
+        <div class="common-btn-positive small save-btn" ng-click="ui.activeType = null">Save</div>
+        <div class="common-btn-gray small" ng-click="ui.activeType = null">Cancel</div>
       </div>
     </div>
     <div class="separator">
       Fields
     </div>
-    <div class="form-element" ng-repeat="formElement in ui.formElements">
+    <div class="form-element" ng-repeat="field in ui.activeType.fields">
       <div class="form-element-definition">
         <div class="element-definition-input">
           <div class="common-field-title">Form Element</div>
-          <selectize class="custom-selectize" config="formElementTypeConfig" options="formElementTypes" ng-model="formElement.type">
+          <selectize class="custom-selectize" config="typeFieldsConfig" options="typeFields" ng-model="field.type">
           </selectize>
         </div>
         <div class="element-definition-input">
           <div class="common-field-title">Label</div>
-          <input type="text" class="common-input" name="name" ng-model="type">
+          <input type="text" class="common-input" ng-model="field.label">
         </div>
         <div class="element-definition-input">
           <div class="common-field-title">Instructions</div>
-          <input type="text" class="common-input" name="name" ng-model="type">
+          <input type="text" class="common-input" ng-model="field.instructions">
         </div>
-        <div class="element-definition-input-single" ng-if="formElement.type === 'Select Dropdown'">
+        <div class="element-definition-input-single" ng-if="field.type === 'Select Dropdown'">
           <div class="common-field-title">Options</div>
-          <input type="text" class="common-input" name="name" ng-model="type">
+          <input type="text" class="common-input" ng-model="field.selectOptions">
         </div>
       </div>
       <div>
         <div class="element-definition-checkbox">
-          <input class="custom-checkbox" type="checkbox" id="ownercanedit{{$index}}" ng-model="formElement.ownercanedit" />
+          <input class="custom-checkbox" type="checkbox" id="ownercanedit{{$index}}" ng-model="field.ownercanedit" />
           <label for="ownercanedit{{$index}}">Store Owner Can Edit</label>
         </div>
         <div>
-          <input class="custom-checkbox" type="checkbox" id="editorcanedit{{$index}}" ng-model="formElement.editorcanedit" />
+          <input class="custom-checkbox" type="checkbox" id="editorcanedit{{$index}}" ng-model="field.editorcanedit" />
           <label for="editorcanedit{{$index}}">Product Editor can edit</label>
         </div>
       </div>
     </div>
     <div class="add-more">
-      <span class="add-container" ng-click="addFormElement()">
+      <span class="add-container" ng-click="addTypeField()">
         <i class="fa fa-plus"></i>
       </span>
     </div>
