@@ -28,8 +28,8 @@
       <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag" ng-bind="tag.value"></div>
     </div>
     <div class="verified">
-      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" disabled />
-      <label for="verifiedByBrand">Verified by Brand</label>
+      <img ng-src="{{pes.currentProduct.verified ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon"> 
+      <strong>Verfied by Brand</strong>
     </div>
     <div class="columns media-columns">
       <div class="first-column">

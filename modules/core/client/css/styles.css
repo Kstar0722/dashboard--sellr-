@@ -4252,6 +4252,16 @@ body.loading .main-content {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified {
   margin-top: 30px;
   margin-bottom: 10px;
+  font-size: 14px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .verified img,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .verified img,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified img {
+  margin-right: 7px;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-negative,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-negative,
