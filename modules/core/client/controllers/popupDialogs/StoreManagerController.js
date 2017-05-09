@@ -23,8 +23,11 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
     $scope.isNewStore = true
     $scope.activeStore = {}
     initActiveStore()
-    $scope.storeForm.$setPristine()
-    $scope.storeForm.$setUntouched()
+    // when first created accont this is undefined so checking first
+    if ($scope.storeForm) {
+      $scope.storeForm.$setPristine()
+      $scope.storeForm.$setUntouched()
+    }
   }
 
   $scope.changeStore = function (index) {
