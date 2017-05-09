@@ -21,6 +21,6 @@ describe('Service: users.productEditorService', function () {
   it('should initialize', function () {
     service.init()
     expect(service.productTypes.length).toBe(3)
-    expect(service.productStatuses.length).toBe(4)
+    expect(service.productStatuses.length).toBe(6)
   })
 })

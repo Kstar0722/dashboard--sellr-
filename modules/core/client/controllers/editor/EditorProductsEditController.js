@@ -37,6 +37,15 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     sortField: 'name',
     searchField: [ 'name' ]
   }
+  $scope.productStatusesConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'value',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
+  }
   var confirmationDialogOptions = {
     templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
     autoWrap: true,

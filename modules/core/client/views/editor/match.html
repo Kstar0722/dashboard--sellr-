@@ -10,7 +10,7 @@
     <div class="prod-info">
       <div class="info-item">Product {{ orderDataService.currentIndex+1 }}/{{orderDataService.allItems.length }}</div>
       <div class="info-item">Name: {{ orderDataService.currentItem.name }}</div>
-      <div class="info-item">Sku: {{ orderDataService.currentItem.upc }}</div>
+      <div class="info-item">UPC: {{ orderDataService.currentItem.upc }}</div>
       <div class="info-item">Type: {{ orderDataService.currentItem.type }}</div>
       <div class="info-item">Product ID: {{ orderDataService.currentItem.productId }}</div>
       <div class="info-item" ng-if="orderDataService.currentItem.createdRelative">Created: {{ orderDataService.currentItem.createdRelative }}</div>

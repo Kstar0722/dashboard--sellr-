@@ -28,11 +28,14 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       productTypeId: 3
     }]
     me.productStatuses = [
-      {name: 'Available', value: 'new'},
+      {name: 'New', value: 'new'},
       {name: 'In Progress', value: 'inprogress'},
+      {name: 'Flagged', value: 'flagged'},
+      {name: 'Duplicate', value: 'duplicate'},
       {name: 'Done', value: 'done'},
       {name: 'Approved', value: 'approved'}
     ]
+
     me.productStorage = {}
     me.productStats = {}
     me.allProducts = []
