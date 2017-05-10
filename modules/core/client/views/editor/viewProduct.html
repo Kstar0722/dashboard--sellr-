@@ -7,8 +7,8 @@
         <input type="text" class="common-input" ng-model="pes.currentProduct.status" disabled>
       </div>
       <div class="second-column">
-        <div ng-if="pes.currentProduct.status != 'new'" class="common-btn-black" ng-click="pes.markAsNew()" >Mark as New</div>
-        <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsDoneDialog()">Mark as Done</div>
+        <div ng-if="permissions.curator && pes.currentProduct.status != 'new'" class="common-btn-black" ng-click="pes.markAsNew()" >Mark as New</div>
+        <div ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsApproveDialog()">Mark as Approved</div>
         <div class="common-btn-gray" ng-click="editProduct()">Edit Product</div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag" ng-bind="tag.value"></div>
     </div>
     <div class="verified">
-      <img ng-src="{{pes.currentProduct.verified ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon"> 
+      <img ng-src="{{pes.currentProduct.verified ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">
       <strong>Verfied by Brand</strong>
     </div>
     <div class="columns media-columns">
