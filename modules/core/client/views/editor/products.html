@@ -78,7 +78,7 @@
                   <input class="custom-radio" type="radio" id="statusradio{{$index}}" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="{{status.value}}" />
                   <label for="statusradio{{$index}}"><span></span>{{status.name}}</label>
                 </div>
-            <!--     <div class="filter-item">
+                <!--     <div class="filter-item">
                   <input class="custom-radio" type="radio" id="newradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="new" />
                   <label for="newradio"><span></span>New</label>
                 </div>
@@ -171,8 +171,7 @@
         <div class="name-col" ng-bind-html="product.name | highlight:searchOptions.searchText" ng-click="viewProduct(product)"></div>
         <div class="sku-col" ng-bind="product.sku_count" ng-click="viewProduct(product)"></div>
         <div class="image-col" ng-click="viewProduct(product)">
-          <input class="custom-checkbox" type="checkbox" id="productimage{$index}" ng-checked="product.image >= 1" disabled />
-          <label for="productimage{$index}">&nbsp;</label>
+          <img ng-src="{{ (product.image >= 1) ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">
         </div>
         <div class="status-col" ng-bind="product.status" ng-click="viewProduct(product)"></div>
         <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div>
