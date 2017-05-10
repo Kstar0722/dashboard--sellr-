@@ -14,7 +14,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     labelField: 'name',
     onChange: function () {
       productEditorService.currentProduct.category = ''
-      $scope.categoriesOptions = categories.categories[productEditorService.currentProduct.productTypeId].map(function (x) { return { item: x } })
+      changeCategoryOptions()
       $scope.categorySelectize.refreshItems()
     }
   }
@@ -66,7 +66,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   // INITIALIZATION
   //
   productEditorService.setCurrentProduct($stateParams).then(function () {
-    $scope.categoriesOptions = categories.categories[productEditorService.currentProduct.productTypeId].map(function (x) { return { item: x } })
+    changeCategoryOptions()
     $scope.loading = false
   })
 
@@ -146,6 +146,15 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   //
   // INTERNAL FUNCTIONS
   //
+  function changeCategoryOptions () {
+    var categoriesForCurrentType = categories.categories[productEditorService.currentProduct.productTypeId]
+    if (categoriesForCurrentType) {
+      $scope.categoriesOptions = categoriesForCurrentType.map(function (x) { return { item: x } })
+    } else {
+      $scope.categoriesOptions = []
+    }
+  }
+
   function handleShortcuts (event) {
     if (event.ctrlKey || event.metaKey) {
       switch (String.fromCharCode(event.which).toLowerCase()) {

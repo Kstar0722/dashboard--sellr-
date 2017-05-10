@@ -24,9 +24,11 @@
     <div class="common-field-title">Product Type</div>
     <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="pes.currentProduct.productTypeId">
     </selectize>
-    <div class="common-field-title">Category</div>
-    <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category">
-    </selectize>
+    <div ng-show="categoriesOptions.length > 1">
+      <div class="common-field-title">Category</div>
+      <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category">
+      </selectize>
+    </div>
     <div class="columns tags-columns">
       <div class="first-column">
         <div class="common-field-title">Add new tag</div>
