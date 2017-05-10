@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsMergeController', function ($scope, mergeService, productEditorService, ProductTypes, $state) {
+angular.module('core').controller('EditorProductsMergeController', function ($scope, mergeService, productEditorService, ProductTypes, $state, categories) {
   //
   // DEFINITIONS
   //
@@ -10,12 +10,28 @@ angular.module('core').controller('EditorProductsMergeController', function ($sc
     maxItems: 1,
     allowEmptyOption: false,
     valueField: 'productTypeId',
-    labelField: 'name'
+    labelField: 'name',
+    onChange: function () {
+      mergeService.finalProduct.category = ''
+      changeCategoryOptions()
+      $scope.categorySelectize.refreshItems()
+    }
+  }
+  $scope.productCategoryConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    labelField: 'item',
+    valueField: 'item',
+    onInitialize: function (selectize) {
+      $scope.categorySelectize = selectize
+    }
   }
 
   //
   // INITIALIZATION
   //
+  changeCategoryOptions()
 
   //
   // SCOPE FUNCTIONS
@@ -72,6 +88,15 @@ angular.module('core').controller('EditorProductsMergeController', function ($sc
           mergeService.save()
           break
       }
+    }
+  }
+
+  function changeCategoryOptions () {
+    var categoriesForCurrentType = categories.categories[mergeService.finalProduct.productTypeId]
+    if (categoriesForCurrentType) {
+      $scope.categoriesOptions = categoriesForCurrentType.map(function (x) { return { item: x } })
+    } else {
+      $scope.categoriesOptions = []
     }
   }
 

@@ -10,6 +10,11 @@
     <div class="common-field-title">Product Type</div>
     <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="mergeService.finalProduct.productTypeId">
     </selectize>
+    <div ng-show="categoriesOptions.length > 1">
+      <div class="common-field-title">Category</div>
+      <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="mergeService.finalProduct.category">
+      </selectize>
+    </div>
     <div class="columns media-columns">
       <div class="first-column">
         <div class="common-field-title">Audio</div>
@@ -66,7 +71,7 @@
           <code>Ctrl + S / ⌘ + S</code> <strong>-- Save Product</strong>
         </p>
       </div>
-      <div>        
+      <div>
         <div class="common-btn-gray small" ng-click="goBackToProductList()">Cancel</div>
         <div class="common-btn-positive" ng-click="mergeService.save()">Save</div>
       </div>

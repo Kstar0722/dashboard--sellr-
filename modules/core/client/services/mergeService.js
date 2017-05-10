@@ -1,4 +1,4 @@
-angular.module('core').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams) {
+angular.module('core').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams, categories) {
   var me = this
 
   me.merge = merge
@@ -49,6 +49,7 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
       feedback: [],
       notes: [],
       productTypeId: [],
+      category: [],
       requestedBy: [],
       skus: []
     }
@@ -71,7 +72,7 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
     me.newProduct.properties = []
     me.products.forEach(function (product) {
       product.properties.forEach(function (prop) {
-        if (prop.visibility && prop.propId) {
+        if (prop.visibility && prop.propId && prop.label !== 'Category') {
           var i = _.findIndex(properties, function (p) {
             return p.label === prop.label
           })
@@ -131,7 +132,6 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
         value: me.newProduct.properties[ i ].value[ 0 ]
       })
     }
-    console.log('mergeService::buildFinalProduct')
   }
 
   function mergeProductMedia () {
@@ -166,6 +166,7 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
         me.finalProduct.properties.splice(i, 1)
       }
     }
+    me.finalProduct = categories.setProductCategory(me.finalProduct)
     me.finalProduct.notes = 'Merged with ' + me.prodsToDelete.toString()
     if (me.newProduct.audio.length > 0) {
       me.finalProduct.mediaAssets.push(me.newProduct.audio[ 0 ].mediaAssetId)
