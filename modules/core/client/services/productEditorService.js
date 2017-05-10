@@ -178,6 +178,21 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     me.save(me.currentProduct)
   }
 
+  me.changeStatusOfCurrentProduct = function (statusValue) {
+    var defer = $q.defer()
+    var validStatusObj = _.findWhere(me.productStatuses, {value: statusValue})
+    if (validStatusObj) {
+      me.currentProduct.status = validStatusObj.value
+      me.save(me.currentProduct).then(function () {
+        defer.resolve()
+      })
+    } else {
+      console.error('Invalid Status provided')
+      defer.resolve()
+    }
+    return defer.promise
+  }
+
   me.submitForApproval = function () {
     var defer = $q.defer()
     var userId = window.localStorage.getItem('userId')

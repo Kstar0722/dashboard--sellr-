@@ -48,6 +48,19 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
   }
 
   $scope.editProduct = function () {
+    if (productEditorService.currentProduct.status === 'new') {
+      productEditorService.changeStatusOfCurrentProduct('inprogress').then(function () {
+        openEditState()
+      })
+    } else {
+      openEditState()
+    }
+  }
+
+  //
+  // INTERNAL FUNCTIONS
+  //
+  function openEditState () {
     if ($state.current.name.indexOf('editor.products.match') === 0) {
       $state.go('editor.products.matchedit', { storeId: $state.params.storeId, productId: $state.params.productId, status: $state.params.status })
     } else {

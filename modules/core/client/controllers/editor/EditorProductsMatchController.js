@@ -23,15 +23,16 @@ angular.module('core').controller('EditorProductsMatchController', function ($sc
   // SCOPE FUNCTIONS
   //
   $scope.closePanel = function () {
-    if ($state.params.productId) {
-      if ($state.current.name.indexOf('matchview') > -1) {
-        $state.go('editor.products.view', { productId: $state.params.productId })
-      } else {
-        $state.go('editor.products.edit', { productId: $state.params.productId })
-      }
-    } else {
-      $state.go('editor.products')
-    }
+    $state.go('editor.storeManagement')
+    // if ($state.params.productId) {
+    //   if ($state.current.name.indexOf('matchview') > -1) {
+    //     $state.go('editor.products.view', { productId: $state.params.productId })
+    //   } else {
+    //     $state.go('editor.products.edit', { productId: $state.params.productId })
+    //   }
+    // } else {
+    //   $state.go('editor.products')
+    // }
   }
 
   $scope.findSimilarProducts = function () {
