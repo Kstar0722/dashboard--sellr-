@@ -84,6 +84,14 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     productEditorService.getProductList($scope.searchOptions.searchText, buildSearchOptions()).then(function () {})
   }
 
+  $scope.loadMoreProducts = function () {
+    $scope.ui.loadingMoreData = true
+    productEditorService.loadMoreProducts($scope.searchOptions.searchText, buildSearchOptions()).then(function (moreProducts) {
+    }).finally(function () {
+      $scope.ui.loadingMoreData = false
+    })
+  }
+
   $scope.mergeProducts = function () {
     cfpLoadingBar.start()
     mergeService.merge($scope.selectedProducts).then(function () {

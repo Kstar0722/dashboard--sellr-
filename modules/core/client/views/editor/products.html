@@ -20,12 +20,14 @@
               <div class="search-option close" ng-click="ui.searchOptionsMenu = false">
                 <i class="fa fa-caret-up"></i>
               </div>
+              <!--
               <div class="search-option">
                 <div class="filter-item">
                   <input class="custom-checkbox" type="checkbox" id="myproductscheck" checked ng-model="searchOptions.filterByUserId" ng-change="toggleFilterByUserId()" />
                   <label for="myproductscheck">Show only my products</label>
                 </div>
               </div>
+              -->
               <div class="search-option">
                 <div class="common-field-title">Select store</div>
                 <selectize class="custom-selectize" config="selectStoreFilterConfig" options="searchOptions.allStores" ng-model="searchOptions.storeId">
@@ -72,7 +74,11 @@
                   <input class="custom-radio" type="radio" id="allradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="" />
                   <label for="allradio"><span></span>All</label>
                 </div>
-                <div class="filter-item">
+                <div class="filter-item" ng-repeat="status in pes.productStatuses">
+                  <input class="custom-radio" type="radio" id="statusradio{{$index}}" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="{{status.value}}" />
+                  <label for="statusradio{{$index}}"><span></span>{{status.name}}</label>
+                </div>
+            <!--     <div class="filter-item">
                   <input class="custom-radio" type="radio" id="newradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="new" />
                   <label for="newradio"><span></span>New</label>
                 </div>
@@ -87,7 +93,7 @@
                 <div class="filter-item">
                   <input class="custom-radio" type="radio" id="approvedradio" name="statusfilterradio" ng-model="searchOptions.statusRadio" value="approved" />
                   <label for="approvedradio"><span></span>Approved</label>
-                </div>
+                </div> -->
               </div>
               <div class="search-option">
                 <div class="common-field-title">Search In...</div>
@@ -121,6 +127,7 @@
         </div>
         <div class="right-filter">
           <div ng-show="pes.show.newProducts" class="common-btn-black autowidth" ng-click="loadNewProducts()" ng-bind="newProductsLabel"></div>
+          <div class="common-btn-black autowidth" ng-click="loadMoreProducts()" ng-hide="searchOptions.nomore">Load more...</div>
         </div>
       </div>
       <!--
