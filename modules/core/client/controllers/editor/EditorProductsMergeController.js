@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsMergeController', function ($scope, mergeService, productEditorService, ProductTypes) {
+angular.module('core').controller('EditorProductsMergeController', function ($scope, mergeService, productEditorService, ProductTypes, $state) {
   //
   // DEFINITIONS
   //
@@ -20,6 +20,11 @@ angular.module('core').controller('EditorProductsMergeController', function ($sc
   //
   // SCOPE FUNCTIONS
   //
+  $scope.goBackToProductList = function (i) {
+    $scope.ui.display = 'fulltable'
+    $state.go('editor.products')
+  }
+
   $scope.removeMergedImage = function (i) {
     mergeService.newProduct.images.splice(i, 1)
   }

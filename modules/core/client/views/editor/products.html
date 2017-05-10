@@ -139,17 +139,17 @@
             <input id="productcheckall" type="checkbox" class="custom-checkbox" ng-model="ui.allProductsSelected" ng-change="toggleSelectAllProducts()">
             <label for="productcheckall">&nbsp;</label>
           </div>
-          <div class="common-btn-gray" ng-show="ui.showProductsSelectedActions && selectedProducts.length > 1" ng-click="mergeProducts()">
+          <div class="common-btn-gray" ng-show="ui.showProductsSelectedActions && ui.selectedProducts.length > 1" ng-click="mergeProducts()">
             Merge Products
           </div>
-          <div class="common-btn-negative small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(selectedProducts, 'inprogress')">
+          <div class="common-btn-negative small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(ui.selectedProducts, 'inprogress')">
             Reject
           </div>
-          <div class="common-btn-positive small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(selectedProducts, 'approved')">
+          <div class="common-btn-positive small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(ui.selectedProducts, 'approved')">
             Approve
           </div>
           <div class="selected-count" ng-show="ui.showProductsSelectedActions">
-            {{selectedProducts.length}} products selected
+            {{ui.selectedProducts.length}} products selected
           </div>
         </div>
         <div class="name-col" ng-click="reOrderList('name')" ng-show="!ui.showProductsSelectedActions"><span>Product Name</span> <i class="fa fa-sort"></i></div>

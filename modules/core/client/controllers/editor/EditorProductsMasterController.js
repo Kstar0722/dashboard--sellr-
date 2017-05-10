@@ -8,7 +8,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.ui.display = 'fulltable'
   $scope.ui.searchText = ''
   $scope.ui.allProductsSelected = false
-  $scope.selectedProducts = []
+  $scope.ui.selectedProducts = []
   $scope.pes = productEditorService
   $scope.newProductsLabel = 'New Products Available'
   $scope.newProductLimit = 0
@@ -94,7 +94,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
 
   $scope.mergeProducts = function () {
     cfpLoadingBar.start()
-    mergeService.merge($scope.selectedProducts).then(function () {
+    mergeService.merge($scope.ui.selectedProducts).then(function () {
       $state.go('editor.products.merge')
     }).finally(function () {
       cfpLoadingBar.complete()
@@ -161,31 +161,31 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   }
 
   $scope.toggleSelectProduct = function (product) {
-    $scope.selectedProducts = $scope.selectedProducts || []
-    var i = _.findIndex($scope.selectedProducts, function (selectedProduct) {
+    $scope.ui.selectedProducts = $scope.ui.selectedProducts || []
+    var i = _.findIndex($scope.ui.selectedProducts, function (selectedProduct) {
       return selectedProduct.productId === product.productId
     })
     if (i < 0) {
-      $scope.selectedProducts.push(product)
+      $scope.ui.selectedProducts.push(product)
     } else {
-      $scope.selectedProducts.splice(i, 1)
+      $scope.ui.selectedProducts.splice(i, 1)
     }
-    $scope.ui.showProductsSelectedActions = $scope.selectedProducts.length > 0
+    $scope.ui.showProductsSelectedActions = $scope.ui.selectedProducts.length > 0
     if ($state.includes('editor.match')) {
-      orderDataService.storeSelected($scope.selectedProducts)
+      orderDataService.storeSelected($scope.ui.selectedProducts)
     }
   }
 
   $scope.toggleSelectAllProducts = function (forcedValue) {
     var flag = forcedValue || $scope.ui.allProductsSelected
-    $scope.selectedProducts = []
+    $scope.ui.selectedProducts = []
     _.forEach(productEditorService.productList, function (p) {
       if (flag) {
-        $scope.selectedProducts.push(p)
+        $scope.ui.selectedProducts.push(p)
       }
       p.selected = flag
     })
-    $scope.ui.showProductsSelectedActions = $scope.selectedProducts.length > 0
+    $scope.ui.showProductsSelectedActions = $scope.ui.selectedProducts.length > 0
   }
 
   $scope.viewProduct = function (product) {
@@ -249,7 +249,9 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   // EVENTS
   //
   var unregisterClearProductList = $rootScope.$on('clearProductList', function () {
-    $scope.selectedProducts = []
+    $scope.ui.selectedProducts = []
+    $scope.toggleSelectAllProducts(false)
+    $scope.ui.showProductsSelectedActions = false
   })
 
   // MANDATORY to prevent Leak
