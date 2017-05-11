@@ -22,7 +22,7 @@
           acceptSize="4194304"
           callback="initCsvImport"></ng-csv-import>
           <div class="common-field-title">Select a Store</div>
-          <selectize class="custom-selectize" config="selectStoresConfig" options="orderDataService.allStores" ng-model="csv.storeId">
+          <selectize class="custom-selectize" config="selectStoresConfig" options="selectStoresOptions" ng-model="csv.storeId">
           </selectize>
           <div ng-if="csv.result">
             <div class="common-field-title">CSV File chosen</div>

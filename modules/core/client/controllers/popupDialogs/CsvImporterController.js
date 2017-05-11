@@ -1,8 +1,7 @@
-angular.module('core').controller('CsvImporterController', function ($scope, orderDataService, toastr, csvProductMapper, storesService, $mdDialog) {
+angular.module('core').controller('CsvImporterController', function ($scope, orderDataService, toastr, csvProductMapper, storesService, $mdDialog, $state) {
   //
   // DEFINITIONS
   //
-  $scope.orderDataService = orderDataService
   $scope.storeFields = null
   $scope.csv = {header: true, view: 'import'}
   $scope.selectStoresConfig = {
@@ -85,10 +84,22 @@ angular.module('core').controller('CsvImporterController', function ($scope, ord
   function init () {
     if (orderDataService.allStores.length === 0) {
       orderDataService.getAllStores().then(function (stores) {
+        fillStoresOptions()
       })
+    } else {
+      fillStoresOptions()
     }
     $scope.storeFields = wrapFields(csvProductMapper.PRODUCT_FIELDS)
     $scope.storeFields.unshift({ name: EMPTY_FIELD_NAME, displayName: '- Ignore Field' })
+  }
+
+  function fillStoresOptions () {
+    if ($state.current.name.indexOf('storeOwner.products.listed') > -1) {
+      var accId = parseInt(localStorage.getItem('accountId'), 10)
+      $scope.selectStoresOptions = _.filter(orderDataService.allStores, function (store) { return store.accountId === accId })
+    } else {
+      $scope.selectStoresOptions = orderDataService.allStores
+    }
   }
 
   function initCsvColumns (columns) {
@@ -130,5 +141,5 @@ angular.module('core').controller('CsvImporterController', function ($scope, ord
     })
     if (!$scope.$$phase) $scope.$digest()
     return availableFields
-  } 
+  }
 })
