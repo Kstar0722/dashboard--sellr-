@@ -23,6 +23,16 @@
       margin-right: 7px;
       color: #37b148;
     }
+    opacity: 1;
+    &.ng-hide{
+      opacity: 0;
+    }
+    &.ng-hide-add{
+      transition: opacity ease-in .4s; 
+    }
+    &.ng-hide-remove{
+      transition: opacity ease-out .4s;  
+    }
   }
   .left-side-content{
     width: 58vw;

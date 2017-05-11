@@ -1,7 +1,7 @@
 <div class="users-manager-view large-sidebar">
-  <!-- <div class="auto-save-box" ng-show="ui.display !== 'fulltable'">
+  <div class="auto-save-box" ng-show="ui.autosaved">
     <i class="fa fa-circle"></i> Automatically Saved
-  </div> -->
+  </div>
   <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
     <div class="title">All Users</div>
     <div class="main-table-header">
@@ -52,13 +52,13 @@
         <div class="columns">
           <div class="first-column">
             <div class="common-field-title">First Name</div>
-            <input type="text" class="common-input" name="firstname" ng-model="ui.currentUser.firstName" required>
+            <input type="text" class="common-input" name="firstname" ng-model="ui.currentUser.firstName" required ng-change="debouncedAutosaveUser()">
             <input-error-msg form="currentuserform" field="firstname" errors="{required: 'First name is required'}"></input-error-msg>
             <div class="common-field-title">Last Name</div>
-            <input type="text" class="common-input" name="lastname" ng-model="ui.currentUser.lastName" required>
+            <input type="text" class="common-input" name="lastname" ng-model="ui.currentUser.lastName" required ng-change="debouncedAutosaveUser()">
             <input-error-msg form="currentuserform" field="lastname" errors="{required: 'Last name is required'}"></input-error-msg>
             <div class="common-field-title">Email</div>
-            <input type="email" class="common-input" name="email" ng-model="ui.currentUser.email" required>
+            <input type="email" class="common-input" name="email" ng-model="ui.currentUser.email" required ng-change="debouncedAutosaveUser()">
             <input-error-msg form="currentuserform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
             <div ng-switch-when="inviteUser">
               <div class="common-field-title">Set Password</div>
@@ -72,11 +72,11 @@
           </div>
           <div class="second-column">
             <div class="common-field-title">Account</div>
-            <selectize placeholder="Select an account" class="custom-selectize" config="accountSelectConfig" options="accountSelectOptions" ng-model="ui.currentUser.accountId">
+            <selectize placeholder="Select an account" class="custom-selectize" config="accountSelectConfig" options="accountSelectOptions" ng-model="ui.currentUser.accountId" ng-change="debouncedAutosaveUser()">
             </selectize>
             <div ng-if="ui.accountRequired" class="common-input-error-msg">Account is required</div>
             <div class="common-field-title">Select Role</div>
-            <selectize placeholder="Select a role" class="custom-selectize" config="rolesSelectConfig" options="rolesSelectOptions" ng-model="ui.currentUser.roles">
+            <selectize placeholder="Select a role" class="custom-selectize" config="rolesSelectConfig" options="rolesSelectOptions" ng-model="ui.currentUser.roles" ng-change="debouncedAutosaveUser()">
             </selectize>
             <div ng-if="ui.roleRequired" class="common-input-error-msg">Role is required</div>
             <!--  <div class="common-field-title has-info"><span>Message</span> <span class="info">max. 40 characters</span></div>

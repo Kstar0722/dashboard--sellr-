@@ -377,10 +377,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .common-view-layout .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.common-view-layout .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.common-view-layout .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.common-view-layout .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .common-view-layout .left-side-content {
   width: 58vw;
@@ -2522,10 +2532,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .accounts-manager-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.accounts-manager-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.accounts-manager-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.accounts-manager-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .accounts-manager-view .left-side-content {
   width: 58vw;
@@ -2840,10 +2860,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .users-manager-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.users-manager-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.users-manager-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.users-manager-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .users-manager-view .left-side-content {
   width: 58vw;
@@ -3279,10 +3309,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .brand-plans-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.brand-plans-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.brand-plans-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.brand-plans-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .brand-plans-view .left-side-content {
   width: 58vw;
@@ -3555,10 +3595,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .brand-products-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.brand-products-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.brand-products-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.brand-products-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .brand-products-view .left-side-content {
   width: 58vw;
@@ -3872,10 +3922,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .editor-products-view-content.large-sidebar .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.editor-products-view-content.large-sidebar .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.editor-products-view-content.large-sidebar .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.editor-products-view-content.large-sidebar .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .editor-products-view-content.large-sidebar .left-side-content {
   width: 58vw;
@@ -4406,10 +4466,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .editor-products-history-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.editor-products-history-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.editor-products-history-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.editor-products-history-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .editor-products-history-view .left-side-content {
   width: 58vw;
@@ -4679,10 +4749,20 @@ body.loading .main-content {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .editor-store-management-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.editor-store-management-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.editor-store-management-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.editor-store-management-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .editor-store-management-view .left-side-content {
   width: 58vw;
@@ -5464,10 +5544,20 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .store-owner-subscribers-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.store-owner-subscribers-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.store-owner-subscribers-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.store-owner-subscribers-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .store-owner-subscribers-view .left-side-content {
   width: 58vw;
@@ -5826,10 +5916,20 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
+  opacity: 1;
 }
 .store-owner-listed-products-view .auto-save-box .fa {
   margin-right: 7px;
   color: #37b148;
+}
+.store-owner-listed-products-view .auto-save-box.ng-hide {
+  opacity: 0;
+}
+.store-owner-listed-products-view .auto-save-box.ng-hide-add {
+  transition: opacity ease-in 0.4s;
+}
+.store-owner-listed-products-view .auto-save-box.ng-hide-remove {
+  transition: opacity ease-out 0.4s;
 }
 .store-owner-listed-products-view .left-side-content {
   width: 58vw;

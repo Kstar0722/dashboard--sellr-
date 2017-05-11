@@ -1,4 +1,4 @@
-angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService, toastr, accountsService, $http, constants, Users, $mdDialog, Authentication) {
+angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService, toastr, accountsService, $http, constants, Users, $mdDialog, Authentication, $timeout) {
   //
   // DEFINITIONS
   //
@@ -101,6 +101,8 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
     $scope.ui.display = 'editUser'
   }
 
+  $scope.debouncedAutosaveUser = _.debounce(autosaveUser, 3000)
+
   $scope.submitUser = function (formValid) {
     $scope.ui.roleRequired = false
     $scope.ui.accountRequired = false
@@ -116,21 +118,15 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
     if (!flag) {
       return false
     }
-    // Selectize do not support array as value so need to reconvert back to array
-    $scope.ui.currentUser.roles = $scope.ui.currentUser.roles.split(',')
-    $scope.ui.currentUser.displayName = $scope.ui.currentUser.firstName + ' ' + $scope.ui.currentUser.lastName
-    var payload
+    var payload = {
+      payload: angular.copy($scope.ui.currentUser)
+    }
+    completeUserPayload(payload)
     if ($scope.ui.display === 'inviteUser') {
-      payload = {
-        payload: $scope.ui.currentUser
-      }
       $http.post(constants.API_URL + '/users', payload).then(onSaveSuccess, onSaveError)
     }
     if ($scope.ui.display === 'editUser') {
       var url = constants.API_URL + '/users/' + $scope.ui.currentUser.userId
-      payload = {
-        payload: $scope.ui.currentUser
-      }
       $http.put(url, payload).then(onSaveSuccess, onSaveError)
     }
   }
@@ -190,6 +186,26 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
   //
   // INTERNAL FUNCTIONS
   //
+  function completeUserPayload (payload) {
+    // Selectize do not support array as value so need to reconvert back to array
+    payload.payload.roles = $scope.ui.currentUser.roles.split(',')
+    payload.payload.displayName = $scope.ui.currentUser.firstName + ' ' + $scope.ui.currentUser.lastName
+  }
+
+  function autosaveUser () {
+    if ($scope.ui.display === 'editUser' && $scope.currentuserform.$valid && $scope.ui.currentUser.accountId && $scope.ui.currentUser.roles) {
+      var url = constants.API_URL + '/users/' + $scope.ui.currentUser.userId
+      var payload = {
+        payload: angular.copy($scope.ui.currentUser)
+      }
+      completeUserPayload(payload)
+      $http.put(url, payload, { ignoreLoadingBar: true }).then(function () {
+        $scope.ui.autosaved = true
+        $timeout(function () { $scope.ui.autosaved = false }, 3000)
+      })
+    }
+  }
+
   function onSaveSuccess (response) {
     CurrentUserService.refreshUserList().then(function () {
       if ($scope.ui.display === 'inviteUser') {
