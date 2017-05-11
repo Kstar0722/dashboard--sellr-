@@ -4084,6 +4084,13 @@ body.loading .main-content {
   justify-content: flex-start;
   align-items: center;
 }
+.editor-products-view-content.large-sidebar .left-side-content .main-table-header .filter-header .left-filter .common-select-container form {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
 .editor-products-view-content.large-sidebar .left-side-content .main-table-header .filter-header .left-filter .common-select-container .search-input {
   border: 1px solid #ced0da;
   width: 70%;

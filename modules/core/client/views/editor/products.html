@@ -12,10 +12,12 @@
       <div class="filter-header">
         <div class="left-filter">
           <div ng-class="['common-select-container', {active:ui.searchOptionsMenu}]">
-            <input type="text" placeholder="" class="common-input search-input" ng-model="searchOptions.searchText" ng-focus="openMenu('searchOptionsMenu')">
-            <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.searchOptionsMenu}]" ng-click="searchProducts()">
+            <form name="productssearchform" autocomplete="off" novalidate ng-submit="searchProducts()">
+              <input type="text" placeholder="" class="common-input search-input" ng-model="searchOptions.searchText" ng-focus="openMenu('searchOptionsMenu')">
+              <button type="submit" ng-class="['common-select-trigger ignore-click-trigger', {active:ui.searchOptionsMenu}]">
               Search
-            </div>
+              </button>
+            </form>
             <div class="common-select-options" ng-show="ui.searchOptionsMenu">
               <div class="search-option close" ng-click="ui.searchOptionsMenu = false">
                 <i class="fa fa-caret-up"></i>

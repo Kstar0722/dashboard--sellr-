@@ -41,8 +41,7 @@
           <span>Domaine de la Chapelle des Bois</span>
         </div>
         <div class="promoted-col">
-          <input class="custom-checkbox" type="checkbox" id="promotedcheck{$index}" ng-model="ui.checkmarkplaceholder" disabled />
-          <label for="promotedcheck{$index}">&nbsp;</label>
+          <img ng-src="{{$even ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">
         </div>
         <div class="sku-col" ng-click="viewProduct(product)">1234567893</div>
         <div class="size-col" ng-click="viewProduct(product)">750 ML</div>

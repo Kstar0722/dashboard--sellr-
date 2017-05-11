@@ -130,7 +130,6 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
 
   $scope.saveProduct = function () {
     $analytics.eventTrack('Product Saved', { productId: productEditorService.currentProduct.productId })
-    productEditorService.currentProduct.status = 'inprogress'
     productEditorService.save(productEditorService.currentProduct).then(function () {
       if (!$scope.permissions.editor && !$scope.permissions.curator) {
         $scope.ui.display = 'fulltable'
