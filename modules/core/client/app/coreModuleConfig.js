@@ -250,6 +250,19 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
+      .state('editor.products.matchmerge', {
+        url: '/match/:storeId/merge/:productId?status',
+        views: {
+          'match': {
+            templateUrl: 'modules/core/client/views/editor/match.html',
+            controller: 'EditorProductsMatchController'
+          },
+          'sidepanel': {
+            templateUrl: 'modules/core/client/views/editor/mergeProducts.html',
+            controller: 'EditorProductsMergeController'
+          }
+        }
+      })
       //
       // STORE OWNER ROUTES
       //

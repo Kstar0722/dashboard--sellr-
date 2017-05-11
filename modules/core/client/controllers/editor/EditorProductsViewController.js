@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsViewController', function ($scope, $state, productEditorService, $stateParams, $mdDialog) {
+angular.module('core').controller('EditorProductsViewController', function ($scope, $state, productEditorService, $stateParams, $mdDialog, utilsService) {
   //
   // DEFINITIONS
   //
@@ -61,7 +61,7 @@ angular.module('core').controller('EditorProductsViewController', function ($sco
   // INTERNAL FUNCTIONS
   //
   function openEditState () {
-    if ($state.current.name.indexOf('editor.products.match') === 0) {
+    if (utilsService.isMatchState($state)) {
       $state.go('editor.products.matchedit', { storeId: $state.params.storeId, productId: $state.params.productId, status: $state.params.status })
     } else {
       $state.go('editor.products.edit', { productId: $state.params.productId })

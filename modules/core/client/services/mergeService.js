@@ -1,4 +1,4 @@
-angular.module('core').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams, categories) {
+angular.module('core').service('mergeService', function ($q, productEditorService, constants, $http, $state, toastr, $rootScope, $stateParams, categories, utilsService, orderDataService) {
   var me = this
 
   me.merge = merge
@@ -185,11 +185,14 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
     }
     $http.post(url, payload).then(function (res) {
       if (res.data.productId) {
-        toastr.success('Product Merged!')
-        if ($state.current.name.indexOf('match') > -1) {
-          $state.go('editor.products.matchview', { productId: res.data.productId, status: $state.params.status }, { reload: true })
+        if (utilsService.isMatchState($state)) {
+          orderDataService.getData({ storeId: $stateParams.storeId }, $stateParams.status).then(function () {
+            toastr.success('Product Merged!')
+            $state.go('editor.products.matchview', { storeId: $state.params.storeId, productId: res.data.productId, status: $state.params.status }, { reload: true })
+          })
         } else {
           $state.go('editor.products.view', { productId: res.data.productId }, { reload: true })
+          toastr.success('Product Merged!')
         }
       } else {
         console.error('No productId returned from server %O', res)

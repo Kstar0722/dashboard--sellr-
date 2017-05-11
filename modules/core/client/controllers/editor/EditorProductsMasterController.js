@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsMasterController', function ($scope, Authentication, productEditorService, $state, orderDataService, mergeService, $rootScope, $timeout, cfpLoadingBar) {
+angular.module('core').controller('EditorProductsMasterController', function ($scope, Authentication, productEditorService, $state, orderDataService, mergeService, $rootScope, $timeout, cfpLoadingBar, utilsService) {
   //
   // DEFINITIONS
   //
@@ -95,7 +95,11 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.mergeProducts = function () {
     cfpLoadingBar.start()
     mergeService.merge($scope.ui.selectedProducts).then(function () {
-      $state.go('editor.products.merge')
+      if (utilsService.isMatchState($state)) {
+        $state.go('editor.products.matchmerge', { storeId: $state.params.storeId, productId: $state.params.productId, status: $state.params.status })
+      } else {
+        $state.go('editor.products.merge')
+      }
     }).finally(function () {
       cfpLoadingBar.complete()
     })
@@ -189,7 +193,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   }
 
   $scope.viewProduct = function (product) {
-    if ($state.current.name.indexOf('editor.products.match') === 0) {
+    if (utilsService.isMatchState($state)) {
       $state.go('editor.products.matchview', { storeId: $state.params.storeId, productId: product.productId, status: $state.params.status })
     } else {
       $state.go('editor.products.view', { productId: product.productId })

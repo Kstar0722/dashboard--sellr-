@@ -1,4 +1,3 @@
-/* globals angular, localStorage */
 angular.module('core').service('storesService', function ($http, constants, $q, toastr) {
   var me = this
 
