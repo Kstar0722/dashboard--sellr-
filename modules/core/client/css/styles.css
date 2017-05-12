@@ -5810,16 +5810,14 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   background-color: #ffffff;
   border: solid 1px #e6eaee;
   width: 16vw;
-  padding: 10px 15px 20px 15px;
+  padding: 10px 15px 0px 15px;
   margin-left: 1.2vw;
   margin-right: 1.2vw;
   margin-bottom: 30px;
   box-sizing: border-box;
-  height: 320px;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: flex-start;
+}
+.store-owner-promoted-products-view .main-container .promoted-box.active {
+  border-color: #354052;
 }
 .store-owner-promoted-products-view .main-container .promoted-box.add {
   color: #fff;
@@ -5843,6 +5841,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   height: 100px;
   border-radius: 4px;
   background-color: #f8f9fb;
+  margin-bottom: 25px;
 }
 .store-owner-promoted-products-view .main-container .promoted-box .name {
   font-weight: bold;
@@ -5851,11 +5850,16 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-size: 16px;
   height: 40px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .store-owner-promoted-products-view .main-container .promoted-box .aux-text {
   font-size: 12px;
   color: #7f8fa4;
   width: 100%;
+  margin-bottom: 15px;
+}
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container {
+  margin-bottom: 20px;
 }
 .store-owner-promoted-products-view .main-container .promoted-box .icons-container .tooltip-container {
   height: 0px;
@@ -5894,6 +5898,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   text-align: center;
   width: 100%;
   height: 36px;
+  margin-bottom: 15px;
 }
 .store-owner-promoted-products-view .main-container .promoted-box .btns-container .common-btn-gray {
   margin: 0 auto;

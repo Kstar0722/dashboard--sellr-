@@ -1,8 +1,7 @@
 <div class="store-owner-promoted-products-view">
   <div class="main-container">
-    <div class="promoted-box" ng-repeat="i in ui.promotedProducts" ng-click="selectProduct($index)">
-      <div class="image-container">
-        
+    <div ng-class="['promoted-box', {active: ui.selectedProduct[$index]}]" ng-repeat="i in ui.promotedProducts" ng-click="selectProduct($index)">
+      <div class="image-container">        
       </div>
       <div class="name">Kim Bourbon Bourbon Bourbon Bourbon Bourbon</div>
       <div class="aux-text">Promoting this product on:</div>
@@ -31,8 +30,8 @@
           </div>
         </div>
       </div>
-      <div class="btns-container">
-        <div class="common-btn-gray autowidth" ng-if="ui.selectedProduct[$index] === true">Stop promoting product</div>
+      <div class="btns-container" ng-if="ui.selectedProduct[$index] === true">
+        <div class="common-btn-gray autowidth">Stop promoting product</div>
       </div>
     </div>
     <div class="promoted-box add" ng-repeat="i in [1,2,3]">

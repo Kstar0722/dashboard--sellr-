@@ -491,16 +491,14 @@
       background-color: #ffffff;
       border: solid 1px #e6eaee;
       width: 16vw;
-      padding: 10px 15px 20px 15px;
+      padding: 10px 15px 0px 15px;
       margin-left: 1.2vw;
       margin-right: 1.2vw;
       margin-bottom: 30px;
       box-sizing: border-box;
-      height: 320px;
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: space-between;
-      align-items: flex-start;
+      &.active{
+        border-color: #354052;
+      }
       &.add{
         color: #fff;
         background-color: #ccd3da;
@@ -523,6 +521,7 @@
         height: 100px;
         border-radius: 4px;
         background-color: #f8f9fb;
+        margin-bottom:25px;
       }
       .name{
         font-weight: bold;
@@ -531,13 +530,16 @@
         font-size: 16px;
         height: 40px;
         overflow: hidden;
+        margin-bottom:10px;
       }
       .aux-text{
         font-size: 12px;
         color: #7f8fa4;
         width: 100%;
+        margin-bottom:15px;
       }
       .icons-container{
+        margin-bottom: 20px;
         .tooltip-container{
           height: 0px;
           max-height: 0px;
@@ -576,6 +578,7 @@
         text-align: center;
         width: 100%;
         height: 36px;
+        margin-bottom: 15px;
         .common-btn-gray{
           margin: 0 auto;
         }
