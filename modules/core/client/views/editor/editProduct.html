@@ -20,13 +20,13 @@
     <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
     <div class="separator"></div>
     <div class="common-field-title">Title</div>
-    <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.name">
+    <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.name" ng-change="debouncedAutosaveProduct()">
     <div class="common-field-title">Product Type</div>
-    <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="pes.currentProduct.productTypeId">
+    <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes" ng-model="pes.currentProduct.productTypeId" ng-change="debouncedAutosaveProduct()">
     </selectize>
     <div ng-show="categoriesOptions.length > 1">
       <div class="common-field-title">Category</div>
-      <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category">
+      <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="pes.currentProduct.category" ng-change="debouncedAutosaveProduct()">
       </selectize>
     </div>
     <div class="columns tags-columns">
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="verified">
-      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" />
+      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" ng-change="debouncedAutosaveProduct()" />
       <label for="verifiedByBrand">Verified by Brand</label>
     </div>
     <div class="columns media-columns">
@@ -76,14 +76,14 @@
     </medium-editor>
     <div ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type" ng-if="prop.visibility">
       <div class="common-field-title">{{prop.label}} <span ng-show="prop.info"> - ({{ prop.info }})</span></div>
-      <input class="common-input" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}">
-      <textarea class="common-textarea" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{ prop.info }}"></textarea>
-      <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig" options="Countries.allCountries" ng-model="prop.value">
+      <input class="common-input" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}" ng-change="debouncedAutosaveProduct()">
+      <textarea class="common-textarea" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{ prop.info }}" ng-change="debouncedAutosaveProduct()"></textarea>
+      <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig" options="Countries.allCountries" ng-model="prop.value" ng-change="debouncedAutosaveProduct()">
       </selectize>
     </div>
     <div ng-if="pes.currentProduct.notes">
       <div class="common-field-title" >Research Notes</div>
-      <textarea class="common-textarea" ng-model="pes.currentProduct.notes"></textarea>
+      <textarea class="common-textarea" ng-model="pes.currentProduct.notes" ng-change="debouncedAutosaveProduct()"></textarea>
     </div>
     <div class="common-field-title" >Keyboard Shortcuts:</div>
     <div class="shortcuts-action">

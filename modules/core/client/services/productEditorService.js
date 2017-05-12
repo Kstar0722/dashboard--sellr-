@@ -346,7 +346,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     })
   }
 
-  me.save = function (product) {
+  me.save = function (product, silent) {
     var defer = $q.defer()
     if (!product.productId) {
       return
@@ -369,10 +369,9 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       payload: product
     }
     var url = constants.BWS_API + '/edit/products/' + product.productId
-    $http.put(url, payload).then(onSaveSuccess, onSaveError)
+    var httpOptions = silent ? { ignoreLoadingBar: true } : {}
+    $http.put(url, payload, httpOptions).then(onSaveSuccess, onSaveError)
     function onSaveSuccess (response) {
-      window.scrollTo(0, 0)
-      // socket.emit('product-saved')
       me.productStorage[product.productId] = product
       cachedProduct = jQuery.extend(true, {}, me.productStorage[product.productId])
       toastr.success('Product Updated!')

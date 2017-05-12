@@ -1,4 +1,4 @@
-angular.module('core').controller('EditorProductsEditController', function ($scope, productEditorService, $state, $stateParams, Countries, ProductTypes, $analytics, $mdDialog, categories) {
+angular.module('core').controller('EditorProductsEditController', function ($scope, productEditorService, $state, $stateParams, Countries, ProductTypes, $analytics, $mdDialog, categories, utilsService) {
   //
   // DEFINITIONS
   //
@@ -76,10 +76,12 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   $scope.addTag = function (newTag) {
     productEditorService.currentProduct = categories.addTag(productEditorService.currentProduct, newTag)
     $scope.newTag.value = ''
+    $scope.debouncedAutosaveProduct()
   }
 
   $scope.removeTag = function (i) {
     productEditorService.currentProduct = categories.removeTag(productEditorService.currentProduct, i)
+    $scope.debouncedAutosaveProduct()
   }
 
   $scope.showMarkAsDoneDialog = function (ev) {
@@ -142,9 +144,17 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
     productEditorService.removeAudio(currentAudio)
   }
 
+  $scope.debouncedAutosaveProduct = utilsService.getDebouncedFuntion(autosaveProduct)
+
   //
   // INTERNAL FUNCTIONS
   //
+  function autosaveProduct () {
+    productEditorService.save(productEditorService.currentProduct, true).then(function () {
+      utilsService.setAutosaveMessage($scope)
+    })
+  }
+
   function changeCategoryOptions () {
     var categoriesForCurrentType = categories.categories[productEditorService.currentProduct.productTypeId]
     if (categoriesForCurrentType) {
