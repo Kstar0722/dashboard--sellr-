@@ -279,17 +279,18 @@
 // 
 .store-owner-marketing-posts-view {
   background-color: #eff3f6;
-  padding: 4vh 10vw 0px 10vw;
+  padding: 4vh 5vw 0px 5vw;
   color: #354052;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-start;
   .email-column,
   .twitter-column,
   .facebook-column,
+  .pinterest-column,
   .ads-column{
-    width: 22%;
+    width: 17vw;
     .title-container{
       display: flex;
       flex-flow: row nowrap;
@@ -362,6 +363,11 @@
       border-top: 4px solid #3b5998;
     }
   }
+  .pinterest-column{
+    .white-column-box{
+      border-top: 4px solid #cb1f27;
+    }
+  }
   .ads-column{
     .white-column-box{
       border-top: 4px solid #7f8fa4;
@@ -370,9 +376,9 @@
 }
 
 // 
-// SUBSCRIBERS
+// AUDIENCE
 // 
-.store-owner-subscribers-view {
+.store-owner-audience-view {
   .common-view-layout;
   padding: 4vh 10vw 10vh 10vw;
   .left-side-content{

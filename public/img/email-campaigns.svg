@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Email Campaigns</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Marketing-Channels---Scheduled-Posts" transform="translate(-20.000000, -160.000000)">
+            <g id="Email-Campaigns" transform="translate(20.000000, 160.000000)">
+                <g id="Subscribers">
+                    <g id="Icon">
+                        <rect id="Base" fill="#313D4F" x="0" y="0" width="30" height="30" rx="15"></rect>
+                        <rect id="Base" stroke="#43536D" x="2.5" y="2.5" width="25" height="25" rx="12.5"></rect>
+                    </g>
+                </g>
+                <g id="noun_993042_cc" transform="translate(7.500000, 10.000000)" fill-rule="nonzero" fill="#FFFFFF">
+                    <path d="M0.0446428571,0.162037037 L0.0446428571,9.83796296 L14.9553571,9.83796296 L14.9553571,0.162037037 L0.0446428571,0.162037037 Z M7.5,5.97814815 L1.74089286,1.08796296 L13.2591071,1.08796296 L7.5,5.97814815 Z M4.52375,4.64759259 L0.9375,8.2762963 L0.9375,1.60222222 L4.52375,4.64759259 Z M5.21910714,5.23796296 L7.5,7.17481481 L9.78089286,5.23796296 L13.4119643,8.91203704 L1.58803571,8.91203704 L5.21910714,5.23796296 Z M10.47625,4.64759259 L14.0625,1.60240741 L14.0625,8.27648148 L10.47625,4.64759259 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

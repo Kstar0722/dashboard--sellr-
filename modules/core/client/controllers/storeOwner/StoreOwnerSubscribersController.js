@@ -1,3 +1,3 @@
-angular.module('core').controller('StoreOwnerSubscribersController', function ($scope, $stateParams, $state) {
-  console.log('SUBSCRIBERS CTRL')
+angular.module('core').controller('StoreOwnerAudienceController', function ($scope, $stateParams, $state) {
+  console.log('AUDIENCE CTRL')
 })

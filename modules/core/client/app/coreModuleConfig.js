@@ -292,10 +292,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/core/client/views/storeOwner/reports.html',
         controller: 'StoreOwnerReportsController'
       })
-      .state('storeOwner.subscribers', {
-        url: '/subscribers',
-        templateUrl: 'modules/core/client/views/storeOwner/subscribers.html',
-        controller: 'StoreOwnerSubscribersController'
+      .state('storeOwner.audience', {
+        url: '/audience',
+        templateUrl: 'modules/core/client/views/storeOwner/audience.html',
+        controller: 'StoreOwnerAudienceController'
       })
       .state('storeOwner.products', {
         url: '/products',
