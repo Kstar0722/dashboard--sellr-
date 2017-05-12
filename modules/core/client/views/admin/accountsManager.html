@@ -1,4 +1,7 @@
 <div class="accounts-manager-view">
+  <div class="auto-save-box" ng-show="ui.autosaved">
+    <i class="fa fa-circle"></i> Automatically Saved
+  </div>
   <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
     <div class="title">All Accounts</div>
     <div class="main-table-header">
@@ -72,13 +75,13 @@
     <div class="side-panel">
       <form name="accountForm" ng-submit="submitAccount(accountForm.$valid)" novalidate>
         <div class="common-field-title">Account Name</div>
-        <input type="text" class="common-input" name="name" ng-model="ui.currentAccount.name" required>
+        <input type="text" class="common-input" name="name" ng-model="ui.currentAccount.name" required ng-change="debouncedAutosaveAccount()">
         <input-error-msg form="accountForm" field="name" errors="{required: 'Account name is required'}"></input-error-msg>
         <div class="common-field-title">Contact Name</div>
-        <input type="text" class="common-input" name="contactName" ng-model="ui.currentAccount.contactName" required>
+        <input type="text" class="common-input" name="contactName" ng-model="ui.currentAccount.contactName" required ng-change="debouncedAutosaveAccount()">
         <input-error-msg form="accountForm" field="contactName" errors="{required: 'Contact name is required'}"></input-error-msg>
         <div class="common-field-title">Email</div>
-        <input type="email" class="common-input" name="email" ng-model="ui.currentAccount.email" required>
+        <input type="email" class="common-input" name="email" ng-model="ui.currentAccount.email" required ng-change="debouncedAutosaveAccount()">
         <input-error-msg form="accountForm" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
         <div class="common-field-title">Account Logo</div>
         <div class="common-btn-silver" ngf-select="uploadLogo($files)">Upload Image</div>
@@ -90,19 +93,19 @@
           <img ng-src="{{ui.currentAccount.preferences.logo}}" alt="account logo" />
         </div>
         <div class="checks-container">
-        <!--   <div class="shoppr-check">
+          <!--   <div class="shoppr-check">
             <div class="common-field-title">Shoppr</div>
             <input class="custom-checkbox" type="checkbox" id="currentaccountshoppr" ng-model="ui.currentAccount.preferences.shoppr" />
             <label for="currentaccountshoppr">&nbsp;</label>
           </div> -->
           <div class="website-check">
             <div class="common-field-title">Website</div>
-            <input class="custom-checkbox" type="checkbox" id="currentaccountwebsite" ng-model="ui.currentAccount.preferences.website" />
+            <input class="custom-checkbox" type="checkbox" id="currentaccountwebsite" ng-model="ui.currentAccount.preferences.website" ng-change="debouncedAutosaveAccount()" />
             <label for="currentaccountwebsite">&nbsp;</label>
           </div>
         </div>
         <div class="common-field-title">Website Url</div>
-        <input type="text" class="common-input" ng-model="ui.currentAccount.preferences.websiteUrl">
+        <input type="text" class="common-input" ng-model="ui.currentAccount.preferences.websiteUrl" ng-change="debouncedAutosaveAccount()">
         <div class="auth-code" ng-switch-when="editAccount">
           <div class="auth-text">Device Authentication Code: <span ng-bind="ui.currentAccount.authCode"></span></div>
           <div class="common-btn-black" ng-click="getNewAuthCode()">Get New Code</div>

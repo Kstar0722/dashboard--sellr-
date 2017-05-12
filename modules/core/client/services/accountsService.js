@@ -39,8 +39,9 @@ angular.module('core').service('accountsService', function ($http, constants, to
     if (options.id) url += '/' + options.id
     url += '?status=1'
     if (options.expand) url += '&expand=' + options.expand
+    var httpOptions = options.silent ? { ignoreLoadingBar: true } : {}
 
-    $http.get(url).then(onGetAccountSuccess, onGetAccountError)
+    $http.get(url, httpOptions).then(onGetAccountSuccess, onGetAccountError)
     function onGetAccountSuccess (res) {
       // console.log('========= res ' + JSON.stringify(res))
       var accounts = _.map(res.data, initAccount)
@@ -160,7 +161,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return defer.promise
   }
 
-  me.updateAccount = function (account) {
+  me.updateAccount = function (account, silent) {
     account.preferences = account.preferences || {}
     account.preferences.websiteUrl = normalizeUrl(account.preferences.websiteUrl)
     var payload = {
@@ -168,10 +169,11 @@ angular.module('core').service('accountsService', function ($http, constants, to
     }
     var url = constants.API_URL + '/accounts/' + account.accountId
     var original = _.find(me.accounts, { accountId: account.accountId })
-    return $http.put(url, payload).then(onUpdateSuccess, onUpdateError)
+    var httpOptions = silent ? { ignoreLoadingBar: true } : {}
+    return $http.put(url, payload, httpOptions).then(onUpdateSuccess, onUpdateError)
 
     function onUpdateSuccess (res) {
-      return me.getAccounts({ id: original.accountId, expand: 'stores,stats' }).then(function (saved) {
+      return me.getAccounts({ id: original.accountId, expand: 'stores,stats', silent: silent }).then(function (saved) {
         saved = initAccount(_.first(saved))
         toastr.success('Account Updated!')
         _.replaceItem(me.accounts, original, saved)

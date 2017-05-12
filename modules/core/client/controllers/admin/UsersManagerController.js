@@ -1,4 +1,4 @@
-angular.module('core').controller('UsersManagerController', function ($scope, $state, $rootScope, globalClickEventName, CurrentUserService, toastr, accountsService, $http, constants, Users, $mdDialog, Authentication, $timeout) {
+angular.module('core').controller('UsersManagerController', function ($scope, CurrentUserService, toastr, accountsService, $http, constants, Users, $mdDialog, Authentication, utilsService) {
   //
   // DEFINITIONS
   //
@@ -101,7 +101,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
     $scope.ui.display = 'editUser'
   }
 
-  $scope.debouncedAutosaveUser = _.debounce(autosaveUser, 3000)
+  $scope.debouncedAutosaveUser = utilsService.getDebouncedFuntion(autosaveUser)
 
   $scope.submitUser = function (formValid) {
     $scope.ui.roleRequired = false
@@ -200,8 +200,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, $s
       }
       completeUserPayload(payload)
       $http.put(url, payload, { ignoreLoadingBar: true }).then(function () {
-        $scope.ui.autosaved = true
-        $timeout(function () { $scope.ui.autosaved = false }, 3000)
+        utilsService.setAutosaveMessage($scope)
       })
     }
   }

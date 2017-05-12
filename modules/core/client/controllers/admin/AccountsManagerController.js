@@ -1,4 +1,4 @@
-angular.module('core').controller('AccountsManagerController', function ($scope, $state, accountsService, CurrentUserService, Authentication, $http, constants, uploadService, toastr, UsStates, $mdDialog, $timeout, $httpParamSerializer, $rootScope, globalClickEventName, $q, storesService) {
+angular.module('core').controller('AccountsManagerController', function ($scope, accountsService, uploadService, toastr, UsStates, $mdDialog, $rootScope, globalClickEventName, $q, storesService, utilsService) {
   //
   // DEFINITIONS
   //
@@ -166,6 +166,8 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     })
   }
 
+  $scope.debouncedAutosaveAccount = utilsService.getDebouncedFuntion(autosaveAccount)
+
   //
   // INTERNAL FUNCTIONS
   //
@@ -174,6 +176,14 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
     $scope.ui.stateOptionsSelect = false
     $scope.ui.websiteThemesOptionsSelect = false
     $scope.ui.actionsOptionsSelect = []
+  }
+
+  function autosaveAccount () {
+    if ($scope.ui.display === 'editAccount' && $scope.accountForm.$valid) {
+      accountsService.updateAccount(angular.copy($scope.ui.currentAccount), true).then(function () {
+        utilsService.setAutosaveMessage($scope)
+      })
+    }
   }
 
   function saveLogo () {
