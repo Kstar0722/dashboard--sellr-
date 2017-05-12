@@ -5186,23 +5186,23 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   color: #fff;
   border: none;
 }
-.store-owner-home-view {
+.store-owner-OLD-home-view {
   text-align: center;
   padding: 4vh 10vw 10vh 10vw;
   box-sizing: border-box;
   color: #354052;
 }
-.store-owner-home-view .welcome-text {
+.store-owner-OLD-home-view .welcome-text {
   font-size: 22px;
   font-weight: bold;
 }
-.store-owner-home-view .welcome-sub-text {
+.store-owner-OLD-home-view .welcome-sub-text {
   font-size: 18px;
   color: #7f8fa4;
   margin-top: 15px;
 }
-.store-owner-home-view .top-white-boxes,
-.store-owner-home-view .bottom-white-boxes {
+.store-owner-OLD-home-view .top-white-boxes,
+.store-owner-OLD-home-view .bottom-white-boxes {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -5211,10 +5211,10 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   padding: 0 5vw;
   box-sizing: border-box;
 }
-.store-owner-home-view .top-white-boxes {
+.store-owner-OLD-home-view .top-white-boxes {
   margin-top: 30px;
 }
-.store-owner-home-view .top-white-boxes .top-white-box {
+.store-owner-OLD-home-view .top-white-boxes .top-white-box {
   width: 31%;
   height: 320px;
   border-radius: 4px;
@@ -5225,37 +5225,37 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: center;
   align-items: center;
 }
-.store-owner-home-view .top-white-boxes .top-white-box .icon {
+.store-owner-OLD-home-view .top-white-boxes .top-white-box .icon {
   background: #e6eaee;
   width: 120px;
   height: 100px;
 }
-.store-owner-home-view .top-white-boxes .top-white-box .text {
+.store-owner-OLD-home-view .top-white-boxes .top-white-box .text {
   font-size: 16px;
   font-weight: bold;
   margin: 12px auto;
   line-height: 1.6;
 }
-.store-owner-home-view .bottom-white-boxes {
+.store-owner-OLD-home-view .bottom-white-boxes {
   flex-flow: row wrap;
 }
-.store-owner-home-view .bottom-white-boxes .bottom-white-box-container {
+.store-owner-OLD-home-view .bottom-white-boxes .bottom-white-box-container {
   width: 48%;
 }
-.store-owner-home-view .bottom-white-boxes .bottom-white-box-container .title {
+.store-owner-OLD-home-view .bottom-white-boxes .bottom-white-box-container .title {
   font-size: 20px;
   font-weight: bold;
   margin: 30px 0 20px 0;
   text-align: left;
 }
-.store-owner-home-view .bottom-white-boxes .bottom-white-box-container .bottom-white-box {
+.store-owner-OLD-home-view .bottom-white-boxes .bottom-white-box-container .bottom-white-box {
   width: 100%;
   height: 370px;
   border-radius: 4px;
   background-color: #ffffff;
   border: solid 1px #e6eaee;
 }
-.store-owner-home-view .separator {
+.store-owner-OLD-home-view .separator {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -5263,12 +5263,12 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   width: 100%;
   margin-top: 30px;
 }
-.store-owner-home-view .separator .line {
+.store-owner-OLD-home-view .separator .line {
   border-bottom: 1px solid #dfe2e5;
   width: 100%;
   height: 1px;
 }
-.store-owner-home-view .separator .text {
+.store-owner-OLD-home-view .separator .text {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
@@ -6250,12 +6250,12 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-size: 14px;
   color: #354052;
 }
-.store-owner-reports-view {
+.store-owner-home-view {
   background-color: #eff3f6;
   color: #354052;
   position: relative;
 }
-.store-owner-reports-view .top-bar {
+.store-owner-home-view .top-bar {
   background-color: #fff;
   height: 60px;
   width: 100%;
@@ -6264,43 +6264,43 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: space-around;
   align-items: center;
 }
-.store-owner-reports-view .top-bar .date-filter {
+.store-owner-home-view .top-bar .date-filter {
   width: 60%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 }
-.store-owner-reports-view .top-bar .date-filter .fa-minus {
+.store-owner-home-view .top-bar .date-filter .fa-minus {
   margin-right: 15px;
   color: #7383a1;
   font-size: 10px;
 }
-.store-owner-reports-view .top-bar .date-filter .common-btn-gray {
+.store-owner-home-view .top-bar .date-filter .common-btn-gray {
   margin-right: 15px;
 }
-.store-owner-reports-view .top-bar .date-filter .common-btn-gray:last-child {
+.store-owner-home-view .top-bar .date-filter .common-btn-gray:last-child {
   margin-right: 0px;
 }
-.store-owner-reports-view .top-bar .date-filter .common-btn-gray.active {
+.store-owner-home-view .top-bar .date-filter .common-btn-gray.active {
   background-image: linear-gradient(to bottom, #2ea77a, #32a279);
   border-color: #2bbf88;
   color: #fff;
 }
-.store-owner-reports-view .main-content {
+.store-owner-home-view .main-content {
   padding: 30px 3vw 10vh 3vw;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: flex-start;
 }
-.store-owner-reports-view .main-content .main-left-column {
+.store-owner-home-view .main-content .main-left-column {
   width: 25%;
 }
-.store-owner-reports-view .main-content .main-left-column .top-products {
+.store-owner-home-view .main-content .main-left-column .top-products {
   padding: 25px 0 0 0;
 }
-.store-owner-reports-view .main-content .main-left-column .top-products .top-product {
+.store-owner-home-view .main-content .main-left-column .top-products .top-product {
   border-top: 1px solid #dfe2e5;
   padding: 15px 15px 15px 30px;
   font-size: 14px;
@@ -6311,28 +6311,28 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   align-items: center;
   cursor: pointer;
 }
-.store-owner-reports-view .main-content .main-left-column .top-products .top-product .name {
+.store-owner-home-view .main-content .main-left-column .top-products .top-product .name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 10px;
 }
-.store-owner-reports-view .main-content .main-left-column .top-products .top-product .view-prod {
+.store-owner-home-view .main-content .main-left-column .top-products .top-product .view-prod {
   color: #29b575;
 }
-.store-owner-reports-view .main-content .main-left-column .top-products .top-product:hover {
+.store-owner-home-view .main-content .main-left-column .top-products .top-product:hover {
   background-color: #fafbfc;
 }
-.store-owner-reports-view .main-content .main-right-column {
+.store-owner-home-view .main-content .main-right-column {
   width: 73%;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats {
+.store-owner-home-view .main-content .main-right-column .top-stats {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: stretch;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box {
   width: 23%;
   display: flex;
   flex-flow: row nowrap;
@@ -6340,30 +6340,30 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   align-items: center;
   padding: 25px 15px 25px 30px;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .icon-container {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .icon-container {
   margin-right: 15px;
   width: 60px;
   height: 60px;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .icon-container img {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .icon-container img {
   width: 60px;
   height: 60px;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .number {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .number {
   font-size: 28px;
   line-height: 28px;
   color: #354052;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator {
   font-size: 12px;
   font-weight: bold;
   vertical-align: super;
   color: #2bbf88;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator.negative {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator.negative {
   color: #c10101;
 }
-.store-owner-reports-view .main-content .main-right-column .top-stats .common-white-box .info-container .text {
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .text {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
