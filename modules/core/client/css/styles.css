@@ -5793,15 +5793,19 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-weight: normal;
 }
 .store-owner-promoted-products-view {
-  background-color: #eff3f6;
-  padding: 4vh 3vw 10vh 3vw;
+  padding: 4vh 3vw 0px 3vw;
+}
+.store-owner-promoted-products-view .main-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: flex-start;
   color: #354052;
+  max-height: 75vh;
+  min-height: 75vh;
+  overflow: auto;
 }
-.store-owner-promoted-products-view .promoted-box {
+.store-owner-promoted-products-view .main-container .promoted-box {
   border-radius: 4px;
   background-color: #ffffff;
   border: solid 1px #e6eaee;
@@ -5817,7 +5821,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: space-between;
   align-items: flex-start;
 }
-.store-owner-promoted-products-view .promoted-box.add {
+.store-owner-promoted-products-view .main-container .promoted-box.add {
   color: #fff;
   background-color: #ccd3da;
   display: flex;
@@ -5830,17 +5834,17 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-weight: bold;
   cursor: pointer;
 }
-.store-owner-promoted-products-view .promoted-box.add .fa {
+.store-owner-promoted-products-view .main-container .promoted-box.add .fa {
   font-size: 34px;
   margin-bottom: 15px;
 }
-.store-owner-promoted-products-view .promoted-box .image-container {
+.store-owner-promoted-products-view .main-container .promoted-box .image-container {
   width: 100%;
   height: 100px;
   border-radius: 4px;
   background-color: #f8f9fb;
 }
-.store-owner-promoted-products-view .promoted-box .name {
+.store-owner-promoted-products-view .main-container .promoted-box .name {
   font-weight: bold;
   width: 100%;
   line-height: 20px;
@@ -5848,50 +5852,50 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   height: 40px;
   overflow: hidden;
 }
-.store-owner-promoted-products-view .promoted-box .aux-text {
+.store-owner-promoted-products-view .main-container .promoted-box .aux-text {
   font-size: 12px;
   color: #7f8fa4;
   width: 100%;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .tooltip-container {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .tooltip-container {
   height: 0px;
   max-height: 0px;
   width: 100%;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icons {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .icons {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .icons .icon {
   width: 30px;
   height: 30px;
   margin-right: 7px;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon:last-child {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .icons .icon:last-child {
   margin-right: 0px;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon.add {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .icons .icon.add {
   background-color: #7F8FA4;
   border-radius: 30px;
   line-height: 30px;
   text-align: center;
   color: #fff;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon.add .fa {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .icons .icon.add .fa {
   font-size: 14px;
 }
-.store-owner-promoted-products-view .promoted-box .icons-container .icons .icon img {
+.store-owner-promoted-products-view .main-container .promoted-box .icons-container .icons .icon img {
   width: 100%;
   height: 100%;
 }
-.store-owner-promoted-products-view .promoted-box .btns-container {
+.store-owner-promoted-products-view .main-container .promoted-box .btns-container {
   text-align: center;
   width: 100%;
   height: 36px;
 }
-.store-owner-promoted-products-view .promoted-box .btns-container .common-btn-gray {
+.store-owner-promoted-products-view .main-container .promoted-box .btns-container .common-btn-gray {
   margin: 0 auto;
 }
 .store-owner-listed-products-view {
