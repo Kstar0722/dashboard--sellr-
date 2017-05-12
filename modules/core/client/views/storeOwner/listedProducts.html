@@ -34,8 +34,8 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div class="columns-data" ng-repeat="i in [1, 2, 3, 4,5,6,78,34,9,0,234234]">
-        <div class="name-col" ng-click="viewProduct(product)">
+      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-repeat="i in [1, 2, 3, 4,5,6,78,34,9,0,234234]" ng-click="ui.activeIndex = $index">
+        <div class="name-col">
           <img src="/img/wine.jpg" alt="product image">
           <!-- <span ng-bind-html="product.name | highlight:searchOptions.searchText"></span> -->
           <span>Domaine de la Chapelle des Bois</span>

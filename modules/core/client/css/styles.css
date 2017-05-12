@@ -6158,6 +6158,9 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .store-owner-listed-products-view .left-side-content .main-table .columns-data:last-child {
   border-bottom: none;
 }
+.store-owner-listed-products-view .left-side-content .main-table .columns-data.active {
+  background-color: rgba(215, 251, 232, 0.2);
+}
 .store-owner-listed-products-view .left-side-content .main-table .columns-data:hover {
   background-color: rgba(215, 251, 232, 0.2);
 }
