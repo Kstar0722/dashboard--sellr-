@@ -34,7 +34,7 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-repeat="i in [1, 2, 3, 4,5,6,78,34,9,0,234234]" ng-click="ui.activeIndex = $index">
+      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-repeat="i in [1, 2, 3, 4,5,6,78,34,9,0,234234]" ng-click="ui.activeIndex = $index; ui.display = 'editProduct'">
         <div class="name-col">
           <img src="/img/wine.jpg" alt="product image">
           <!-- <span ng-bind-html="product.name | highlight:searchOptions.searchText"></span> -->
@@ -60,7 +60,7 @@
     <div class="side-panel">
       <div class="action-btns">
         <div class="common-btn-gray">Promote Product</div>
-        <div class="common-btn-positive">Done Editing</div>
+        <div class="common-btn-positive" ng-click="ui.activeIndex = null; ui.display = 'fulltable'">Done Editing</div>
       </div>
       <div class="product-image">
         <img src="/img/wine.jpg" alt="product image" >

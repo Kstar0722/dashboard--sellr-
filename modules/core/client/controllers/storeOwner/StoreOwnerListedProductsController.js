@@ -1,6 +1,6 @@
 angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog) {
-  console.log('LISTED PRODUCTS CTRL')
   $scope.ui = {}
+  $scope.ui.display = 'fulltable'
   $scope.ui.checkmarkplaceholder = false
 
   $scope.showUploadCsvDialog = function (ev) {
