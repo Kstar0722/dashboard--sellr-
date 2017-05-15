@@ -5497,7 +5497,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: space-between;
   align-items: flex-start;
   overflow: hidden;
-  padding: 4vh 10vw 10vh 10vw;
+  padding: 4vh 10vw 0 10vw;
 }
 .store-owner-audience-view .title {
   font-size: 20px;
@@ -5662,7 +5662,6 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  padding: 10px 40px;
 }
 .store-owner-audience-view .left-side-content .main-table-header .columns-header .email-col,
 .store-owner-audience-view .left-side-content .main-table .columns-header .email-col,
@@ -5675,7 +5674,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .store-owner-audience-view .left-side-content .main-table .columns-header .date-col,
 .store-owner-audience-view .left-side-content .main-table-header .columns-data .date-col,
 .store-owner-audience-view .left-side-content .main-table .columns-data .date-col {
-  width: 19%;
+  width: 21%;
   padding-right: 1%;
 }
 .store-owner-audience-view .left-side-content .main-table-header .columns-header .campaign-col,
@@ -5685,12 +5684,11 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   width: 19%;
   padding-right: 1%;
 }
-.store-owner-audience-view .left-side-content .main-table-header .columns-header .action-col,
-.store-owner-audience-view .left-side-content .main-table .columns-header .action-col,
-.store-owner-audience-view .left-side-content .main-table-header .columns-data .action-col,
-.store-owner-audience-view .left-side-content .main-table .columns-data .action-col {
-  width: 25%;
-  text-align: center;
+.store-owner-audience-view .left-side-content .main-table-header .columns-header .type-col,
+.store-owner-audience-view .left-side-content .main-table .columns-header .type-col,
+.store-owner-audience-view .left-side-content .main-table-header .columns-data .type-col,
+.store-owner-audience-view .left-side-content .main-table .columns-data .type-col {
+  width: 22%;
 }
 .store-owner-audience-view .left-side-content .main-table-header {
   margin-top: 0px;
@@ -5736,11 +5734,13 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   background-color: #f5f8fa;
   border-top: solid 1px #e6eaee;
   color: #7f8fa4;
+  padding: 10px 57px 10px 40px;
 }
 .store-owner-audience-view .left-side-content .main-table-header .columns-header .fa {
   margin-left: 10px;
 }
 .store-owner-audience-view .left-side-content .main-table .columns-data {
+  padding: 10px 40px;
   border-bottom: 1px solid #e6eaee;
 }
 .store-owner-audience-view .left-side-content .main-table .columns-data:last-child {
@@ -5750,6 +5750,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   background-color: rgba(215, 251, 232, 0.2);
 }
 .store-owner-audience-view .left-side-content .main-table .columns-data .campaign-col,
+.store-owner-audience-view .left-side-content .main-table .columns-data .type-col,
 .store-owner-audience-view .left-side-content .main-table .columns-data .date-col {
   font-weight: normal;
 }

@@ -374,7 +374,7 @@
 // 
 .store-owner-audience-view {
   .common-view-layout;
-  padding: 4vh 10vw 10vh 10vw;
+  padding: 4vh 10vw 0 10vw;
   .left-side-content{
     .main-table-header,
     .main-table{
@@ -386,24 +386,22 @@
         align-items: center;
         font-size: 14px;
         font-weight: bold;
-        cursor: pointer;
-        padding: 10px 40px;
+        cursor: pointer;        
         .email-col{
           width: 34%;
           padding-right: 1%;
         }
         .date-col
         {
-          width: 19%;
+          width: 21%;
           padding-right: 1%;
         }
         .campaign-col{
           width: 19%;
           padding-right: 1%;
         }
-        .action-col{
-          width: 25%;
-          text-align: center;
+        .type-col{
+          width: 22%;
         }
       }
     }
@@ -450,6 +448,7 @@
         background-color: #f5f8fa;
         border-top: solid 1px #e6eaee;
         color: #7f8fa4;
+        padding: 10px 57px 10px 40px;
         .fa{
           margin-left: 10px;
         }
@@ -457,6 +456,7 @@
     }
     .main-table{
       .columns-data{
+        padding: 10px 40px;
         border-bottom: 1px solid #e6eaee;
         &:last-child{
           border-bottom: none;
@@ -465,6 +465,7 @@
           background-color: rgba(215,251,232,0.2);
         }
         .campaign-col,
+        .type-col,
         .date-col{
           font-weight: normal;
         }

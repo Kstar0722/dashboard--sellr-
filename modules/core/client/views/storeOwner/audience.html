@@ -32,7 +32,7 @@
         <div class="email-col"><span>Email Address</span></div>
         <div class="date-col"><span>Date Subscribed</span></div>
         <div class="campaign-col"><span>Email Campaigns</span></div>
-        <div class="action-col"><span>&nbsp;</span></div>
+        <div class="type-col"><span>Audience Type</span></div>
       </div>
     </div>
     <div class="main-table">
@@ -43,9 +43,7 @@
         <div class="email-col">isom.heidenreich@gmail.com</div>
         <div class="date-col">June 7, 2016</div>
         <div class="campaign-col">99</div>
-        <div class="action-col">
-          <div class="common-btn-gray">See Email History</div>
-        </div>
+        <div class="type-col" ng-bind="$odd ? 'Customer' : 'Email Subscriber'"></div>
       </div>
     </div>
   </div>
