@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="15px" viewBox="0 0 16 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Export Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Subscribers" transform="translate(-891.000000, -132.000000)" fill="#313D4F">
+            <g id="Group-5" transform="translate(861.000000, 121.000000)">
+                <g id="Group-4" transform="translate(30.000000, 9.000000)">
+                    <path d="M7.241,12.711 C7.429,12.899 7.683,13.004 7.949,13.004 C7.962,13.004 7.972,12.997 7.985,12.997 C7.99,12.997 7.995,13 8,13 C8.337,13 8.62,12.823 8.801,12.569 L11.695,9.687 C12.087,9.297 12.087,8.664 11.695,8.273 C11.304,7.883 10.67,7.883 10.278,8.273 L9,9.544 L9,3 C9,2.448 8.553,2 8,2 C7.448,2 7,2.448 7,3 L7,9.62 L5.691,8.281 C5.3,7.891 4.666,7.891 4.275,8.281 C3.883,8.672 3.883,9.305 4.275,9.695 L7.241,12.711 Z M15,11 C14.448,11 14,11.448 14,12 L14,13 L14,14 C14,14.552 13.553,15 13,15 L3,15 C2.448,15 2,14.552 2,14 L2,13 L2,12 C2,11.448 1.553,11 1,11 C0.448,11 0,11.448 0,12 L0,13 L0,15 C0,16.105 0.896,17 2,17 L14,17 C15.105,17 16,16.105 16,15 L16,13 L16,12 C16,11.448 15.553,11 15,11 L15,11 Z" id="Export-Icon"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

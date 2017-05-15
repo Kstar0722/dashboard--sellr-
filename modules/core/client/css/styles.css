@@ -5782,8 +5782,9 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: flex-start;
   align-items: center;
 }
-.store-owner-audience-view .left-side-content .main-table-header .main-header .header-right .common-input-with-icon {
-  margin-right: 20px;
+.store-owner-audience-view .left-side-content .main-table-header .main-header .header-right .common-btn-gray-black,
+.store-owner-audience-view .left-side-content .main-table-header .main-header .header-right .common-btn-black {
+  margin-left: 20px;
 }
 .store-owner-audience-view .left-side-content .main-table-header .columns-header {
   background-color: #f5f8fa;
