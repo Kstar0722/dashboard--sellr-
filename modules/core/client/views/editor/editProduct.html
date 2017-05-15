@@ -18,6 +18,11 @@
     <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
     <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
     <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
+    <p ng-if="pes.currentProduct.status === 'done'">
+      Submitted by
+      <strong><i>{{pes.currentProduct.displayName}}</i></strong>
+      on <strong><i>{{pes.currentProduct.submittedFormatedDate}}</i></strong>
+    </p>
     <div class="separator"></div>
     <div class="common-field-title">Title</div>
     <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.name" ng-change="debouncedAutosaveProduct()">
