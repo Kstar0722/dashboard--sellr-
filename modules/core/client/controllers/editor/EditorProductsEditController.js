@@ -151,7 +151,10 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   //
   function autosaveProduct () {
     productEditorService.save(productEditorService.currentProduct, true).then(function () {
-      utilsService.setAutosaveMessage($scope)
+      productEditorService.refreshProduct(productEditorService.currentProduct, true).then(function (savedProduct) {
+        productEditorService.currentProduct = savedProduct
+        utilsService.setAutosaveMessage($scope)
+      })
     })
   }
 

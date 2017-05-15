@@ -236,8 +236,9 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   //  abstracts away remote call for detail
-  me.getProductDetail = function (product) {
-    return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
+  me.getProductDetail = function (product, silent) {
+    var httpOptions = silent ? { ignoreLoadingBar: true } : {}
+    return $http.get(constants.BWS_API + '/edit/products/' + product.productId, httpOptions)
   }
 
   me.getProduct = function (product) {
@@ -509,7 +510,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           if (err) {
             toastr.error('There was a problem uploading this image.')
           }
-          refreshProduct(me.currentProduct)
+          me.refreshProduct(me.currentProduct)
           defer.resolve(response)
         })
       } else {
@@ -537,7 +538,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           if (err) {
             toastr.error('There was a problem uploading audio')
           }
-          refreshProduct(me.currentProduct)
+          me.refreshProduct(me.currentProduct)
         })
       } else {
         toastr.error('Product Audio Failed To Update!')
@@ -553,7 +554,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         if (err) {
           toastr.error('There was a problem removing audio')
         }
-        refreshProduct(me.currentProduct)
+        me.refreshProduct(me.currentProduct)
       })
     })
   }
@@ -566,7 +567,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         if (err) {
           toastr.error('There was a problem removing image')
         }
-        refreshProduct(me.currentProduct)
+        me.refreshProduct(me.currentProduct)
       })
     })
   }
@@ -611,8 +612,9 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     }
   }
 
-  function refreshProduct (product) {
-    me.getProductDetail(product).then(function (res) {
+  me.refreshProduct = function (product, silent) {
+    var defer = $q.defer()
+    me.getProductDetail(product, silent).then(function (res) {
       if (res.data.length > 0) {
         me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
           log('formattedProduct', formattedProduct)
@@ -623,11 +625,13 @@ angular.module('core').service('productEditorService', function ($http, $locatio
 
           // store product for faster load next time
           me.productStorage[product.productId] = formattedProduct
+          defer.resolve(formattedProduct)
         })
       } else {
         toastr.error('Could not get product detail for ' + product.name)
       }
     })
+    return defer.promise
   }
 
   function getProductEditors () {
