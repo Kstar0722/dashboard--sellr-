@@ -59,7 +59,8 @@
     <div class="title">Edit Product</div>
     <div class="side-panel">
       <div class="action-btns">
-        <div class="common-btn-gray">Promote Product</div>
+        <div class="common-btn-gray" ng-click="showPromoteProductDialog()" ng-if="!ui.promotedProduct">Promote Product</div>
+        <div class="common-btn-black autowidth" ng-click="ui.promotedProduct = false" ng-if="ui.promotedProduct">Stop Promoting Product</div>
         <div class="common-btn-positive" ng-click="ui.activeIndex = null; ui.display = 'fulltable'">Done Editing</div>
       </div>
       <div class="product-image">
