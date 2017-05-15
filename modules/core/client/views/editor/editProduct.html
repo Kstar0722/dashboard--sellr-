@@ -76,7 +76,7 @@
         <button class="common-btn-silver" ngf-select="pes.uploadMedia($files)">Upload Image</button>
       </div>
     </div>
-    <div class="common-field-title">Description / Script</div>
+    <div class="common-field-title">Description</div>
     <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions">
     </medium-editor>
     <div ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type" ng-if="prop.visibility">
@@ -86,10 +86,8 @@
       <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig" options="Countries.allCountries" ng-model="prop.value" ng-change="debouncedAutosaveProduct()">
       </selectize>
     </div>
-    <div ng-if="pes.currentProduct.notes">
-      <div class="common-field-title" >Research Notes</div>
-      <textarea class="common-textarea" ng-model="pes.currentProduct.notes" ng-change="debouncedAutosaveProduct()"></textarea>
-    </div>
+    <div class="common-field-title" >Research Notes</div>
+    <textarea class="common-textarea" ng-model="pes.currentProduct.notes" ng-change="debouncedAutosaveProduct()"></textarea>
     <div class="common-field-title" >Keyboard Shortcuts:</div>
     <div class="shortcuts-action">
       <div>
