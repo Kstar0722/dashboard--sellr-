@@ -17,9 +17,10 @@ angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics
       return defer.promise
     }
 
-    me.query = function (params) {
+    me.query = function (params, silent) {
       var defer = $q.defer()
-      $http.get(constants.API_URL + '/users', { params: params }).then(function (response, err) {
+      var httpOptions = silent ? { params: params, ignoreLoadingBar: true } : {params: params}
+      $http.get(constants.API_URL + '/users', httpOptions).then(function (response, err) {
         if (err) {
           defer.reject(err)
         }
