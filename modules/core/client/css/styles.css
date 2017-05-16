@@ -4440,8 +4440,46 @@ body.loading .main-content {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .tags-columns .first-column .common-btn-positive {
   margin-top: 8px;
 }
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .radio-item,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .radio-item {
   margin: 20px 0;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .common-input,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .common-input,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-medium-editor,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-medium-editor,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .common-textarea,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .common-textarea {
+  color: #354052;
+  opacity: 1;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize {
+  color: #354052 !important;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize .selectize-input .item,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize .selectize-input .item {
+  color: #354052 !important;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize .selectize-input input,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize .selectize-input input {
+  color: #354052 !important;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize .selectize-input input::-webkit-input-placeholder,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize .selectize-input input::-webkit-input-placeholder {
+  color: #354052 !important;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize .selectize-input input:-moz-placeholder,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize .selectize-input input:-moz-placeholder {
+  color: #354052 !important;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize .selectize-input input::-moz-placeholder,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize .selectize-input input::-moz-placeholder {
+  color: #354052 !important;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .custom-selectize .selectize-input input:-ms-input-placeholder,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .custom-selectize .selectize-input input:-ms-input-placeholder {
+  color: #354052 !important;
 }
 .editor-products-history-view {
   background-color: #eff3f6;

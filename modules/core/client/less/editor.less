@@ -351,9 +351,29 @@
 
       }
     }
+    .sidebar-edit-product,
     .sidebar-merge-product{
       .radio-item{
         margin: 20px 0;
+      }
+      // COLOR BLACK TO DISTINGUISH FROM VIEW
+      .common-input, 
+      .custom-medium-editor,
+      .common-textarea {
+        color: #354052;
+        opacity: 1;
+      }
+      .custom-selectize{
+        color: #354052 !important;
+        .selectize-input{
+          .item{
+            color: #354052 !important;
+          }
+          input{
+            color: #354052 !important;
+            .placeholder({ color: #354052 !important; });
+          }
+        }
       }
     }
   }
