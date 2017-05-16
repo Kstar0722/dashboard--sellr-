@@ -4295,52 +4295,87 @@ body.loading .main-content {
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .verified img {
   margin-right: 7px;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-negative,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-negative,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-negative,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-silver,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-silver,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-silver,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-black,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-black,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-black,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-positive,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-positive,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive {
-  display: block;
-  margin: 10px auto 10px auto;
-  width: 100%;
-  max-width: 200px;
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-negative .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-negative .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-negative .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-silver .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-silver .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-silver .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-black .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-black .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-black .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .common-btn-positive .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .common-btn-positive .fa,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .common-btn-positive .fa {
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-negative,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-negative,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-negative,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-silver,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-silver,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-silver,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-black,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-positive,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-positive,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-positive {
+  margin: 10px 0;
+  max-width: 180px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-negative .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-negative .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-negative .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-silver .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-silver .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-silver .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-black .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-black .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-black .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-buttons .common-btn-positive .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-buttons .common-btn-positive .fa,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-buttons .common-btn-positive .fa {
   margin-right: 5px;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .product-image,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .product-image,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .product-image {
-  max-width: 70%;
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-image-edit-upload-btn,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-image-edit-upload-btn,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-image-edit-upload-btn {
+  width: 100%;
   text-align: center;
   margin: 20px auto;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-image-edit-upload-btn .common-btn-silver,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-image-edit-upload-btn .common-btn-silver,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-image-edit-upload-btn .common-btn-silver {
+  max-width: 200px;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-images-container,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-images-container,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-images-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-images-container .product-image-edit-container,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-images-container .product-image-edit-container,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-images-container .product-image-edit-container {
+  text-align: center;
+}
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-images-container .product-image-container,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-images-container .product-image-container,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-images-container .product-image-container {
+  height: 200px;
+  width: 200px;
+  margin: 10px 0;
   border: solid 1px #dfe3e9;
   border-radius: 4px;
-  padding: 10px 10px 0 10px;
+  padding: 10px;
   box-sizing: border-box;
 }
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .media-columns .product-image img,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .media-columns .product-image img,
-.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .media-columns .product-image img {
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .product-images-container .product-image-container .product-image,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .product-images-container .product-image-container .product-image,
+.editor-products-view-content.large-sidebar .right-side-content .sidebar-view-product .product-images-container .product-image-container .product-image {
   width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-merge-product .disabled-textarea,
 .editor-products-view-content.large-sidebar .right-side-content .sidebar-edit-product .disabled-textarea,

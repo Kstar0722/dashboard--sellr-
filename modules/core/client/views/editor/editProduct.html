@@ -49,32 +49,33 @@
       <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified" ng-change="debouncedAutosaveProduct()" />
       <label for="verifiedByBrand">Verified by Brand</label>
     </div>
-    <div class="columns media-columns">
-      <div class="first-column">
-        <div class="common-field-title">Audio</div>
-        <div ng-show="pes.currentProduct.audio">
-          <div class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
-          <div class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
-          <div class="common-btn-negative" ng-click="removeAudio()"><i class="fa fa-trash-o"></i> Remove</div>
-          <button class="common-btn-silver" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
-        </div>
-        <small ng-show="!pes.currentProduct.audio">
-        No audio uploaded yet.
-        </small>
-      </div>
-      <div class="second-column">
-        <div class="common-field-title">Image</div>
-        <div class="product-image" ng-repeat="image in pes.currentProduct.images">
+    <div class="common-field-title">Audio</div>
+    <small ng-show="!pes.currentProduct.audio">
+    No audio uploaded yet.
+    </small>
+    <div class="media-buttons">
+      <div ng-if="pes.currentProduct.audio" class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i class="fa fa-play"></i> Play</div>
+      <div ng-if="pes.currentProduct.audio" class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i class="fa fa-pause"></i> Pause</div>
+      <div ng-if="pes.currentProduct.audio" class="common-btn-negative" ng-click="removeAudio()"><i class="fa fa-trash-o"></i> Remove</div>
+      <button class="common-btn-silver" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
+    </div>
+    <div class="common-field-title">Image</div>
+    <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
+    No images uploaded yet.
+    </small>
+    <div class="product-images-container">
+      <div ng-repeat="image in pes.currentProduct.images" class="product-image-edit-container">
+        <div class="product-image-container">
           <a ng-href="{{ image.publicUrl }}" target="_blank">
-            <img ng-src="{{image.publicUrl}}" />
+            <div class="product-image" style="background-image: url('{{ image.publicUrl | imgix:300:300:50}}')">
+            </div>
           </a>
-          <div class="common-btn-negative" ng-click="pes.removeImage(image)"><i class="fa fa-trash-o"></i> Remove</div>
         </div>
-        <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
-        No images uploaded yet.
-        </small>
-        <button class="common-btn-silver" ngf-select="pes.uploadMedia($files)">Upload Image</button>
+        <div class="common-btn-negative" ng-click="pes.removeImage(image)"><i class="fa fa-trash-o"></i> Remove</div>
       </div>
+    </div>
+    <div class="product-image-edit-upload-btn">
+      <button class="common-btn-silver" ngf-select="pes.uploadMedia($files)">Upload Image</button>
     </div>
     <div class="common-field-title">Description</div>
     <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions">
