@@ -25,32 +25,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
     sortField: 'label',
     searchField: [ 'label' ]
   }
-  $scope.rolesSelectOptions = [
-    {
-      label: 'Administrator',
-      roles: [1002, 1003, 1004, 1007, 1009, 1010, 1011]
-    },
-    {
-      label: 'Owner',
-      roles: [1002, 1003, 1009]
-    },
-    {
-      label: 'Manager',
-      roles: [1002, 1003, 1007]
-    },
-    {
-      label: 'Supplier',
-      roles: [1003, 1007]
-    },
-    {
-      label: 'Editor',
-      roles: [1003, 1010]
-    },
-    {
-      label: 'Curator',
-      roles: [1003, 1010, 1011]
-    }
-  ]
+  $scope.rolesSelectOptions = Users.rolesOptions
   var confirmationDialogOptions = {
     templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
     autoWrap: true,

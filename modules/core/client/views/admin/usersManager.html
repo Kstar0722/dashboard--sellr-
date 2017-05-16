@@ -33,11 +33,11 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-click="openEditUserSidebar(user, $index)" ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','topRole']:ui.search | orderBy:ui.sortExpression track by user.userId">
+      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-click="openEditUserSidebar(user, $index)" ng-repeat="user in CurrentUserService.userList | filterBy:['displayName','email','store','role']:ui.search | orderBy:ui.sortExpression track by user.userId">
         <div class="name-col" ng-bind-html="user.displayName | highlight:ui.search">Name</div>
         <div class="email-col" ng-bind-html="user.email | highlight:ui.search">Email</div>
         <div class="store-col" ng-bind-html="user.store | highlight:ui.search">Store</div>
-        <div class="role-col" ng-bind-html="user.topRole | highlight:ui.search">Role</div>
+        <div class="role-col" ng-bind-html="user.role | highlight:ui.search">Role</div>
       </div>
     </div>
   </div>

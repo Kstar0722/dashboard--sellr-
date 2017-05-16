@@ -1,9 +1,5 @@
-'use strict'
-/* globals angular, moment, _ */
-
-// Users service used for communicating with the users REST endpoint
-angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr', '$mdDialog', '$timeout',
-  function ($http, constants, $q, $analytics, toastr, $mdDialog, $timeout) {
+angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics', 'toastr', '$mdDialog', '$timeout', 'Authentication',
+  function ($http, constants, $q, $analytics, toastr, $mdDialog, $timeout, Authentication) {
     var me = this
 
     me.get = function (userId) {
@@ -143,13 +139,56 @@ angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics
       return defer.promise
     }
 
+    me.rolesOptions = [
+      {
+        label: 'Administrator',
+        roles: [1002, 1003, 1004, 1007, 1009, 1010, 1011]
+      },
+      {
+        label: 'Owner',
+        roles: [1002, 1003, 1009]
+      },
+      {
+        label: 'Manager',
+        roles: [1002, 1003, 1007]
+      },
+      {
+        label: 'Supplier',
+        roles: [1003, 1007]
+      },
+      {
+        label: 'Editor',
+        roles: [1003, 1010]
+      },
+      {
+        label: 'Curator',
+        roles: [1003, 1010, 1011]
+      }
+    ]
+
     me.initUser = initUser
 
     function initUser (user) {
       if (!user) return user
       user.createdDateMoment = user.createdDate && moment(user.createdDate)
       user.createdDateStr = user.createdDateMoment && user.createdDateMoment.format('lll')
+      user.role = convertUserRolesToLabel(user.roles)
       return user
+    }
+
+    function convertUserRolesToLabel (roles) {
+      var rolesTemp = roles
+      rolesTemp = rolesTemp.split(',')
+      rolesTemp = _.map(rolesTemp, function (strRole) {
+        return Authentication.rolesMap[strRole]
+      })
+      rolesTemp = _.sortBy(rolesTemp, function (num) { return num })
+      var resultObj = _.find(me.rolesOptions, function (r) { return _.isEqual(r.roles, rolesTemp) })
+      if (resultObj) {
+        return resultObj.label
+      } else {
+        return '-'
+      }
     }
 
     me.deleteUserFOREVER = deleteUserFOREVER
