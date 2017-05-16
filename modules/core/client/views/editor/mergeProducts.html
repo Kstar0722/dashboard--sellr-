@@ -15,36 +15,37 @@
       <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions" ng-model="mergeService.finalProduct.category">
       </selectize>
     </div>
-    <div class="columns media-columns">
-      <div class="first-column">
-        <div class="common-field-title">Audio</div>
-        <small>Product should only have one audio. If more than one audio, only the first will be used.</small>
-        <div ng-repeat="audio in mergeService.newProduct.audio track by $index" ng-show="mergeService.newProduct.audio.length > 0">
-          <p>
-            <small>Audio {{$index + 1}}:</small>
-            <div class="common-btn-positive" ng-click="playMergedAudio($index)"><i class="fa fa-play"></i> Play</div>
-            <div class="common-btn-black" ng-click="pauseMergedAudio()"><i class="fa fa-pause"></i> Pause</div>
-            <div class="common-btn-negative" ng-click="removeMergedAudio($index)"><i class="fa fa-trash-o"></i> Remove</div>
-          </p>
-        </div>
-        <div ng-show="mergeService.newProduct.audio.length === 0">
-          No audio File found in products
-        </div>
-      </div>
-      <div class="second-column">
-        <div class="common-field-title">Image</div>
-        <small>Products can have multiple images.</small>
-        <div class="product-image" ng-repeat="image in mergeService.newProduct.images track by $index">
+    <div class="common-field-title">Audio</div>
+    <small ng-show="mergeService.newProduct.audio.length === 0">
+    No audio File found in products.
+    </small>
+    <small>Product should only have one audio. If more than one audio, only the first will be used.</small>
+    <div ng-repeat="audio in mergeService.newProduct.audio track by $index" ng-show="mergeService.newProduct.audio.length > 0">
+      <p>
+        <small>Audio {{$index + 1}}:</small>
+        <div class="common-btn-positive" ng-click="playMergedAudio($index)"><i class="fa fa-play"></i> Play</div>
+        <div class="common-btn-black" ng-click="pauseMergedAudio()"><i class="fa fa-pause"></i> Pause</div>
+        <div class="common-btn-negative" ng-click="removeMergedAudio($index)"><i class="fa fa-trash-o"></i> Remove</div>
+      </p>
+    </div>
+    <div class="common-field-title">Image</div>
+    <small>Products can have multiple images.</small>
+    <small ng-show="!mergeService.newProduct.images || mergeService.newProduct.images.length === 0">
+    No images uploaded yet.
+    </small>
+    <div class="product-images-container">
+      <div ng-repeat="image in mergeService.newProduct.images track by $index" class="product-image-edit-container">
+        <div class="product-image-container">
           <a ng-href="{{ image.publicUrl }}" target="_blank">
-            <img ng-src="{{image.publicUrl}}" />
+            <div class="product-image" style="background-image: url('{{ image.publicUrl | imgix:300:300:50}}')">
+            </div>
           </a>
-          <div class="common-btn-negative" ng-click="removeMergedImage($index)"><i class="fa fa-trash-o"></i> Remove</div>
         </div>
-        <small ng-show="!mergeService.newProduct.images || mergeService.newProduct.images.length === 0">
-        No images uploaded yet.
-        </small>
-        <button class="common-btn-silver" ngf-select="uploadMergeImage($files)">Upload Image</button>
+        <div class="common-btn-negative" ng-click="removeMergedImage($index)"><i class="fa fa-trash-o"></i> Remove</div>
       </div>
+    </div>
+    <div class="product-image-edit-upload-btn">
+      <button class="common-btn-silver" ngf-select="uploadMergeImage($files)">Upload Image</button>
     </div>
     <div class="common-field-title">Description</div>
     <medium-editor class="custom-medium-editor" ng-model="mergeService.finalProduct.description" bind-options="mediumEditorOptions">
