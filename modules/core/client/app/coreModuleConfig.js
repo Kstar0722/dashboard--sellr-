@@ -166,7 +166,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/editor',
         template: '<ui-view/>',
         data: {
-          roles: [ 1010, 1011, 1004 ]
+          roles: [ 1004, 1009, 1010, 1011 ]
         }
       })
       .state('editor.storeManagement', {
