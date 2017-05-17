@@ -49,7 +49,7 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
     if (window.location.hash) {
       var googleUrl = window.location.hash
       var tempAccessToken = googleUrl.match(/\&(?:access_token)\=([\S\s]*?)\&/)[1];
-      console.log(tempAccessToken)
+      localStorage.setItem('ga_auth', tempAccessToken);
       //$cookies.put('googleAccessToken', tempAccessToken);
     }
   };

@@ -1,13 +1,13 @@
 angular.module('core').controller('StoreOwnerHomeController', function ($scope, $stateParams, $state, $http) {
   console.log('LISTED PRODUCTS CTRL')
 
-  var googleSessionNumber = function getGoogleSessionCount() {   
-  	$scope.websiteTraffic = 0; 
+  var googleSessionNumber = function getGoogleSessionCount() {
+  	$scope.websiteTraffic = 0;
 		var req = {
 			method: 'POST',
 			url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
 			headers: {
-				'Authorization': 'Bearer ya29.GlxNBKHZ-_1fpmL2YS5dO63oml8YhrrTnbLsCh_iS2KLEBhIf33Hv73YFImlYQZ9YZuTcbP1M_ZvCkWbmcd36Ur1D42Qy51Xv4_bhVP30GQWszh13ype2_7RF53cSw'
+				'Authorization': 'Bearer ' + localStorage.getItem('ga_auth')
 			},
 			data: {
 				"reportRequests":
