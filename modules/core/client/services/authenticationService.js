@@ -3,10 +3,9 @@
 // Authentication service for user variables
 angular.module('core').factory('authenticationService', ['Authentication', '$http', 'constants', '$state', 'SocketAPI', 'toastr', 'authToken', '$analytics', '$q', function (Authentication, $http, constants, $state, SocketAPI, toastr, authToken, $analytics, $q) {
   var me = this
-  var auth = Authentication
 
   me.isLoggedIn = function () {
-    return authToken.tokenPresent() && !_.isEmpty(auth.user)
+    return authToken.tokenPresent() && !_.isEmpty(Authentication.user)
   }
 
   me.signin = function (credentials, metadata) {
@@ -31,23 +30,27 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
 
   me.goToUserHome = function () {
     // Check if onboarding finished
-    if (!auth.user.accountId && !auth.user.storeId) {
-      $state.go('getStarted', { step: 2, password: auth.user.password })
-    }
-
-    if (auth.user.roles.indexOf(1002) < 0 && auth.user.roles.indexOf(1009) < 0 && auth.user.roles.indexOf(1004) < 0) {
-      if (auth.user.roles.indexOf(1010) >= 0) {
-        $state.go('editor.products')
-      } else if (auth.user.roles.indexOf(1011 >= 0)) {
-        $state.go('editor.storeManagement')
-      }
-    } else {
+    if (!Authentication.user.accountId && !Authentication.user.storeId) {
+      $state.go('getStarted', { step: 2, password: Authentication.user.password })
+    } else if (Authentication.user.roles.indexOf(1004) >= 0) {
+      // ADMIN (must go first)
       $state.go('editor.storeManagement')
+    } else if (Authentication.user.roles.indexOf(1011) >= 0) {
+      // CURATOR (must go before editor)
+      $state.go('editor.storeManagement')
+    } else if (Authentication.user.roles.indexOf(1010) >= 0) {
+      // EDITOR
+      $state.go('editor.products')
+    } else if (Authentication.user.roles.indexOf(1009) >= 0) {
+      // OWNER
+      $state.go('storeOwner.home')
+    } else {
+      $state.go('storeOwner.home')
     }
   }
 
   me.signout = function () {
-    auth.user = null
+    Authentication.user = null
     authToken.removeToken()
     localStorage.clear()
     return $state.go('authentication.signin')
@@ -100,7 +103,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
     localStorage.setItem('roles', user.roles)
     localStorage.setItem('userId', user.userId)
     localStorage.setItem('userObject', JSON.stringify(user))
-    auth.user = user
+    Authentication.user = user
     setAnalyticsUser(user, metadata)
     $analytics.eventTrack('Logged In', {
       name: user.displayName || (user.firstName + ' ' + user.lastName),
