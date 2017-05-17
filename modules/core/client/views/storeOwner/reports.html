@@ -1,3 +1,43 @@
 <div class="store-owner-reports-view">
-New Reports Page
+  <div class="top-bar">
+    <div>&nbsp;</div>
+    <div class="date-filter">
+      <div class="common-btn-gray">Weekly Report</div>
+      <div class="common-btn-gray">Monthly Report</div>
+      <div class="common-btn-gray active">Custom</div>
+      <div class="common-btn-gray"><i class="fa fa-calendar"></i> Feb 27, 17</div>
+      <i class="fa fa-minus"></i>
+      <div class="common-btn-gray"><i class="fa fa-calendar"></i> Mar 19, 16</div>
+    </div>
+    <div>
+      <div class="common-btn-positive has-left-icon autowidth"><div class="common-centered-content"><img src="/img/export-icon.png" alt="icon"> Download Report</div></div>
+    </div>
+  </div>
+  <div class="main-container">
+    <div ng-class="['reports-tab-icons', ui.activeTab]">
+      <div ng-class="['tab-icon', {active: ui.activeTab === 'website'}]">
+        <img src="/img/website-icon.svg" alt="icon" class="icon" ng-click="changeTab('website')">
+        <div class="title">Website Reports</div>
+      </div>
+      <div ng-class="['tab-icon', {active: ui.activeTab === 'facebook'}]">
+        <img src="/img/facebook-icon.svg" alt="icon" class="icon" ng-click="changeTab('facebook')">
+        <div class="title">Facebook Analytics</div>
+      </div>
+      <div ng-class="['tab-icon', {active: ui.activeTab === 'twitter'}]">
+        <img src="/img/twitter-icon.svg" alt="icon" class="icon" ng-click="changeTab('twitter')">
+        <div class="title">Twitter Analytics</div>
+      </div>
+      <div ng-class="['tab-icon', {active: ui.activeTab === 'emails'}]">
+        <img src="/img/email-campaigns.svg" alt="icon" class="icon" ng-click="changeTab('emails')">
+        <div class="title">Weekly Emails Campaign Analytics</div>
+      </div>
+      <div ng-class="['tab-icon', {active: ui.activeTab === 'tablet'}]">
+        <img src="/img/tablets-icon.svg" alt="icon" class="icon" ng-click="changeTab('tablet')">
+        <div class="title">Tablet Analytics</div>
+      </div>
+    </div>
+    <div class="tab-container">
+      <div ui-view='tabcontent'></div>
+    </div>
+  </div>
 </div>

@@ -141,7 +141,7 @@
             <input id="productcheckall" type="checkbox" class="custom-checkbox" ng-model="ui.allProductsSelected" ng-change="toggleSelectAllProducts()">
             <label for="productcheckall">&nbsp;</label>
           </div>
-          <div class="common-btn-gray" ng-show="ui.showProductsSelectedActions && ui.selectedProducts.length > 1 && permissions.curator" ng-click="mergeProducts()">
+          <div class="common-btn-gray" ng-if="ui.showProductsSelectedActions && ui.selectedProducts.length > 1 && permissions.curator" ng-click="mergeProducts()">
             Merge Products
           </div>
           <div class="common-btn-negative small" ng-if="permissions.curator" ng-click="pes.bulkUpdateStatus(ui.selectedProducts, 'inprogress')">
