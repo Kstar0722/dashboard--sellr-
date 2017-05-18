@@ -77,6 +77,17 @@
     <div class="product-image-edit-upload-btn">
       <button class="common-btn-silver" ngf-select="pes.uploadMedia($files)">Upload Image</button>
     </div>
+    <div ng-show="pes.currentProduct.researchImages.length > 0">
+      <div class="common-field-title">Research Image</div>
+      <div class="product-images-container">
+        <div class="product-image-container" ng-repeat="image in pes.currentProduct.researchImages">
+          <a ng-href="{{ image.publicUrl }}" target="_blank">
+            <div class="product-image" style="background-image: url('{{ image.publicUrl | imgix:300:300:50}}')">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
     <div class="common-field-title">Description</div>
     <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions">
     </medium-editor>

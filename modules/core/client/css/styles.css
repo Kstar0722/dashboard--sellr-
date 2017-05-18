@@ -136,7 +136,7 @@ form.ng-pristine [ng-messages] {
   height: 5px;
 }
 #loading-bar-spinner {
-  background: rgba(0, 0, 0, 0.5);
+  background: transparent;
   bottom: 0;
   left: 0;
   position: fixed;

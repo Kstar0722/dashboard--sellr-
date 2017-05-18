@@ -56,6 +56,17 @@
     <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
     No images uploaded yet.
     </small>
+    <div ng-show="pes.currentProduct.researchImages.length > 0">
+      <div class="common-field-title">Research Image</div>
+      <div class="product-images-container">
+        <div class="product-image-container" ng-repeat="image in pes.currentProduct.researchImages">
+          <a ng-href="{{ image.publicUrl }}" target="_blank">
+            <div class="product-image" style="background-image: url('{{ image.publicUrl | imgix:300:300:50}}')">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
     <div class="common-field-title">Description</div>
     <div class="disabled-textarea" ng-bind-html="pes.currentProduct.description"></div>
     <div class="columns prop-columns">
