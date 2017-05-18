@@ -1,6 +1,3 @@
-'use strict'
-/* global angular, localStorage */
-// Authentication service for user variables
 angular.module('core').factory('Authentication', ['$window',
   function () {
     var me = this

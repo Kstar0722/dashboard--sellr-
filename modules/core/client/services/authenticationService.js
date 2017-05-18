@@ -34,7 +34,7 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
       $state.go('getStarted', { step: 2, password: Authentication.user.password })
     } else if (Authentication.user.roles.indexOf(1004) >= 0) {
       // ADMIN (must go first)
-      $state.go('editor.storeManagement')
+      $state.go('admin.accounts')
     } else if (Authentication.user.roles.indexOf(1011) >= 0) {
       // CURATOR (must go before editor)
       $state.go('editor.storeManagement')
@@ -44,6 +44,12 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
     } else if (Authentication.user.roles.indexOf(1009) >= 0) {
       // OWNER
       $state.go('storeOwner.home')
+    } else if (Authentication.user.roles.indexOf(1002) >= 0) {
+      // MANAGER
+      $state.go('admin.accounts')
+    } else if (Authentication.user.roles.indexOf(1007) >= 0) {
+      // SUPPLIER
+      $state.go('editor.products')
     } else {
       $state.go('storeOwner.home')
     }
