@@ -1,0 +1,2 @@
+<div ng-if="imageUrl" class="common-product-image" style="background-image: url('{{ imageUrl | imgix:300:300:50}}');"></div>
+<div ng-if="!imageUrl" class="common-product-image" style="background-image: url('{{ noImageUrl | imgix:300:300:50}}')"></div>

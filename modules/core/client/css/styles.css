@@ -1079,6 +1079,13 @@ body.loading .main-content {
   color: #000;
   border-bottom: 3px solid #2bbf88;
 }
+.common-product-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 150px;
+  max-width: 100%;
+}
 /* Base for label styling */
 .custom-checkbox[type="checkbox"]:not(:checked),
 .custom-checkbox[type="checkbox"]:checked {
@@ -5592,7 +5599,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .store-owner-listed-products-view .left-side-content .main-table .columns-header .name-col,
 .store-owner-listed-products-view .left-side-content .main-table-header .columns-data .name-col,
 .store-owner-listed-products-view .left-side-content .main-table .columns-data .name-col {
-  width: 29%;
+  width: 39%;
   padding-right: 1%;
 }
 .store-owner-listed-products-view .left-side-content .main-table-header .columns-header .promoted-col,
@@ -5694,8 +5701,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   align-items: center;
   margin-top: 20px;
 }
-.store-owner-listed-products-view .right-side-content .side-panel .product-image {
-  width: 40%;
+.store-owner-listed-products-view .right-side-content .side-panel .product-image-container {
   margin: 40px auto 30px auto;
   text-align: center;
 }
@@ -5705,6 +5711,9 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   text-align: center;
   width: 60%;
   margin: auto;
+}
+.store-owner-listed-products-view .right-side-content .side-panel .product-description {
+  font-size: 14px;
 }
 .store-owner-listed-products-view .right-side-content .side-panel .size-container {
   width: 50%;
@@ -5716,20 +5725,17 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   color: #7f8fa4;
   margin: 20px 0 5px 0;
 }
-.store-owner-listed-products-view .right-side-content .side-panel .size-container .size-selector {
+.store-owner-listed-products-view .right-side-content .side-panel .size-container .size-selector .custom-size {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
-.store-owner-listed-products-view .right-side-content .side-panel .size-container .size-selector .selector {
-  width: 87%;
-}
-.store-owner-listed-products-view .right-side-content .side-panel .size-container .size-selector .fa {
-  color: #a80000;
+.store-owner-listed-products-view .right-side-content .side-panel .size-container .size-selector .custom-size .fa {
+  margin-left: 15px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.5);
   font-size: 20px;
-  font-size: 24px;
-  padding-bottom: 6px;
 }
 .store-owner-listed-products-view .right-side-content .side-panel .size-container .full-width-btn {
   margin: 20px 0;
