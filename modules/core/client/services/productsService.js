@@ -26,5 +26,10 @@ angular.module('core').service('productsService', function ($http, constants, $q
     return defer.promise
   }
 
+  me.getPlanProducts = function (accountId) {
+    var url = constants.BWS_API + '/choose/plans?account=' + accountId
+    return $http.get(url)
+  }
+
   return me
 })

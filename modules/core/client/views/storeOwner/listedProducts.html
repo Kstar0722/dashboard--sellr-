@@ -1,7 +1,10 @@
 <div class="store-owner-listed-products-view has-subnav">
   <div ng-class="['left-side-content', {full: ui.display === 'fulltable'}]">
     <div class="title">All Listed Products</div>
-    <div class="main-table-header">
+    <!--<div>-->
+    <!--<button ng-repeat="plan in plans" ng-click="selectPlan(plan)">{{ plan.label }}</button>-->
+    <!--</div>-->
+    <div class=" main-table-header">
       <!--
       FILTER HEADER
       -->
@@ -22,7 +25,7 @@
       -->
       <div class="columns-header">
         <div class="name-col" ng-click="reOrderList('name')"><span>Product Name</span> <i class="fa fa-sort"></i></div>
-        <div class="promoted-col" ng-click="reOrderList('promoted')"><span>Promoted</span> <i class="fa fa-sort"></i></div>
+        <!--<div class="promoted-col" ng-click="reOrderList('promoted')"><span>Promoted</span> <i class="fa fa-sort"></i></div>-->
         <div class="sku-col" ng-click="reOrderList('sku')"><span>UPC</span> <i class="fa fa-sort"></i></div>
         <div class="size-col" ng-click="reOrderList('size')"><span>Size</span> <i class="fa fa-sort"></i></div>
         <div class="price-col" ng-click="reOrderList('price')"><span>Price</span> <i class="fa fa-sort"></i></div>
@@ -34,20 +37,22 @@
       <!--
       COLUMNS DATA ROWS
       -->
-      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]" ng-repeat="i in [1, 2, 3, 4,5,6,78,34,9,0,234234]" ng-click="ui.activeIndex = $index; ui.display = 'editProduct'">
+      <div ng-class="['columns-data', {active: ui.activeIndex === $index}]"
+           ng-repeat="product in selectedPlan.products | filterApproved track by $index"
+           ng-click="ui.activeIndex = $index; ui.display = 'editProduct'">
         <div class="name-col">
-          <img src="/img/wine.jpg" alt="product image">
+          <img src="{{product.image}}" alt="product image">
           <!-- <span ng-bind-html="product.name | highlight:searchOptions.searchText"></span> -->
-          <span>Domaine de la Chapelle des Bois</span>
+          <span>{{ product.name }}</span>
         </div>
-        <div class="promoted-col">
-          <img ng-src="{{$even ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">
-        </div>
-        <div class="sku-col" ng-click="viewProduct(product)">1234567893</div>
-        <div class="size-col" ng-click="viewProduct(product)">750 ML</div>
-        <div class="price-col" ng-click="viewProduct(product)">$15.99</div>
-        <div class="sale-col" ng-click="viewProduct(product)" class="nosale">$12.99</div>
-        <div class="type-col">Wine</div>
+        <!--<div class="promoted-col">-->
+        <!--<img ng-src="{{$even ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">-->
+        <!--</div>-->
+        <div class="sku-col">{{product.skus[0 || '']}}</div>
+        <div class="size-col">{{ product.prices[0].size || '' }}</div>
+        <div class="price-col">{{ product.prices[0].oprice || '' }}</div>
+        <div class="sale-col" class="nosale">{{ product.prices[0].price || '' }}</div>
+        <div class="type-col">{{Types[product.productTypeId].name}}</div>
         <!-- <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div> -->
       </div>
     </div>
