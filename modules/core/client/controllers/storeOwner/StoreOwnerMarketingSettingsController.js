@@ -14,13 +14,15 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
     form.setAttribute('action', oauth2Endpoint);
 
     // Parameters to pass to OAuth 2.0 endpoint.
-    var params = {'client_id': '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
-                  'redirect_uri': 'http://localhost:3000/storeOwner/marketing/channels',
-                  'response_type': 'code',
-                  'access_type': 'offline',
-                  'scope': 'https://www.googleapis.com/auth/analytics.readonly',
-                  'include_granted_scopes': 'true',
-                  'state': 'state_parameter_passthrough_value'};
+    var params = {
+      'client_id': '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
+      'redirect_uri': 'http://localhost:3000/storeOwner/marketing/channels',
+      'response_type': 'code',
+      'access_type': 'offline',
+      'scope': 'https://www.googleapis.com/auth/analytics.readonly',
+      'include_granted_scopes': 'true',
+      'state': 'state_parameter_passthrough_value'
+    };
 
     // Add form parameters as hidden input values.
     for (var p in params) {
@@ -57,13 +59,13 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
       var search = window.location.search.slice(1),
           pairs = {},
           pair;
+      console.log(pairs);
       search.split('&').forEach(function(current) {
         pair = current.split('=');
         if(pair.length == 2) {
           pairs[pair[0]] = decodeURIComponent(pair[1]);
         }
       });
-      console.log(pairs);
       if(pairs.code) {
         // TODO: this request should be relayed through an endpoint on Sellr's API
         $.ajax({
@@ -78,18 +80,16 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
             redirect_uri: 'http://localhost:3000/storeOwner/marketing/channels'
           }
         }).then(function(response) {
-          return $.ajax({
-            type: 'GET',
-            url: `${constants.API_URL}/accounts/${accountsService.selectAccountId}`,
-            contentType: 'application/json',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
+          return accountsService.getAccount().then(function(account) {
+            return {
+              oauth2: response,
+              account: account
+            };
           });
-        }).then(function(account) {
-          account = account[0];
-          account.preferences.ga_oauth2 = pairs.code;
-          return accountsService.updateAccount(account);
+        }).then(function(data) {
+          data.oauth2.code = pairs.code;
+          data.account.preferences.analytics = data.oauth2;
+          return accountsService.updateAccount(data.account);
         });
       }
     }

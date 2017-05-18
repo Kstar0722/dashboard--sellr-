@@ -1,30 +1,51 @@
-angular.module('core').controller('StoreOwnerHomeController', function ($scope, $stateParams, $state, $http) {
+angular.module('core').controller('StoreOwnerHomeController', function ($scope, accountsService, $stateParams, $state, $http) {
   console.log('LISTED PRODUCTS CTRL')
 
   var googleSessionNumber = function getGoogleSessionCount() {
   	$scope.websiteTraffic = 0;
-		var req = {
-			method: 'POST',
-			url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
-			headers: {
-				'Authorization': 'Bearer ' + localStorage.getItem('ga_auth')
-			},
-			data: {
-				"reportRequests":
-				[
-					{
-						"viewId": "128946812",
-						"metrics": [{"expression": "ga:sessions"}]
-					}
-				]
-			}
-		}
-
-		$http(req).then(function(response){
-			var analyticsNumbers = response.data.reports["0"].data.totals["0"].values["0"];
-			// return analyticsNumbers;
-			$scope.websiteTraffic = analyticsNumbers;
-		}, function(){});
+    accountsService.getAccount().then(function(account) {
+      if(account.preferences.analytics) {
+        /*
+          TODO: make this a promise which checks local storage for existing
+          access token and compares it to the time it was issued. If it expired,
+          refresh the token.
+        */
+        $.ajax({
+          type: 'POST',
+          url: 'https://www.googleapis.com/oauth2/v4/token',
+          data: {
+            client_id: '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
+            client_secret: 'ETc5D1hO_JYb3Wemqhr41jTq',
+            grant_type: 'refresh_token',
+            refresh_token: account.preferences.analytics.refresh_token
+          }
+        }).then(function(response) {
+          // TODO: not important, but find out why $http won't chain properly
+          return $http({
+            method: 'POST',
+            url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
+            contentType: 'application/json',
+            headers: {
+              'Authorization': `Bearer ${response.access_token}`
+            },
+            data: {
+              reportRequests: [
+                {
+                  viewId: '128946812',
+                  metrics: [
+                    {
+                      expression: 'ga:sessions'
+                    }
+                  ]
+                }
+              ]
+            }
+          }).then(function(stats) {
+            $scope.websiteTraffic = stats.data.reports[0].data.totals[0].values[0];
+          });
+        });
+      }
+    });
   }
 
   googleSessionNumber();
