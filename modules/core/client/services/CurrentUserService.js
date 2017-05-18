@@ -6,8 +6,8 @@ angular.module('core').service('CurrentUserService', ['Users', '$state',
     me.currentUserRoles = []
     me.userBeingEdited = {}
     me.myPermissions = localStorage.getItem('roles')
-    me.refreshUserList = function () {
-      return Users.query({ expand: 'stores' }).then(function (data, err) {
+    me.refreshUserList = function (silent) {
+      return Users.query({ expand: 'stores' }, silent).then(function (data, err) {
         me.userList = data
       })
     }

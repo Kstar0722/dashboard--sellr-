@@ -279,36 +279,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         templateUrl: 'modules/core/client/views/storeOwner/home.html',
         controller: 'StoreOwnerHomeController'
       })
-      .state('storeOwner.websiteEditor', {
-        url: '/website/:accountId/builder{builderPath:uriType}',
-        templateUrl: 'modules/core/client/views/storeOwner/websiteEditor.html',
-        controller: 'StoreOwnerWebsiteEditorController',
-        params: {
-          resource: null
-        }
-      })
-      .state('storeOwner.reports', {
-        url: '/reports/:accountId?',
-        templateUrl: 'modules/core/client/views/storeOwner/reports.html',
-        controller: 'StoreOwnerReportsController'
-      })
-      .state('storeOwner.audience', {
-        url: '/audience',
-        templateUrl: 'modules/core/client/views/storeOwner/audience.html',
-        controller: 'StoreOwnerAudienceController'
-      })
       .state('storeOwner.products', {
         url: '/products',
         templateUrl: 'modules/core/client/views/storeOwner/products.html'
-      })
-      .state('storeOwner.products.listed', {
-        url: '/listed',
-        views: {
-          'pagecontent': {
-            templateUrl: 'modules/core/client/views/storeOwner/listedProducts.html',
-            controller: 'StoreOwnerListedProductsController'
-          }
-        }
       })
       .state('storeOwner.products.promoted', {
         url: '/promoted',
@@ -319,12 +292,21 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           }
         }
       })
+      .state('storeOwner.products.listed', {
+        url: '/listed',
+        views: {
+          'pagecontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/listedProducts.html',
+            controller: 'StoreOwnerListedProductsController'
+          }
+        }
+      })
       .state('storeOwner.marketing', {
         url: '/marketing',
         templateUrl: 'modules/core/client/views/storeOwner/marketing.html'
       })
-      .state('storeOwner.marketing.channels', {
-        url: '/channels',
+      .state('storeOwner.marketing.settings', {
+        url: '/settings',
         views: {
           'pagecontent': {
             templateUrl: 'modules/core/client/views/storeOwner/marketingSettings.html',
@@ -338,6 +320,64 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           'pagecontent': {
             templateUrl: 'modules/core/client/views/storeOwner/marketingPosts.html',
             controller: 'StoreOwnerMarketingPostsController'
+          }
+        }
+      })
+      .state('storeOwner.websiteEditor', {
+        url: '/website/:accountId/builder{builderPath:uriType}',
+        templateUrl: 'modules/core/client/views/storeOwner/websiteEditor.html',
+        controller: 'StoreOwnerWebsiteEditorController',
+        params: {
+          resource: null
+        }
+      })
+      .state('storeOwner.audience', {
+        url: '/audience',
+        templateUrl: 'modules/core/client/views/storeOwner/audience.html',
+        controller: 'StoreOwnerAudienceController'
+      })
+      .state('storeOwner.reports', {
+        url: '/reports/:accountId?',
+        templateUrl: 'modules/core/client/views/storeOwner/reports.html',
+        controller: 'StoreOwnerReportsController'
+      })
+      .state('storeOwner.reports.website', {
+        url: '/website',
+        views: {
+          'tabcontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/reports/websiteTab.html'
+          }
+        }
+      })
+      .state('storeOwner.reports.facebook', {
+        url: '/facebook',
+        views: {
+          'tabcontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/reports/facebookTab.html'
+          }
+        }
+      })
+      .state('storeOwner.reports.twitter', {
+        url: '/twitter',
+        views: {
+          'tabcontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/reports/twitterTab.html'
+          }
+        }
+      })
+      .state('storeOwner.reports.emails', {
+        url: '/emails',
+        views: {
+          'tabcontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/reports/emailsTab.html'
+          }
+        }
+      })
+      .state('storeOwner.reports.tablet', {
+        url: '/tablet',
+        views: {
+          'tabcontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/reports/tabletTab.html'
           }
         }
       })

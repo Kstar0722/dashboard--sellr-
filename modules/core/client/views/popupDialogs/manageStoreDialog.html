@@ -1,5 +1,6 @@
 <div class="common-modal-dialog">
-  <div class="dialog-title">Manage Stores</div>
+  <div class="dialog-title" ng-bind="'Manage Stores - ' + storesService.currentAccount.name">
+  </div>
   <div class="main-container">
     <div class="left-side">
       <div class="item-list">
@@ -51,7 +52,7 @@
             <input type="text" class="common-input" name="zipCode" ng-model="activeStore.details.contactInfo.zipcode" required maxlength="5" ng-pattern="/^\d{5}$/">
             <input-error-msg form="storeForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
           </div>
-        </div>       
+        </div>
         <div class="action-footer" ng-if="!ui.deleteStoreMsg">
           <div ng-if="isNewStore">&nbsp;</div>
           <div class="common-btn-negative" ng-click="ui.deleteStoreMsg = true" ng-if="!isNewStore"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
