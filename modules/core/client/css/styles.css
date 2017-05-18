@@ -5301,7 +5301,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   margin-top: 5px;
 }
 .store-owner-promoted-products-view {
-  padding: 4vh 3vw 0px 3vw;
+  padding: 0 3vw;
 }
 .store-owner-promoted-products-view .main-container {
   display: flex;
@@ -5312,6 +5312,8 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   max-height: 75vh;
   min-height: 75vh;
   overflow: auto;
+  padding-bottom: 2vw;
+  box-sizing: border-box;
 }
 .store-owner-promoted-products-view .main-container .promoted-box {
   border-radius: 4px;
@@ -5320,7 +5322,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   padding: 10px 15px 0px 15px;
   margin-left: 1vw;
   margin-right: 1vw;
-  margin-bottom: 2vw;
+  margin-top: 2vw;
   box-sizing: border-box;
   width: 300px;
 }
