@@ -48,7 +48,7 @@ angular.module('core').service('categories', function (constants, $http) {
       propId: 181,
       value: newTag
     }
-    return $http.post(url, {payload: newProp}).then(res => {
+    return $http.post(url, {payload: newProp}).then(function (res) {
       newProp.valueId = res.data.insertId
       newProp.changed = false
       product.properties.push(newProp)
@@ -57,7 +57,7 @@ angular.module('core').service('categories', function (constants, $http) {
   }
 
   me.removeTag = function (product, tag) {
-    var i = product.properties.findIndex(prop => prop.valueId === tag.valueId)
+    var i = product.properties.findIndex(function (prop) { return prop.valueId === tag.valueId })
     product.properties.splice(i, 1)
     var url = constants.API_URL + '/products/properties?valueId=' + tag.valueId
     return $http.delete(url).catch(console.error)

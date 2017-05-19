@@ -74,7 +74,7 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   // SCOPE FUNCTIONS
   //
   $scope.addTag = function (newTag) {
-    categories.addTag(productEditorService.currentProduct, newTag).then(product => {
+    categories.addTag(productEditorService.currentProduct, newTag).then(function (product) {
       productEditorService.currentProduct = product
       $scope.newTag.value = ''
       $scope.debouncedAutosaveProduct()
