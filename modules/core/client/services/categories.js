@@ -1,4 +1,4 @@
-angular.module('core').service('categories', function () {
+angular.module('core').service('categories', function (constants, $http) {
   var me = this
   me.categories = {
     1: ['Red', 'White', 'Rose', 'Sparkling', 'Dessert', 'Fruit Wine'],
@@ -41,65 +41,26 @@ angular.module('core').service('categories', function () {
     return product
   }
 
-  me.getProductTags = function (product) {
-    product.tags = []
-    product.properties.forEach(function (prop) {
-      if (prop.propId === 181) {
-        product.tags.push({
-          value: prop.value,
-          valueId: prop.valueId
-        })
-      }
-    })
-    return product
-  }
-
   me.addTag = function (product, newTag) {
-    product.tags.push({
-      value: newTag || ''
-    })
-    return product
+    var url = constants.API_URL + '/products/property/value'
+    var newProp = {
+      productId: product.productId,
+      propId: 181,
+      value: newTag
+    }
+    return $http.post(url, {payload: newProp}).then(res => {
+      newProp.valueId = res.data.insertId
+      newProp.changed = false
+      product.properties.push(newProp)
+      return product
+    }).catch(console.error)
   }
 
-  me.removeTag = function (product, i) {
-    var k = product.properties.findIndex(function (prop) {
-      return prop.valueId === product.tags[i].valueId
-    })
-    product.tags.splice(i, 1)
-    product.properties[k].changed = 'remove'
-    return product
-  }
-
-  me.setProductTags = function (product) {
-    product.tags.forEach(function (tag) {
-      if (!tag.valueId) {
-        // new tag
-        product.properties.push({
-          propId: 181,
-          value: tag.value,
-          changed: 'new',
-          productId: product.productId
-        })
-      } else {
-        var i = product.properties.findIndex(function (prop) {
-          return prop.valueId === tag.valueId
-        })
-        if (i > -1) {
-          // tag exists
-          if (tag.value.length === 0) {
-            // tag has been removed
-            product.properties[i].changed = 'remove'
-            product.tags.splice(i, 1)
-          } else if (tag.value !== product.properties[i].value) {
-            // tag has been updated
-            product.properties[i].value = tag.value
-            product.properties[i].changed = 'updated'
-          }
-        }
-      }
-    })
-
-    return product
+  me.removeTag = function (product, tag) {
+    var i = product.properties.findIndex(function (prop) { return prop.valueId === tag.valueId })
+    product.properties.splice(i, 1)
+    var url = constants.API_URL + '/products/properties?valueId=' + tag.valueId
+    return $http.delete(url).catch(console.error)
   }
 
   return me
