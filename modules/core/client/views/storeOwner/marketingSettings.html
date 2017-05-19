@@ -1,6 +1,6 @@
 <div class="store-owner-marketing-settings-view">
   <div class="column">
-    
+
     <div class="white-box">
       <div class="title">Website</div>
       <div class="list-item">
@@ -28,7 +28,12 @@
             </div>
           </div>
         </div>
-        <div class="common-btn-gray-black autowidth" ng-click="googleAuth()">Connect</div>
+        <div ng-if="account.preferences.analytics">
+          <div class="common-btn-gray-black autowidth" ng-click="revokeGoogleAuth()">Disconnect</div>
+        </div>
+        <div ng-if="!account.preferences.analytics">
+          <div class="common-btn-gray-black autowidth" ng-click="googleAuth()">Connect</div>
+        </div>
       </div>
     </div>
     <div class="white-box">

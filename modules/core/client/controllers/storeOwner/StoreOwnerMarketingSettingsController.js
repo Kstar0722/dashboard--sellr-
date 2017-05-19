@@ -45,21 +45,34 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
     // &scope=https://www.googleapis.com/auth/analytics.readonly
   }
 
+  $scope.revokeGoogleAuth = function() {
+    accountsService.getCurrentAccount.then(function(account) {
+      return $.ajax({
+        url: 'https://accounts.google.com/o/oauth2/revoke',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'jsonp',
+        data: {
+          token: account.preferences.analytics.refresh_token
+        }
+      }).then(function(response) {
+        return account;
+      });
+    }).then(function(account) {
+      delete account.preferences.analytics;
+      $scope.account = account;
+      return accountsService.updateAccount(account);
+    });
+  }
+
   var init = function () {
-    // check if there is query in url
-    // and fire search in case its value is not empty
-    /*if (window.location.hash) {
-      var googleUrl = window.location.hash
-      console.log(googleUrl);
-      var tempAccessToken = googleUrl.match(/\&(?:access_token)\=([\S\s]*?)\&/)[1];
-      localStorage.setItem('ga_auth', tempAccessToken);
-      //$cookies.put('googleAccessToken', tempAccessToken);
-    }*/
+    accountsService.getCurrentAccount.then(function(account) {
+      $scope.account = account;
+    });
     if(window.location.search) {
       var search = window.location.search.slice(1),
           pairs = {},
           pair;
-      console.log(pairs);
       search.split('&').forEach(function(current) {
         pair = current.split('=');
         if(pair.length == 2) {
@@ -80,7 +93,8 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
             redirect_uri: 'http://localhost:3000/storeOwner/marketing/channels'
           }
         }).then(function(response) {
-          return accountsService.getAccount().then(function(account) {
+          return accountsService.getCurrentAccount.then(function(account) {
+            accountsService.currentAccount = account;
             return {
               oauth2: response,
               account: account
@@ -94,6 +108,6 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
       }
     }
   };
-  // and fire it after definition
+
   init();
 })

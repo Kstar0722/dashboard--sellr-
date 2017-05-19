@@ -313,5 +313,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     });
   }
 
+  me.getCurrentAccount = me.getAccount();
+
   return me
 })
