@@ -26,11 +26,12 @@
       <div class="columns-header">
         <div class="name-col" ng-click="reOrderList('name')"><span>Product Name</span> <i class="fa fa-sort"></i></div>
         <!--<div class="promoted-col" ng-click="reOrderList('promoted')"><span>Promoted</span> <i class="fa fa-sort"></i></div>-->
-        <div class="sku-col" ng-click="reOrderList('sku')"><span>UPC</span> <i class="fa fa-sort"></i></div>
-        <div class="size-col" ng-click="reOrderList('size')"><span>Size</span> <i class="fa fa-sort"></i></div>
-        <div class="price-col" ng-click="reOrderList('price')"><span>Price</span> <i class="fa fa-sort"></i></div>
-        <div class="sale-col" ng-click="reOrderList('sale')"><span>Sale Price</span> <i class="fa fa-sort"></i></div>
-        <div class="type-col" ng-click="reOrderList('type')"><span>Type</span> <i class="fa fa-sort"></i></div>
+        <div class="category-col" ng-click="reOrderList('planLabel')"><span>Category</span> <i class="fa fa-sort"></i></div>
+        <div class="sku-col" ng-click="reOrderList('skus')"><span>UPC</span> <i class="fa fa-sort"></i></div>
+        <div class="size-col" ng-click="reOrderList('prices[0].size')"><span>Size</span> <i class="fa fa-sort"></i></div>
+        <div class="price-col" ng-click="reOrderList('prices[0].price')"><span>Price</span> <i class="fa fa-sort"></i></div>
+        <div class="sale-col"><span>Sale Price</span> <i class="fa fa-sort"></i></div>
+        <div class="type-col" ng-click="reOrderList('productTypeId')"><span>Type</span> <i class="fa fa-sort"></i></div>
       </div>
     </div>
     <div class="main-table">
@@ -40,16 +41,19 @@
       <div
         ng-class="['columns-data', {active: ui.activeIndex === $index}]"
         ng-repeat="product in selectedPlan.products | filterBy:['name']:ui.searchText |
-        filterApproved track by $index"
+        filterApproved | orderBy:ui.sortExpression track by product.productId"
         ng-click="openEditProduct(product, $index)">
         <div class="name-col">
-          <img src="{{product.image}}" alt="product image">
+          <div class="product-image-container">
+            <product-image image-url="{{ product.image ||  product.images[0] || product.researchImage }}" product-type="{{ product.productTypeId }}"></product-image>
+          </div>
           <span ng-bind-html="product.name | highlight:ui.searchText"></span>
         </div>
         <!--<div class="promoted-col">-->
         <!--<img ng-src="{{$even ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">-->
         <!--</div>-->
-        <div class="sku-col">{{product.skus[0 || '']}}</div>
+        <div class="category-col">{{product.planLabel || ''}}</div>
+        <div class="sku-col">{{product.skus[0] || ''}}</div>
         <div class="size-col">{{ product.prices[0].size || '' }}</div>
         <div class="price-col" ng-if="product.prices[0].onsale">{{ product.prices[0].oprice || '' }}</div>
         <div class="price-col" ng-if="!product.prices[0].onsale">{{ product.prices[0].price || '' }}</div>
@@ -90,7 +94,7 @@
           <input type="text" class="common-input" name="name" disabled value="Subvalue">
         </div>
       </div>
-      <div class="common-field-title">Plan</div>
+      <div class="common-field-title">Category</div>
       <selectize class="custom-selectize" config="planSelectConfig" options="planSelectOptions" ng-model="ui.activeProduct.planId" ng-change="changePlanHandler()">
       </selectize>
       <div class="common-field-title">Shelf Tag</div>

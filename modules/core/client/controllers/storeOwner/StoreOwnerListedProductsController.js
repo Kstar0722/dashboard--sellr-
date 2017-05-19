@@ -49,6 +49,14 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   //
   // SCOPE FUNCTIONS
   //
+  $scope.reOrderList = function (field) {
+    var oldSort = $scope.ui.sortExpression || ''
+    var asc = true
+    if (oldSort.substr(1) === field) asc = oldSort[0] === '-'
+    $scope.ui.sortExpression = (asc ? '+' : '-') + field
+    return $scope.ui.sortExpression
+  }
+
   $scope.showUploadCsvDialog = function (ev) {
     $mdDialog.show({
       templateUrl: '/modules/core/client/views/popupDialogs/uploadCsvDialog.html',

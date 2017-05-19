@@ -88,14 +88,15 @@ angular.module('core').service('productsService', function ($http, constants, $q
     if (!plan) return plan
     plan.products = plan.products || []
     _.each(plan.products, function (product) {
-      initProduct(product, plan.planId)
+      initProduct(product, plan)
     })
     return plan
   }
 
-  function initProduct (product, planId) {
+  function initProduct (product, plan) {
     if (!product) return product
-    product.planId = planId
+    product.planId = plan.planId
+    product.planLabel = plan.label
     product.options = product.options || {}
     product.price = parseFloat(product.price) || product.price
     product.oprice = parseFloat(product.oprice) || product.oprice

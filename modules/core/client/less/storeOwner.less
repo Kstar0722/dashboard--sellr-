@@ -264,33 +264,43 @@
         font-weight: bold;
         cursor: pointer;
         .name-col{
-          width: 39%;
-          // width: 29%; // with Promoted col
-          padding-right: 1%;
+          width: 24%;
+          padding-right: 1%;         
         } 
-        .promoted-col{
-          width: 9%;
+        // .promoted-col{
+        //   width: 9%;
+        //   padding-right: 1%;
+        //   text-align: center;
+        // } 
+        .category-col{
+          width: 19%;
           padding-right: 1%;
-          text-align: center;
+          .ellipsized;
         } 
         .sku-col{
-          width: 13%;
+          width: 11%;
           padding-right: 1%;
+          .ellipsized;
+
         } 
         .size-col{
-          width: 13%;
+          width: 11%;
           padding-right: 1%;
+          .ellipsized;
         }
         .price-col{
           width: 9%;
           padding-right: 1%;
+          .ellipsized;
         }
         .sale-col{
           width: 9%;
           padding-right: 1%;
+          .ellipsized;
         }
         .type-col{
-          width: 12%;
+          width: 11%;
+          .ellipsized;
         }
       }
     }
@@ -336,12 +346,17 @@
         .name-col{
           display: flex;
           flex-flow: row nowrap;
-          justify-content: flex-start;
+          justify-content: space-between;
           align-items: center;
-          img{
-            height: 40px;
-            max-height: 40px;
-            margin-right: 10px;
+          .product-image-container{
+            width: 20%;
+            .common-product-image{
+              height: 36px;
+            }
+          }
+          span{
+            width: 79%;
+            .ellipsized;
           }
         } 
       }
