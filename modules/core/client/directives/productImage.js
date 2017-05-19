@@ -1,5 +1,5 @@
 angular.module('core')
-  .directive('productImage', [function () {
+  .directive('productImage', function () {
     return {
       restrict: 'E',
       scope: {
@@ -24,4 +24,4 @@ angular.module('core')
       },
       templateUrl: '/modules/core/client/directives/templates/productImage.html'
     }
-  }])
+  })
