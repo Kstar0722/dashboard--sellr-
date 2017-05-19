@@ -365,7 +365,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     }
     product = compareToCachedProduct(product)
     product = categories.setProductCategory(product)
-    product = categories.setProductTags(product)
     var payload = {
       payload: product
     }
@@ -480,7 +479,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           break
       }
     })
-    product = categories.getProductTags(product)
     product = categories.getProductCategory(product)
     if (product.description && !product.description.match(/[<>]/)) {
       product.description = '<p>' + product.description + '</p>'
@@ -600,9 +598,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
               updated.changed = 'false'
             }
           }
-        } else {
-          // new property
-          updated.changed = 'new'
         }
       }
       log('changes added', prod)

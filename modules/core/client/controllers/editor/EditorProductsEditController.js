@@ -74,13 +74,15 @@ angular.module('core').controller('EditorProductsEditController', function ($sco
   // SCOPE FUNCTIONS
   //
   $scope.addTag = function (newTag) {
-    productEditorService.currentProduct = categories.addTag(productEditorService.currentProduct, newTag)
-    $scope.newTag.value = ''
-    $scope.debouncedAutosaveProduct()
+    categories.addTag(productEditorService.currentProduct, newTag).then(product => {
+      productEditorService.currentProduct = product
+      $scope.newTag.value = ''
+      $scope.debouncedAutosaveProduct()
+    })
   }
 
-  $scope.removeTag = function (i) {
-    productEditorService.currentProduct = categories.removeTag(productEditorService.currentProduct, i)
+  $scope.removeTag = function (tag) {
+    categories.removeTag(productEditorService.currentProduct, tag)
     $scope.debouncedAutosaveProduct()
   }
 

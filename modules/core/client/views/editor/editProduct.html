@@ -56,8 +56,9 @@
       </div>
       <div class="second-column" ng-hide="loading">
         <div class="common-field-title">Current tags</div>
-        <div ng-repeat="tag in pes.currentProduct.tags" class="product-tag"><span ng-bind="tag.value"></span> <i
-                class="fa fa-times" ng-click="removeTag($index)"></i></div>
+        <div ng-repeat="tag in pes.currentProduct.properties | productTags" class="product-tag"><span
+                ng-bind="tag.value"></span> <i
+                class="fa fa-times" ng-click="removeTag(tag)"></i></div>
       </div>
     </div>
     <div class="verified">
