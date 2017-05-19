@@ -21,28 +21,30 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
           }
         }).then(function(response) {
           // TODO: not important, but find out why $http won't chain properly
-          return $http({
-            method: 'POST',
-            url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
-            contentType: 'application/json',
-            headers: {
-              'Authorization': `Bearer ${response.access_token}`
-            },
-            data: {
-              reportRequests: [
-                {
-                  viewId: '128946812',
-                  metrics: [
-                    {
-                      expression: 'ga:sessions'
-                    }
-                  ]
-                }
-              ]
-            }
-          }).then(function(stats) {
-            $scope.websiteTraffic = stats.data.reports[0].data.totals[0].values[0];
-          });
+          if(account.preferences.analytics.item) {
+            return $http({
+              method: 'POST',
+              url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
+              contentType: 'application/json',
+              headers: {
+                'Authorization': `Bearer ${response.access_token}`
+              },
+              data: {
+                reportRequests: [
+                  {
+                    viewId: account.preferences.analytics.item,
+                    metrics: [
+                      {
+                        expression: 'ga:sessions'
+                      }
+                    ]
+                  }
+                ]
+              }
+            }).then(function(stats) {
+              $scope.websiteTraffic = stats.data.reports[0].data.totals[0].values[0];
+            });
+          }
         });
       }
     });
