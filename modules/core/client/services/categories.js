@@ -48,7 +48,7 @@ angular.module('core').service('categories', function (constants, $http) {
       propId: 181,
       value: newTag
     }
-    return $http.post(url, {payload: newProp}).then(function (res) {
+    return $http.post(url, {payload: newProp}).then(res => {
       newProp.valueId = res.data.insertId
       newProp.changed = false
       product.properties.push(newProp)

@@ -297,6 +297,17 @@ module.exports = function (grunt) {
           '{config,modules,public/modules}/**/*.js'
         ]
       }
+    },
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: {
+          'public/dist/application.js': 'public/dist/application.js'
+        }
+      }
     }
   })
 
@@ -316,6 +327,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-protractor-coverage')
   grunt.loadNpmTasks('grunt-contrib-concat')
   grunt.loadNpmTasks('grunt-standard')
+
 
   // Make sure upload directory exists
   grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {
@@ -352,7 +364,7 @@ module.exports = function (grunt) {
   // Run the project in production mode
 
   // Lint project files and minify them into two production files.
-  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace'])
+  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'babel', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace'])
   grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ])
   grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ])
   grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ])
