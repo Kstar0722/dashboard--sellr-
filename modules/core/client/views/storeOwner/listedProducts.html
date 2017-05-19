@@ -51,8 +51,10 @@
         <!--</div>-->
         <div class="sku-col">{{product.skus[0 || '']}}</div>
         <div class="size-col">{{ product.prices[0].size || '' }}</div>
-        <div class="price-col">{{ product.prices[0].oprice || '' }}</div>
-        <div class="sale-col" class="nosale">{{ product.prices[0].price || '' }}</div>
+        <div class="price-col" ng-if="product.prices[0].onsale">{{ product.prices[0].oprice || '' }}</div>
+        <div class="price-col" ng-if="!product.prices[0].onsale">{{ product.prices[0].price || '' }}</div>
+        <div class="sale-col" class="nosale" ng-if="product.prices[0].onsale">{{ product.prices[0].price || '' }}</div>
+        <div class="sale-col" class="nosale" ng-if="!product.prices[0].onsale">&nbsp;</div>
         <div class="type-col">{{Types[product.productTypeId].name}}</div>
         <!-- <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div> -->
       </div>
@@ -68,7 +70,7 @@
         <!--     <div class="common-btn-gray" ng-click="showPromoteProductDialog()" ng-if="!ui.promotedProduct">Promote Product</div>
         <div class="common-btn-black autowidth" ng-click="ui.promotedProduct = false" ng-if="ui.promotedProduct">Stop Promoting Product</div> -->
         <div>&nbsp;</div>
-        <div class="common-btn-positive" ng-click="saveProduct()">Done Editing</div>
+        <div class="common-btn-positive" ng-click="saveProduct()">Save Product</div>
         <div>&nbsp;</div>
       </div>
       <div class="product-image-container">
@@ -88,6 +90,9 @@
           <input type="text" class="common-input" name="name" disabled value="Subvalue">
         </div>
       </div>
+      <div class="common-field-title">Plan</div>
+      <selectize class="custom-selectize" config="planSelectConfig" options="planSelectOptions" ng-model="ui.activeProduct.planId" ng-change="changePlanHandler()">
+      </selectize>
       <div class="common-field-title">Shelf Tag</div>
       <selectize class="custom-selectize" config="slotSelectConfig" options="slotSelectOptions" ng-model="ui.activeProduct.slot">
       </selectize>
@@ -100,12 +105,12 @@
       <div class="size-container">
         <div class="sub-title">Size</div>
         <div class="size-selector">
-          <div ng-show="!ui.showCustomSize[0]">
+          <div ng-show="!ui.showCustomSize[0]" ng-class="{error: ui.priceErrors[0].size}">
             <selectize  class="custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="ui.activeProduct.prices[0].size" ng-change="selectSizeHandler(0)">
             </selectize>
           </div>
           <div ng-show="ui.showCustomSize[0]" class="custom-size">
-            <input type="text" class="common-input" name="size" ng-model="ui.activeProduct.prices[0].size" placeholder="Type a custom size">
+            <input type="text" class="common-input" name="size" ng-model="ui.activeProduct.prices[0].size" placeholder="Type a custom size" ng-class="{error: ui.priceErrors[0].size}">
             <i class="fa fa-times-circle" ng-click="resetSize(0)"></i>
           </div>
         </div>
@@ -115,14 +120,14 @@
             <div class="sub-title">Price</div>
             <div class="price-box">
               <div class="dollar-sign">$</div>
-              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].oprice">
+              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].oprice" ng-class="{error: ui.priceErrors[0].oprice}">
             </div>
           </div>
           <div class="second-column">
             <div class="sub-title">Sale Price</div>
             <div class="price-box">
               <div class="dollar-sign disabled">$</div>
-              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price">
+              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price" ng-class="{error: ui.priceErrors[0].price}">
             </div>
           </div>
         </div>
@@ -132,7 +137,7 @@
             <div class="sub-title">Price</div>
             <div class="price-box">
               <div class="dollar-sign">$</div>
-              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price">
+              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price" ng-class="{error: ui.priceErrors[0].price}">
             </div>
           </div>
           <div class="second-column">
@@ -148,11 +153,66 @@
           <label for="setOnSaleDefault">Set On Sale</label>
         </div>
       </div>
-      <div class="separator" ng-if="ui.activeProduct.prices.length > 1"></div>
-      <div class="common-field-title" ng-if="ui.activeProduct.prices.length > 1">Additional Size</div>
-      <div class="separator"></div>
+      <div class="common-field-title" ng-if="ui.activeProduct.prices.length > 1">Additional Sizes</div>
+      <div class="size-container" ng-repeat-start="sizeOption in ui.activeProduct.prices" ng-if="!$first">
+        <div class="sub-title">Size</div>
+        <div class="size-selector">
+          <div ng-show="!ui.showCustomSize[$index]" ng-class="{error: ui.priceErrors[$index].size}">
+            <selectize  class="custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="sizeOption.size" ng-change="selectSizeHandler($index)">
+            </selectize>
+          </div>
+          <div ng-show="ui.showCustomSize[$index]" class="custom-size">
+            <input type="text" class="common-input" name="size" ng-model="sizeOption.size" placeholder="Type a custom size" ng-class="{error: ui.priceErrors[$index].size}">
+            <i class="fa fa-times-circle" ng-click="resetSize($index)"></i>
+          </div>
+        </div>
+        <!-- ONSALE -->
+        <div class="columns" ng-if="sizeOption.onsale">
+          <div class="first-column">
+            <div class="sub-title">Price</div>
+            <div class="price-box">
+              <div class="dollar-sign">$</div>
+              <input type="text" class="common-input" name="name" ng-model="sizeOption.oprice" ng-class="{error: ui.priceErrors[$index].oprice}">
+            </div>
+          </div>
+          <div class="second-column">
+            <div class="sub-title">Sale Price</div>
+            <div class="price-box">
+              <div class="dollar-sign disabled">$</div>
+              <input type="text" class="common-input" name="name" ng-model="sizeOption.price" ng-class="{error: ui.priceErrors[$index].price}">
+            </div>
+          </div>
+        </div>
+        <!-- NOT ONSALE -->
+        <div class="columns" ng-if="!sizeOption.onsale">
+          <div class="first-column">
+            <div class="sub-title">Price</div>
+            <div class="price-box">
+              <div class="dollar-sign">$</div>
+              <input type="text" class="common-input" name="name" ng-model="sizeOption.price" ng-class="{error: ui.priceErrors[$index].price}">
+            </div>
+          </div>
+          <div class="second-column">
+            <div class="sub-title">Sale Price</div>
+            <div class="price-box">
+              <div class="dollar-sign disabled">$</div>
+              <input type="text" class="common-input" name="name" disabled value="">
+            </div>
+          </div>
+        </div>
+        <div class="set-on-sale-check">
+          <input id="setOnSaleDefault" class="custom-checkbox" type="checkbox" ng-model="sizeOption.onsale" ng-change="onSaleHandler($index)" />
+          <label for="setOnSaleDefault">Set On Sale</label>
+        </div>
+        <div class="size-action-btns">
+          <div class="common-btn-black autowidth" ng-click="setDefault($index)">Set as default</div>
+          <div class="common-btn-negative autowidth" ng-click="deleteSizeOption($index)">Delete size</div>
+        </div>
+      </div>
+      <div class="separator" ng-repeat-end ng-if="!$first"></div>
+      <div class="separator" ng-if="ui.activeProduct.prices.length === 0"></div>
       <div class="size-container">
-        <div class="common-btn-gray autowidth full-width-btn"><i class="fa fa-plus"></i> Add new size</div>
+        <div class="common-btn-gray autowidth full-width-btn" ng-click="addSizeOption()"><i class="fa fa-plus"></i> Add new size</div>
       </div>
     </div>
   </div>

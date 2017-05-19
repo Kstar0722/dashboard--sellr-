@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -24,6 +24,15 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     labelField: 'size',
     sortField: 'size',
     searchField: [ 'size' ]
+  }
+  $scope.planSelectConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'planId',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
   }
   var confirmationDialogOptions = {
     templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
@@ -87,71 +96,112 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     }
   }
 
-  $scope.saveProduct = function () {
-    productsService.updatePlanProduct($scope.ui.activeProduct).then(function () {
-      getProducts()
-      $scope.ui.activeIndex = null
-      $scope.ui.display = 'fulltable'
-    }).catch(catchHandler)
+  $scope.changePlanHandler = function () {
+    var planId = parseInt($scope.ui.activeProduct.planId)
+    $scope.ui.activeProduct.planId = planId
+    _.each($scope.ui.activeProduct.prices, function (p) {
+      p.planId = planId
+      p.changed = 'new'
+    })
+    _.each($scope.ui.activeProduct.properties, function (p) {
+      if (p.planId) {
+        p.planId = planId
+        p.changed = 'new'
+      }
+    })
   }
 
-  // $scope.saveProduct = function () {
-  //   $scope.ui.priceErrors = []
-  //   if (checkInvalidPricesSetup()) return false
-  //   var oldPlan = retrieveOldPlanIfChanged()
-  //   var plan = _.find($scope.plans, {planId: $scope.product.planId})
-  //   var occupiedSlots
-  //   if (oldPlan) {
-  //     occupiedSlots = _.chain(plan.products).map('slot').compact().value()
-  //   } else {
-  //     occupiedSlots = _.chain(plan.products).map('slot').pull($scope.ui.originalSlot).compact().value()
-  //   }
-  //   if (_.includes(occupiedSlots, $scope.product.slot)) {
-  //     var occupantProduct = _.find(plan.products, { slot: $scope.product.slot })
-  //     $ionicPopup.confirm({
-  //       title: 'Slot Occupied',
-  //       cssClass: 'delete-product',
-  //       cancelType: 'button-assertive',
-  //       okText: 'Replace',
-  //       okType: 'button-balanced',
-  //       template: 'Are you sure you want to replace the slot <strong>' + $scope.product.slot + '</strong> occupied by ' + occupantProduct.name + '?'
-  //     }).then(function (confirmed) {
-  //       if (!confirmed) return
-  //       $scope.ui.originalSlot = $scope.product.slot
-  //       $scope.ui.originalPlanId = $scope.product.planId
-  //       occupantProduct.slot = undefined
-  //       $ionicLoading.show({ hideOnStateChange: true })
-  //       if (oldPlan) {
-  //         productService.removePlanProduct(oldPlan, $scope.product).then(function () {
-  //           productService.updatePlanProduct(plan, occupantProduct).then(function () {
-  //             productService.addPlanProduct(plan, $scope.product).then(function () {
-  //               updateCurrentPlan()
-  //             })
-  //           })
-  //         }).catch(catchHandler)
-  //       } else {
-  //         productService.updatePlanProduct(plan, occupantProduct).then(function () {
-  //           productService.updatePlanProduct(plan, $scope.product).then(function () {
-  //             updateCurrentPlan()
-  //           })
-  //         }).catch(catchHandler)
-  //       }
-  //     })
-  //   } else {
-  //     $ionicLoading.show({ hideOnStateChange: true })
-  //     if (oldPlan) {
-  //       productService.removePlanProduct(oldPlan, $scope.product).then(function () {
-  //         productService.addPlanProduct(plan, $scope.product).then(function () {
-  //           updateCurrentPlan()
-  //         })
-  //       }).catch(catchHandler)
-  //     } else {
-  //       productService.updatePlanProduct(plan, $scope.product).then(function () {
-  //         updateCurrentPlan()
-  //       }).catch(catchHandler)
-  //     }
-  //   }
-  // }
+  $scope.saveProduct = function () {
+    $scope.ui.priceErrors = []
+    if (checkInvalidPricesSetup()) return false
+    $scope.ui.activeProduct.defaultPriceLabel = $scope.ui.activeProduct.prices[0].size
+    var oldPlan = retrieveOldPlanIfChanged()
+    var plan = _.find($scope.plans, { planId: $scope.ui.activeProduct.planId })
+    var occupiedSlots
+    if (oldPlan) {
+      occupiedSlots = _.chain(plan.products).map('slot').compact().value()
+    } else {
+      occupiedSlots = _.chain(plan.products).map('slot').without($scope.ui.originalSlot).compact().value()
+    }
+    if (_.includes(occupiedSlots, $scope.ui.activeProduct.slot)) {
+      var occupantProduct = _.find(plan.products, { slot: $scope.ui.activeProduct.slot })
+      $scope.genericDialog = {}
+      $scope.genericDialog.title = 'Slot Ocuppied'
+      $scope.genericDialog.body = 'Are you sure you want to replace the slot ' + $scope.ui.activeProduct.slot + ' occupied by ' + occupantProduct.name + '?'
+      $scope.genericDialog.actionText = 'Replace Slot'
+      $scope.genericDialog.actionClass = 'common-btn-positive'
+      $scope.genericDialog.action = function () {
+        $mdDialog.hide()
+        $scope.ui.originalSlot = $scope.ui.activeProduct.slot
+        $scope.ui.originalPlanId = $scope.ui.activeProduct.planId
+        occupantProduct.slot = undefined
+        if (oldPlan) {
+          productsService.removePlanProduct(oldPlan, $scope.ui.activeProduct).then(function () {
+            productsService.updatePlanProduct(occupantProduct).then(function () {
+              productsService.addPlanProduct(plan, $scope.ui.activeProduct).then(function () {
+                handleSuccess()
+              })
+            })
+          }).catch(catchHandler)
+        } else {
+          productsService.updatePlanProduct(occupantProduct).then(function () {
+            productsService.updatePlanProduct($scope.ui.activeProduct).then(function () {
+              handleSuccess()
+            })
+          }).catch(catchHandler)
+        }
+      }
+      $mdDialog.show(confirmationDialogOptions)
+    } else {
+      if (oldPlan) {
+        productsService.removePlanProduct(oldPlan, $scope.ui.activeProduct).then(function () {
+          productsService.addPlanProduct(plan, $scope.ui.activeProduct).then(function () {
+            handleSuccess()
+          })
+        }).catch(catchHandler)
+      } else {
+        productsService.updatePlanProduct($scope.ui.activeProduct).then(function () {
+          handleSuccess()
+        }).catch(catchHandler)
+      }
+    }
+  }
+
+  $scope.deleteSizeOption = function (index) {
+    if ($scope.ui.activeProduct.prices[ index ].priceId) {
+      productsService.deletePriceOption($scope.ui.activeProduct.prices[ index ].priceId).then(function () {
+        afterDeletion(index)
+      })
+    } else {
+      afterDeletion(index)
+    }
+  }
+
+  $scope.setDefault = function (index) {
+    // Default Price label will be set on save
+    // We are displacing items unshifting one after the other
+    $scope.ui.activeProduct.prices.unshift($scope.ui.activeProduct.prices.splice(index, 1)[ 0 ])
+    // Therefore we need to accomodate all the Show Custom label again
+    var sizes = angular.copy(Types[$scope.ui.activeProduct.productTypeId].sizes)
+    _.each($scope.ui.activeProduct.prices, function (price, index) {
+      if (!_.includes(sizes, $scope.ui.activeProduct.prices[ index ].size)) {
+        $scope.ui.showCustomSize[ index ] = true
+      } else {
+        $scope.ui.showCustomSize[ index ] = false
+      }
+    })
+  }
+
+  $scope.addSizeOption = function () {
+    $scope.ui.activeProduct.prices.push({
+      size: '',
+      price: '',
+      onsale: false,
+      oprice: '',
+      changed: 'new'
+    })
+    $scope.ui.showCustomSize.push(false)
+  }
 
   $scope.onSaleHandler = function (index) {
     if ($scope.ui.priceErrors[index]) $scope.ui.priceErrors[index] = {}
@@ -167,6 +217,8 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   $scope.openEditProduct = function (product, index) {
     $scope.ui.showCustomSize = []
     $scope.ui.priceErrors = []
+    $scope.ui.originalSlot = product.slot
+    $scope.ui.originalPlanId = product.planId
     var sizes = angular.copy(Types[product.productTypeId].sizes)
     sizes.push('Custom')
     $scope.sizesSelectOptions = _.map(sizes, function (s) { return {size: s} })
@@ -204,9 +256,47 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   //
   // PRIVATE FUNCTIONS
   //
+  function afterDeletion (index) {
+    $scope.ui.activeProduct.prices.splice(index, 1)
+    $scope.ui.showCustomSize.splice(index, 1)
+  }
+
+  function handleSuccess () {
+    getProducts().then(function () {
+      $scope.ui.activeIndex = null
+      $scope.ui.display = 'fulltable'
+    })
+  }
+
+  function checkInvalidPricesSetup () {
+    var flag = false
+    _.each($scope.ui.activeProduct.prices, function (sizeOption, index) {
+      $scope.ui.priceErrors[ index ] = {}
+      if (!sizeOption.price) {
+        $scope.ui.priceErrors[ index ].price = true
+        flag = true
+      }
+      if (!sizeOption.size) {
+        $scope.ui.priceErrors[ index ].size = true
+        flag = true
+      }
+      if (sizeOption.onsale && !sizeOption.oprice) {
+        $scope.ui.priceErrors[ index ].oprice = true
+        flag = true
+      }
+    })
+    if (flag) {
+      toastr.error('Please complete the Size option fields')
+      return true
+    }
+    return false
+  }
+
   function getProducts () {
+    var defer = $q.defer()
     var accountId = localStorage.getItem('accountId')
     productsService.getPlanProducts(accountId).then(function (plans) {
+      $scope.planSelectOptions = _.map(plans, function (p) { return {name: p.label, planId: p.planId} })
       $scope.plans = plans
       var allProductsPlan = {
         label: 'All Products',
@@ -216,7 +306,18 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
       }
       $scope.plans.unshift(allProductsPlan)
       $scope.selectPlan(allProductsPlan)
+      defer.resolve()
     })
+    return defer.promise
+  }
+
+  function retrieveOldPlanIfChanged () {
+    var originalPlan = _.find($scope.plans, { planId: $scope.ui.originalPlanId })
+    var newPlan = _.find($scope.plans, { planId: $scope.ui.activeProduct.planId })
+    if (originalPlan.planId === newPlan.planId) {
+      return false
+    }
+    return originalPlan
   }
 
   function catchHandler (err) {

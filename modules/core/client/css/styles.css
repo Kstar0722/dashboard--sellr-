@@ -5737,6 +5737,13 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   color: rgba(0, 0, 0, 0.5);
   font-size: 20px;
 }
+.store-owner-listed-products-view .right-side-content .side-panel .size-container .error {
+  border: solid 1px #d40000;
+}
+.store-owner-listed-products-view .right-side-content .side-panel .size-container .size-action-btns {
+  text-align: center;
+  margin: 20px 0;
+}
 .store-owner-listed-products-view .right-side-content .side-panel .size-container .full-width-btn {
   margin: 20px 0;
   width: 100%;
