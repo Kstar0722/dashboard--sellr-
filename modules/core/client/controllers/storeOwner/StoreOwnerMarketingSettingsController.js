@@ -78,43 +78,43 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
     });
   }
 
-  var init = function () {
-    accountsService.getCurrentAccount.then(function(account) {
-      $scope.account = account;
-      $.ajax({
-        type: 'POST',
-        url: 'https://www.googleapis.com/oauth2/v4/token',
-        data: {
-          client_id: '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
-          client_secret: 'ETc5D1hO_JYb3Wemqhr41jTq',
-          grant_type: 'refresh_token',
-          refresh_token: account.preferences.analytics.refresh_token
-        }
-      }).then(function(response) {
-        return $.ajax({
-          type: 'GET',
-          url: 'https://www.googleapis.com/analytics/v3/management/accounts/~all/webproperties/~all/profiles',
-          headers: {
-            Authorization: `Bearer ${response.access_token}`
-          }
-        });
-      }).then(function(response) {
-        response.items.forEach(function(item) {
-          $scope.analyticsItems.push({
-            id: item.id,
-            name: `${item.websiteUrl} (${item.name})`,
-          });
-        });
-        if(account.preferences.analytics.item) {
-          for(var key in $scope.analyticsItems) {
-            if($scope.analyticsItems[key].id == account.preferences.analytics.item) {
-              $scope.analyticsItem = $scope.analyticsItems[key];
-              break;
-            }
-          }
+  $scope.setAnalyticsItems = function(account) {
+    $.ajax({
+      type: 'POST',
+      url: 'https://www.googleapis.com/oauth2/v4/token',
+      data: {
+        client_id: '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
+        client_secret: 'ETc5D1hO_JYb3Wemqhr41jTq',
+        grant_type: 'refresh_token',
+        refresh_token: account.preferences.analytics.refresh_token
+      }
+    }).then(function(response) {
+      return $.ajax({
+        type: 'GET',
+        url: 'https://www.googleapis.com/analytics/v3/management/accounts/~all/webproperties/~all/profiles',
+        headers: {
+          Authorization: `Bearer ${response.access_token}`
         }
       });
+    }).then(function(response) {
+      response.items.forEach(function(item) {
+        $scope.analyticsItems.push({
+          id: item.id,
+          name: `${item.websiteUrl} (${item.name})`,
+        });
+      });
+      if(account.preferences.analytics.item) {
+        for(var key in $scope.analyticsItems) {
+          if($scope.analyticsItems[key].id == account.preferences.analytics.item) {
+            $scope.analyticsItem = $scope.analyticsItems[key];
+            break;
+          }
+        }
+      }
     });
+  }
+
+  var init = function () {
     if(window.location.search) {
       var search = window.location.search.slice(1),
           pairs = {},
@@ -149,9 +149,19 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
         }).then(function(data) {
           data.oauth2.code = pairs.code;
           data.account.preferences.analytics = data.oauth2;
+          $scope.account = data.account;
+          $scope.setAnalyticsItems($scope.account);
           return accountsService.updateAccount(data.account);
         });
       }
+    } else {
+      accountsService.getCurrentAccount.then(function(account) {
+        $scope.account = account;
+        if(!account.preferences.analytics) {
+          return;
+        }
+        $scope.setAnalyticsItems(account);
+      });
     }
   };
 
