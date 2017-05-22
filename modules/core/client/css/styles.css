@@ -5595,18 +5595,26 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-weight: bold;
   cursor: pointer;
 }
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col,
+.store-owner-listed-products-view .left-side-content .main-table .columns-header .check-col,
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-data .check-col,
+.store-owner-listed-products-view .left-side-content .main-table .columns-data .check-col {
+  width: 5%;
+  padding-right: 1%;
+  text-align: center;
+}
 .store-owner-listed-products-view .left-side-content .main-table-header .columns-header .name-col,
 .store-owner-listed-products-view .left-side-content .main-table .columns-header .name-col,
 .store-owner-listed-products-view .left-side-content .main-table-header .columns-data .name-col,
 .store-owner-listed-products-view .left-side-content .main-table .columns-data .name-col {
-  width: 24%;
+  width: 20%;
   padding-right: 1%;
 }
 .store-owner-listed-products-view .left-side-content .main-table-header .columns-header .category-col,
 .store-owner-listed-products-view .left-side-content .main-table .columns-header .category-col,
 .store-owner-listed-products-view .left-side-content .main-table-header .columns-data .category-col,
 .store-owner-listed-products-view .left-side-content .main-table .columns-data .category-col {
-  width: 19%;
+  width: 17%;
   padding-right: 1%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5695,6 +5703,39 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   padding: 30px 32px 10px 15px;
   box-sizing: border-box;
   height: 74px;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col .common-btn-gray,
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col .common-btn-positive,
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col .common-btn-negative {
+  display: none;
+  height: 34px;
+  line-height: 32px;
+  font-size: 12px;
+  margin-right: 12px;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col .selected-count {
+  display: none;
+  font-size: 12px;
+  color: #7f8fa4;
+  border-left: 1px solid #dfe3e9;
+  padding: 8px 8px 8px 12px;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col.productsactionsbar {
+  width: 98%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  background: transparent;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col.productsactionsbar .header-check {
+  width: 5%;
+  padding-right: 1%;
+  text-align: center;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col.productsactionsbar .common-btn-black,
+.store-owner-listed-products-view .left-side-content .main-table-header .columns-header .check-col.productsactionsbar .selected-count {
+  display: block;
 }
 .store-owner-listed-products-view .left-side-content .main-table {
   max-height: 60vh;

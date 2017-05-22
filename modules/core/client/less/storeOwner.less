@@ -263,8 +263,13 @@
         font-size: 14px;
         font-weight: bold;
         cursor: pointer;
+        .check-col{
+          width: 5%;
+          padding-right: 1%;
+          text-align: center;         
+        }   
         .name-col{
-          width: 24%;
+          width: 20%;
           padding-right: 1%;         
         } 
         // .promoted-col{
@@ -273,7 +278,7 @@
         //   text-align: center;
         // } 
         .category-col{
-          width: 19%;
+          width: 17%;
           padding-right: 1%;
           .ellipsized;
         } 
@@ -340,6 +345,41 @@
         padding: 30px 32px 10px 15px;
         box-sizing: border-box;
         height: 74px;
+        .check-col{
+          .common-btn-gray,
+          .common-btn-positive,
+          .common-btn-negative{
+            display: none;
+            height: 34px;
+            line-height: 32px;
+            font-size: 12px;
+            margin-right: 12px; 
+          }
+          .selected-count{
+            display: none;
+            font-size: 12px;
+            color: #7f8fa4;
+            border-left: 1px solid #dfe3e9;
+            padding: 8px 8px 8px 12px;
+          }      
+          &.productsactionsbar{
+            width: 98%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            align-items: center;
+            background: transparent;
+            .header-check{
+              width: 5%;
+              padding-right: 1%;
+              text-align: center;
+            }
+            .common-btn-black,
+            .selected-count{
+              display: block;
+            }
+          }
+        }
       }
     }
     .main-table{

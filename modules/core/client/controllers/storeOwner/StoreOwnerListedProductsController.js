@@ -37,6 +37,31 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   //
   // SCOPE FUNCTIONS
   //
+  $scope.toggleSelectAllProducts = function (forcedValue) {
+    var flag = forcedValue || $scope.ui.allProductsSelected
+    $scope.ui.selectedProducts = []
+    _.each($scope.filteredPlan.products, function (p) {
+      if (flag) {
+        $scope.ui.selectedProducts.push(formatProductForExport(p))
+      }
+      p.selected = flag
+    })
+    $scope.ui.showProductsSelectedActions = $scope.ui.selectedProducts.length > 0
+  }
+
+  $scope.toggleSelectProduct = function (product) {
+    $scope.ui.selectedProducts = $scope.ui.selectedProducts || []
+    var i = _.findIndex($scope.ui.selectedProducts, function (selectedProduct) {
+      return selectedProduct.productId === product.productId
+    })
+    if (i < 0) {
+      $scope.ui.selectedProducts.push(formatProductForExport(product))
+    } else {
+      $scope.ui.selectedProducts.splice(i, 1)
+    }
+    $scope.ui.showProductsSelectedActions = $scope.ui.selectedProducts.length > 0
+  }
+
   $scope.reOrderList = function (field) {
     var oldSort = $scope.ui.sortExpression || ''
     var asc = true
@@ -286,8 +311,22 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   function handleSuccess () {
     getStoreProducts($scope.ui.activeStoreId).then(function () {
       $scope.ui.activeIndex = null
+      $scope.ui.selectedProducts = []
+      $scope.ui.showProductsSelectedActions = false
       $scope.ui.display = 'fulltable'
     })
+  }
+
+  function formatProductForExport (p) {
+    var price = p.prices[0] ? p.prices[0].price : ''
+    var sku = p.skus[0] || ''
+    return {
+      title: p.name,
+      productId: p.productId,
+      description: p.description,
+      price: price,
+      upc: sku
+    }
   }
 
   function checkInvalidPricesSetup () {

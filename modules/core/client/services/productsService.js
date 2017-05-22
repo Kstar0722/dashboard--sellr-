@@ -101,6 +101,8 @@ angular.module('core').service('productsService', function ($http, constants, $q
     product.price = parseFloat(product.price) || product.price
     product.oprice = parseFloat(product.oprice) || product.oprice
     product.researchImage = product.options.researchImage
+    product.skus = product.skus || []
+    product.prices = product.prices || []
 
     if (!product.publicUrl) {
       var media = _.find(product.mediaAssets, { type: 'IMAGE' })
