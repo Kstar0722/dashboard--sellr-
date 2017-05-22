@@ -54,9 +54,9 @@ angular.module('core').service('productsService', function ($http, constants, $q
     return $http.delete(url)
   }
 
-  me.getPlanProducts = function (accountId) {
+  me.getPlanProducts = function (storeId) {
     var defer = $q.defer()
-    var url = constants.BWS_API + '/choose/plans?account=' + accountId
+    var url = constants.BWS_API + '/choose/plans?store=' + storeId
     $http.get(url).then(function (response) {
       var plans = _.map(response.data, function (plan) { return initPlan(plan) })
       defer.resolve(plans)

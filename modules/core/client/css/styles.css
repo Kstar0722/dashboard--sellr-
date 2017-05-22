@@ -5674,6 +5674,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: flex-start;
   align-items: center;
 }
+.store-owner-listed-products-view .left-side-content .main-table-header .filter-header .left-filter .store-filter-container,
 .store-owner-listed-products-view .left-side-content .main-table-header .filter-header .left-filter .plan-filter-container {
   margin-right: 10px;
   height: 36px;

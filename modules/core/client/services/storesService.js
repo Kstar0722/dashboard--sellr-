@@ -35,11 +35,11 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
   // BELOW IS COPIED FROM OLD LOCATIONS SERVICE BUT REWORKED to new Store db URLS/**/
   me.stores = []
 
-  me.getStores = function (account) {
+  me.getStores = function (accountId) {
     var defer = $q.defer()
     me.stores = []
-    me.currentAccount = account
-    var url = constants.BWS_API + '/storedb/stores?info=true&acc=' + account.accountId
+    me.currentAccountId = accountId || localStorage.getItem('accountId')
+    var url = constants.BWS_API + '/storedb/stores?info=true&acc=' + me.currentAccountId
     $http.get(url).then(function (res) {
       console.log('storesService getStores %O', res.data)
       me.stores = res.data
@@ -49,7 +49,7 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
   }
 
   me.createStore = function (store) {
-    store.accountId = me.currentAccount.accountId
+    store.accountId = me.currentAccountId.accountId
     return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(onAPISuccess.bind(this, 'create'), onAPIError.bind(this, 'create'))
   }
 
@@ -95,7 +95,7 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
   // API RESPONSE/ERROR HANDLING
   function onAPISuccess (operation) {
-    return me.getStores(me.currentAccount.accountId).then(function () {
+    return me.getStores(me.currentAccountId.accountId).then(function () {
       switch (operation) {
         case 'create':
           toastr.success('New Store created successfully')

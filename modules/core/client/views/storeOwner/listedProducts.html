@@ -10,6 +10,11 @@
       -->
       <div class="filter-header">
         <div class="left-filter">
+          <div class="store-filter-container">
+            <selectize class="custom-selectize" config="storesFilterSelectConfig" options="stores" ng-model="ui.activeStore" ng-change="loadStoreProducts()">
+              
+            </selectize>
+          </div>  
           <div class="plan-filter-container">
             <selectize class="custom-selectize" config="planFilterSelectConfig" options="plans" ng-model="ui.planFilter" ng-change="filterPlan()">
               

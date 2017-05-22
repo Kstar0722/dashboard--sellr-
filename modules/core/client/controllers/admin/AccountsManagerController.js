@@ -151,7 +151,7 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   }
 
   $scope.showManageStoresDialog = function (account, ev) {
-    storesService.getStores(account).then(function () {
+    storesService.getStores(account.accountId).then(function () {
       $mdDialog.show({
         templateUrl: '/modules/core/client/views/popupDialogs/manageStoreDialog.html',
         autoWrap: true,

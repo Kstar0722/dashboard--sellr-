@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -25,6 +25,15 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     labelField: 'size',
     sortField: 'size',
     searchField: [ 'size' ]
+  }
+  $scope.storesFilterSelectConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'storeId',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: [ 'name' ]
   }
   $scope.planFilterSelectConfig = {
     create: false,
@@ -100,6 +109,10 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.filterPlan = function () {
     $scope.filteredPlan = _.findWhere($scope.plans, {label: $scope.ui.planFilter})
+  }
+
+  $scope.loadStoreProducts = function () {
+    getStoreProducts($scope.ui.activeStore)
   }
 
   $scope.resetSize = function (index) {
@@ -269,18 +282,26 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   //
   // INITIALIZATON
   //
-  getProducts()
+  init()
 
   //
   // PRIVATE FUNCTIONS
   //
+  function init () {
+    storesService.getStores().then(function () {
+      $scope.stores = storesService.stores
+      $scope.ui.activeStore = storesService.stores[0].storeId
+      $scope.loadStoreProducts()
+    })
+  }
+
   function afterDeletion (index) {
     $scope.ui.activeProduct.prices.splice(index, 1)
     $scope.ui.showCustomSize.splice(index, 1)
   }
 
   function handleSuccess () {
-    getProducts().then(function () {
+    getStoreProducts($scope.ui.activeStore).then(function () {
       $scope.ui.activeIndex = null
       $scope.ui.display = 'fulltable'
     })
@@ -310,10 +331,9 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     return false
   }
 
-  function getProducts () {
+  function getStoreProducts (storeId) {
     var defer = $q.defer()
-    var accountId = localStorage.getItem('accountId')
-    productsService.getPlanProducts(accountId).then(function (plans) {
+    productsService.getPlanProducts(storeId).then(function (plans) {
       $scope.planSelectOptions = _.map(plans, function (p) { return {name: p.label, planId: p.planId} })
       $scope.plans = plans
       var allProductsPlan = {
