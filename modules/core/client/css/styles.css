@@ -5667,6 +5667,25 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: space-between;
   align-items: center;
 }
+.store-owner-listed-products-view .left-side-content .main-table-header .filter-header .left-filter {
+  width: 50%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .filter-header .left-filter .plan-filter-container {
+  margin-right: 10px;
+  height: 36px;
+  min-width: 200px;
+}
+.store-owner-listed-products-view .left-side-content .main-table-header .filter-header .right-filter {
+  width: 50%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
 .store-owner-listed-products-view .left-side-content .main-table-header .filter-header .right-filter .common-btn-gray {
   margin-right: 20px;
 }

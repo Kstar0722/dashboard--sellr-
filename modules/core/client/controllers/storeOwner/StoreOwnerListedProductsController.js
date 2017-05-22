@@ -2,8 +2,9 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
+  $scope.ui.planFilter = 'All Products'
   $scope.plans = []
-  $scope.selectedPlan = {products: []}
+  $scope.filteredPlan = {products: []}
   $scope.Types = Types
   $scope.slotSelectOptions = productsService.buildSlots()
   $scope.slotSelectConfig = {
@@ -24,6 +25,15 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     labelField: 'size',
     sortField: 'size',
     searchField: [ 'size' ]
+  }
+  $scope.planFilterSelectConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'label',
+    labelField: 'label',
+    sortField: 'label',
+    searchField: [ 'label' ]
   }
   $scope.planSelectConfig = {
     create: false,
@@ -88,8 +98,8 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     $mdDialog.hide()
   }
 
-  $scope.selectPlan = function (plan) {
-    $scope.selectedPlan = plan
+  $scope.filterPlan = function () {
+    $scope.filteredPlan = _.findWhere($scope.plans, {label: $scope.ui.planFilter})
   }
 
   $scope.resetSize = function (index) {
@@ -313,7 +323,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
         }, [])
       }
       $scope.plans.unshift(allProductsPlan)
-      $scope.selectPlan(allProductsPlan)
+      $scope.filterPlan()
       defer.resolve()
     })
     return defer.promise
