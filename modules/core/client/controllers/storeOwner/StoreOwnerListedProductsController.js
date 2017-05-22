@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -7,52 +7,6 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   $scope.filteredPlan = {products: []}
   $scope.Types = Types
   $scope.slotSelectOptions = productsService.buildSlots()
-  $scope.slotSelectConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'slot',
-    labelField: 'slot',
-    sortField: 'slot',
-    searchField: [ 'slot' ]
-  }
-  $scope.sizesSelectConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    placeholder: 'Select a size',
-    valueField: 'size',
-    labelField: 'size',
-    sortField: 'size',
-    searchField: [ 'size' ]
-  }
-  $scope.storesFilterSelectConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'storeId',
-    labelField: 'name',
-    sortField: 'name',
-    searchField: [ 'name' ]
-  }
-  $scope.planFilterSelectConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'label',
-    labelField: 'label',
-    sortField: 'label',
-    searchField: [ 'label' ]
-  }
-  $scope.planSelectConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'planId',
-    labelField: 'name',
-    sortField: 'name',
-    searchField: [ 'name' ]
-  }
   var confirmationDialogOptions = {
     templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
     autoWrap: true,
@@ -64,6 +18,21 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     escapeToClose: true,
     fullscreen: true
   }
+// function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.
+  var commonSelectizeConfig = { create: false, maxItems: 1, allowEmptyOption: false }
+  $scope.slotSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'slot', labelField: 'slot', sortField: 'slot', searchField: [ 'slot' ]})
+  $scope.sizesSelectConfig = _.extend({}, commonSelectizeConfig, {placeholder: 'Select a size', valueField: 'size', labelField: 'size', sortField: 'size', searchField: [ 'size' ]})
+  $scope.storesFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'storeId', labelField: 'name', sortField: 'name', searchField: [ 'name' ]})
+  $scope.planFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'label', labelField: 'label', sortField: 'label', searchField: [ 'label' ]})
+  $scope.planSelectConfig = _.extend({}, commonSelectizeConfig,
+    {
+      createOnBlur: false,
+      valueField: 'planId',
+      labelField: 'name',
+      sortField: 'name',
+      searchField: [ 'name' ],
+      create: onPlanCreate
+    })
 
   //
   // SCOPE FUNCTIONS
@@ -112,7 +81,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   }
 
   $scope.loadStoreProducts = function () {
-    getStoreProducts($scope.ui.activeStore)
+    getStoreProducts($scope.ui.activeStoreId)
   }
 
   $scope.resetSize = function (index) {
@@ -128,6 +97,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   }
 
   $scope.changePlanHandler = function () {
+    // console.log($scope.ui.activeProduct.planId)
     var planId = parseInt($scope.ui.activeProduct.planId)
     $scope.ui.activeProduct.planId = planId
     _.each($scope.ui.activeProduct.prices, function (p) {
@@ -290,7 +260,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   function init () {
     storesService.getStores().then(function () {
       $scope.stores = storesService.stores
-      $scope.ui.activeStore = storesService.stores[0].storeId
+      $scope.ui.activeStoreId = storesService.stores[0].storeId
       $scope.loadStoreProducts()
     })
   }
@@ -300,8 +270,21 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     $scope.ui.showCustomSize.splice(index, 1)
   }
 
+  function onPlanCreate (input, callback) {
+    var newCategory = {
+      accountId: localStorage.getItem('accountId'),
+      storeId: $scope.ui.activeStoreId,
+      label: input
+    }
+    productsService.createCategory(newCategory).then(function (newPlan) {
+      getStoreProducts($scope.ui.activeStoreId).then(function () {
+        callback({name: newPlan.label, planId: newPlan.planId + ''})
+      })
+    })
+  }
+
   function handleSuccess () {
-    getStoreProducts($scope.ui.activeStore).then(function () {
+    getStoreProducts($scope.ui.activeStoreId).then(function () {
       $scope.ui.activeIndex = null
       $scope.ui.display = 'fulltable'
     })

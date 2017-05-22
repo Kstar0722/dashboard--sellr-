@@ -11,7 +11,7 @@
       <div class="filter-header">
         <div class="left-filter">
           <div class="store-filter-container">
-            <selectize class="custom-selectize" config="storesFilterSelectConfig" options="stores" ng-model="ui.activeStore" ng-change="loadStoreProducts()">
+            <selectize class="custom-selectize" config="storesFilterSelectConfig" options="stores" ng-model="ui.activeStoreId" ng-change="loadStoreProducts()">
               
             </selectize>
           </div>  
@@ -26,8 +26,8 @@
           </div>
         </div>
         <div class="right-filter">
-          <div class="common-btn-gray" ng-click="">Add Product</div>
-          <div class="common-btn-black" ng-click="showUploadCsvDialog()"><div class="common-centered-content"><img src="/img/import-icon.png" alt="icon"> Import CSV</div></div>
+          <div class="common-btn-gray autowidth" ng-click="">Add Product</div>
+          <div class="common-btn-black autowidth" ng-click="showUploadCsvDialog()"><div class="common-centered-content"><img src="/img/import-icon.png" alt="icon"> Import CSV</div></div>
         </div>
       </div>
       <!--
