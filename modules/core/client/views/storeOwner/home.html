@@ -5,9 +5,9 @@
       <div class="common-btn-gray" ng-click="googleSessionNumber()">Weekly Report</div>
       <div class="common-btn-gray">Monthly Report</div>
       <div class="common-btn-gray active">Custom</div>
-      <div ga-time-picker type="start"></div>
-      <i class="fa fa-minus"></i>
-      <div ga-time-picker type="end"></div>
+      <md-datepicker ng-model="ga.start" ng-change="googleSessionNumber()" md-hide-icons="triangle" md-min-date="ga.min" md-max-date="ga.max"></md-datepicker>
+      <i class="fa fa-minus" style="margin-left: 15px; margin-right: 0;"></i>
+      <md-datepicker ng-model="ga.end" ng-change="googleSessionNumber()" md-hide-icons="triangle" md-min-date="ga.min" md-max-date="ga.max"></md-datepicker>
     </div>
     <div>
       <div class="common-btn-positive has-left-icon autowidth"><div class="common-centered-content"><img src="/img/export-icon.png" alt="icon"> Download Report</div></div>

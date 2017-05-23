@@ -28,7 +28,6 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
         }
       }).then(function(response) {
         // TODO: not important, but find out why $http won't chain properly
-        console.log($scope.ga);
         if(account.preferences.analytics.item) {
           return $http({
             method: 'POST',
@@ -43,8 +42,8 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
                   viewId: account.preferences.analytics.item,
                   dateRanges: [
                     {
-                      startDate: $scope.ga.start,
-                      endDate: $scope.ga.end
+                      startDate: $scope.formatDate($scope.ga.start),
+                      endDate: $scope.formatDate($scope.ga.end)
                     }
                   ],
                   metrics: [
@@ -64,30 +63,20 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
     });
   }
 
+  $scope.formatDate = function(date) {
+    return date.toISOString().split('T')[0];
+  }
+
   $scope.init = function() {
     $scope.ga = {
-      start: 'Yesterday',
-      end: 'Today'
-    };
+      start: new Date(),
+      end: new Date(),
+      min: new Date('2005-01-01'),
+      max: new Date()
+    }
   }
 
   $scope.init();
 
   $scope.googleSessionNumber();
-}).directive('gaTimePicker', function() {
-  return {
-    link($scope, element, attrs) {
-      element.find('input').datepicker({
-        minDate: new Date('2005-01-01'),
-        maxDate: new Date(),
-        onSelect(formatted, date) {
-          $scope.ga[attrs.type] = new Date(formatted).toISOString().split('T')[0];
-          $scope.googleSessionNumber();
-        }
-      });
-    },
-    template(element, attrs) {
-      return `<input type="text" placeholder="Select a Date" class="common-btn-gray" ng-model="ga.${attrs.type}"><!--<i class="fa fa-calendar"></i>-->`
-    }
-  }
 });
