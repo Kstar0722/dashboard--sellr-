@@ -398,26 +398,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     })
   }
 
-  me.getStats = function () {
-    var account = me.currentAccount
-
-    var url = constants.BWS_API + '/edit/count'
-    if (account) {
-      url += '?requested_by=' + account
-    }
-    $http.get(url).then(onGetStatSuccess, onGetStatError)
-    function onGetStatSuccess (response) {
-      // log('onGetStatSuccess %O', response)
-      me.productStats = response.data
-      me.currentAccount = account
-    }
-
-    function onGetStatError (error) {
-      console.error('onGetStatError %O', error)
-      me.productStats = {}
-    }
-  }
-
   me.formatProductDetail = function (product) {
     var defer = $q.defer()
     product.name = product.name || product.title
