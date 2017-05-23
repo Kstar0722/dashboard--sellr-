@@ -1,8 +1,10 @@
 angular.module('core').controller('StoreOwnerHomeController', function ($scope, accountsService, $stateParams, $state, $http) {
   console.log('LISTED PRODUCTS CTRL')
 
-  var googleSessionNumber = function getGoogleSessionCount() {
-  	$scope.websiteTraffic = 0;
+  $scope.googleSessionNumber = function() {
+    if(!$scope.websiteTraffic) {
+      $scope.websiteTraffic = 0;
+    }
     accountsService.getAccount().then(function(account) {
       if(!account.preferences.analytics) {
         return;
@@ -26,6 +28,7 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
         }
       }).then(function(response) {
         // TODO: not important, but find out why $http won't chain properly
+        console.log($scope.ga);
         if(account.preferences.analytics.item) {
           return $http({
             method: 'POST',
@@ -38,6 +41,12 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
               reportRequests: [
                 {
                   viewId: account.preferences.analytics.item,
+                  dateRanges: [
+                    {
+                      startDate: $scope.ga.start,
+                      endDate: $scope.ga.end
+                    }
+                  ],
                   metrics: [
                     {
                       expression: 'ga:sessions'
@@ -55,5 +64,30 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
     });
   }
 
-  googleSessionNumber();
-})
+  $scope.init = function() {
+    $scope.ga = {
+      start: 'Yesterday',
+      end: 'Today'
+    };
+  }
+
+  $scope.init();
+
+  $scope.googleSessionNumber();
+}).directive('gaTimePicker', function() {
+  return {
+    link($scope, element, attrs) {
+      element.find('input').datepicker({
+        minDate: new Date('2005-01-01'),
+        maxDate: new Date(),
+        onSelect(formatted, date) {
+          $scope.ga[attrs.type] = new Date(formatted).toISOString().split('T')[0];
+          $scope.googleSessionNumber();
+        }
+      });
+    },
+    template(element, attrs) {
+      return `<input type="text" placeholder="Select a Date" class="common-btn-gray" ng-model="ga.${attrs.type}"><!--<i class="fa fa-calendar"></i>-->`
+    }
+  }
+});
