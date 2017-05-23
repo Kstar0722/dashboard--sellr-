@@ -11,7 +11,9 @@ angular.module('core').service('constants', function (envService) {
   me.CARDKIT_URL = envService.read('CARDKIT_URL')
   me.GETSELLR_URL = 'https://getsellr.com/'
   me.ADS_URL = 'https://s3.amazonaws.com/cdn.expertoncue.com/'
-  console.log('constants %O', me)
+  if (me.env !== 'production') {
+    console.log('constants %O', me)
+  }
 
   return me
 })
