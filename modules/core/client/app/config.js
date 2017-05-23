@@ -11,7 +11,6 @@ window.ApplicationConfiguration = (function () {
     'ui.router',
     'ui.utils',
     'angularFileUpload',
-    'btford.socket-io',
     'ngCsvImport',
     'selectize',
     'stripe.checkout',

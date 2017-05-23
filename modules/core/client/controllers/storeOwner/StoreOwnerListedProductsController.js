@@ -123,7 +123,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.changePlanHandler = function () {
     // console.log($scope.ui.activeProduct.planId)
-    var planId = parseInt($scope.ui.activeProduct.planId)
+    var planId = parseInt($scope.ui.activeProduct.planId, 10)
     $scope.ui.activeProduct.planId = planId
     _.each($scope.ui.activeProduct.prices, function (p) {
       p.planId = planId

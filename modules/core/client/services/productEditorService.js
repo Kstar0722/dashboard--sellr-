@@ -105,7 +105,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     options = options || {}
     var filter = options.filter || {}
     var defer = $q.defer()
-    var url = constants.BWS_API + '/edit/search?'
+    var url = constants.BWS_API + '/products/search?'
     var params = {}
     if (options.types) {
       for (var i in options.types) {
@@ -339,7 +339,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var url = constants.BWS_API + '/edit/claim'
     $http.put(url, payload).then(function (res) {
       log('claim response', res)
-      // socket.emit('product-unclaimed', options)
       me.currentProduct = {}
     }, function (err) {
       log('deleteClaim error', err)
@@ -368,7 +367,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var payload = {
       payload: product
     }
-    var url = constants.BWS_API + '/edit/products/' + product.productId
+    var url = constants.BWS_API + '/products/' + product.productId
     var httpOptions = silent ? { ignoreLoadingBar: true } : {}
     $http.put(url, payload, httpOptions).then(onSaveSuccess, onSaveError)
     function onSaveSuccess (response) {
@@ -397,26 +396,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         me.save(product)
       })
     })
-  }
-
-  me.getStats = function () {
-    var account = me.currentAccount
-
-    var url = constants.BWS_API + '/edit/count'
-    if (account) {
-      url += '?requested_by=' + account
-    }
-    $http.get(url).then(onGetStatSuccess, onGetStatError)
-    function onGetStatSuccess (response) {
-      // log('onGetStatSuccess %O', response)
-      me.productStats = response.data
-      me.currentAccount = account
-    }
-
-    function onGetStatError (error) {
-      console.error('onGetStatError %O', error)
-      me.productStats = {}
-    }
   }
 
   me.formatProductDetail = function (product) {
@@ -672,7 +651,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var type = options.type
     console.log('searching sku %s', sku)
     me.show.loading = true
-    var skuUrl = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&sku=' + sku
+    var skuUrl = constants.BWS_API + '/products/search?l=50&type=' + type + '&v=sum&sku=' + sku
     $http.get(skuUrl).then(function (skuResult) {
       me.remainingQueries = skuResult.data.length
       if (me.remainingQueries > 0) {
@@ -688,7 +667,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
               defer.resolve(me.productList)
             }
           } else {
-            var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&name=' + skuResult.data[i].name
+            var url = constants.BWS_API + '/products/search?type=' + type + '&v=sum&name=' + skuResult.data[i].name
             $http.get(url).then(function (results2) {
               me.productList = me.productList.concat(results2.data)
               me.productList = _.uniq(me.productList, function (p) {
@@ -720,7 +699,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.checkForNewProducts = function () {
-    var url = constants.BWS_API + '/edit/search?status=new&v=sum'
+    var url = constants.BWS_API + '/products/search?status=new&v=sum'
     $http.get(url).then(function (res) {
       me.show.newProducts = res.data.length > 0
       me.newProducts = res.data
