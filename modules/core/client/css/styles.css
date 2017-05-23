@@ -3146,13 +3146,21 @@ body.loading .main-content {
 }
 .product-types-manager-view .left-column .gray-container {
   background-color: #f4f7f9;
-  padding: 15px 25px;
+  padding: 0px 25px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  height: 6vh;
+  min-height: 50px;
+}
+.product-types-manager-view .left-column .gray-container .common-btn-black {
+  margin: auto;
+}
+.product-types-manager-view .left-column .gray-container .common-input-with-icon {
+  width: 100%;
 }
 .product-types-manager-view .left-column .gray-container .custom-selectize {
   width: 100%;
@@ -3160,7 +3168,11 @@ body.loading .main-content {
 .product-types-manager-view .left-column .gray-container:last-child {
   border-top: 1px solid #e6eaee;
 }
-.product-types-manager-view .left-column .type-container {
+.product-types-manager-view .left-column .types-container {
+  max-height: 63vh;
+  overflow: auto;
+}
+.product-types-manager-view .left-column .types-container .type-container {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -3169,20 +3181,20 @@ body.loading .main-content {
   border-top: 1px solid #e6eaee;
   cursor: pointer;
 }
-.product-types-manager-view .left-column .type-container.active {
+.product-types-manager-view .left-column .types-container .type-container.active {
   background-color: rgba(215, 251, 232, 0.2);
 }
-.product-types-manager-view .left-column .type-container:hover {
+.product-types-manager-view .left-column .types-container .type-container:hover {
   background-color: rgba(215, 251, 232, 0.2);
 }
-.product-types-manager-view .left-column .type-container .type-image {
+.product-types-manager-view .left-column .types-container .type-container .type-image {
   width: 6%;
   margin-right: 20px;
 }
-.product-types-manager-view .left-column .type-container .type-image img {
+.product-types-manager-view .left-column .types-container .type-container .type-image img {
   width: 100%;
 }
-.product-types-manager-view .left-column .type-container .industry {
+.product-types-manager-view .left-column .types-container .type-container .industry {
   font-size: 14px;
   font-weight: bold;
   color: #7f8fa4;
