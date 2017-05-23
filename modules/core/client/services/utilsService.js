@@ -25,5 +25,9 @@ angular.module('core').service('utilsService', function ($timeout) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
+  me.stringToUppercaseUnderscore = function (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
+
   return me
 })

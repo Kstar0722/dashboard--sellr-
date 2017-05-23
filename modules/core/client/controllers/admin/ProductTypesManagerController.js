@@ -7,9 +7,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
   $scope.ui.activeType = null
   $scope.ui.searchType = ''
   var defaultType = {
-    name: 'New Type',
-    industry: '',
-    image: '/img/beer_grey_placeholder.png',
+    name: '',
     fields: [
       {
         type: 'Text Input',
@@ -21,30 +19,61 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       }
     ]
   }
+  var defaultTypeField = {
+    label: '',
+    options: pts.getDefaultPropertyOptions()
+  }
+  $scope.typeFields = [{name: 'Text Input'}, {name: 'Select Dropdown'}, {name: 'List'}]
+  $scope.typeFieldsConfig = {
+    create: false,
+    maxItems: 1,
+    allowEmptyOption: false,
+    valueField: 'name',
+    labelField: 'name',
+    sortField: 'name',
+    searchField: ['name']
+  }
 
   //
   // INITIALIZATION
   //
-  pts.getProductTypes().then(function (types) {
-    $scope.ui.types = types
-  })
+  init()
 
   //
   // SCOPE FUNCTIONS
   //
 
-  $scope.addNewType = function () {
-    $scope.hardcodedTypesData.push(angular.copy(defaultType))
-    $scope.ui.activeType = $scope.hardcodedTypesData[$scope.hardcodedTypesData.length - 1]
+  $scope.saveActiveType = function () {
+    pts.updateProductType($scope.ui.activeType.productTypeId, $scope.ui.activeType.friendlyName).then(function () {
+      init()
+    })
   }
 
-  // $scope.addTypeField = function () {
-  //   $scope.ui.activeType.fields.push(angular.copy(defaultTypeField))
-  // }
+  $scope.editType = function (type) {
+    console.log(type)
+    pts.getProductTypeProperties(type.productTypeId).then(function (properties) {
+      var activeType = angular.copy(type)
+      activeType.properties = properties
+      $scope.ui.activeType = activeType
+    })
+  }
+
+  $scope.addNewType = function () {
+    $scope.ui.activeType = defaultType
+  }
+
+  $scope.addTypeField = function () {
+    $scope.ui.activeType.fields.push(angular.copy(defaultTypeField))
+  }
 
   //
   // INTERNAL FUNCTIONS
   //
+  function init () {
+    pts.getProductTypes().then(function (types) {
+      $scope.ui.types = types
+    })
+  }
 
   //
   // EVENTS
