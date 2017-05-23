@@ -1,7 +1,7 @@
 'use strict'
 /* global angular, localStorage, FB */
 // Authentication service for user variables
-angular.module('core').factory('authenticationService', ['Authentication', '$http', 'constants', '$state', 'SocketAPI', 'toastr', 'authToken', '$analytics', '$q', function (Authentication, $http, constants, $state, SocketAPI, toastr, authToken, $analytics, $q) {
+angular.module('core').factory('authenticationService', ['Authentication', '$http', 'constants', '$state', 'toastr', 'authToken', '$analytics', '$q', function (Authentication, $http, constants, $state, toastr, authToken, $analytics, $q) {
   var me = this
 
   me.isLoggedIn = function () {
@@ -116,8 +116,6 @@ angular.module('core').factory('authenticationService', ['Authentication', '$htt
       email: user.email,
       app: 'Dashboard'
     })
-    SocketAPI.connect()
-
     me.goToUserHome()
   }
 

@@ -339,7 +339,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var url = constants.BWS_API + '/edit/claim'
     $http.put(url, payload).then(function (res) {
       log('claim response', res)
-      // socket.emit('product-unclaimed', options)
       me.currentProduct = {}
     }, function (err) {
       log('deleteClaim error', err)
