@@ -6,7 +6,7 @@ angular.module('core').controller('EditorProductHistoryController', ['$scope', '
   $scope.ui.skip = 0
   $scope.ui.allData = []
   $scope.ui.filteredResults = []
-  var userProductsURL = constants.BWS_API + '/edit/products/users'
+  var userProductsURL = constants.BWS_API + '/products/users'
 
   //
   // INITIALIZATION
@@ -21,7 +21,7 @@ angular.module('core').controller('EditorProductHistoryController', ['$scope', '
   //
   $scope.loadMoreHandler = function () {
     $scope.ui.skip = $scope.ui.skip + 100
-    var userProductsURL = constants.BWS_API + '/edit/products/users?skip=' + $scope.ui.skip
+    var userProductsURL = constants.BWS_API + '/products/users?skip=' + $scope.ui.skip
     getData(userProductsURL).then(function (data) {
       $scope.ui.allData = $scope.ui.allData.concat(data)
       filterDataByDate()
