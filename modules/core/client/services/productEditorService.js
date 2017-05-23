@@ -238,13 +238,17 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   //  abstracts away remote call for detail
   me.getProductDetail = function (product, silent) {
     var httpOptions = silent ? { ignoreLoadingBar: true } : {}
-    return $http.get(constants.BWS_API + '/edit/products/' + product.productId, httpOptions)
+    return $http.get(constants.BWS_API + '/products/' + product.productId, httpOptions).then(res => {
+      console.log('DETAIL', res)
+      return res.data.product
+    })
   }
 
   me.getProduct = function (product) {
     var defer = $q.defer()
     if (!product.productId) {
       defer.reject({message: 'no product Id'})
+      /**/
     }
     if (me.productStorage[product.productId]) {
       //  use cached product if exists
@@ -253,8 +257,8 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     } else {
       //  get from api and format
       me.getProductDetail(product).then(function (res) {
-        if (res.data.length > 0) {
-          me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
+        if (res.length > 0) {
+          me.formatProductDetail(res[0]).then(function (formattedProduct) {
             log('formattedProduct', formattedProduct)
             // store product for faster load next time
             me.productStorage[product.productId] = formattedProduct
@@ -316,7 +320,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       'payload': options
     }
     log('claiming', payload)
-    var url = constants.BWS_API + '/edit/claim'
+    var url = constants.BWS_API + '/products/claim'
     return $http.post(url, payload)
   }
 
@@ -336,7 +340,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       'payload': options
     }
     log('removing claim', payload)
-    var url = constants.BWS_API + '/edit/claim'
+    var url = constants.BWS_API + '/products/claim'
     $http.put(url, payload).then(function (res) {
       log('claim response', res)
       me.currentProduct = {}
@@ -619,7 +623,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.updateFeedback = function (feedback) {
-    var url = constants.BWS_API + '/edit/feedback'
+    var url = constants.BWS_API + '/products/feedback'
     var payload = {
       payload: {
         productId: me.currentProduct.productId,
@@ -636,7 +640,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   me.deleteFeedback = function (feedback) {
     var product = me.currentProduct
     var feedbackId = feedback.id || _.indexOf(product.feedback, feedback) + 1
-    var url = constants.BWS_API + '/edit/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId
+    var url = constants.BWS_API + '/products/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId
     return $http.delete(url).then(function (res) {
       console.log(res)
     }, function (err) {
@@ -722,7 +726,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       productId: product.productId,
       sku: sku
     }
-    return $http.delete(constants.BWS_API + '/edit/sku', {params: params}).then(function (res) {
+    return $http.delete(constants.BWS_API + '/products/sku', {params: params}).then(function (res) {
       _.removeItem(me.currentProduct.skus, sku)
       toastr.success('UPC ' + sku + ' removed')
     }).catch(function (err) {
