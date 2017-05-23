@@ -1,20 +1,26 @@
 <div class="product-types-manager-view">
   <div class="left-column">
     <div class="gray-container">
-      <selectize class="custom-selectize" config="industryTypesConfig" options="industryTypes" ng-model="ui.industryFilter">
-      </selectize>
-    </div>
-    <div ng-class="['type-container', {active: ui.activeType === type}]" ng-repeat="type in hardcodedTypesData | filter : {industry: ui.industryFilter}" ng-click="ui.activeType = type">
-      <div class="type-image">
-        <img ng-src="{{type.image}}" alt="icon">
+      <!--   <selectize class="custom-selectize" config="industryTypesConfig" options="industryTypes" ng-model="ui.industryFilter">
+      </selectize> -->
+      <div class="common-input-with-icon">
+        <input type="text" placeholder="Search" class="common-input" ng-model="ui.searchType">
+        <i class="fa fa-search"></i>
       </div>
-      <div>
-        <div><strong ng-bind="type.name"></strong></div>
-        <div class="industry" ng-bind="type.industry"></div>
+    </div>
+    <div class="types-container">
+      <div ng-class="['type-container', {active: ui.activeType === type}]" ng-repeat="type in ui.types | filterBy:['friendlyName']:ui.searchType | orderBy:friendlyName track by type.productTypeId" ng-click="ui.activeType = type">
+        <!--    <div class="type-image">
+          <img ng-src="{{type.image}}" alt="icon">
+        </div> -->
+        <div>
+          <div><strong ng-bind="type.friendlyName"></strong></div>
+          <!-- <div class="industry" ng-bind="type.industry"></div> -->
+        </div>
       </div>
     </div>
     <div class="gray-container">
-      <div class="common-btn-black small" ng-click="addNewType()">New Type</div>
+      <div class="common-btn-black" ng-click="addNewType()">New Type</div>
     </div>
   </div>
   <div class="right-column" ng-if="ui.activeType">

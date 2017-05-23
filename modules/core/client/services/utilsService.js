@@ -21,5 +21,9 @@ angular.module('core').service('utilsService', function ($timeout) {
     $timeout(function () { scope.ui.cancelAutosave = false }, 4000)
   }
 
+  me.stringToFirstLetterUppercase = function (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
+
   return me
 })

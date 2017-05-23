@@ -85,7 +85,11 @@
         </div>
         <div class="action-footer">
           <div class="common-centered-content">
-            <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'" ng-click="showDeleteUserDialog()"><i class="fa fa-trash-o"></i> <span>Delete</span></div>
+            <div class="common-btn-negative small has-left-icon" ng-if="ui.display === 'editUser'" ng-click="showDeleteUserDialog()">
+              <div class="common-centered-content">
+                Delete
+              </div>
+            </div>
             <button class="common-btn-black autowidth" ng-if="ui.display === 'editUser'" ng-click="showResetPasswordDialog()">Reset Password</button>
           </div>
           <div>&nbsp;</div>

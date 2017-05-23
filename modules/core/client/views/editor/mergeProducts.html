@@ -25,7 +25,12 @@
         <small>Audio {{$index + 1}}:</small>
         <div class="common-btn-positive" ng-click="playMergedAudio($index)"><i class="fa fa-play"></i> Play</div>
         <div class="common-btn-black" ng-click="pauseMergedAudio()"><i class="fa fa-pause"></i> Pause</div>
-        <div class="common-btn-negative" ng-click="removeMergedAudio($index)"><i class="fa fa-trash-o"></i> Remove</div>
+        <div class="common-btn-negative" ng-click="removeMergedAudio($index)">
+          <div class="common-centered-content">
+            <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+            Remove
+          </div>
+        </div>
       </p>
     </div>
     <div class="common-field-title">Image</div>
@@ -41,7 +46,12 @@
             </div>
           </a>
         </div>
-        <div class="common-btn-negative" ng-click="removeMergedImage($index)"><i class="fa fa-trash-o"></i> Remove</div>
+        <div class="common-btn-negative" ng-click="removeMergedImage($index)">
+          <div class="common-centered-content">
+            <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+            Remove
+          </div>
+        </div>
       </div>
     </div>
     <div class="product-image-edit-upload-btn">

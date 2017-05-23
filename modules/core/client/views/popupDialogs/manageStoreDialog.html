@@ -55,7 +55,12 @@
         </div>
         <div class="action-footer" ng-if="!ui.deleteStoreMsg">
           <div ng-if="isNewStore">&nbsp;</div>
-          <div class="common-btn-negative" ng-click="ui.deleteStoreMsg = true" ng-if="!isNewStore"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
+          <div class="common-btn-negative" ng-click="ui.deleteStoreMsg = true" ng-if="!isNewStore">
+            <div class="common-centered-content">
+              <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+              Delete Store
+            </div>
+          </div>
           <div class="common-centered-content">
             <div class="common-btn-gray small" ng-click="closeDialog()">Close</div>
             <button type="submit" class="common-btn-positive small submit" ng-bind="isNewStore ? 'Create' : 'Update'"></button>
