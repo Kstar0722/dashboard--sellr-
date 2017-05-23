@@ -5,28 +5,23 @@
       <div class="first-column">
         <div class="common-field-title">Status</div>
         <selectize class="custom-selectize" config="productStatusesConfig" options="pes.productStatuses"
-                   ng-model="pes.currentProduct.status">
+          ng-model="pes.currentProduct.status">
         </selectize>
       </div>
       <div class="second-column">
         <div ng-if="permissions.curator && pes.currentProduct.status != 'new'" class="common-btn-black"
-             ng-click="pes.markAsNew()">Mark as New
+          ng-click="pes.markAsNew()">Mark as New
         </div>
         <div ng-if="permissions.curator && pes.currentProduct.status != 'approved'" class="common-btn-black"
-             ng-click="showMarkAsApproveDialog()">Mark as Approved
+          ng-click="showMarkAsApproveDialog()">Mark as Approved
         </div>
-        <!-- <div ng-if="pes.currentProduct.status != 'done' && pes.currentProduct.status != 'approved'" class="common-btn-black" ng-click="showMarkAsDoneDialog()">Mark as Done</div> -->
         <div class="common-btn-positive" ng-click="saveProduct()">Save</div>
       </div>
     </div>
     <div class="product-name" ng-bind="pes.currentProduct.name"></div>
-    <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span
-            ng-bind="pes.currentProduct.productId"></span></p>
-    <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus"
-                                                                   ng-bind="$last ? sku : sku + ', '"></span></p>
-    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize"
-                                                                                   ng-bind="pes.currentProduct.requestedBy"></span>
-    </p>
+    <p ng-if="pes.currentProduct.productId"><strong>Product Id:</strong> <span ng-bind="pes.currentProduct.productId"></span></p>
+    <p ng-if="pes.currentProduct.skus"><strong>UPC:</strong> <span ng-repeat="sku in pes.currentProduct.skus" ng-bind="$last ? sku : sku + ', '"></span></p>
+    <p ng-if="pes.currentProduct.requestedBy"><strong>Requested By:</strong> <span class="capitalize" ng-bind="pes.currentProduct.requestedBy"></span></p>
     <p ng-if="pes.currentProduct.status === 'done'">
       Submitted by
       <strong><i>{{pes.currentProduct.displayName}}</i></strong>
@@ -35,15 +30,15 @@
     <div class="separator"></div>
     <div class="common-field-title">Title</div>
     <input type="text" class="common-input" name="name" ng-model="pes.currentProduct.name"
-           ng-change="debouncedAutosaveProduct()">
+    ng-change="debouncedAutosaveProduct()">
     <div class="common-field-title">Product Type</div>
     <selectize class="custom-selectize" config="productTypeConfig" options="ProductTypes"
-               ng-model="pes.currentProduct.productTypeId" ng-change="debouncedAutosaveProduct()">
+      ng-model="pes.currentProduct.productTypeId" ng-change="debouncedAutosaveProduct()">
     </selectize>
     <div ng-show="categoriesOptions.length > 1">
       <div class="common-field-title">Category</div>
       <selectize class="custom-selectize" config="productCategoryConfig" options="categoriesOptions"
-                 ng-model="pes.currentProduct.category" ng-change="debouncedAutosaveProduct()">
+        ng-model="pes.currentProduct.category" ng-change="debouncedAutosaveProduct()">
       </selectize>
     </div>
     <div class="columns tags-columns">
@@ -56,35 +51,36 @@
       </div>
       <div class="second-column" ng-hide="loading">
         <div class="common-field-title">Current tags</div>
-        <div ng-repeat="tag in pes.currentProduct.properties | productTags" class="product-tag"><span
-                ng-bind="tag.value"></span> <i
-                class="fa fa-times" ng-click="removeTag(tag)"></i></div>
+        <div ng-repeat="tag in pes.currentProduct.properties | productTags" class="product-tag"><span ng-bind="tag.value"></span> <i class="fa fa-times" ng-click="removeTag(tag)"></i></div>
       </div>
     </div>
     <div class="verified">
       <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified"
-             ng-change="debouncedAutosaveProduct()" />
+      ng-change="debouncedAutosaveProduct()" />
       <label for="verifiedByBrand">Verified by Brand</label>
     </div>
     <div class="common-field-title">Audio</div>
     <small ng-show="!pes.currentProduct.audio">
-      No audio uploaded yet.
+    No audio uploaded yet.
     </small>
     <div class="media-buttons">
       <div ng-if="pes.currentProduct.audio" class="common-btn-positive" ng-click="pes.currentProduct.audio.play()"><i
-              class="fa fa-play"></i> Play
+        class="fa fa-play"></i> Play
       </div>
       <div ng-if="pes.currentProduct.audio" class="common-btn-black" ng-click="pes.currentProduct.audio.pause()"><i
-              class="fa fa-pause"></i> Pause
+        class="fa fa-pause"></i> Pause
       </div>
-      <div ng-if="pes.currentProduct.audio" class="common-btn-negative" ng-click="removeAudio()"><i
-              class="fa fa-trash-o"></i> Remove
+      <div ng-if="pes.currentProduct.audio" class="common-btn-negative" ng-click="removeAudio()">
+        <div class="common-centered-content">
+          <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+          Remove
+        </div>
       </div>
       <button class="common-btn-silver" ngf-select="pes.uploadAudio($files)">Upload Audio</button>
     </div>
     <div class="common-field-title">Image</div>
     <small ng-show="!pes.currentProduct.images || pes.currentProduct.images.length === 0">
-      No images uploaded yet.
+    No images uploaded yet.
     </small>
     <div class="product-images-container">
       <div ng-repeat="image in pes.currentProduct.images" class="product-image-edit-container">
@@ -94,7 +90,12 @@
             </div>
           </a>
         </div>
-        <div class="common-btn-negative" ng-click="pes.removeImage(image)"><i class="fa fa-trash-o"></i> Remove</div>
+        <div class="common-btn-negative" ng-click="pes.removeImage(image)">
+          <div class="common-centered-content">
+            <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+            Remove
+          </div>
+        </div>
       </div>
     </div>
     <div class="product-image-edit-upload-btn">
@@ -112,22 +113,20 @@
       </div>
     </div>
     <div class="common-field-title">Description</div>
-    <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description"
-                   bind-options="mediumEditorOptions">
+    <medium-editor class="custom-medium-editor" ng-model="pes.currentProduct.description" bind-options="mediumEditorOptions">
     </medium-editor>
     <div ng-repeat="prop in pes.currentProduct.properties" ng-switch on="prop.type" ng-if="prop.visibility">
       <div class="common-field-title">{{prop.label}} <span ng-show="prop.info"> - ({{ prop.info }})</span></div>
       <input class="common-input" ng-switch-when="input" ng-model="prop.value" placeholder="{{ prop.info }}"
-             ng-change="debouncedAutosaveProduct()">
+      ng-change="debouncedAutosaveProduct()">
       <textarea class="common-textarea" ng-switch-when="textarea" ng-model="prop.value" placeholder="{{ prop.info }}"
-                ng-change="debouncedAutosaveProduct()"></textarea>
+      ng-change="debouncedAutosaveProduct()"></textarea>
       <selectize ng-switch-when="countryselect" class="custom-selectize" config="countrySelectConfig"
-                 options="Countries.allCountries" ng-model="prop.value" ng-change="debouncedAutosaveProduct()">
+        options="Countries.allCountries" ng-model="prop.value" ng-change="debouncedAutosaveProduct()">
       </selectize>
     </div>
     <div class="common-field-title">Research Notes</div>
-    <textarea class="common-textarea" ng-model="pes.currentProduct.notes"
-              ng-change="debouncedAutosaveProduct()"></textarea>
+    <textarea class="common-textarea" ng-model="pes.currentProduct.notes" ng-change="debouncedAutosaveProduct()"></textarea>
     <div class="common-field-title">Keyboard Shortcuts:</div>
     <div class="shortcuts-action">
       <div>
