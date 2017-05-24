@@ -5,7 +5,7 @@
  */
 exports.renderIndex = function (req, res) {
   var index
-  if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'QA') {
+  if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'QA' || process.env.NODE_ENV === 'staging') {
     index = 'modules/core/server/views/prod'
   } else {
     index = 'modules/core/server/views/dev'
