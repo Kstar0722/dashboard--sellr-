@@ -31,14 +31,14 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           // API_URL: 'https://apidev.sllr.io',
           // BWS_API: 'https://bwsdev.sllr.io',
           API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7171',
+          BWS_API: 'http://localhost:7272',
           CARDKIT_URL: 'http://themedev.sllr.io'
           // CARDKIT_URL: 'http://localhost:7474'
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io',
+          BWS_API: 'https://apidev.sllr.io',
           CARDKIT_URL: 'http://themedev.sllr.io'
         },
         staging: {
