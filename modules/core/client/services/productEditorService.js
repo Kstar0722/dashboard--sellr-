@@ -479,12 +479,12 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var mediaConfig = {
       mediaRoute: 'media',
       folder: 'products',
-      type: 'PRODUCT',
+      type: 'IMAGE',
       fileType: 'IMAGE',
       accountId: localStorage.getItem('accountId'),
       productId: me.currentProduct.productId
     }
-    uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+    uploadService.uploadProductImage(files[0], mediaConfig).then(function (response, err) {
       if (response) {
         toastr.success('Product Image Updated!')
         me.save(me.currentProduct).then(function (err, response) {
@@ -593,8 +593,8 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   me.refreshProduct = function (product, silent) {
     var defer = $q.defer()
     me.getProductDetail(product, silent).then(function (res) {
-      if (res.data.length > 0) {
-        me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
+      if (res.length > 0) {
+        me.formatProductDetail(res[0]).then(function (formattedProduct) {
           log('formattedProduct', formattedProduct)
           me.currentProduct = formattedProduct
 

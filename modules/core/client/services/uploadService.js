@@ -16,10 +16,27 @@ angular.module('core').service('uploadService', function ($http, constants, toas
     me.editAccount = {}
     me.currentAccount = {}
     me.files = []
-    me.determinate = { value: 0 }
+    me.determinate = {value: 0}
   }
 
   me.init()
+
+  me.uploadProductImage = function (file, mediaConfig) {
+    cfpLoadingBar.start()
+    var filename = (file.name).replace(/ /g, '_').replace(/[()]/g, '').replace(/'/g, '') // remove parentheses and single quotes
+    let metadata = {fileKey: filename}
+    let key = mediaConfig.folder + '/' + Date.now().toString() + '-' + filename
+    return bucketUpload(key, file, metadata)
+      .then(function (publicUrl) {
+        const url = constants.API_URL + '/products/media'
+        mediaConfig.publicUrl = publicUrl
+        const payload = {payload: mediaConfig}
+        return $http.post(url, payload).then(res => {
+          cfpLoadingBar.complete()
+          return res
+        })
+      })
+  }
 
   me.upload = function (file, mediaConfig) {
     var defer = $q.defer()
@@ -55,7 +72,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
   }
 
   function saveMediaWrapper (mediaConfig, blob) {
-    return createMedia(mediaConfig, { name: blob.filename }).then(function (media) {
+    return createMedia(mediaConfig, {name: blob.filename}).then(function (media) {
       return storeFile(blob, {path: mediaConfig.folder + '/' + media.mediaAssetId + '-' + media.fileName})
         .then(null, null)
         .then(function (url) {
@@ -213,7 +230,6 @@ angular.module('core').service('uploadService', function ($http, constants, toas
         }
       }
     }
-
     return $http.post(constants.API_URL + '/' + config.mediaRoute, payload, {
       ignoreLoadingBar: true
     }).then(function (response, err) {
@@ -235,8 +251,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
         publicUrl: publicUrl
       }
     }
-
-    return $http.put(constants.API_URL + '/media', payload, {
+    return $http.put(constants.API_URL + '/media/' + media.mediaAssetId, payload, {
       ignoreLoadingBar: true
     }).then(function (res, err) {
       if (err) throw err
