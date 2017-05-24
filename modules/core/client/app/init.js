@@ -44,7 +44,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://bwsqa.sllr.io',
+          BWS_API: 'https://apiqa.sllr.io',
           CARDKIT_URL: 'http://themedev.sllr.io'
         },
         production: {
