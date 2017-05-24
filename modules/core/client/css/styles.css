@@ -6266,12 +6266,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-size: 14px;
   color: #354052;
 }
-.store-owner-home-view {
-  background-color: #eff3f6;
-  color: #354052;
-  position: relative;
-}
-.store-owner-home-view .top-bar {
+.common-top-bar {
   background-color: #fff;
   height: 60px;
   width: 100%;
@@ -6280,28 +6275,33 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: space-around;
   align-items: center;
 }
-.store-owner-home-view .top-bar .date-filter {
+.common-top-bar .date-filter {
   width: 60%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 }
-.store-owner-home-view .top-bar .date-filter .fa-minus {
+.common-top-bar .date-filter .fa-minus {
   margin-right: 15px;
   color: #7383a1;
   font-size: 10px;
 }
-.store-owner-home-view .top-bar .date-filter .common-btn-gray {
+.common-top-bar .date-filter .common-btn-gray {
   margin-right: 15px;
 }
-.store-owner-home-view .top-bar .date-filter .common-btn-gray:last-child {
+.common-top-bar .date-filter .common-btn-gray:last-child {
   margin-right: 0px;
 }
-.store-owner-home-view .top-bar .date-filter .common-btn-gray.active {
+.common-top-bar .date-filter .common-btn-gray.active {
   background-image: linear-gradient(to bottom, #2ea77a, #32a279);
   border-color: #2bbf88;
   color: #fff;
+}
+.store-owner-home-view {
+  background-color: #eff3f6;
+  color: #354052;
+  position: relative;
 }
 .store-owner-home-view .main-content {
   padding: 30px 3vw 10vh 3vw;
@@ -6385,4 +6385,23 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   color: #7f8fa4;
   text-transform: uppercase;
   margin-top: 5px;
+}
+.store-owner-reports-view .main-content {
+  padding: 30px 3vw 10vh 3vw;
+}
+.store-owner-reports-view .main-content .reports-info {
+  height: 413px;
+}
+.store-owner-reports-view .main-content .reports-info .chart {
+  width: 65%;
+  padding: 25px 10px;
+  box-sizing: border-box;
+}
+.store-owner-reports-view .main-content .reports-info .sources {
+  width: 30%;
+  margin-left: 5%;
+}
+.store-owner-reports-view .main-content .reports-info .chart,
+.store-owner-reports-view .main-content .reports-info .sources {
+  float: left;
 }

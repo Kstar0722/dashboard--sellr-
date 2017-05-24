@@ -1,4 +1,4 @@
-// 
+//
 // OLD HOME
 //
 .common-sub-nav-bar{
@@ -32,7 +32,7 @@
       }
     }
   }
-} 
+}
 .store-owner-OLD-home-view {
   text-align: center;
   padding: 4vh 10vw 10vh 10vw;
@@ -122,9 +122,9 @@
   }
 }
 
-// 
+//
 // MARKETING CHANNELS
-// 
+//
 .store-owner-marketing-channels-view {
   background-color: #eff3f6;
   padding: 4vh 10vw 0px 10vw;
@@ -184,9 +184,9 @@
   }
 }
 
-// 
+//
 // MARKETING CHANNELS SETTINGS
-// 
+//
 .store-owner-marketing-settings-view {
   background-color: #eff3f6;
   padding: 4vh 10vw 4vh 10vw;
@@ -274,9 +274,9 @@
   }
 }
 
-// 
+//
 // MARKETING POSTS
-// 
+//
 .store-owner-marketing-posts-view {
   background-color: #eff3f6;
   padding: 4vh 5vw 0px 5vw;
@@ -331,7 +331,7 @@
           height: 130px;
           background-color: #e8eaf1;
           width: 100%;
-        }        
+        }
         .title{
           padding: 10px 15px;
           font-size: 14px;
@@ -375,9 +375,9 @@
   }
 }
 
-// 
+//
 // AUDIENCE
-// 
+//
 .store-owner-audience-view {
   .common-view-layout;
   padding: 4vh 10vw 10vh 10vw;
@@ -445,7 +445,7 @@
           display: flex;
           flex-flow: row nowrap;
           justify-content: flex-start;
-          align-items: center; 
+          align-items: center;
           .common-input-with-icon{
             margin-right: 20px;
           }
@@ -478,9 +478,9 @@
   }
 }
 
-// 
+//
 // PROMOTED PRODUCTS
-// 
+//
 .store-owner-promoted-products-view {
   padding: 4vh 3vw 0px 3vw;
   .main-container{
@@ -593,9 +593,9 @@
   }
 }
 
-// 
+//
 // LISTED PRODUCTS
-// 
+//
 .store-owner-listed-products-view {
   .common-view-layout;
   .left-side-content{
@@ -613,16 +613,16 @@
         .name-col{
           width: 29%;
           padding-right: 1%;
-        } 
+        }
         .promoted-col{
           width: 9%;
           padding-right: 1%;
           text-align: center;
-        } 
+        }
         .sku-col{
           width: 13%;
           padding-right: 1%;
-        } 
+        }
         .size-col{
           width: 13%;
           padding-right: 1%;
@@ -687,7 +687,7 @@
             max-height: 40px;
             margin-right: 10px;
           }
-        } 
+        }
       }
     }
   }
@@ -777,45 +777,46 @@
   }
 }
 
-// 
+.common-top-bar{
+  background-color: #fff;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  .date-filter{
+    width: 60%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    .fa-minus{
+      margin-right: 15px;
+      color: #7383a1;
+      font-size: 10px;
+    }
+    .common-btn-gray{
+      margin-right: 15px;
+      &:last-child{
+        margin-right:0px;
+      }
+      &.active{
+        background-image: linear-gradient(to bottom, #2ea77a, #32a279);
+        border-color: #2bbf88;
+        color: #fff;
+      }
+    }
+  }
+}
+
+//
 // HOME VIEW
-// 
+//
 .store-owner-home-view {
   background-color: #eff3f6;
   color: #354052;
   position: relative;
-  .top-bar{
-    background-color: #fff;
-    height: 60px;
-    width: 100%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-around;
-    align-items: center;
-    .date-filter{
-      width: 60%;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: center;
-      align-items: center;
-      .fa-minus{
-        margin-right: 15px;
-        color: #7383a1;
-        font-size: 10px;
-      }
-      .common-btn-gray{
-        margin-right: 15px;
-        &:last-child{
-          margin-right:0px;
-        }
-        &.active{
-          background-image: linear-gradient(to bottom, #2ea77a, #32a279);
-          border-color: #2bbf88;
-          color: #fff;
-        }
-      }
-    }
-  }
   .main-content{
     padding: 30px 3vw 10vh 3vw;
     display: flex;
@@ -848,7 +849,7 @@
           }
         }
       }
-      
+
     }
     .main-right-column{
       width: 73%;
@@ -899,6 +900,34 @@
             }
           }
         }
+      }
+    }
+  }
+}
+
+//
+// REPORT VIEW
+//
+.store-owner-reports-view {
+  .main-content {
+    padding: 30px 3vw 10vh 3vw;
+
+    .reports-info {
+      height: 413px;
+
+      .chart {
+        width: 65%;
+        padding: 25px 10px;
+        box-sizing: border-box;
+      }
+
+      .sources {
+        width: 30%;
+        margin-left: 5%;
+      }
+
+      .chart, .sources {
+        float: left;
       }
     }
   }
