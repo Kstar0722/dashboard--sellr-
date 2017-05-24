@@ -274,6 +274,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           roles: [ 1009, 1002, 1004 ]
         }
       })
+      .state('storeOwner.ads', {
+        url: '/ads',
+        templateUrl: 'modules/core/client/views/storeOwner/ads.html',
+        controller: 'StoreOwnerAdsController'
+      })
       .state('storeOwner.home', {
         url: '/home',
         templateUrl: 'modules/core/client/views/storeOwner/home.html',

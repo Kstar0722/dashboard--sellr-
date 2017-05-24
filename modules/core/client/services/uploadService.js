@@ -16,10 +16,27 @@ angular.module('core').service('uploadService', function ($http, constants, toas
     me.editAccount = {}
     me.currentAccount = {}
     me.files = []
-    me.determinate = { value: 0 }
+    me.determinate = {value: 0}
   }
 
   me.init()
+
+  me.uploadProductImage = function (file, mediaConfig) {
+    cfpLoadingBar.start()
+    var filename = (file.name).replace(/ /g, '_').replace(/[()]/g, '').replace(/'/g, '') // remove parentheses and single quotes
+    let metadata = {fileKey: filename}
+    let key = mediaConfig.folder + '/' + Date.now().toString() + '-' + filename
+    return bucketUpload(key, file, metadata)
+      .then(function (publicUrl) {
+        const url = constants.API_URL + '/products/media'
+        mediaConfig.publicUrl = publicUrl
+        const payload = {payload: mediaConfig}
+        return $http.post(url, payload).then(res => {
+          cfpLoadingBar.complete()
+          return res
+        })
+      })
+  }
 
   me.upload = function (file, mediaConfig) {
     var defer = $q.defer()
@@ -31,9 +48,9 @@ angular.module('core').service('uploadService', function ($http, constants, toas
     cfpLoadingBar.start()
 
     createMedia(mediaConfig, file).then(function (media) {
-      var key = mediaConfig.folder + '/' + media.assetId + '-' + media.fileName
+      var key = mediaConfig.folder + '/' + media.mediaAssetId + '-' + media.fileName
       var metadata = {
-        fileKey: JSON.stringify(media.assetId)
+        fileKey: JSON.stringify(media.mediaAssetId)
       }
 
       bucketUpload(key, file, metadata)
@@ -55,8 +72,8 @@ angular.module('core').service('uploadService', function ($http, constants, toas
   }
 
   function saveMediaWrapper (mediaConfig, blob) {
-    return createMedia(mediaConfig, { name: blob.filename }).then(function (media) {
-      return storeFile(blob, { path: mediaConfig.folder + '/' + media.assetId + '-' + media.fileName })
+    return createMedia(mediaConfig, {name: blob.filename}).then(function (media) {
+      return storeFile(blob, {path: mediaConfig.folder + '/' + media.mediaAssetId + '-' + media.fileName})
         .then(null, null)
         .then(function (url) {
           return updateMedia(media, url)
@@ -99,7 +116,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
         toastr.error('There was a problem saving your ad.')
       }
       if (response) {
-        var mediaAssetId = response.data.assetId
+        var mediaAssetId = response.data.mediaAssetId
         var adId = response.data.adId
         var updateMedia = {
           payload: {
@@ -107,7 +124,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
             publicUrl: videoId
           }
         }
-        $http.put(constants.API_URL + '/media', updateMedia, {
+        $http.put(constants.API_URL + '/media/' + mediaAssetId, updateMedia, {
           ignoreLoadingBar: true
         }).then(function (res2, err2) {
           if (err2) {
@@ -213,7 +230,6 @@ angular.module('core').service('uploadService', function ($http, constants, toas
         }
       }
     }
-
     return $http.post(constants.API_URL + '/' + config.mediaRoute, payload, {
       ignoreLoadingBar: true
     }).then(function (response, err) {
@@ -229,14 +245,14 @@ angular.module('core').service('uploadService', function ($http, constants, toas
   }
 
   function updateMedia (media, publicUrl) {
+    const mediaAssetId = media.mediaAssetId || media.assetId
     var payload = {
       payload: {
-        mediaAssetId: media.assetId,
+        mediaAssetId: mediaAssetId,
         publicUrl: publicUrl
       }
     }
-
-    return $http.put(constants.API_URL + '/media', payload, {
+    return $http.put(constants.API_URL + '/media/' + mediaAssetId, payload, {
       ignoreLoadingBar: true
     }).then(function (res, err) {
       if (err) throw err
@@ -246,7 +262,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
         message: 'New Ad Uploaded Success!',
         publicUrl: publicUrl,
         fileName: media.fileName,
-        mediaAssetId: media.assetId,
+        mediaAssetId: media.mediaAssetId,
         adId: media.adId
       }
 

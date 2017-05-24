@@ -1,7 +1,7 @@
 'use strict'
 /* global angular, _, moment */
-angular.module('core').controller('AdsmanagerController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', 'ImageService', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
-  function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, ImageService, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
+angular.module('core').controller('StoreOwnerAdsController', ['$scope', '$state', '$http', 'Authentication', '$timeout', 'Upload', '$sce', '$mdSidenav', 'constants', 'toastr', 'accountsService', 'uploadService', '$q',
+  function ($scope, $state, $http, Authentication, $timeout, Upload, $sce, $mdSidenav, constants, toastr, accountsService, uploadService, $q) {
     $scope.data = {}
     $scope.data.nameFilter = ''
     var allTimesSlots = ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730', '1800', '1830', '1900', '1930', '2000', '2030', '2100', '2130', '2200', '2230', '2300', '2330', 'overnight']
@@ -36,7 +36,8 @@ angular.module('core').controller('AdsmanagerController', ['$scope', '$state', '
           createdDate: dataArray[i].createdDate || '',
           schedule: schedule,
           target: target,
-          filename: dataArray[i].fileName
+          filename: dataArray[i].fileName,
+          publicUrl: dataArray[i].publicUrl
         }
 
         if (dataArray[i].type === 'YOUTUBE' || dataArray[i].type === 'VIMEO') {
