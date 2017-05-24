@@ -245,13 +245,14 @@ angular.module('core').service('uploadService', function ($http, constants, toas
   }
 
   function updateMedia (media, publicUrl) {
+    const mediaAssetId = media.mediaAssetId || media.assetId
     var payload = {
       payload: {
-        mediaAssetId: media.mediaAssetId,
+        mediaAssetId: mediaAssetId,
         publicUrl: publicUrl
       }
     }
-    return $http.put(constants.API_URL + '/media/' + media.mediaAssetId, payload, {
+    return $http.put(constants.API_URL + '/media/' + mediaAssetId, payload, {
       ignoreLoadingBar: true
     }).then(function (res, err) {
       if (err) throw err
