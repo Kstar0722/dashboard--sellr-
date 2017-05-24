@@ -33,7 +33,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           API_URL: 'http://localhost:7272',
           BWS_API: 'http://localhost:7272',
           CARDKIT_URL: 'http://themedev.sllr.io'
-          // CARDKIT_URL: 'http://localhost:7474'
+          // CARDKIT_URL: 'http://localhost:7474'o
         },
         development: {
           env: 'dev',
