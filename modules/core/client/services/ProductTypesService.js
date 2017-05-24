@@ -1,24 +1,13 @@
 angular.module('core').service('ProductTypesService', function ($http, constants, $q, utilsService) {
   var me = this
 
+  // GET
+  // GET
+  // GET
   me.getProductTypes = function () {
     var defer = $q.defer()
     $http.get(constants.API_URL + '/products/types').then(function (res) {
       defer.resolve(formatTypes(res.data))
-    })
-    return defer.promise
-  }
-
-  me.updateProductType = function (typeId, typeName) {
-    var payload = {
-      payload: {
-        productTypeId: typeId,
-        type: formatTypeNameForSaving(typeName)
-      }
-    }
-    var defer = $q.defer()
-    $http.put(constants.API_URL + '/products/types', payload).then(function (res) {
-      defer.resolve()
     })
     return defer.promise
   }
@@ -39,6 +28,56 @@ angular.module('core').service('ProductTypesService', function ($http, constants
       editorcanedit: false,
       selectOptions: ''
     }
+  }
+
+  // CREATE
+  // CREATE
+  // CREATE
+  me.createProductTypeProperty = function (typeId, prop) {
+    var payload = {
+      payload: {
+        productTypeId: typeId,
+        label: prop.label,
+        options: prop.options
+      }
+    }
+    var defer = $q.defer()
+    $http.post(constants.API_URL + '/products/property', payload).then(function (res) {
+      defer.resolve()
+    })
+    return defer.promise
+  }
+
+  // UPDATE
+  // UPDATE
+  // UPDATE
+  me.updateProductType = function (typeId, typeName) {
+    var payload = {
+      payload: {
+        productTypeId: typeId,
+        type: formatTypeNameForSaving(typeName)
+      }
+    }
+    var defer = $q.defer()
+    $http.put(constants.API_URL + '/products/types', payload).then(function (res) {
+      defer.resolve()
+    })
+    return defer.promise
+  }
+
+  me.updateProductTypeProperty = function (prop) {
+    var payload = {
+      payload: {
+        propId: prop.propId,
+        label: prop.label,
+        options: prop.options
+      }
+    }
+    var defer = $q.defer()
+    $http.put(constants.API_URL + '/products/property', payload).then(function (res) {
+      defer.resolve()
+    })
+    return defer.promise
   }
 
   function formatTypes (types) {

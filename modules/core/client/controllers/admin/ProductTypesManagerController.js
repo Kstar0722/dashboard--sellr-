@@ -1,4 +1,4 @@
-angular.module('core').controller('ProductTypesManagerController', function ($scope, $state, toastr, ProductTypesService) {
+angular.module('core').controller('ProductTypesManagerController', function ($scope, $state, toastr, ProductTypesService, $q) {
   //
   // DEFINITIONS
   //
@@ -8,7 +8,7 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
   $scope.ui.searchType = ''
   var defaultType = {
     name: '',
-    fields: [
+    properties: [
       {
         type: 'Text Input',
         label: '',
@@ -19,12 +19,12 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       }
     ]
   }
-  var defaultTypeField = {
+  var defaultTypeProperty = {
     label: '',
     options: pts.getDefaultPropertyOptions()
   }
-  $scope.typeFields = [{name: 'Text Input'}, {name: 'Select Dropdown'}, {name: 'List'}]
-  $scope.typeFieldsConfig = {
+  $scope.typeProperties = [{name: 'Text Input'}, {name: 'Select Dropdown'}, {name: 'List'}]
+  $scope.typePropertiesConfig = {
     create: false,
     maxItems: 1,
     allowEmptyOption: false,
@@ -45,16 +45,26 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
 
   $scope.saveActiveType = function () {
     pts.updateProductType($scope.ui.activeType.productTypeId, $scope.ui.activeType.friendlyName).then(function () {
-      init()
+      var promises = []
+      _.each($scope.ui.activeType.properties, function (prop) {
+        if (prop.propId) {
+          promises.push(pts.updateProductTypeProperty(prop))
+        } else {
+          promises.push(pts.createProductTypeProperty($scope.ui.activeType.productTypeId, prop))
+        }
+      })
+      $q.all(promises).then(function () {
+        init()
+      })
     })
   }
 
   $scope.editType = function (type) {
-    console.log(type)
     pts.getProductTypeProperties(type.productTypeId).then(function (properties) {
       var activeType = angular.copy(type)
       activeType.properties = properties
       $scope.ui.activeType = activeType
+      console.log(activeType)
     })
   }
 
@@ -62,8 +72,8 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
     $scope.ui.activeType = defaultType
   }
 
-  $scope.addTypeField = function () {
-    $scope.ui.activeType.fields.push(angular.copy(defaultTypeField))
+  $scope.addTypeProperty = function () {
+    $scope.ui.activeType.properties.push(angular.copy(defaultTypeProperty))
   }
 
   //
