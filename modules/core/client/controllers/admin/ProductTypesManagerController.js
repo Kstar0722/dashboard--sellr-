@@ -48,15 +48,25 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       var promises = []
       _.each($scope.ui.activeType.properties, function (prop) {
         if (prop.propId) {
-          promises.push(pts.updateProductTypeProperty(prop))
+          if (prop.setToRemove) {
+            promises.push(pts.deleteProductTypeProperty(prop))
+          } else {
+            promises.push(pts.updateProductTypeProperty(prop))
+          }
         } else {
-          promises.push(pts.createProductTypeProperty($scope.ui.activeType.productTypeId, prop))
+          if (!prop.setToRemove) {
+            promises.push(pts.createProductTypeProperty($scope.ui.activeType.productTypeId, prop))
+          }
         }
       })
       $q.all(promises).then(function () {
         init()
       })
     })
+  }
+
+  $scope.removeProp = function (prop) {
+    prop.setToRemove = true
   }
 
   $scope.editType = function (type) {

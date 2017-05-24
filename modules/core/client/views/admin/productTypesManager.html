@@ -46,7 +46,7 @@
     <div class="separator">
       Fields
     </div>
-    <div class="form-element" ng-repeat="prop in ui.activeType.properties">
+    <div class="form-element" ng-repeat="prop in ui.activeType.properties" ng-if="!prop.setToRemove">
       <div class="form-element-definition">
         <div class="element-definition-input">
           <div class="common-field-title">Form Element</div>
@@ -71,10 +71,11 @@
           <input class="custom-checkbox" type="checkbox" id="ownercanedit{{$index}}" ng-model="prop.options.ownercanedit" />
           <label for="ownercanedit{{$index}}">Store Owner Can Edit</label>
         </div>
-        <div>
+        <div class="element-definition-checkbox">
           <input class="custom-checkbox" type="checkbox" id="editorcanedit{{$index}}" ng-model="prop.options.editorcanedit" />
           <label for="editorcanedit{{$index}}">Product Editor can edit</label>
         </div>
+        <div class="common-btn-negative small" ng-click="removeProp(prop)">Remove</div>
       </div>
     </div>
     <div class="add-more">

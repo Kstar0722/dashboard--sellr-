@@ -80,6 +80,18 @@ angular.module('core').service('ProductTypesService', function ($http, constants
     return defer.promise
   }
 
+  // DELETE
+  // DELETE
+  // DELETE
+  me.deleteProductTypeProperty = function (prop) {
+    var defer = $q.defer()
+    $http.delete(constants.API_URL + '/products/properties?prop=' + prop.propId).then(function (res) {
+      defer.resolve()
+    })
+    return defer.promise
+  }
+
+  // INTERNAL FUNCTIONS
   function formatTypes (types) {
     return _.map(types, function (t) {
       var friendlyName = t.type.replace(/_/g, ' ')
@@ -95,12 +107,17 @@ angular.module('core').service('ProductTypesService', function ($http, constants
   }
 
   function formatTypeProperties (properties) {
-    return _.map(properties, function (p) {
+    var props = _.map(properties, function (p) {
       if (_.isEmpty(p.options)) {
         p.options = me.getDefaultPropertyOptions()
       }
-      return p
+      if (p.visibility) {
+        return p
+      } else {
+        return null
+      }
     })
+    return _.compact(props)
   }
 
   return me
