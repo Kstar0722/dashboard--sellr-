@@ -28,10 +28,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       vars: {
         local: {
           env: 'local',
-          // API_URL: 'https://apidev.sllr.io',
-          // BWS_API: 'https://bwsdev.sllr.io',
-          API_URL: 'http://localhost:7272',
-          BWS_API: 'http://localhost:7272',
+          API_URL: 'https://apidev.sllr.io',
+          BWS_API: 'https://apidev.sllr.io',
+          // API_URL: 'http://localhost:7272',
+          // BWS_API: 'http://localhost:7272',
           CARDKIT_URL: 'http://themedev.sllr.io'
           // CARDKIT_URL: 'http://localhost:7474'o
         },

@@ -2,6 +2,16 @@
 /* BRANDING */
 /* SHADING / GRADIENTS */
 /* SITE FRAMEWORK */
+@media only screen and (max-width:599px) {
+  .has-mobile-view {
+    display: none !important;
+  }
+}
+@media only screen and (min-width:600px) {
+  .is-mobile-view {
+    display: none !important;
+  }
+}
 html,
 body {
   overflow-y: auto !important;
@@ -2399,6 +2409,11 @@ body.loading .main-content {
   justify-content: center;
   align-items: stretch;
 }
+@media only screen and (max-width:599px) {
+  .public-signin-view {
+    display: none !important;
+  }
+}
 .public-signin-view .left-column {
   background-color: #fff;
   height: 100vh;
@@ -2515,6 +2530,14 @@ body.loading .main-content {
   font-weight: bold;
   color: #fff;
   cursor: pointer;
+}
+.public-signin-view-mobile {
+  background-color: red;
+}
+@media only screen and (min-width:600px) {
+  .public-signin-view-mobile {
+    display: none !important;
+  }
 }
 .accounts-manager-view {
   background-color: #eff3f6;
