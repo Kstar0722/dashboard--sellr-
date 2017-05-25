@@ -1,6 +1,6 @@
 angular.module('core').controller('StoreOwnerReportsController', function ($scope, $stateParams, $state, accountsService, $http) {
   $scope.range = {
-    start: new Date(new Date() - (24 * 60 * 60 * 1000) * 100),
+    start: new Date(new Date() - 24 * 60 * 60 * 1000),
     end: new Date(),
     min: new Date('2005-01-01'),
     max: new Date(),

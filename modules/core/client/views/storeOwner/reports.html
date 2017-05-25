@@ -5,9 +5,9 @@
       <div class="common-btn-gray">This Week</div>
       <div class="common-btn-gray">This Month</div>
       <div class="common-btn-gray active">Custom</div>
-      <md-datepicker ng-model="range.start" md-hide-icons="triangle" md-min-date="range.min" md-max-date="range.max"></md-datepicker>
+      <md-datepicker ng-model="range.start" ng-change="init()" md-hide-icons="triangle" md-min-date="range.min" md-max-date="range.max"></md-datepicker>
       <i class="fa fa-minus" style="margin-left: 15px; margin-right: 0;"></i>
-      <md-datepicker ng-model="range.end" md-hide-icons="triangle" md-min-date="range.min" md-max-date="range.max"></md-datepicker>
+      <md-datepicker ng-model="range.end" ng-change="init()" md-hide-icons="triangle" md-min-date="range.min" md-max-date="range.max"></md-datepicker>
     </div>
     <div>
       <div class="common-btn-positive has-left-icon autowidth"><div class="common-centered-content"><img src="/img/export-icon.png" alt="icon"> Download Report</div></div>
