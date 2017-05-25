@@ -23,6 +23,9 @@ module.exports = function (grunt) {
       },
       prod: {
         NODE_ENV: 'production'
+      },
+      staging: {
+        NODE_ENV: 'staging'
       }
     },
     watch: {

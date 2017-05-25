@@ -58,11 +58,11 @@ angular.module('core').service('ProductTypesService', function ($http, constants
         type: formatTypeNameForSaving(typeName)
       }
     }
-    var defer = $q.defer()
-    $http.put(constants.API_URL + '/products/types', payload).then(function (res) {
-      defer.resolve()
-    })
-    return defer.promise
+    if (typeId) {
+      return $http.put(constants.API_URL + '/products/types', payload)
+    } else {
+      return $http.post(constants.API_URL + '/products/types', payload)
+    }
   }
 
   me.updateProductTypeProperty = function (prop) {
