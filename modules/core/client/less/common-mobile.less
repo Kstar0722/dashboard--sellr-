@@ -4,6 +4,7 @@
   right: 0;
   left: 0;
   height: 50px;
+  z-index: 10;
   background-color: #fff;
   .mobile-nav-content{
     display: flex;
@@ -28,8 +29,9 @@
 }
 .mobile-menu{
   width: 100vw;
-  height: 100%;
-  position: absolute;
+  height: 100vh; 
+  position: fixed;
+  z-index: 10;
   right: -600px;
   overflow: hidden;
   transition: all .3s ease-in-out;
@@ -42,7 +44,7 @@
   justify-content: flex-start;
   align-items: stretch;
   &.active{
-    position: absolute; 
+    position: fixed; 
     right: 0;
   }
   .transparent-section{
@@ -101,6 +103,13 @@
       box-sizing: border-box;
       border-top: 1px solid #dfe3e9;
     }
+  }
+}
+.mobile-has-header{
+  padding-bottom: 50px;
+  .main-container{
+    position: relative;
+    top: 50px;
   }
 }
 

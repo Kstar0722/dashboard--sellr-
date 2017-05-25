@@ -9,7 +9,16 @@
 }
 .is-mobile-view {
   background-color: #fff;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
+  font-size: 14px;
+}
+.is-mobile-view *,
+.is-mobile-view *:before,
+.is-mobile-view *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 @media only screen and (min-width:600px) {
   .is-mobile-view {
@@ -1118,6 +1127,7 @@ body.loading .main-content {
   right: 0;
   left: 0;
   height: 50px;
+  z-index: 10;
   background-color: #fff;
 }
 .mobile-nav .mobile-nav-content {
@@ -1142,8 +1152,9 @@ body.loading .main-content {
 }
 .mobile-menu {
   width: 100vw;
-  height: 100%;
-  position: absolute;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
   right: -600px;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
@@ -1157,7 +1168,7 @@ body.loading .main-content {
   align-items: stretch;
 }
 .mobile-menu.active {
-  position: absolute;
+  position: fixed;
   right: 0;
 }
 .mobile-menu .transparent-section {
@@ -1216,6 +1227,13 @@ body.loading .main-content {
   width: 100%;
   box-sizing: border-box;
   border-top: 1px solid #dfe3e9;
+}
+.mobile-has-header {
+  padding-bottom: 50px;
+}
+.mobile-has-header .main-container {
+  position: relative;
+  top: 50px;
 }
 .mobile-btn,
 .mobile-btn-silver,
@@ -2749,7 +2767,16 @@ body.loading .main-content {
 }
 .public-signin-view-mobile {
   background-color: #fff;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
+  font-size: 14px;
+}
+.public-signin-view-mobile *,
+.public-signin-view-mobile *:before,
+.public-signin-view-mobile *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 @media only screen and (min-width:600px) {
   .public-signin-view-mobile {
@@ -5595,12 +5622,157 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 }
 .store-owner-home-view-mobile {
   background-color: #fff;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
+  font-size: 14px;
+}
+.store-owner-home-view-mobile *,
+.store-owner-home-view-mobile *:before,
+.store-owner-home-view-mobile *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 @media only screen and (min-width:600px) {
   .store-owner-home-view-mobile {
     display: none !important;
   }
+}
+.store-owner-home-view-mobile .main-container .tab-filter {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 44px;
+}
+.store-owner-home-view-mobile .main-container .tab-filter .tab {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  width: 33.33%;
+  font-size: 13px;
+}
+.store-owner-home-view-mobile .main-container .tab-filter .tab.active {
+  border-bottom: 2px solid #2bbf88;
+}
+.store-owner-home-view-mobile .main-container .month-filter {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 44px;
+  background-color: #f8f8f8;
+}
+.store-owner-home-view-mobile .main-container .month-filter .arrow-left,
+.store-owner-home-view-mobile .main-container .month-filter .arrow-right {
+  width: 10%;
+  box-sizing: border-box;
+  color: #b8b8b8;
+  font-size: 20px;
+}
+.store-owner-home-view-mobile .main-container .month-filter .arrow-left {
+  padding-left: 10px;
+}
+.store-owner-home-view-mobile .main-container .month-filter .arrow-right {
+  text-align: right;
+  padding-right: 10px;
+}
+.store-owner-home-view-mobile .main-container .month-filter .month {
+  width: 80%;
+  text-align: center;
+  font-size: 20px;
+}
+.store-owner-home-view-mobile .main-container .square-indicators {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .subscribers-square,
+.store-owner-home-view-mobile .main-container .square-indicators .facebook-square,
+.store-owner-home-view-mobile .main-container .square-indicators .twitter-square,
+.store-owner-home-view-mobile .main-container .square-indicators .website-square {
+  width: 50%;
+  height: 100px;
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .subscribers-square .icon,
+.store-owner-home-view-mobile .main-container .square-indicators .facebook-square .icon,
+.store-owner-home-view-mobile .main-container .square-indicators .twitter-square .icon,
+.store-owner-home-view-mobile .main-container .square-indicators .website-square .icon {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  width: 30px;
+  height: 30px;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .subscribers-square .title,
+.store-owner-home-view-mobile .main-container .square-indicators .facebook-square .title,
+.store-owner-home-view-mobile .main-container .square-indicators .twitter-square .title,
+.store-owner-home-view-mobile .main-container .square-indicators .website-square .title {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .subscribers-square .indicators,
+.store-owner-home-view-mobile .main-container .square-indicators .facebook-square .indicators,
+.store-owner-home-view-mobile .main-container .square-indicators .twitter-square .indicators,
+.store-owner-home-view-mobile .main-container .square-indicators .website-square .indicators {
+  font-size: 44px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .subscribers-square .indicators .percentage,
+.store-owner-home-view-mobile .main-container .square-indicators .facebook-square .indicators .percentage,
+.store-owner-home-view-mobile .main-container .square-indicators .twitter-square .indicators .percentage,
+.store-owner-home-view-mobile .main-container .square-indicators .website-square .indicators .percentage {
+  font-size: 14px;
+  margin-left: 8px;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .subscribers-square {
+  background-color: #313d4f;
+  border-right: 1px solid #dfe3e9;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .facebook-square {
+  background-color: #3b5998;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .twitter-square {
+  background-color: #2daae1;
+}
+.store-owner-home-view-mobile .main-container .square-indicators .website-square {
+  background-color: #2bbf88;
+  border-right: 1px solid #dfe3e9;
+}
+.store-owner-home-view-mobile .main-container .info-box {
+  border-top: 1px solid #dfe3e9;
+  border-bottom: 1px solid #dfe3e9;
+  padding-bottom: 20px;
+}
+.store-owner-home-view-mobile .main-container .info-box .title {
+  font-size: 18px;
+  text-align: center;
+  margin: 20px auto;
+}
+.store-owner-home-view-mobile .main-container .top-products-list {
+  padding: 0 15px;
+}
+.store-owner-home-view-mobile .main-container .top-products-list .item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 7px 0;
+}
+.store-owner-home-view-mobile .main-container .top-products-list .item .clicks {
+  color: #2bbf88;
 }
 .store-owner-promoted-products-view {
   padding: 0 3vw;
