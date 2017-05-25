@@ -3021,7 +3021,7 @@ script {
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *  user zoom.
  */
-html {
+
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -3032,14 +3032,14 @@ html {
   -ms-text-size-adjust: 100%;
   /* 2 */
   -webkit-text-size-adjust: 100%;
-  /* 2 */ }
+  /* 2 */ 
 
 /**
  * Remove default margin.
  */
-body {
+
   margin: 0;
-  line-height: 1; }
+  line-height: 1;
 
 /**
  * Remove default outlines.
@@ -3282,13 +3282,12 @@ table {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-html {
+// html
   overflow: hidden;
   -ms-touch-action: pan-y;
-  touch-action: pan-y; }
+  touch-action: pan-y; 
 
-body,
-.ionic-body {
+// body
   -webkit-touch-callout: none;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
@@ -3317,7 +3316,7 @@ body,
   text-rendering: optimizeLegibility;
   -webkit-backface-visibility: hidden;
   -webkit-user-drag: none;
-  -ms-content-zooming: none; }
+  -ms-content-zooming: none; 
 
 body.grade-b,
 body.grade-c {
