@@ -6394,14 +6394,52 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 }
 .store-owner-reports-view .main-content .reports-info .chart {
   width: 65%;
-  padding: 25px 10px;
-  box-sizing: border-box;
 }
 .store-owner-reports-view .main-content .reports-info .sources {
   width: 30%;
   margin-left: 5%;
 }
+.store-owner-reports-view .main-content .reports-info .sources .row {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.store-owner-reports-view .main-content .reports-info .sources .row .name {
+  width: 40%;
+}
+.store-owner-reports-view .main-content .reports-info .sources .row .visual {
+  margin-left: auto;
+  width: 40%;
+  position: relative;
+}
+.store-owner-reports-view .main-content .reports-info .sources .row .visual .bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 130px;
+  height: 4px;
+  background: #e2e7ee;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.store-owner-reports-view .main-content .reports-info .sources .row .visual .bar .progress {
+  width: 50%;
+  height: 100%;
+  border-radius: 2px;
+}
+.store-owner-reports-view .main-content .reports-info .sources .row .percent {
+  width: 20%;
+  text-align: right;
+}
+.store-owner-reports-view .main-content .reports-info .sources .row .name,
+.store-owner-reports-view .main-content .reports-info .sources .row .percent {
+  font: 14px 'Avenir-Book', sans-serif;
+  color: #354052;
+}
 .store-owner-reports-view .main-content .reports-info .chart,
 .store-owner-reports-view .main-content .reports-info .sources {
   float: left;
+  padding: 24px 30px;
+  box-sizing: border-box;
+  height: 100%;
 }

@@ -8,6 +8,11 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
     data: []
   };
 
+  $scope.channels = {
+    all: [],
+    total: 0
+  };
+
   $scope.chart = {
     type: 'line',
     data: {
@@ -86,16 +91,53 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
                     },
                     {
                       expression: 'ga:pageviews'
-                    },
-                    /*{
-                      expression: 'ga:pageviews'
-                    }*/
+                    }
+                  ]
+                },
+                {
+                  viewId: account.preferences.analytics.item,
+                  dateRanges: [
+                    {
+                      startDate: $scope.formatDate($scope.range.start),
+                      endDate: $scope.formatDate($scope.range.end)
+                    }
+                  ],
+                  dimensions: [
+                    {
+                      name: 'ga:medium'
+                    }
                   ]
                 }
               ]
             }
           }).then(function(stats) {
-            console.log(stats);
+            $scope.channels.total = parseInt(stats.data.reports[1].data.totals[0].values[0]);
+            $scope.channels.all = [];
+            var source, amount, color = 'white';
+            for(var i = 0; i < stats.data.reports[1].data.rows.length; i++) {
+              source = stats.data.reports[1].data.rows[i].dimensions[0];
+              amount = parseInt(stats.data.reports[1].data.rows[i].metrics[0].values[0]);
+              switch(source) {
+                case '(none)':
+                  source = 'Direct';
+                  color = '#2bbf88';
+                  break;
+                case 'organic':
+                  source = 'Organic Search';
+                  color = '#848c98';
+                  break;
+                case 'referral':
+                  source = 'Referral';
+                  color = '#ffa700';
+                  break;
+              }
+              $scope.channels.all.push({
+                source: source,
+                amount: amount,
+                percent: Math.round(amount / $scope.channels.total * 100),
+                color: color
+              });
+            }
             $scope.chart.data.labels = [];
             for(var i = 0; i < $scope.chart.data.datasets.length; i++) {
               $scope.chart.data.datasets[i].data = [];

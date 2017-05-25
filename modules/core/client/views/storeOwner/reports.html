@@ -18,7 +18,17 @@
       <div class="common-white-box chart">
         <report-chart></report-chart>
       </div>
-      <div class="common-white-box sources"></div>
+      <div class="common-white-box sources">
+        <div class="row" ng-repeat="value in channels.all">
+          <div class="name">{{value.source}}</div>
+          <div class="visual">
+            <div class="bar">
+              <div class="progress" style="background: {{value.color}}; width: {{value.percent}}%;"></div>
+            </div>
+          </div>
+          <div class="percent">{{value.percent}}%</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

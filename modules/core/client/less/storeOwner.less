@@ -917,17 +917,61 @@
 
       .chart {
         width: 65%;
-        padding: 25px 10px;
-        box-sizing: border-box;
       }
 
       .sources {
         width: 30%;
         margin-left: 5%;
+
+        .row {
+          display: flex;
+          width: 100%;
+          margin-bottom: 20px;
+
+          .name {
+            width: 40%;
+          }
+
+          .visual {
+            margin-left: auto;
+            width: 40%;
+            position: relative;
+
+            .bar {
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 130px;
+              height: 4px;
+              background: #e2e7ee;
+              border-radius: 2px;
+              overflow: hidden;
+
+              .progress {
+                width: 50%;
+                height: 100%;
+                border-radius: 2px;
+              }
+            }
+          }
+
+          .percent {
+            width: 20%;
+            text-align: right;
+          }
+
+          .name, .percent {
+            font: 14px 'Avenir-Book', sans-serif;
+            color: #354052;
+          }
+        }
       }
 
       .chart, .sources {
         float: left;
+        padding: 24px 30px;
+        box-sizing: border-box;
+        height: 100%;
       }
     }
   }
