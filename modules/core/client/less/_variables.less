@@ -140,10 +140,17 @@
     display: none !important;
   }
 }
+// Hide Nav for specific views on mobile
+body.storeOwner-home{
+  @media @mobile {
+    overflow-x: hidden;
+    .nav-container{
+      display: none !important;
+    }
+  }
+}
 
-// IONIC
-// IONIC
-// IONIC
+// IONIC namespace
 // .ionic-css{
 //   @import "ionic";
 // }

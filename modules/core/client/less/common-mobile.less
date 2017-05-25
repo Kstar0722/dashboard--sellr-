@@ -1,3 +1,109 @@
+.mobile-nav{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 50px;
+  background-color: #fff;
+  .mobile-nav-content{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    font-size: 16px;
+    .left-part,
+    .right-part{
+      width: 50px;
+    }
+    .right-part{
+      text-align: right;
+      padding-right: 10px;
+      box-sizing: border-box;
+      .fa{
+        font-size: 24px;
+      }
+    }
+  }
+}
+.mobile-menu{
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  right: -600px;
+  overflow: hidden;
+  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out; 
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  &.active{
+    position: absolute; 
+    right: 0;
+  }
+  .transparent-section{
+    width: 20%;
+    height: 100%;
+    background-color:#000;
+    opacity: .2;
+  }
+  .menu-content{
+    background-color: #fff;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    .menu-header{
+      height: 8%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+      .fa{
+        margin-right: 10px;
+        font-size: 30px;
+        color: #dfe3e9;
+      }
+    }
+    .menu-list{
+      height: 84%;
+      width: 100%;
+      .menu-item{
+        height: 50px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 20px;
+        font-size: 18px;
+        width: 100%;
+        box-sizing: border-box;
+        border-top: 1px solid #dfe3e9;
+      }
+    }
+    .menu-footer{
+      height: 8%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 20px;
+      color: #bd1212;
+      font-size: 18px;
+      width: 100%;
+      box-sizing: border-box;
+      border-top: 1px solid #dfe3e9;
+    }
+  }
+}
+
 .mobile-btn,
 .mobile-btn-silver,
 .mobile-btn-positive,

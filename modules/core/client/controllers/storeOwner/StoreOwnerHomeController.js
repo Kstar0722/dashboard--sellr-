@@ -1,3 +1,4 @@
 angular.module('core').controller('StoreOwnerHomeController', function ($scope, $stateParams, $state) {
-  console.log('LISTED PRODUCTS CTRL')
+  $scope.mobile = {}
+  $scope.mobile.viewTitle = 'Diego Store'
 })
