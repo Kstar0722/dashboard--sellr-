@@ -26,10 +26,12 @@
   }
 }
 @media only screen and (max-width:599px) {
-  body.storeOwner-home {
+  body.storeOwner-home,
+  body.storeOwner-products-listed {
     overflow-x: hidden;
   }
-  body.storeOwner-home .nav-container {
+  body.storeOwner-home .nav-container,
+  body.storeOwner-products-listed .nav-container {
     display: none !important;
   }
 }
@@ -5898,6 +5900,11 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   align-items: flex-start;
   overflow: hidden;
 }
+@media only screen and (max-width:599px) {
+  .store-owner-listed-products-view {
+    display: none !important;
+  }
+}
 .store-owner-listed-products-view .title {
   font-size: 20px;
   font-weight: bold;
@@ -6329,6 +6336,38 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   margin: 20px 0 5px 0;
   font-size: 14px;
   color: #354052;
+}
+.store-owner-listed-products-view-mobile {
+  background-color: #fff;
+  height: auto;
+  min-height: 100vh;
+  font-size: 14px;
+}
+.store-owner-listed-products-view-mobile *,
+.store-owner-listed-products-view-mobile *:before,
+.store-owner-listed-products-view-mobile *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+@media only screen and (min-width:600px) {
+  .store-owner-listed-products-view-mobile {
+    display: none !important;
+  }
+}
+.store-owner-listed-products-view-mobile .plan-list .item {
+  border-bottom: 1px solid #dfe3e9;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+}
+.store-owner-listed-products-view-mobile .plan-list .item .name {
+  font-size: 16px;
+}
+.store-owner-listed-products-view-mobile .plan-list .item .fa {
+  font-size: 24px;
 }
 .store-owner-marketing-posts-view {
   background-color: #eff3f6;

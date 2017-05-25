@@ -1,24 +1,26 @@
-<div class="mobile-nav">
-  <div class="mobile-nav-content">
-    <div class="left-part">&nbsp;</div>
-    <div class="mobile-view-title" ng-bind="mobile.viewTitle"></div>
-    <div class="right-part" ng-click="mobile.showMenu = true"><i class="fa fa-bars"></i></div>
-  </div>
-</div>
-<div class="mobile-menu" ng-class="{active: mobile.showMenu}">
-  <div class="transparent-section" ng-click="mobile.showMenu = false">
-  </div>
-  <div class="menu-content">
-    <div class="menu-header">
-      <i class="fa fa-close" ng-click="mobile.showMenu = false"></i>
+<div ng-controller="NavController">
+  <div class="mobile-nav">
+    <div class="mobile-nav-content">
+      <div class="left-part">&nbsp;</div>
+      <div class="mobile-view-title" ng-bind="mobile.viewTitle"></div>
+      <div class="right-part" ng-click="mobile.showMenu = true"><i class="fa fa-bars"></i></div>
     </div>
-    <div class="menu-list">
-      <div class="menu-item" ng-click="mobile.showMenu = false">Home</div>
-      <div class="menu-item" ng-click="mobile.showMenu = false">Listed Products</div>
-      <div class="menu-item">&nbsp;</div>
+  </div>
+  <div class="mobile-menu" ng-class="{active: mobile.showMenu}">
+    <div class="transparent-section" ng-click="mobile.showMenu = false">
     </div>
-    <div class="menu-footer" ng-click="mobile.showMenu = false">
-      Log Out
+    <div class="menu-content">
+      <div class="menu-header">
+        <i class="fa fa-close" ng-click="mobile.showMenu = false"></i>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item" ui-sref="storeOwner.home">Home</div>
+        <div class="menu-item" ui-sref="storeOwner.products.listed">Listed Products</div>
+        <div class="menu-item">&nbsp;</div>
+      </div>
+      <div class="menu-footer" ng-click="logout();">
+        Log Out
+      </div>
     </div>
   </div>
 </div>

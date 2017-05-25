@@ -3,6 +3,9 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
   $scope.ui.planFilter = 'All Products'
+  $scope.mobile = {}
+  $scope.mobile.viewTitle = 'Listed Products'
+  $scope.mobile.view = 'plan-list'
   $scope.plans = []
   $scope.filteredPlan = {products: []}
   $scope.Types = Types
@@ -103,6 +106,11 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.filterPlan = function () {
     $scope.filteredPlan = _.findWhere($scope.plans, {label: $scope.ui.planFilter})
+  }
+
+  $scope.filterPlanMobile = function (plan) {
+    $scope.filteredPlan = _.findWhere($scope.plans, {label: plan.label})
+    $scope.mobile.view = 'product-list'
   }
 
   $scope.loadStoreProducts = function () {
