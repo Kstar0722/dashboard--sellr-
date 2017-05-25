@@ -1,6 +1,6 @@
 angular.module('core').controller('StoreOwnerReportsController', function ($scope, $stateParams, $state, accountsService, $http) {
   $scope.range = {
-    start: new Date(new Date() - 24 * 60 * 60 * 1000),
+    start: new Date(new Date() - (24 * 60 * 60 * 1000) * 7),
     end: new Date(),
     min: new Date('2005-01-01'),
     max: new Date(),
@@ -9,13 +9,32 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
   };
 
   $scope.chart = {
-    labels: [],
-    series: ['Sessions'],
-    data: [
-      []
-    ],
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Sessions',
+          borderColor: '#313d4f',
+          backgroundColor: 'transparent',
+          fill: false,
+          data: []
+        },
+        {
+          label: 'Page Views',
+          borderColor: '#2bbf88',
+          backgroundColor: 'transparent',
+          fill: false,
+          data: []
+        }
+      ]
+    },
     options: {
-      tension: 0
+      elements: {
+        line: {
+          tension: 0
+        }
+      }
     }
   };
 
@@ -64,12 +83,23 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
                   metrics: [
                     {
                       expression: 'ga:sessions'
-                    }
+                    },
+                    {
+                      expression: 'ga:pageviews'
+                    },
+                    /*{
+                      expression: 'ga:pageviews'
+                    }*/
                   ]
                 }
               ]
             }
           }).then(function(stats) {
+            console.log(stats);
+            $scope.chart.data.labels = [];
+            for(var i = 0; i < $scope.chart.data.datasets.length; i++) {
+              $scope.chart.data.datasets[i].data = [];
+            }
             var date, value, map = {};
             for(var i = 0; i < stats.data.reports[0].data.rows.length; i++) {
               date = stats.data.reports[0].data.rows[i].dimensions[0];
@@ -78,12 +108,14 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
               	month: 'short',
               	day: 'numeric'
               });
-              value = stats.data.reports[0].data.rows[i].metrics[0].values[0];
               map[date] = parseInt(value);
-              $scope.chart.labels.push(date);
-              $scope.chart.data[0].push(value);
+              $scope.chart.data.labels.push(date);
+              $scope.chart.data.datasets[0].data.push(stats.data.reports[0].data.rows[i].metrics[0].values[0]);
+              $scope.chart.data.datasets[1].data.push(stats.data.reports[0].data.rows[i].metrics[0].values[1]);
+              if($scope.chartui) {
+                $scope.chartui.update();
+              }
             }
-            console.log($scope.chart);
           });
         }
       });
@@ -95,4 +127,13 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
   }
 
   $scope.init();
+}).directive('reportChart', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<canvas></canvas>',
+    link($scope, $element) {
+      $scope.chartui = new Chart($element[0].getContext('2d'), $scope.chart);
+    }
+  };
 });
