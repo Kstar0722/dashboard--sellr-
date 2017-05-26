@@ -285,6 +285,13 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     console.log($scope.ui.activeProduct)
   }
 
+  $scope.downloadCsv = function (selected) {
+    return selected.map(function (product) {
+      product.description = window.htmlText.fromString(product.description)
+      return product
+    })
+  }
+
   //
   // INITIALIZATON
   //
