@@ -524,6 +524,18 @@ md-select.common-input {
   &.small-dialog{
     width: 40vw;
   }
+  @media @mobile {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,.2);
+    &.small-dialog{
+      width: 100vw;
+    }
+  }
   .dialog-title{
     height: 60px;
     background-color: #f0f3f8;
@@ -540,6 +552,7 @@ md-select.common-input {
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: stretch;
+    background: #fff;
     .left-side{
       width: 25%;
       background-color: #222c3c;

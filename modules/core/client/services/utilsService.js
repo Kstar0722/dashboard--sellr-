@@ -30,9 +30,13 @@ angular.module('core').service('utilsService', function ($timeout) {
   }
 
   me.handleBackMobile = function (scope) {
+    scope.mobile.rightBtn = null
     var previousView = scope.mobile.backViewStack.pop()
-    scope.mobile.viewTitle = previousView.backTitle
-    scope.mobile.view = previousView.backView
+    if (previousView) {
+      // else is a desktop and do nothing
+      scope.mobile.viewTitle = previousView.backTitle
+      scope.mobile.view = previousView.backView
+    }
     me.scrollTop()
   }
 

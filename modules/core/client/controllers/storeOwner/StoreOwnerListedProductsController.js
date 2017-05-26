@@ -114,8 +114,13 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     utilsService.setViewMobile($scope, 'product-grid', 'plan-list', plan.label, 'Listed Products')
   }
 
-  $scope.goToProductDetailMobile = function (product) {
-    utilsService.setViewMobile($scope, 'product-detail', 'product-grid', product.name, $scope.filteredPlan.label)
+  $scope.goToProductDetailMobile = function (product, productIndex) {
+    $scope.openEditProduct(product, productIndex)
+    $scope.mobile.rightBtn = {
+      icon: 'fa fa-check',
+      action: $scope.saveProduct
+    }
+    utilsService.setViewMobile($scope, 'product-detail', 'product-grid', 'Edit Product', $scope.filteredPlan.label)
   }
 
   $scope.handleBackMobile = utilsService.handleBackMobile.bind(null, $scope)
@@ -255,7 +260,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     }
   }
 
-  $scope.openEditProduct = function (product, index) {
+  $scope.openEditProduct = function (product, productIndex) {
     $scope.ui.showCustomSize = []
     $scope.ui.priceErrors = []
     $scope.ui.originalSlot = product.slot
@@ -284,7 +289,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     }
     $scope.ui.descriptionHTML = $sce.trustAsHtml(product.description)
     $scope.ui.activeProduct = angular.copy(product)
-    $scope.ui.activeIndex = index
+    $scope.ui.activeIndex = productIndex
     $scope.ui.display = 'editProduct'
     console.log($scope.ui.activeProduct)
   }
@@ -336,6 +341,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
       $scope.ui.selectedProducts = []
       $scope.ui.showProductsSelectedActions = false
       $scope.ui.display = 'fulltable'
+      utilsService.handleBackMobile($scope)
     })
   }
 
@@ -379,15 +385,16 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     var defer = $q.defer()
     productsService.getPlanProducts(storeId).then(function (plans) {
       $scope.planSelectOptions = _.map(plans, function (p) { return {name: p.label, planId: p.planId} })
-      $scope.plans = plans
       var allProductsPlan = {
         label: 'All Products',
-        products: $scope.plans.reduce(function (all, plan, i) {
+        products: plans.reduce(function (all, plan, i) {
           return all.concat(plan.products)
         }, [])
       }
-      $scope.plans.unshift(allProductsPlan)
+      plans.unshift(allProductsPlan)
+      $scope.plans = plans
       $scope.filterPlan()
+      utilsService.scrollTop()
       defer.resolve()
     })
     return defer.promise

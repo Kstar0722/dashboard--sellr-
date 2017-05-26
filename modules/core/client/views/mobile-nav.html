@@ -4,7 +4,8 @@
       <div class="left-part" ng-if="!mobile.backViewStack || mobile.backViewStack.length === 0">&nbsp;</div>
       <div class="left-part" ng-if="mobile.backViewStack && mobile.backViewStack.length > 0" ng-click="handleBackMobile()"><i class="fa fa-chevron-left"></i></div>
       <div class="mobile-view-title" ng-bind="mobile.viewTitle"></div>
-      <div class="right-part" ng-click="mobile.showMenu = true"><i class="fa fa-bars"></i></div>
+      <div class="right-part" ng-click="mobile.showMenu = true" ng-if="!mobile.rightBtn"><i class="fa fa-bars"></i></div>
+      <div class="right-part" ng-if="mobile.rightBtn" ng-click="mobile.rightBtn.action()"><i ng-class="mobile.rightBtn.icon"></i></div>
     </div>
   </div>
   <div class="mobile-menu" ng-class="{active: mobile.showMenu}">

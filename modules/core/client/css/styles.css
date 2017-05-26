@@ -2,39 +2,6 @@
 /* BRANDING */
 /* SHADING / GRADIENTS */
 /* SITE FRAMEWORK */
-@media only screen and (max-width:599px) {
-  .has-mobile-view {
-    display: none !important;
-  }
-}
-.is-mobile-view {
-  background-color: #fff;
-  height: auto;
-  min-height: 100vh;
-  font-size: 14px;
-}
-.is-mobile-view *,
-.is-mobile-view *:before,
-.is-mobile-view *:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-@media only screen and (min-width:600px) {
-  .is-mobile-view {
-    display: none !important;
-  }
-}
-@media only screen and (max-width:599px) {
-  body.storeOwner-home,
-  body.storeOwner-products-listed {
-    overflow-x: hidden;
-  }
-  body.storeOwner-home .nav-container,
-  body.storeOwner-products-listed .nav-container {
-    display: none !important;
-  }
-}
 html,
 body {
   overflow-y: auto !important;
@@ -969,6 +936,20 @@ md-select.common-input .md-select-value {
 .common-modal-dialog.small-dialog {
   width: 40vw;
 }
+@media only screen and (max-width:599px) {
+  .common-modal-dialog {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  .common-modal-dialog.small-dialog {
+    width: 100vw;
+  }
+}
 .common-modal-dialog .dialog-title {
   height: 60px;
   background-color: #f0f3f8;
@@ -985,6 +966,7 @@ md-select.common-input .md-select-value {
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: stretch;
+  background: #fff;
 }
 .common-modal-dialog .main-container .left-side {
   width: 25%;
@@ -1146,6 +1128,39 @@ md-select.common-input .md-select-value {
   -o-transform: rotate(-15deg);
   transform: rotate(-15deg);
 }
+@media only screen and (max-width:599px) {
+  .has-mobile-view {
+    display: none !important;
+  }
+}
+.is-mobile-view {
+  background-color: #fff;
+  height: auto;
+  min-height: 100vh;
+  font-size: 16px;
+}
+.is-mobile-view *,
+.is-mobile-view *:before,
+.is-mobile-view *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+@media only screen and (min-width:600px) {
+  .is-mobile-view {
+    display: none !important;
+  }
+}
+@media only screen and (max-width:599px) {
+  body.storeOwner-home,
+  body.storeOwner-products-listed {
+    overflow-x: hidden;
+  }
+  body.storeOwner-home .nav-container,
+  body.storeOwner-products-listed .nav-container {
+    display: none !important;
+  }
+}
 .mobile-nav {
   position: fixed;
   top: 0;
@@ -1180,6 +1195,9 @@ md-select.common-input .md-select-value {
   text-align: right;
   padding-right: 10px;
 }
+.mobile-nav .mobile-nav-content .right-part .fa-check {
+  color: #2DC89A;
+}
 .mobile-menu {
   width: 100vw;
   height: 100vh;
@@ -1204,8 +1222,7 @@ md-select.common-input .md-select-value {
 .mobile-menu .transparent-section {
   width: 20%;
   height: 100%;
-  background-color: #000;
-  opacity: .2;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 .mobile-menu .menu-content {
   background-color: #fff;
@@ -1363,6 +1380,138 @@ md-select.common-input .md-select-value {
 .mobile-input[disabled],
 .mobile-textarea[disabled] {
   background-color: #f8f9fb;
+}
+.mobile-textarea {
+  border: none;
+  resize: none;
+  height: auto;
+  line-height: auto;
+}
+.mobile-custom-selectize {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: #5e5e5e !important;
+}
+.mobile-custom-selectize .selectize-input {
+  height: 36px !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: #fff !important;
+}
+.mobile-custom-selectize .selectize-input .item {
+  color: #5e5e5e !important;
+  font-size: 16px !important;
+  padding-right: 10px !important;
+  box-sizing: border-box !important;
+  text-align: right;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mobile-custom-selectize .selectize-input input {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: #5e5e5e !important;
+}
+.mobile-custom-selectize .selectize-input input::-webkit-input-placeholder {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: #5e5e5e !important;
+}
+.mobile-custom-selectize .selectize-input input:-moz-placeholder {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: #5e5e5e !important;
+}
+.mobile-custom-selectize .selectize-input input::-moz-placeholder {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: #5e5e5e !important;
+}
+.mobile-custom-selectize .selectize-input input:-ms-input-placeholder {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  color: #5e5e5e !important;
+}
+.mobile-custom-selectize .selectize-input:after {
+  right: 0px !important;
+}
+.mobile-custom-selectize .selectize-dropdown {
+  border: none !important;
+}
+.mobile-custom-selectize .selectize-dropdown .active {
+  background-color: #eff3f6;
+  color: #2DC89A;
+}
+.mobile-toggle {
+  position: relative;
+  display: inline-block;
+  pointer-events: auto;
+  margin: -5px;
+  padding: 5px;
+}
+.mobile-toggle input:checked + .track {
+  border-color: #4cd964;
+  background-color: #4cd964;
+}
+.mobile-toggle.dragging .handle {
+  background-color: #f2f2f2 !important;
+}
+.mobile-toggle input:checked + .track {
+  border-color: #33cd5f;
+  background-color: #33cd5f;
+}
+.mobile-toggle input {
+  display: none;
+}
+/* the track appearance when the toggle is "off" */
+.mobile-toggle .track {
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: background-color, border;
+  transition-property: background-color, border;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 51px;
+  height: 31px;
+  border: solid 2px #e6e6e6;
+  border-radius: 20px;
+  background-color: #fff;
+  content: ' ';
+  cursor: pointer;
+  pointer-events: none;
+}
+/* the handle (circle) thats inside the toggle's track area */
+/* also the handle's appearance when it is "off" */
+.mobile-toggle .handle {
+  -webkit-transition: 0.3s cubic-bezier(0, 1.1, 1, 1.1);
+  transition: 0.3s cubic-bezier(0, 1.1, 1, 1.1);
+  -webkit-transition-property: background-color, transform;
+  transition-property: background-color, transform;
+  position: absolute;
+  display: block;
+  width: 27px;
+  height: 27px;
+  border-radius: 27px;
+  background-color: #fff;
+  top: 7px;
+  left: 7px;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+.mobile-toggle .handle:before {
+  position: absolute;
+  top: -4px;
+  left: -21.5px;
+  padding: 18.5px 34px;
+  content: " ";
+}
+.mobile-toggle input:checked + .track .handle {
+  -webkit-transform: translate3d(20px, 0, 0);
+  transform: translate3d(20px, 0, 0);
+  background-color: #fff;
 }
 /* Base for label styling */
 .custom-checkbox[type="checkbox"]:not(:checked),
@@ -2799,7 +2948,7 @@ md-select.common-input .md-select-value {
   background-color: #fff;
   height: auto;
   min-height: 100vh;
-  font-size: 14px;
+  font-size: 16px;
 }
 .public-signin-view-mobile *,
 .public-signin-view-mobile *:before,
@@ -5654,7 +5803,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   background-color: #fff;
   height: auto;
   min-height: 100vh;
-  font-size: 14px;
+  font-size: 16px;
 }
 .store-owner-home-view-mobile *,
 .store-owner-home-view-mobile *:before,
@@ -6369,7 +6518,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   background-color: #fff;
   height: auto;
   min-height: 100vh;
-  font-size: 14px;
+  font-size: 16px;
 }
 .store-owner-listed-products-view-mobile *,
 .store-owner-listed-products-view-mobile *:before,
@@ -6451,6 +6600,163 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: flex-start;
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   font-size: 14px;
+}
+.store-owner-listed-products-view-mobile .product-detail {
+  background: #f8f9fb;
+  padding-bottom: 5px;
+}
+.store-owner-listed-products-view-mobile .product-detail .image-title-container {
+  background-color: #FFF;
+  padding: 20px 0;
+  width: 100%;
+}
+.store-owner-listed-products-view-mobile .product-detail .image-title-container .image-container {
+  margin: 0 auto 20px auto;
+  text-align: center;
+}
+.store-owner-listed-products-view-mobile .product-detail .image-title-container .title-container {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 auto;
+  width: 70vw;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 55px;
+  margin: 5px 0 0 0;
+  padding: 0 12vw;
+  background-color: #FFF;
+  font-size: 16px;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box.as-columns {
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: auto;
+  padding-top: 16px;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box .product-description {
+  font-size: 14px;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box .info-title {
+  font-weight: bold;
+  color: #000;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box .info-value {
+  color: #5e5e5e;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box .info-value.has-selectize {
+  height: 34px;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box .info-value.has-input {
+  margin-left: 20px;
+  width: 100%;
+}
+.store-owner-listed-products-view-mobile .product-detail .info-box .info-value.has-input input {
+  width: 100%;
+  text-align: right;
+}
+.store-owner-listed-products-view-mobile .product-detail .sizes-title-box {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 62px;
+  margin: 0;
+  padding: 0 12vw;
+  color: #5e5e5e;
+  font-weight: bold;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #FFF;
+  margin-bottom: 5px;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list.nomargin {
+  margin-bottom: 0px;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li {
+  padding: 0 12vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  border-top: 1px solid #efefef;
+  position: relative;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li:first-child {
+  border-top: none;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .title {
+  font-weight: bold;
+  color: #000;
+  min-width: 80px;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .title.delete {
+  color: #d0021b;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .title.set-default {
+  color: #2bbf88;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .value {
+  color: #5e5e5e;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .value.li-input {
+  color: #142332;
+  width: 100%;
+  margin-left: 20px;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .value.li-input input {
+  width: 100%;
+  color: #142332;
+  border: none;
+  text-align: right;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .value.li-input select {
+  color: #142332;
+  direction: rtl !important;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .value.li-input select option {
+  direction: ltr !important;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li.notonsale .value,
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li.notonsale .title {
+  color: #c7c7c7;
+  font-weight: normal;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li.error {
+  border-top: 1px solid #f21e1e;
+  border-bottom: 1px solid #f21e1e;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li.error .title {
+  color: #f21e1e;
+}
+.store-owner-listed-products-view-mobile .product-detail .size-info-list li .reset-size {
+  position: absolute;
+  top: 50%;
+  right: 5vw;
+  margin-top: -10px;
+  font-size: 20px;
+  color: #142332;
+  opacity: 0.8;
+}
+.store-owner-listed-products-view-mobile .product-detail .add-size-btn {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 55px;
+  margin: 5px 0 0 0;
+  background-color: #FFF;
+  color: #2bbf88;
+  font-weight: bold;
 }
 .store-owner-marketing-posts-view {
   background-color: #eff3f6;
