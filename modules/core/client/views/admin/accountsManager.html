@@ -113,8 +113,11 @@
         <!-- WEBSITE THEME -->
         <!-- WEBSITE THEME -->
         <!-- WEBSITE THEME -->
-        <!--   <div class="common-field-title">Website Theme</div>
-        <div class="common-select-container">
+           <div class="common-field-title">Website Theme</div>
+        <md-select name="state" ng-model="ui.currentAccount.preferences.websiteTheme" required ng-disabled="websiteThemes === null" class="common-input">
+          <md-option ng-repeat="theme in websiteThemes | orderBy:'companyName'" ng-value="theme.slug">{{theme.companyName}}</md-option>
+        </md-select>
+        <!--<div class="common-select-container">
           <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')">
             Website Theme
           </div>

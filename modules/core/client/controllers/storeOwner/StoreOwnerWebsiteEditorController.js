@@ -6,15 +6,7 @@ angular.module('core').controller('StoreOwnerWebsiteEditorController', ['$scope'
     $scope.loading = true
 
     PostMessage.bindTo($scope)
-
     accountsService.bindSelectedAccount($scope)
-    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
-      if (selectAccountId === prevValue) return
-      var account = _.find(accountsService.accounts, { accountId: selectAccountId })
-      $stateParams.builderPath = null
-      $state.go('storeOwner.websiteEditor', $stateParams, { notify: false, reload: false })
-      if (account) init(account)
-    })
 
     PostMessage.on('identify', function () {
       PostMessage.send('identifyComplete', Authentication.user)
@@ -41,7 +33,15 @@ angular.module('core').controller('StoreOwnerWebsiteEditorController', ['$scope'
     })
 
     PostMessage.on('error', function (err) {
-      console.log('cardkit:', err)
+      console.error('cardkit:', err)
+    })
+
+    $scope.$watch('selectAccountId', function (selectAccountId, prevValue) {
+      if (selectAccountId === prevValue) return
+      var account = _.find(accountsService.accounts, { accountId: selectAccountId })
+      $stateParams.builderPath = null
+      $state.go('storeOwner.websiteEditor', $stateParams, { notify: false, reload: false })
+      if (account) init(account)
     })
 
     $scope.$watch(function () { return accountsService.accounts }, function (accounts) {
