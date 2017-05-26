@@ -32,20 +32,20 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
           BWS_API: 'https://apidev.sllr.io',
           // API_URL: 'http://localhost:7272',
           // BWS_API: 'http://localhost:7272',
-          CARDKIT_URL: 'http://themedev.sllr.io'
+          CARDKIT_URL: 'https://themedev.sllr.io'
           // CARDKIT_URL: 'http://localhost:7474'o
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
           BWS_API: 'https://apidev.sllr.io',
-          CARDKIT_URL: 'http://themedev.sllr.io'
+          CARDKIT_URL: 'https://themedev.sllr.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
           BWS_API: 'https://apiqa.sllr.io',
-          CARDKIT_URL: 'http://themedev.sllr.io'
+          CARDKIT_URL: 'https://themedev.sllr.io'
         },
         production: {
           env: 'production',
