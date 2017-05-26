@@ -41,7 +41,7 @@
           </div>
           <div class="common-btn-black autowidth" ng-if="ui.showProductsSelectedActions && ui.selectedProducts.length > 0"
             ng-click="exportCsv()"
-            ng-csv="ui.selectedProducts"
+            ng-csv="downloadCsv(ui.selectedProducts)"
             csv-header="['title', 'productId', 'description', 'price', 'upc']"
             csv-column-order="['title', 'productId', 'description', 'price', 'upc']"
             filename="products.csv">
