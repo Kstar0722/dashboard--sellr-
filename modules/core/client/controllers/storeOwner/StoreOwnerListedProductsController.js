@@ -111,9 +111,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.filterPlanMobile = function (plan) {
     $scope.filteredPlan = _.findWhere($scope.plans, {label: plan.label})
-    $scope.mobile.viewTitle = plan.label
-    $scope.mobile.view = 'product-list'
-    $scope.mobile.backViewStack.push({backTitle: 'Listed Products', backView: 'plan-list'})
+    utilsService.setViewMobile($scope, 'product-grid', 'plan-list', plan.label, 'Listed Products')
   }
 
   $scope.handleBackMobile = utilsService.handleBackMobile.bind(null, $scope)

@@ -688,3 +688,24 @@ md-select.common-input {
   height: 150px;
   max-width: 100%;
 }
+
+// DIAGONAL RED STRIKETHROUGH LINE
+.original-price-strikethrough{
+  position: relative;
+  &:before{
+    position: absolute;
+    content: "";
+    left: -3px;
+    top: 50%;
+    right: -3px;
+    color: #f21e1e;
+    border-top: 2px solid #f21e1e;
+    border-color: inherit;
+    opacity: 0.8;
+    -webkit-transform:rotate(-15deg);
+    -moz-transform:rotate(-15deg);
+    -ms-transform:rotate(-15deg);
+    -o-transform:rotate(-15deg);
+    transform:rotate(-15deg);
+  }
+}
