@@ -284,8 +284,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.downloadCsv = function (selected) {
     return selected.map(function (product) {
-      // var parser = new htmlparser.Parser(P)
-      product.description = 'description here'
+      product.description = window.htmlText.fromString(product.description)
       return product
     })
   }

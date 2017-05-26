@@ -1,68 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <base href="/"/>
-    <title>Sellr Dashboard</title>
-    <meta name="description" content="{{description}}">
-    <meta name="fragment" content="!">
-    <!-- Apple META -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <base href="/" />
+  <title>Sellr Dashboard</title>
+  <meta name="description" content="{{description}}">
+  <meta name="fragment" content="!">
+  <!-- Apple META -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <!-- Fav Icon -->
-    <link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
+  <!-- Fav Icon -->
+  <link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
 
-    {% block head %}
-    {% endblock %}
+  {% block head %}
+  {% endblock %}
 
-    {% if process.env.NODE_ENV == 'production' %}
-    <!-- Angulartics-Segment TRACKER -->
-    <script type="text/javascript">
-        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
-            analytics.load("Gx9VnzfDV6plblLU2NTtrDYXBrKOR7PE");
-            analytics.page();
-        }}();
-    </script>
-    {% endif %}
+  {% if process.env.NODE_ENV == 'production' %}
+  <!-- Angulartics-Segment TRACKER -->
+  <script type="text/javascript">
+    !function () {
+      var analytics = window.analytics = window.analytics || []
+      if (!analytics.initialize)if (analytics.invoked) window.console && console.error && console.error('Segment snippet included twice.') else {
+        analytics.invoked = !0
+        analytics.methods = ['trackSubmit', 'trackClick', 'trackLink', 'trackForm', 'pageview', 'identify', 'reset', 'group', 'track', 'ready', 'alias', 'debug', 'page', 'once', 'off', 'on']
+        analytics.factory = function (t) {
+          return function () {
+            var e = Array.prototype.slice.call(arguments)
+            e.unshift(t)
+            analytics.push(e)
+            return analytics
+          }
+        }
+        for (var t = 0; t < analytics.methods.length; t++) {
+          var e = analytics.methods[t]
+          analytics[e] = analytics.factory(e)
+        }
+        analytics.load = function (t) {
+          var e = document.createElement('script')
+          e.type = 'text/javascript'
+          e.async = !0
+          e.src = ('https:' === document.location.protocol ? 'https://' : 'http://') + 'cdn.segment.com/analytics.js/v1/' + t + '/analytics.min.js'
+          var n = document.getElementsByTagName('script')[0]
+          n.parentNode.insertBefore(e, n)
+        }
+        analytics.SNIPPET_VERSION = '4.0.0'
+        analytics.load('Gx9VnzfDV6plblLU2NTtrDYXBrKOR7PE')
+        analytics.page()
+      }
+    }()
+  </script>
+  {% endif %}
 
-    <!-- BugHerd Issue Tracker -->
-    {% if process.env.NODE_ENV != 'production' %}
+  <!-- BugHerd Issue Tracker -->
+  {% if process.env.NODE_ENV != 'production' %}
 
-    <script type='text/javascript'>
-      (function (d, t) {
-        var bh = d.createElement(t), s = d.getElementsByTagName(t)[0]
-        bh.type = 'text/javascript'
-        bh.src = 'https://www.bugherd.com/sidebarv2.js?apikey=ckxtssxwp0u3w0m8b9lefw'
-        s.parentNode.insertBefore(bh, s)
-      })(document, 'script')
-    </script>
+  <script type='text/javascript'>
+    (function (d, t) {
+      var bh = d.createElement(t), s = d.getElementsByTagName(t)[0]
+      bh.type = 'text/javascript'
+      bh.src = 'https://www.bugherd.com/sidebarv2.js?apikey=ckxtssxwp0u3w0m8b9lefw'
+      s.parentNode.insertBefore(bh, s)
+    })(document, 'script')
+  </script>
 
-    {% endif %}
+  {% endif %}
 
 </head>
 
 <body ng-class="$stateClass" class="listen-post-messages">
 <script>
-  window.fbAsyncInit = function() {
+  window.fbAsyncInit = function () {
     FB.init({
-      appId      : '1036398503156562',
-      xfbml      : true,
-      version    : 'v2.8'
-    });
-    FB.AppEvents.logPageView();
+      appId: '1036398503156562',
+      xfbml: true,
+      version: 'v2.8'
+    })
+    FB.AppEvents.logPageView()
   };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0]
+    if (d.getElementById(id)) {return}
+    js = d.createElement(s)
+    js.id = id
+    js.src = '//connect.facebook.net/en_US/sdk.js'
+    fjs.parentNode.insertBefore(js, fjs)
+  }(document, 'script', 'facebook-jssdk'))
 </script>
+
+<script src="dist/bundle.js"></script>
 
 {% block content %}
 {% endblock %}

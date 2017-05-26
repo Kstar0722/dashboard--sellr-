@@ -1,0 +1,3 @@
+// makes the npm module available in the browser...
+const htmlText = require('html-to-text')
+window.htmlText = htmlText
