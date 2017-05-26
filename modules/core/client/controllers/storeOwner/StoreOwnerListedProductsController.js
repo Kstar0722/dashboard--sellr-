@@ -114,6 +114,10 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     utilsService.setViewMobile($scope, 'product-grid', 'plan-list', plan.label, 'Listed Products')
   }
 
+  $scope.goToProductDetailMobile = function (product) {
+    utilsService.setViewMobile($scope, 'product-detail', 'product-grid', product.name, $scope.filteredPlan.label)
+  }
+
   $scope.handleBackMobile = utilsService.handleBackMobile.bind(null, $scope)
 
   $scope.loadStoreProducts = function () {

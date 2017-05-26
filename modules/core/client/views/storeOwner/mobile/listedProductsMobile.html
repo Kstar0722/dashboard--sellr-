@@ -1,14 +1,20 @@
 <div class="store-owner-listed-products-view-mobile mobile-has-header">
   <ng-include autoscroll src="'/modules/core/client/views/mobile-nav.html'"></ng-include>
   <div class="main-container">
+    <!-- PLAN LIST VIEW -->
+    <!-- PLAN LIST VIEW -->
+    <!-- PLAN LIST VIEW -->
     <div class="plan-list" ng-show="mobile.view === 'plan-list'">
       <div class="item" ng-repeat="plan in plans" ng-click="filterPlanMobile(plan)">
         <div class="name" ng-bind="plan.label"></div>
         <i class="fa fa-chevron-right"></i>
       </div>
     </div>
+    <!-- PRODUCT GRID VIEW -->
+    <!-- PRODUCT GRID VIEW -->
+    <!-- PRODUCT GRID VIEW -->
     <div class="product-grid" ng-show="mobile.view === 'product-grid'">
-      <div class="product-card" ng-repeat="product in filteredPlan.products | filterApproved">
+      <div class="product-card" ng-repeat="product in filteredPlan.products | filterApproved" ng-click="goToProductDetailMobile(product)">
         <div class="top-part">
           <product-image image-url="{{ product.image || product.images[0] }}" product-type="{{ product.productTypeId }}">
           </product-image>
@@ -31,6 +37,12 @@
           <div ng-bind="product.name != 'undefined' ? product.name : ''"></div>
         </div>
       </div>
+    </div>
+    <!-- PRODUCT DETAIL VIEW -->
+    <!-- PRODUCT DETAIL VIEW -->
+    <!-- PRODUCT DETAIL VIEW -->
+    <div class="product-detail" ng-show="mobile.view === 'product-detail'">
+      
     </div>
   </div>
 </div>
