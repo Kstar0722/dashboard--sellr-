@@ -1147,14 +1147,19 @@ md-select.common-input .md-select-value {
 .mobile-nav .mobile-nav-content .left-part,
 .mobile-nav .mobile-nav-content .right-part {
   width: 50px;
+  box-sizing: border-box;
+}
+.mobile-nav .mobile-nav-content .left-part .fa,
+.mobile-nav .mobile-nav-content .right-part .fa {
+  font-size: 24px;
+}
+.mobile-nav .mobile-nav-content .left-part {
+  text-align: left;
+  padding-left: 10px;
 }
 .mobile-nav .mobile-nav-content .right-part {
   text-align: right;
   padding-right: 10px;
-  box-sizing: border-box;
-}
-.mobile-nav .mobile-nav-content .right-part .fa {
-  font-size: 24px;
 }
 .mobile-menu {
   width: 100vw;
