@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -6,6 +6,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   $scope.mobile = {}
   $scope.mobile.viewTitle = 'Listed Products'
   $scope.mobile.view = 'plan-list'
+  $scope.mobile.backViewStack = []
   $scope.plans = []
   $scope.filteredPlan = {products: []}
   $scope.Types = Types
@@ -110,8 +111,12 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.filterPlanMobile = function (plan) {
     $scope.filteredPlan = _.findWhere($scope.plans, {label: plan.label})
+    $scope.mobile.viewTitle = plan.label
     $scope.mobile.view = 'product-list'
+    $scope.mobile.backViewStack.push({backTitle: 'Listed Products', backView: 'plan-list'})
   }
+
+  $scope.handleBackMobile = utilsService.handleBackMobile.bind(null, $scope)
 
   $scope.loadStoreProducts = function () {
     getStoreProducts($scope.ui.activeStoreId)

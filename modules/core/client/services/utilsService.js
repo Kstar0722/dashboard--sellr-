@@ -29,5 +29,11 @@ angular.module('core').service('utilsService', function ($timeout) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
+  me.handleBackMobile = function (scope) {
+    var previousView = scope.mobile.backViewStack.pop()
+    scope.mobile.viewTitle = previousView.backTitle
+    scope.mobile.view = previousView.backView
+  }
+
   return me
 })
