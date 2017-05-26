@@ -13,7 +13,6 @@ app/tests/coverage/
 .bower-*/
 .idea/
 public/fw/prepros.cfg
-public/fw/prepros.cfg
 /*.log
 
 /test/*.xml
@@ -24,3 +23,4 @@ public/build
 /_karma.conf.js
 /yarn.lock
 /.nvmrc
+/.vscode/
