@@ -7,8 +7,30 @@
         <i class="fa fa-chevron-right"></i>
       </div>
     </div>
-    <div class="product-list" ng-show="mobile.view === 'product-list'">
-      qweqwew
+    <div class="product-grid" ng-show="mobile.view === 'product-grid'">
+      <div class="product-card" ng-repeat="product in filteredPlan.products | filterApproved">
+        <div class="top-part">
+          <product-image image-url="{{ product.image || product.images[0] }}" product-type="{{ product.productTypeId }}">
+          </product-image>
+          <!-- NEW PRICE STRUCTURE -->
+          <div ng-if="!isEmpty(product.prices)">
+            <div class="price" ng-show="product.prices[0].price !== ''">
+              <div ng-class="{'sale-price' : product.prices[0].onsale}" ng-bind="product.prices[0].price | currency:'$'"></div>
+              <div ng-show="product.prices[0].onsale" class="original-price-strikethrough" ng-bind="product.prices[0].oprice | currency:'$'"></div>
+            </div>
+          </div>
+          <!-- OLD PRICE STRUCTURE JUST FOR BACKWARDS COMPATIBILITY -->
+          <div ng-if="isEmpty(product.prices)">
+            <div class="price" ng-show="product.price !== ''">
+              <div ng-class="{'sale-price' : product.onsale}" ng-bind="product.price | currency:'$'"></div>
+              <div ng-show="product.onsale" class="original-price-strikethrough" ng-bind="product.oprice | currency:'$'"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-part vertical-center-container">
+          <div ng-bind="product.name != 'undefined' ? product.name : ''"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -33,6 +33,18 @@ angular.module('core').service('utilsService', function ($timeout) {
     var previousView = scope.mobile.backViewStack.pop()
     scope.mobile.viewTitle = previousView.backTitle
     scope.mobile.view = previousView.backView
+    me.scrollTop()
+  }
+
+  me.setViewMobile = function (scope, newView, oldView, newTitle, oldTitle) {
+    scope.mobile.viewTitle = newTitle
+    scope.mobile.view = newView
+    scope.mobile.backViewStack.push({backTitle: oldTitle, backView: oldView})
+    me.scrollTop()
+  }
+
+  me.scrollTop = function () {
+    $timeout(function () { document.body.scrollTop = document.documentElement.scrollTop = 0 })
   }
 
   return me

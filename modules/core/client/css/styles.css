@@ -1127,6 +1127,25 @@ md-select.common-input .md-select-value {
   height: 150px;
   max-width: 100%;
 }
+.original-price-strikethrough {
+  position: relative;
+}
+.original-price-strikethrough:before {
+  position: absolute;
+  content: "";
+  left: -3px;
+  top: 50%;
+  right: -3px;
+  color: #f21e1e;
+  border-top: 2px solid #f21e1e;
+  border-color: inherit;
+  opacity: 0.8;
+  -webkit-transform: rotate(-15deg);
+  -moz-transform: rotate(-15deg);
+  -ms-transform: rotate(-15deg);
+  -o-transform: rotate(-15deg);
+  transform: rotate(-15deg);
+}
 .mobile-nav {
   position: fixed;
   top: 0;
@@ -6377,6 +6396,61 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 }
 .store-owner-listed-products-view-mobile .plan-list .item .fa {
   font-size: 24px;
+}
+.store-owner-listed-products-view-mobile .product-grid {
+  background: #f8f9fb;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.store-owner-listed-products-view-mobile .product-grid .product-card {
+  margin: 0.5%;
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+  width: 49%;
+}
+.store-owner-listed-products-view-mobile .product-grid .product-card .top-part {
+  position: relative;
+  min-height: 150px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: #fff;
+  padding: 5px 0vh 10px 0vh;
+}
+.store-owner-listed-products-view-mobile .product-grid .product-card .top-part .price {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+.store-owner-listed-products-view-mobile .product-grid .product-card .top-part .price .sale-price {
+  color: #f21e1e;
+  line-height: 1em;
+}
+.store-owner-listed-products-view-mobile .product-grid .product-card .top-part .slot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 18px;
+  min-width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #f21e1e;
+  color: #fff;
+  padding: 0 5px;
+}
+.store-owner-listed-products-view-mobile .product-grid .product-card .bottom-part {
+  font-size: 1.3rem;
+  padding: 5px;
+  line-height: 18px;
+  text-align: left;
+  justify-content: flex-start;
+  font-family: "AvenirNextLTW01-Regular", sans-serif;
+  font-size: 14px;
 }
 .store-owner-marketing-posts-view {
   background-color: #eff3f6;
