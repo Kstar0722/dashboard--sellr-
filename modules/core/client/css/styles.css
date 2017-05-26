@@ -1128,6 +1128,7 @@ md-select.common-input .md-select-value {
   -o-transform: rotate(-15deg);
   transform: rotate(-15deg);
 }
+<<<<<<< HEAD
 @media only screen and (max-width:599px) {
   .has-mobile-view {
     display: none !important;
@@ -1161,6 +1162,8 @@ md-select.common-input .md-select-value {
     display: none !important;
   }
 }
+=======
+>>>>>>> d20ee41c27ef0b8195666f7f2903adfefa604e7b
 .mobile-nav {
   position: fixed;
   top: 0;
@@ -6601,6 +6604,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-family: "AvenirNextLTW01-Regular", sans-serif;
   font-size: 14px;
 }
+<<<<<<< HEAD
 .store-owner-listed-products-view-mobile .product-detail {
   background: #f8f9fb;
   padding-bottom: 5px;
@@ -6758,6 +6762,8 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   color: #2bbf88;
   font-weight: bold;
 }
+=======
+>>>>>>> d20ee41c27ef0b8195666f7f2903adfefa604e7b
 .store-owner-marketing-posts-view {
   background-color: #eff3f6;
   padding: 4vh 5vw 0px 5vw;
