@@ -1,0 +1,61 @@
+<md-dialog class="media-library-popup">
+    <span class="arrow-left"></span>
+
+    <md-toolbar class="media-header">
+        <div class="md-toolbar-tools">
+            <md-input-container class="search dark" md-no-float>
+                <input type="text" ng-model="search" placeholder="SEARCH" ng-autofocus ng-change="searchAssets(search)">
+                <i class="fa fa-search"></i>
+            </md-input-container>
+            <span flex></span>
+            <md-button type="button" class="remove" ng-click="ui.confirmDelete=true" ng-disabled="!ui.selectedItem"
+                       ng-if="!ui.confirmDelete && me.role == 'admin'">
+                <i class="fa fa-trash fa-lg"></i>
+            </md-button>
+            <md-button type="button" class="md-raised remove-confirm" ng-click="removeMediaAsset(ui.selectedItem)"
+                       ng-if="ui.confirmDelete && ui.selectedItem">
+                Confirm Delete?
+            </md-button>
+            <md-button type="button" class="md-raised cancel" ng-click="$mdDialog.cancel()">Cancel</md-button>
+            <md-button type="button" class="md-raised upload" ng-click="$mdDialog.hide(ui.selectedItem.url)"
+                       ng-disabled="!ui.selectedItem">Select
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-content flex ng-click="selectAsset(null)">
+        <md-progress-circular class="absolute-center" md-mode="indeterminate" ng-if="loading"></md-progress-circular>
+        <md-grid-list md-cols="6" md-cols-gt-lg="7" md-row-height="1:1" md-gutter="8px" md-gutter-gt-lg="10px"
+                      md-grid-relayout="[typeFilter, uiAssets, ui.search]" relayout-debounce="300"
+                      ng-class="{ searching: ui.search }" lazy-img-container>
+            <md-grid-tile class="asset" ng-repeat="asset in uiAssets | filterBy:['fileName']:ui.search"
+                          ng-class="[codeOf(asset.fileType), ui.selectedItem == asset ? 'active' : '', !ui.search || ui.search.length > 2 ? 'fade-animate' : '']"
+                          ng-click="selectAsset(asset, $event)" ng-dblclick="$mdDialog.hide(asset.url)"
+                          ng-disabled="asset.deleting">
+                <div class="thumb" lazy-img="{{asset.thumbUrl}}" ng-class="codeOf(asset.fileType)"></div>
+                <div class="selected-frame" ng-if="ui.selectedItem == asset"></div>
+                <md-grid-tile-footer ng-class="{ fixed: asset.fileType != 'image' || ui.search }">
+                    <span class="filename" title="{{asset.fileName.length > 50 ? asset.fileName : ''}}"
+                          ng-bind-html="asset.fileName | highlight:ui.search">
+                    </span>
+                </md-grid-tile-footer>
+            </md-grid-tile>
+        </md-grid-list>
+        <div class="empty-placeholder absolute-center" ng-if="!loading && uiAssets.length == 0 && showFilters">
+            No {{typeFilter}} presented in Media Library
+        </div>
+        <div class="empty-placeholder absolute-center" ng-if="!loading && assets.length == 0 && !showFilters">
+            No assets presented in Media Library, use Upload New button instead
+        </div>
+    </md-content>
+
+    <div class="md-actions footer">
+        <md-radio-group ng-model="typeFilter" class="type-filter" ng-show="showFilters">
+            <md-radio-button type="button" value="">All</md-radio-button>
+            <md-radio-button type="button" value="Photos">Photos</md-radio-button>
+            <md-radio-button type="button" value="Videos">Videos</md-radio-button>
+            <md-radio-button type="button" value="Audio">Audio</md-radio-button>
+            <md-radio-button type="button" value="Others">Others</md-radio-button>
+        </md-radio-group>
+    </div>
+</md-dialog>

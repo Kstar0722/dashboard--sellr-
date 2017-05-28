@@ -23,7 +23,8 @@ window.ApplicationConfiguration = (function () {
     'angular-filepicker',
     'ngUsStates',
     'uiSwitch',
-    'angular.filter'
+    'angular.filter',
+    'cardkit'
   ]
 
   // ngPostMessage incompatible with unit testing framework, just exclude it

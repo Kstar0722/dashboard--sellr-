@@ -1,0 +1,154 @@
+<!--side bar for template variable tags-->
+<li ng-if="templateVariableOpts.length" ng-repeat="input in templateVariableOpts track by $index">
+    <md-input-container flex md-no-float
+                        ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
+        <label>{{ input.name }}</label>
+        <selectize ng-if="selectTemplateConfig" config="$scope.selectTemplateConfig" options="$scope.templateCards"
+                   ng-model="input.value" placeholder="Not selected"
+                   ng-change="setValue(input.shortCode, input.value)">
+        </selectize>
+    </md-input-container>
+</li>
+
+<!--side bar for dropdown-->
+<li ng-if="dropOpts.length" ng-repeat="input in dropOpts track by $index">
+    <md-input-container flex md-no-float
+                        ng-class="{ empty: isEmpty(input), default: input.valueSelected == input.defaultValue }">
+        <label>{{ input.name }}</label>
+        <selectize ng-if="selectDropdownConfig" config="$scope.selectDropdownConfig" options="input.value"
+                   ng-model="input.valueSelected" placeholder="Not selected"
+                   ng-change="setValue(input.shortCode, input.valueSelected)">
+        </selectize>
+    </md-input-container>
+</li>
+
+<!--side bar for checkboxes-->
+<li ng-if="checkOpts.length">
+    <md-input-container md-no-float class="checkbox" ng-repeat="input in checkOpts track by $index"
+                        ng-mouseenter="hoveredCheck=true;" ng-mouseleave="hoveredCheck=false">
+        <md-checkbox ng-model="input.checked"
+                     ng-change="input.value = input.checked ? input.valueTrue : 'false'; setValue(input.shortCode, input.value)"
+                     md-no-ink>
+            <span ng-class="{'blueOnHover':hoveredCheck}">{{ input.name }}</span>
+        </md-checkbox>
+    </md-input-container>
+</li>
+
+<!--side bar for text area-->
+<li ng-if="areaOpts.length" ng-repeat="input in areaOpts track by $index">
+    <md-input-container flex md-no-float
+                        ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
+        <label>{{ input.name }}</label>
+        <textarea rows="4" data-ng-model="input.value" class="form-control"
+                  data-ng-change="setValue(input.shortCode, input.value)"></textarea>
+    </md-input-container>
+</li>
+
+<!--side bar for text inputs-->
+<li ng-if="inputOpts.length" ng-repeat="input in inputOpts track by $index">
+    <md-input-container flex md-no-float
+                        ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
+        <label>{{ input.name }}</label>
+        <input type="text" ng-model="input.value" class="form-control"
+               data-ng-change="setValue(input.shortCode, input.value)"/>
+    </md-input-container>
+</li>
+
+<!--side bar for file inputs-->
+<div ng-repeat="input in fileOpts">
+    <div card-variable-file="" name="{{ input.name  }}" shortcode="{{ input.shortCode }}" value="{{ input.value }}"
+         render="renderme" client="cardFile.client"></div>
+</div>
+
+<!--side bar for video inputs-->
+<div ng-repeat="input in videoOpts">
+    <div card-variable-file="video" name="{{ input.name  }}" shortcode="{{ input.shortCode }}" value="{{ input.value }}"
+         render="renderme" client="cardFile.client"></div>
+</div>
+
+<!--side bar for pages list inputs-->
+<div ng-repeat="input in pageOpts">
+    <label>{{ input.name }}</label>
+    <md-input-container md-no-float
+                        ng-class="{ empty: isEmpty(input), default: input.valueSelected == input.defaultValue }">
+        <selectize ng-if="selectPageConfig" config="selectPageConfig" class="page-link" ng-model="input.valueSelected"
+                   placeholder="Not selected"
+                   data-ng-change="setValue(input.shortCode, input.valueSelected, input.valueTarget)"></selectize>
+    </md-input-container>
+    <md-input-container md-no-float class="checkbox indent">
+        <md-checkbox ng-model="input.valueTarget" ng-true-value="'_blank'" ng-false-value="'_self'"
+                     data-ng-change="setValue(input.shortCode, input.valueSelected, input.valueTarget)" md-no-ink>
+            Open in New Window
+        </md-checkbox>
+    </md-input-container>
+</div>
+
+<!--side bar for text inputs-->
+<li ng-if="repeatOpts.length" ng-repeat="input in repeatOpts track by $index">
+    <md-input-container flex md-no-float
+                        ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
+        <label>{{ input.name }}</label>
+        <div class="numeric-input" layout="row">
+            <input type="number" ng-model="input.value" ng-change="setValue(input.shortCode, input.value)">
+            <div class="spinner-wrapper" layout="column">
+                <md-button type="button" class="spinner up"
+                           ng-click="input.value = setValue(input.shortCode, input.value + 1)"><i
+                    class="fa fa-angle-up"></i></md-button>
+                <md-button type="button" class="spinner down"
+                           ng-click="input.value = setValue(input.shortCode, Math.max(0, input.value - 1))"><i
+                    class="fa fa-angle-down"></i></md-button>
+            </div>
+        </div>
+    </md-input-container>
+</li>
+
+<!--side bar for mailchimp list dropdown-->
+<div class="mailchimp-list" ng-repeat="input in mailchimpListOpts">
+    <label>{{ input.name }}</label>
+    <md-button type="button" class="refresh md-icon-button" aria-label="Refresh the list" ng-click="refreshMailchimp(selectMailchimpListConfig, true)">
+        <i class="fa fa-refresh"></i>
+    </md-button>
+    <md-input-container md-no-float ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
+        <selectize name="mailchimpList" ng-if="selectMailchimpListConfig" config="selectMailchimpListConfig" options="selectMailchimpListConfig.options" class="mailchimp-list" ng-model="input.value"
+                   placeholder="Not selected" ng-change="setValue(input.shortCode, input.value)" ng-disabled="!ui.mailchimp.enabled || selectMailchimpListConfig.refreshing"></selectize>
+
+        <div ng-if="!ui.mailchimp.enabled" class="alert">
+            Please <a ui-sref="editClient_tab({ clientId: client._id, tab: 'integrations' })" target="_blank">connect Mailchimp</a> account first
+        </div>
+    </md-input-container>
+</div>
+
+<!--side bar for stripe products list dropdown-->
+<div class="stripe-products-list" ng-repeat="input in stripeProductsListOpts">
+    <label>{{ input.name }}</label>
+    <md-button type="button" class="refresh md-icon-button" aria-label="Refresh the list" ng-click="refreshStripeProducts(selectStripeProductsListConfig, true)">
+        <i class="fa fa-refresh"></i>
+    </md-button>
+    <md-input-container md-no-float ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
+        <selectize name="stripeProductsList" ng-if="selectStripeProductsListConfig" config="selectStripeProductsListConfig" options="selectStripeProductsListConfig.options" class="stripe-products-list" ng-model="input.value"
+                   placeholder="Not selected" ng-change="setValue(input.shortCode, input.value)" ng-disabled="!ui.stripe.enabled || selectStripeProductsListConfig.refreshing"></selectize>
+
+        <div ng-if="!ui.stripe.enabled" class="alert">
+            Please <a ui-sref="editClient_tab({ clientId: client._id, tab: 'integrations' })" target="_blank">connect Stripe</a> account first
+        </div>
+    </md-input-container>
+</div>
+
+<!--side bar for card tutorial-->
+<md-button class="md-default btn-success" ng-click="showVideoTutorial($event)" flex flex-md="100"
+           ng-show="videoTutorial.length > 0" style="margin:0 0 10px;"><i class="fa fa-camera"></i>&nbsp; Watch Tutorial
+</md-button>
+
+<video-tutorial-modal vlink="videoTutorial" name="'videoTutorial'"></video-tutorial-modal>
+
+<md-button class="md-default btn-success sync-card" ng-click="updateCard()"><i class="fa fa-refresh"></i>&nbsp; Sync
+    Card
+</md-button>
+
+<custom-modal
+    title="'Update card content'"
+    text="'There are some text conflicts found in the recent card. They are going to be resolved automatically but require your attention. Are you sure you want to update card content?'"
+    name="'confirmCardConflictsResolution'"
+    button="'Update'"
+    action="updateCard(true)">
+</custom-modal>
