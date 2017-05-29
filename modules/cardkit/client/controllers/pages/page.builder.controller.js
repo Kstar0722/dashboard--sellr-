@@ -8,7 +8,7 @@
     PageBuilderController.$inject = ['cardData', 'editorService', 'pagesHelper', '$q', 'Pages', '$scope', '$rootScope', 'Authentication', 'logger', 'cardsHelper', 'clientHelper', '$timeout', '$stateParams', '$state', '$location', '$mdUtil', '$mdSidenav', '$log', 's3Storage', 'IntercomSvc', 'Logs', 'hotkeys', 'PostMessage', '$window', 'MediaAssets'];
 
     function PageBuilderController(cardData, editorService, pagesHelper, $q, Pages, $scope, $rootScope, Authentication, logger, cardsHelper, clientHelper, $timeout, $stateParams, $state, $location, $mdUtil, $mdSidenav, $log, s3Storage, IntercomSvc, Logs, hotkeys, PostMessage, $window, MediaAssets) {
-        $scope.me = Authentication.user;
+        $scope.me = Authentication.cardkit.user;
         $scope.pageId = $stateParams.pageId;
         $scope.leaveUrl = '';
         $scope.vleavePage = false;
@@ -177,7 +177,7 @@
         $rootScope.saveChangesAndClose = function(e) {
             $rootScope.saveChanges(e).then(function() {
                 $scope.vleavePage = true;
-                $state.go('listPages');
+                $state.go('cardkit.listPages');
             });
         };
 
@@ -406,7 +406,7 @@
                     enablePlugins($('.page.content'));
                 });
 
-                if (_.isEmbedMode()) PostMessage.send('loaded', Authentication.user.username);
+                if (_.isEmbedMode()) PostMessage.send('loaded', Authentication.cardkit.user.username);
             });
         }
 

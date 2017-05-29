@@ -85,7 +85,7 @@
             return Clients.query().$promise.then(function(clients) {
                 scope = scope || {};
 
-                var user = Authentication.user || {};
+                var user = Authentication.cardkit.user || {};
                 var userClients = _.unionItems(user.clients, user.client);
                 var userClient = (userClients.length == 1 ? userClients[0] : null);
 
@@ -146,9 +146,9 @@
             });
         }
 
-        function resolveStateClientName(clients) {
-            if ($stateParams.clientSlug) {
-                var slug = $stateParams.clientSlug;
+        function resolveStateClientName(clients, clientSlug) {
+            if ($stateParams.clientSlug || clientSlug) {
+                var slug = $stateParams.clientSlug || clientSlug;
                 var clientName = resolveClientName(clients, slug)
                 return clientName;
             }

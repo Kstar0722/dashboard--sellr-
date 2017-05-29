@@ -1,11 +1,12 @@
 angular.module('core')
-.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog) {
+.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog, PostMessage) {
   //
   // DEFINITIONS - INITIALIZATION
   //
   $scope.ui = {}
   $scope.Authentication = Authentication
   $scope.accountsService = accountsService
+  connectCardkit($rootScope)
   init()
 
   //
@@ -31,7 +32,7 @@ angular.module('core')
   }
 
   $scope.accountChangeHandler = function (account) {
-    $scope.$root.selectAccountId = account.accountId
+    $rootScope.selectAccountId = account.accountId
     localStorage.setItem('accountId', account.accountId)
     $scope.ui.showAccountsSelector = false
   }
@@ -72,16 +73,17 @@ angular.module('core')
     if (state.indexOf('admin') > -1) { $scope.ui.primaryRoute = 'admin' }
     if (state.indexOf('editor') > -1) { $scope.ui.primaryRoute = 'editor' }
     if (state.indexOf('storeOwner') > -1) { $scope.ui.primaryRoute = 'store' }
+    if (state.indexOf('cardkit') > -1) { $scope.ui.primaryRoute = 'store' }
   }
 
   function init () {
     if ($stateParams.accountId) {
-      $scope.$root.selectAccountId = $stateParams.accountId
+      $rootScope.selectAccountId = $stateParams.accountId
     } else {
-      $scope.$root.selectAccountId = $scope.$root.selectAccountId || localStorage.getItem('accountId')
+      $rootScope.selectAccountId = $rootScope.selectAccountId || localStorage.getItem('accountId')
     }
-    if ($scope.$root.selectAccountId) {
-      $scope.$root.selectAccountId = parseInt($scope.$root.selectAccountId, 10) || $scope.$root.selectAccountId
+    if ($rootScope.selectAccountId) {
+      $rootScope.selectAccountId = parseInt($rootScope.selectAccountId, 10) || $rootScope.selectAccountId
     }
   }
 
@@ -98,10 +100,10 @@ angular.module('core')
     if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
   })
 
-  $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
+  $rootScope.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
     if (toState) {
-      toParams.accountId = $scope.$root.selectAccountId
+      toParams.accountId = $rootScope.selectAccountId
       $state.go(toState.name, toParams, {notify: false})
     }
     setActiveRoute(toState.name)
@@ -118,4 +120,18 @@ angular.module('core')
   })
   // Sort of not needed because Nav Scope will never be destroyed but this is mandatory elsewhere to prevent Leak
   $scope.$on('$destroy', unregisterGlobalClick)
+
+  function connectCardkit($scope) {
+    PostMessage.on('identify', function () {
+      PostMessage.send('identifyComplete', Authentication.user)
+    })
+
+    $scope.$watch('selectAccountId', postSelectAccount)
+    $scope.$watch(function () { return accountsService.accounts }, postSelectAccount)
+
+    function postSelectAccount() {
+      var account = _.find(accountsService.accounts, { accountId: $scope.selectAccountId })
+      if (account) PostMessage.send('selectAccount', account)
+    }
+  }
 })

@@ -51,7 +51,7 @@
                     scope.show = true;
                     $mdDialog.show({
                         scope: scope.$new(),
-                        templateUrl: '/modules/core/services/video.tutorial.modal.html',
+                        templateUrl: '/modules/cardkit/client/services/video.tutorial.modal.html',
                         parent: angular.element(document.body),
                         focusOnOpen: false
                     }).finally(scope.hideDialog);

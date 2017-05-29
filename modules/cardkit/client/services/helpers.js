@@ -43,7 +43,8 @@
             }
         },
         isEmbedMode: function() {
-            return window.location.pathname == '/embed';
+            return true;
+            // return window.location.pathname == '/embed';
         },
         removeItem: function(arr, item) {
             return _.replaceItem(arr, item, undefined);
@@ -70,12 +71,6 @@
         },
         id: function(entityOrId) {
             return entityOrId && entityOrId._id || entityOrId;
-        },
-        findById: function(arr, entityOrId) {
-            entityOrId = _.id(entityOrId);
-            return _.find(arr, function(item) {
-                return _.id(item) == entityOrId;
-            });
         },
 
         /**

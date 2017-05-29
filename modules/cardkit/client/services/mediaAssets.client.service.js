@@ -1,22 +1,22 @@
 'use strict';
 
-angular.module('cardkit.core').factory('MediaAssets', ['$resource', 'CacheFactory',
-    function($resource, CacheFactory) {
+angular.module('cardkit.core').factory('MediaAssets', ['$resource', 'CacheFactory', 'appConfig',
+    function($resource, CacheFactory, appConfig) {
         var clientLibraryCache = CacheFactory.get('clientLibraryCache') || CacheFactory.createCache('clientLibraryCache');
 
-        return $resource('/media-library/:assetId', {
+        return $resource(appConfig.CARDKIT_URL + '/media-library/:assetId', {
             assetId: '@assetId',
             clientSlug: '@clientSlug'
         }, {
             getClientLibrary: {
                 method: 'GET',
-                url: '/media-library/client/:clientSlug',
+                url: appConfig.CARDKIT_URL + '/media-library/client/:clientSlug',
                 isArray: true,
                 cache: clientLibraryCache
             },
             save: {
                 method: 'POST',
-                url: '/media-library',
+                url: appConfig.CARDKIT_URL + '/media-library',
                 interceptor: {
                     response: function(response) {
                         clientLibraryCache.removeAll();

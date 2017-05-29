@@ -5,10 +5,10 @@
         .module('cardkit.users')
         .factory('Users', Users);
 
-    Users.$inject = ['$resource'];
+    Users.$inject = ['$resource', 'appConfig'];
 
-    function Users($resource) {
-        return $resource('/users/:userId/:controller', {
+    function Users($resource, appConfig) {
+        return $resource(appConfig.CARDKIT_URL + '/users/:userId/:controller', {
                 userId: '@userId'
             },
             {

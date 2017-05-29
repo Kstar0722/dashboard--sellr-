@@ -1,12 +1,12 @@
 'use strict';
 
 // Authorization service for user variables
-angular.module('cardkit.users').service('Authorization', ['Authentication', 'AuthenticationSvc', '$state', '$rootScope', '$q', 'PostMessage', '$timeout',
-    function(Authentication, AuthenticationSvc, $state, $rootScope, $q, PostMessage, $timeout) {
+angular.module('cardkit.users').service('Authorization', ['Authentication', 'AuthenticationSvc', '$state', '$rootScope', '$q', 'PostMessage', '$timeout', 'logger',
+    function(Authentication, AuthenticationSvc, $state, $rootScope, $q, PostMessage, $timeout, logger) {
         var self = this;
 
         self.isAuthorized = function(state, user) {
-            user = user || Authentication.user;
+            user = user || Authentication.cardkit.user;
             state = typeof state == 'string' ? $state.get(state) : state;
 
             var authRules = state.authorize;
@@ -47,7 +47,7 @@ angular.module('cardkit.users').service('Authorization', ['Authentication', 'Aut
         };
 
         self.authorizeSellr = function(url) {
-            if ($rootScope.embedAuthorized) return $q.when(Authentication.user);
+            if ($rootScope.embedAuthorized) return $q.when(Authentication.cardkit.user);
 
             var defer = $q.defer();
             var clientUri = decodeURIComponent((url && url.match(/pages\/([^\/]+)/i) || [])[1] || '');
@@ -57,7 +57,7 @@ angular.module('cardkit.users').service('Authorization', ['Authentication', 'Aut
                 var timeoutTimer = $timeout(function() {
                     console.error('identify timeout');
                     defer.reject('identify timeout');
-                    toastr.error('Failed to load website builder due to authentication error');
+                    logger.error('Failed to load website builder due to authentication error');
                 }, 5000);
 
                 PostMessage.on('identifyComplete', function(credentials) {
@@ -77,30 +77,30 @@ angular.module('cardkit.users').service('Authorization', ['Authentication', 'Aut
         };
 
         self.goToLandingPage = function() {
-            var user = Authentication.user;
+            var user = Authentication.cardkit.user;
             if (!user) return;
 
             switch (user.role) {
                 case 'developer':
-                    return $state.go('myCards');
+                    return $state.go('cardkit.myCards');
                 case 'admin':
-                    return $state.go('listPages');
+                    return $state.go('cardkit.listPages');
                 case 'team':
-                    return $state.go('myCards');
+                    return $state.go('cardkit.myCards');
                 case 'client':
                     if (self.isAuthorized('listPages')) {
-                        return $state.go('listPages');
+                        return $state.go('cardkit.listPages');
                     }
                     else if (self.isAuthorized('listPosts')) {
-                        return $state.go('listPosts');
+                        return $state.go('cardkit.listPosts');
                     }
                     else {
-                        return $state.go('profile');
+                        return $state.go('cardkit.profile');
                     }
                 case 'contentContributor':
-                    return $state.go('listPosts');
+                    return $state.go('cardkit.listPosts');
                 default:
-                    return $state.go('home');
+                    return $state.go('cardkit.home');
             }
         };
 

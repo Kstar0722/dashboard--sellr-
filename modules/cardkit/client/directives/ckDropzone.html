@@ -14,9 +14,9 @@
     <div ng-if="kind != 'video' && value && !uploading" class="file image no-animate clearfix">
         <img ng-show="!imgFailed" ng-src="{{ value }}"
              onerror="var $scope = angular.element(this).scope(); $scope.imgFailed = true; $scope.$digest()">
-        <img ng-if="imgFailed && fileExtension(value) == 'pdf'" class="fallback-icon" src="/fw/images/ACP_PDF_icon.png">
+        <img ng-if="imgFailed && fileExtension(value) == 'pdf'" class="fallback-icon" src="/img/cardkit/ACP_PDF_icon.png">
         <img ng-if="imgFailed && fileExtension(value) != 'pdf'" class="fallback-icon"
-             src="/fw/images/file-x-generic.png">
+             src="/img/cardkit/file-x-generic.png">
         <div ng-if="imgFailed && fileExtension(value) != 'pdf'" class="file-type">{{fileExtension(value)}}</div>
         <div ng-if="imgFailed" class="filename">
             <a ng-href="{{value}}" target="_blank">{{filename(value)}}</a>

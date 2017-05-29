@@ -10,7 +10,7 @@
     function cardVariableFile(cardsHelper, appConfig, cardData, logger, $rootScope, $sce, $window, $timeout, fileManager, mimeTypeService, mediaLibrary, MediaAssets) {
         return {
             restrict: 'A',
-            templateUrl: '/modules/pages/directives/card-variable-file.html',
+            templateUrl: '/modules/cardkit/client/directives/pages/card-variable-file.html',
             scope: {
                 kind: '@cardVariableFile',
                 variableName: '@name',

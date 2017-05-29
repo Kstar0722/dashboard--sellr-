@@ -8,7 +8,7 @@
     PageSettingsEditorController.$Inject = ['$scope', '$mdDialog', 'Pages', '$timeout', 'logger', '$q', 'fileManager', 'mediaLibrary', 'appConfig', 'Authentication'];
 
     function PageSettingsEditorController($scope, $mdDialog, Pages, $timeout, logger, $q, fileManager, mediaLibrary, appConfig, Authentication) {
-        $scope.me = Authentication.user;
+        $scope.me = Authentication.cardkit.user;
         $scope.selectClient = $scope.me.role === 'admin';
         $scope.pageStatuses = appConfig.pageStatuses || [];
         $scope.uploadProgress = undefined;

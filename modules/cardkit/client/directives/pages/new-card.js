@@ -10,7 +10,7 @@
     function newCard(cardsHelper, cardData, pagesHelper, editorService, $compile, $timeout, logger, $sce, clientHelper, $animate, $location) {
         return {
             restrict: 'A',
-            templateUrl: '/modules/pages/directives/new-card.html',
+            templateUrl: '/modules/cardkit/client/directives/pages/new-card.html',
             scope: {
                 card: '=',
                 client: '=',

@@ -1,0 +1,56 @@
+#cardsController.card-editor {
+    margin-top: -10px;
+
+    .post-variable {
+        label {
+            color: @light-grey;
+        }
+
+        md-select {
+            order: 1;
+            padding-bottom: 0;
+
+            .md-select-label {
+                border-color: @white;
+                color: @white;
+                width: 100%;
+            }
+        }
+    }
+
+    md-checkbox {
+        .md-icon {
+            border-color: rgba(176, 190, 197, 0.87);
+        }
+    }
+
+    .progress-container {
+        margin-top: 10px;
+    }
+
+    .select-pic {
+        margin: 0;
+
+        .fa {
+            margin: 0 3px;
+        }
+    }
+
+    .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th{background: transparent;}
+
+    .dropdown .caret {
+        margin-top: 8px;
+    }
+
+    .ace-editor {
+        max-height: 60vh;
+
+        &.small {
+            font-size: 11.5px;
+        }
+
+        &.ace_focus {
+            min-height: 500px !important;
+        }
+    }
+}

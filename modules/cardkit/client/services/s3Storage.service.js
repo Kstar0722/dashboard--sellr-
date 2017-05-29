@@ -213,7 +213,7 @@
                     opts.width = width || 2000;
                     opts.height = height || 2000;
                 }
-                return $http.post('/optimize/image/s3', opts).catch(function(response) {
+                return $http.post(appConfig.CARDKIT_URL + '/optimize/image/s3', opts).catch(function(response) {
                     if (prepare) return url; // optimized on client side
                     return $q.reject(response);
                 });

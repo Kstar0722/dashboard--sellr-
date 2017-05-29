@@ -6,7 +6,7 @@
         .directive('pageSettings', function() {
             return {
                 restrict: 'E',
-                templateUrl: '/modules/pages/directives/page-settings.html',
+                templateUrl: '/modules/cardkit/client/directives/pages/page-settings.html',
                 controller: 'PageSettingsEditorController',
                 scope: {
                     page: '=',

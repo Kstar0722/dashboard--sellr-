@@ -33,7 +33,7 @@
                     show = true;
                     $mdDialog.show({
                         scope: scope.$new(),
-                        templateUrl: '/modules/core/services/progress.modal.html',
+                        templateUrl: '/modules/cardkit/client/services/progress.modal.html',
                         parent: angular.element(document.body),
                         focusOnOpen: false
                     }).finally(scope.hideDialog);

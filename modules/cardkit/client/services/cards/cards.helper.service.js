@@ -376,7 +376,7 @@
 
         function getCards(params) {
             var deferred = $q.defer();
-            var me = Authentication.user;
+            var me = Authentication.cardkit.user;
             if (me.role === 'admin' || me.role === 'client' || _.contains(me.permissions, 'ViewAllCards')) {
                 Cards.query(params).$promise.then(function(cards) {
                     deferred.resolve(cards);

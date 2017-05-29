@@ -29,10 +29,17 @@ ApplicationConfiguration.registerModule('cardkit.cards', ['cardkit.core'])
 ApplicationConfiguration.registerModule('cardkit.users', ['cardkit.core'])
 ApplicationConfiguration.registerModule('cardkit.clients', ['cardkit.core'])
 
-ApplicationConfiguration.registerModule('cardkit', ['cardkit.pages', 'cardkit.cards', 'cardkit.users', 'cardkit.clients'])
+ApplicationConfiguration.registerModule('cardkit', ['core', 'cardkit.pages', 'cardkit.cards', 'cardkit.users', 'cardkit.clients'])
 
-angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'gravatarServiceProvider', '$animateProvider', '$mdThemingProvider', '$provide', 'lazyImgConfigProvider', 'CacheFactoryProvider',
-    function($sceDelegateProvider, $compileProvider, gravatarServiceProvider, $animateProvider, $mdThemingProvider, $provide, lazyImgConfigProvider, CacheFactoryProvider) {
+angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'gravatarServiceProvider', '$animateProvider', '$mdThemingProvider', '$provide', 'lazyImgConfigProvider', 'CacheFactoryProvider', '$stateProvider',
+    function($sceDelegateProvider, $compileProvider, gravatarServiceProvider, $animateProvider, $mdThemingProvider, $provide, lazyImgConfigProvider, CacheFactoryProvider, $stateProvider) {
+      // since Angularjs doesn't handle namespace collisions for services, place Cardkit authentication under Dashboard Authentication.cardkit property
+      $provide.decorator('Authentication', ['$delegate', 'CardkitAuthentication', function($delegate, CardkitAuthentication) {
+        var Authentication = angular.extend({}, CardkitAuthentication, $delegate);
+        Authentication.cardkit = CardkitAuthentication;
+        return Authentication;
+      }]);
+      
       $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
         'self',
@@ -66,16 +73,49 @@ angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'g
         maxAge: 10 * 60 * 1000, // 10 min cache by default
         deleteOnExpire: 'aggressive'
       })
+
+      function nested(state, extensions) {
+        return _.extend({}, state, extensions);
+      }
+
+      var listPages = {
+        title: 'Pages',
+        url: '/pages',
+        templateUrl: '/modules/cardkit/client/views/pages/list-pages.client.view.html',
+        controller: 'PagesController',
+        controllerAs: 'pages'
+      };
+
+      var editPage = {
+        title: 'Edit page',
+        url: '/pages/:pageId/edit',
+        templateUrl: '/modules/cardkit/client/views/pages/page.builder.html',
+        controller: 'PageBuilderController'
+      };
+
+      // Pages state routing
+      $stateProvider.state('cardkit', {
+        abstract: true,
+        url: '/website/:accountId',
+        template: '<div ui-view class="cardkit"></div>' +
+          '<link rel="stylesheet" href="/dist/cardkit.min.css"/>',
+        controller: 'CardkitController'
+      }).state('cardkit.listPages', listPages).state('cardkit.listPages_client', nested(listPages, {
+        url: '/pages/:clientSlug'
+      })).state('cardkit.editPage', editPage).state('cardkit.editPage_client', nested(editPage, {
+        url: '/pages/:clientSlug/:pageId/edit'
+      }));
     }
   ])
 
-  .constant('appConfig', appConfig())
+  .factory('appConfig', appConfig)
   // .constant('toastr', toastr)
   .run(run)
 
-function appConfig() {
+function appConfig(constants) {
   window.settings = window.settings || {};
-  return {
+
+  var config = {
     allPermissions: ['ViewMyCards', 'EditMyCards', 'ViewAllCards', 'EditAnyCard', 'ViewPurchasedCards', 'ViewDevPrice', 'SubmitOrders', 'ViewClientPrice', 'DeleteAnyCard', 'ClaimCards', 'CreateNewCards', 'RegisterUsers', 'SetUsersPermissions', 'CreatePosts', 'ManageOwnPosts', 'ManageAllPosts', 'PublishPosts'],
     devPermissions: ['ViewMyCards', 'EditMyCards', 'ViewDevPrice', 'ClaimCards', 'CreatePosts', 'ManageOwnPosts', 'ManageAllPosts', 'PublishPosts'],
     clientPermissions: [/*'ViewMyCards', 'ViewPurchasedCards', */'SubmitOrders', 'ViewClientPrice', 'CreateNewCards', 'CreatePosts', 'ManageOwnPosts', 'ManageAllPosts', 'PublishPosts'],
@@ -114,47 +154,20 @@ function appConfig() {
     postStatuses: ['Draft', 'Schedule', 'Publish', 'Archive'],
     defaultImg: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=height%20%C3%97%20width%20&w=200&h=150'
   };
+
+  return angular.extend(config, constants);
 }
 
-run.$inject = ['$rootScope', '$state', 'uiHelpers'];
-function run($rootScope, $state, uiHelpers) {
+run.$inject = ['$rootScope', '$state', 'uiHelpers', '$timeout', 'toastr'];
+function run($rootScope, $state, uiHelpers, $timeout, toastr) {
+  window.toastr = window.toastr || toastr;
+
   angular.extend($rootScope, uiHelpers)
   // $rootScope.hideNavbar = false;
   $rootScope.$on('$stateChangeSuccess', function(event, next) {
     if (next.title == undefined) $rootScope.title = "Cardkit";
     else $rootScope.title = "Cardkit | " + next.title;
-    // $rootScope.hideNavbar = next.name == 'previewCard' || next.name == 'signin' || next.name == 'home';
+    // $rootScope.hideNavbar = next.name == 'previewCard' || next.name == 'authentication.signin' || next.name == 'home';
     $rootScope.state = next || $state.current;
   })
-
-  // if (_.isEmbedMode()) {
-  //   $rootScope.$on('$stateChangeSuccess', function(event, next, nextParams) {
-  //     var url = $state.href(next, nextParams)
-  //     PostMessage.send('routeChange', url)
-  //   })
-  // }
-
-  // fixSelectKeyboardNavigation()
-  //
-  // function fixSelectKeyboardNavigation() {
-  //   // bootstrap attaches keydown event handlers that close Material Dropdown (md-select directive), reattach bootstrap handlers.
-  //   var toggle = '[data-toggle="dropdown"]';
-  //   var Dropdown = $.fn.dropdown.Constructor;
-  //   $(document)
-  //     .off('keydown.bs.dropdown.data-api', toggle + ', [role="menu"], [role="listbox"]', Dropdown.prototype.keydown)
-  //     .on('keydown.bs.dropdown.data-api', toggle + ', :not(md-select-menu)[role="menu"], :not(md-select-menu)[role="listbox"]', Dropdown.prototype.keydown)
-  //
-  //   $(document).on('keydown', 'md-select-menu', function(e) {
-  //     e.preventDefault(); // stop scrolling dropdown in keyboard navigation
-  //   })
-  // }
 }
-
-// //Then define the init function for starting up the application
-// angular.element(document).ready(function() {
-//   //Fixing facebook bug with redirect
-//   if (window.location.hash === '#_=_') window.location.hash = '#!';
-//
-//   //Then init the app
-//   angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName])
-// })

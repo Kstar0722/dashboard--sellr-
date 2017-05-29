@@ -16,7 +16,7 @@
                 clickOutsideToClose: true,
                 focusOnOpen: false,
                 skipHide: true,
-                templateUrl: '/modules/pages/directives/media-library-popup.html',
+                templateUrl: '/modules/cardkit/client/directives/pages/media-library-popup.html',
                 controller: 'mediaLibraryPopupController',
                 locals: {
                     element: event.target,

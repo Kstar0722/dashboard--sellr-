@@ -13,7 +13,7 @@
         $scope.typeFilter = typeFilter || '';
         $scope.showFilters = (typeFilter || '') == '';
         $scope.ui = {};
-        $scope.me = Authentication.user;
+        $scope.me = Authentication.cardkit.user;
 
         $scope.codeOf = _.codeOf;
 

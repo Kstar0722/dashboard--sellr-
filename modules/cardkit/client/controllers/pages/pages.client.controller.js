@@ -9,7 +9,7 @@
 
     function PagesController($scope, $state, $stateParams, $location, Authentication, Pages, logger, appConfig, pagesHelper, cardData, $q, $timeout, $cookieStore, $mdDialog, clientHelper, $filter, IntercomSvc, PostMessage, Authorization, routeTracker, $injector) {
         var vm = this;
-        vm.me = Authentication.user;
+        vm.me = Authentication.cardkit.user;
         vm.pageStatuses = appConfig.pageStatuses || [];
         if (_.isEmbedMode()) vm.pageStatuses = ['Live', 'Draft'];
         vm.pageStatusesReverse = vm.pageStatuses.slice().reverse();
@@ -109,14 +109,14 @@
 
             if (confirmed) {
                 $('#confirmEditingPageModal').modal2('hide');
-                Pages.editing({ pageId: $scope.pageId });
+                Pages.editing({ pageId: _.id(page) });
                 IntercomSvc.trackEvent('Clicked edit for page', {
                     article: {
                         value: page.client.companyName + ' | ' + page.name,
                         url: $state.href('editPage', { pageId: page._id }, { absolute: true })
                     }
                 });
-                openState('editPage', { pageId: page._id }, $scope.selectedPageEditEvent);
+                openState('cardkit.editPage', { pageId: page._id }, $scope.selectedPageEditEvent);
                 return;
             }
 
@@ -134,7 +134,7 @@
                     $('#confirmEditingPageModal').modal2('show');
                 }
                 else {
-                    openState('editPage', { pageId: page._id }, event);
+                    openState('cardkit.editPage', { pageId: page._id }, event);
                 }
             });
         };
@@ -336,7 +336,7 @@
         $scope.lastUpdate = function(page, mine) {
             var updates = (page.updateHistory || []).slice();
             updates.unshift({ date: page.created, user: page.user && page.user.displayName });
-            if (mine) updates = _.where(updates, { user: Authentication.user.displayName });
+            if (mine) updates = _.where(updates, { user: Authentication.cardkit.user.displayName });
             return _.last(updates) || {};
         };
 
@@ -432,7 +432,7 @@
                     logger.success('Created new page');
 
                     if (edit) {
-                        $state.go('editPage', { pageId: page._id });
+                        $state.go('cardkit.editPage', { pageId: page._id });
                     }
                     else {
                         vm.pagesByClients[page.client.companyName].unshift(page);
@@ -553,7 +553,7 @@
                         vm.loadingProgress = 100;
                         $timeout(function() {
                             vm.loadingDone = true;
-                            if (_.isEmbedMode()) PostMessage.send('loaded', Authentication.user.username);
+                            if (_.isEmbedMode()) PostMessage.send('loaded', Authentication.cardkit.user.username);
                         });
                     });
                 });
@@ -638,7 +638,7 @@
             dialogScope.selectClient = selectClient || vm.me.role === 'admin';
 
             var promise = $mdDialog.show({
-                templateUrl: '/modules/pages/views/page-settings-dialog.client.view.html',
+                templateUrl: '/modules/cardkit/client/views/pages/page-settings-dialog.client.view.html',
                 controller: 'PageSettingsEditorController',
                 scope: dialogScope,
                 parent: angular.element(document.body),

@@ -27,13 +27,14 @@
             }
         });
 
-        // remove autofocus on modal shown, which hides medium editor toolbar.
-        var Modal = $.fn.modal.Constructor;
-        var _enforceFocus = Modal.prototype.enforceFocus;
-        Modal.prototype.enforceFocus = function() {
-            if (this.$element && this.$element.closest('.page.content').length) return;
-            return _enforceFocus.apply(this, arguments);
-        };
+        // todo: fix autofocus in modals if needed
+        // // remove autofocus on modal shown, which hides medium editor toolbar.
+        // var Modal = $.fn.modal.Constructor;
+        // var _enforceFocus = Modal.prototype.enforceFocus;
+        // Modal.prototype.enforceFocus = function() {
+        //     if (this.$element && this.$element.closest('.page.content').length) return;
+        //     return _enforceFocus.apply(this, arguments);
+        // };
 
         return service;
 

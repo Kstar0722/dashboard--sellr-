@@ -31,7 +31,7 @@
         function resetPageBuilder(scope) {
             scope.isPageDirty = false;
             scope.vleavePage = true;
-            $state.go('listPages');
+            $state.go('cardkit.listPages');
         }
 
         function updatePageBuilder(_scope) {
@@ -592,7 +592,7 @@
         function savePage(page) {
             var original = scope.page;
             if (!page.updateHistory) page.updateHistory = original && original.updateHistory || [];
-            page.updateHistory.push({ date: new Date(), user: Authentication.user.displayName });
+            page.updateHistory.push({ date: new Date(), user: Authentication.cardkit.user.displayName });
             page.client = scope.pageClient || scope.selectedClient || scope.client;
 
             var pageId = (original || page)._id;

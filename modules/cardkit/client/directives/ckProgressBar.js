@@ -9,7 +9,7 @@ angular
                 progress: '=value'
             },
             replace: true,
-            templateUrl: '/modules/core/directives/ckProgressBar.html',
+            templateUrl: '/modules/cardkit/client/directives/ckProgressBar.html',
             link: function(scope, element, attrs) {
             }
         };

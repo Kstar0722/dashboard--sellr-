@@ -11,7 +11,7 @@ angular
                 requestedKind: '@kind'
             },
             replace: true,
-            templateUrl: '/modules/core/directives/ckDropzone.html',
+            templateUrl: '/modules/cardkit/client/directives/ckDropzone.html',
             link: function(scope, element, attrs) {
                 if (!$window.File || !$window.FileReader) return;
                 scope.kind = scope.requestedKind;

@@ -1,0 +1,154 @@
+#listCards {
+    .busy-overlay > * {
+        margin-top: -200px !important;
+    }
+
+    .busy-overlay > .progress-label {
+        margin-top: -225px !important;
+    }
+
+    tbody {
+        font-size: 15px;
+    }
+
+    &.tiles {
+        padding-left: 20px;
+        padding-right: 20px;
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .card-container {
+            display: block;
+            float: left;
+            padding: 0;
+            margin: 10px;
+            background-color: @white;
+
+            > figure {
+                display: inline-block;
+                background: white;
+                margin-top: -15px;
+                padding-top: 15px;
+            }
+        }
+
+        .cards {
+            margin-left: -10px;
+            margin-right: 10px;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+
+            .image-container {
+                align-items: center;
+                background-color: @light-grey;
+                display: flex;
+                min-height: 150px;
+                padding: 15px;
+                position: relative;
+            }
+
+            .preview {
+                display: block;
+                transition: opacity 0.5s ease;
+                width: 100%;
+                height: 100%;
+            }
+
+            &.show-details {
+            }
+
+            &.show-details .overlay {
+                background-color: @dark-grey;
+                bottom: 0;
+                left: 0;
+                opacity: 0.65;
+                transition: all .5s;
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 1;
+
+                .fa {
+                    margin-right: 6px;
+                    font-size: 1.4em;
+                }
+            }
+
+            .options {
+                .md-button {
+                    color: @white;
+                    font-size: 18pt;
+                    font-weight: bold;
+                    position: absolute;
+                    text-transform: none;
+                    z-index: 100;
+
+                    &.edit, &.view {
+                        left: 50%;
+                        margin-left: -47px;
+                        margin-top: -18px;
+                        top: 50%;
+
+                        ng-md-icon {
+                            margin-top: -12px;
+                            margin-right: 5px;
+                        }
+                    }
+
+                    &.remove {
+                        color: @red;
+                        left: 0;
+                        bottom: 0;
+                    }
+
+                    &.duplicate {
+                        right: 0;
+                        bottom: 0;
+                    }
+                }
+
+                ng-md-icon {
+                    //margin-top: -10px;
+
+                    svg {
+                        display: block;
+                        margin: auto;
+                    }
+                }
+            }
+
+            .details {
+                color: #555f62;
+                padding: 5px;
+
+                .title {
+                    font-size: 14pt;
+                    font-weight: bold;
+                }
+
+                .client:after {
+                    border-left: 1px solid @medium-grey;
+                    content: '';
+                    margin-left: 8px;
+                    padding-left: 5px;
+                }
+
+                .edited, .created {
+                    font-style: italic;
+                }
+            }
+        }
+    }
+}
+
+body.listCards {
+    .view-options {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}

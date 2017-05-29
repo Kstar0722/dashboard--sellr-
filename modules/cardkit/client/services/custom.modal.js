@@ -44,7 +44,7 @@
                     scope.show = true;
                     $mdDialog.show({
                         scope: scope.$new(),
-                        templateUrl: '/modules/core/services/custom.modal.html',
+                        templateUrl: '/modules/cardkit/client/services/custom.modal.html',
                         parent: angular.element(document.body),
                         focusOnOpen: false
                     }).finally(scope.hideDialog);

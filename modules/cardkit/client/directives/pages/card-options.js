@@ -5,14 +5,14 @@
         .module('cardkit.pages')
         .directive('cardOptions', cardOptions);
 
-    cardOptions.$inject = ['cardData', '$rootScope', 'logger', 'editorService', 'Cards', '$timeout', 'cardsHelper', 'pagesHelper', '$http', '$q', 'Clients'];
+    cardOptions.$inject = ['cardData', '$rootScope', 'logger', 'editorService', 'Cards', '$timeout', 'cardsHelper', 'pagesHelper', '$http', '$q', 'Clients', 'appConfig'];
 
-    function cardOptions(cardData, $rootScope, logger, editorService, Cards, $timeout, cardsHelper, pagesHelper, $http, $q, Clients) {
+    function cardOptions(cardData, $rootScope, logger, editorService, Cards, $timeout, cardsHelper, pagesHelper, $http, $q, Clients, appConfig) {
         var updateHtmlDependenciesDebounced = _.debounce(updateHtmlDependencies, 500);
 
         return {
             restrict: 'E',
-            templateUrl: '/modules/pages/directives/card-options.html',
+            templateUrl: '/modules/cardkit/client/directives/pages/card-options.html',
             scope: {
                 cards: '=',
                 pages: '=',
@@ -251,7 +251,7 @@
 
                     return $q.when(settingsLoaded).then(function() {
                         if (!scope.ui.mailchimp.enabled || !scope.ui.mailchimp.token) return $q.reject('mailchimp not integrated');
-                        return $http.get('/proxy/mailchimp/lists?apikey=' + scope.ui.mailchimp.token).then(function(response) {
+                        return $http.get(appConfig.CARDKIT_URL + '/proxy/mailchimp/lists?apikey=' + scope.ui.mailchimp.token).then(function(response) {
                             var lists = _.map(response.data.lists, function(list) {
                                 list.subscribe_url_long = (list.subscribe_url_long || '').replace(/\.list-manage\d*/i, '.list-manage');
                                 return list;
@@ -281,7 +281,7 @@
 
                     return $q.when(settingsLoaded).then(function() {
                         if (!scope.ui.stripe.enabled || !scope.ui.stripe.secretKey) return $q.reject('stripe not integrated');
-                        return $http.get('/stripe/' + _.id(scope.client) + '/products?active=true').then(function(response) {
+                        return $http.get(appConfig.CARDKIT_URL + '/stripe/' + _.id(scope.client) + '/products?active=true').then(function(response) {
                             var products = response.data.data;
                             _.each(products, function(p) {
                                 p.namePrice = p.name + (p.price ? ' - $' + p.price : '');

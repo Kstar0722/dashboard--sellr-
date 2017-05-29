@@ -3,9 +3,9 @@
 //Cards service used to communicate Cards REST endpoints
 angular.module('cardkit.cards')
 
-    .factory('Cards', ['$resource',
-        function($resource) {
-            return $resource('/cards/:cardId/:controller', {
+    .factory('Cards', ['$resource', 'appConfig',
+        function($resource, appConfig) {
+            return $resource(appConfig.CARDKIT_URL + '/cards/:cardId/:controller', {
                 cardId: '@_id', clientId: '@clientId'
             }, {
                 update: {
