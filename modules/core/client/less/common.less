@@ -666,7 +666,10 @@ md-select.common-input {
 .capitalize{
   text-transform: capitalize;
 }
-
+.coming-soon-screen{
+  width: 100%;
+  max-width: 100%;
+}
 .common-sub-nav-bar{
   background: #fff;
   height: 60px;
@@ -690,6 +693,13 @@ md-select.common-input {
     &.active{
       color: #000;
       border-bottom: 3px solid #2bbf88;
+    }
+    .coming-soon{
+      position: relative;
+      .coming-soon-icon{
+        position: absolute;
+        top: 38px;
+      }
     }
   }
 }

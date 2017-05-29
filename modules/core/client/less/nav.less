@@ -17,12 +17,16 @@
         list-style: none;
         li{
           cursor: pointer;
-          opacity: 0.47;
           margin-left: 35px;
           display: inline-block;
+          span{
+            opacity: 0.47;
+          }
           &.active{
-            color: #fff;
-            opacity: 1;
+            span{
+              color: #fff;
+              opacity: 1;
+            }
           }
         }
       }
@@ -131,7 +135,13 @@
       }
       ul{
         li{
-          opacity: 0.47;
+          .coming-soon{
+            position: relative;
+            .coming-soon-icon{
+              position: absolute;
+              top: 22px;
+            }
+          }
         }
       }
     }

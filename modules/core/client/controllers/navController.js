@@ -75,6 +75,7 @@ angular.module('core')
   }
 
   function init () {
+    if (_.isNull($scope.$root) || _.isUndefined($scope.$root)) return
     if ($stateParams.accountId) {
       $scope.$root.selectAccountId = $stateParams.accountId
     } else {
@@ -100,7 +101,7 @@ angular.module('core')
 
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
     init()
-    if (toState) {
+    if (toState && $scope.$root) {
       toParams.accountId = $scope.$root.selectAccountId
       $state.go(toState.name, toParams, {notify: false})
     }

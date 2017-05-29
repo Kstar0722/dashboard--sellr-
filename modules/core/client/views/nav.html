@@ -2,10 +2,15 @@
   <div class="primary-nav" ng-if="ui.shouldRenderPrimaryNav">
     <div class="left-side">
       <ul>
-        <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">Admin</li>
-        <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="editor.storeManagement">Product Editor</li>
+        <li ng-class="{active: ui.primaryRoute === 'admin'}" ng-if="ui.shouldRenderAdminItem" ui-sref="admin.users">
+          <span>Admin</span>
+        </li>
+        <li ng-class="{active: ui.primaryRoute === 'editor'}" ng-if="ui.shouldRenderEditorItem" ui-sref="editor.storeManagement">
+          <span>Product Editor</span>
+        </li>
         <li ng-class="{active: ui.primaryRoute === 'store'}" ng-if="ui.shouldRenderOwnerItem"
-            ui-sref="storeOwner.home">Store Owner
+          ui-sref="storeOwner.home">
+          <span>Store Owner</span>
         </li>
         <!-- <li ng-class="{active: ui.primaryRoute === 'brand'}" ng-if="ui.shouldRenderBrandItem" ui-sref="brand.plans">Brand</li> -->
       </ul>
@@ -28,27 +33,60 @@
       </div>
       <ul>
         <!-- ADMIN -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">Manage Users</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">Manage Accounts</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.types">Product Types Manager</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.users">
+          <span>Manage Users</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.accounts">
+          <span>Manage Accounts</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'admin'" ui-sref="admin.types">
+          <span>Product Types Manager</span>
+        </li>
         <!-- EDITOR -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderStoreManagerItem" ui-sref="editor.storeManagement">Store Management</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductEditorItem" ui-sref="editor.products">Products</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductHistoryItem" ui-sref="editor.history">Product History</li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderStoreManagerItem" ui-sref="editor.storeManagement">
+          <span>Store Management</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductEditorItem" ui-sref="editor.products">
+          <span>Products</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'editor' && ui.shouldRenderProductHistoryItem" ui-sref="editor.history">
+          <span>Product History</span>
+        </li>
         <!-- STORE OWNER -->
-        <li ui-sref-active="{active: 'storeOwner.products'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.products.listed">Products</li>
-        <li ui-sref-active="{active: 'storeOwner.marketing'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.marketing.posts">Marketing Channels</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.websiteEditor">Pages</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.audience">Audience</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports.website">Reports</li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.ads">Ads</li>
+        <li ui-sref-active="{active: 'storeOwner.products'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.products.listed">
+          <span>Products</span>
+        </li>
+        <li ui-sref-active="{active: 'storeOwner.marketing'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.marketing.posts">
+          <span>Marketing Channels</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.websiteEditor">
+          <span>Pages Editor</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.audience">
+          <div class="coming-soon">
+            <span>Audience</span>
+            <!-- Adjust for each specific nav item. This is temporary solution anyway -->
+            <img src="/img/coming-soon-1.svg" alt="icon" class="coming-soon-icon" style="left:3px;">
+          </div>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports.website">
+          <div class="coming-soon">
+            <span>Reports</span>
+            <img src="/img/coming-soon-1.svg" alt="icon" class="coming-soon-icon" style="left:0px;">
+          </div>
+        </li>
+        <!-- <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.ads">Ads</li> -->
         <!-- BRAND -->
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.products">Products</li> 
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.plans">Plans</li> 
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.products">
+          <span>Products</span>
+        </li>
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'brand'" ui-sref="brand.plans">
+          <span>Plans</span>
+        </li>
       </ul>
     </div>
     <div class="right-side">
-     <!--  <div class="general-search-container">
+      <!--  <div class="general-search-container">
         <input type="text" placeholder="Search">
         <i class="fa fa-search"></i>
       </div> -->

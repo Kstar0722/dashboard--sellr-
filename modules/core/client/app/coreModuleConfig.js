@@ -310,12 +310,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
         url: '/marketing',
         templateUrl: 'modules/core/client/views/storeOwner/marketing.html'
       })
-      .state('storeOwner.marketing.settings', {
-        url: '/settings',
+      .state('storeOwner.marketing.preview', {
+        url: '/posts',
         views: {
           'pagecontent': {
-            templateUrl: 'modules/core/client/views/storeOwner/marketingSettings.html',
-            controller: 'StoreOwnerMarketingSettingsController'
+            templateUrl: 'modules/core/client/views/storeOwner/marketingPreview.html'
           }
         }
       })
@@ -325,6 +324,15 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
           'pagecontent': {
             templateUrl: 'modules/core/client/views/storeOwner/marketingPosts.html',
             controller: 'StoreOwnerMarketingPostsController'
+          }
+        }
+      })
+      .state('storeOwner.marketing.settings', {
+        url: '/settings',
+        views: {
+          'pagecontent': {
+            templateUrl: 'modules/core/client/views/storeOwner/marketingSettings.html',
+            controller: 'StoreOwnerMarketingSettingsController'
           }
         }
       })
