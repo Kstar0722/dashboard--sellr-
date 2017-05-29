@@ -31,6 +31,11 @@ angular.module('core').service('productsService', function ($http, constants, $q
     return $http.post(url, { payload: product })
   }
 
+  me.addNotFound = function (product) {
+    var url = constants.BWS_API + '/choose/products'
+    return $http.post(url, { payload: product })
+  }
+
   me.updatePlanProduct = function (product) {
     if (!product.planId || !product.productId) { return false }
     var params = {
@@ -59,6 +64,8 @@ angular.module('core').service('productsService', function ($http, constants, $q
     var url = constants.BWS_API + '/choose/plans?store=' + storeId
     $http.get(url).then(function (response) {
       var plans = _.map(response.data, function (plan) { return initPlan(plan) })
+      me.currentStoreId = storeId
+      me.currentPlans = plans
       defer.resolve(plans)
     })
     return defer.promise

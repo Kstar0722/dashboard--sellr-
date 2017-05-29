@@ -1139,6 +1139,54 @@ md-select.common-input .md-select-value {
   -o-transform: rotate(-15deg);
   transform: rotate(-15deg);
 }
+.upload-csv-dialog {
+  width: 40vw;
+}
+.upload-csv-dialog.confirm {
+  overflow: hidden;
+}
+.upload-csv-dialog.confirm .single-side-content {
+  min-height: 100px !important;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content {
+  min-height: 300px;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .common-btn-black {
+  width: 100%;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .ng-csv-import-directive {
+  display: none;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .instructions {
+  margin-bottom: 30px;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox .common-field-title {
+  margin: 0 10px 0 0;
+}
+.add-product-dialog {
+  width: 40vw;
+}
+.add-product-dialog .main-container .single-side .single-side-content {
+  min-height: 300px;
+  padding: 0 30px;
+}
+.add-product-dialog .main-container .single-side .single-side-content .upload-btn-container {
+  text-align: center;
+  margin: 20px auto;
+}
+.add-product-dialog .main-container .single-side .single-side-content .product-image-container {
+  width: 35%;
+  margin: 20px auto;
+}
+.add-product-dialog .main-container .single-side .single-side-content .product-image-container img {
+  width: 100%;
+}
 @media only screen and (max-width:599px) {
   .has-mobile-view {
     display: none !important;
@@ -5569,36 +5617,6 @@ md-select.common-input .md-select-value {
 .editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.none,
 .editor-store-management-view .left-side-content .main-table .columns-data .status-col .status-icon.green {
   background-image: linear-gradient(to top, #088456, #079560);
-}
-.upload-csv-dialog {
-  width: 40vw;
-}
-.upload-csv-dialog.confirm {
-  overflow: hidden;
-}
-.upload-csv-dialog.confirm .single-side-content {
-  min-height: 100px !important;
-}
-.upload-csv-dialog .main-container .single-side .single-side-content {
-  min-height: 300px;
-}
-.upload-csv-dialog .main-container .single-side .single-side-content .common-btn-black {
-  width: 100%;
-}
-.upload-csv-dialog .main-container .single-side .single-side-content .ng-csv-import-directive {
-  display: none;
-}
-.upload-csv-dialog .main-container .single-side .single-side-content .instructions {
-  margin-bottom: 30px;
-}
-.upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-}
-.upload-csv-dialog .main-container .single-side .single-side-content .headers-checkbox .common-field-title {
-  margin: 0 10px 0 0;
 }
 .top-match-container {
   height: 170px;

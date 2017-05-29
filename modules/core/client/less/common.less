@@ -732,3 +732,67 @@ md-select.common-input {
     transform:rotate(-15deg);
   }
 }
+
+// 
+// UPLOAD CVS DIALOG
+// 
+.upload-csv-dialog{
+  width: 40vw;
+  &.confirm{
+    overflow: hidden;
+    .single-side-content{
+      min-height: 100px !important;
+    } 
+  }
+  .main-container{
+    .single-side{
+      .single-side-content{
+        min-height: 300px;
+        .common-btn-black{
+          width: 100%;
+        }
+        .ng-csv-import-directive{
+          display: none;
+        }
+        .instructions{
+          margin-bottom: 30px;
+        }
+        .headers-checkbox{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          .common-field-title{
+            margin: 0 10px 0 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 
+// ADD PRODUCT CVS DIALOG
+// 
+.add-product-dialog{
+  width: 40vw;
+  .main-container{
+    .single-side{
+      .single-side-content{
+        min-height: 300px;
+        padding: 0 30px;
+        .upload-btn-container{
+          text-align: center;
+          margin: 20px auto;
+        }
+        .product-image-container{
+          width: 35%;
+          margin: 20px auto;
+          img{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

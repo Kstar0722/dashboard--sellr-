@@ -88,6 +88,21 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     })
   }
 
+  $scope.showAddProductDialog = function (ev) {
+    $mdDialog.show({
+      templateUrl: '/modules/core/client/views/popupDialogs/addProductDialog.html',
+      autoWrap: true,
+      parent: angular.element(document.body),
+      preserveScope: false,
+      hasBackdrop: true,
+      clickOutsideToClose: false,
+      escapeToClose: false,
+      fullscreen: true,
+      controller: 'AddProductController'
+    })
+  }
+  // $scope.showAddProductDialog()
+
   $scope.showPromoteProductDialog = function (ev) {
     $scope.genericDialog = {}
     $scope.genericDialog.title = 'Promote Product'
