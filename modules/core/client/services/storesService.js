@@ -38,7 +38,8 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
   me.getStores = function (accountId) {
     var defer = $q.defer()
     me.stores = []
-    var url = constants.API_URL + '/storedb/stores?info=true&acc=' + utilsService.currentAccountId
+    var acc = accountId || utilsService.currentAccountId
+    var url = constants.API_URL + '/storedb/stores?info=true&acc=' + acc
     $http.get(url).then(function (res) {
       console.log('storesService getStores %O', res.data)
       me.stores = res.data
