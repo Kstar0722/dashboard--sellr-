@@ -477,7 +477,12 @@
             vm.duplicatePage(vm.selectedPage);
         });
 
-        init();
+        if (_.isEmbedMode()) {
+            Authorization.authorizeSellr($location.url()).finally(init);
+        }
+        else {
+            init();
+        }
 
         function init() {
             clientHelper.bindSelectedClient($scope, vm);

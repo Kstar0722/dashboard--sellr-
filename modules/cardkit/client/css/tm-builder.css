@@ -6540,3 +6540,30 @@ body.editPage #videoTutorial md-dialog md-dialog-content {
 .cardkit {
   background: white;
 }
+md-input-container label {
+  position: relative !important;
+}
+md-input-container .md-errors-spacer {
+  display: none !important;
+}
+.dark-theme md-input-container label,
+md-input-container.dark label,
+.input-container.dark label,
+.dark-theme md-input-container .label2,
+md-input-container.dark .label2,
+.input-container.dark .label2 {
+  font-size: 11px;
+  font-weight: bold;
+}
+md-dialog md-dialog-content {
+  padding: 24px;
+}
+.dropzone {
+  min-height: 175px !important;
+}
+.dropzone .overlay {
+  min-height: 100px !important;
+}
+#listPages.tiles .page .options ng-md-icon {
+  margin-top: 1px !important;
+}

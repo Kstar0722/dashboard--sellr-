@@ -51,7 +51,7 @@ angular.module('cardkit.users').service('Authorization', ['Authentication', 'Aut
 
             var defer = $q.defer();
             var clientUri = decodeURIComponent((url && url.match(/pages\/([^\/]+)/i) || [])[1] || '');
-            if (!clientUri) return defer.reject('client not specified');
+            if (!clientUri) return $q.reject('client not specified');
 
             AuthenticationSvc.signout(true).then(function() {
                 var timeoutTimer = $timeout(function() {

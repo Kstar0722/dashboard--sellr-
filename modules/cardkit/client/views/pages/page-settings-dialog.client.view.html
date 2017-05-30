@@ -48,9 +48,9 @@
                     </selectize>
                 </md-input-container>
 
-                <md-input-container>
+                <md-input-container ng-hide="embedMode">
                     <label>Tags</label>
-                    <tags-input flex ng-model="pageTags" min-length="1" add-on-paste="true" ng-hide="embedMode">
+                    <tags-input flex ng-model="pageTags" min-length="1" add-on-paste="true">
                         <auto-complete source="loadClientTags(page.client, $query)" min-length="2"></auto-complete>
                     </tags-input>
                 </md-input-container>
