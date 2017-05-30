@@ -54,6 +54,7 @@ angular.module('core').service('utilsService', function ($timeout, $rootScope) {
   me.setCurrentAccountId = function (accountId) {
     localStorage.setItem('accountId', accountId)
     me.currentAccountId = me.convertToInt(accountId)
+    $rootScope.$emit('currentAccountIdChanged')
   }
 
   me.setCurrentStoreId = function (storeId) {

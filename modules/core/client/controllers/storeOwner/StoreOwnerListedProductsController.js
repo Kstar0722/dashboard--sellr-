@@ -330,8 +330,8 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   function onPlanCreate (input, callback) {
     var newCategory = {
-      accountId: localStorage.getItem('accountId'),
-      storeId: $scope.ui.activeStoreId,
+      accountId: utilsService.currentAccountId,
+      storeId: utilsService.currentStoreId,
       label: input
     }
     productsService.createCategory(newCategory).then(function (newPlan) {
