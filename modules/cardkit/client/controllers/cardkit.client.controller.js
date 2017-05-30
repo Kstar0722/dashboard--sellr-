@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentication', '$cookieStore', 'clientHelper', '$state', '$stateParams', 'PostMessage', '$injector',
-    function($scope, Authentication, $cookieStore, clientHelper, $state, $stateParams, PostMessage, $injector) {
+angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentication', '$cookieStore', 'clientHelper', '$state', '$stateParams', 'PostMessage', '$injector', '$timeout', 'Authorization', '$location',
+    function($scope, Authentication, $cookieStore, clientHelper, $state, $stateParams, PostMessage, $injector, $timeout, Authorization, $location) {
         $scope.authentication = Authentication;
         $scope.selectedClient = null;
         $scope.$injector = $injector;
@@ -11,10 +11,11 @@ angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentica
         init();
 
         function init() {
-            PostMessage.on('selectAccount', function(account) {
+            $scope.$root.$watch('selectAccount', function(account) {
+                if (!account) return
                 $scope.account = account
                 $scope.themeClient = account.preferences.websiteTheme || _.buildUrl(account.name)
-            })
+            });
 
             initCardkit();
         }
@@ -28,7 +29,8 @@ angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentica
 
             function loadClients() {
                 clientHelper.loadClients($scope).then(function() {
-                    $scope.selectedClient = resolveClient($scope.clients, $scope.themeClient) || $scope.selectedClient;
+                    $scope.$root.selectedClient = resolveClient($scope.clients, $scope.themeClient) || $scope.$root.selectedClient;
+                    if ($scope.$root.selectedClient) Authorization.authorizeSellr($location.url());
                 });
             }
         }

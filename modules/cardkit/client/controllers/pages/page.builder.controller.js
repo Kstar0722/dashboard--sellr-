@@ -61,7 +61,7 @@
             $timeout(function() {
                 $scope.vleavePage = true;
                 resetDirtyPage($scope);
-                $location.path($scope.leaveUrl.url);
+                $location.path($state.href($scope.leaveUrl));
             }, 300);
         }
 

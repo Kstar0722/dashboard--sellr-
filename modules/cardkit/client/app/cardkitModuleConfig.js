@@ -31,14 +31,16 @@ ApplicationConfiguration.registerModule('cardkit.clients', ['cardkit.core'])
 
 ApplicationConfiguration.registerModule('cardkit', ['core', 'cardkit.pages', 'cardkit.cards', 'cardkit.users', 'cardkit.clients'])
 
-angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'gravatarServiceProvider', '$animateProvider', '$mdThemingProvider', '$provide', 'lazyImgConfigProvider', 'CacheFactoryProvider', '$stateProvider',
-    function($sceDelegateProvider, $compileProvider, gravatarServiceProvider, $animateProvider, $mdThemingProvider, $provide, lazyImgConfigProvider, CacheFactoryProvider, $stateProvider) {
+angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'gravatarServiceProvider', '$animateProvider', '$mdThemingProvider', '$provide', 'lazyImgConfigProvider', 'CacheFactoryProvider', '$stateProvider', '$httpProvider',
+    function($sceDelegateProvider, $compileProvider, gravatarServiceProvider, $animateProvider, $mdThemingProvider, $provide, lazyImgConfigProvider, CacheFactoryProvider, $stateProvider, $httpProvider) {
       // since Angularjs doesn't handle namespace collisions for services, place Cardkit authentication under Dashboard Authentication.cardkit property
       $provide.decorator('Authentication', ['$delegate', 'CardkitAuthentication', function($delegate, CardkitAuthentication) {
         var Authentication = angular.extend({}, CardkitAuthentication, $delegate);
         Authentication.cardkit = CardkitAuthentication;
         return Authentication;
       }]);
+
+      $httpProvider.interceptors.push('cardkitAuthInterceptor')
       
       $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.

@@ -126,12 +126,12 @@ angular.module('core')
       PostMessage.send('identifyComplete', Authentication.user)
     })
 
-    $scope.$watch('selectAccountId', postSelectAccount)
-    $scope.$watch(function () { return accountsService.accounts }, postSelectAccount)
+    $scope.$watch('selectAccountId', selectAccount)
+    $scope.$watch(function () { return accountsService.accounts }, selectAccount)
 
-    function postSelectAccount() {
+    function selectAccount() {
       var account = _.find(accountsService.accounts, { accountId: $scope.selectAccountId })
-      if (account) PostMessage.send('selectAccount', account)
+      if (account) $rootScope.selectAccount = account
     }
   }
 })

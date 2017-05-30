@@ -480,10 +480,6 @@
         init();
 
         function init() {
-            if (_.isEmbedMode()) {
-                Authorization.authorizeSellr($location.url());
-            }
-
             clientHelper.bindSelectedClient($scope, vm);
 
             var clients = clientHelper.loadClients(vm);
