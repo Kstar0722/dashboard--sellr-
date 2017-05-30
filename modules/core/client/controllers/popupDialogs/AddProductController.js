@@ -1,4 +1,4 @@
-angular.module('core').controller('AddProductController', function ($scope, toastr, storesService, $mdDialog, $state, productsService, uploadService) {
+angular.module('core').controller('AddProductController', function ($scope, toastr, storesService, $mdDialog, $state, productsService, uploadService, utilsService) {
   //
   // DEFINITIONS
   //
@@ -36,7 +36,7 @@ angular.module('core').controller('AddProductController', function ($scope, toas
       $scope.add.researchImage = res.publicUrl
       var hmcProduct = mapProduct()
       productsService.addNotFound(hmcProduct).then(function () {
-        toastr.success('New product added')
+        toastr.success('The product was submitted successfully')
         $scope.closeDialog()
       })
     }, function (err) {
@@ -74,8 +74,8 @@ angular.module('core').controller('AddProductController', function ($scope, toas
   //
   function init () {
     $scope.planSelectOptions = _.map(productsService.currentPlans, function (p) { return {name: p.label, planId: p.planId} })
-    $scope.add.accountId = storesService.currentAccountId
-    $scope.add.storeId = productsService.currentStoreId
+    $scope.add.accountId = utilsService.currentAccountId
+    $scope.add.storeId = utilsService.currentStoreId
   }
 
   function mapProduct () {
@@ -83,10 +83,11 @@ angular.module('core').controller('AddProductController', function ($scope, toas
     return {
       accountId: data.accountId,
       storeId: data.storeId,
-      planId: data.planId,
+      planId: utilsService.convertToInt(data.planId),
       skus: [ data.sku ],
       researchImage: data.researchImage,
-      source: 'Dashboard'
+      source: 'Dashboard',
+      prices: []
     }
   }
 })

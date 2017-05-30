@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('core').service('productsService', function ($http, constants, $q, $httpParamSerializer) {
+angular.module('core').service('productsService', function ($http, constants, $q, $httpParamSerializer, utilsService) {
   var me = this
 
   me.createCategory = function (newCategory) {
@@ -10,14 +10,14 @@ angular.module('core').service('productsService', function ($http, constants, $q
     var payload = {
       payload: newCategory
     }
-    return $http.post(constants.BWS_API + '/choose/plans', payload).then(function (response) {
+    return $http.post(constants.API_URL + '/choose/plans', payload).then(function (response) {
       return response.data
     })
   }
 
   me.getTemplates = function (tag, options) {
     var defer = $q.defer()
-    $http.get(constants.BWS_API + '/choose/templates?tag=' + tag, options).then(function (res) {
+    $http.get(constants.API_URL + '/choose/templates?tag=' + tag, options).then(function (res) {
       defer.resolve(res.data)
     })
 
@@ -27,12 +27,12 @@ angular.module('core').service('productsService', function ($http, constants, $q
   me.addPlanProduct = function (plan, product) {
     if (!product.productId || !plan.planId) { return }
     product.planId = plan.planId
-    var url = constants.BWS_API + '/choose/products'
+    var url = constants.API_URL + '/choose/products'
     return $http.post(url, { payload: product })
   }
 
   me.addNotFound = function (product) {
-    var url = constants.BWS_API + '/choose/products'
+    var url = constants.API_URL + '/choose/products'
     return $http.post(url, { payload: product })
   }
 
@@ -45,7 +45,7 @@ angular.module('core').service('productsService', function ($http, constants, $q
     var payload = {
       payload: product
     }
-    var url = constants.BWS_API + '/choose/products?' + $httpParamSerializer(params)
+    var url = constants.API_URL + '/choose/products?' + $httpParamSerializer(params)
     return $http.put(url, payload)
   }
 
@@ -55,16 +55,16 @@ angular.module('core').service('productsService', function ($http, constants, $q
       plan: plan.planId,
       product: product.productId
     }
-    var url = constants.BWS_API + '/choose/products?' + $httpParamSerializer(params)
+    var url = constants.API_URL + '/choose/products?' + $httpParamSerializer(params)
     return $http.delete(url)
   }
 
   me.getPlanProducts = function (storeId) {
     var defer = $q.defer()
-    var url = constants.BWS_API + '/choose/plans?store=' + storeId
+    var url = constants.API_URL + '/choose/plans?store=' + storeId
+    utilsService.setCurrentStoreId(storeId)
     $http.get(url).then(function (response) {
       var plans = _.map(response.data, function (plan) { return initPlan(plan) })
-      me.currentStoreId = storeId
       me.currentPlans = plans
       defer.resolve(plans)
     })
@@ -73,7 +73,7 @@ angular.module('core').service('productsService', function ($http, constants, $q
 
   me.deletePriceOption = function (priceId) {
     var defer = $q.defer()
-    var url = constants.BWS_API + '/choose/products/price?id=' + priceId
+    var url = constants.API_URL + '/choose/products/price?id=' + priceId
     $http.delete(url).then(function (res) {
       defer.resolve()
     })

@@ -1,10 +1,10 @@
-angular.module('core').service('storesService', function ($http, constants, $q, toastr) {
+angular.module('core').service('storesService', function ($http, constants, $q, toastr, utilsService) {
   var me = this
 
   me.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
   me.getStoreById = function (storeId) {
-    return $http.get(constants.BWS_API + '/storedb/stores/' + storeId + '?supc=true').then(handleResponse).then(function (data) {
+    return $http.get(constants.API_URL + '/storedb/stores/' + storeId + '?supc=true').then(handleResponse).then(function (data) {
       return data instanceof Array ? data[ 0 ] : data
     })
   }
@@ -19,7 +19,7 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
       source: 'csv'
     }
 
-    return $http.post(constants.BWS_API + '/storedb/stores/products/import', { payload: payload }).then(handleResponse)
+    return $http.post(constants.API_URL + '/storedb/stores/products/import', { payload: payload }).then(handleResponse)
   }
 
   function handleResponse (response) {
@@ -38,8 +38,7 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
   me.getStores = function (accountId) {
     var defer = $q.defer()
     me.stores = []
-    me.currentAccountId = accountId || localStorage.getItem('accountId')
-    var url = constants.BWS_API + '/storedb/stores?info=true&acc=' + me.currentAccountId
+    var url = constants.API_URL + '/storedb/stores?info=true&acc=' + utilsService.currentAccountId
     $http.get(url).then(function (res) {
       console.log('storesService getStores %O', res.data)
       me.stores = res.data
@@ -49,16 +48,16 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
   }
 
   me.createStore = function (store) {
-    store.accountId = me.currentAccountId.accountId
-    return $http.post(constants.BWS_API + '/storedb/stores', { payload: store }).then(onAPISuccess.bind(this, 'create'), onAPIError.bind(this, 'create'))
+    store.accountId = utilsService.currentAccountId
+    return $http.post(constants.API_URL + '/storedb/stores', { payload: store }).then(onAPISuccess.bind(this, 'create'), onAPIError.bind(this, 'create'))
   }
 
   me.updateStore = function (store) {
-    return $http.put(constants.BWS_API + '/storedb/stores/details', { payload: store }).then(onAPISuccess.bind(this, 'update'), onAPIError.bind(this, 'update'))
+    return $http.put(constants.API_URL + '/storedb/stores/details', { payload: store }).then(onAPISuccess.bind(this, 'update'), onAPIError.bind(this, 'update'))
   }
 
   me.deleteStore = function (storeId) {
-    var url = constants.BWS_API + '/storedb/stores/' + storeId
+    var url = constants.API_URL + '/storedb/stores/' + storeId
     return $http.delete(url).then(onAPISuccess.bind(this, 'delete'), onAPIError.bind(this, 'delete'))
   }
 
@@ -95,7 +94,7 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
   // API RESPONSE/ERROR HANDLING
   function onAPISuccess (operation) {
-    return me.getStores(me.currentAccountId.accountId).then(function () {
+    return me.getStores(utilsService.currentAccountId).then(function () {
       switch (operation) {
         case 'create':
           toastr.success('New Store created successfully')

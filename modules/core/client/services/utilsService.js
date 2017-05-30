@@ -51,5 +51,25 @@ angular.module('core').service('utilsService', function ($timeout) {
     $timeout(function () { document.body.scrollTop = document.documentElement.scrollTop = 0 })
   }
 
+  me.setCurrentAccountId = function (accountId) {
+    me.currentAccountId = me.convertToInt(accountId)
+  }
+
+  me.setCurrentStoreId = function (storeId) {
+    me.currentStoreId = me.convertToInt(storeId)
+  }
+
+  me.convertToInt = function (value) {
+    var res = value
+    if (typeof value === 'string') {
+      res = parseInt(value, 10)
+    }
+    return res
+  }
+
+  // INITIALIZATION
+  me.setCurrentAccountId(localStorage.getItem('accountId'))
+  me.currentStoreId = null
+
   return me
 })

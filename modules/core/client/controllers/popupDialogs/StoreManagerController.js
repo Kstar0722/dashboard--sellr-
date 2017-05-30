@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('core').controller('StoreManagerController', function ($scope, $mdDialog, storesService, $state, accountsService, CurrentUserService, UsStates, $q, uploadService) {
+angular.module('core').controller('StoreManagerController', function ($scope, $mdDialog, storesService, $state, accountsService, CurrentUserService, UsStates, $q, uploadService, utilsService) {
   //
   // DEFINITIONS
   //
@@ -112,7 +112,7 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
         folder: 'storeImg',
         type: 'STOREIMG',
         fileType: 'IMAGE',
-        accountId: storesService.currentAccountId
+        accountId: utilsService.currentAccountId
       }
       uploadService.upload($scope.tempStoreImage, mediaConfig).then(function (response) {
         defer.resolve(response)
