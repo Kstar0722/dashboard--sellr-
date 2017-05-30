@@ -1,4 +1,4 @@
-angular.module('core').service('uploadService', function ($http, constants, toastr, Authentication, $q, cfpLoadingBar, filepickerService) {
+angular.module('core').service('uploadService', function ($http, constants, toastr, Authentication, $q, cfpLoadingBar, filepickerService, utilsService) {
   var me = this
 
   filepickerService.setKey(constants.FILEPICKER_KEY)
@@ -11,7 +11,7 @@ angular.module('core').service('uploadService', function ($http, constants, toas
   }
 
   me.init = function () {
-    me.selectAccountId = localStorage.getItem('accountId')
+    me.selectAccountId = utilsService.currentAccountId
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}

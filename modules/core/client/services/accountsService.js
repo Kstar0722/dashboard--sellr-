@@ -1,4 +1,4 @@
-angular.module('core').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout) {
+angular.module('core').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout, utilsService) {
   var me = this
 
   me.loadAccounts = function (options) {
@@ -6,9 +6,8 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return getAccounts(options).then(function (accounts) {
       me.accounts = []
       _.each(accounts, function (account) {
-        if (me.selectAccountId && account.accountId === me.selectAccountId) {
+        if (utilsService.currentAccountId === account.accountId) {
           me.currentAccount = account
-          console.log('setting current account %O', me.currentAccount)
         }
       })
       me.accounts = accounts
@@ -19,12 +18,10 @@ angular.module('core').service('accountsService', function ($http, constants, to
   me.getAccounts = getAccounts
 
   me.init = function (options) {
-    me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}
     me.ordersCount = 0
-    bindRootProperty($rootScope, 'selectAccountId', me)
     me.loadAccounts(options)
   }
 
@@ -33,8 +30,6 @@ angular.module('core').service('accountsService', function ($http, constants, to
   function getAccounts (options) {
     options = options || {}
     var defer = $q.defer()
-    console.log('selectAccountId %O', me.selectAccountId)
-
     var url = constants.API_URL + '/accounts'
     if (options.id) url += '/' + options.id
     url += '?status=1'
@@ -196,14 +191,6 @@ angular.module('core').service('accountsService', function ($http, constants, to
     }
     return $http.post(url, payload)
   }
-
-  me.bindSelectedAccount = function (scope) {
-    bindRootProperty(scope, 'selectAccountId')
-  }
-
-  $rootScope.$watch(function () { return me.selectAccountId }, function (accountId) {
-    me.currentAccount = _.find(me.accounts, { accountId: parseInt(accountId, 10) })
-  })
 
   // set up two-way binding to parent property
   function bindRootProperty ($scope, name, context) {

@@ -1,4 +1,4 @@
-angular.module('core').service('utilsService', function ($timeout) {
+angular.module('core').service('utilsService', function ($timeout, $rootScope) {
   var me = this
   me.isMatchState = function (state) {
     return state.current.name.indexOf('editor.products.match') === 0
@@ -52,11 +52,14 @@ angular.module('core').service('utilsService', function ($timeout) {
   }
 
   me.setCurrentAccountId = function (accountId) {
+    localStorage.setItem('accountId', accountId)
     me.currentAccountId = me.convertToInt(accountId)
   }
 
   me.setCurrentStoreId = function (storeId) {
+    localStorage.setItem('storeId', storeId)
     me.currentStoreId = me.convertToInt(storeId)
+    $rootScope.$emit('currentStoreIdChanged')
   }
 
   me.convertToInt = function (value) {
@@ -64,12 +67,13 @@ angular.module('core').service('utilsService', function ($timeout) {
     if (typeof value === 'string') {
       res = parseInt(value, 10)
     }
+    if (Number.isNaN(res)) res = null
     return res
   }
 
   // INITIALIZATION
   me.setCurrentAccountId(localStorage.getItem('accountId'))
-  me.currentStoreId = null
+  me.setCurrentStoreId(localStorage.getItem('storeId'))
 
   return me
 })

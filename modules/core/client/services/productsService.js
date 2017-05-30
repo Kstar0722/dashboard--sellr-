@@ -62,7 +62,6 @@ angular.module('core').service('productsService', function ($http, constants, $q
   me.getPlanProducts = function (storeId) {
     var defer = $q.defer()
     var url = constants.API_URL + '/choose/plans?store=' + storeId
-    utilsService.setCurrentStoreId(storeId)
     $http.get(url).then(function (response) {
       var plans = _.map(response.data, function (plan) { return initPlan(plan) })
       me.currentPlans = plans

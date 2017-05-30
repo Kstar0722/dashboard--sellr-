@@ -32,18 +32,18 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
     return data
   }
 
-  // BELOW IS COPIED FROM OLD LOCATIONS SERVICE BUT REWORKED to new Store db URLS/**/
-  me.stores = []
+  // specificStores is necesary if we need to fetch Stores for a specific account but not change the global Stores from Nav
+  me.specificStores = []
 
   me.getStores = function (accountId) {
     var defer = $q.defer()
-    me.stores = []
+    me.specificStores = []
     var acc = accountId || utilsService.currentAccountId
     var url = constants.API_URL + '/storedb/stores?info=true&acc=' + acc
     $http.get(url).then(function (res) {
       console.log('storesService getStores %O', res.data)
-      me.stores = res.data
-      defer.resolve()
+      me.specificStores = res.data
+      defer.resolve(res.data)
     })
     return defer.promise
   }
