@@ -169,13 +169,4 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
   }
 
   $scope.init();
-}).directive('reportChart', function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: '<canvas></canvas>',
-    link($scope, $element) {
-      $scope.chartui = new Chart($element[0].getContext('2d'), $scope.chart);
-    }
-  };
 });

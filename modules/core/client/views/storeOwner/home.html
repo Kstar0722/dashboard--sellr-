@@ -5,9 +5,9 @@
       <div class="common-btn-gray" ng-click="googleSessionNumber()">Weekly Report</div>
       <div class="common-btn-gray">Monthly Report</div>
       <div class="common-btn-gray active">Custom</div>
-      <md-datepicker ng-model="ga.start" ng-change="googleSessionNumber()" md-hide-icons="triangle" md-min-date="ga.min" md-max-date="ga.max"></md-datepicker>
+      <md-datepicker ng-model="range.start" ng-change="init()" md-hide-icons="triangle" md-min-date="range.min" md-max-date="range.max"></md-datepicker>
       <i class="fa fa-minus" style="margin-left: 15px; margin-right: 0;"></i>
-      <md-datepicker ng-model="ga.end" ng-change="googleSessionNumber()" md-hide-icons="triangle" md-min-date="ga.min" md-max-date="ga.max"></md-datepicker>
+      <md-datepicker ng-model="range.end" ng-change="init()" md-hide-icons="triangle" md-min-date="range.min" md-max-date="range.max"></md-datepicker>
     </div>
     <div>
       <div class="common-btn-positive has-left-icon autowidth"><div class="common-centered-content"><img src="/img/export-icon.png" alt="icon"> Download Report</div></div>
@@ -52,7 +52,7 @@
             <img src="/img/placeholdericon60x60.png" alt="icon">
           </div>
           <div class="info-container">
-            <div class="number">{{websiteTraffic}} <span class="indicator"><i class="fa fa-chevron-circle-up"></i> 67%</span></div>
+            <div class="number">{{analytics.google.visitors}} <span class="indicator"><i class="fa fa-chevron-circle-up"></i> 67%</span></div>
             <div class="text">Website visitors</div>
             <div class="test" ng-click="getSessionsFromGoole()">get visitors</div>
           </div>
@@ -87,6 +87,7 @@
       </div>
       <div class="common-white-box">
         <div class="title">Overview</div>
+        <report-chart></report-chart>
       </div>
     </div>
   </div>
