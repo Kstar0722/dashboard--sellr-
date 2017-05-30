@@ -65,6 +65,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     { productTypeId: 1, name: 'Wine', similarNames: 'w,wines' },
     { productTypeId: 2, name: 'Beer', similarNames: 'b,beers,ale,lager' },
     {productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur'},
+    {productTypeId: 5, name: 'Food Pairing', similarNames: ''},
     {productTypeId: 12, name: 'Generic', similarNames: 'generic,undefined,unknown'},
     {productTypeId: 15, name: 'Cocktails', similarNames: 'cocktails,cocktail'},
     {productTypeId: 16, name: 'Art', similarNames: 'art'},
