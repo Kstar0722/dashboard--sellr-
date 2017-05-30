@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService, $filter) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -400,13 +400,25 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     var defer = $q.defer()
     productsService.getPlanProducts(storeId).then(function (plans) {
       $scope.planSelectOptions = _.map(plans, function (p) { return {name: p.label, planId: p.planId} })
-      var allProductsPlan = {
+      var allProducts = {
         label: 'All Products',
-        products: plans.reduce(function (all, plan, i) {
-          return all.concat(plan.products)
+        products: plans.reduce(function (memo, plan, i) {
+          return memo.concat(plan.products)
         }, [])
       }
-      plans.unshift(allProductsPlan)
+      plans.unshift(allProducts)
+      var pendingProducts = {
+        label: 'Pending Products',
+        products: plans.reduce(function (memo, plan, i) {
+          return memo.concat($filter('filterPending')(plan.products))
+        }, [])
+      }
+      plans.push(pendingProducts)
+      _.each(plans, function (p) {
+        if (p.label !== 'Pending Products') {
+          p.products = $filter('filterApproved')(p.products)
+        }
+      })
       $scope.plans = plans
       $scope.filterPlan()
       utilsService.scrollTop()
