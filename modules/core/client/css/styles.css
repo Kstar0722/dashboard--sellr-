@@ -1919,17 +1919,12 @@ md-select.common-input .md-select-value {
   min-height: 40px;
   line-height: 40px;
 }
-<<<<<<< HEAD
-.nav-container .primary-nav .left-side ul li span,
-.nav-container .secondary-nav .left-side ul li span {
+.nav-container .primary-nav .left-side .list a span,
+.nav-container .secondary-nav .left-side .list a span {
   opacity: 0.47;
 }
-.nav-container .primary-nav .left-side ul li.active span,
-.nav-container .secondary-nav .left-side ul li.active span {
-=======
-.nav-container .primary-nav .left-side .list a.active,
-.nav-container .secondary-nav .left-side .list a.active {
->>>>>>> 1725-native-page-builder
+.nav-container .primary-nav .left-side .list a.active span,
+.nav-container .secondary-nav .left-side .list a.active span {
   color: #fff;
   opacity: 1;
 }

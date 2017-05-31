@@ -6574,6 +6574,12 @@ md-dialog md-dialog-content {
 #pageBuilder .page-body {
   height: calc(100vh -  190px);
 }
+#pageBuilder #sortable2 {
+  width: 100%;
+}
+#pageBuilder [medium-editor-model] {
+  width: 100%;
+}
 .secondary-nav .logo {
   padding: 0 !important;
 }

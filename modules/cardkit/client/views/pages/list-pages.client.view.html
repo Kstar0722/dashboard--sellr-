@@ -23,7 +23,7 @@
                              ng-click="pages.resetFilter(ui[pages.selectedClient], status)" ng-if="showStatus(status)">
                 <md-button class="md-raised" ng-class="{ active: status == ui[pages.selectedClient].statusFilter }">
                     {{status}}
-                    <span class="count">({{ui[pages.selectedClient].countsByStatus[status]}})</span>
+                    <span class="count">({{ui[pages.selectedClient].countsByStatus[status] || 0}})</span>
                 </md-button>
             </md-radio-button>
         </md-radio-group>

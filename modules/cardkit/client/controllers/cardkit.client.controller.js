@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentication', '$cookieStore', 'clientHelper', '$state', '$stateParams', 'PostMessage', '$injector', '$timeout', 'Authorization', '$location', '$rootScope', 'Clients',
-    function($scope, Authentication, $cookieStore, clientHelper, $state, $stateParams, PostMessage, $injector, $timeout, Authorization, $location, $rootScope, Clients) {
+angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentication', '$cookieStore', 'clientHelper', '$state', '$stateParams', 'PostMessage', '$injector', '$timeout', 'Authorization', '$location', '$rootScope', 'Clients', 'accountsService',
+    function($scope, Authentication, $cookieStore, clientHelper, $state, $stateParams, PostMessage, $injector, $timeout, Authorization, $location, $rootScope, Clients, accountsService) {
         $scope.authentication = Authentication;
         $scope.selectedClient = null;
 
         init();
 
         function init() {
-            $scope.$watch('$root.selectAccount', function(account) {
-                if (account) $scope.themeClient = account.preferences.websiteTheme || _.buildUrl(account.name)
+            $scope.$watch(function() { return accountsService.currentAccount }, function(account) {
+                if (account) $scope.themeClient = (account.preferences || {}).websiteTheme || _.buildUrl(account.name)
                 else $scope.themeClient = null
             });
 
@@ -17,8 +17,6 @@ angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentica
         }
 
         function initCardkit() {
-            clientHelper.bindSelectedClient($scope);
-
             $scope.$watch('themeClient', loadClients);
 
             function loadClients() {
@@ -26,7 +24,7 @@ angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentica
                 Clients.query().$promise.then(function(clients) {
                     var oldClient = $rootScope.selectedClient;
                     var newClient = clientHelper.resolveStateClientName(clients, $scope.themeClient);
-                    if (!newClient || $rootScope.selectedClient == newClient) return;
+                    if (!newClient || oldClient == newClient) return;
                     $rootScope.selectedClient = newClient;
                     Authorization.authorizeSellr($scope.themeClient).finally(function() {
                         if (oldClient || $state.is('cardkit.listPages')) {
