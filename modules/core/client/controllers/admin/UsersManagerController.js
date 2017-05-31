@@ -130,7 +130,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
     $mdDialog.show(confirmationDialogOptions)
   }
 
-  $scope.showResetPasswordDialog = function (ev) {
+  $scope.showResetPasswordDialog = function (email) {
     if (!$scope.ui.currentUser.email) {
       toastr.info('Please type user email first')
       return false
@@ -141,7 +141,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
     $scope.genericDialog.actionText = 'Reset Password'
     $scope.genericDialog.actionClass = 'common-btn-black'
     $scope.genericDialog.action = function () {
-      Users.resetPassword($scope.ui.currentUser.email).then(function (response) {
+      Users.resetPassword(email).then(function (response) {
         $scope.ui.currentUser.newPassword = response.data.token
         toastr.success('Success, new password is shown below')
         $scope.closeDialog()

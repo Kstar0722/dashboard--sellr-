@@ -38,37 +38,12 @@ angular.module('core').factory('Users', ['$http', 'constants', '$q', '$analytics
     }
 
     me.resetPassword = function (email) {
-      var defer = $q.defer()
       var payload = {
         payload: {
           email: email
         }
       }
-      $http.post(constants.API_URL + '/users/auth/forgot', payload).then(function (response) {
-        var resetLink = 'https://sellrdashboard.com/authentication/reset?token=' + response.data.token + '&email=' + response.data.email
-
-        var mailOptions = {
-          payload: {
-            source: 'password',
-            email: response.data.email,
-            title: 'Password Reset Success',
-            body: '<body> <p>Hey there! <br> You have requested to have your password reset for your account at the Sellr Dashboard </p> ' +
-              '<p>Please visit this url to reset your password:</p> ' +
-              '<p><a href="' + resetLink + '">' + resetLink + '</a></p> ' +
-              "<strong>If you didn't make this request, you can ignore this email.</strong> <br /> <br /> <p>The Sellr Support Team</p> </body>"
-          }
-        }
-        if (response) {
-          $http.post(constants.API_URL + '/emails', mailOptions).then(function (response2) {
-            defer.resolve(response)
-          }, function (error2) {
-            defer.reject(error2)
-          })
-        }
-      }, function (error) {
-        defer.reject(error)
-      })
-      return defer.promise
+      return $http.post(constants.API_URL + '/users/auth/forgot', payload)
     }
 
     me.create = function (user) {
