@@ -1,13 +1,13 @@
-(function() {
-    "use strict";
+(function () {
+  'use strict'
 
-    angular
+  angular
         .module('cardkit.core')
-        .factory('Logs', Logs);
+        .factory('Logs', Logs)
 
-    Logs.$inject = ['$resource', 'appConfig'];
+  Logs.$inject = ['$resource', 'appConfig']
 
-    function Logs($resource, appConfig) {
-        return $resource(appConfig.CARDKIT_URL + '/logs');
-    }
-}());
+  function Logs ($resource, appConfig) {
+    return $resource(appConfig.CARDKIT_URL + '/logs')
+  }
+}())

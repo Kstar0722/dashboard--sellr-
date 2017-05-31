@@ -1,30 +1,30 @@
-(function() {
-    'use strict';
+(function () {
+  'use strict'
 
-    angular
+  angular
         .module('cardkit.core')
-        .directive('directiveLoad', directiveLoad);
+        .directive('directiveLoad', directiveLoad)
 
-    directiveLoad.$inject = ['$parse', '$timeout'];
+  directiveLoad.$inject = ['$parse', '$timeout']
 
-    function directiveLoad($parse, $timeout) {
-        return {
-            restrict: 'A',
-            link: function(scope, element, attr) {
-                var loadHandler = $parse(attr.directiveLoad);
-                $timeout(function() {
-                    $(element).on('load', function(event) {
-                        scope.event = event;
-                        scope.$apply(function() {
-                            loadHandler(scope);
-                        });
-                    }).each(function() {
-                        if (this.complete) {
-                            $(this).load();
-                        }
-                    });
-                });
+  function directiveLoad ($parse, $timeout) {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attr) {
+        var loadHandler = $parse(attr.directiveLoad)
+        $timeout(function () {
+          $(element).on('load', function (event) {
+            scope.event = event
+            scope.$apply(function () {
+              loadHandler(scope)
+            })
+          }).each(function () {
+            if (this.complete) {
+              $(this).load()
             }
-        };
+          })
+        })
+      }
     }
-}());
+  }
+}())

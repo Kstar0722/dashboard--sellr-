@@ -8,6 +8,7 @@ module.exports = mergeCardkit({
     lib: {
       css: [
         'public/lib/angular-material/angular-material.min.css',
+        'public/lib/angular-chart.js/dist/angular-chart.min.css',
         'public/lib/angular-toastr/dist/angular-toastr.min.css',
         'public/lib/angular-ui-grid/ui-grid.css',
         'public/lib/medium-editor/dist/css/medium-editor.css',
@@ -48,7 +49,8 @@ module.exports = mergeCardkit({
         'public/lib/angular-material/angular-material.min.js',
         'public/lib/angular-environment/dist/angular-environment.js',
         'public/lib/angular-location-update/angular-location-update.js',
-        'public/lib/chart.js/dist/Chart.bundle.min.js',
+        'public/lib/Chart.js/Chart.js',
+        'public/lib/angular-chart.js/dist/angular-chart.js',
         'public/lib/moment/moment.js',
         'public/lib/angular-audio/app/angular.audio.js',
         'public/lib/jasmine-core/lib/jasmine-core/jasmine.js',

@@ -287,7 +287,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     }
   }
 
-  me.getAccount = function() {
+  me.getAccount = function () {
     return $.ajax({
       type: 'GET',
       url: `${constants.API_URL}/accounts/${utilsService.currentAccountId}`,
@@ -295,12 +295,12 @@ angular.module('core').service('accountsService', function ($http, constants, to
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).then(function(account) {
-      return account[0];
-    });
+    }).then(function (account) {
+      return account[0]
+    })
   }
 
-  me.getCurrentAccount = me.getAccount();
+  me.getCurrentAccount = me.getAccount()
 
   return me
 })

@@ -1,11 +1,11 @@
-(function($) {
-    'use strict';
+(function ($) {
+  'use strict'
 
-    $.Deferred.resolve = function(value) {
-        return $.Deferred().resolve(value).promise();
-    };
+  $.Deferred.resolve = function (value) {
+    return $.Deferred().resolve(value).promise()
+  }
 
-    $.Deferred.reject = function(value) {
-        return $.Deferred().reject(value).promise();
-    };
-}(jQuery));
+  $.Deferred.reject = function (value) {
+    return $.Deferred().reject(value).promise()
+  }
+}(jQuery))

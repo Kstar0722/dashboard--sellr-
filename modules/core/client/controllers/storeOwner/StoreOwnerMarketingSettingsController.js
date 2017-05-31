@@ -1,21 +1,21 @@
 angular.module('core').controller('StoreOwnerMarketingSettingsController', function ($scope, constants, accountsService, utilsService, $stateParams, $state) {
-  console.log('StoreOwnerMarketingSettingsController');
+  console.log('StoreOwnerMarketingSettingsController')
 
-  $scope.analyticsItem;
+  $scope.analyticsItem
 
-  $scope.analyticsItems = [];
+  $scope.analyticsItems = []
 
   /*
   * Create form to request access token from Google's OAuth 2.0 server.
   */
-  $scope.googleAuth = function oauthSignIn() {
+  $scope.googleAuth = function oauthSignIn () {
     // Google's OAuth 2.0 endpoint for requesting an access token
-    var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+    var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth'
 
     // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-    var form = document.createElement('form');
-    form.setAttribute('method', 'GET'); // Send as a GET request.
-    form.setAttribute('action', oauth2Endpoint);
+    var form = document.createElement('form')
+    form.setAttribute('method', 'GET') // Send as a GET request.
+    form.setAttribute('action', oauth2Endpoint)
 
     // Parameters to pass to OAuth 2.0 endpoint.
     var params = {
@@ -26,20 +26,20 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
       'scope': 'https://www.googleapis.com/auth/analytics.readonly',
       'include_granted_scopes': 'true',
       'state': 'state_parameter_passthrough_value'
-    };
+    }
 
     // Add form parameters as hidden input values.
     for (var p in params) {
-      var input = document.createElement('input');
-      input.setAttribute('type', 'hidden');
-      input.setAttribute('name', p);
-      input.setAttribute('value', params[p]);
-      form.appendChild(input);
+      var input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', p)
+      input.setAttribute('value', params[p])
+      form.appendChild(input)
     }
 
     // Add form to page and submit it to open the OAuth 2.0 endpoint.
-    document.body.appendChild(form);
-    form.submit();
+    document.body.appendChild(form)
+    form.submit()
 
     // Example reponse
     // http://localhost:3000/storeOwner/marketing/channels#state=pass-through+value
@@ -49,17 +49,17 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
     // &scope=https://www.googleapis.com/auth/analytics.readonly
   }
 
-  $scope.saveAnalyticsItem = function(item) {
-    if(item) {
-      accountsService.getCurrentAccount.then(function(account) {
-        account.preferences.analytics.item = item.id;
-        return accountsService.updateAccount(account);
-      });
+  $scope.saveAnalyticsItem = function (item) {
+    if (item) {
+      accountsService.getCurrentAccount.then(function (account) {
+        account.preferences.analytics.item = item.id
+        return accountsService.updateAccount(account)
+      })
     }
   }
 
-  $scope.revokeGoogleAuth = function() {
-    accountsService.getCurrentAccount.then(function(account) {
+  $scope.revokeGoogleAuth = function () {
+    accountsService.getCurrentAccount.then(function (account) {
       return $.ajax({
         url: 'https://accounts.google.com/o/oauth2/revoke',
         type: 'POST',
@@ -68,17 +68,17 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
         data: {
           token: account.preferences.analytics.refresh_token
         }
-      }).then(function(response) {
-        return account;
-      });
-    }).then(function(account) {
-      delete account.preferences.analytics;
-      $scope.account = account;
-      return accountsService.updateAccount(account);
-    });
+      }).then(function (response) {
+        return account
+      })
+    }).then(function (account) {
+      delete account.preferences.analytics
+      $scope.account = account
+      return accountsService.updateAccount(account)
+    })
   }
 
-  $scope.setAnalyticsItems = function(account) {
+  $scope.setAnalyticsItems = function (account) {
     $.ajax({
       type: 'POST',
       url: 'https://www.googleapis.com/oauth2/v4/token',
@@ -88,44 +88,44 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
         grant_type: 'refresh_token',
         refresh_token: account.preferences.analytics.refresh_token
       }
-    }).then(function(response) {
+    }).then(function (response) {
       return $.ajax({
         type: 'GET',
         url: 'https://www.googleapis.com/analytics/v3/management/accounts/~all/webproperties/~all/profiles',
         headers: {
           Authorization: `Bearer ${response.access_token}`
         }
-      });
-    }).then(function(response) {
-      response.items.forEach(function(item) {
+      })
+    }).then(function (response) {
+      response.items.forEach(function (item) {
         $scope.analyticsItems.push({
           id: item.id,
-          name: `${item.websiteUrl} (${item.name})`,
-        });
-      });
-      if(account.preferences.analytics.item) {
-        for(var key in $scope.analyticsItems) {
-          if($scope.analyticsItems[key].id == account.preferences.analytics.item) {
-            $scope.analyticsItem = $scope.analyticsItems[key];
-            break;
+          name: `${item.websiteUrl} (${item.name})`
+        })
+      })
+      if (account.preferences.analytics.item) {
+        for (var key in $scope.analyticsItems) {
+          if ($scope.analyticsItems[key].id == account.preferences.analytics.item) {
+            $scope.analyticsItem = $scope.analyticsItems[key]
+            break
           }
         }
       }
-    });
+    })
   }
 
   var init = function () {
-    if(window.location.search) {
+    if (window.location.search) {
       var search = window.location.search.slice(1),
-          pairs = {},
-          pair;
-      search.split('&').forEach(function(current) {
-        pair = current.split('=');
-        if(pair.length == 2) {
-          pairs[pair[0]] = decodeURIComponent(pair[1]);
+        pairs = {},
+        pair
+      search.split('&').forEach(function (current) {
+        pair = current.split('=')
+        if (pair.length == 2) {
+          pairs[pair[0]] = decodeURIComponent(pair[1])
         }
-      });
-      if(pairs.code) {
+      })
+      if (pairs.code) {
         // TODO: this request should be relayed through an endpoint on Sellr's API
         $.ajax({
           type: 'POST',
@@ -138,32 +138,32 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
             grant_type: 'authorization_code',
             redirect_uri: `${constants.GETSELLR_URL}/storeOwner/marketing/settings`
           }
-        }).then(function(response) {
-          return accountsService.getCurrentAccount.then(function(account) {
-            accountsService.currentAccount = account;
+        }).then(function (response) {
+          return accountsService.getCurrentAccount.then(function (account) {
+            accountsService.currentAccount = account
             return {
               oauth2: response,
               account: account
-            };
-          });
-        }).then(function(data) {
-          data.oauth2.code = pairs.code;
-          data.account.preferences.analytics = data.oauth2;
-          $scope.account = data.account;
-          $scope.setAnalyticsItems($scope.account);
-          return accountsService.updateAccount(data.account);
-        });
+            }
+          })
+        }).then(function (data) {
+          data.oauth2.code = pairs.code
+          data.account.preferences.analytics = data.oauth2
+          $scope.account = data.account
+          $scope.setAnalyticsItems($scope.account)
+          return accountsService.updateAccount(data.account)
+        })
       }
     } else {
-      accountsService.getCurrentAccount.then(function(account) {
-        $scope.account = account;
-        if(!account.preferences.analytics) {
-          return;
+      accountsService.getCurrentAccount.then(function (account) {
+        $scope.account = account
+        if (!account.preferences.analytics) {
+          return
         }
-        $scope.setAnalyticsItems(account);
-      });
+        $scope.setAnalyticsItems(account)
+      })
     }
-  };
+  }
 
-  init();
+  init()
 })

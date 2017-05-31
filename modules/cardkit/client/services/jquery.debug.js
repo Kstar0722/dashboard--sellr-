@@ -1,7 +1,7 @@
-(function($) {
-    'use strict';
+(function ($) {
+  'use strict'
 
-    $.fn.$S = function() {
-        return angular.element(this[0]).scope();
-    };
-}(jQuery));
+  $.fn.$S = function () {
+    return angular.element(this[0]).scope()
+  }
+}(jQuery))
