@@ -68,7 +68,7 @@ angular.module('core').service('utilsService', function ($timeout, $rootScope) {
     if (typeof value === 'string') {
       res = parseInt(value, 10)
     }
-    if (Number.isNaN(res)) res = null
+    if (_.isNaN(res)) res = null
     return res
   }
 
