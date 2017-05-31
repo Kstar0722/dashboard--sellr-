@@ -80,7 +80,6 @@ angular.module('core').controller('AddProductController', function ($scope, toas
   }
 
   function mapProduct (product) {
-    debugger
     return {
       accountId: product.accountId,
       storeId: product.storeId,

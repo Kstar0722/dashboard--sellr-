@@ -193,15 +193,15 @@ angular.module('core').service('accountsService', function ($http, constants, to
   }
 
   // set up two-way binding to parent property
-  function bindRootProperty ($scope, name, context) {
-    $scope.$watch('$root.' + name, function (value) {
-      (context || $scope)[ name ] = value
-    })
-
-    $scope.$watch(function () { return (context || $scope)[ name ] }, function (value) {
-      $scope.$root[ name ] = value
-    })
-  }
+  // function bindRootProperty ($scope, name, context) {
+  //   $scope.$watch('$root.' + name, function (value) {
+  //     (context || $scope)[ name ] = value
+  //   })
+  //
+  //   $scope.$watch(function () { return (context || $scope)[ name ] }, function (value) {
+  //     $scope.$root[ name ] = value
+  //   })
+  // }
 
   function initAccount (account) {
     if (!account) return account
