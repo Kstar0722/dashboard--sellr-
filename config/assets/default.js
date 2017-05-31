@@ -50,6 +50,7 @@ module.exports = mergeCardkit({
         'public/lib/angular-environment/dist/angular-environment.js',
         'public/lib/angular-location-update/angular-location-update.js',
         'public/lib/Chart.js/Chart.js',
+        'public/lib/Chart.js/dist/Chart.bundle.min.js',
         'public/lib/angular-chart.js/dist/angular-chart.js',
         'public/lib/moment/moment.js',
         'public/lib/angular-audio/app/angular.audio.js',
