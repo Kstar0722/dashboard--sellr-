@@ -25,6 +25,14 @@ angular.module('core').service('utilsService', function ($timeout, $rootScope) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
+  me.setFieldsTouched = function (formErrors) {
+    angular.forEach(formErrors, function (field) {
+      angular.forEach(field, function (errorField) {
+        errorField.$setTouched()
+      })
+    })
+  }
+
   me.stringToUppercaseUnderscore = function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }

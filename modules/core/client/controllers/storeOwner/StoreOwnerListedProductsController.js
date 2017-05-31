@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService, $filter, $rootScope) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService, $filter, $rootScope, uploadService) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -25,6 +25,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 // function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.
   var commonSelectizeConfig = { create: false, maxItems: 1, allowEmptyOption: false }
   $scope.slotSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'slot', labelField: 'slot', sortField: 'slot', searchField: [ 'slot' ]})
+
   $scope.sizesSelectConfig = _.extend({}, commonSelectizeConfig, {placeholder: 'Select a size', valueField: 'size', labelField: 'size', sortField: 'size', searchField: [ 'size' ]})
   // $scope.storesFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'storeId', labelField: 'name', sortField: 'name', searchField: [ 'name' ]})
   $scope.planFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'label', labelField: 'label', sortField: 'label', searchField: [ 'label' ]})
@@ -37,10 +38,16 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
       searchField: [ 'name' ],
       create: onPlanCreate
     })
+  $scope.productTypeConfig = _.extend({}, commonSelectizeConfig, {valueField: 'productTypeId', labelField: 'name', sortField: 'name', searchField: [ 'name' ]})
+  $scope.productTypeOptions = _.values(Types)
 
   //
   // SCOPE FUNCTIONS
   //
+  $scope.changeTypeHandler = function () {
+    setSizesSelectOptions($scope.ui.activeProduct.productTypeId)
+  }
+
   $scope.toggleSelectAllProducts = function (forcedValue) {
     var flag = forcedValue || $scope.ui.allProductsSelected
     $scope.ui.selectedProducts = []
@@ -167,6 +174,45 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     })
   }
 
+  $scope.uploadProductImage = function (files) {
+    if (_.isEmpty(files)) {
+      return
+    }
+    $scope.ui.activeProduct.tempImage = files[0]
+  }
+
+  $scope.removeProductImage = function () {
+    $scope.ui.activeProduct.tempImage = null
+  }
+
+  $scope.addProduct = function (formValid) {
+    $scope.ui.priceErrors = []
+    if (!formValid | checkInvalidPricesSetup()) {
+      utilsService.setFieldsTouched($scope.productForm.$error)
+      return false
+    }
+    $scope.ui.activeProduct.defaultPriceLabel = $scope.ui.activeProduct.prices[0].size
+
+    var mediaConfig = {
+      mediaRoute: 'media',
+      folder: 'images',
+      type: 'RESEARCH_IMG',
+      fileType: 'RESEARCH_IMG',
+      accountId: utilsService.currentAccountId
+    }
+    uploadService.upload($scope.ui.activeProduct.tempImage, mediaConfig).then(function (res) {
+      $scope.ui.activeProduct.researchImage = res.publicUrl
+      $scope.ui.activeProduct.mediaAssets = [res.mediaAssetId]
+      var hmcProduct = mapNotFoundProduct($scope.ui.activeProduct)
+      productsService.addNotFound(hmcProduct).then(function () {
+        toastr.success('The product was submitted successfully')
+        handleSuccess()
+      })
+    }, function (err) {
+      console.error('upload error %O', err)
+    })
+  }
+
   $scope.saveProduct = function () {
     $scope.ui.priceErrors = []
     if (checkInvalidPricesSetup()) return false
@@ -270,14 +316,22 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     }
   }
 
+  $scope.openAddPoductSidebar = function () {
+    $scope.ui.showCustomSize = []
+    $scope.ui.priceErrors = []
+    $scope.ui.display = 'addProduct'
+    $scope.ui.activeProduct = {}
+    $scope.ui.activeProduct.prices = []
+    $scope.addSizeOption()
+    setSizesSelectOptions(null)
+  }
+
   $scope.openEditProduct = function (product, productIndex) {
     $scope.ui.showCustomSize = []
     $scope.ui.priceErrors = []
     $scope.ui.originalSlot = product.slot
     $scope.ui.originalPlanId = product.planId
-    var sizes = angular.copy(Types[product.productTypeId].sizes)
-    sizes.push('Custom')
-    $scope.sizesSelectOptions = _.map(sizes, function (s) { return {size: s} })
+    var sizes = setSizesSelectOptions(product.productTypeId)
     _.each(product.prices, function (sizeOption, index) {
       product.prices[index].changed = 'update'
       // ng-model doesnt like number 1 so must explicily set to true or false
@@ -321,6 +375,16 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   //
   function init () {
     getStoreProducts()
+  }
+
+  function setSizesSelectOptions (productTypeId) {
+    var sizes = []
+    if (!_.isNull(productTypeId)) {
+      sizes = angular.copy(Types[productTypeId].sizes)
+    }
+    sizes.push('Custom')
+    $scope.sizesSelectOptions = _.map(sizes, function (s) { return {size: s} })
+    return sizes
   }
 
   function afterDeletion (index) {
@@ -430,6 +494,21 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   function catchHandler (err) {
     console.error(err)
     toastr.error('Failed to update product')
+  }
+
+  function mapNotFoundProduct (uiProd) {
+    return {
+      accountId: utilsService.currentAccountId,
+      storeId: utilsService.currentStoreId,
+      planId: utilsService.convertToInt(uiProd.planId),
+      skus: [uiProd.sku],
+      researchImage: uiProd.researchImage,
+      source: 'Dashboard',
+      prices: uiProd.prices,
+      mediaAssets: uiProd.mediaAssets,
+      productTypeId: uiProd.productTypeId,
+      defaultPriceLabel: uiProd.defaultPriceLabel
+    }
   }
 
   var deregisterStoreIdListener = $rootScope.$on('currentStoreIdChanged', init)

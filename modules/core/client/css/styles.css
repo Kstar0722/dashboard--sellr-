@@ -6481,6 +6481,17 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   margin: 40px auto 30px auto;
   text-align: center;
 }
+.store-owner-listed-products-view .right-side-content .side-panel .upload-btn-container {
+  text-align: center;
+  margin: 20px auto;
+}
+.store-owner-listed-products-view .right-side-content .side-panel .uploaded-image-container {
+  width: 35%;
+  margin: 20px auto;
+}
+.store-owner-listed-products-view .right-side-content .side-panel .uploaded-image-container img {
+  width: 100%;
+}
 .store-owner-listed-products-view .right-side-content .side-panel .product-title {
   font-size: 20px;
   font-weight: bold;

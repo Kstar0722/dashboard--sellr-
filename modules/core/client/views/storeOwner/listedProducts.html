@@ -10,7 +10,7 @@
       -->
       <div class="filter-header">
         <div class="left-filter">
-     <!--      <div class="store-filter-container">
+          <!--      <div class="store-filter-container">
             <selectize class="custom-selectize" config="storesFilterSelectConfig" options="stores" ng-model="ui.activeStoreId" ng-change="loadStoreProducts()">
               
             </selectize>
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="right-filter">
-          <div class="common-btn-gray autowidth" ng-click="showAddProductDialog()">Add Product</div>
+          <div class="common-btn-gray autowidth" ng-click="openAddPoductSidebar()">Add Product</div>
           <div class="common-btn-black autowidth" ng-click="showUploadCsvDialog()"><div class="common-centered-content"><img src="/img/import-icon.png" alt="icon"> Import CSV</div></div>
         </div>
       </div>
@@ -45,7 +45,7 @@
             csv-header="['title', 'productId', 'description', 'price', 'upc']"
             csv-column-order="['title', 'productId', 'description', 'price', 'upc']"
             filename="products.csv">
-            <div class="common-centered-content"><img src="/img/export-icon.png" alt="icon"> Export Products to CSV</div>            
+            <div class="common-centered-content"><img src="/img/export-icon.png" alt="icon"> Export Products to CSV</div>
           </div>
           <div class="selected-count" ng-if="ui.showProductsSelectedActions">
             {{ui.selectedProducts.length}} products selected
@@ -66,8 +66,8 @@
       COLUMNS DATA ROWS
       -->
       <div
-              ng-class="['columns-data', {active: ui.activeIndex === $index}]"
-              ng-repeat="product in filteredPlan.products | filterBy:['name']:ui.searchText | orderBy:ui.sortExpression track by $index"
+        ng-class="['columns-data', {active: ui.activeIndex === $index}]"
+        ng-repeat="product in filteredPlan.products | filterBy:['name']:ui.searchText | orderBy:ui.sortExpression track by $index"
         >
         <div class="check-col">
           <input id="productcheck{{$index}}" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-change="toggleSelectProduct(product)">
@@ -99,157 +99,187 @@
   <!--
   RIGHT SIDE
   -->
-  <div class="right-side-content" ng-show="ui.display !== 'fulltable'">
-    <div class="title">Save Product</div>
+  <div class="right-side-content" ng-show="ui.display !== 'fulltable'" ng-switch="ui.display">
+    <div class="title" ng-switch-when="editProduct">Edit Product</div>
+    <div class="title" ng-switch-when="addProduct">Add new product</div>
     <div class="side-panel">
-      <div class="action-btns">
-        <!--     <div class="common-btn-gray" ng-click="showPromoteProductDialog()" ng-if="!ui.promotedProduct">Promote Product</div>
-        <div class="common-btn-black autowidth" ng-click="ui.promotedProduct = false" ng-if="ui.promotedProduct">Stop Promoting Product</div> -->
-        <div>&nbsp;</div>
-        <div class="common-btn-positive" ng-click="saveProduct()">Save Product</div>
-        <div>&nbsp;</div>
-      </div>
-      <div class="product-image-container">
-        <product-image image-url="{{ ui.activeProduct.image ||  ui.activeProduct.images[0] || ui.activeProduct.researchImage }}"
-        product-type="{{ ui.activeProduct.productTypeId }}"></product-image>
-      </div>
-      <div class="product-title" ng-bind="ui.activeProduct.name"></div>
-      <div class="common-field-title">Product Id</div>
-      <input type="text" class="common-input" name="name" disabled ng-model="ui.activeProduct.productId">
-      <div class="columns">
-        <div class="first-column">
+      <form name="productForm" ng-submit="addProduct(productForm.$valid)" novalidate>
+        <div class="action-btns">
+          <!--     <div class="common-btn-gray" ng-click="showPromoteProductDialog()" ng-if="!ui.promotedProduct">Promote Product</div>
+          <div class="common-btn-black autowidth" ng-click="ui.promotedProduct = false" ng-if="ui.promotedProduct">Stop Promoting Product</div> -->
+          <div>&nbsp;</div>
+          <div class="common-btn-positive" ng-click="saveProduct()" ng-switch-when="editProduct">Save Product</div>
+          <button class="common-btn-positive" type="submit" ng-switch-when="addProduct">Add Product</button>
+          <div>&nbsp;</div>
+        </div>
+        <div class="product-image-container"  ng-switch-when="editProduct">
+          <product-image image-url="{{ ui.activeProduct.image ||  ui.activeProduct.images[0] || ui.activeProduct.researchImage }}"
+          product-type="{{ ui.activeProduct.productTypeId }}"></product-image>
+        </div>
+        <div ng-switch-when="addProduct">
+          <div class="common-field-title">Product Barcode</div>
+          <input type="number" class="common-input" ng-model="ui.activeProduct.sku" name="barcode" required placeholder="Barcode...">
+          <input-error-msg form="productForm" field="barcode" errors="{required: 'Barcode is required'}"></input-error-msg>
+          <div class="common-field-title">Product Picture</div>
+          <small class="instructions">Attaching a picture helps ensure we have the correct product so we can curate the details for you.</small>
+          <div class="upload-btn-container">
+            <div class="common-btn-silver" ngf-select="uploadProductImage($files)" ng-if="!ui.activeProduct.tempImage">Upload Image</div>
+            <div class="common-btn-negative" ng-click="removeProductImage()" ng-if="ui.activeProduct.tempImage">
+              <div class="common-centered-content">
+                <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+                Remove
+              </div>
+            </div>
+          </div>
+          <div class="uploaded-image-container" ng-if="ui.activeProduct.tempImage">
+            <img ngf-src="ui.activeProduct.tempImage" alt="product image" />
+          </div>
           <div class="common-field-title">Type</div>
-          <input type="text" class="common-input" name="name" disabled ng-model="Types[ui.activeProduct.productTypeId].name">
+          <selectize class="custom-selectize" config="productTypeConfig" options="productTypeOptions" ng-model="ui.activeProduct.productTypeId" ng-change="changeTypeHandler()">
+          </selectize>
         </div>
-        <div class="second-column" ng-hide="loading">
-          <div class="common-field-title">Sub Type</div>
-          <input type="text" class="common-input" name="name" disabled value="Subvalue">
-        </div>
-      </div>
-      <div class="common-field-title">Category</div>
-      <selectize class="custom-selectize" config="planSelectConfig" options="planSelectOptions" ng-model="ui.activeProduct.planId" ng-change="changePlanHandler()">
-      </selectize>
-      <div class="common-field-title">Shelf Tag</div>
-      <selectize class="custom-selectize" config="slotSelectConfig" options="slotSelectOptions" ng-model="ui.activeProduct.slot">
-      </selectize>
-      <div class="common-field-title">Notes</div>
-      <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.notes">
-      <div class="common-field-title">Product Description</div>
-      <div class="product-description" ng-bind-html="ui.descriptionHTML"></div>
-      <div class="separator"></div>
-      <div class="common-field-title">Default Size</div>
-      <div class="size-container">
-        <div class="sub-title">Size</div>
-        <div class="size-selector">
-          <div ng-show="!ui.showCustomSize[0]" ng-class="{error: ui.priceErrors[0].size}">
-            <selectize  class="custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="ui.activeProduct.prices[0].size" ng-change="selectSizeHandler(0)">
-            </selectize>
-          </div>
-          <div ng-show="ui.showCustomSize[0]" class="custom-size">
-            <input type="text" class="common-input" name="size" ng-model="ui.activeProduct.prices[0].size" placeholder="Type a custom size" ng-class="{error: ui.priceErrors[0].size}">
-            <i class="fa fa-times-circle" ng-click="resetSize(0)"></i>
-          </div>
-        </div>
-        <!-- ONSALE -->
-        <div class="columns" ng-if="ui.activeProduct.prices[0].onsale">
-          <div class="first-column">
-            <div class="sub-title">Price</div>
-            <div class="price-box">
-              <div class="dollar-sign">$</div>
-              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].oprice" ng-class="{error: ui.priceErrors[0].oprice}">
+        <div ng-switch-when="editProduct">
+          <div class="product-title" ng-bind="ui.activeProduct.name"></div>
+          <div class="common-field-title">Product Id</div>
+          <input type="text" class="common-input" name="name" disabled ng-model="ui.activeProduct.productId">
+          <div class="columns">
+            <div class="first-column">
+              <div class="common-field-title">Type</div>
+              <input type="text" class="common-input" name="name" disabled ng-model="Types[ui.activeProduct.productTypeId].name">
             </div>
-          </div>
-          <div class="second-column">
-            <div class="sub-title">Sale Price</div>
-            <div class="price-box">
-              <div class="dollar-sign disabled">$</div>
-              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price" ng-class="{error: ui.priceErrors[0].price}">
+            <div class="second-column" ng-hide="loading">
+              <div class="common-field-title">Sub Type</div>
+              <input type="text" class="common-input" name="name" disabled value="Subvalue">
             </div>
           </div>
         </div>
-        <!-- NOT ONSALE -->
-        <div class="columns" ng-if="!ui.activeProduct.prices[0].onsale">
-          <div class="first-column">
-            <div class="sub-title">Price</div>
-            <div class="price-box">
-              <div class="dollar-sign">$</div>
-              <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price" ng-class="{error: ui.priceErrors[0].price}">
+        <div class="common-field-title">Category</div>
+        <selectize class="custom-selectize" config="planSelectConfig" options="planSelectOptions" ng-model="ui.activeProduct.planId" ng-change="changePlanHandler()">
+        </selectize>
+        <div ng-switch-when="editProduct">
+          <div class="common-field-title">Shelf Tag</div>
+          <selectize class="custom-selectize" config="slotSelectConfig" options="slotSelectOptions" ng-model="ui.activeProduct.slot">
+          </selectize>
+          <div class="common-field-title">Notes</div>
+          <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.notes">
+          <div class="common-field-title">Product Description</div>
+          <div class="product-description" ng-bind-html="ui.descriptionHTML"></div>
+          <div class="separator"></div>
+        </div>
+        <div class="common-field-title">Default Size</div>
+        <div class="size-container">
+          <div class="sub-title">Size</div>
+          <div class="size-selector">
+            <div ng-show="!ui.showCustomSize[0]" ng-class="{error: ui.priceErrors[0].size}">
+              <selectize  class="custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="ui.activeProduct.prices[0].size" ng-change="selectSizeHandler(0)">
+              </selectize>
+            </div>
+            <div ng-show="ui.showCustomSize[0]" class="custom-size">
+              <input type="text" class="common-input" name="size" ng-model="ui.activeProduct.prices[0].size" placeholder="Type a custom size" ng-class="{error: ui.priceErrors[0].size}">
+              <i class="fa fa-times-circle" ng-click="resetSize(0)"></i>
             </div>
           </div>
-          <div class="second-column">
-            <div class="sub-title">Sale Price</div>
-            <div class="price-box">
-              <div class="dollar-sign disabled">$</div>
-              <input type="text" class="common-input" name="name" disabled value="">
+          <!-- ONSALE -->
+          <div class="columns" ng-if="ui.activeProduct.prices[0].onsale">
+            <div class="first-column">
+              <div class="sub-title">Price</div>
+              <div class="price-box">
+                <div class="dollar-sign">$</div>
+                <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].oprice" ng-class="{error: ui.priceErrors[0].oprice}">
+              </div>
+            </div>
+            <div class="second-column">
+              <div class="sub-title">Sale Price</div>
+              <div class="price-box">
+                <div class="dollar-sign disabled">$</div>
+                <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price" ng-class="{error: ui.priceErrors[0].price}">
+              </div>
             </div>
           </div>
-        </div>
-        <div class="set-on-sale-check">
-          <input id="setOnSaleDefault" class="custom-checkbox" type="checkbox" ng-model="ui.activeProduct.prices[0].onsale" ng-change="onSaleHandler(0)" />
-          <label for="setOnSaleDefault">Set On Sale</label>
-        </div>
-      </div>
-      <div class="common-field-title" ng-if="ui.activeProduct.prices.length > 1">Additional Sizes</div>
-      <div class="size-container" ng-repeat-start="sizeOption in ui.activeProduct.prices" ng-if="!$first">
-        <div class="sub-title">Size</div>
-        <div class="size-selector">
-          <div ng-show="!ui.showCustomSize[$index]" ng-class="{error: ui.priceErrors[$index].size}">
-            <selectize  class="custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="sizeOption.size" ng-change="selectSizeHandler($index)">
-            </selectize>
-          </div>
-          <div ng-show="ui.showCustomSize[$index]" class="custom-size">
-            <input type="text" class="common-input" name="size" ng-model="sizeOption.size" placeholder="Type a custom size" ng-class="{error: ui.priceErrors[$index].size}">
-            <i class="fa fa-times-circle" ng-click="resetSize($index)"></i>
-          </div>
-        </div>
-        <!-- ONSALE -->
-        <div class="columns" ng-if="sizeOption.onsale">
-          <div class="first-column">
-            <div class="sub-title">Price</div>
-            <div class="price-box">
-              <div class="dollar-sign">$</div>
-              <input type="text" class="common-input" name="name" ng-model="sizeOption.oprice" ng-class="{error: ui.priceErrors[$index].oprice}">
+          <!-- NOT ONSALE -->
+          <div class="columns" ng-if="!ui.activeProduct.prices[0].onsale">
+            <div class="first-column">
+              <div class="sub-title">Price</div>
+              <div class="price-box">
+                <div class="dollar-sign">$</div>
+                <input type="text" class="common-input" name="name" ng-model="ui.activeProduct.prices[0].price" ng-class="{error: ui.priceErrors[0].price}">
+              </div>
+            </div>
+            <div class="second-column">
+              <div class="sub-title">Sale Price</div>
+              <div class="price-box">
+                <div class="dollar-sign disabled">$</div>
+                <input type="text" class="common-input" name="name" disabled value="">
+              </div>
             </div>
           </div>
-          <div class="second-column">
-            <div class="sub-title">Sale Price</div>
-            <div class="price-box">
-              <div class="dollar-sign disabled">$</div>
-              <input type="text" class="common-input" name="name" ng-model="sizeOption.price" ng-class="{error: ui.priceErrors[$index].price}">
-            </div>
+          <div class="set-on-sale-check">
+            <input id="setOnSaleDefault" class="custom-checkbox" type="checkbox" ng-model="ui.activeProduct.prices[0].onsale" ng-change="onSaleHandler(0)" />
+            <label for="setOnSaleDefault">Set On Sale</label>
           </div>
         </div>
-        <!-- NOT ONSALE -->
-        <div class="columns" ng-if="!sizeOption.onsale">
-          <div class="first-column">
-            <div class="sub-title">Price</div>
-            <div class="price-box">
-              <div class="dollar-sign">$</div>
-              <input type="text" class="common-input" name="name" ng-model="sizeOption.price" ng-class="{error: ui.priceErrors[$index].price}">
+        <div class="common-field-title" ng-if="ui.activeProduct.prices.length > 1">Additional Sizes</div>
+        <div class="size-container" ng-repeat-start="sizeOption in ui.activeProduct.prices" ng-if="!$first">
+          <div class="sub-title">Size</div>
+          <div class="size-selector">
+            <div ng-show="!ui.showCustomSize[$index]" ng-class="{error: ui.priceErrors[$index].size}">
+              <selectize  class="custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="sizeOption.size" ng-change="selectSizeHandler($index)">
+              </selectize>
+            </div>
+            <div ng-show="ui.showCustomSize[$index]" class="custom-size">
+              <input type="text" class="common-input" name="size" ng-model="sizeOption.size" placeholder="Type a custom size" ng-class="{error: ui.priceErrors[$index].size}">
+              <i class="fa fa-times-circle" ng-click="resetSize($index)"></i>
             </div>
           </div>
-          <div class="second-column">
-            <div class="sub-title">Sale Price</div>
-            <div class="price-box">
-              <div class="dollar-sign disabled">$</div>
-              <input type="text" class="common-input" name="name" disabled value="">
+          <!-- ONSALE -->
+          <div class="columns" ng-if="sizeOption.onsale">
+            <div class="first-column">
+              <div class="sub-title">Price</div>
+              <div class="price-box">
+                <div class="dollar-sign">$</div>
+                <input type="text" class="common-input" name="name" ng-model="sizeOption.oprice" ng-class="{error: ui.priceErrors[$index].oprice}">
+              </div>
+            </div>
+            <div class="second-column">
+              <div class="sub-title">Sale Price</div>
+              <div class="price-box">
+                <div class="dollar-sign disabled">$</div>
+                <input type="text" class="common-input" name="name" ng-model="sizeOption.price" ng-class="{error: ui.priceErrors[$index].price}">
+              </div>
             </div>
           </div>
+          <!-- NOT ONSALE -->
+          <div class="columns" ng-if="!sizeOption.onsale">
+            <div class="first-column">
+              <div class="sub-title">Price</div>
+              <div class="price-box">
+                <div class="dollar-sign">$</div>
+                <input type="text" class="common-input" name="name" ng-model="sizeOption.price" ng-class="{error: ui.priceErrors[$index].price}">
+              </div>
+            </div>
+            <div class="second-column">
+              <div class="sub-title">Sale Price</div>
+              <div class="price-box">
+                <div class="dollar-sign disabled">$</div>
+                <input type="text" class="common-input" name="name" disabled value="">
+              </div>
+            </div>
+          </div>
+          <div class="set-on-sale-check">
+            <input id="{{'setOnSale' + $index}}" class="custom-checkbox" type="checkbox" ng-model="sizeOption.onsale" ng-change="onSaleHandler($index)" />
+            <label for="{{'setOnSale' + $index}}">Set On Sale</label>
+          </div>
+          <div class="size-action-btns">
+            <div class="common-btn-black autowidth" ng-click="setDefault($index)">Set as default</div>
+            <div class="common-btn-negative autowidth" ng-click="deleteSizeOption($index)">Delete size</div>
+          </div>
         </div>
-        <div class="set-on-sale-check">
-          <input id="setOnSaleDefault" class="custom-checkbox" type="checkbox" ng-model="sizeOption.onsale" ng-change="onSaleHandler($index)" />
-          <label for="setOnSaleDefault">Set On Sale</label>
+        <div class="separator" ng-repeat-end ng-if="!$first"></div>
+        <div class="separator" ng-if="ui.activeProduct.prices.length === 0"></div>
+        <div class="size-container">
+          <div class="common-btn-gray autowidth full-width-btn" ng-click="addSizeOption()"><i class="fa fa-plus"></i> Add new size</div>
         </div>
-        <div class="size-action-btns">
-          <div class="common-btn-black autowidth" ng-click="setDefault($index)">Set as default</div>
-          <div class="common-btn-negative autowidth" ng-click="deleteSizeOption($index)">Delete size</div>
-        </div>
-      </div>
-      <div class="separator" ng-repeat-end ng-if="!$first"></div>
-      <div class="separator" ng-if="ui.activeProduct.prices.length === 0"></div>
-      <div class="size-container">
-        <div class="common-btn-gray autowidth full-width-btn" ng-click="addSizeOption()"><i class="fa fa-plus"></i> Add new size</div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
