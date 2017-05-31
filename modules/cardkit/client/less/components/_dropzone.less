@@ -1,0 +1,127 @@
+.dropzone {
+    min-height: 50px;
+    padding: 5px !important;
+    position: relative;
+    transition: opacity 0.2s ease;
+
+    .fa {
+        color: #7f8fa4;
+    }
+
+    .text {
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 18px;
+        pointer-events: none;
+    }
+
+    .overlay {
+        align-items: center;
+        background: @dark-input-background-color;
+        border: 3px dashed #6a717f;
+        color: @dark-input-empty-color;
+        cursor: pointer;
+        display: flex;
+        margin: -1px;
+        min-height: 150px;
+        padding: 30px;
+        text-align: center;
+        transition: all ease 0.2s;
+    }
+
+    &.has-value .overlay {
+        display: none;
+    }
+
+    .placeholder {
+        &.uploading {
+            color: @white;
+            margin: auto;
+        }
+    }
+
+    .progress {
+        border-radius: 7px;
+        bottom: 8px;
+        height: 16px;
+        left: 10px;
+        line-height: 16px;
+        position: absolute;
+        right: 10px;
+        width: auto !important;
+
+        .progress-bar {
+            background: @dark-green;
+            border-radius: inherit;
+            line-height: inherit;
+        }
+    }
+
+    .image img,
+    .video video {
+        display: block;
+        margin: auto;
+        max-height: 220px;
+        max-width: 100%;
+    }
+
+    .video {
+        position: relative;
+
+        [vi-controls] {
+            position: absolute;
+            top: 0;
+
+            ng-md-icon {
+                color: @white;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .fallback-icon {
+        margin: 0 !important;
+        max-width: 30% !important;
+    }
+
+    .filename {
+        font-size: 13px;
+        line-height: 13px;
+        word-break: break-all;
+    }
+
+    .file-type {
+        @height: 16px;
+
+        color: @dark-input-border-color;
+        display: block;
+        font-size: @height;
+        height: @height;
+        left: 5px;
+        line-height: @height;
+        margin-bottom: -@height;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+        top: -60px;
+        width: 26%;
+        z-index: 10;
+    }
+
+    &.dragover {
+        .overlay {
+            background: #333D4D;
+            z-index: 1;
+        }
+
+        &.has-value {
+            opacity: 0.6;
+        }
+    }
+
+    &.uploading {
+        cursor: default;
+        pointer-events: none;
+    }
+}

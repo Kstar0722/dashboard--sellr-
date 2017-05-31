@@ -1,0 +1,96 @@
+<md-input-container>
+    <label>Page Name</label>
+    <input type="text" ng-model="pageName" class="form-control" ng-autofocus="pageSettingsOpened"/>
+</md-input-container>
+
+<div layout="row">
+    <md-input-container>
+        <label>Path</label>
+        <input type="text" ng-model="pageBasePath" class="form-control"/>
+    </md-input-container>
+    <span class="path-divider">/</span>
+    <md-input-container>
+        <label>Page Url</label>
+        <input type="text" ng-model="pageUrl" class="form-control"/>
+    </md-input-container>
+</div>
+
+<md-input-container class="client" ng-show="selectClient && !embedMode">
+    <label>Client</label>
+    <selectize ng-if="selectClientConfig" config="selectClientConfig" options="$parent.clients"
+               ng-model="$parent.pageClientId" placeholder="Not selected">
+    </selectize>
+</md-input-container>
+
+<md-input-container ng-hide="embedMode">
+    <label>Tags</label>
+    <tags-input flex ng-model="pageTags" min-length="1" add-on-paste="true">
+        <auto-complete source="loadClientTags(page.client, $query)" min-length="2"></auto-complete>
+    </tags-input>
+</md-input-container>
+
+<md-input-container>
+    <label>Description</label>
+    <textarea rows="3" ng-model="pageDescription" class="form-control"></textarea>
+</md-input-container>
+
+<md-input-container>
+    <label>SEO Title</label>
+    <input type="text" ng-model="pageTitle" class="form-control"/>
+</md-input-container>
+
+<md-input-container>
+    <label>SEO Keywords</label>
+    <input type="text" ng-model="pageKeywords" class="form-control"/>
+</md-input-container>
+
+<md-input-container>
+    <label>Published</label>
+    <input type="date" ng-model="pagePublished" class="form-control">
+</md-input-container>
+
+<md-input-container ng-hide="embedMode">
+    <md-switch ng-model="pageHideForClient" md-no-ink class="md-primary hide-for-client">
+        Hide for Client
+    </md-switch>
+</md-input-container>
+
+<md-input-container>
+    <label>Social Image</label>
+
+    <ck-dropzone class="md-input" handle="uploadSocialImage(files)" kind="image" ng-disabled="uploadProgress != null"
+                 ng-model="pageSocialImageUrl" style="order:0">
+    </ck-dropzone>
+
+    <div class="file-toolbar" layout="row">
+        <md-button type="button" class="btn" ng-click="deleteSocialImage($event)"
+                   ng-disabled="!pageSocialImageUrl || uploadProgress != null">
+            <i class="fa fa-trash-o"></i>
+            <span>Delete</span>
+        </md-button>
+
+        <md-button type="button" class="btn" ng-click="uploadSocialImage()" flex ng-disabled="uploadProgress != null">
+            <i class="fa fa-upload"></i>
+            <span>Upload New</span>
+        </md-button>
+
+        <md-button type="button" class="btn" ng-click="showMediaLibrary($event, 'image')"
+                   ng-class="{ active: mediaLibraryOpen }" ng-disabled="uploadProgress != null">
+            <i class="fa fa-picture-o"></i>
+            <span>Media Library</span>
+        </md-button>
+
+        <md-button type="button" class="btn" ng-click="editSocialImage()"
+                   ng-disabled="!pageSocialImageUrl || uploadProgress != null">
+            <i class="fa fa-scissors"></i>
+            <span>Edit</span>
+        </md-button>
+    </div>
+</md-input-container>
+
+<div class="md-actions" layout="row">
+    <md-button ng-click="saveDetails()" class="md-primary md-raised half btn-success">Save</md-button>
+    <md-button ng-click="$parent.hideSidebars(true)" class="md-primary md-raised half"
+               style="background-color: #6e7f84">Cancel
+    </md-button>
+</div>

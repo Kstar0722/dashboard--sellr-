@@ -1,0 +1,587 @@
+#pageBuilder {
+    font-size: 15px;
+
+    // <editor-fold desc="style.less">
+
+    md-backdrop.md-sidenav-backdrop {
+        z-index: -50;
+    }
+
+    md-content md-whiteframe {
+        transition: all .3s ease;
+
+        md-fab-speed-dial.open {
+            display: none;
+        }
+
+        &.open {
+            margin-left: 25vw;
+            -ms-transform: scale(0.75);
+            -moz-transform: scale(0.75);
+            -o-transform: scale(0.75);
+            -webkit-transform: scale(0.75);
+            transform: scale(0.75);
+
+            -ms-transform-origin: 0 0;
+            -moz-transform-origin: 0 0;
+            -o-transform-origin: 0 0;
+            -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
+        }
+    }
+
+    .md-whiteframe-z1 {
+        margin: 0;
+    }
+
+    .md-select-menu-container.md-active {
+        z-index: 9000000;
+    }
+
+    md-fab-speed-dial.md-down md-fab-actions {
+        display: block;
+    }
+
+    // </editor-fold>
+
+    #subHeader {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: @nav-height;
+
+        .md-button {
+            color: white;
+            font-size: 13px;
+            line-height: 25px;
+            margin-bottom: 4px;
+            margin-top: 4px;
+            max-width: 150px;
+            min-height: 25px;
+            text-transform: none;
+            width: 10vw;
+
+            &.md-primary {
+                background: @dark-input-background-color;
+            }
+
+            &[disabled] {
+                cursor: default;
+                background: @medium-gray !important;
+                pointer-events: none;
+            }
+
+            .fa {
+                margin-right: 5px;
+            }
+        }
+
+        .left {
+            flex: 1;
+
+            .md-button {
+                margin-right: 10px;
+                min-width: 140px;
+            }
+        }
+
+        .dirty-toolbar {
+            display: flex;
+            flex: 1;
+
+            .md-button {
+                margin-left: 1.5vw;
+                min-width: 110px;
+            }
+
+            .save {
+                background: @dark-green;
+                color: white;
+                opacity: 1;
+            }
+
+            .save-exit {
+                background: transparent;
+                border-radius: 5px;
+                border: 2px solid @dark-green;
+                color: @dark-green;
+
+                &[disabled] {
+                    background: transparent !important;
+                    border-color: @medium-gray;
+                    color: @medium-gray;
+                }
+            }
+
+            .discard {
+                background: @red;
+            }
+        }
+    }
+
+    md-sidenav {
+        background-color: #142332;
+        color: @dark-input-empty-color;
+        font-family: Arial;
+        font-size: 14px;
+        height: calc(~"100vh - " (@nav-height + @subnav-height));
+        left: 0;
+        margin-top: @nav-height + @subnav-height;
+        max-width: none !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding-left: 12px;
+        padding-right: 12px;
+        position: fixed;
+        top: 0;
+        transition: all .3s ease;
+        width: 300px !important;
+        z-index: 8999;
+
+        .md-toolbar-tools {
+            -webkit-flex-direction: row-reverse; /* Safari 6.1+ */
+            display: -webkit-flex; /* Safari */
+            display: flex;
+            flex-direction: row-reverse;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0;
+
+            .md-icon-button {
+                box-shadow: none;
+                float: right;
+                margin-right: -16px;
+            }
+
+            div {
+                width: 100%;
+            }
+        }
+
+        label {
+            -webkit-transform: translate3d(0, 2px, 0) scale(0.75);
+            transform: translate3d(0, 2px, 0) scale(0.75);
+        }
+        label, .label {
+            font-size: 13px;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        md-content, md-toolbar {
+            background-color: inherit !important;
+            color: white;
+        }
+
+        md-toolbar {
+            clear: both;
+            min-height: 48px;
+        }
+
+        .md-toolbar-tools {
+            color: white;
+            height: 48px;
+            padding: 0 2px;
+        }
+
+        md-input-container {
+            margin: 10px 0 20px 0;
+
+            .selectize-control {
+                &.page-link {
+                    .selectize-input:before {
+                        background: none;
+                        color: #ddd;
+                        content: '\f0c1'; // fa-link
+                        display: inline-block;
+                        font-family: FontAwesome;
+                        font-size: 18px;
+                        height: initial;
+                        margin-right: 8px;
+                        position: relative;
+                        top: 2px;
+                    }
+                }
+            }
+
+            &.indent {
+                margin-left: 20px !important;
+            }
+        }
+
+        .progress-container {
+            width: 100%;
+        }
+
+        md-toolbar ng-md-icon[icon="close"] {
+            color: rgba(255, 255, 255, 0.87);
+        }
+    }
+
+    #cardSettings {
+        p {
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        #cardOptions {
+            padding: 0;
+
+            li {
+                margin: 0;
+            }
+
+            md-input-container {
+                margin: 0;
+                padding: 0;
+
+                > * {
+                    margin-left: 0;
+                }
+
+                &:first-child {
+                    margin-top: 10px;
+                }
+
+                &:last-of-type {
+                    margin-bottom: 20px;
+                }
+            }
+
+            md-radio-button {
+                margin: 0;
+
+                .md-container {
+                    display: none;
+                }
+
+                &:hover {
+                    background: #e9e9e9;
+                }
+
+                &.active {
+                    color: #FE3A6D;
+                }
+            }
+
+            .varname {
+                font-size: 11px;
+                font-weight: bold;
+                margin-bottom: 6px;
+                text-transform: uppercase;
+            }
+
+            .alert {
+                color: @red;
+                margin: 0;
+                padding: 0;
+
+                a {
+                    color: inherit;
+                    text-decoration: underline;
+                }
+            }
+
+            .refresh.md-button {
+                color: @medium-grey;
+                float: right;
+                height: 30px;
+                line-height: 30px;
+                margin-right: -5px;
+                margin-top: 27px;
+                min-height: initial;
+                width: 30px;
+            }
+        }
+
+        .file-variable-container {
+            margin: 10px 0 20px;
+        }
+
+        .sync-card {
+            color: white;
+            margin: 10px 0;
+            padding: 0 12px;
+            top: 0;
+        }
+    }
+
+    #cardLibrary {
+        overflow: initial;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        .sortable {
+            height: calc(~"100vh - " (@nav-height + @subnav-height + 60px));
+            margin: 0 -16px;
+            overflow-y: scroll;
+            padding-left: 16px;
+            padding-right: 16px;
+
+            .card-item {
+                color: @dark-input-empty-color;
+                font-family: Arial;
+                font-size: 11px;
+                font-weight: bold;
+                text-align: left;
+                text-transform: uppercase;
+                width: 100%;
+
+                span {
+                    cursor: default;
+                }
+            }
+
+            .dragging .card-item span {
+                display: none;
+            }
+        }
+
+        .card-preview {
+            background: @dark-input-background-color;
+            border-radius: 5px;
+            border: 1px solid @dark-input-border-color;
+            margin: 7px auto 20px;
+            min-height: 50px;
+            padding: 8px;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        md-list-item {
+            padding: 0;
+        }
+    }
+
+    #pageSettings {
+        [layout] md-input-container {
+            margin: 0;
+            padding-bottom: 15px;
+        }
+
+        .path-divider {
+            font-size: 14px;
+            margin: auto;
+            min-width: 10px;
+            padding-top: 3px;
+            text-align: center;
+        }
+
+        .md-actions {
+            margin: 0 -8px 20px;
+        }
+    }
+
+    .page-body {
+        height: 100vh;
+        margin-top: @subnav-height;
+        overflow-x: hidden;
+        position: relative;
+
+        md-backdrop {
+            visibility: hidden;
+        }
+
+        .overlays {
+            position: fixed;
+            z-index: 1000;
+
+            &.open {
+                transform: scaleX(0.75) scaleY(1) !important;
+            }
+        }
+
+        .body_wrapper > md-whiteframe {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            margin-left: 0;
+            position: absolute;
+            transition-property: left, transform;
+            width: 100vw;
+
+            -moz-transform-origin: top left;
+            -ms-transform-origin: top left;
+            -o-transform-origin: top left;
+            -webkit-transform-origin: top left;
+            transform-origin: top left;
+
+            &.open {
+                border-width: 2px;
+                left: 315px;
+                margin-bottom: 15px;
+                top: 10px;
+                width: calc(~"130vw - " 385px);
+            }
+        }
+
+        .controls_wrapper {
+            height: 1px;
+            line-height: 1px;
+            margin-left: -1px;
+            width: 1px;
+
+            &.open {
+                min-height: 280px;
+            }
+        }
+
+        .cards-container {
+            width: 100%;
+
+            .card-container {
+                background: white;
+                box-shadow: none;
+                margin: 0;
+
+                [data-vide-bg], [vide-bg] {
+                    background-color: transparent;
+                    z-index: 100;
+                }
+
+                header, .nav-down {
+                    position: static;
+                    width: 100%;
+                }
+
+                > #duplicateCardModal + div {
+                    width: 100%;
+                }
+            }
+        }
+
+        md-fab-speed-dial {
+            margin-left: 5px;
+            position: absolute;
+            width: 56px;
+            z-index: 10000;
+
+            md-fab-actions {
+                .md-fab {
+                    background: #333;
+                    &:hover {
+                        background: #666 !important;
+                    }
+                }
+
+                ng-md-icon, .fa {
+                    color: white !important;
+                    margin-top: 7px !important;
+                }
+            }
+
+            &.hover {
+                opacity: 1 !important;
+            }
+        }
+
+        #sortable2 {
+            background: white;
+            color: #000;
+            min-height: ~"calc(90vh - 50px)";
+            padding: 0;
+
+            .handle {
+                cursor: move;
+                cursor: -webkit-grab;
+
+                &:active {
+                    cursor: -webkit-grabbing;
+                }
+            }
+
+            .controls_wrapper {
+                float: left;
+                position: relative;
+
+                .fa {
+                    color: #666;
+                    display: inline-block;
+                    position: relative;
+                    top: 0;
+                }
+            }
+
+            .ui-state-default,
+            .ui-widget-content .ui-state-default,
+            .ui-widget-header .ui-state-default {
+                background: #fff;
+                color: #000;
+            }
+
+            .ui-sortable-placeholder {
+                background: #748182 !important;
+                font-size: 40px;
+                line-height: 50px;
+                text-align: center;
+                visibility: visible !important;
+
+                &:before {
+                    content: "<< Drag Card Here >>";
+                }
+            }
+        }
+
+        .repeat-variable {
+            &, > item { display: inline; }
+            > template { display: none; }
+        }
+    }
+
+    .saving-busy-indicator {
+        color: #2196F3;
+        left: 50%;
+        margin-left: -60px;
+        margin-top: -35px;
+        position: absolute;
+        text-align: center;
+        top: 50vh;
+        z-index: 999998;
+
+        > * {
+            color: #2196F3;
+        }
+    }
+
+    .busy-overlay {
+        margin-left: -5px;
+        margin-top: -5px;
+    }
+
+    ng-md-icon svg {
+        vertical-align: top;
+    }
+
+    .md-button.primary {
+        background-color: rgb(92, 184, 92);
+        border-color: rgb(76, 174, 76);
+        color: white !important;
+        text-align: center;
+        text-transform: none;
+    }
+
+    .md-select-menu-container {
+        z-index: 10000 !important;
+    }
+}
+
+body.editPage {
+    md-toolbar {
+        background-color: #171625 !important;
+    }
+
+    #toast-container {
+        top: (@nav-height + @subnav-height + 10px) !important;
+    }
+
+    #videoTutorial {
+        width: 1000px;
+        max-width: none;
+
+        md-dialog-content {
+            padding: 0;
+            overflow: hidden;
+        }
+        md-dialog md-dialog-content { overflow: hidden; }
+    }
+}

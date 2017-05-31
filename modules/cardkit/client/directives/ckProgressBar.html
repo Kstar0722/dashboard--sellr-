@@ -1,0 +1,7 @@
+<div class="progress-container progress" ng-show="progress != null">
+    <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+         style="width: {{progress}}%;">
+        <span ng-show="progress<100">{{ progress == 0 ? "" : progress +"%"}}</span>
+        <span ng-show="progress===100">Completed</span>
+    </div>
+</div>

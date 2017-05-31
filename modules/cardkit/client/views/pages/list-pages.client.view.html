@@ -1,0 +1,254 @@
+<div id="listPagesContainer">
+    <div id="subHeader" layout="row">
+        <md-input-container class="search-container" md-no-float>
+            <input type="text" class="search" ng-model="ui[pages.selectedClient].search"
+                   ng-model-options="{ debounce: 300 }"
+                   ng-change="displayPages(ui[pages.selectedClient])" placeholder="Search">
+            <i class="fa fa-search fa-lg"></i>
+        </md-input-container>
+
+        <md-input-container class="tag-filters" md-no-float ng-if="ui[pages.selectedClient].tags.length > 0">
+            <a class="reset"
+               ng-click="ui[pages.selectedClient].tagsChecked = []; displayPages(ui[pages.selectedClient])"
+               ng-if="ui[pages.selectedClient].tagsChecked.length > 0"><i class="fa fa-times"></i></a>
+            <selectize ng-if="selectTagsConfig" config="selectTagsConfig" options="ui[pages.selectedClient].tags"
+                       ng-model="ui[pages.selectedClient].tagsChecked"
+                       ng-change="displayPages(ui[pages.selectedClient])" placeholder="All Tags">
+            </selectize>
+        </md-input-container>
+
+        <md-radio-group ng-model="ui[pages.selectedClient].statusFilter" class="filters"
+                        ng-change="displayPages(ui[pages.selectedClient]); saveStatusFilter(ui)">
+            <md-radio-button ng-repeat="status in pages.pageStatuses" ng-value="status"
+                             ng-click="pages.resetFilter(ui[pages.selectedClient], status)" ng-if="showStatus(status)">
+                <md-button class="md-raised" ng-class="{ active: status == ui[pages.selectedClient].statusFilter }">
+                    {{status}}
+                    <span class="count">({{ui[pages.selectedClient].countsByStatus[status]}})</span>
+                </md-button>
+            </md-radio-button>
+        </md-radio-group>
+
+        <div class="tag-filters opacity0" md-no-float ng-if="ui[pages.selectedClient].tags.length > 0">
+            <!-- placeholder -->
+        </div>
+
+        <div class="actions right" layout="row">
+            <md-button ng-click="createNewPage($event, pages.selectedClient)" class="btn new-page">
+                New Page
+            </md-button>
+        </div>
+    </div>
+
+    <div class="view-options" ng-class="{ clearfix: view == 'Tiles' }" ng-hide="embedMode">
+        <md-switch ng-model="view" ng-true-value="'Tiles'" ng-false-value="'List'" md-no-ink
+                   class="md-accent view-mode">
+            {{view}} View
+        </md-switch>
+    </div>
+
+    <section id="listPages" class="container-fluid" ng-switch="view" ng-class="view.toLowerCase()">
+        <div class="busy-overlay" ng-class="{loadingDone : pages.loadingDone}" ng-hide="embedMode">
+            <h1 class="progress-label">Collecting your pages...</h1>
+            <md-progress-linear class="md-accent 500" md-mode="determinate"
+                                value="{{pages.loadingProgress}}"></md-progress-linear>
+        </div>
+
+        <div class="list-container" ng-switch-when="Tiles" ng-init="cachedClient={}" ng-if="pages.selectedClient">
+            <div ng-repeat="(client, clientPages) in pages.pagesByClients"
+                 ng-if="pages.clients.length == 1 || client == pages.selectedClient || cachedClient[client]"
+                 ng-show="client == pages.selectedClient"
+                 ng-init="cachedClient[client] = true; displayPages(ui[client])">
+                <!--<div class="header clearfix">
+                    <div class="tag filters" ng-if="ui[client].tags.length > 0">
+                        <label>Tags:</label>
+                        <md-button class="md-raised" ng-repeat="tag in ui[client].tags" ng-click="tag.checked=!tag.checked; displayPages(ui[client])" ng-class="{ active: tag.checked }">
+                            {{tag.text}}
+                            <span class="count">({{ui[client].countsByTags[resolveTextTag(tag)]}})</span>
+                        </md-button>
+                    </div>
+                </div>-->
+
+                <md-grid-list class="pages clearfix" md-cols-xs="2" md-cols-sm="3" md-cols-md="4" md-cols-lg="5" md-cols-gt-lg="8"
+                              md-row-height="10:1" md-gutter="1.5vw"
+                              md-grid-relayout="[page.rowspan, view, ui[client].pages.length, pages.selectedClient]"
+                              relayout-debounce="500">
+                    <md-grid-tile class="page-container page-{{statusCode(page.status)}} clearfix"
+                                  ng-repeat="page in ui[client].pages"
+                                  ng-init="page.previewUrl = page.preview && (page.preview.thumbUrl || page.preview.url)"
+                                  md-rowspan="{{page.rowspan || 10}}" ng-class="{ 'no-preview': !page.previewUrl }">
+
+                        <div class="page-title">
+                            <!--<md-fab-speed-dial md-open="isOpen" class="status-menu btn-{{statusCode(page.status)}}">
+                                <md-fab-trigger>
+                                    <div class="status btn-{{page.status.toLowerCase()}}">
+                                        <ng-md-icon icon="lens" size="9"></ng-md-icon>
+                                        {{page.status}}
+                                    </div>
+                                </md-fab-trigger>
+                                <md-menu-content ng-if="isOpen">
+                                    <md-fab-actions ng-init="pages.selectedPage = page">
+                                        <md-menu-item ng-if="page.status == 'Live' || page.status == 'Preview'">
+                                            <md-button ng-href="{{buildPreviewUrl(page)}}" target="_blank">Preview this Page</md-button>
+                                        </md-menu-item>
+
+                                        <md-menu-item ng-repeat="status in pages.pageStatuses" ng-if="page.status != status && showStatus(status)">
+                                            <md-button ng-click="pages.changeStatus(page, status); isOpen = false">{{statusAction(status)}}</md-button>
+                                        </md-menu-item>
+
+                                        <md-menu-item>
+                                            <md-button ng-click="pages.duplicatePage(page); isOpen = false">Duplicate this Page</md-button>
+                                        </md-menu-item>
+
+                                        <md-menu-item>
+                                            <md-button ng-click="pages.openDeleteModal(page); isOpen = false" class="red">Delete this Page</md-button>
+                                        </md-menu-item>
+                                    </md-fab-actions>
+                                </md-menu-content>
+                            </md-fab-speed-dial>-->
+
+                            <div class="status-container">
+                                <div class="status btn-{{page.status.toLowerCase()}}">
+                                    <ng-md-icon icon="lens" size="9"></ng-md-icon>
+                                    {{page.status}}
+                                </div>
+                            </div>
+
+                            <span class="btn-pageInfo" title="{{page.name}}">
+                                <span>{{page.name}}</span>
+                            </span>
+                        </div>
+
+                        <div class="page" ng-class="{ 'show-details': showDetails }" ng-mouseover="showDetails=true"
+                             ng-mouseleave="showDetails=false">
+                            <div ng-if="showDetails">
+                                <div class="overlay"></div>
+                                <div class="details">
+                                    <h1>{{page.name}}</h1>
+                                    <div ng-if="lastUpdate(page).user">
+                                        <i class="fa fa-user"></i>
+                                        {{lastUpdate(page, embedMode).user || page.client.companyName | ucfirst}}
+                                    </div>
+                                    <div>
+                                        <ng-md-icon icon="access_time" size="18"></ng-md-icon>
+                                        {{lastUpdate(page).date || page.created | date: "MMMM d"}}
+                                    </div>
+                                </div>
+                                <div class="options">
+                                    <md-button ng-click="pages.editPage(page, null, $event)" class="edit">
+                                        <ng-md-icon icon="mode_edit" size="18"></ng-md-icon>
+                                        EDIT
+                                    </md-button>
+
+                                    <md-button ng-click="editPageSettings($event, page)" class="tags">
+                                        <ng-md-icon icon="settings" size="18"></ng-md-icon>
+                                        SETTINGS
+                                    </md-button>
+                                </div>
+                            </div>
+                            <img class="preview"
+                                 ng-src="{{page.previewUrl || '//placeholdit.imgix.net/~text?txtsize=20&txt=no+thumbnail&w=200&h=300&txttrack=0'}}"
+                                 alt="Preview"
+                                 directive-load="calculateGridRows(page, event)">
+                        </div>
+                    </md-grid-tile>
+                </md-grid-list>
+            </div>
+        </div>
+
+        <div class="list-container" ng-switch-default>
+            <div class="container" ng-show="pages.selectedClient || pages.clients.length == 1">
+                <table class="table table-striped" ng-init="displayPages(ui[pages.selectedClient])">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Created by</th>
+                        <th>Last updated</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="page in ui[pages.selectedClient].pages">
+                        <td>{{page.name}}</td>
+                        <td>{{page.user.firstName || 'unknown'}} at {{page.created | date: 'M/d'}}</td>
+                        <td><span ng-show="page.updateHistory.length">{{getFirstNameOfUpdateHistory(page.updateHistory[page.updateHistory.length-1].user || 'unknown')}} {{page.updateHistory[page.updateHistory.length-1].date | date: "M/d 'at' h:mm a"}}</span>
+                        </td>
+                        <td><select class="form-control" name="pageStatus" id="pageStatus" ng-model="page.status"
+                                    data-ng-change="pages.changeStatus(page)">
+                            <option value="{{status}}" ng-repeat="status in pages.pageStatuses"
+                                    ng-if="showStatus(status)">{{status}}
+                            </option>
+                        </select></td>
+                        <td>
+
+                            <button class="btn btn-warning" ng-click="pages.duplicatePage(page)"><i
+                                class="fa fa-copy"></i> Copy
+                            </button>
+                            <button class="btn btn-danger" ng-click="pages.openDeleteModal(page)"><i
+                                class="fa fa-trash"></i></button>
+                            <button class="btn btn-success" ng-click="pages.editPage(page, null, $event)"><i
+                                class="fa fa-pencil"></i> Edit
+                            </button>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <custom-modal title="'Delete page confirmation'"
+                      text="'Are you sure you want to delete page ' + pages.selectedPage.name + '?'" bg="'#f5633a'"
+                      name="'deletePageModal'" button="'Delete page'"
+                      action="pages.deletePage(pages.selectedPage)"></custom-modal>
+        <custom-modal title="'Reset page confirmation'"
+                      text="'Are you sure you want to reset page ' + pages.selectedPage.name + '?'" bg="'#f5633a'"
+                      name="'resetPageModal'" button="'Reset page'"
+                      action="pages.resetPage(pages.selectedPage, true)"></custom-modal>
+
+        <custom-modal title="pages.selectedPage.name" text="'Are you sure you would like to publish this?'"
+                      bg="'indianred'" name="'publishPageModal'" button="'Yes I\'m Sure'"
+                      action="pages.changeStatus(pages.selectedPage, 'Live', true)"></custom-modal>
+        <custom-modal title="pages.selectedPage.name"
+                      text="'Are you sure you would like to change this page status to preview?'" bg="'indianred'"
+                      name="'previewPageModal'" button="'Yes I\'m Sure'"
+                      action="pages.changeStatus(pages.selectedPage, 'Preview', true)"></custom-modal>
+        <custom-modal title="pages.selectedPage.name"
+                      text="'Are you sure you would like to change this page status to draft?'" bg="'indianred'"
+                      name="'draftPageModal'" button="'Yes I\'m Sure'"
+                      action="pages.changeStatus(pages.selectedPage, 'Draft', true)"></custom-modal>
+        <custom-modal title="pages.selectedPage.name" text="'Are you sure you would like to close this page?'"
+                      bg="'indianred'" name="'closePageModal'" button="'Yes I\'m Sure'"
+                      action="pages.changeStatus(pages.selectedPage, 'Closed', true)"></custom-modal>
+
+        <custom-modal title="'Page duplicated'"
+                      text="'The page ' + pages.selectedPage.name + ' has been duplicated as ' + pages.selectedPageDuplicate.name + ' successfully.'"
+                      name="'duplicatePageSuccessModal'"></custom-modal>
+
+        <progress-modal title="pages.selectedPage.name" name="'progressModal'"
+                        track="pages.exportPage"></progress-modal>
+
+        <custom-modal name="'pageIdleModal'">
+            <h3 style="font-weight: bold">Hmm… we seem to be experiencing higher than normal traffic</h3>
+
+            <p>Here’s some options on how to pass the time…</p>
+
+            <ol>
+                <li>Get a snack… we personally run on Jimmy Johns</li>
+                <li>Get in that quick workout you’ve lying to yourself about</li>
+                <li>... or just stare blankly at your screen so your boss thinks you’re “working on the website”</li>
+            </ol>
+
+            <p>… should be back in 20-30 min.</p>
+        </custom-modal>
+
+        <custom-modal
+            title="'Continue editing?'"
+            text="selectedPageEditingUsers.join(', ') + (selectedPageEditingUsers.length > 1 ? ' are ' : ' is ') + 'currently editing this page. Would you like to continue?'"
+            name="'confirmEditingPageModal'"
+            button="'Open Anyway (not recommended)'"
+            action="pages.editPage(selectedPage, true, $event)">
+        </custom-modal>
+
+    </section>
+</div>

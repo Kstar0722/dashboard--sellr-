@@ -1,5 +1,6 @@
 ApplicationConfiguration.registerModule('core',
   [
+    'cardkit', // goes first to not affect sellr dashboard, because angularjs implements last-win strategy for namespace conflicting services
     'ngAnimate',
     'ngAria',
     'ngMaterial',
@@ -35,12 +36,17 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$httpPro
     })
 
     // Set the httpProvider "not authorized" interceptor
-    $httpProvider.interceptors.push(['$q', '$location', 'Authentication',
-      function ($q, $location, Authentication) {
+    $httpProvider.interceptors.push(['$q', '$location', 'Authentication', 'constants',
+      function ($q, $location, Authentication, constants) {
         return {
           responseError: function (rejection) {
             switch (rejection.status) {
               case 401:
+                // ignore cardkit requests
+                if (rejection.config.url.toLowerCase().indexOf(constants.CARDKIT_URL.toLowerCase()) >= 0) {
+                  break
+                }
+
                 // Deauthenticate the global user
                 Authentication.user = null
 

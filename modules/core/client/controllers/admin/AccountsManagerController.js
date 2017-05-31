@@ -234,9 +234,8 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   //
   var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
     if (targetElement.className.indexOf('ignore-click-trigger') === -1) {
-      $scope.$apply(function () {
-        closeMenus()
-      })
+      closeMenus()
+      if (!$scope.$$phase) $scope.$digest()
     }
   })
 

@@ -11,14 +11,18 @@
     box-shadow: 0 -1px 0 0 #313d4f;
     position: relative;
     .left-side{
-      ul{
+      .list{
         margin: 0;
         padding: 0;
         list-style: none;
-        li{
+        a{
           cursor: pointer;
           margin-left: 35px;
           display: inline-block;
+          text-decoration: none !important;
+          color: inherit;
+          min-height: 40px;
+          line-height: 40px;
           span{
             opacity: 0.47;
           }
@@ -230,5 +234,22 @@
         }
       }
     }
+  }
+}
+
+.editPage.cardkit-state > header {
+  position: fixed;
+  height: 120px;
+  z-index: 10;
+
+  .primary-nav,
+  .secondary-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+  }
+
+  .secondary-nav {
+    top: 50px;
   }
 }

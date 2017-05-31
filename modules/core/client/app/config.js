@@ -26,10 +26,10 @@ window.ApplicationConfiguration = (function () {
     'angular.filter'
   ]
 
-  // ngPostMessage incompatible with unit testing framework, just exclude it
-  if (angular.element('body').is('.listen-post-messages')) {
-    applicationModuleVendorDependencies.push('ngPostMessage')
-  }
+  // // ngPostMessage incompatible with unit testing framework, just exclude it
+  // if (angular.element('body').is('.listen-post-messages')) {
+  //   applicationModuleVendorDependencies.push('ngPostMessage')
+  // }
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {

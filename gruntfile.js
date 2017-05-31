@@ -136,7 +136,8 @@ module.exports = function (grunt) {
     cssmin: {
       combine: {
         files: {
-          'public/dist/application.min.css': 'modules/core/client/css/*.css'
+          'public/dist/application.min.css': 'modules/core/client/css/*.css',
+          'public/dist/cardkit.min.css': 'modules/cardkit/client/css/*.css'
         }
       }
     },
@@ -145,6 +146,13 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           src: './modules/core/client/less/styles.less',
+          ext: '.css',
+          rename: function (base, src) {
+            return src.replace('/less/', '/css/')
+          }
+        }, {
+          expand: true,
+          src: './modules/cardkit/client/less/tm-builder.less',
           ext: '.css',
           rename: function (base, src) {
             return src.replace('/less/', '/css/')
@@ -303,7 +311,8 @@ module.exports = function (grunt) {
     standard: {
       app: {
         src: [
-          '{config,modules,public/modules}/**/*.js'
+          '{config,modules,public/modules}/**/*.js',
+          '!modules/cardkit/**/*.js'
         ]
       }
     },

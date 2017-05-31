@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2433 166 22 34">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-logo_red);
+      }
+
+      .cls-2 {
+        fill: #f23;
+      }
+    </style>
+    <clipPath id="clip-logo_red">
+      <rect x="-2433" y="166" width="22" height="34"/>
+    </clipPath>
+  </defs>
+  <g id="logo_red" class="cls-1">
+    <g id="Symbol_1_3" data-name="Symbol 1 – 3" transform="translate(-2478.715 118.306)">
+      <g id="group-7" transform="translate(45.715 47.694)">
+        <g id="XMLID_3_" transform="translate(0 10.786)">
+          <g id="group">
+            <g id="group-2" data-name="group" transform="translate(0.875 0.243)">
+              <path id="path" class="cls-2" d="M23.032,22.7l.049,7.774L1.849,34.992,1.8,27.218Z" transform="translate(-1.8 -22.7)"/>
+            </g>
+            <g id="group-3" data-name="group" transform="translate(0 4.518)">
+              <path id="path-2" data-name="path" class="cls-2" d="M.923,39.517l-.875-.243L0,31.5l.875.243Z" transform="translate(0 -31.5)"/>
+            </g>
+            <g id="group-4" data-name="group">
+              <path id="path-3" data-name="path" class="cls-2" d="M.875,26.961,0,26.718,21.28,22.2l.826.243Z" transform="translate(0 -22.2)"/>
+            </g>
+          </g>
+        </g>
+        <g id="XMLID_2_" transform="translate(0.049)">
+          <g id="group-5" data-name="group">
+            <g id="group-6" data-name="group" transform="translate(0.875 0.243)">
+              <path id="path-4" data-name="path" class="cls-2" d="M23.132.5l.1,7.774L1.949,12.792,1.9,5.018Z" transform="translate(-1.9 -0.5)"/>
+            </g>
+            <g id="group-7-2" data-name="group" transform="translate(0 4.518)">
+              <path id="path-5" data-name="path" class="cls-2" d="M1.023,17.317l-.875-.243L.1,9.3l.875.243Z" transform="translate(-0.1 -9.3)"/>
+            </g>
+            <g id="group-8" data-name="group">
+              <path id="path-6" data-name="path" class="cls-2" d="M.975,4.761.1,4.518,21.38,0l.826.243Z" transform="translate(-0.1)"/>
+            </g>
+          </g>
+        </g>
+        <g id="XMLID_1_" transform="translate(0.049 21.572)">
+          <g id="group-9" data-name="group">
+            <g id="group-10" data-name="group" transform="translate(0.875 0.243)">
+              <path id="path-7" data-name="path" class="cls-2" d="M23.132,44.9l.1,7.774L1.949,57.192,1.9,49.418Z" transform="translate(-1.9 -44.9)"/>
+            </g>
+            <g id="group-11" data-name="group" transform="translate(0 4.567)">
+              <path id="path-8" data-name="path" class="cls-2" d="M1.023,61.768l-.875-.194L.1,53.8l.875.194Z" transform="translate(-0.1 -53.8)"/>
+            </g>
+            <g id="group-12" data-name="group">
+              <path id="path-9" data-name="path" class="cls-2" d="M.975,49.161.1,48.967,21.38,44.4l.826.243Z" transform="translate(-0.1 -44.4)"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
