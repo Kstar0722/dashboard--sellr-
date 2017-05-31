@@ -99,7 +99,7 @@ angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'g
       $stateProvider.state('cardkit', {
         abstract: true,
         url: '/website/:accountId',
-        template: '<div ui-view class="cardkit"></div>' +
+        template: '<div ui-view class="cardkit" ng-if="$root.selectedClient && $root.embedAuthorized"></div>' +
           '<link rel="stylesheet" href="/dist/cardkit.min.css"/>',
         controller: 'CardkitController'
       }).state('cardkit.listPages', listPages).state('cardkit.listPages_client', nested(listPages, {
