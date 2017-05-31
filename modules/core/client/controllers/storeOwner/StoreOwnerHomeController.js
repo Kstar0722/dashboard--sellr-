@@ -193,14 +193,14 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
 
   $scope.ui = {
     sources: function (report) {
-      $scope.analytics.google.sources.total = parseInt(report.data.totals[0].values[0])
+      $scope.analytics.google.sources.total = parseInt(report.data.totals[0].values[0], 10)
       $scope.analytics.google.sources.all = []
       var source
       var amount
       var color = 'white'
       for (var i = 0; i < report.data.rows.length; i++) {
         source = report.data.rows[i].dimensions[0]
-        amount = parseInt(report.data.rows[i].metrics[0].values[0])
+        amount = parseInt(report.data.rows[i].metrics[0].values[0], 10)
         switch (source) {
           case '(none)':
             source = 'Direct'
@@ -260,8 +260,8 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
               ]
             }
           }).then(function (report) {
-            var old = parseInt(report.data.reports[0].data.totals[0].values[0])
-            var updated = parseInt($scope.analytics.google.visitors.replace(',', ''))
+            var old = parseInt(report.data.reports[0].data.totals[0].values[0], 10)
+            var updated = parseInt($scope.analytics.google.visitors.replace(',', ''), 10)
             var difference = Math.round(((updated - old) / ((updated + old) / 2)) * 100)
             $scope.analytics.google.difference = difference
           })
