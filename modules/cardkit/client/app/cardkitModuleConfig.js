@@ -174,4 +174,3 @@ function run($rootScope, $state, uiHelpers, $timeout, toastr) {
     $rootScope.state = next || $state.current;
   })
 }
-
