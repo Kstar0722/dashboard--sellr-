@@ -19,8 +19,6 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
       items: storeItems,
       source: 'csv'
     }
-    debugger
-
     return $http.post(constants.API_URL + '/storedb/stores/products/import', { payload: payload }).then(handleResponse)
   }
 

@@ -1,13 +1,10 @@
 angular.module('core').controller('StoreOwnerMarketingSettingsController', function ($scope, constants, accountsService, utilsService, $stateParams, $state) {
   console.log('StoreOwnerMarketingSettingsController')
-
-  $scope.analyticsItem
-
   $scope.analyticsItems = []
 
   /*
-  * Create form to request access token from Google's OAuth 2.0 server.
-  */
+   * Create form to request access token from Google's OAuth 2.0 server.
+   */
   $scope.googleAuth = function oauthSignIn () {
     // Google's OAuth 2.0 endpoint for requesting an access token
     var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth'
@@ -105,7 +102,7 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
       })
       if (account.preferences.analytics.item) {
         for (var key in $scope.analyticsItems) {
-          if ($scope.analyticsItems[key].id == account.preferences.analytics.item) {
+          if ($scope.analyticsItems[key].id === account.preferences.analytics.item) {
             $scope.analyticsItem = $scope.analyticsItems[key]
             break
           }
@@ -116,12 +113,12 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
 
   var init = function () {
     if (window.location.search) {
-      var search = window.location.search.slice(1),
-        pairs = {},
-        pair
+      var search = window.location.search.slice(1)
+      var pairs = {}
+      var pair
       search.split('&').forEach(function (current) {
         pair = current.split('=')
-        if (pair.length == 2) {
+        if (pair.length === 2) {
           pairs[pair[0]] = decodeURIComponent(pair[1])
         }
       })

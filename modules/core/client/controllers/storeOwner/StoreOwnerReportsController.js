@@ -113,7 +113,9 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
           }).then(function (stats) {
             $scope.channels.total = parseInt(stats.data.reports[1].data.totals[0].values[0])
             $scope.channels.all = []
-            var source, amount, color = 'white'
+            var source
+            var amount
+            var color = 'white'
             for (var i = 0; i < stats.data.reports[1].data.rows.length; i++) {
               source = stats.data.reports[1].data.rows[i].dimensions[0]
               amount = parseInt(stats.data.reports[1].data.rows[i].metrics[0].values[0])
@@ -141,21 +143,23 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
               })
             }
             $scope.chart.data.labels = []
-            for (var i = 0; i < $scope.chart.data.datasets.length; i++) {
-              $scope.chart.data.datasets[i].data = []
+            for (var j = 0; j < $scope.chart.data.datasets.length; j++) {
+              $scope.chart.data.datasets[j].data = []
             }
-            var date, value, map = {}
-            for (var i = 0; i < stats.data.reports[0].data.rows.length; i++) {
-              date = stats.data.reports[0].data.rows[i].dimensions[0]
+            var date
+            var value
+            var map = {}
+            for (var k = 0; k < stats.data.reports[0].data.rows.length; k++) {
+              date = stats.data.reports[0].data.rows[k].dimensions[0]
               date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6)}`
               date = new Date(date).toLocaleString('en-US', {
-              	month: 'short',
-              	day: 'numeric'
+                month: 'short',
+                day: 'numeric'
               })
               map[date] = parseInt(value)
               $scope.chart.data.labels.push(date)
-              $scope.chart.data.datasets[0].data.push(stats.data.reports[0].data.rows[i].metrics[0].values[0])
-              $scope.chart.data.datasets[1].data.push(stats.data.reports[0].data.rows[i].metrics[0].values[1])
+              $scope.chart.data.datasets[0].data.push(stats.data.reports[0].data.rows[k].metrics[0].values[0])
+              $scope.chart.data.datasets[1].data.push(stats.data.reports[0].data.rows[k].metrics[0].values[1])
               if ($scope.chartui) {
                 $scope.chartui.update()
               }
