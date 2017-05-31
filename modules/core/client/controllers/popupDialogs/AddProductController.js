@@ -34,7 +34,8 @@ angular.module('core').controller('AddProductController', function ($scope, toas
     }
     uploadService.upload($scope.add.tempImage, mediaConfig).then(function (res) {
       $scope.add.researchImage = res.publicUrl
-      var hmcProduct = mapProduct()
+      $scope.add.mediaAssets = [res.mediaAssetId]
+      var hmcProduct = mapProduct($scope.add)
       productsService.addNotFound(hmcProduct).then(function () {
         toastr.success('The product was submitted successfully')
         $scope.closeDialog()
@@ -78,16 +79,17 @@ angular.module('core').controller('AddProductController', function ($scope, toas
     $scope.add.storeId = utilsService.currentStoreId
   }
 
-  function mapProduct () {
-    var data = $scope.add
+  function mapProduct (product) {
+    debugger
     return {
-      accountId: data.accountId,
-      storeId: data.storeId,
-      planId: utilsService.convertToInt(data.planId),
-      skus: [ data.sku ],
-      researchImage: data.researchImage,
+      accountId: product.accountId,
+      storeId: product.storeId,
+      planId: utilsService.convertToInt(product.planId),
+      skus: [product.sku],
+      researchImage: product.researchImage,
       source: 'Dashboard',
-      prices: []
+      prices: [],
+      mediaAssets: product.mediaAssets
     }
   }
 })

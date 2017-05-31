@@ -28,10 +28,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       vars: {
         local: {
           env: 'local',
-          API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://apidev.sllr.io',
-          // API_URL: 'http://localhost:7272',
-          // BWS_API: 'http://localhost:7272',
+          // API_URL: 'https://apidev.sllr.io',
+          // BWS_API: 'https://apidev.sllr.io',
+          API_URL: 'http://localhost:7272',
+          BWS_API: 'http://localhost:7272',
           CARDKIT_URL: 'https://themedev.sllr.io'
           // CARDKIT_URL: 'http://localhost:7474'o
         },
@@ -61,6 +61,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     envServiceProvider.check()
   }
 ])
+/* TODO : refactor this and Types.js into dynamic service to read product types from API. */
   .value('ProductTypes', [
     { productTypeId: 1, name: 'Wine', similarNames: 'w,wines' },
     { productTypeId: 2, name: 'Beer', similarNames: 'b,beers,ale,lager' },
