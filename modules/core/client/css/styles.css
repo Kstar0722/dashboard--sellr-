@@ -1112,6 +1112,7 @@ md-select.common-input .md-select-value {
 .common-sub-nav-bar .nav-item .coming-soon .coming-soon-icon {
   position: absolute;
   top: 38px;
+  width: 70px;
 }
 .common-product-image {
   background-size: contain;
@@ -2062,6 +2063,7 @@ md-select.common-input .md-select-value {
 .nav-container .secondary-nav .left-side ul li .coming-soon .coming-soon-icon {
   position: absolute;
   top: 22px;
+  width: 70px;
 }
 .nav-container .secondary-nav .right-side {
   display: flex;
@@ -2130,8 +2132,10 @@ md-select.common-input .md-select-value {
   background-color: #273142;
   border: solid 1px #313d4f;
   z-index: 10;
-  overflow: hidden;
-  max-height: 120px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 300px;
+  max-height: 250px;
 }
 .nav-container .secondary-nav .account-options-box.ng-hide {
   max-height: 0;

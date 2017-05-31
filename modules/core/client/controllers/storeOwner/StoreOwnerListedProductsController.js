@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService) {
+angular.module('core').controller('StoreOwnerListedProductsController', function ($scope, $stateParams, $state, $mdDialog, productsService, Types, $sce, toastr, $q, storesService, $timeout, utilsService, $filter, $rootScope) {
   $scope.ui = {}
   $scope.ui.display = 'fulltable'
   $scope.ui.activeProduct = {}
@@ -26,7 +26,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   var commonSelectizeConfig = { create: false, maxItems: 1, allowEmptyOption: false }
   $scope.slotSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'slot', labelField: 'slot', sortField: 'slot', searchField: [ 'slot' ]})
   $scope.sizesSelectConfig = _.extend({}, commonSelectizeConfig, {placeholder: 'Select a size', valueField: 'size', labelField: 'size', sortField: 'size', searchField: [ 'size' ]})
-  $scope.storesFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'storeId', labelField: 'name', sortField: 'name', searchField: [ 'name' ]})
+  // $scope.storesFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'storeId', labelField: 'name', sortField: 'name', searchField: [ 'name' ]})
   $scope.planFilterSelectConfig = _.extend({}, commonSelectizeConfig, {valueField: 'label', labelField: 'label', sortField: 'label', searchField: [ 'label' ]})
   $scope.planSelectConfig = _.extend({}, commonSelectizeConfig,
     {
@@ -140,10 +140,6 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   $scope.handleBackMobile = utilsService.handleBackMobile.bind(null, $scope)
 
-  $scope.loadStoreProducts = function () {
-    getStoreProducts($scope.ui.activeStoreId)
-  }
-
   $scope.resetSize = function (index) {
     $scope.ui.activeProduct.prices[index].size = ''
     $scope.ui.showCustomSize[index] = false
@@ -157,7 +153,6 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   }
 
   $scope.changePlanHandler = function () {
-    // console.log($scope.ui.activeProduct.planId)
     var planId = parseInt($scope.ui.activeProduct.planId, 10)
     $scope.ui.activeProduct.planId = planId
     _.each($scope.ui.activeProduct.prices, function (p) {
@@ -325,11 +320,7 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
   // PRIVATE FUNCTIONS
   //
   function init () {
-    storesService.getStores().then(function () {
-      $scope.stores = storesService.stores
-      $scope.ui.activeStoreId = storesService.stores[0].storeId
-      $scope.loadStoreProducts()
-    })
+    getStoreProducts()
   }
 
   function afterDeletion (index) {
@@ -339,19 +330,19 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
 
   function onPlanCreate (input, callback) {
     var newCategory = {
-      accountId: localStorage.getItem('accountId'),
-      storeId: $scope.ui.activeStoreId,
+      accountId: utilsService.currentAccountId,
+      storeId: utilsService.currentStoreId,
       label: input
     }
     productsService.createCategory(newCategory).then(function (newPlan) {
-      getStoreProducts($scope.ui.activeStoreId).then(function () {
+      getStoreProducts().then(function () {
         callback({name: newPlan.label, planId: newPlan.planId + ''})
       })
     })
   }
 
   function handleSuccess () {
-    getStoreProducts($scope.ui.activeStoreId).then(function () {
+    getStoreProducts().then(function () {
       $scope.ui.activeIndex = null
       $scope.ui.selectedProducts = []
       $scope.ui.showProductsSelectedActions = false
@@ -396,17 +387,29 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     return false
   }
 
-  function getStoreProducts (storeId) {
+  function getStoreProducts () {
     var defer = $q.defer()
-    productsService.getPlanProducts(storeId).then(function (plans) {
+    productsService.getPlanProducts(utilsService.currentStoreId).then(function (plans) {
       $scope.planSelectOptions = _.map(plans, function (p) { return {name: p.label, planId: p.planId} })
-      var allProductsPlan = {
+      var allProducts = {
         label: 'All Products',
-        products: plans.reduce(function (all, plan, i) {
-          return all.concat(plan.products)
+        products: plans.reduce(function (memo, plan, i) {
+          return memo.concat(plan.products)
         }, [])
       }
-      plans.unshift(allProductsPlan)
+      plans.unshift(allProducts)
+      var pendingProducts = {
+        label: 'Pending Products',
+        products: plans.reduce(function (memo, plan, i) {
+          return memo.concat($filter('filterPending')(plan.products))
+        }, [])
+      }
+      plans.push(pendingProducts)
+      _.each(plans, function (p) {
+        if (p.label !== 'Pending Products') {
+          p.products = $filter('filterApproved')(p.products)
+        }
+      })
       $scope.plans = plans
       $scope.filterPlan()
       utilsService.scrollTop()
@@ -428,4 +431,10 @@ angular.module('core').controller('StoreOwnerListedProductsController', function
     console.error(err)
     toastr.error('Failed to update product')
   }
+
+  var deregisterStoreIdListener = $rootScope.$on('currentStoreIdChanged', init)
+  // To avoid Leaks
+  $scope.$on('$destroy', function () {
+    deregisterStoreIdListener()
+  })
 })

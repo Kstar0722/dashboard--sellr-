@@ -55,8 +55,8 @@
       </div>
     </div>
     <div class="verified">
-      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-model="pes.currentProduct.verified"
-      ng-change="debouncedAutosaveProduct()" />
+      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" checked ng-if="pes.currentProduct.verified" ng-click="pes.currentProduct.verified = false; debouncedAutosaveProduct()" />
+      <input class="custom-checkbox" type="checkbox" id="verifiedByBrand" ng-if="!pes.currentProduct.verified" ng-click="pes.currentProduct.verified = true; debouncedAutosaveProduct()"  />
       <label for="verifiedByBrand">Verified by Brand</label>
     </div>
     <div class="common-field-title">Audio</div>

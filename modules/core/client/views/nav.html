@@ -66,13 +66,13 @@
           <div class="coming-soon">
             <span>Audience</span>
             <!-- Adjust for each specific nav item. This is temporary solution anyway -->
-            <img src="/img/coming-soon-1.svg" alt="icon" class="coming-soon-icon" style="left:3px;">
+            <img src="/img/coming-soon-1.png" alt="icon" class="coming-soon-icon" style="left:4px;">
           </div>
         </li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.reports.website">
           <div class="coming-soon">
             <span>Reports</span>
-            <img src="/img/coming-soon-1.svg" alt="icon" class="coming-soon-icon" style="left:0px;">
+            <img src="/img/coming-soon-1.png" alt="icon" class="coming-soon-icon" style="left:-3px;">
           </div>
         </li>
         <!-- <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.ads">Ads</li> -->
@@ -91,9 +91,10 @@
         <i class="fa fa-search"></i>
       </div> -->
       <!--<div class="store-logo">logo</div>-->
-      <div class="menu-select-trigger" ng-bind="Authentication.user.displayName" ng-click="openMenu('profileOptionsSelect')"></div>
+      <div class="menu-select-trigger" ng-bind="ui.storeSelected.name" ng-click="openMenu('profileOptionsSelect')"></div>
     </div>
     <div class="account-options-box" ng-show="ui.profileOptionsSelect" ng-mouseleave="ui.profileOptionsSelect = false">
+      <div class="account-option" ng-repeat="store in ui.currentAccountStores" ng-bind="store.name" ng-click="storeChangeHandler(store)"></div>
       <div class="account-option" ng-click="showEditProfileDialog()"><i class="fa fa-user-o"></i> My Profile</div>
       <!-- <div class="account-option" ng-click="ui.showAccountMenu = false"><i class="fa fa-cog"></i> Manage Stores</div> -->
       <div class="account-option logout" ng-click="logout(); ui.showAccountMenu = false"><i class="fa fa-power-off"></i> Logout</div>

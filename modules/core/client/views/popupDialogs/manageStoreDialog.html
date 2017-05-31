@@ -4,7 +4,7 @@
   <div class="main-container">
     <div class="left-side">
       <div class="item-list">
-        <div ng-class="['item-item', {active: activeStore.storeId === store.storeId}]" ng-repeat="store in storesService.stores" ng-click="changeStore($index)">
+        <div ng-class="['item-item', {active: activeStore.storeId === store.storeId}]" ng-repeat="store in storesService.specificStores" ng-click="changeStore($index)">
           <div class="item-name" ng-bind="store.name"></div>
           <!-- <div class="item-counter"></div> -->
         </div>

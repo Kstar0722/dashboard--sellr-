@@ -14,7 +14,7 @@
     <!-- PRODUCT GRID VIEW -->
     <!-- PRODUCT GRID VIEW -->
     <div class="product-grid" ng-show="mobile.view === 'product-grid'">
-      <div class="product-card" ng-repeat="product in filteredPlan.products | filterApproved" ng-click="goToProductDetailMobile(product, $index)">
+      <div class="product-card" ng-repeat="product in filteredPlan.products track by $index" ng-click="goToProductDetailMobile(product, $index)">
         <div class="top-part">
           <product-image image-url="{{ product.image || product.images[0] }}" product-type="{{ product.productTypeId }}">
           </product-image>

@@ -10,11 +10,11 @@
       -->
       <div class="filter-header">
         <div class="left-filter">
-          <div class="store-filter-container">
+     <!--      <div class="store-filter-container">
             <selectize class="custom-selectize" config="storesFilterSelectConfig" options="stores" ng-model="ui.activeStoreId" ng-change="loadStoreProducts()">
               
             </selectize>
-          </div>
+          </div> -->
           <div class="plan-filter-container">
             <selectize class="custom-selectize" config="planFilterSelectConfig" options="plans" ng-model="ui.planFilter" ng-change="filterPlan()">
               
@@ -67,7 +67,7 @@
       -->
       <div
               ng-class="['columns-data', {active: ui.activeIndex === $index}]"
-              ng-repeat="product in filteredPlan.products | filterBy:['name']:ui.searchText | filterApproved | orderBy:ui.sortExpression track by $index"
+              ng-repeat="product in filteredPlan.products | filterBy:['name']:ui.searchText | orderBy:ui.sortExpression track by $index"
         >
         <div class="check-col">
           <input id="productcheck{{$index}}" type="checkbox" class="custom-checkbox" ng-model="product.selected" ng-change="toggleSelectProduct(product)">
