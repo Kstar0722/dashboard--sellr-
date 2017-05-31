@@ -1,12 +1,13 @@
 angular.module('core')
-.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog) {
+.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog, utilsService, storesService) {
   //
   // DEFINITIONS - INITIALIZATION
   //
   $scope.ui = {}
+  $scope.ui.currentAccountStores = []
   $scope.Authentication = Authentication
   $scope.accountsService = accountsService
-  init()
+  setStoresForAccount()
 
   //
   // SCOPE FUNCTIONS
@@ -31,9 +32,15 @@ angular.module('core')
   }
 
   $scope.accountChangeHandler = function (account) {
-    $scope.$root.selectAccountId = account.accountId
-    localStorage.setItem('accountId', account.accountId)
+    utilsService.setCurrentAccountId(account.accountId)
+    accountsService.currentAccount = account
+    setStoresForAccount()
     $scope.ui.showAccountsSelector = false
+  }
+
+  $scope.storeChangeHandler = function (store) {
+    $scope.ui.storeSelected = store
+    utilsService.setCurrentStoreId(store.storeId)
   }
 
   $scope.openMenu = function (menu) {
@@ -74,15 +81,16 @@ angular.module('core')
     if (state.indexOf('storeOwner') > -1) { $scope.ui.primaryRoute = 'store' }
   }
 
-  function init () {
-    if ($stateParams.accountId) {
-      $scope.$root.selectAccountId = $stateParams.accountId
-    } else {
-      $scope.$root.selectAccountId = $scope.$root.selectAccountId || localStorage.getItem('accountId')
-    }
-    if ($scope.$root.selectAccountId) {
-      $scope.$root.selectAccountId = parseInt($scope.$root.selectAccountId, 10) || $scope.$root.selectAccountId
-    }
+  function setStoresForAccount () {
+    storesService.getStores().then(function (stores) {
+      $scope.ui.currentAccountStores = stores
+      var cachedStore = _.findWhere(stores, { storeId: utilsService.currentStoreId })
+      if (cachedStore) {
+        $scope.storeChangeHandler(cachedStore)
+      } else {
+        $scope.storeChangeHandler(stores[0])
+      }
+    })
   }
 
   function closeMenus () {
@@ -93,17 +101,7 @@ angular.module('core')
   //
   // EVENTS
   //
-  $scope.$watch('$root.selectAccountId', function (accountId) {
-    $stateParams.accountId = accountId
-    if (accountId && $state.current.name) $state.go('.', $stateParams, {notify: false})
-  })
-
   $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
-    init()
-    if (toState) {
-      toParams.accountId = $scope.$root.selectAccountId
-      $state.go(toState.name, toParams, {notify: false})
-    }
     setActiveRoute(toState.name)
     updateNavRendering(toState)
   })

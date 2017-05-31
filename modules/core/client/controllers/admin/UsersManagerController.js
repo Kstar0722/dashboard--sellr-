@@ -25,32 +25,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
     sortField: 'label',
     searchField: [ 'label' ]
   }
-  $scope.rolesSelectOptions = [
-    {
-      label: 'Administrator',
-      roles: [1002, 1003, 1004, 1007, 1009, 1010, 1011]
-    },
-    {
-      label: 'Owner',
-      roles: [1002, 1003, 1009]
-    },
-    {
-      label: 'Manager',
-      roles: [1002, 1003, 1007]
-    },
-    {
-      label: 'Supplier',
-      roles: [1003, 1007]
-    },
-    {
-      label: 'Editor',
-      roles: [1003, 1010]
-    },
-    {
-      label: 'Curator',
-      roles: [1003, 1010, 1011]
-    }
-  ]
+  $scope.rolesSelectOptions = Users.rolesOptions
   var confirmationDialogOptions = {
     templateUrl: '/modules/core/client/views/popupDialogs/confirmationDialog.html',
     autoWrap: true,
@@ -88,7 +63,7 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
 
   $scope.openEditUserSidebar = function (user, index) {
     $scope.ui.activeIndex = index
-    var rolesTemp = user.roles
+    var rolesTemp = angular.copy(user.roles)
     rolesTemp = rolesTemp.split(',')
     rolesTemp = _.map(rolesTemp, function (strNum) { return Authentication.rolesMap[strNum] })
     rolesTemp = _.sortBy(rolesTemp, function (num) { return num })
@@ -96,9 +71,10 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
       return memo + roleString + ','
     }, '')
     rolesTemp = rolesTemp.substring(0, rolesTemp.length - 1)
-    $scope.ui.currentUser = user
+    $scope.ui.currentUser = angular.copy(user)
     $scope.ui.currentUser.roles = rolesTemp
     $scope.ui.display = 'editUser'
+    utilsService.setCancelAutosave($scope)
   }
 
   $scope.debouncedAutosaveUser = utilsService.getDebouncedFuntion(autosaveUser)
@@ -193,13 +169,14 @@ angular.module('core').controller('UsersManagerController', function ($scope, Cu
   }
 
   function autosaveUser () {
-    if ($scope.ui.display === 'editUser' && $scope.currentuserform.$valid && $scope.ui.currentUser.accountId && $scope.ui.currentUser.roles) {
+    if (!$scope.ui.cancelAutosave && $scope.ui.display === 'editUser' && $scope.currentuserform.$valid && $scope.ui.currentUser.accountId && $scope.ui.currentUser.roles) {
       var url = constants.API_URL + '/users/' + $scope.ui.currentUser.userId
       var payload = {
         payload: angular.copy($scope.ui.currentUser)
       }
       completeUserPayload(payload)
       $http.put(url, payload, { ignoreLoadingBar: true }).then(function () {
+        CurrentUserService.refreshUserList(true)
         utilsService.setAutosaveMessage($scope)
       })
     }

@@ -1,5 +1,5 @@
 /* globals angular, localStorage */
-angular.module('core').controller('StoreManagerController', function ($scope, $mdDialog, storesService, $state, accountsService, CurrentUserService, UsStates, $q, uploadService) {
+angular.module('core').controller('StoreManagerController', function ($scope, $mdDialog, storesService, $state, accountsService, CurrentUserService, UsStates, $q, uploadService, utilsService) {
   //
   // DEFINITIONS
   //
@@ -32,8 +32,8 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
 
   $scope.changeStore = function (index) {
     $scope.tempStoreImage = null
-    if (storesService.stores[index]) {
-      $scope.activeStore = storesService.stores[index]
+    if (storesService.specificStores[index]) {
+      $scope.activeStore = storesService.specificStores[index]
       initActiveStore()
       $scope.isNewStore = false
     } else {
@@ -65,7 +65,7 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
       }
       if ($scope.isNewStore) {
         storesService.createStore($scope.activeStore).then(function () {
-          $scope.changeStore(storesService.stores.length - 1)
+          $scope.changeStore(storesService.specificStores.length - 1)
         })
       } else {
         storesService.updateStore($scope.activeStore).then(function () {})
@@ -75,7 +75,7 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
 
   $scope.deleteStore = function () {
     storesService.deleteStore($scope.activeStore.storeId).then(function () {
-      if (storesService.stores.length) {
+      if (storesService.specificStores.length) {
         $scope.changeStore(0)
       } else {
         $scope.newStore()
@@ -112,7 +112,7 @@ angular.module('core').controller('StoreManagerController', function ($scope, $m
         folder: 'storeImg',
         type: 'STOREIMG',
         fileType: 'IMAGE',
-        accountId: storesService.currentAccountId
+        accountId: utilsService.currentAccountId
       }
       uploadService.upload($scope.tempStoreImage, mediaConfig).then(function (response) {
         defer.resolve(response)

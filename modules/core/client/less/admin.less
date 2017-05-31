@@ -312,13 +312,21 @@
     width: 20%;
     .gray-container{
       background-color: #f4f7f9;
-      padding: 15px 25px;
+      padding: 0px 25px;
       display: flex;
       flex-flow: row nowrap;
       justify-content: flex-start;
       align-items: center;
       width: 100%;
       box-sizing: border-box;
+      height: 6vh;
+      min-height: 50px;
+      .common-btn-black{
+        margin: auto;
+      }
+      .common-input-with-icon {
+        width: 100%;
+      }
       .custom-selectize{
         width: 100%;
       }
@@ -326,32 +334,35 @@
         border-top: 1px solid #e6eaee;
       }
     }
-    .type-container{
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 15px 25px;
-      border-top: 1px solid #e6eaee;
-      cursor: pointer;
-      &.active{
-        background-color: rgba(215,251,232,0.2);
-      }
-      &:hover{
-        background-color: rgba(215,251,232,0.2);
-      }
-      
-      .type-image{
-        width: 6%;
-        margin-right: 20px;
-        img{
-          width: 100%;
+    .types-container{
+      max-height: 63vh;
+      overflow: auto;
+      .type-container{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 15px 25px;
+        border-top: 1px solid #e6eaee;
+        cursor: pointer;
+        &.active{
+          background-color: rgba(215,251,232,0.2);
         }
-      }
-      .industry{
-        font-size: 14px;
-        font-weight: bold;
-        color: #7f8fa4;
+        &:hover{
+          background-color: rgba(215,251,232,0.2);
+        }      
+        .type-image{
+          width: 6%;
+          margin-right: 20px;
+          img{
+            width: 100%;
+          }
+        }
+        .industry{
+          font-size: 14px;
+          font-weight: bold;
+          color: #7f8fa4;
+        }
       }
     }
   }
@@ -434,8 +445,9 @@
         }
       }
       .element-definition-checkbox{
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
+
     }
     .add-more{
       text-align: right;

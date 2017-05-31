@@ -164,18 +164,6 @@
       }
     }
   }
-  &.has-subnav{
-    .left-side-content{
-      .main-table{
-        max-height: 68vh;
-      }
-    }
-    .right-side-content{
-      .side-panel{
-        max-height: 68vh;
-      }
-    }
-  }
 }
 
 .common-white-box{
@@ -191,6 +179,11 @@
     padding: 0 30px;
     margin-bottom: 15px;
   }
+}
+
+.common-icon{
+  width: 16px;
+  height: 16px;
 }
 
 .common-input,
@@ -215,6 +208,13 @@
   &[disabled]{
     text-transform: capitalize;
     background-color: #f8f9fb;
+  }
+}
+
+md-select.common-input {
+  .md-select-value {
+    border: none;
+    color: inherit;
   }
 }
 
@@ -524,6 +524,18 @@
   &.small-dialog{
     width: 40vw;
   }
+  @media @mobile {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,.2);
+    &.small-dialog{
+      width: 100vw;
+    }
+  }
   .dialog-title{
     height: 60px;
     background-color: #f0f3f8;
@@ -540,6 +552,7 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: stretch;
+    background: #fff;
     .left-side{
       width: 25%;
       background-color: #222c3c;
@@ -653,7 +666,10 @@
 .capitalize{
   text-transform: capitalize;
 }
-
+.coming-soon-screen{
+  width: 100%;
+  max-width: 100%;
+}
 .common-sub-nav-bar{
   background: #fff;
   height: 60px;
@@ -677,6 +693,107 @@
     &.active{
       color: #000;
       border-bottom: 3px solid #2bbf88;
+    }
+    .coming-soon{
+      position: relative;
+      .coming-soon-icon{
+        position: absolute;
+        top: 38px;
+        width: 70px;
+      }
+    }
+  }
+}
+
+.common-product-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 150px;
+  max-width: 100%;
+}
+
+// DIAGONAL RED STRIKETHROUGH LINE
+.original-price-strikethrough{
+  position: relative;
+  &:before{
+    position: absolute;
+    content: "";
+    left: -3px;
+    top: 50%;
+    right: -3px;
+    color: #f21e1e;
+    border-top: 2px solid #f21e1e;
+    border-color: inherit;
+    opacity: 0.8;
+    -webkit-transform:rotate(-15deg);
+    -moz-transform:rotate(-15deg);
+    -ms-transform:rotate(-15deg);
+    -o-transform:rotate(-15deg);
+    transform:rotate(-15deg);
+  }
+}
+
+// 
+// UPLOAD CVS DIALOG
+// 
+.upload-csv-dialog{
+  width: 40vw;
+  &.confirm{
+    overflow: hidden;
+    .single-side-content{
+      min-height: 100px !important;
+    } 
+  }
+  .main-container{
+    .single-side{
+      .single-side-content{
+        min-height: 300px;
+        .common-btn-black{
+          width: 100%;
+        }
+        .ng-csv-import-directive{
+          display: none;
+        }
+        .instructions{
+          margin-bottom: 30px;
+        }
+        .headers-checkbox{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          .common-field-title{
+            margin: 0 10px 0 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 
+// ADD PRODUCT CVS DIALOG
+// 
+.add-product-dialog{
+  width: 40vw;
+  .main-container{
+    .single-side{
+      .single-side-content{
+        min-height: 300px;
+        padding: 0 30px;
+        .upload-btn-container{
+          text-align: center;
+          margin: 20px auto;
+        }
+        .product-image-container{
+          width: 35%;
+          margin: 20px auto;
+          img{
+            width: 100%;
+          }
+        }
+      }
     }
   }
 }

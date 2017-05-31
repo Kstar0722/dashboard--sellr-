@@ -23,28 +23,28 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
         local: [ 'localhost' ],
         development: [ 'dashdev.sllr.io' ],
         staging: [ 'dashqa.sllr.io', 'dashboard.sllr.io' ],
-        production: [ 'www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sellr.io' ]
+        production: ['www.sellrdashboard.com', 'sellrdashboard.com', 'dashboard.sllr.io']
       },
       vars: {
         local: {
           env: 'local',
           API_URL: 'https://apidev.sllr.io',
-          CARDKIT_URL: 'https://themedev.sllr.io',
+          BWS_API: 'https://apidev.sllr.io',
           // API_URL: 'http://localhost:7272',
-          BWS_API: 'https://bwsdev.sllr.io'
-          // BWS_API: 'http://localhost:7171'
-          // CARDKIT_URL: 'http://localhost:7474'
+          // BWS_API: 'http://localhost:7272',
+          CARDKIT_URL: 'https://themedev.sllr.io'
+          // CARDKIT_URL: 'http://localhost:7474'o
         },
         development: {
           env: 'dev',
           API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://bwsdev.sllr.io',
+          BWS_API: 'https://apidev.sllr.io',
           CARDKIT_URL: 'https://themedev.sllr.io'
         },
         staging: {
           env: 'staging',
           API_URL: 'https://apiqa.sllr.io',
-          BWS_API: 'https://bwsqa.sllr.io',
+          BWS_API: 'https://apiqa.sllr.io',
           CARDKIT_URL: 'https://themedev.sllr.io'
         },
         production: {
@@ -61,10 +61,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
     envServiceProvider.check()
   }
 ])
+/* TODO : refactor this and Types.js into dynamic service to read product types from API. */
   .value('ProductTypes', [
     { productTypeId: 1, name: 'Wine', similarNames: 'w,wines' },
     { productTypeId: 2, name: 'Beer', similarNames: 'b,beers,ale,lager' },
     {productTypeId: 3, name: 'Spirits', similarNames: 's,spirit,liqueur'},
+    {productTypeId: 5, name: 'Food Pairing', similarNames: ''},
     {productTypeId: 12, name: 'Generic', similarNames: 'generic,undefined,unknown'},
     {productTypeId: 15, name: 'Cocktails', similarNames: 'cocktails,cocktail'},
     {productTypeId: 16, name: 'Art', similarNames: 'art'},

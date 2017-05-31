@@ -1,6 +1,9 @@
 angular.module('core').controller('StoreOwnerHomeController', function ($scope, accountsService, $stateParams, $state, $http) {
   console.log('LISTED PRODUCTS CTRL')
 
+  $scope.mobile = {}
+  $scope.mobile.viewTitle = 'Diego Store'
+
   $scope.tokens = {
     google: null
   };

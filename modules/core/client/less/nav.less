@@ -17,12 +17,16 @@
         list-style: none;
         li{
           cursor: pointer;
-          opacity: 0.47;
           margin-left: 35px;
           display: inline-block;
+          span{
+            opacity: 0.47;
+          }
           &.active{
-            color: #fff;
-            opacity: 1;
+            span{
+              color: #fff;
+              opacity: 1;
+            }
           }
         }
       }
@@ -131,7 +135,14 @@
       }
       ul{
         li{
-          opacity: 0.47;
+          .coming-soon{
+            position: relative;
+            .coming-soon-icon{
+              position: absolute;
+              top: 22px;
+              width: 70px;
+            }
+          }
         }
       }
     }
@@ -192,9 +203,11 @@
       background-color: #273142;
       border: solid 1px #313d4f;
       z-index: 10;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 300px;
       // Approximately the height of the box
-      max-height: 120px;
+      max-height: 250px;
       .common-accordion-animation;
       .account-option{
         height: 37px;

@@ -1,4 +1,4 @@
-angular.module('core').controller('CsvImporterController', function ($scope, orderDataService, toastr, csvProductMapper, storesService, $mdDialog, $state) {
+angular.module('core').controller('CsvImporterController', function ($scope, orderDataService, toastr, csvProductMapper, storesService, $mdDialog, $state, utilsService) {
   //
   // DEFINITIONS
   //
@@ -95,8 +95,7 @@ angular.module('core').controller('CsvImporterController', function ($scope, ord
 
   function fillStoresOptions () {
     if ($state.current.name.indexOf('storeOwner.products.listed') > -1) {
-      var accId = parseInt(localStorage.getItem('accountId'), 10)
-      $scope.selectStoresOptions = _.filter(orderDataService.allStores, function (store) { return store.accountId === accId })
+      $scope.selectStoresOptions = _.filter(orderDataService.allStores, function (store) { return store.accountId === utilsService.currentAccountId })
     } else {
       $scope.selectStoresOptions = orderDataService.allStores
     }

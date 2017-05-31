@@ -247,29 +247,52 @@
           margin-right: 7px;
         }       
       }
-      .media-columns{
+      .media-buttons{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        align-items: center;
         .common-btn-negative,
         .common-btn-silver,
         .common-btn-black,
         .common-btn-positive{
-          display: block;
-          margin: 10px auto 10px auto;
-          width: 100%;
-          max-width: 200px;
+          margin: 10px 0;
+          max-width: 180px;
           .fa{
             margin-right: 5px;
           }
         }
-        .product-image{
-          max-width: 70%;
+      }
+      .product-image-edit-upload-btn{
+        width: 100%;
+        text-align: center;
+        margin: 20px auto;
+        .common-btn-silver{
+          max-width: 200px;
+        }
+      }
+      .product-images-container{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        align-items: center;
+        .product-image-edit-container{
           text-align: center;
-          margin: 20px auto;
+        }
+        .product-image-container{
+          height: 200px;
+          width: 200px;
+          margin: 10px 0;
           border: solid 1px #dfe3e9;
           border-radius: 4px;
-          padding: 10px 10px 0 10px;
+          padding: 10px;
           box-sizing: border-box;
-          img{
+          .product-image{
             width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
           }
         }
       }
@@ -328,9 +351,29 @@
 
       }
     }
+    .sidebar-edit-product,
     .sidebar-merge-product{
       .radio-item{
         margin: 20px 0;
+      }
+      // COLOR BLACK TO DISTINGUISH FROM VIEW
+      .common-input, 
+      .custom-medium-editor,
+      .common-textarea {
+        color: #354052;
+        opacity: 1;
+      }
+      .custom-selectize{
+        color: #354052 !important;
+        .selectize-input{
+          .item{
+            color: #354052 !important;
+          }
+          input{
+            color: #354052 !important;
+            .placeholder({ color: #354052 !important; });
+          }
+        }
       }
     }
   }
@@ -566,44 +609,6 @@
             &.green{
               background-image: linear-gradient(to top, #088456, #079560);
             }
-          }
-        }
-      }
-    }
-  }
-}
-
-// 
-// UPLOAD CVS DIALOG
-// 
-.upload-csv-dialog{
-  width: 40vw;
-  &.confirm{
-    overflow: hidden;
-    .single-side-content{
-      min-height: 100px !important;
-    } 
-  }
-  .main-container{
-    .single-side{
-      .single-side-content{
-        min-height: 300px;
-        .common-btn-black{
-          width: 100%;
-        }
-        .ng-csv-import-directive{
-          display: none;
-        }
-        .instructions{
-          margin-bottom: 30px;
-        }
-        .headers-checkbox{
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: flex-start;
-          align-items: center;
-          .common-field-title{
-            margin: 0 10px 0 0;
           }
         }
       }

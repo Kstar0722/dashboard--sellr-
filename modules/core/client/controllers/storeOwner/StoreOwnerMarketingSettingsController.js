@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerMarketingSettingsController', function ($scope, constants, accountsService, $stateParams, $state) {
+angular.module('core').controller('StoreOwnerMarketingSettingsController', function ($scope, constants, accountsService, utilsService, $stateParams, $state) {
   console.log('StoreOwnerMarketingSettingsController');
 
   $scope.analyticsItem;

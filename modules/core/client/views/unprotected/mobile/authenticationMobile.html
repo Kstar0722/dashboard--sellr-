@@ -1,0 +1,22 @@
+<div class="public-signin-view-mobile">
+  <form name="signinmobileform" ng-submit="signin(signinmobileform.$valid)" novalidate autocomplete="off">
+    <div class="main-container">
+      <div class="logo">
+        <img src="/img/sellr-logo.svg" alt="logo">
+      </div>
+      <div class="sign-in-form">
+        <div class="email-input">
+          <input type="email" placeholder="Email" class="mobile-input" name="email" ng-model="ui.credentials.email" required>
+          <input-error-msg form="signinmobileform" field="email" errors="{required: 'Email is required', email: 'Wrong email format'}"></input-error-msg>
+        </div>
+        <div>
+          <input type="password" placeholder="Password" class="mobile-input"  name="password" ng-model="ui.credentials.password" required minlength="8">
+          <input-error-msg form="signinmobileform" field="password" errors="{required: 'Current Password is required', minlength: 'The password must be at least 8 characters long'}"></input-error-msg>
+        </div>
+      </div>
+      <button class="mobile-btn-positive" type="submit">
+      Sign In
+      </button>
+    </div>
+  </form>
+</div>

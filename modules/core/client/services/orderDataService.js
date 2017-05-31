@@ -132,7 +132,7 @@ angular.module('core').factory('orderDataService', function ($http, $location, c
     var prod = me.currentItem
     var selected = me.selected
     var defer = $q.defer()
-    var skuUrl = API_URL + '/edit/sku'
+    var skuUrl = API_URL + '/products/sku'
     var payload = {
       duplicates: [],
       sku: prod.upc
@@ -155,7 +155,7 @@ angular.module('core').factory('orderDataService', function ($http, $location, c
 
   function createNewProduct (prod) {
     var defer = $q.defer()
-    var skuUrl = API_URL + '/edit/products'
+    var skuUrl = API_URL + '/products'
     var payload = {
       name: prod.name,
       description: prod.description,

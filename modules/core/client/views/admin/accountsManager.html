@@ -113,8 +113,11 @@
         <!-- WEBSITE THEME -->
         <!-- WEBSITE THEME -->
         <!-- WEBSITE THEME -->
-        <!--   <div class="common-field-title">Website Theme</div>
-        <div class="common-select-container">
+           <div class="common-field-title">Website Theme</div>
+        <md-select name="state" ng-model="ui.currentAccount.preferences.websiteTheme" required ng-disabled="websiteThemes === null" class="common-input">
+          <md-option ng-repeat="theme in websiteThemes | orderBy:'companyName'" ng-value="theme.slug">{{theme.companyName}}</md-option>
+        </md-select>
+        <!--<div class="common-select-container">
           <div ng-class="['common-select-trigger ignore-click-trigger', {active:ui.websiteThemesOptionsSelect}]" ng-click="openMenu('websiteThemesOptionsSelect')">
             Website Theme
           </div>
@@ -126,7 +129,11 @@
           </div>
         </div> -->
         <div class="common-btns-bar">
-          <div class="common-btn-negative small has-left-icon" ng-click="showDeleteAccountDialog()" ng-switch-when="editAccount"><i class="fa fa-trash-o"></i> Delete</div>
+          <div class="common-btn-negative small has-left-icon" ng-click="showDeleteAccountDialog()" ng-switch-when="editAccount">
+            <div class="common-centered-content">
+              Delete
+            </div>
+          </div>
           <div class="common-btn-gray small" ng-click="ui.display = 'fulltable'; ui.activeIndex = null">Cancel</div>
           <button class="common-btn-positive" type="submit" ng-bind="ui.display === 'createAccount' ? 'Create' : 'Update'"></button>
         </div>

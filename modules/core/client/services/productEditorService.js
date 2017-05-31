@@ -105,7 +105,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     options = options || {}
     var filter = options.filter || {}
     var defer = $q.defer()
-    var url = constants.BWS_API + '/edit/search?'
+    var url = constants.BWS_API + '/products/search?'
     var params = {}
     if (options.types) {
       for (var i in options.types) {
@@ -236,14 +236,19 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   //  abstracts away remote call for detail
-  me.getProductDetail = function (product) {
-    return $http.get(constants.BWS_API + '/edit/products/' + product.productId)
+  me.getProductDetail = function (product, silent) {
+    var httpOptions = silent ? { ignoreLoadingBar: true } : {}
+    return $http.get(constants.BWS_API + '/products/' + product.productId, httpOptions).then(res => {
+      console.log('DETAIL', res)
+      return res.data.product
+    })
   }
 
   me.getProduct = function (product) {
     var defer = $q.defer()
     if (!product.productId) {
       defer.reject({message: 'no product Id'})
+      /**/
     }
     if (me.productStorage[product.productId]) {
       //  use cached product if exists
@@ -252,8 +257,8 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     } else {
       //  get from api and format
       me.getProductDetail(product).then(function (res) {
-        if (res.data.length > 0) {
-          me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
+        if (res.length > 0) {
+          me.formatProductDetail(res[0]).then(function (formattedProduct) {
             log('formattedProduct', formattedProduct)
             // store product for faster load next time
             me.productStorage[product.productId] = formattedProduct
@@ -315,7 +320,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       'payload': options
     }
     log('claiming', payload)
-    var url = constants.BWS_API + '/edit/claim'
+    var url = constants.BWS_API + '/products/claim'
     return $http.post(url, payload)
   }
 
@@ -335,10 +340,9 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       'payload': options
     }
     log('removing claim', payload)
-    var url = constants.BWS_API + '/edit/claim'
+    var url = constants.BWS_API + '/products/claim'
     $http.put(url, payload).then(function (res) {
       log('claim response', res)
-      // socket.emit('product-unclaimed', options)
       me.currentProduct = {}
     }, function (err) {
       log('deleteClaim error', err)
@@ -364,11 +368,10 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     }
     product = compareToCachedProduct(product)
     product = categories.setProductCategory(product)
-    product = categories.setProductTags(product)
     var payload = {
       payload: product
     }
-    var url = constants.BWS_API + '/edit/products/' + product.productId
+    var url = constants.BWS_API + '/products/' + product.productId
     var httpOptions = silent ? { ignoreLoadingBar: true } : {}
     $http.put(url, payload, httpOptions).then(onSaveSuccess, onSaveError)
     function onSaveSuccess (response) {
@@ -397,26 +400,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         me.save(product)
       })
     })
-  }
-
-  me.getStats = function () {
-    var account = me.currentAccount
-
-    var url = constants.BWS_API + '/edit/count'
-    if (account) {
-      url += '?requested_by=' + account
-    }
-    $http.get(url).then(onGetStatSuccess, onGetStatError)
-    function onGetStatSuccess (response) {
-      // log('onGetStatSuccess %O', response)
-      me.productStats = response.data
-      me.currentAccount = account
-    }
-
-    function onGetStatError (error) {
-      console.error('onGetStatError %O', error)
-      me.productStats = {}
-    }
   }
 
   me.formatProductDetail = function (product) {
@@ -479,7 +462,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           break
       }
     })
-    product = categories.getProductTags(product)
     product = categories.getProductCategory(product)
     if (product.description && !product.description.match(/[<>]/)) {
       product.description = '<p>' + product.description + '</p>'
@@ -497,19 +479,19 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var mediaConfig = {
       mediaRoute: 'media',
       folder: 'products',
-      type: 'PRODUCT',
+      type: 'IMAGE',
       fileType: 'IMAGE',
       accountId: localStorage.getItem('accountId'),
       productId: me.currentProduct.productId
     }
-    uploadService.upload(files[0], mediaConfig).then(function (response, err) {
+    uploadService.uploadProductImage(files[0], mediaConfig).then(function (response, err) {
       if (response) {
         toastr.success('Product Image Updated!')
         me.save(me.currentProduct).then(function (err, response) {
           if (err) {
             toastr.error('There was a problem uploading this image.')
           }
-          refreshProduct(me.currentProduct)
+          me.refreshProduct(me.currentProduct)
           defer.resolve(response)
         })
       } else {
@@ -537,7 +519,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
           if (err) {
             toastr.error('There was a problem uploading audio')
           }
-          refreshProduct(me.currentProduct)
+          me.refreshProduct(me.currentProduct)
         })
       } else {
         toastr.error('Product Audio Failed To Update!')
@@ -553,7 +535,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         if (err) {
           toastr.error('There was a problem removing audio')
         }
-        refreshProduct(me.currentProduct)
+        me.refreshProduct(me.currentProduct)
       })
     })
   }
@@ -566,7 +548,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
         if (err) {
           toastr.error('There was a problem removing image')
         }
-        refreshProduct(me.currentProduct)
+        me.refreshProduct(me.currentProduct)
       })
     })
   }
@@ -599,9 +581,6 @@ angular.module('core').service('productEditorService', function ($http, $locatio
               updated.changed = 'false'
             }
           }
-        } else {
-          // new property
-          updated.changed = 'new'
         }
       }
       log('changes added', prod)
@@ -611,10 +590,11 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     }
   }
 
-  function refreshProduct (product) {
-    me.getProductDetail(product).then(function (res) {
-      if (res.data.length > 0) {
-        me.formatProductDetail(res.data[0]).then(function (formattedProduct) {
+  me.refreshProduct = function (product, silent) {
+    var defer = $q.defer()
+    me.getProductDetail(product, silent).then(function (res) {
+      if (res.length > 0) {
+        me.formatProductDetail(res[0]).then(function (formattedProduct) {
           log('formattedProduct', formattedProduct)
           me.currentProduct = formattedProduct
 
@@ -623,11 +603,13 @@ angular.module('core').service('productEditorService', function ($http, $locatio
 
           // store product for faster load next time
           me.productStorage[product.productId] = formattedProduct
+          defer.resolve(formattedProduct)
         })
       } else {
         toastr.error('Could not get product detail for ' + product.name)
       }
     })
+    return defer.promise
   }
 
   function getProductEditors () {
@@ -641,7 +623,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.updateFeedback = function (feedback) {
-    var url = constants.BWS_API + '/edit/feedback'
+    var url = constants.BWS_API + '/products/feedback'
     var payload = {
       payload: {
         productId: me.currentProduct.productId,
@@ -658,7 +640,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   me.deleteFeedback = function (feedback) {
     var product = me.currentProduct
     var feedbackId = feedback.id || _.indexOf(product.feedback, feedback) + 1
-    var url = constants.BWS_API + '/edit/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId
+    var url = constants.BWS_API + '/products/feedback?productId=' + product.productId + '&feedbackId=' + feedbackId
     return $http.delete(url).then(function (res) {
       console.log(res)
     }, function (err) {
@@ -673,7 +655,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
     var type = options.type
     console.log('searching sku %s', sku)
     me.show.loading = true
-    var skuUrl = constants.BWS_API + '/edit/search?l=50&type=' + type + '&v=sum&sku=' + sku
+    var skuUrl = constants.BWS_API + '/products/search?l=50&type=' + type + '&v=sum&sku=' + sku
     $http.get(skuUrl).then(function (skuResult) {
       me.remainingQueries = skuResult.data.length
       if (me.remainingQueries > 0) {
@@ -689,7 +671,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
               defer.resolve(me.productList)
             }
           } else {
-            var url = constants.BWS_API + '/edit/search?type=' + type + '&v=sum&name=' + skuResult.data[i].name
+            var url = constants.BWS_API + '/products/search?type=' + type + '&v=sum&name=' + skuResult.data[i].name
             $http.get(url).then(function (results2) {
               me.productList = me.productList.concat(results2.data)
               me.productList = _.uniq(me.productList, function (p) {
@@ -721,7 +703,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
   }
 
   me.checkForNewProducts = function () {
-    var url = constants.BWS_API + '/edit/search?status=new&v=sum'
+    var url = constants.BWS_API + '/products/search?status=new&v=sum'
     $http.get(url).then(function (res) {
       me.show.newProducts = res.data.length > 0
       me.newProducts = res.data
@@ -744,7 +726,7 @@ angular.module('core').service('productEditorService', function ($http, $locatio
       productId: product.productId,
       sku: sku
     }
-    return $http.delete(constants.BWS_API + '/edit/sku', {params: params}).then(function (res) {
+    return $http.delete(constants.BWS_API + '/products/sku', {params: params}).then(function (res) {
       _.removeItem(me.currentProduct.skus, sku)
       toastr.success('UPC ' + sku + ' removed')
     }).catch(function (err) {

@@ -1,4 +1,4 @@
-angular.module('core').controller('AccountsManagerController', function ($scope, accountsService, uploadService, toastr, UsStates, $mdDialog, $rootScope, globalClickEventName, $q, storesService, utilsService) {
+angular.module('core').controller('AccountsManagerController', function ($scope, accountsService, uploadService, toastr, UsStates, $mdDialog, $rootScope, globalClickEventName, $q, storesService, utilsService, $httpParamSerializer, $http, constants) {
   //
   // DEFINITIONS
   //
@@ -34,6 +34,9 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
   // INITIALIZATION
   //
   accountsService.init({ expand: 'stores,stats' })
+  loadCardkitThemes().then(function (themes) {
+    $scope.websiteThemes = themes
+  })
 
   //
   // SCOPE FUNCTIONS
@@ -210,6 +213,19 @@ angular.module('core').controller('AccountsManagerController', function ($scope,
       angular.forEach(field, function (errorField) {
         errorField.$setTouched()
       })
+    })
+  }
+
+  function loadCardkitThemes () {
+    var params = {
+      exclude: ['header', 'footer', 'user', 'js', 'css', 'variables', 'site_navigation', 'navigation_card', 'rss_settings']
+    }
+    var url = constants.CARDKIT_URL + '/clients?' + $httpParamSerializer(params)
+    return $http.get(url).then(function (response) {
+      return response.data || []
+    }).catch(function (err) {
+      console.error(err)
+      toastr.error('Failed to load website themes')
     })
   }
 

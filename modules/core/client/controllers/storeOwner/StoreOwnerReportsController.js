@@ -170,5 +170,12 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
     return date.toISOString().split('T')[0];
   }
 
+  $scope.ui = {}
+  $scope.ui.activeTab = 'website'
+  $scope.changeTab = function (tab) {
+    $scope.ui.activeTab = tab
+    $state.go('storeOwner.reports.' + tab)
+  }
+
   $scope.init();
 });

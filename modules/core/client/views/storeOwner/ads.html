@@ -13,7 +13,8 @@
       <div class="ad" ng-click="editAd(ad)">
         <iframe class="ad-video-iframe" ng-if="ad.type === 'youtube'" ng-src="{{'https://www.youtube.com/embed/' + ad.value + '?controls=0&iv_load_policy=3&showinfo=0&showinfo=0' | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <iframe class="ad-video-iframe" ng-if="ad.type === 'vimeo'" ng-src="{{'https://player.vimeo.com/video/' + ad.value | trustAsResourceUrl}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        <div class="ad-image" ng-if="ad.type === 'image'" style="background-image: url({{ 'https://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value | imgix:300:300:50 }});">
+        <div class="ad-image" ng-if="ad.type === 'image'"
+             style="background-image: url({{ ad.publicUrl | imgix:300:300:50 }})">
         </div>
         <video  class='ad-video' ng-if="ad.type === 'video'" ng-src="{{'http://s3.amazonaws.com/cdn.expertoncue.com/ads/' + ad.value | trustUrl }}" frameBorder="2" allowfullscreen="true">
         </video>
@@ -33,15 +34,15 @@
     <div class="schedule-header" ng-if="!isEmpty(allAds)">
       <div class="filters">
         <div ng-class="['filter', {active: contains(filters, 'portrait')}]" ng-click="applyFilter('portrait')">
-          <img src="/modules/users/client/img/portrait-tv.svg" alt="portrait">
+          <img src="/modules/core/client/img/portrait-tv.svg" alt="portrait">
           <div>Portrait</div>
         </div>
         <div ng-class="['filter', {active: contains(filters, 'landscape')}]" ng-click="applyFilter('landscape')">
-          <img src="/modules/users/client/img/landscape-tv.svg" alt="landscape-tv">
+          <img src="/modules/core/client/img/landscape-tv.svg" alt="landscape-tv">
           <div>Landscape</div>
         </div>
         <div ng-class="['filter', {active: contains(filters, 'tablet')}]" ng-click="applyFilter('tablet')">
-          <img src="/modules/users/client/img/tablet.svg" alt="tablets">
+          <img src="/modules/core/client/img/tablet.svg" alt="tablets">
           <div>Tablets</div>
         </div>
       </div>
@@ -148,15 +149,15 @@
       <div class="modal-filters">
         <div class="filters">
           <div ng-class="['filter', {active: contains(modalAd.target, 'portrait')}]" ng-click="modifyTarget('portrait')">
-            <img src="/modules/users/client/img/portrait-tv.svg" alt="portrait">
+            <img src="/modules/core/client/img/portrait-tv.svg" alt="portrait">
             <div>Portrait</div>
           </div>
           <div ng-class="['filter', {active: contains(modalAd.target, 'landscape')}]" ng-click="modifyTarget('landscape')">
-            <img src="/modules/users/client/img/landscape-tv.svg" alt="landscape-tv">
+            <img src="/modules/core/client/img/landscape-tv.svg" alt="landscape-tv">
             <div>Landscape</div>
           </div>
           <div ng-class="['filter', {active: contains(modalAd.target, 'tablet')}]" ng-click="modifyTarget('tablet')">
-            <img src="/modules/users/client/img/tablet.svg" alt="tablets">
+            <img src="/modules/core/client/img/tablet.svg" alt="tablets">
             <div>Tablets</div>
           </div>
         </div>
