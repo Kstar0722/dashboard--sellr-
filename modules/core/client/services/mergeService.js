@@ -185,6 +185,7 @@ angular.module('core').service('mergeService', function ($q, productEditorServic
     }
     $http.post(url, payload).then(function (res) {
       if (res.data.productId) {
+        productEditorService.getProductList(me.finalProduct.name).then(function () {})
         if (utilsService.isMatchState($state)) {
           orderDataService.getData({ storeId: $stateParams.storeId }, $stateParams.status).then(function () {
             toastr.success('Product Merged!')

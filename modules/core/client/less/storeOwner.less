@@ -785,12 +785,34 @@
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
+  @media (max-width: 1250px) {
+    height: auto;
+    flex-flow: row wrap;
+    padding: 10px 0px;
+  }
+  .download {
+    width: 174px;
+    max-width: 100%;
+  }
+  .button-wrap, .date-wrap {
+    @media (max-width: 1250px) {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+    }
+  }
   .date-filter{
     width: 60%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+    @media (max-width: 1250px) {
+      width: 100%;
+      flex-flow: row wrap;
+    }
     .fa-minus{
       margin-right: 15px;
       color: #7383a1;
@@ -798,6 +820,9 @@
     }
     .common-btn-gray{
       margin-right: 15px;
+      @media (max-width: 1250px) {
+        width: 30%;
+      }
       &:last-child{
         margin-right:0px;
       }
@@ -835,8 +860,15 @@
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-start;
+    @media (max-width: 768px) {
+      flex-flow: row wrap;
+      flex-direction: column-reverse;
+    }
     .main-left-column{
       width: 25%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
       .common-white-box {
         .row {
           &.sources {
@@ -908,6 +940,9 @@
     }
     .main-right-column{
       width: 73%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
       .top-stats{
         display: flex;
         flex-flow: row nowrap;
@@ -934,6 +969,7 @@
               font-size: 28px;
               line-height: 28px;
               color: #354052;
+              display: inline-block;
             }
             .indicator{
               font-size: 12px;

@@ -1,79 +1,14 @@
-angular.module('core').controller('ProductTypesManagerController', function ($scope, $state, toastr) {
-  $scope.hardcodedTypesData =
-  [
-    {
-      name: 'Spirit',
-      industry: 'Beverage',
-      image: '/img/beer_grey_placeholder.png',
-      fields: [
-        {
-          type: 'Text Input',
-          label: 'label example',
-          instructions: 'instructions example',
-          ownercanedit: false,
-          editorcanedit: false,
-          selectOptions: ''
-        },
-        {
-          type: 'List',
-          label: 'list label example',
-          instructions: 'list instructions example',
-          ownercanedit: false,
-          editorcanedit: false,
-          selectOptions: ''
-        },
-        {
-          type: 'Select Dropdown',
-          label: 'select lbl example',
-          instructions: 'select inst. example',
-          ownercanedit: false,
-          editorcanedit: false,
-          selectOptions: 'option1, option2, option3'
-        }
-      ]
-    },
-    {
-      name: 'Wine',
-      industry: 'Beverage',
-      image: '/img/beer_grey_placeholder.png',
-      fields: [
-        {
-          type: 'Text Input',
-          label: 'Wine Label',
-          instructions: 'Wine instructions',
-          ownercanedit: true,
-          editorcanedit: true,
-          selectOptions: ''
-        }
-      ]
-    },
-    {
-      name: 'Atron++',
-      industry: 'Pharmacy',
-      image: '/img/beer_grey_placeholder.png',
-      fields: [
-        {
-          type: 'Text Input',
-          label: 'Pharmaco Label',
-          instructions: 'Pharmaco instructions',
-          ownercanedit: false,
-          editorcanedit: true,
-          selectOptions: ''
-        }
-      ]
-    }
-  ]
-
+angular.module('core').controller('ProductTypesManagerController', function ($scope, $state, toastr, ProductTypesService, $q) {
   //
   // DEFINITIONS
   //
+  var pts = ProductTypesService
   $scope.ui = {}
   $scope.ui.activeType = null
+  $scope.ui.searchType = ''
   var defaultType = {
-    name: 'New Type',
-    industry: '',
-    image: '/img/beer_grey_placeholder.png',
-    fields: [
+    name: '',
+    properties: [
       {
         type: 'Text Input',
         label: '',
@@ -84,16 +19,12 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
       }
     ]
   }
-  var defaultTypeField = {
-    type: 'Text Input',
+  var defaultTypeProperty = {
     label: '',
-    instructions: '',
-    ownercanedit: false,
-    editorcanedit: false,
-    selectOptions: ''
+    options: pts.getDefaultPropertyOptions()
   }
-  $scope.typeFields = [{name: 'Text Input'}, {name: 'Select Dropdown'}, {name: 'List'}]
-  $scope.typeFieldsConfig = {
+  $scope.typeProperties = [{name: 'Text Input'}, {name: 'Select Dropdown'}, {name: 'List'}]
+  $scope.typePropertiesConfig = {
     create: false,
     maxItems: 1,
     allowEmptyOption: false,
@@ -102,41 +33,68 @@ angular.module('core').controller('ProductTypesManagerController', function ($sc
     sortField: 'name',
     searchField: ['name']
   }
-  $scope.industryTypesConfig = {
-    create: false,
-    maxItems: 1,
-    allowEmptyOption: false,
-    valueField: 'value',
-    labelField: 'name',
-    sortField: 'name',
-    searchField: ['name']
-  }
 
   //
   // INITIALIZATION
   //
-  var industriesTemp = _.pluck($scope.hardcodedTypesData, 'industry')
-  industriesTemp = _.uniq(industriesTemp)
-  industriesTemp = _.map(industriesTemp, function (industry) { return {name: industry, value: industry} })
-  industriesTemp.unshift({name: 'All Industries', value: ''})
-  $scope.industryTypes = industriesTemp
-  $scope.ui.industryFilter = ''
+  init()
 
   //
   // SCOPE FUNCTIONS
   //
-  $scope.addTypeField = function () {
-    $scope.ui.activeType.fields.push(angular.copy(defaultTypeField))
+
+  $scope.saveActiveType = function () {
+    pts.updateProductType($scope.ui.activeType.productTypeId, $scope.ui.activeType.friendlyName).then(function () {
+      var promises = []
+      _.each($scope.ui.activeType.properties, function (prop) {
+        if (prop.propId) {
+          if (prop.setToRemove) {
+            promises.push(pts.deleteProductTypeProperty(prop))
+          } else {
+            promises.push(pts.updateProductTypeProperty(prop))
+          }
+        } else {
+          if (!prop.setToRemove) {
+            promises.push(pts.createProductTypeProperty($scope.ui.activeType.productTypeId, prop))
+          }
+        }
+      })
+      $q.all(promises).then(function () {
+        init()
+      })
+    })
+  }
+
+  $scope.removeProp = function (prop) {
+    prop.setToRemove = true
+  }
+
+  $scope.editType = function (type) {
+    pts.getProductTypeProperties(type.productTypeId).then(function (properties) {
+      var activeType = angular.copy(type)
+      activeType.properties = properties
+      $scope.ui.activeType = activeType
+      console.log(activeType)
+    })
   }
 
   $scope.addNewType = function () {
-    $scope.hardcodedTypesData.push(angular.copy(defaultType))
-    $scope.ui.activeType = $scope.hardcodedTypesData[$scope.hardcodedTypesData.length - 1]
+    $scope.ui.activeType = defaultType
+  }
+
+  $scope.addTypeProperty = function () {
+    $scope.ui.activeType.properties.push(angular.copy(defaultTypeProperty))
   }
 
   //
   // INTERNAL FUNCTIONS
   //
+  function init () {
+    pts.getProductTypes().then(function (types) {
+      $scope.ui.types = types
+    })
+  }
+
   //
   // EVENTS
   //

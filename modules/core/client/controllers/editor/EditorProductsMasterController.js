@@ -27,6 +27,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
   $scope.searchOptions.allStores = []
   $scope.searchOptions.statusRadio = ''
   $scope.searchOptions.wineTypeCheck = true
+  $scope.searchOptions.foodPairingTypeCheck = true
   $scope.searchOptions.beerTypeCheck = true
   $scope.searchOptions.spiritTypeCheck = true
   $scope.searchOptions.genericProductsCheck = true
@@ -233,6 +234,7 @@ angular.module('core').controller('EditorProductsMasterController', function ($s
     if ($scope.searchOptions.wineTypeCheck) typeFilter.push({'type': 1})
     if ($scope.searchOptions.beerTypeCheck) typeFilter.push({'type': 2})
     if ($scope.searchOptions.spiritTypeCheck) typeFilter.push({'type': 3})
+    if ($scope.searchOptions.foodPairingTypeCheck) typeFilter.push({'type': 5})
     if ($scope.searchOptions.genericProductsCheck) typeFilter.push({'type': 12})
     if ($scope.searchOptions.cocktailsCheck) typeFilter.push({'type': 15})
     if ($scope.searchOptions.healthProductsCheck) typeFilter.push({'type': 17})

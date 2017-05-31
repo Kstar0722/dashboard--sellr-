@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="8091 -3075 34 56">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-TV_Portrait_Logo);
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-width: 1px;
+      }
+
+      .cls-3 {
+        font-size: 11px;
+        font-family: Avenir-Black, Avenir;
+        font-weight: 800;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-TV_Portrait_Logo">
+      <rect x="8091" y="-3075" width="34" height="56"/>
+    </clipPath>
+  </defs>
+  <g id="TV_Portrait_Logo" class="cls-1">
+    <rect class="cls-4" x="8091" y="-3075" width="34" height="56"/>
+    <g id="group-23" transform="translate(8124.41 -3074) rotate(90)">
+      <g id="computer" transform="translate(0 0)">
+        <g id="group">
+          <g id="group-22">
+            <path id="path" class="cls-2" d="M52.909,15.087H1.613A1.615,1.615,0,0,0,0,16.7V46.546a.95.95,0,0,0,.95.95H53.588a.931.931,0,0,0,.928-.95V45.169c0-.015,0-.03,0-.045V16.7A1.612,1.612,0,0,0,52.909,15.087ZM26.229,46.4a.8.8,0,1,1,.8.8A.8.8,0,0,1,26.229,46.4Zm26.681-1.1H1.613V16.827a.228.228,0,0,1,.228-.229h50.84a.229.229,0,0,1,.229.229Z" transform="translate(0 -15.087)"/>
+          </g>
+        </g>
+      </g>
+      <text id="TV" class="cls-3" transform="translate(29.598 22.508) rotate(-90)"><tspan x="0" y="0">TV</tspan></text>
+    </g>
+  </g>
+</svg>

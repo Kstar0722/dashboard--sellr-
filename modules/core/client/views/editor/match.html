@@ -23,7 +23,12 @@
     <div class="prod-actions">
       <div class="common-btn-gray" ng-click="viewMatchProduct(orderDataService.currentItem.productId, orderDataService.currentItem.status)" ng-show="orderDataService.currentItem.productId"><i class="fa fa-expand"></i> View Product</div>
       <div class="common-btn-gray" ng-click="findSimilarProducts()"><i class="fa fa-search"></i> Find Similar</div>
-      <div class="common-btn-negative" ng-click="deleteCurrentProduct()"><i class="fa fa-trash-o"></i> Remove</div>
+      <div class="common-btn-negative" ng-click="deleteCurrentProduct()">
+        <div class="common-centered-content">
+          <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+          Remove
+        </div>
+      </div>
     </div>
     <div class="control-arrow" ng-click="orderDataService.increaseIndex()">
       <i class="fa fa-caret-right"></i>

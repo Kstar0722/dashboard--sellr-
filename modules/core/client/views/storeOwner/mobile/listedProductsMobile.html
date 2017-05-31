@@ -1,0 +1,182 @@
+<div class="store-owner-listed-products-view-mobile mobile-has-header">
+  <ng-include autoscroll src="'/modules/core/client/views/mobile-nav.html'"></ng-include>
+  <div class="main-container">
+    <!-- PLAN LIST VIEW -->
+    <!-- PLAN LIST VIEW -->
+    <!-- PLAN LIST VIEW -->
+    <div class="plan-list" ng-show="mobile.view === 'plan-list'">
+      <div class="item" ng-repeat="plan in plans" ng-click="filterPlanMobile(plan)">
+        <div class="name" ng-bind="plan.label"></div>
+        <i class="fa fa-chevron-right"></i>
+      </div>
+    </div>
+    <!-- PRODUCT GRID VIEW -->
+    <!-- PRODUCT GRID VIEW -->
+    <!-- PRODUCT GRID VIEW -->
+    <div class="product-grid" ng-show="mobile.view === 'product-grid'">
+      <div class="product-card" ng-repeat="product in filteredPlan.products track by $index" ng-click="goToProductDetailMobile(product, $index)">
+        <div class="top-part">
+          <product-image image-url="{{ product.image || product.images[0] }}" product-type="{{ product.productTypeId }}">
+          </product-image>
+          <!-- NEW PRICE STRUCTURE -->
+          <div ng-if="!isEmpty(product.prices)">
+            <div class="price" ng-show="product.prices[0].price !== ''">
+              <div ng-class="{'sale-price' : product.prices[0].onsale}" ng-bind="product.prices[0].price | currency:'$'"></div>
+              <div ng-show="product.prices[0].onsale" class="original-price-strikethrough" ng-bind="product.prices[0].oprice | currency:'$'"></div>
+            </div>
+          </div>
+          <!-- OLD PRICE STRUCTURE JUST FOR BACKWARDS COMPATIBILITY -->
+          <div ng-if="isEmpty(product.prices)">
+            <div class="price" ng-show="product.price !== ''">
+              <div ng-class="{'sale-price' : product.onsale}" ng-bind="product.price | currency:'$'"></div>
+              <div ng-show="product.onsale" class="original-price-strikethrough" ng-bind="product.oprice | currency:'$'"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-part vertical-center-container">
+          <div ng-bind="product.name != 'undefined' ? product.name : ''"></div>
+        </div>
+      </div>
+    </div>
+    <!-- PRODUCT DETAIL VIEW -->
+    <!-- PRODUCT DETAIL VIEW -->
+    <!-- PRODUCT DETAIL VIEW -->
+    <div class="product-detail" ng-show="mobile.view === 'product-detail'">
+      <div class="image-title-container">
+        <div class="image-container">
+          <product-image image-url="{{ ui.activeProduct.image ||  ui.activeProduct.images[0] || ui.activeProduct.researchImage }}"
+          product-type="{{ ui.activeProduct.productTypeId }}"></product-image>
+        </div>
+        <div class="title-container">{{ui.activeProduct.name}}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Product Id</div>
+        <div class="info-value" ng-bind="ui.activeProduct.productId"></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Type</div>
+        <div class="info-value" ng-bind="Types[ui.activeProduct.productTypeId].name"></div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Category</div>
+        <div class="info-value has-selectize">
+          <selectize class="mobile-custom-selectize" config="planSelectConfig" options="planSelectOptions" ng-model="ui.activeProduct.planId" ng-change="changePlanHandler()">
+          </selectize>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">Shelf Tag</div>
+        <div class="info-value has-selectize">
+          <selectize class="mobile-custom-selectize" config="slotSelectConfig" options="slotSelectOptions" ng-model="ui.activeProduct.slot">
+          </selectize>
+        </div>
+      </div>
+      <div class="info-box as-columns">
+        <div class="info-title">Product Description</div>
+        <div class="product-description" ng-bind-html="ui.descriptionHTML"></div>
+      </div>
+      <div class="info-box as-columns">
+        <div class="info-title">Add a Custom Note</div>
+        <textarea name="description" rows="1" ng-model="ui.activeProduct.notes" placeholder="" class="mobile-textarea"></textarea>
+      </div>
+      <div class="sizes-title-box">
+        Default Size
+      </div>
+      <ul class="size-info-list nomargin">
+        <li ng-class="{error: ui.priceErrors[0].size}">
+          <div class="title">Size</div>
+          <div class="value size has-select li-input" ng-if="!ui.showCustomSize[0]">
+            <selectize  class="mobile-custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="ui.activeProduct.prices[0].size" ng-change="selectSizeHandler(0)">
+            </selectize>
+          </div>
+          <div class="value size li-input" ng-if="ui.showCustomSize[0]">
+            <input type="text" ng-model="ui.activeProduct.prices[0].size" placeholder="Type a custom size">
+          </div>
+          <i class="fa fa-times-circle" ng-if="ui.showCustomSize[0]" ng-click="resetSize(0)"></i>
+        </li>
+        <li ng-if="!ui.activeProduct.prices[0].onsale" ng-class="{error: ui.priceErrors[0].price}">
+          <div class="title">Price</div>
+          <div class="value li-input"><input type="text" ng-model="ui.activeProduct.prices[0].price"></div>
+        </li>
+        <li ng-if="ui.activeProduct.prices[0].onsale" ng-class="{error: ui.priceErrors[0].oprice}">
+          <div class="title">Price</div>
+          <div class="value li-input"><input type="text" ng-model="ui.activeProduct.prices[0].oprice"></div>
+        </li>
+        <li ng-if="!ui.activeProduct.prices[0].onsale" class="notonsale">
+          <div class="title">Sale Price</div>
+          <div class="value">-</div>
+        </li>
+        <li ng-if="ui.activeProduct.prices[0].onsale" ng-class="{error: ui.priceErrors[0].price}">
+          <div class="title">Sale Price</div>
+          <div class="value li-input"><input type="text" ng-model="ui.activeProduct.prices[0].price"></div>
+        </li>
+        <li>
+          <div class="title">Set on Sale</div>
+          <div class="value">
+            <label class="mobile-toggle">
+              <input type="checkbox" ng-model="ui.activeProduct.prices[0].onsale" ng-change="onSaleHandler(0)">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </li>
+        <li ng-if="ui.activeProduct.prices.length > 1" ng-click="deleteSizeOption(0)">
+          <div class="title delete">Delete Size</div>
+        </li>
+      </ul>
+      <div class="sizes-title-box" ng-if="ui.activeProduct.prices.length > 1">
+        Additional Sizes
+      </div>
+      <ul class="size-info-list" ng-if="ui.activeProduct.prices.length > 1 && !$first" ng-repeat="sizeOption in ui.activeProduct.prices">
+        <li ng-class="{error: ui.priceErrors[$index].size}">
+          <div class="title">Size</div>
+          <div class="value size has-select li-input" ng-if="!ui.showCustomSize[$index]">
+            <selectize  class="mobile-custom-selectize" config="sizesSelectConfig" options="sizesSelectOptions" ng-model="sizeOption.size" ng-change="selectSizeHandler($index)">
+            </selectize>
+          </div>
+          <div class="value size li-input" ng-if="ui.showCustomSize[$index]">
+            <input type="text" ng-model="sizeOption.size" placeholder="Type a custom size">
+          </div>
+          <i class="ion ion-close-circled reset-size" ng-if="ui.showCustomSize[$index]" ng-click="resetSize($index)"></i>
+        </li>
+        <li ng-if="!sizeOption.onsale" ng-class="{error: ui.priceErrors[$index].price}">
+          <div class="title">Price</div>
+          <div class="value li-input"><input type="text" ng-model="sizeOption.price"></div>
+        </li>
+        <li ng-if="sizeOption.onsale" ng-class="{error: ui.priceErrors[$index].oprice}">
+          <div class="title">Price</div>
+          <div class="value li-input"><input type="text" ng-model="sizeOption.oprice"></div>
+        </li>
+        <li ng-if="!sizeOption.onsale" class="notonsale">
+          <div class="title">Sale Price</div>
+          <div class="value">-</div>
+        </li>
+        <li ng-if="sizeOption.onsale" ng-class="{error: ui.priceErrors[$index].price}">
+          <div class="title">Sale Price</div>
+          <div class="value li-input"><input type="text" ng-model="sizeOption.price"></div>
+        </li>
+        <li>
+          <div class="title">Set on Sale</div>
+          <div class="value">
+            <label class="mobile-toggle">
+              <input type="checkbox" ng-model="sizeOption.onsale" ng-change="onSaleHandler($index)">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </li>
+        <li ng-click="setDefault($index)">
+          <div class="title set-default">Set as Default Size</div>
+        </li>
+        <li ng-click="deleteSizeOption($index)">
+          <div class="title delete">Delete Size</div>
+        </li>
+      </ul>
+      <div class="add-size-btn" ng-click="addSizeOption()">
+        <div>ADD SIZE</div>
+      </div>
+    </div>
+  </div>
+</div>

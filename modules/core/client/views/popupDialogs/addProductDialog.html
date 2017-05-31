@@ -1,0 +1,44 @@
+<div ng-class="['common-modal-dialog add-product-dialog']">
+  <div class="dialog-title" ng-switch="add.step">
+    <span ng-switch-when="1">Product Info</span>
+  </div>
+  <div class="main-container">
+    <div class="single-side">
+      <div class="single-side-content" ng-switch="add.step">
+        <!--
+        STEP 1
+        -->
+        <div ng-switch-when="1">
+          <div class="common-field-title">Barcode</div>
+          <input type="number" class="common-input" ng-model="add.sku" placeholder="Barcode..." ng-change="checkFormValid()">
+          <div class="common-field-title">Category</div>
+          <selectize class="custom-selectize" config="planSelectConfig" options="planSelectOptions" ng-change="checkFormValid()" ng-model="add.planId">
+          </selectize>
+          <div class="common-field-title">Image</div>
+          <small class="instructions">Attaching a picture helps ensure we have the correct product so we can curate the details for you.</small>
+          <div class="upload-btn-container">
+            <div class="common-btn-silver" ngf-select="uploadProductImage($files)" ng-if="!add.tempImage">Upload Image</div>
+            <div class="common-btn-negative" ng-click="removeProductImage()" ng-if="add.tempImage">
+              <div class="common-centered-content">
+                <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+                Remove
+              </div>
+            </div>
+          </div>
+          <div class="product-image-container" ng-if="add.tempImage">
+            <img ngf-src="add.tempImage" alt="product image" />
+          </div>
+          
+        </div>
+        <!--
+        STEP 2
+        -->
+      </div>
+      <div class="action-footer">
+        <div class="common-btn-gray small" ng-click="closeDialog()">Cancel</div>
+        <button class="common-btn-positive small" ng-click="submitProduct()" ng-disabled="add.actionDisabled">Submit</button>
+        <!-- <button class="common-btn-positive" ng-if="add.step === 4" ng-click="submitProduct()" ng-disabled="add.actionDisabled">Submit Product</button> -->
+      </div>
+    </div>
+  </div>
+</div>

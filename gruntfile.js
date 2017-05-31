@@ -1,14 +1,14 @@
 'use strict'
 
 /**
-* Module dependencies.
-*/
-var _ = require('lodash'),
-  defaultAssets = require('./config/assets/default'),
-  testAssets = require('./config/assets/test'),
-  testConfig = require('./config/env/test'),
-  fs = require('fs'),
-  path = require('path')
+ * Module dependencies.
+ */
+var _ = require('lodash')
+var defaultAssets = require('./config/assets/default')
+var testAssets = require('./config/assets/test')
+var testConfig = require('./config/env/test')
+var fs = require('fs')
+var path = require('path')
 
 module.exports = function (grunt) {
   // Project Configuration
@@ -23,6 +23,15 @@ module.exports = function (grunt) {
       },
       prod: {
         NODE_ENV: 'production'
+      },
+      staging: {
+        NODE_ENV: 'staging'
+      }
+    },
+    browserify: {
+      client: {
+        src: ['config/lib/browserify-modules.js'],
+        dest: 'public/dist/bundle.js'
       }
     },
     watch: {
@@ -60,7 +69,7 @@ module.exports = function (grunt) {
       },
       clientLESS: {
         files: defaultAssets.client.less,
-        tasks: [ 'less' ],
+        tasks: ['less'],
         options: {
           livereload: false
         }
@@ -70,15 +79,15 @@ module.exports = function (grunt) {
       dev: {
         script: 'server.js',
         options: {
-          nodeArgs: [ '--debug' ],
+          nodeArgs: ['--debug'],
           ext: 'js,html',
           watch: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.views, defaultAssets.server.allJS, defaultAssets.server.config)
         }
       }
     },
     concurrent: {
-      default: [ 'nodemon', 'watch' ],
-      debug: [ 'nodemon', 'watch', 'node-inspector' ],
+      default: ['nodemon', 'watch'],
+      debug: ['nodemon', 'watch', 'node-inspector'],
       options: {
         logConcurrentOutput: true
       }
@@ -133,14 +142,14 @@ module.exports = function (grunt) {
     },
     less: {
       dist: {
-        files: [ {
+        files: [{
           expand: true,
           src: './modules/core/client/less/styles.less',
           ext: '.css',
           rename: function (base, src) {
             return src.replace('/less/', '/css/')
           }
-        } ]
+        }]
       }
     },
     'node-inspector': {
@@ -171,7 +180,7 @@ module.exports = function (grunt) {
           coverage: true,
           require: 'test.js',
           coverageFolder: 'coverage/server',
-          reportFormats: [ 'cobertura', 'lcovonly' ],
+          reportFormats: ['cobertura', 'lcovonly'],
           check: {
             lines: 40,
             statements: 40
@@ -211,13 +220,13 @@ module.exports = function (grunt) {
       },
       build: {
         files: [
-          { expand: true, cwd: 'config/assets', src: ['*'], dest: '.build/config' },
-          { expand: true, cwd: 'public/dist', src: ['*'], dest: '.build/dist' }
+          {expand: true, cwd: 'config/assets', src: ['*'], dest: '.build/config'},
+          {expand: true, cwd: 'public/dist', src: ['*'], dest: '.build/dist'}
         ]
       },
       karma: {
         files: [
-          { src: 'karma.conf.js', dest: '_karma.conf.js' }
+          {src: 'karma.conf.js', dest: '_karma.conf.js'}
         ]
       }
     },
@@ -227,15 +236,15 @@ module.exports = function (grunt) {
         stripBanners: true
       },
       app: {
-        src: [ defaultAssets.client.js ],
+        src: [defaultAssets.client.js],
         dest: 'public/dist/application.js'
       },
       lib: {
-        src: [ minifiedOrDefaultFiles(defaultAssets.client.lib.js) ],
+        src: [minifiedOrDefaultFiles(defaultAssets.client.lib.js)],
         dest: 'public/dist/lib.js'
       },
       styles: {
-        src: [ minifiedOrDefaultFiles(defaultAssets.client.lib.css) ],
+        src: [minifiedOrDefaultFiles(defaultAssets.client.lib.css)],
         dest: 'public/dist/lib.min.css'
       }
     },
@@ -276,7 +285,7 @@ module.exports = function (grunt) {
       },
       production: {
         files: [
-          { src: ['public/dist/*.{css,js}'] }
+          {src: ['public/dist/*.{css,js}']}
         ]
       }
     },
@@ -296,6 +305,17 @@ module.exports = function (grunt) {
         src: [
           '{config,modules,public/modules}/**/*.js'
         ]
+      }
+    },
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: {
+          'public/dist/application.js': 'public/dist/application.js'
+        }
       }
     }
   })
@@ -341,21 +361,21 @@ module.exports = function (grunt) {
   grunt.task.registerTask('serve', ['server'])
 
   // Lint CSS and JavaScript files.
-  grunt.registerTask('lint', [ 'standard' ])
+  grunt.registerTask('lint', ['standard'])
 
   grunt.registerTask('wiredep', function () {
     var wiredep = require('wiredep')().js
     console.log(wiredep)
   })
 
-  grunt.registerTask('default', [ 'env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default', 'watch' ])
+  grunt.registerTask('default', ['env:dev', 'mkdir:upload', 'copy:localConfig', 'concurrent:default', 'watch'])
   // Run the project in production mode
 
   // Lint project files and minify them into two production files.
-  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace'])
-  grunt.registerTask('build', [ 'clean', '_build', 'clean:karma' ])
-  grunt.registerTask('prod', [ 'build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default' ])
-  grunt.registerTask('test', [ 'build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma' ])
+  grunt.registerTask('_build', ['env:dev', 'lint', 'less', 'ngtemplates', 'concat', 'babel', 'uglify', 'cssmin', 'copy:build', 'filerev', 'filerev_replace', 'browserify'])
+  grunt.registerTask('build', ['clean', '_build', 'clean:karma'])
+  grunt.registerTask('prod', ['build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default'])
+  grunt.registerTask('test', ['build', 'copy:karma', 'filerev_replace:karma', 'env:test', 'mkdir:upload', 'karma', 'clean:karma'])
   // grunt.registerTask('test', [ ]); // disabled
 }
 

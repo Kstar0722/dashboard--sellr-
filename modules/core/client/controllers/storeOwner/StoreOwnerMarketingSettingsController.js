@@ -1,4 +1,4 @@
-angular.module('core').controller('StoreOwnerMarketingSettingsController', function ($scope, constants, accountsService, $stateParams, $state) {
+angular.module('core').controller('StoreOwnerMarketingSettingsController', function ($scope, constants, accountsService, utilsService, $stateParams, $state) {
   console.log('StoreOwnerMarketingSettingsController');
 
   $scope.analyticsItem;
@@ -20,7 +20,7 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
     // Parameters to pass to OAuth 2.0 endpoint.
     var params = {
       'client_id': '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
-      'redirect_uri': 'http://localhost:3000/storeOwner/marketing/channels',
+      'redirect_uri': `${constants.GETSELLR_URL}/storeOwner/marketing/settings`,
       'response_type': 'code',
       'access_type': 'offline',
       'scope': 'https://www.googleapis.com/auth/analytics.readonly',
@@ -136,7 +136,7 @@ angular.module('core').controller('StoreOwnerMarketingSettingsController', funct
             client_id: '980923677656-4td6h98v1s9gd05kg3i9qee787sgsca5.apps.googleusercontent.com',
             client_secret: 'ETc5D1hO_JYb3Wemqhr41jTq',
             grant_type: 'authorization_code',
-            redirect_uri: 'http://localhost:3000/storeOwner/marketing/channels'
+            redirect_uri: `${constants.GETSELLR_URL}/storeOwner/marketing/settings`
           }
         }).then(function(response) {
           return accountsService.getCurrentAccount.then(function(account) {

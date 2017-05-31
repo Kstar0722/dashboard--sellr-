@@ -11,7 +11,6 @@ window.ApplicationConfiguration = (function () {
     'ui.router',
     'ui.utils',
     'angularFileUpload',
-    'btford.socket-io',
     'ngCsvImport',
     'selectize',
     'stripe.checkout',
@@ -28,7 +27,7 @@ window.ApplicationConfiguration = (function () {
   ]
 
   // ngPostMessage incompatible with unit testing framework, just exclude it
-  if (angular.element('body').is('.root')) {
+  if (angular.element('body').is('.listen-post-messages')) {
     applicationModuleVendorDependencies.push('ngPostMessage')
   }
 

@@ -1,9 +1,10 @@
 <div class="common-modal-dialog">
-  <div class="dialog-title">Manage Stores</div>
+  <div class="dialog-title" ng-bind="'Manage Stores - ' + storesService.currentAccount.name">
+  </div>
   <div class="main-container">
     <div class="left-side">
       <div class="item-list">
-        <div ng-class="['item-item', {active: activeStore.storeId === store.storeId}]" ng-repeat="store in storesService.stores" ng-click="changeStore($index)">
+        <div ng-class="['item-item', {active: activeStore.storeId === store.storeId}]" ng-repeat="store in storesService.specificStores" ng-click="changeStore($index)">
           <div class="item-name" ng-bind="store.name"></div>
           <!-- <div class="item-counter"></div> -->
         </div>
@@ -51,10 +52,15 @@
             <input type="text" class="common-input" name="zipCode" ng-model="activeStore.details.contactInfo.zipcode" required maxlength="5" ng-pattern="/^\d{5}$/">
             <input-error-msg form="storeForm" field="zipCode" errors="{required: 'Zipcode is required', pattern: 'Invalid Zipcode'}"></input-error-msg>
           </div>
-        </div>       
+        </div>
         <div class="action-footer" ng-if="!ui.deleteStoreMsg">
           <div ng-if="isNewStore">&nbsp;</div>
-          <div class="common-btn-negative" ng-click="ui.deleteStoreMsg = true" ng-if="!isNewStore"><i class="fa fa-trash-o"></i> <span>Delete Store</span></div>
+          <div class="common-btn-negative" ng-click="ui.deleteStoreMsg = true" ng-if="!isNewStore">
+            <div class="common-centered-content">
+              <img src="/img/white-trash-icon.svg" alt="icon" class="common-icon" />
+              Delete Store
+            </div>
+          </div>
           <div class="common-centered-content">
             <div class="common-btn-gray small" ng-click="closeDialog()">Close</div>
             <button type="submit" class="common-btn-positive small submit" ng-bind="isNewStore ? 'Create' : 'Update'"></button>

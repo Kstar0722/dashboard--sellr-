@@ -1,4 +1,4 @@
-angular.module('core').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout) {
+angular.module('core').service('accountsService', function ($http, constants, toastr, $rootScope, $q, $analytics, UsStates, $mdDialog, $timeout, utilsService) {
   var me = this
 
   me.loadAccounts = function (options) {
@@ -6,9 +6,8 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return getAccounts(options).then(function (accounts) {
       me.accounts = []
       _.each(accounts, function (account) {
-        if (me.selectAccountId && account.accountId === me.selectAccountId) {
+        if (utilsService.currentAccountId === account.accountId) {
           me.currentAccount = account
-          console.log('setting current account %O', me.currentAccount)
         }
       })
       me.accounts = accounts
@@ -19,12 +18,10 @@ angular.module('core').service('accountsService', function ($http, constants, to
   me.getAccounts = getAccounts
 
   me.init = function (options) {
-    me.selectAccountId = parseInt(localStorage.getItem('accountId'), 10) || null
     me.accounts = []
     me.editAccount = {}
     me.currentAccount = {}
     me.ordersCount = 0
-    bindRootProperty($rootScope, 'selectAccountId', me)
     me.loadAccounts(options)
   }
 
@@ -33,8 +30,6 @@ angular.module('core').service('accountsService', function ($http, constants, to
   function getAccounts (options) {
     options = options || {}
     var defer = $q.defer()
-    console.log('selectAccountId %O', me.selectAccountId)
-
     var url = constants.API_URL + '/accounts'
     if (options.id) url += '/' + options.id
     url += '?status=1'
@@ -173,7 +168,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return $http.put(url, payload, httpOptions).then(onUpdateSuccess, onUpdateError)
 
     function onUpdateSuccess (res) {
-      return me.getAccounts({ id: original.accountId, expand: 'stores,stats', silent: silent }).then(function (saved) {
+      return me.getAccounts({ id: utilsService.currentAccountId, expand: 'stores,stats', silent: silent }).then(function (saved) {
         saved = initAccount(_.first(saved))
         toastr.success('Account Updated!')
         _.replaceItem(me.accounts, original, saved)
@@ -197,24 +192,16 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return $http.post(url, payload)
   }
 
-  me.bindSelectedAccount = function (scope) {
-    bindRootProperty(scope, 'selectAccountId')
-  }
-
-  $rootScope.$watch(function () { return me.selectAccountId }, function (accountId) {
-    me.currentAccount = _.find(me.accounts, { accountId: parseInt(accountId, 10) })
-  })
-
   // set up two-way binding to parent property
-  function bindRootProperty ($scope, name, context) {
-    $scope.$watch('$root.' + name, function (value) {
-      (context || $scope)[ name ] = value
-    })
-
-    $scope.$watch(function () { return (context || $scope)[ name ] }, function (value) {
-      $scope.$root[ name ] = value
-    })
-  }
+  // function bindRootProperty ($scope, name, context) {
+  //   $scope.$watch('$root.' + name, function (value) {
+  //     (context || $scope)[ name ] = value
+  //   })
+  //
+  //   $scope.$watch(function () { return (context || $scope)[ name ] }, function (value) {
+  //     $scope.$root[ name ] = value
+  //   })
+  // }
 
   function initAccount (account) {
     if (!account) return account
@@ -303,7 +290,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
   me.getAccount = function() {
     return $.ajax({
       type: 'GET',
-      url: `${constants.API_URL}/accounts/${me.selectAccountId}`,
+      url: `${constants.API_URL}/accounts/${utilsService.currentAccountId}`,
       contentType: 'application/json',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
