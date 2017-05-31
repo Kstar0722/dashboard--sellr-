@@ -11,15 +11,19 @@
     box-shadow: 0 -1px 0 0 #313d4f;
     position: relative;
     .left-side{
-      ul{
+      .list{
         margin: 0;
         padding: 0;
         list-style: none;
-        li{
+        a{
           cursor: pointer;
           opacity: 0.47;
           margin-left: 35px;
           display: inline-block;
+          text-decoration: none !important;
+          color: inherit;
+          min-height: 40px;
+          line-height: 40px;
           &.active{
             color: #fff;
             opacity: 1;

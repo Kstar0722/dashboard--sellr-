@@ -1694,21 +1694,25 @@ md-select.common-input .md-select-value {
   box-shadow: 0 -1px 0 0 #313d4f;
   position: relative;
 }
-.nav-container .primary-nav .left-side ul,
-.nav-container .secondary-nav .left-side ul {
+.nav-container .primary-nav .left-side .list,
+.nav-container .secondary-nav .left-side .list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.nav-container .primary-nav .left-side ul li,
-.nav-container .secondary-nav .left-side ul li {
+.nav-container .primary-nav .left-side .list a,
+.nav-container .secondary-nav .left-side .list a {
   cursor: pointer;
   opacity: 0.47;
   margin-left: 35px;
   display: inline-block;
+  text-decoration: none !important;
+  color: inherit;
+  min-height: 40px;
+  line-height: 40px;
 }
-.nav-container .primary-nav .left-side ul li.active,
-.nav-container .secondary-nav .left-side ul li.active {
+.nav-container .primary-nav .left-side .list a.active,
+.nav-container .secondary-nav .left-side .list a.active {
   color: #fff;
   opacity: 1;
 }

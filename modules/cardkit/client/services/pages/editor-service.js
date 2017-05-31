@@ -466,7 +466,6 @@
 
         function alterSelectedParagraphs(editor, handler) {
             var initialSel = editor.exportSelection();
-            if (!initialSel || !initialSel.rangeCount) return;
 
             // restore selection at the end
             $timeout(function() {
@@ -597,7 +596,6 @@
 
         function setCursorAfter(element) {
             var selection = document.getSelection();
-            if (!selection || !selection.rangeCount) return;
 
             var range = selection.getRangeAt(0).cloneRange();
             range.setStartAfter(element);

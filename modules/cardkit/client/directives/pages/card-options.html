@@ -39,7 +39,7 @@
     <md-input-container flex md-no-float
                         ng-class="{ empty: isEmpty(input), default: input.value == input.defaultValue }">
         <label>{{ input.name }}</label>
-        <textarea rows="4" data-ng-model="input.value" class="form-control"
+        <textarea rows="4" ng-model="input.value" class="form-control"
                   data-ng-change="setValue(input.shortCode, input.value)"></textarea>
     </md-input-container>
 </li>

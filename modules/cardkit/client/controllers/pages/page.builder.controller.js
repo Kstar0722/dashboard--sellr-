@@ -386,10 +386,12 @@
 
                 editorService.renderEditor($scope.pageClient || $scope.client || $scope.selectedClient, $scope, true);
 
-                $('.page.content').on('change input', function(e) {
-                    $scope.isPageDirty = true;
-                    markCardChanged(e.target);
-                });
+                $timeout(function() {
+                    $('.page.content').on('change input', function (e) {
+                        $scope.isPageDirty = true;
+                        markCardChanged(e.target);
+                    });
+                }, 2000);
 
                 $('.page.content').on('click', 'a[href]', function(event) {
                     if ($(event.target).closest('.allow-clicks').length) return;

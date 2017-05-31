@@ -25,7 +25,7 @@
 
     <md-content flex ng-click="selectAsset(null)">
         <md-progress-circular class="absolute-center" md-mode="indeterminate" ng-if="loading"></md-progress-circular>
-        <md-grid-list md-cols="6" md-cols-gt-lg="7" md-row-height="1:1" md-gutter="8px" md-gutter-gt-lg="10px"
+        <md-grid-list md-cols="6" md-cols-gt-md="7" md-row-height="1:1" md-gutter="8px" md-gutter-gt-md="10px"
                       md-grid-relayout="[typeFilter, uiAssets, ui.search]" relayout-debounce="300"
                       ng-class="{ searching: ui.search }" lazy-img-container>
             <md-grid-tile class="asset" ng-repeat="asset in uiAssets | filterBy:['fileName']:ui.search"

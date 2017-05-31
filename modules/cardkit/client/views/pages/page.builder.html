@@ -111,7 +111,7 @@
 
                 <div ui-sortable="sortableOptions1" id="sortable2"
                      class="cards-container connected-cards-container screen"
-                     data-ng-model="newPage.cards" data-client-name="{{pageClient.companyName}}">
+                     ng-model="newPage.cards" data-client-name="{{pageClient.companyName}}">
 
                     <div ng-repeat="card in newPage.cards">
                         <md-whiteframe class="md-whiteframe-z1 card-container" layout layout-align="start start" client="pageClient"

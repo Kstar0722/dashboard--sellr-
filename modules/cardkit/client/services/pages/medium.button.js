@@ -40,13 +40,9 @@ function MediumButton(options) {
             html = options.start + html + options.end;
 
         } else { //clean old
-            try {
-                if (options.action != undefined) html = options.action(html, false);
-                html = String(html).split(options.start).join('');
-                html = String(html).split(options.end).join('');
-            } catch (ex) {
-                console.warn('medium editor error', ex);
-            }
+            if (options.action != undefined) html = options.action(html, false);
+            html = String(html).split(options.start).join('');
+            html = String(html).split(options.end).join('');
         }
 
 

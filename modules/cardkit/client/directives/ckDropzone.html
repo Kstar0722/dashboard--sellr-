@@ -5,7 +5,7 @@
             <div class="text" ng-if="kind == 'image'">Drag an image here or browse for an image to upload.</div>
             <div class="text" ng-if="kind != 'image'">Drag a file here or browse for a file to upload.</div>
         </div>
-        <div class="placeholder uploading" ng-show="uploading">
+        <div class="placeholder uploading" ng-show="uploading" ng-cloak>
             <div class="text">Uploading...</div>
             <ck-progress-bar value="uploadProgress"></ck-progress-bar>
         </div>

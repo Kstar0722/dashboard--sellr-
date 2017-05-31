@@ -10,7 +10,7 @@
         });
 
         this.on = function(eventName, callback) {
-            $rootScope.$on('$messageIncoming', function(event, msg) {
+            var listener = $rootScope.$on('$messageIncoming', function(event, msg) {
                 msg = angular.fromJson(msg);
                 if (eventName && msg.event && eventName.toLowerCase() == msg.event.toLowerCase()) {
                     callback(msg.data);
@@ -21,6 +21,8 @@
                 context.$postListeners = context.$postListeners || []
                 context.$postListeners.push(listener)
             }
+
+            return listener;
         };
 
         this.send = function(eventName, data) {

@@ -6539,30 +6539,27 @@ body.editPage #videoTutorial md-dialog md-dialog-content {
 }
 .cardkit {
   background: white;
+  min-height: calc(100vh -  120px);
+}
+md-input-container {
+  display: block;
+  margin: 5px 0 20px 0;
 }
 md-input-container label {
   position: relative !important;
+  margin: -10px 0 !important;
+}
+md-input-container .md-input {
+  min-height: 36px !important;
 }
 md-input-container .md-errors-spacer {
   display: none !important;
-}
-.dark-theme md-input-container label,
-md-input-container.dark label,
-.input-container.dark label,
-.dark-theme md-input-container .label2,
-md-input-container.dark .label2,
-.input-container.dark .label2 {
-  font-size: 11px;
-  font-weight: bold;
 }
 md-dialog md-dialog-content {
   padding: 24px;
 }
 .dropzone {
-  min-height: 175px !important;
-}
-.dropzone .overlay {
-  min-height: 100px !important;
+  height: auto !important;
 }
 #listPages.tiles .page .options ng-md-icon {
   margin-top: 1px !important;
@@ -6582,4 +6579,12 @@ md-dialog md-dialog-content {
 }
 .custom-modal md-dialog-content {
   min-height: initial !important;
+}
+.md-tooltip {
+  height: auto !important;
+  font-size: 10px !important;
+  padding: 0 10px !important;
+}
+.selectize-input {
+  box-shadow: none !important;
 }

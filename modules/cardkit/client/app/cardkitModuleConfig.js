@@ -16,6 +16,7 @@ var dependencies = [
   'ui.router',
   // 'ui.tree',
   // 'ui.utils',
+  'ui.sortable',
   'cfp.hotkeys',
   'angular-filepicker',
   'angularLazyImg',

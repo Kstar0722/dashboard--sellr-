@@ -148,7 +148,7 @@
 
         function resolveStateClientName(clients, clientSlug) {
             if ($stateParams.clientSlug || clientSlug) {
-                var slug = $stateParams.clientSlug || clientSlug;
+                var slug = clientSlug || $stateParams.clientSlug;
                 var clientName = resolveClientName(clients, slug)
                 return clientName;
             }

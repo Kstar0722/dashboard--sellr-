@@ -19,6 +19,8 @@ angular.module('core').service('PostMessage', ['$rootScope', function ($rootScop
       context.$postListeners = context.$postListeners || []
       context.$postListeners.push(listener)
     }
+    
+    return listener;
   }
 
   this.send = function (eventName, data) {

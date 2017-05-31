@@ -46,11 +46,8 @@ angular.module('cardkit.users').service('Authorization', ['Authentication', 'Aut
             return authorized;
         };
 
-        self.authorizeSellr = function(url) {
-            if ($rootScope.embedAuthorized) return $q.when(Authentication.cardkit.user);
-
+        self.authorizeSellr = function(clientUri) {
             var defer = $q.defer();
-            var clientUri = decodeURIComponent((url && url.match(/pages\/([^\/]+)/i) || [])[1] || '');
             if (!clientUri) return $q.reject('client not specified');
 
             AuthenticationSvc.signout(true).then(function() {
@@ -60,7 +57,8 @@ angular.module('cardkit.users').service('Authorization', ['Authentication', 'Aut
                     logger.error('Failed to load website builder due to authentication error');
                 }, 5000);
 
-                PostMessage.on('identifyComplete', function(credentials) {
+                var dispose = PostMessage.on('identifyComplete', function(credentials) {
+                    dispose(); // identify once
                     $timeout.cancel(timeoutTimer);
                     credentials.provider = 'sellr';
                     credentials.clientUri = clientUri;

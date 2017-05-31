@@ -173,7 +173,7 @@
                         <td>{{page.user.firstName || 'unknown'}} at {{page.created | date: 'M/d'}}</td>
                         <td><span ng-show="page.updateHistory.length">{{getFirstNameOfUpdateHistory(page.updateHistory[page.updateHistory.length-1].user || 'unknown')}} {{page.updateHistory[page.updateHistory.length-1].date | date: "M/d 'at' h:mm a"}}</span>
                         </td>
-                        <td><select class="form-control" name="pageStatus" id="pageStatus" data-ng-model="page.status"
+                        <td><select class="form-control" name="pageStatus" id="pageStatus" ng-model="page.status"
                                     data-ng-change="pages.changeStatus(page)">
                             <option value="{{status}}" ng-repeat="status in pages.pageStatuses"
                                     ng-if="showStatus(status)">{{status}}

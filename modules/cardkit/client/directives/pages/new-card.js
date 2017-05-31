@@ -171,7 +171,7 @@
 
                         var compiledContent = $compile(content)(scope);
                         $(compiledContent).find('>*').addClass('card-content');
-                        $animate.enabled(false, compiledContent);
+                        $animate.enabled(compiledContent, false);
                         element.append(compiledContent);
 
                         $timeout(function() {
@@ -234,7 +234,7 @@
                         if (client) {
                             editorService.destroyEditor();
                             element.find('[medium-editor-model]').html(html);
-                            $animate.enabled(false, element);
+                            $animate.enabled(element, false);
                             $timeout(function() {
                                 editorService.renderEditor(client, builderScope, true);
                             });
