@@ -130,6 +130,8 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
                   source = 'Referral';
                   color = '#ffa700';
                   break;
+                default:
+                  continue;
               }
               $scope.channels.all.push({
                 source: source,

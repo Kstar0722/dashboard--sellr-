@@ -817,6 +817,18 @@
   background-color: #eff3f6;
   color: #354052;
   position: relative;
+
+  .chart {
+    padding: 0 30px;
+    box-sizing: border-box;
+
+    .figure {
+      font-size: 40px;
+      font-weight: 300;
+      color: #354052;
+    }
+  }
+
   .main-content{
     padding: 30px 3vw 10vh 3vw;
     display: flex;
@@ -825,6 +837,49 @@
     align-items: flex-start;
     .main-left-column{
       width: 25%;
+      .common-white-box {
+        .row {
+          &.sources {
+            display: flex;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 0 30px;
+            box-sizing: border-box;
+
+            .name {
+              width: 40%;
+            }
+
+            .visual {
+              position: relative;
+              flex: 1;
+
+              .bar {
+                position: absolute;
+                width: 130px;
+                height: 4px;
+                background: #e2e7ee;
+                border-radius: 2px;
+                overflow: hidden;
+              }
+
+              .amount {
+                position: absolute;
+              }
+
+              .bar, .amount {
+                top: 50%;
+                transform: translateY(-50%);
+              }
+            }
+
+            .name, .amount {
+              font: 14px 'SourceSansPro-Regular', sans-serif;
+              color: #7f8fa4;
+            }
+          }
+        }
+      }
       .top-products{
         padding: 25px 0 0 0;
         .top-product{

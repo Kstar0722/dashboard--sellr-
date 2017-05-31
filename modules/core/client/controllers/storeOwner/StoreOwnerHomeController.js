@@ -1,6 +1,10 @@
 angular.module('core').controller('StoreOwnerHomeController', function ($scope, accountsService, $stateParams, $state, $http) {
   console.log('LISTED PRODUCTS CTRL')
 
+  $scope.tokens = {
+    google: null
+  };
+
   $scope.charts = new Array();
 
   $scope.stats = {
@@ -32,6 +36,47 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
           }
         }
       }
+    },
+    views: {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Page Views',
+            borderColor: '#2bbf88',
+            fill: true,
+            backgroundColor: 'rgba(43, 191, 136, 0.1)',
+            data: [],
+            pointBackgroundColor: 'white',
+            pointRadius: 4,
+            borderWidth: 2,
+            borderColor: '#2bbf88'
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [
+            {
+              display: false
+            }
+          ],
+          yAxes: [
+            {
+              display: false
+            }
+          ]
+        },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
+      }
     }
   };
 
@@ -40,6 +85,7 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
     end: new Date(),
     min: new Date('2005-01-01'),
     max: new Date(),
+    comparison: null,
     labels: [],
     data: []
   };
@@ -47,12 +93,16 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
   $scope.analytics = {
     google: {
       report: null,
-      sources: null,
+      sources: {
+        all: [],
+        total: 0
+      },
       visitors: 0,
-      views: null,
+      views: 0,
       overview: {
         labels: []
-      }
+      },
+      difference: 0
     },
     facebook: {}
   };
@@ -78,7 +128,7 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
           refresh_token: account.preferences.analytics.refresh_token
         }
       }).then(function(response) {
-        // TODO: not important, but find out why $http won't chain properly
+        $scope.tokens.google = response.access_token;
         if(account.preferences.analytics.item) {
           return $http({
             method: 'POST',
@@ -137,17 +187,17 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
   };
 
   $scope.formatDate = function(date) {
-    return date.toISOString().split('T')[0];
+    return moment(date).format('YYYY-MM-D');
   };
 
   $scope.ui = {
     sources: function(report) {
-      $scope.channels.total = parseInt(report);
-      $scope.channels.all = [];
+      $scope.analytics.google.sources.total = parseInt(report.data.totals[0].values[0]);
+      $scope.analytics.google.sources.all = [];
       var source, amount, color = 'white';
-      for(var i = 0; i < stats.data.reports[1].data.rows.length; i++) {
-        source = stats.data.reports[1].data.rows[i].dimensions[0];
-        amount = parseInt(stats.data.reports[1].data.rows[i].metrics[0].values[0]);
+      for(var i = 0; i < report.data.rows.length; i++) {
+        source = report.data.rows[i].dimensions[0];
+        amount = parseInt(report.data.rows[i].metrics[0].values[0]);
         switch(source) {
           case '(none)':
             source = 'Direct';
@@ -161,11 +211,13 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
             source = 'Referral';
             color = '#ffa700';
             break;
+          default:
+            continue;
         }
-        $scope.channels.all.push({
+        $scope.analytics.google.sources.all.push({
           source: source,
           amount: amount,
-          percent: Math.round(amount / $scope.channels.total * 100),
+          percent: Math.round(amount / $scope.analytics.google.sources.total * 100),
           color: color
         });
       }
@@ -173,6 +225,45 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
     visitors: function(report) {
       var traffic = report.data.totals[0].values[0];
       $scope.analytics.google.visitors = Number(traffic).toLocaleString();
+    },
+    increase: function() {
+      var start = moment($scope.range.start),
+          end = moment($scope.range.end);
+      accountsService.getAccount().then(function(account) {
+        if(account.preferences.analytics.item) {
+          return $http({
+            method: 'POST',
+            url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
+            contentType: 'application/json',
+            headers: {
+              'Authorization': `Bearer ${$scope.tokens.google}`
+            },
+            data: {
+              reportRequests: [
+                {
+                  viewId: account.preferences.analytics.item,
+                  dateRanges: [
+                    {
+                      startDate: $scope.formatDate(start.subtract(end.diff(start))),
+                      endDate: $scope.formatDate($scope.range.start)
+                    }
+                  ],
+                  metrics: [
+                    {
+                      expression: 'ga:sessions'
+                    }
+                  ]
+                }
+              ]
+            }
+          }).then(function(report) {
+            var old = parseInt(report.data.reports[0].data.totals[0].values[0]),
+                updated = parseInt($scope.analytics.google.visitors.replace(',', '')),
+                difference = Math.round(((updated - old) / ((updated + old) / 2)) * 100);
+            $scope.analytics.google.difference = difference;
+          });
+        }
+      });
     },
     views: function() {
 
@@ -192,16 +283,19 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
         });
         map[date] = parseInt(value);
         $scope.stats.overview.data.labels.push(date);
+        $scope.stats.views.data.labels.push(date);
         $scope.stats.overview.data.datasets[0].data.push(report.data.rows[i].metrics[0].values[0]);
-        //$scope.stats.overview.data.datasets[1].data.push(report.data.rows[i].metrics[0].values[1]);
-        for(var key in $scope.charts) {
-          $scope.charts[key].update();
-        }
+        $scope.stats.views.data.datasets[0].data.push(report.data.rows[i].metrics[0].values[1]);
+      }
+      $scope.analytics.google.views = new Number(report.data.totals[0].values[1]).toLocaleString();
+      for(var key in $scope.charts) {
+        $scope.charts[key].update();
       }
     },
     update() {
-      //$scope.ui.sources($scope.analytics.google.report.data.reports[1]);
+      $scope.ui.sources($scope.analytics.google.report.data.reports[1]);
       $scope.ui.visitors($scope.analytics.google.report.data.reports[0]);
+      $scope.ui.increase();
       $scope.ui.overview($scope.analytics.google.report.data.reports[0]);
     }
   };
@@ -214,7 +308,15 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
     template: '<canvas></canvas>',
     link($scope, $element) {
       $scope.charts.push(new Chart($element[0].getContext('2d'), $scope.stats.overview));
-      console.log($scope.charts);
+    }
+  };
+}).directive('viewsChart', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<canvas></canvas>',
+    link($scope, $element) {
+      $scope.charts.push(new Chart($element[0].getContext('2d'), $scope.stats.views));
     }
   };
 });

@@ -17,9 +17,20 @@
     <div class="main-left-column">
       <div class="common-white-box">
         <div class="title">Website visitors by source</div>
+        <div class="row sources" ng-repeat="value in analytics.google.sources.all">
+          <div class="name">{{value.source}}</div>
+          <div class="visual">
+            <div class="bar" style="background: {{value.color}}; width: {{value.percent}}%;"></div>
+            <div class="amount" style="left: calc({{value.percent}}% + 10px); color: {{value.color}};">{{value.amount}}</div>
+          </div>
+        </div>
       </div>
       <div class="common-white-box">
         <div class="title">Website page views</div>
+        <div class="chart">
+          <div class="figure">{{analytics.google.views}}</div>
+          <views-chart></views-chart>
+        </div>
       </div>
       <div class="common-white-box top-products">
         <div class="title">Top Products</div>
@@ -52,7 +63,22 @@
             <img src="/img/placeholdericon60x60.png" alt="icon">
           </div>
           <div class="info-container">
-            <div class="number">{{analytics.google.visitors}} <span class="indicator"><i class="fa fa-chevron-circle-up"></i> 67%</span></div>
+            <div class="number">{{analytics.google.visitors}}
+              <div ng-if="analytics.google.difference >= 0">
+                <div class="number">
+                  <span class="indicator">
+                    <i class="fa fa-chevron-circle-up"></i>
+                    <span>{{analytics.google.difference}}%</span>
+                  </span>
+                </div>
+              </div>
+              <div ng-if="analytics.google.difference < 0">
+                <span class="indicator negative">
+                  <i class="fa fa-chevron-circle-down"></i>
+                  <span>{{analytics.google.difference}}%</span>
+                </span>
+              </div>
+            </div>
             <div class="text">Website visitors</div>
             <div class="test" ng-click="getSessionsFromGoole()">get visitors</div>
           </div>
@@ -87,7 +113,9 @@
       </div>
       <div class="common-white-box">
         <div class="title">Overview</div>
-        <report-chart></report-chart>
+        <div class="chart">
+          <report-chart></report-chart>
+        </div>
       </div>
     </div>
   </div>
