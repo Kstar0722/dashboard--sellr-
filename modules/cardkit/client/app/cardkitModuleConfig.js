@@ -6,7 +6,7 @@ var dependencies = [
   'ngResource',
   'ngSanitize',
   'ngTagsInput',
-  'ngTouch',
+  // 'ngTouch',
   'ngVideo',
   'angular.filter',
   'angularMoment',

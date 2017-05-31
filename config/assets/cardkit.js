@@ -4,7 +4,7 @@ module.exports = {
   client: {
     lib: {
       css: [
-        // 'public/lib/bootstrap/dist/css/bootstrap.min.css',
+        'public/lib/bootstrap/dist/css/bootstrap.min.css',
         // 'public/lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
 
         // 'public/lib/toastr/toastr.css',
@@ -29,7 +29,7 @@ module.exports = {
         // 'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-cookies/angular-cookies.js',
-        'public/lib/angular-touch/angular-touch.js',
+        // 'public/lib/angular-touch/angular-touch.js',
         'public/lib/angular-sanitize/angular-sanitize.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         // 'public/lib/angular-ui-utils/ui-utils.js',
@@ -37,7 +37,7 @@ module.exports = {
         // 'public/lib/ace/src-noconflict/ext-language_tools.js',
         // 'public/lib/ace/src-noconflict/theme-monokai.js',
         'public/lib/aws-sdk/dist/aws-sdk.min.js',
-        // 'public/lib/bootstrap/dist/js/bootstrap.js',
+        'public/lib/bootstrap/dist/js/bootstrap.js',
         // 'public/lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
         'public/lib/less/dist/less.min.js',
         // 'public/lib/lodash/lodash.min.js',

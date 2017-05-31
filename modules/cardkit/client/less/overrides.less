@@ -34,3 +34,24 @@ md-dialog md-dialog-content {
 #listPages.tiles .page .options ng-md-icon {
   margin-top: 1px !important;
 }
+
+#pageBuilder {
+  padding-top: @nav-height;
+
+  .busy-overlay {
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .page-body {
+    height: calc(~"100vh - " (@nav-height + @subnav-height));
+  }
+}
+
+.secondary-nav .logo {
+  padding: 0 !important;
+}
+
+.custom-modal md-dialog-content {
+  min-height: initial !important;
+}

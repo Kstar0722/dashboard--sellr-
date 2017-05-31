@@ -113,9 +113,8 @@ angular.module('core')
   var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
     var excludedElementsId = ['account-search-input']
     if (!_.contains(excludedElementsId, targetElement.id) && targetElement.className.indexOf('menu-select-trigger') === -1) {
-      $scope.$apply(function () {
-        closeMenus()
-      })
+      closeMenus()
+      if (!$scope.$$phase) $scope.$digest()
     }
   })
   // Sort of not needed because Nav Scope will never be destroyed but this is mandatory elsewhere to prevent Leak

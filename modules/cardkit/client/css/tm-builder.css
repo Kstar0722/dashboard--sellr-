@@ -3028,67 +3028,67 @@
   overflow: visible;
   clip: auto;
 }
-body {
+body.cardkit-state {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
 }
-body button,
-body input,
-body select,
-body textarea {
+body.cardkit-state button,
+body.cardkit-state input,
+body.cardkit-state select,
+body.cardkit-state textarea {
   box-shadow: none;
 }
-body :focus {
+body.cardkit-state :focus {
   outline: none;
 }
-body.createPage,
-body.editPage {
+body.cardkit-state.createPage,
+body.cardkit-state.editPage {
   overflow-x: hidden;
 }
-body.listPages {
+body.cardkit-state.listPages {
   overflow-y: scroll;
 }
-body a.icon {
+body.cardkit-state a.icon {
   text-decoration: none;
 }
-body a.icon:hover {
+body.cardkit-state a.icon:hover {
   text-decoration: none;
 }
-body a.icon[disabled] {
+body.cardkit-state a.icon[disabled] {
   color: #F3F3F5 !important;
   pointer-events: none;
 }
-body .md-dialog-container {
+body.cardkit-state .md-dialog-container {
   z-index: 10000;
 }
-body md-tooltip {
+body.cardkit-state md-tooltip {
   z-index: 100000 !important;
 }
-body md-input-container label {
+body.cardkit-state md-input-container label {
   margin: -3px 5px;
   text-align: left;
 }
-body .bootstrap-multiselect.width100 {
+body.cardkit-state .bootstrap-multiselect.width100 {
   position: relative;
 }
-body .bootstrap-multiselect.width100 .dropdown-toggle {
+body.cardkit-state .bootstrap-multiselect.width100 .dropdown-toggle {
   position: relative;
   width: 100%;
 }
-body .bootstrap-multiselect.width100 .dropdown-toggle .multiselect-selected-text {
+body.cardkit-state .bootstrap-multiselect.width100 .dropdown-toggle .multiselect-selected-text {
   float: left;
 }
-body .bootstrap-multiselect.width100 .dropdown-toggle .caret {
+body.cardkit-state .bootstrap-multiselect.width100 .dropdown-toggle .caret {
   margin-top: -2px;
   position: absolute;
   right: 5px;
   top: 50%;
 }
-body .bootstrap-multiselect.width100 .dropdown-menu {
+body.cardkit-state .bootstrap-multiselect.width100 .dropdown-menu {
   width: 100%;
 }
-body #subHeader {
+body.cardkit-state #subHeader {
   align-items: center;
   background: #f8f9fb;
   border-bottom: 1px solid #e6e6e6;
@@ -3097,17 +3097,17 @@ body #subHeader {
   padding: 0 1vw;
   z-index: 98999;
 }
-body #subHeader .md-button {
+body.cardkit-state #subHeader .md-button {
   background-color: #f0f3f3;
   padding: 5px 15px;
   margin: 0 5px;
   box-shadow: none;
 }
-body #subHeader .md-button.active {
+body.cardkit-state #subHeader .md-button.active {
   background-color: #ff2233;
   color: white;
 }
-body #subHeader .md-button.new-page {
+body.cardkit-state #subHeader .md-button.new-page {
   background-color: #3eb02d;
   border-radius: 4px;
   color: white;
@@ -3116,12 +3116,12 @@ body #subHeader .md-button.new-page {
   padding: 5px 1vw 8px;
   text-transform: none;
 }
-body #subHeader .md-button.new-page:before {
+body.cardkit-state #subHeader .md-button.new-page:before {
   content: '+';
   font-size: 18px;
   margin-right: 0.5vw;
 }
-body #subHeader .search-container {
+body.cardkit-state #subHeader .search-container {
   align-self: center;
   background: #FFFFFF;
   border-radius: 4px;
@@ -3130,12 +3130,12 @@ body #subHeader .search-container {
   padding: 0;
   position: relative;
 }
-body #subHeader .search-container .search {
+body.cardkit-state #subHeader .search-container .search {
   border: none;
   padding: 0 31px 0 10px;
   z-index: 1;
 }
-body #subHeader .search-container .fa-search {
+body.cardkit-state #subHeader .search-container .fa-search {
   color: #b6bac1;
   position: absolute;
   right: 10px;
@@ -3143,12 +3143,12 @@ body #subHeader .search-container .fa-search {
   transform: translateY(-50%);
   z-index: 0;
 }
-body #subHeader .right {
+body.cardkit-state #subHeader .right {
   align-items: center;
   justify-content: flex-end;
   text-align: right;
 }
-body .busy-overlay {
+body.cardkit-state .busy-overlay {
   background: white;
   height: 100vh;
   margin: 0;
@@ -3158,7 +3158,7 @@ body .busy-overlay {
   width: 100%;
   z-index: 999998;
 }
-body .busy-overlay > * {
+body.cardkit-state .busy-overlay > * {
   left: 50%;
   margin-left: -220px !important;
   margin-top: -75px !important;
@@ -3167,123 +3167,123 @@ body .busy-overlay > * {
   top: 50%;
   width: 400px;
 }
-body .busy-overlay > .progress-label {
+body.cardkit-state .busy-overlay > .progress-label {
   font-size: 18px;
   font-weight: bold;
   margin-top: -100px !important;
 }
-body .busy-overlay.loadingDone {
+body.cardkit-state .busy-overlay.loadingDone {
   opacity: 0;
   z-index: -9000;
 }
-body md-dialog.default-modal,
-body md-dialog.custom-modal,
-body md-dialog.progress-modal {
+body.cardkit-state md-dialog.default-modal,
+body.cardkit-state md-dialog.custom-modal,
+body.cardkit-state md-dialog.progress-modal {
   border-radius: 0;
   font-size: 14pt;
   max-width: 500px;
   min-width: 400px;
   text-align: center;
 }
-body md-dialog.default-modal .dialog-header,
-body md-dialog.custom-modal .dialog-header,
-body md-dialog.progress-modal .dialog-header {
+body.cardkit-state md-dialog.default-modal .dialog-header,
+body.cardkit-state md-dialog.custom-modal .dialog-header,
+body.cardkit-state md-dialog.progress-modal .dialog-header {
   color: #476061;
 }
-body md-dialog.default-modal .dialog-header div,
-body md-dialog.custom-modal .dialog-header div,
-body md-dialog.progress-modal .dialog-header div {
+body.cardkit-state md-dialog.default-modal .dialog-header div,
+body.cardkit-state md-dialog.custom-modal .dialog-header div,
+body.cardkit-state md-dialog.progress-modal .dialog-header div {
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 10px;
   margin-top: 20px;
   padding: 0 20px;
 }
-body md-dialog.default-modal .dialog-header hr,
-body md-dialog.custom-modal .dialog-header hr,
-body md-dialog.progress-modal .dialog-header hr {
+body.cardkit-state md-dialog.default-modal .dialog-header hr,
+body.cardkit-state md-dialog.custom-modal .dialog-header hr,
+body.cardkit-state md-dialog.progress-modal .dialog-header hr {
   border-top: 5px solid black;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 0;
   width: 10%;
 }
-body md-dialog.default-modal md-dialog-content,
-body md-dialog.custom-modal md-dialog-content,
-body md-dialog.progress-modal md-dialog-content {
+body.cardkit-state md-dialog.default-modal md-dialog-content,
+body.cardkit-state md-dialog.custom-modal md-dialog-content,
+body.cardkit-state md-dialog.progress-modal md-dialog-content {
   min-height: 100px;
 }
-body md-dialog.default-modal md-dialog-content div,
-body md-dialog.custom-modal md-dialog-content div,
-body md-dialog.progress-modal md-dialog-content div {
+body.cardkit-state md-dialog.default-modal md-dialog-content div,
+body.cardkit-state md-dialog.custom-modal md-dialog-content div,
+body.cardkit-state md-dialog.progress-modal md-dialog-content div {
   margin-bottom: 10px;
 }
-body md-dialog.default-modal .md-actions,
-body md-dialog.custom-modal .md-actions,
-body md-dialog.progress-modal .md-actions {
+body.cardkit-state md-dialog.default-modal .md-actions,
+body.cardkit-state md-dialog.custom-modal .md-actions,
+body.cardkit-state md-dialog.progress-modal .md-actions {
   min-height: initial;
   padding: 0;
 }
-body md-dialog.default-modal .md-actions .md-button,
-body md-dialog.custom-modal .md-actions .md-button,
-body md-dialog.progress-modal .md-actions .md-button {
+body.cardkit-state md-dialog.default-modal .md-actions .md-button,
+body.cardkit-state md-dialog.custom-modal .md-actions .md-button,
+body.cardkit-state md-dialog.progress-modal .md-actions .md-button {
   border-radius: 0;
   font-weight: bold;
   height: 50px;
   margin: 0;
   width: 100%;
 }
-body md-dialog.default-modal .md-actions .md-button.half,
-body md-dialog.custom-modal .md-actions .md-button.half,
-body md-dialog.progress-modal .md-actions .md-button.half {
+body.cardkit-state md-dialog.default-modal .md-actions .md-button.half,
+body.cardkit-state md-dialog.custom-modal .md-actions .md-button.half,
+body.cardkit-state md-dialog.progress-modal .md-actions .md-button.half {
   width: 50%;
 }
-body .md-dialog-backdrop {
+body.cardkit-state .md-dialog-backdrop {
   background-color: rgba(255, 255, 255, 0.8);
 }
-body .modal,
-body .md-dialog-container {
+body.cardkit-state .modal,
+body.cardkit-state .md-dialog-container {
   z-index: 1000000;
 }
-body .modal .close,
-body .md-dialog-container .close {
+body.cardkit-state .modal .close,
+body.cardkit-state .md-dialog-container .close {
   position: relative;
   z-index: 1000000;
 }
-body .md-select-backdrop,
-body .md-select-menu-container,
-body .md-menu-backdrop,
-body .md-open-menu-container {
+body.cardkit-state .md-select-backdrop,
+body.cardkit-state .md-select-menu-container,
+body.cardkit-state .md-menu-backdrop,
+body.cardkit-state .md-open-menu-container {
   z-index: 1100001;
 }
-body .progress-modal md-dialog-content {
+body.cardkit-state .progress-modal md-dialog-content {
   min-height: 130px;
 }
-body .progress-modal md-progress-linear,
-body .progress-modal md-progress-linear .md-container,
-body .progress-modal md-progress-linear .md-bar {
+body.cardkit-state .progress-modal md-progress-linear,
+body.cardkit-state .progress-modal md-progress-linear .md-container,
+body.cardkit-state .progress-modal md-progress-linear .md-bar {
   height: 20px;
 }
-body .progress-modal md-progress-linear .md-container {
+body.cardkit-state .progress-modal md-progress-linear .md-container {
   background-color: #b0d8a6;
 }
-body .progress-modal md-progress-linear .md-bar {
+body.cardkit-state .progress-modal md-progress-linear .md-bar {
   background-color: #5fba53;
 }
-body .progress-modal .steps {
+body.cardkit-state .progress-modal .steps {
   min-height: 130px;
 }
-body .progress-modal .steps li {
+body.cardkit-state .progress-modal .steps li {
   font-size: 0.8em;
   font-style: italic;
   list-style-position: inside;
   margin-right: 20px;
   margin-top: 15px;
 }
-body .progress-modal .steps li.current {
+body.cardkit-state .progress-modal .steps li.current {
   font-weight: bold;
 }
-body .fileUploadForm .btn {
+body.cardkit-state .fileUploadForm .btn {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
   border-radius: none;
@@ -3293,10 +3293,10 @@ body .fileUploadForm .btn {
   padding: 6px 15px;
   position: relative;
 }
-body .fileUploadForm .btn * {
+body.cardkit-state .fileUploadForm .btn * {
   cursor: pointer;
 }
-body .fileUploadForm input[type="file"] {
+body.cardkit-state .fileUploadForm input[type="file"] {
   bottom: 0;
   cursor: pointer;
   left: 0;
@@ -3307,12 +3307,12 @@ body .fileUploadForm input[type="file"] {
   top: 0;
   width: 100%;
 }
-body .file-toolbar {
+body.cardkit-state .file-toolbar {
   margin-top: -15px;
   border-radius: 3px;
   border: 1px solid rgba(47, 59, 77, 0.7);
 }
-body .file-toolbar .md-button {
+body.cardkit-state .file-toolbar .md-button {
   background: transparent;
   border-left: 1px solid rgba(47, 59, 77, 0.7);
   border-radius: 0 !important;
@@ -3322,30 +3322,30 @@ body .file-toolbar .md-button {
   padding: 0 8px;
   text-transform: none;
 }
-body .file-toolbar .md-button:first-of-type {
+body.cardkit-state .file-toolbar .md-button:first-of-type {
   border-left: none;
 }
-body .file-toolbar .md-button .fa {
+body.cardkit-state .file-toolbar .md-button .fa {
   font-size: 18px;
   margin-bottom: 8px;
   margin-top: 7px;
   position: relative;
   top: -3px;
 }
-body .file-toolbar .md-button .fa.fa-upload {
+body.cardkit-state .file-toolbar .md-button .fa.fa-upload {
   border-radius: 2px;
   border: 2px solid #FFFFFF;
   transform: scale(0.8);
   width: 23px;
 }
-body .file-toolbar .md-button .fa.fa-upload:before {
+body.cardkit-state .file-toolbar .md-button .fa.fa-upload:before {
   bottom: -2px;
   position: relative;
 }
-body .file-toolbar .md-button .fa.fa-scissors {
+body.cardkit-state .file-toolbar .md-button .fa.fa-scissors {
   transform: rotate(-90deg) scale(0.9);
 }
-body .file-toolbar .md-button span {
+body.cardkit-state .file-toolbar .md-button span {
   color: #eee;
   display: block;
   font-size: 11px;
@@ -3353,44 +3353,44 @@ body .file-toolbar .md-button span {
   margin-bottom: 5px;
   margin-top: -7px;
 }
-body .file-toolbar .md-button[disabled] {
+body.cardkit-state .file-toolbar .md-button[disabled] {
   color: #3f4b59;
   background: transparent !important;
   pointer-events: none;
 }
-body .file-toolbar .md-button[disabled] span {
+body.cardkit-state .file-toolbar .md-button[disabled] span {
   color: #3f4b59;
 }
-body .file-toolbar .md-button[disabled] .fa-upload {
+body.cardkit-state .file-toolbar .md-button[disabled] .fa-upload {
   border-color: #2A323B;
 }
-body .file-toolbar .md-button.active {
+body.cardkit-state .file-toolbar .md-button.active {
   background: #455466;
 }
-body .file-toolbar[disabled] {
+body.cardkit-state .file-toolbar[disabled] {
   box-shadow: none;
   opacity: 0.65;
   pointer-events: none;
 }
-body md-input-container .file-toolbar {
+body.cardkit-state md-input-container .file-toolbar {
   margin-top: 5px;
 }
-body .pagination {
+body.cardkit-state .pagination {
   display: block;
   text-align: center;
 }
-body .pagination li {
+body.cardkit-state .pagination li {
   cursor: pointer;
   display: inline-block;
 }
-body .pagination li.disabled {
+body.cardkit-state .pagination li.disabled {
   cursor: not-allowed;
 }
-body .pagination li.disabled > a {
+body.cardkit-state .pagination li.disabled > a {
   color: #F3F3F5;
   pointer-events: none;
 }
-body .page-size {
+body.cardkit-state .page-size {
   float: right;
   line-height: 32px;
   margin-left: -180px;
@@ -3398,136 +3398,136 @@ body .page-size {
   text-align: right;
   width: 180px;
 }
-body .page-size select {
+body.cardkit-state .page-size select {
   display: inline-block;
   margin-left: 5px;
   width: auto;
 }
-body .md-button.lower {
+body.cardkit-state .md-button.lower {
   text-transform: none;
 }
-body ul.plain,
-body ol.plain {
+body.cardkit-state ul.plain,
+body.cardkit-state ol.plain {
   padding: 0;
 }
-body ul.plain > li,
-body ol.plain > li {
+body.cardkit-state ul.plain > li,
+body.cardkit-state ol.plain > li {
   display: inline;
   list-style: none;
   margin: 0;
 }
-body ul.comma-separated li:nth-of-type(n+2):before {
+body.cardkit-state ul.comma-separated li:nth-of-type(n+2):before {
   content: ', ';
 }
-body img.uploading,
-body video.uploading {
+body.cardkit-state img.uploading,
+body.cardkit-state video.uploading {
   opacity: 0.5;
 }
-body #filepicker_shade {
+body.cardkit-state #filepicker_shade {
   z-index: 1000001;
 }
-body .progress-container {
+body.cardkit-state .progress-container {
   margin: 5px 0 5px 0;
   position: relative;
   width: 192px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-body .client-selector {
+body.cardkit-state .client-selector {
   margin-top: -6px;
   padding: 10px 0;
 }
-body .client-selector .md-select-label {
+body.cardkit-state .client-selector .md-select-label {
   border: 0 !important;
   color: inherit !important;
   font-size: 14px;
   text-decoration: none;
 }
-body .client-selector .md-select-icon {
+body.cardkit-state .client-selector .md-select-icon {
   font-size: 9px;
   text-align: left;
 }
-body .client-selector.placeholder {
+body.cardkit-state .client-selector.placeholder {
   border-radius: 2px;
   border: 2px solid #ff2233;
   padding: 10px 0 10px 10px;
 }
-body .view-options {
+body.cardkit-state .view-options {
   max-width: 85%;
   margin: 0 auto;
 }
-body .view-options md-switch.view-mode {
+body.cardkit-state .view-options md-switch.view-mode {
   display: block;
   float: right;
   line-height: 24px;
   margin: 0;
 }
-body .view-options md-switch.view-mode .md-container {
+body.cardkit-state .view-options md-switch.view-mode .md-container {
   float: right;
   margin-left: 10px;
 }
-body .view-options md-switch.view-mode .md-label {
+body.cardkit-state .view-options md-switch.view-mode .md-label {
   float: left;
 }
-body #toast-container {
+body.cardkit-state #toast-container {
   top: 130px !important;
   z-index: 10000000;
 }
-body.embedded #toast-container,
-body.nomenu #toast-container {
+body.cardkit-state.embedded #toast-container,
+body.cardkit-state.nomenu #toast-container {
   top: 10px !important;
 }
-body .md-select-menu-container md-content {
+body.cardkit-state .md-select-menu-container md-content {
   padding: 0;
 }
-body .md-select-menu-container md-option {
+body.cardkit-state .md-select-menu-container md-option {
   background: #FFFFFF !important;
   height: 30px !important;
 }
-body .md-select-menu-container md-option[selected] {
+body.cardkit-state .md-select-menu-container md-option[selected] {
   background: #D6D4D7 !important;
 }
-body .md-select-menu-container md-option:focus:not([selected]) {
+body.cardkit-state .md-select-menu-container md-option:focus:not([selected]) {
   background: #e3e1e3 !important;
 }
-body .md-select-menu-container .search-client {
+body.cardkit-state .md-select-menu-container .search-client {
   padding: 0 10px 5px;
 }
-body .md-open-menu-container md-menu-content {
+body.cardkit-state .md-open-menu-container md-menu-content {
   padding: 0;
 }
-body md-menu-content.add-menu ng-md-icon {
+body.cardkit-state md-menu-content.add-menu ng-md-icon {
   color: #3eb02d;
   margin-top: 4px;
   margin-right: 4px;
 }
-body md-menu-content.add-menu span {
+body.cardkit-state md-menu-content.add-menu span {
   flex: 1;
 }
-body md-menu-content.add-menu md-menu-item .md-button.md-focused {
+body.cardkit-state md-menu-content.add-menu md-menu-item .md-button.md-focused {
   background-color: inherit;
   color: inherit;
 }
-body md-menu-content.add-menu md-menu-item .md-button:hover {
+body.cardkit-state md-menu-content.add-menu md-menu-item .md-button:hover {
   background-color: #000000;
   color: #FFFFFF;
 }
-body md-menu-content.add-menu md-menu-item .md-button:hover ng-md-icon {
+body.cardkit-state md-menu-content.add-menu md-menu-item .md-button:hover ng-md-icon {
   color: #FFFFFF;
 }
-body .fade-animate.ng-enter,
-body .fade-animate.ng-move {
+body.cardkit-state .fade-animate.ng-enter,
+body.cardkit-state .fade-animate.ng-move {
   -webkit-transition: 0.1s ease opacity;
   -moz-transition: 0.1s ease opacity;
   -o-transition: 0.1s ease opacity;
   transition: 0.1s ease opacity;
   opacity: 0;
 }
-body .fade-animate.ng-enter.ng-enter-active,
-body .fade-animate.ng-move.ng-move-active {
+body.cardkit-state .fade-animate.ng-enter.ng-enter-active,
+body.cardkit-state .fade-animate.ng-move.ng-move-active {
   opacity: 1;
 }
-body .fade-animate.ng-leave {
+body.cardkit-state .fade-animate.ng-leave {
   -webkit-animation: 0.1s fadeout_animation;
   -moz-animation: 0.1s fadeout_animation;
   -o-animation: 0.1s fadeout_animation;
@@ -3565,7 +3565,7 @@ body .fade-animate.ng-leave {
     opacity: 0;
   }
 }
-body .absolute-center {
+body.cardkit-state .absolute-center {
   position: absolute;
   top: 50%;
   right: auto;
@@ -3575,7 +3575,7 @@ body .absolute-center {
   height: auto;
   transform: translateX(-50%) translateY(-50%) !important;
 }
-body multiselect .caret {
+body.cardkit-state multiselect .caret {
   margin: 8px -5px 0 6px;
 }
 @media screen and (min-width: 700px) {
@@ -6566,4 +6566,20 @@ md-dialog md-dialog-content {
 }
 #listPages.tiles .page .options ng-md-icon {
   margin-top: 1px !important;
+}
+#pageBuilder {
+  padding-top: 120px;
+}
+#pageBuilder .busy-overlay {
+  margin-left: 0 !important;
+  margin-top: 0 !important;
+}
+#pageBuilder .page-body {
+  height: calc(100vh -  190px);
+}
+.secondary-nav .logo {
+  padding: 0 !important;
+}
+.custom-modal md-dialog-content {
+  min-height: initial !important;
 }

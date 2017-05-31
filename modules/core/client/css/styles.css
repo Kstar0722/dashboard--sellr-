@@ -1956,18 +1956,18 @@ md-select.common-input .md-select-value {
 .nav-container .secondary-nav .account-options-box .account-option:hover {
   background-color: rgba(42, 191, 136, 0.1);
 }
-.cardkit-editPage > header {
+.editPage.cardkit-state > header {
   position: fixed;
   height: 120px;
   z-index: 10;
 }
-.cardkit-editPage > header .primary-nav,
-.cardkit-editPage > header .secondary-nav {
+.editPage.cardkit-state > header .primary-nav,
+.editPage.cardkit-state > header .secondary-nav {
   position: fixed;
   left: 0;
   right: 0;
 }
-.cardkit-editPage > header .secondary-nav {
+.editPage.cardkit-state > header .secondary-nav {
   top: 50px;
 }
 .get-started-page {
