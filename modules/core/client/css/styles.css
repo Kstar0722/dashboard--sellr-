@@ -1903,24 +1903,28 @@ md-select.common-input .md-select-value {
   box-shadow: 0 -1px 0 0 #313d4f;
   position: relative;
 }
-.nav-container .primary-nav .left-side ul,
-.nav-container .secondary-nav .left-side ul {
+.nav-container .primary-nav .left-side .list,
+.nav-container .secondary-nav .left-side .list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.nav-container .primary-nav .left-side ul li,
-.nav-container .secondary-nav .left-side ul li {
+.nav-container .primary-nav .left-side .list a,
+.nav-container .secondary-nav .left-side .list a {
   cursor: pointer;
   margin-left: 35px;
   display: inline-block;
+  text-decoration: none !important;
+  color: inherit;
+  min-height: 40px;
+  line-height: 40px;
 }
-.nav-container .primary-nav .left-side ul li span,
-.nav-container .secondary-nav .left-side ul li span {
+.nav-container .primary-nav .left-side .list a span,
+.nav-container .secondary-nav .left-side .list a span {
   opacity: 0.47;
 }
-.nav-container .primary-nav .left-side ul li.active span,
-.nav-container .secondary-nav .left-side ul li.active span {
+.nav-container .primary-nav .left-side .list a.active span,
+.nav-container .secondary-nav .left-side .list a.active span {
   color: #fff;
   opacity: 1;
 }
@@ -2174,6 +2178,20 @@ md-select.common-input .md-select-value {
 }
 .nav-container .secondary-nav .account-options-box .account-option:hover {
   background-color: rgba(42, 191, 136, 0.1);
+}
+.editPage.cardkit-state > header {
+  position: fixed;
+  height: 120px;
+  z-index: 10;
+}
+.editPage.cardkit-state > header .primary-nav,
+.editPage.cardkit-state > header .secondary-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+.editPage.cardkit-state > header .secondary-nav {
+  top: 50px;
 }
 .get-started-page {
   background: #142332;

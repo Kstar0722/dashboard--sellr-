@@ -1,0 +1,227 @@
+#topNav {
+    width: @nav-width;
+    height: @nav-height;
+    max-height: @nav-height;
+    top: 0;
+    font-family: Aileron;
+    position: fixed;
+    left: 0;
+    transition: all .25s;
+    overflow: visible !important;
+    z-index: 99000;
+
+    &:hover {
+        width: 100%;
+    }
+
+    .md-button.md-fab {
+        border-radius: 0;
+        box-shadow: none;
+        width: @nav-width;
+        height: @nav-height;
+        line-height: 64px;
+    }
+    .md-toolbar-tools {
+        height: @nav-height;
+        max-height: @nav-height;
+        background: #1F2532;
+        //flex-direction: row;
+        display: -webkit-flex; /* Safari */
+        -webkit-flex-direction: row; /* Safari 6.1+ */
+        display: flex;
+        flex-direction: row;
+    }
+    .md-fab-toolbar-background {
+        max-height: @nav-height;
+    }
+    md-fab-toolbar md-fab-trigger {
+        position: absolute;
+        z-index: 20;
+        left: -8px;
+        top: -6px;
+    }
+    .md-fab-toolbar-content {
+        margin-left: 66px;
+    }
+    md-fab-toolbar md-fab-trigger md-icon {
+        opacity: 1 !important;
+    }
+
+    .md-fab {
+        background: #1F2532;
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f5633a+0,f3567f+100 */
+        //background: rgb(245, 99, 58); /* Old browsers */
+        //background: -moz-linear-gradient(top, rgba(245, 99, 58, 1) 0%, rgba(243, 86, 127, 1) 100%); /* FF3.6+ */
+        //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(245, 99, 58, 1)), color-stop(100%, rgba(243, 86, 127, 1))); /* Chrome,Safari4+ */
+        //background: -webkit-linear-gradient(top, rgba(245, 99, 58, 1) 0%, rgba(243, 86, 127, 1) 100%); /* Chrome10+,Safari5.1+ */
+        //background: -o-linear-gradient(top, rgba(245, 99, 58, 1) 0%, rgba(243, 86, 127, 1) 100%); /* Opera 11.10+ */
+        //background: -ms-linear-gradient(top, rgba(245, 99, 58, 1) 0%, rgba(243, 86, 127, 1) 100%); /* IE10+ */
+        //background: linear-gradient(to bottom, rgba(245, 99, 58, 1) 0%, rgba(243, 86, 127, 1) 100%); /* W3C */
+        //filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5633a', endColorstr='#f3567f', GradientType=0); /* IE6-9 */
+    }
+
+    md-fab-toolbar md-fab-trigger .md-fab-toolbar-background {
+        background-color: transparent !important;
+    }
+
+    md-toolbar {
+        background: #171625;
+        color: #9DA1A0 !important;
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.14), 0px 8px 10px 1px rgba(0, 0, 0, 0.098), 0px 3px 14px 2px rgba(0, 0, 0, 0.084);
+    }
+
+    .md-fab-toolbar-content > * {
+        position: fixed !important;
+    }
+
+    .md-fab-action-item {
+        margin: 0 3px;
+    }
+
+    md-toolbar {
+        box-shadow: none;
+        left: @nav-width;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+
+        .md-toolbar-tools {
+            background: @dark-gray;
+            margin: 0;
+            border-radius: 0;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+
+            .nav-btn {
+                //border: 1px solid red;
+                cursor: pointer;
+                margin: 0 15px;
+                opacity: .4;
+
+                .menu-icon {
+                    height: 30px;
+                    width: 50px;
+                    display: block;
+                    margin: 0 auto;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+
+                }
+                &.Cards .menu-icon {
+
+                }
+                &.custom-link .menu-icon {
+                    background-image: url('/img/cardkit/link_icon.svg');
+                }
+                .menu-text {
+                    color: white;
+                    display: block;
+                    font-size: 14px;
+                    text-align: center;
+                }
+                &:hover, &.active {
+                    opacity: 1;
+
+                }
+
+                a {
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+            }
+            .md-button {
+                min-width: 60px;
+                //color: fade(@medium-gray, 70%);
+                text-transform: none;
+                font-size: 14px;
+                font-weight: 400;
+
+                &:hover {
+                    background: transparent;
+                    color: white;
+                }
+            }
+
+            @media (max-width: 970px) {
+                padding-right: 55px;
+            }
+
+            @media (max-width: 700px) {
+                > * {
+                    white-space: nowrap;
+                }
+
+                .md-button {
+                    margin: 0 5px !important;
+                    min-width: initial !important;
+
+                    span {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                }
+            }
+        }
+
+        .dropdown {
+            padding: 0;
+            .caret { color: inherit; }
+        }
+
+        .dropdown-menu {
+            border: none;
+        }
+
+        &.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .divider {
+            width: 0;
+            &.pull-right {
+                margin-left: auto !important;
+            }
+        }
+
+        .last {
+            margin-right: 55px;
+        }
+    }
+
+    .menu-icon {
+        background: url(/img/cardkit/logo_red.svg) no-repeat;
+        background-size: contain;
+        vertical-align: middle;
+    }
+    md-icon {
+        height: 32px;
+        width: 18px;
+    }
+
+
+    md-fab-trigger {
+        top: -6px;
+        left: -8px;
+    }
+
+    .plus.md-button {
+        border: 2px solid @dark-green;
+        color: @dark-green !important;
+        font-family: Arial;
+        font-size: 36px !important;
+        height: 36px;
+        line-height: 26px;
+        margin-left: 15px;
+        min-width: initial !important;
+        width: 36px;
+    }
+
+    .more-items {
+        height: 70px;
+        width: 40px;
+        padding-top: 31px;
+        color: grey;
+    }
+}

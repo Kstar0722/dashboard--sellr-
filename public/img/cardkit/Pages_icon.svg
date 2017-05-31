@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2846 166 55 39">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Pages_icon);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-Pages_icon">
+      <rect x="-2846" y="166" width="55" height="39"/>
+    </clipPath>
+  </defs>
+  <g id="Pages_icon" class="cls-1">
+    <g id="display_2_" data-name="display (2)" transform="translate(-2831 172.564)">
+      <g id="group">
+        <path id="path" class="cls-2" d="M0,0V25.436H25.436V0ZM.787,7.08H12.324V18.356H.787ZM24.649,24.649H.787V19.142H24.649v5.507Zm0-6.293H13.111V7.08H24.649V18.356Zm0-12.062H.787V.787H24.649V6.293Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

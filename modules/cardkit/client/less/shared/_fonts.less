@@ -1,0 +1,17 @@
+.font-face(@family: arial, @filepath: @family, @weight: normal, @style: normal) {
+    @font-face{
+        font-family: @family;
+        src: url('/fonts/@{filepath}.eot');
+        src: url('/fonts/@{filepath}.eot?#iefix') format('embedded-opentype'),
+             url('/fonts/@{filepath}.woff') format('woff'),
+             url('/fonts/@{filepath}.ttf') format('truetype'),
+             url('/fonts/@{filepath}.svg#icon') format('svg');
+        font-weight: @weight;
+        font-style: @style;
+    }
+}
+
+.font-face(Aileron, 'aileron/aileron-regular-webfont', normal, normal);
+.font-face(Aileron, 'aileron/aileron-italic-webfont', normal, italic);
+.font-face(Aileron, 'aileron/aileron-bold-webfont', bold, normal);
+.font-face(Aileron, 'aileron/aileron-bolditalic-webfont', bold, italic);

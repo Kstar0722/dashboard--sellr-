@@ -1,0 +1,146 @@
+<md-dialog id="pageSettingsEditorDialog" aria-label="Tags Editor" md-theme="{{theme}}" class="dark-theme"
+           ng-class="{ 'new-page': pageNew }">
+    <md-toolbar class="header">
+        <div class="md-toolbar-tools">
+            <i class="fa fa-cogs fa-lg"></i>
+            <h2>{{pageNew ? 'New Page' : 'Page Settings'}}</h2>
+            <span flex></span>
+
+            <div class="md-actions" layout="row" ng-if="!pageNew">
+                <md-button type="button" class="md-raised cancel" ng-click="hideDialog()">Cancel</md-button>
+                <md-button type="button" class="md-raised save" ng-click="saveDetails()">Save</md-button>
+            </div>
+
+            <div class="md-actions" layout="row" ng-if="pageNew">
+                <md-button type="button" class="md-raised cancel" ng-click="hideDialog()">Cancel</md-button>
+                <md-button type="button" class="md-raised save-close" ng-click="saveDetails()">Save and Close
+                </md-button>
+                <md-button type="button" class="md-raised save-edit" ng-click="saveDetails(true)">Save and Edit
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <form layout="row" ng-submit="saveDetails()" novalidate>
+            <div layout="column" flex>
+                <md-input-container>
+                    <label>Page Name</label>
+                    <input type="text" ng-model="pageName" class="form-control" ng-autofocus="true"/>
+                </md-input-container>
+
+                <div layout="row">
+                    <md-input-container>
+                        <label>Path</label>
+                        <input type="text" ng-model="pageBasePath" class="form-control"/>
+                    </md-input-container>
+                    <span class="path-divider">/</span>
+                    <md-input-container>
+                        <label>Page Url</label>
+                        <input type="text" ng-model="pageUrl" class="form-control"/>
+                    </md-input-container>
+                </div>
+
+                <md-input-container class="client" ng-show="selectClient && !embedMode">
+                    <label>Client</label>
+                    <selectize ng-if="selectClientConfig" config="selectClientConfig" options="$parent.clients"
+                               ng-model="$parent.pageClientId" placeholder="Not selected">
+                    </selectize>
+                </md-input-container>
+
+                <md-input-container ng-hide="embedMode">
+                    <label>Tags</label>
+                    <tags-input flex ng-model="pageTags" min-length="1" add-on-paste="true">
+                        <auto-complete source="loadClientTags(page.client, $query)" min-length="2"></auto-complete>
+                    </tags-input>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Description</label>
+                    <textarea rows="3" ng-model="pageDescription" class="form-control"></textarea>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>SEO Title</label>
+                    <input type="text" ng-model="pageTitle" class="form-control"/>
+                </md-input-container>
+            </div>
+
+            <div flex="5"></div>
+
+            <div layout="column" flex>
+                <md-input-container>
+                    <label>SEO Keywords</label>
+                    <input type="text" ng-model="pageKeywords" class="form-control"/>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Published</label>
+                    <input type="date" ng-model="pagePublished" class="form-control">
+                </md-input-container>
+
+                <md-input-container ng-hide="embedMode">
+                    <md-switch ng-model="pageHideForClient" md-no-ink class="md-primary hide-for-client">
+                        Hide for Client
+                    </md-switch>
+                </md-input-container>
+
+                <md-input-container class="social-image">
+                    <label>Social Image</label>
+
+                    <ck-dropzone class="md-input" handle="uploadSocialImage(files)" kind="image"
+                                 ng-disabled="uploadProgress != null" ng-model="pageSocialImageUrl" style="order:0">
+                    </ck-dropzone>
+
+                    <div class="file-toolbar" layout="row">
+                        <md-button type="button" class="btn" ng-click="deleteSocialImage($event)"
+                                   ng-disabled="!pageSocialImageUrl || uploadProgress != null">
+                            <i class="fa fa-trash-o"></i>
+                            <span>Delete</span>
+                        </md-button>
+
+                        <md-button type="button" class="btn" ng-click="uploadSocialImage()" flex
+                                   ng-disabled="uploadProgress != null">
+                            <i class="fa fa-upload"></i>
+                            <span>Upload New</span>
+                        </md-button>
+
+                        <md-button type="button" class="btn" ng-click="showMediaLibrary($event, 'image')"
+                                   ng-class="{ active: mediaLibraryOpen }" ng-disabled="uploadProgress != null">
+                            <i class="fa fa-picture-o"></i>
+                            <span>Media Library</span>
+                        </md-button>
+
+                        <md-button type="button" class="btn" ng-click="editSocialImage()"
+                                   ng-disabled="!pageSocialImageUrl || uploadProgress != null">
+                            <i class="fa fa-scissors"></i>
+                            <span>Edit</span>
+                        </md-button>
+                    </div>
+                </md-input-container>
+            </div>
+
+            <button type="submit" class="hide">Save</button>
+        </form>
+    </md-dialog-content>
+
+    <div class="md-actions footer">
+        <div class="md-toolbar-tools" ng-hide="pageNew">
+            <md-button type="button" class="md-raised delete" ng-click="triggerEvent('deletePage')">
+                <i class="fa fa-trash"></i> Delete
+            </md-button>
+
+            <md-button type="button" class="md-raised" ng-repeat="status in pageStatuses"
+                       ng-if="page.status != status && showStatus(status)"
+                       ng-click="triggerEvent('changePageStatus', status)">
+                {{statusAction(status)}}
+            </md-button>
+
+            <md-button type="button" class="md-raised" ng-click="triggerEvent('duplicatePage')">Duplicate</md-button>
+
+            <md-button type="button" class="md-raised" ng-if="pageStatus == 'Live' || pageStatus == 'Preview'"
+                       ng-href="{{pagePreviewUrl}}" target="_blank">Preview
+            </md-button>
+        </div>
+    </div>
+</md-dialog>

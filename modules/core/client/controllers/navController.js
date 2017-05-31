@@ -1,5 +1,5 @@
 angular.module('core')
-.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog, utilsService, storesService) {
+.controller('NavController', function ($scope, Authentication, $http, $window, $state, $stateParams, accountsService, constants, authenticationService, globalClickEventName, $rootScope, $mdDialog, utilsService, storesService, PostMessage) {
   //
   // DEFINITIONS - INITIALIZATION
   //
@@ -8,6 +8,7 @@ angular.module('core')
   $scope.Authentication = Authentication
   $scope.accountsService = accountsService
   setStoresForAccount()
+  connectCardkit($rootScope)
 
   //
   // SCOPE FUNCTIONS
@@ -79,6 +80,7 @@ angular.module('core')
     if (state.indexOf('admin') > -1) { $scope.ui.primaryRoute = 'admin' }
     if (state.indexOf('editor') > -1) { $scope.ui.primaryRoute = 'editor' }
     if (state.indexOf('storeOwner') > -1) { $scope.ui.primaryRoute = 'store' }
+    if (state.indexOf('cardkit') > -1) { $scope.ui.primaryRoute = 'store' }
   }
 
   function setStoresForAccount () {
@@ -101,7 +103,7 @@ angular.module('core')
   //
   // EVENTS
   //
-  $scope.$root.$on('$stateChangeSuccess', function (e, toState, toParams) {
+  $rootScope.$on('$stateChangeSuccess', function (e, toState, toParams) {
     setActiveRoute(toState.name)
     updateNavRendering(toState)
   })
@@ -109,11 +111,24 @@ angular.module('core')
   var unregisterGlobalClick = $rootScope.$on(globalClickEventName, function (event, targetElement) {
     var excludedElementsId = ['account-search-input']
     if (!_.contains(excludedElementsId, targetElement.id) && targetElement.className.indexOf('menu-select-trigger') === -1) {
-      $scope.$apply(function () {
-        closeMenus()
-      })
+      closeMenus()
+      if (!$scope.$$phase) $scope.$digest()
     }
   })
   // Sort of not needed because Nav Scope will never be destroyed but this is mandatory elsewhere to prevent Leak
   $scope.$on('$destroy', unregisterGlobalClick)
+
+  function connectCardkit ($scope) {
+    PostMessage.on('identify', function () {
+      PostMessage.send('identifyComplete', Authentication.user)
+    })
+
+    $scope.$watch('selectAccountId', selectAccount)
+    $scope.$watch(function () { return accountsService.accounts }, selectAccount)
+
+    function selectAccount () {
+      var account = _.find(accountsService.accounts, { accountId: $scope.selectAccountId })
+      if (account) $rootScope.selectAccount = account
+    }
+  }
 })
