@@ -181,7 +181,10 @@
           <img ng-src="{{ (product.image >= 1) ? '/img/check-active.svg' : '/img/check-not-active.svg'}}" alt="icon">
         </div>
         <div class="status-col" ng-bind="product.status" ng-click="viewProduct(product)"></div>
-        <div class="type-col" ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : ''" ng-click="viewProduct(product)"></div>
+        <!-- TODO: Make this dynamic based on all types-->
+        <div class="type-col"
+             ng-bind="product.productTypeId === 1 ? 'Wine' : product.productTypeId === 2 ? 'Beer' : product.productTypeId === 3 ? 'Spirit' : 'Other'"
+             ng-click="viewProduct(product)"></div>
       </div>
     </div>
   </div>

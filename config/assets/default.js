@@ -1,6 +1,9 @@
 'use strict'
 
-module.exports = {
+var _ = require('lodash')
+var cardkit = require('./cardkit.js')
+
+module.exports = mergeCardkit({
   client: {
     lib: {
       css: [
@@ -9,7 +12,8 @@ module.exports = {
         'public/lib/angular-ui-grid/ui-grid.css',
         'public/lib/medium-editor/dist/css/medium-editor.css',
         'public/lib/medium-editor/dist/css/themes/default.css',
-        'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
+        // 'public/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.css',
+        'public/lib_exts/medium-editor-insert-plugin.fixed.css',
         'public/lib/font-awesome/css/font-awesome.min.css',
         'public/lib/selectize/dist/css/selectize.default.css',
         'public/lib/angular-loading-bar/build/loading-bar.css',
@@ -51,11 +55,12 @@ module.exports = {
         'public/lib/medium-editor/dist/js/medium-editor.js',
         'public/lib/angular-medium-editor/dist/angular-medium-editor.js',
         'public/lib/handlebars/handlebars.runtime.js',
-        'public/lib/jquery-sortable/source/js/jquery-sortable.js',
+        // 'public/lib/jquery-sortable/source/js/jquery-sortable.js',
         'public/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
         'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',
         'public/lib/blueimp-file-upload/js/jquery.fileupload.js',
-        'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js',
+        // 'public/lib/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.js',
+        'public/lib_exts/medium-editor-insert-plugin.fixed.js',
         'public/lib/socket.io-client/dist/socket.io.js',
         'public/lib/angular-socket-io/socket.js',
         'public/lib/angular-csv-import/dist/angular-csv-import.js',
@@ -65,7 +70,7 @@ module.exports = {
         'public/lib/angular-loading-bar/build/loading-bar.js',
         'public/lib/angulartics/dist/angulartics.min.js',
         'public/lib/angulartics-segment/dist/angulartics-segment.min.js',
-        'public/lib/angular-post-message/dist/angular-post-message.min.js',
+        // 'public/lib/angular-post-message/dist/angular-post-message.min.js',
         'public/lib/angular-clipboard/angular-clipboard.js',
         'public/lib/ng-autofocus/dist/ng-autofocus.js',
         'public/lib/filepicker-js-bower/filepicker.js',
@@ -98,9 +103,23 @@ module.exports = {
     gulpConfig: 'gulpfile.js',
     allJS: ['server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
     models: 'modules/*/server/models/**/*.js',
-    routes: [ 'modules/core/server/routes/**/*.js' ],
+    routes: ['modules/core/server/routes/**/*.js'],
     config: 'modules/*/server/config/*.js',
     policies: 'modules/*/server/policies/*.js',
     views: 'modules/*/server/views/*.html'
   }
+})
+
+function mergeCardkit (config) {
+  config.client.lib.css = config.client.lib.css.concat(cardkit.client.lib.css)
+  config.client.lib.js = config.client.lib.js.concat(cardkit.client.lib.js)
+
+  config.client.lib.css = _.uniqBy(config.client.lib.css, ignoreMin)
+  config.client.lib.js = _.uniqBy(config.client.lib.js, ignoreMin)
+
+  function ignoreMin (filepath) {
+    return filepath.replace(/\.min\./gi, '.')
+  }
+
+  return config
 }

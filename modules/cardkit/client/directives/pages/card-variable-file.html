@@ -1,0 +1,36 @@
+<div class="file-variable-container">
+    <div class="varname">{{ variableName }}</div>
+
+    <md-input-container>
+        <ck-dropzone class="md-input" handle="upload(files)" kind="{{kind}}" ng-disabled="uploadProgress != null"
+                     ng-model="variableValue">
+        </ck-dropzone>
+    </md-input-container>
+
+    <div class="file-toolbar" layout="row">
+        <md-button type="button" class="btn" ng-click="deleteSelectedImage($event, shortCode, variableValue)"
+                   ng-disabled="!variableValue || uploadProgress != null">
+            <i class="fa fa-trash-o"></i>
+            <span>Delete</span>
+        </md-button>
+
+        <md-button type="button" class="btn" ng-click="upload()" flex ng-disabled="uploadProgress != null">
+            <i class="fa fa-upload"></i>
+            <span>Upload New</span>
+        </md-button>
+
+        <md-button type="button" class="btn" ng-click="showMediaLibrary($event, kind)"
+                   ng-class="{ active: mediaLibraryOpen }"
+                   ng-disabled="mediaLibrary.length == 0 && !uploaded || uploadProgress != null">
+            <i class="fa fa-picture-o"></i>
+            <span>Media Library</span>
+        </md-button>
+
+        <md-button type="button" class="btn" ng-click="editImage()"
+                   ng-show="mimeTypeService.lookupType(variableValue) == 'image'"
+                   ng-disabled="!variableValue || uploadProgress != null">
+            <i class="fa fa-scissors"></i>
+            <span>Edit</span>
+        </md-button>
+    </div>
+</div>

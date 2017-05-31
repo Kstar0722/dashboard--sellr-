@@ -1,0 +1,736 @@
+// TODO: refactor legacy stylesheets below
+
+@import "shared/_variables.less";
+@import "shared/_mixins.less";
+
+/*  BOOTSTRAP */
+.navbar-inverse {
+  background-color: #f7f7f7;
+}
+.navbar-inverse .navbar-brand {
+  background: #f44336;
+  color: White;
+  
+  text-align: center;
+  font-weight: bold;
+}
+
+
+/*This uses LESS Hat http://lesshat.madebysource.com/*/
+
+.shadow-config() {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: inherit;
+  height: inherit;
+  z-index: -2;
+  border-radius: inherit;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.shadow {
+  &-1:before {
+    .shadow-config();
+     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); 
+  }
+  &-1:after {
+    .shadow-config();
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+  }
+  &-2:before {
+    .shadow-config();
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  }
+  &-2:after {
+    .shadow-config();
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  &-3:before {
+    .shadow-config();
+     box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+  }
+  &-3:after {
+    .shadow-config();
+    box-shadow: 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+#sign-up {
+	background-image: url('/img/cardkit/signin-lg2-sm.jpg ');
+	background-size: cover;
+	background-position: 50% 50%;
+	height: 100vh;
+	color: white;
+
+
+
+
+	.overlay {
+		background:  linear-gradient(-35deg, rgba(255, 15, 25, .6) 0%, rgba(23, 22, 37, 0.82) 60%); /* W3C */
+		height: 100vh;
+	}
+
+	.box {
+
+		width: 40vw;
+
+		margin: 12vh auto 0;
+		min-width: 340px;
+		max-width: 450px;
+
+
+        .logo {
+            width: 60%;
+            margin: 0 auto 25px;
+        }
+
+		h1, p {
+			color: white;
+			text-align: center;
+		}
+
+		p {
+			font-style: italic;
+		}
+		a {
+			color: white;
+			font-size: 14px;
+		}
+
+		input {
+			background: white;
+			padding: 0 15px;
+			min-height: 52px;
+			border: none;
+			color: @dark-blue;
+			font-size: 22px;
+			box-shadow: none;
+			border-radius: 0;
+
+            &:-webkit-autofill {
+                background:rgba(255,255,255,1) !important;
+
+            }
+
+			&:-webkit-input-placeholder{
+				background-color: white;
+				font-weight: 300;
+			}
+
+			&:-webkit-autofill {
+   			 -webkit-box-shadow: 0 0 0 1000px white inset;
+			}
+		}
+		#login {
+			margin-top: 3vh;
+            background: @dark-blue;
+
+			height: 55px;
+
+		}
+
+	}
+
+    md-checkbox.remember-me {
+        display: inline;
+        margin: 0;
+
+        .md-icon {
+            border-color: @medium-grey;
+        }
+    }
+}
+
+
+
+#admin {
+	.sidebar {
+		padding-top: 5vh;
+		background-color: @dark-grey;
+		height: 100vh;
+		padding-left: 0;
+		padding-right: 0;
+	
+		h1, h2, h3, h4 {
+			text-align: center;
+			margin-bottom: 4vh;
+		}
+		color: white;
+
+	.card-item {
+		width: 100%;
+		left: 0;
+		padding: 20px 40px;
+		background-color: darken(@dark-grey, 20%);
+		margin: 2vh 0;
+		position: relative;
+		font-weight: 800;
+
+		.number {
+			margin-left: 5%;
+			font-weight: 200
+		}
+		.amount {
+			float: right;
+			font-weight: 200
+		}
+	}
+	.selectedCard {
+    	background-color: @green;
+	}
+
+	.summary {
+		
+		background-color: darken(@dark-grey, 5%);
+		width: 100%;
+	
+		padding: 30px 40px 50px;
+		margin: 0;
+
+		span {
+			float: right;
+		}
+	}
+
+
+	}
+
+	.add-card {
+		padding: 5vh 3vw;
+		hr {   border: 2px solid white; border-top: 2px solid lighten(@dark-grey, 40%);}
+
+		table th, .table td { 
+    			 border-top: none !important; 
+ 			}
+	
+ 		.card-summary {
+ 			position: fixed;
+ 			bottom: 5vh;
+ 			width: 75%;
+ 		}
+
+	}
+
+}
+
+
+
+.client-variables {
+	.color-sample {
+			width: 100%;
+			background-color: gray;
+			display: table-cell;
+			vertical-align: middle;
+			padding: 18px;
+			border-radius: 5px;
+	}
+	.img-sample {
+			max-height: 32px ;
+	}
+}
+
+
+/* SIDEBAR VARIABLES */
+@sidebar-width: 	28vw;
+
+.card-editor {
+	.tab-content {
+			border: none;
+
+	}
+
+	.sidebar {
+		color: white;
+		min-height: calc(~"100vh -" 55px);
+		width: @sidebar-width;
+		padding: 0 20px;
+		background-color: darken(@dark-blue, 5%);
+		border: none;
+		float: left;
+		min-width: 550px;
+
+		@media (max-width: 1366px) {
+			min-width: 470px;
+		}
+
+		#cktabs {
+			li {
+                margin: 0 2px 5px 0;
+
+				&.active a {
+					background: white;
+					transition: all .3s ease;
+				    color: @brand-primary;
+                    opacity: 1;
+
+				}
+				a {
+                    color: #fff;
+                    opacity: .6;
+                    transition: all .3s ease;
+                    font-weight: 600;
+                    padding: 10px;
+                    border-radius: 0;
+                }
+                .btn {
+                    opacity: 1;
+                }
+			}	
+		}
+
+		.form-control {
+			border: 2px solid #232323;
+			border-radius: 0;
+		}
+
+		.ace_editor {
+            background-color: #161b1d;
+			font: 14px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+
+			@media (max-width: @macbookair) {
+				font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+			}
+
+		}
+        .ace_gutter-layer {
+            background: #111;
+            color: #4c4c4a;
+        }
+	}
+
+	.card-preview {
+		/* position: ;
+		padding-top: 4vh;
+		padding-left: 35px;
+		max-width: 1235px; */
+		background: @toggl-bg;
+	}
+	.toolbar  {
+		  background: darken(@sublime-bg, 5%);
+		  position: fixed;
+		  top: @nav-height;
+		  left: @sidebar-width;
+		  z-index: 1;
+		  width: 100%;
+	}
+
+
+	.background {
+		background: darken(@sublime-bg, 5%);
+		height: calc(~"100vh -" 100px);
+		top: @nav-height + 50px;
+		left: @sidebar-width;
+		position: fixed;
+		overflow-y: scroll;
+		width: 100%;
+
+
+	}
+
+	.background,
+	.toolbar {
+		@media (max-width: @lg-break) {
+			left: 550px;
+		}
+		@media (max-width: @macbookair) {
+			left: 470px;
+		}
+	}
+
+	.artboard {
+		/*width: calc(~"91vw -" @sidebar-width);*/
+  		margin-left: 4.5vw;
+  		margin-top: 2vh;
+
+  		@media (max-width: @macbookair) {
+			margin-left: 0;
+		}
+
+  		&.iphone {
+  			width: 480px;
+  			float: left;
+  		}
+
+  		#artwork {
+			width: 100%;
+			margin-top: 2vh;
+
+		}
+	}
+
+	#grid {
+		/* http://jsfiddle.net/4e5mcmk4/ 
+	    height: 100vh;
+	    //background:
+	        linear-gradient(-90deg, pink 1px, transparent 1px),
+	        linear-gradient(pink 1px, transparent 1px),
+	        linear-gradient(-90deg, rgba(0, 0, 0, .3), transparent 1px),
+	        linear-gradient(rgba(0, 0, 0, .01) 1px, transparent 1px),
+	        linear-gradient(transparent 3px, transparent 3px, transparent 78px, transparent 78px),
+	        linear-gradient(-90deg, transparent 1px, transparent 1px),
+	        linear-gradient(-90deg, transparent 3px, transparent 3px, transparent 78px, transparent 78px),
+	        linear-gradient(transparent 1px, transparent 1px), transparent;
+	    background-size:
+	        100px 100px,
+	        100px 100px,
+	        50px 50px,
+	        10px 10px,
+	        10px 10px,
+	        10px 10px,
+	        10px 10px,
+	        10px 10px;*/
+
+	}
+
+
+}
+
+.iframe_view_card {
+  height:100vh;
+}
+
+.iframe_view_card_shrink {
+	width: 1280px;
+    height: 786px;
+    border: 0;
+    
+    -ms-transform: scale(0.726);
+    -moz-transform: scale(0.726);
+    -o-transform: scale(0.726);
+    -webkit-transform: scale(0.726);
+    transform: scale(0.726);
+    
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+.iframe_ipad_land_shrint {
+	width: 1280px;
+    height: 786px;
+    border: 0;
+    
+    -ms-transform: scale(0.604);
+    -moz-transform: scale(0.604);
+    -o-transform: scale(0.604);
+    -webkit-transform: scale(0.604);
+    transform: scale(0.604);
+    
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.iframe_view_card_shrink_50 {
+	width: 1280px;
+    height: 786px;
+    border: 0;
+    
+    -ms-transform: scale(0.485);
+    -moz-transform: scale(0.485);
+    -o-transform: scale(0.485);
+    -webkit-transform: scale(0.485);
+    transform: scale(0.485);
+    
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+.iframe_ipad_land_shrint_50 {
+	width: 1280px;
+    height: 786px;
+    border: 0;
+    
+    -ms-transform: scale(0.4);
+    -moz-transform: scale(0.4);
+    -o-transform: scale(0.4);
+    -webkit-transform: scale(0.4);
+    transform: scale(0.4);
+    
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.iframe_wrap_iphone5 {
+  background-image: url('/img/cardkit/iPhone5.svg');
+  background-size: cover;
+  padding: 118px 28px 100px 32px;
+  width: 380px
+
+}
+.iframe_wrap_iphone6 {
+  background-image: url('/img/cardkit/iPhone6.svg');
+  background-size: cover;
+  padding-left: 30px;
+  padding-top: 110px;
+  padding-bottom: 97px;
+  width: 435px;
+}
+.iframe_wrap_iphone6s {
+  padding-left: 30px;
+  padding-top: 108px;
+  padding-bottom: 108px;
+  background-image: url("/img/cardkit/iPhone6-plus.svg");
+  background-size: cover;
+  width: 475px;
+
+}
+.iframe_wrap_ipad_port {
+  background-image: url('/img/cardkit/iPad-portrait.svg');
+  background-size: cover;
+  padding-top: 115px;
+  padding-bottom: 107px;
+  padding-left: 101px;
+  width: 969px;
+}
+.iframe_wrap_ipad_land {
+  background-image: url('/img/cardkit/iPad.svg');
+  background-size: cover;
+  padding-top: 100px;
+  padding-bottom: 94px;
+  padding-left: 116px;
+  width: 1258px;
+}
+.iframe_wrap_ipad_land_shrink {
+  background: url('/img/cardkit/iPad.svg') no-repeat;
+  background-size: contain;
+  padding-top: 76px;
+  padding-bottom: 94px;
+  padding-left: 87px;
+  width: 947px;
+}
+.iframe_wrap_ipad_land_shrink_50 {
+  background: url('/img/cardkit/iPad.svg') no-repeat;
+  background-size: contain;
+  padding-top: 51px;
+  padding-bottom: 94px;
+  padding-left: 58px;
+  width: 630px;
+}
+.iframe_wrap_web_browser{
+  background-image: url('/img/cardkit/web-browser.svg');
+  background-size: cover;
+  background-size: cover;
+  padding-top: 179px;
+  padding-left: 11px;
+  padding-bottom: 4px;
+  width: 1258px;
+}
+.iframe_wrap_web_browser_shrink{
+  background: url('/img/cardkit/web-browser.svg') no-repeat;
+  background-size: contain;
+  padding-top: 134px;
+  padding-left: 8px;
+  padding-bottom: 4px;
+  width: 945px;
+}
+.iframe_wrap_web_browser_shrink_50 {
+  background: url('/img/cardkit/web-browser.svg') no-repeat;
+  background-size: contain;
+  padding-top: 89px;
+  padding-left: 5px;
+  padding-bottom: 4px;
+  width: 630px;
+}
+.toolbar {
+	a {
+		background-color: buttonface;
+	  	color: rgb(52, 73, 94);
+	  	&:hover {
+	  		color: #fff;
+	  	}
+  	}
+}
+
+#notes {
+	td {
+		max-width:10px;
+		overflow:hidden;
+	}
+}
+
+
+.card-editor {
+    #cardOptions ul {
+        padding: 0;
+    }
+    #cardOptions li {
+        list-style: none;
+        margin: 3vh 10%;
+    }
+    #cardOptions li img {
+        max-width: 100%;
+    }
+    #cardOptions.closed {
+        margin-left: -20vw;
+    }
+    #cardOptions::-webkit-scrollbar {
+        display: none;
+    }
+    #cardOptions .cards ul {
+        padding: 0;
+    }
+    #cardOptions .fa-times {
+        position: absolute;
+        margin-top: 1vh;
+        text-align: right;
+        cursor: pointer;
+        font-size: 24px;
+        width: 30px;
+        float: left;
+        display: block;
+        margin-left: 17%;
+
+    }
+    #cardOptions input[type='text'] {
+        margin-left: 10px;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0px;
+        color: #fff;
+        padding: 3px 6px;
+        border: 2px solid #4FC971;
+        background: #1D1C20;
+    }
+    #cardOptions input {
+        margin-left: 10px;
+    }
+    #cardOptions textarea {
+        margin-left: 10px;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0px;
+        color: #fff;
+        padding: 3px 6px;
+        border: 2px solid #4FC971;
+        background: #1D1C20;
+    }
+    #cardOptions select {
+        margin-left: 10px;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0px;
+        color: #fff;
+        text-align: center;
+        padding: 3px 6px;
+        border: 2px solid #4FC971;
+        background: #1D1C20;
+    }
+    #cardOptions .btn {
+        color: #fff;
+        border-radius: none;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0px;
+        padding: 6px 15px;
+        font-size: 16px;
+    }
+    #cardOptions .btn.btn-green {
+        background: #01BF82;
+    }
+    #cardOptions .btn.btn-gray {
+        background: #828F9B;
+    }
+    #cardOptions .groupSwitch button {
+        background: #212226;
+        border: 3px solid #fff;
+    }
+    #cardOptions .groupSwitch button.selected {
+        color: #4FC971;
+        border: 3px solid #4FC971;
+    }
+
+    #cardOptions {
+        .imageContainerVariable {
+            //		    width: 300px;
+            //		    height: 270px;
+            /*margin-left: 15px;*/
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        .fileUploadForm .btn-success {
+            position: relative;
+        }
+        .sideBarImage {
+            max-height: 150px;
+            max-width: 195px;
+            position: relative;
+        }
+        .fileUploadSideBar {
+            bottom: 0;
+            font-size: 0;
+            left: 0;
+            margin: 0;
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        .varname {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .filename {
+            margin-top: -18px;
+            word-break: break-all;
+        }
+    }
+
+    #cardOptions .selectize-control {
+        margin-bottom: 25px;
+    }
+}
+
+.sidebar {
+	.editCard {
+		.fa-times {
+		  margin-top: 1vh;
+		  text-align: right;
+		  cursor: pointer;
+		  font-size: 24px;
+		  width: 30px;
+		  float: right;
+		  display: block;
+		  margin-left: 17%;
+		}
+		
+		ul {
+			margin: 0px;
+			padding: 0px;
+		}
+	}
+}
+
+.navbar-fixed-bottom, .navbar-fixed-top { z-index: 3000; }
+
+@import "shared/_all";
+@import "components/_all";
+@import "pages/_all";
+
+@import "overrides";

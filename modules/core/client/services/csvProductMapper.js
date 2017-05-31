@@ -3,7 +3,7 @@ angular.module('core').service('csvProductMapper', function (ProductTypes) {
   var self = this
 
   this.EMPTY_FIELD_NAME = '-'
-  this.PRODUCT_FIELDS = ['name', 'type', 'upc', 'description']
+  this.PRODUCT_FIELDS = ['name', 'type', 'upc', 'description', 'productId']
 
   this.mapProducts = function (items, columns) {
     var mapping = columns ? extractMappings(columns) : autoResolveMappings(items[0])
