@@ -24,11 +24,14 @@ angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentica
             function loadClients() {
                 if (!$scope.themeClient) return $rootScope.selectedClient = null;
                 Clients.query().$promise.then(function(clients) {
+                    var oldClient = $rootScope.selectedClient;
                     var newClient = clientHelper.resolveStateClientName(clients, $scope.themeClient);
                     if (!newClient || $rootScope.selectedClient == newClient) return;
                     $rootScope.selectedClient = newClient;
                     Authorization.authorizeSellr($scope.themeClient).finally(function() {
-                        $state.go('cardkit.listPages_client', { clientSlug: $scope.themeClient }, { reload: true });
+                        if (oldClient || $state.is('cardkit.listPages')) {
+                            $state.go('cardkit.listPages_client', { clientSlug: $scope.themeClient }, { reload: true });
+                        }
                     });
                 });
             }

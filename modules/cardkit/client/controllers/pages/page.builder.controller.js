@@ -453,7 +453,7 @@
                 $scope.page = page;
                 var promises = [cardData.getClient(page.client.companyName), cardData.getClientCards(page.client, true)];
                 return $q.all(promises).then(function(results) {
-                    if (results[0]) $scope.$root.selectedClient = results[0].companyName;
+                    if (results[0]) $rootScope.selectedClient = results[0].companyName;
                     $scope.clients = [results[0]];
                     $scope.allCards = results[1];
 

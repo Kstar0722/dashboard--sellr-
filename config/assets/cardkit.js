@@ -23,6 +23,8 @@ module.exports = {
         'public/lib/angular-material-icons/angular-material-icons.css'
       ],
       js: [
+        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/jquery-ui/jquery-ui.min.js',
         'public/lib/angular-animate/angular-animate.js',
         // 'public/lib/v-accordion/dist/v-accordion.js',
         'public/lib/angular-ui-sortable/sortable.js',

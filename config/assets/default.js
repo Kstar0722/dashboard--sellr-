@@ -57,7 +57,7 @@ module.exports = mergeCardkit({
         'public/lib/medium-editor/dist/js/medium-editor.js',
         'public/lib/angular-medium-editor/dist/angular-medium-editor.js',
         'public/lib/handlebars/handlebars.runtime.js',
-        'public/lib/jquery-sortable/source/js/jquery-sortable.js',
+        // 'public/lib/jquery-sortable/source/js/jquery-sortable.js',
         'public/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
         'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',
         'public/lib/blueimp-file-upload/js/jquery.fileupload.js',
