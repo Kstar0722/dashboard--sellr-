@@ -120,7 +120,7 @@ angular.module('core')
   // Sort of not needed because Nav Scope will never be destroyed but this is mandatory elsewhere to prevent Leak
   $scope.$on('$destroy', unregisterGlobalClick)
 
-  function connectCardkit($scope) {
+  function connectCardkit ($scope) {
     PostMessage.on('identify', function () {
       PostMessage.send('identifyComplete', Authentication.user)
     })
@@ -128,7 +128,7 @@ angular.module('core')
     $scope.$watch('selectAccountId', selectAccount)
     $scope.$watch(function () { return accountsService.accounts }, selectAccount)
 
-    function selectAccount() {
+    function selectAccount () {
       var account = _.find(accountsService.accounts, { accountId: $scope.selectAccountId })
       if (account) $rootScope.selectAccount = account
     }

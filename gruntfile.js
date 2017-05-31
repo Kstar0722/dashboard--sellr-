@@ -311,7 +311,8 @@ module.exports = function (grunt) {
     standard: {
       app: {
         src: [
-          '{config,modules,public/modules}/**/*.js'
+          '{config,modules,public/modules}/**/*.js',
+          '!modules/cardkit/**/*.js'
         ]
       }
     },

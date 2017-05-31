@@ -28,10 +28,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
       vars: {
         local: {
           env: 'local',
-          API_URL: 'https://apidev.sllr.io',
-          BWS_API: 'https://apidev.sllr.io',
-          // API_URL: 'http://localhost:7272',
-          // BWS_API: 'http://localhost:7272',
+          // API_URL: 'https://apidev.sllr.io',
+          // BWS_API: 'https://apidev.sllr.io',
+          API_URL: 'http://localhost:7272',
+          BWS_API: 'http://localhost:7272',
           // CARDKIT_URL: 'https://themedev.sllr.io'
           CARDKIT_URL: 'http://localhost:7474'
         },
@@ -77,9 +77,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   var DEFAULT_PUBLIC = false
 
   // propagate post message events through $rootScope
-  $rootScope.$on('$messageOutgoing', function(event, msg) {
-    $timeout(function() {
-      $rootScope.$emit('$messageIncoming', msg);
+  $rootScope.$on('$messageOutgoing', function (event, msg) {
+    $timeout(function () {
+      $rootScope.$emit('$messageIncoming', msg)
     })
   })
 
@@ -173,16 +173,16 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   }
 /* eslint-enable */
 
-  function rootStates(stateName) {
+  function rootStates (stateName) {
     var state = rootState(stateName)
     var parts = state.split('.')
-    if (parts[0] == 'cardkit') {
+    if (parts[0] === 'cardkit') {
       return ['cardkit-state', parts.slice(1).join('.')]
     }
     return [state]
   }
 
-  function rootState(stateName) {
+  function rootState (stateName) {
     return (stateName || '').replace(/_client$/i, '')
   }
 

@@ -70,7 +70,7 @@ module.exports = {
 
         // medium-editor-insert-plugin dependencies
         'public/lib/handlebars/handlebars.runtime.js',
-        //'public/lib/jquery-sortable/source/js/jquery-sortable.js', // required for images only, but conflicts with anglar-ui-sortable
+        // 'public/lib/jquery-sortable/source/js/jquery-sortable.js', // required for images only, but conflicts with anglar-ui-sortable
         // Unfortunately, jQuery File Upload Plugin has a few more dependencies itself
         'public/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
         'public/lib/blueimp-file-upload/js/jquery.iframe-transport.js',

@@ -1,7 +1,7 @@
 'use strict'
 
-var _ = require('lodash');
-var cardkit = require('./cardkit.js');
+var _ = require('lodash')
+var cardkit = require('./cardkit.js')
 
 module.exports = mergeCardkit({
   client: {
@@ -105,23 +105,23 @@ module.exports = mergeCardkit({
     gulpConfig: 'gulpfile.js',
     allJS: ['server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
     models: 'modules/*/server/models/**/*.js',
-    routes: [ 'modules/core/server/routes/**/*.js' ],
+    routes: ['modules/core/server/routes/**/*.js'],
     config: 'modules/*/server/config/*.js',
     policies: 'modules/*/server/policies/*.js',
     views: 'modules/*/server/views/*.html'
   }
 })
 
-function mergeCardkit(config) {
-  config.client.lib.css = config.client.lib.css.concat(cardkit.client.lib.css);
-  config.client.lib.js = config.client.lib.js.concat(cardkit.client.lib.js);
+function mergeCardkit (config) {
+  config.client.lib.css = config.client.lib.css.concat(cardkit.client.lib.css)
+  config.client.lib.js = config.client.lib.js.concat(cardkit.client.lib.js)
 
-  config.client.lib.css = _.uniqBy(config.client.lib.css, ignoreMin);
-  config.client.lib.js = _.uniqBy(config.client.lib.js, ignoreMin);
+  config.client.lib.css = _.uniqBy(config.client.lib.css, ignoreMin)
+  config.client.lib.js = _.uniqBy(config.client.lib.js, ignoreMin)
 
-  function ignoreMin(filepath) {
-    return filepath.replace(/\.min\./gi, '.');
+  function ignoreMin (filepath) {
+    return filepath.replace(/\.min\./gi, '.')
   }
 
-  return config;
+  return config
 }
