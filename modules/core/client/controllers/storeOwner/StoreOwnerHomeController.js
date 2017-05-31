@@ -269,11 +269,14 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
 
     },
     overview: function(report) {
-      $scope.analytics.google.overview.labels = [];
+      $scope.stats.overview.data.labels = [];
+      $scope.stats.views.data.labels = [];
+      $scope.stats.overview.data.datasets[0].data = [];
+      $scope.stats.views.data.datasets[0].data = [];
       for(var i = 0; i < $scope.stats.overview.data.datasets.length; i++) {
         $scope.stats.overview.data.datasets[i].data = [];
       }
-      var date, value, map = {};
+      var date;
       for(var i = 0; i < report.data.rows.length; i++) {
         date = report.data.rows[i].dimensions[0];
         date = `${date.slice(0, 4)}-${date.slice(4,6)}-${date.slice(6)}`;
@@ -281,7 +284,6 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
           month: 'short',
           day: 'numeric'
         });
-        map[date] = parseInt(value);
         $scope.stats.overview.data.labels.push(date);
         $scope.stats.views.data.labels.push(date);
         $scope.stats.overview.data.datasets[0].data.push(report.data.rows[i].metrics[0].values[0]);
