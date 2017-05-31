@@ -944,6 +944,9 @@
                 color: #c10101;
               }
             }
+            .side-indicator {
+              display: inline;
+            }
             .text{
               font-size: 12px;
               font-weight: bold;
@@ -953,6 +956,13 @@
               text-transform: uppercase;
               margin-top: 5px;
             }
+          }
+        }
+        @media screen and (max-width: 1280px) {
+          flex-flow: row wrap;
+          .common-white-box {
+            width: 49%;
+            flex-flow: row wrap;
           }
         }
       }

@@ -6423,12 +6423,24 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .indicator.negative {
   color: #c10101;
 }
+.store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .side-indicator {
+  display: inline;
+}
 .store-owner-home-view .main-content .main-right-column .top-stats .common-white-box .info-container .text {
   font-size: 12px;
   font-weight: bold;
   color: #7f8fa4;
   text-transform: uppercase;
   margin-top: 5px;
+}
+@media screen and (max-width: 1280px) {
+  .store-owner-home-view .main-content .main-right-column .top-stats {
+    flex-flow: row wrap;
+  }
+  .store-owner-home-view .main-content .main-right-column .top-stats .common-white-box {
+    width: 49%;
+    flex-flow: row wrap;
+  }
 }
 .store-owner-reports-view .main-content {
   padding: 30px 3vw 10vh 3vw;

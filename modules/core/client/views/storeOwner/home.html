@@ -64,7 +64,7 @@
           </div>
           <div class="info-container">
             <div class="number">{{analytics.google.visitors}}
-              <div ng-if="analytics.google.difference >= 0">
+              <div ng-if="analytics.google.difference >= 0" class="side-indicator">
                 <div class="number">
                   <span class="indicator">
                     <i class="fa fa-chevron-circle-up"></i>
@@ -72,7 +72,7 @@
                   </span>
                 </div>
               </div>
-              <div ng-if="analytics.google.difference < 0">
+              <div ng-if="analytics.google.difference < 0" class="side-indicator">
                 <span class="indicator negative">
                   <i class="fa fa-chevron-circle-down"></i>
                   <span>{{analytics.google.difference}}%</span>
@@ -80,7 +80,7 @@
               </div>
             </div>
             <div class="text">Website visitors</div>
-            <div class="test" ng-click="getSessionsFromGoole()">get visitors</div>
+           <!--  <div class="test" ng-click="getSessionsFromGoole()">get visitors</div> -->
           </div>
         </div>
         <div class="common-white-box">
