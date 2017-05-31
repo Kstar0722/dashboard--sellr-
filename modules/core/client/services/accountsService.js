@@ -304,3 +304,4 @@ angular.module('core').service('accountsService', function ($http, constants, to
 
   return me
 })
+
