@@ -1,0 +1,37 @@
+<div class="dropzone" ng-class="{ 'has-value': value, uploading: uploading }">
+    <div class="overlay" ng-click="handle()" ng-hide="value && !uploading">
+        <div class="placeholder" ng-show="!value && !uploading">
+            <i class="fa fa-cloud-upload fa-3x"></i>
+            <div class="text" ng-if="kind == 'image'">Drag an image here or browse for an image to upload.</div>
+            <div class="text" ng-if="kind != 'image'">Drag a file here or browse for a file to upload.</div>
+        </div>
+        <div class="placeholder uploading" ng-show="uploading" ng-cloak>
+            <div class="text">Uploading...</div>
+            <ck-progress-bar value="uploadProgress"></ck-progress-bar>
+        </div>
+    </div>
+
+    <div ng-if="kind != 'video' && value && !uploading" class="file image no-animate clearfix">
+        <img ng-show="!imgFailed" ng-src="{{ value }}"
+             onerror="var $scope = angular.element(this).scope(); $scope.imgFailed = true; $scope.$digest()">
+        <img ng-if="imgFailed && fileExtension(value) == 'pdf'" class="fallback-icon" src="/img/cardkit/ACP_PDF_icon.png">
+        <img ng-if="imgFailed && fileExtension(value) != 'pdf'" class="fallback-icon"
+             src="/img/cardkit/file-x-generic.png">
+        <div ng-if="imgFailed && fileExtension(value) != 'pdf'" class="file-type">{{fileExtension(value)}}</div>
+        <div ng-if="imgFailed" class="filename">
+            <a ng-href="{{value}}" target="_blank">{{filename(value)}}</a>
+        </div>
+    </div>
+
+    <section class="file video no-animate" ng-video ng-if="kind == 'video' && value && !uploading">
+        <video vi-screen autoplay loop muted ng-src="{{value}}"></video>
+        <section vi-controls>
+            <a vi-controls-play>
+                <ng-md-icon icon="play_arrow"></ng-md-icon>
+            </a>
+            <a vi-controls-pause>
+                <ng-md-icon icon="pause"></ng-md-icon>
+            </a>
+        </section>
+    </section>
+</div>

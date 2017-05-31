@@ -1,0 +1,131 @@
+#editPost {
+    .md-button {
+        border-radius: 0;
+        box-shadow: none;
+
+        &.md-icon-button.md-focused {
+            background-color: transparent;
+        }
+
+        &.save {
+            background-color: @green;
+            color: @white;
+            font-weight: bold;
+
+            &[disabled] {
+                background-color: @medium-grey !important;
+            }
+        }
+    }
+
+    .toolbar .md-button {
+        ng-md-icon {
+            height: 25px;
+            margin-top: -8px;
+            width: 25px;
+        }
+    }
+
+    fieldset {
+        .form-group {
+            margin-bottom: 30px;
+
+            > * {
+                margin: 0;
+            }
+        }
+
+        img {
+            max-width: 100%;
+
+            &.featured {
+                height: auto;
+            }
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 1vw !important;
+            min-width: 130px;
+            text-transform: uppercase;
+        }
+    }
+
+    .toggle-slide {
+        transition: all 0.2s ease;
+
+        &.ng-enter,
+        &.ng-leave.ng-leave-active {
+            margin-left: 0.5vw;
+            opacity: 0;
+            transition: none !important;
+        }
+
+        &.ng-enter.ng-enter-active {
+            margin-left: 0;
+            opacity: 1;
+        }
+    }
+
+    input, textarea, .editable {
+        &.inline {
+            border: none;
+            margin: -5px !important;
+            padding: 5px !important;
+            width: 100%;
+        }
+    }
+
+    md-select {
+        padding: 0;
+
+        md-select-label {
+            min-width: 150px;
+        }
+    }
+
+    .editable {
+        min-height: 150px;
+
+        &:after { // placeholder
+            display: none;
+        }
+    }
+
+    .image-container img {
+        margin-bottom: 10px;
+    }
+
+    .error {
+        color: @red;
+        margin-left: 10px !important;
+    }
+
+    .client-header,
+    .client-footer {
+        display: none;
+    }
+
+    img.avatar {
+        border-radius: 50%;
+        height: 25px;
+        margin-right: 10px;
+        width: 25px;
+    }
+}
+
+body.listPosts,
+body.editPost {
+    .md-select-menu-container {
+        md-option {
+            height: 30px !important;
+        }
+
+        img.avatar {
+            border-radius: 50%;
+            height: 25px;
+            margin-right: 10px;
+            width: 25px;
+        }
+    }
+}

@@ -75,12 +75,19 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([ '$locati
 
 angular.module(ApplicationConfiguration.applicationModuleName).constant('globalClickEventName', 'globalEvent.documentClick')
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia, globalClickEventName) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, authToken, $window, $injector, $mdMedia, globalClickEventName, $timeout) {
   var DEFAULT_PUBLIC = false
+
+  // propagate post message events through $rootScope
+  $rootScope.$on('$messageOutgoing', function (event, msg) {
+    $timeout(function () {
+      $rootScope.$emit('$messageIncoming', msg)
+    })
+  })
 
   $rootScope.$mdMedia = $mdMedia
   $rootScope.$state = $state
-  $rootScope.$stateClass = cssClassOf($state.current.name)
+  $rootScope.$stateClass = rootStates($state.current.name).map(cssClassOf)
 
   // for debugging purposes only
   $window.$svc = function (name) {
@@ -134,7 +141,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
     console.log('changed state from %O to %O', fromState, toState)
     storePreviousState(fromState, fromParams)
-    $rootScope.$stateClass = cssClassOf(toState.name)
+    $rootScope.$stateClass = rootStates(toState.name).map(cssClassOf)
   })
 
   // Bind a global click anywhere handler to be used in needed controller
@@ -167,6 +174,19 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     return name.replace(/[^a-z0-9\-]+/gi, '-')
   }
 /* eslint-enable */
+
+  function rootStates (stateName) {
+    var state = rootState(stateName)
+    var parts = state.split('.')
+    if (parts[0] === 'cardkit') {
+      return ['cardkit-state', parts.slice(1).join('.')]
+    }
+    return [state]
+  }
+
+  function rootState (stateName) {
+    return (stateName || '').replace(/_client$/i, '')
+  }
 
   function initLoadingBar () {
     var busy = false

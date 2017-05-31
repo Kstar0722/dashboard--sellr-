@@ -4,7 +4,7 @@ angular.module('core').service('PostMessage', ['$rootScope', function ($rootScop
   var context
 
   $rootScope.$on('$messageIncoming', function (event, data) {
-        // console.log('in', data);
+    // console.log('in', data);
   })
 
   this.on = function (eventName, callback) {
@@ -19,12 +19,14 @@ angular.module('core').service('PostMessage', ['$rootScope', function ($rootScop
       context.$postListeners = context.$postListeners || []
       context.$postListeners.push(listener)
     }
+
+    return listener
   }
 
   this.send = function (eventName, data) {
-        // console.log('out', eventName, data);
+    // console.log('out', eventName, data);
     var msg = { event: eventName, data: data }
-    return $rootScope.$emit('$messageOutgoing', angular.toJson(msg))
+    return $rootScope.$broadcast('$messageOutgoing', angular.toJson(msg))
   }
 
   this.bindTo = function (scope) {

@@ -1,0 +1,229 @@
+#clientDetails {
+    table.additional-links {
+        .checkbox-cell {
+            text-align: center;
+            width: 100px;
+
+            input[type="checkbox"] {
+                margin-top: 10px;
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+        td.link {
+            word-wrap: break-all;
+        }
+
+        td.toolbar {
+            white-space: nowrap;
+        }
+    }
+
+    md-switch.preview {
+        margin: 20px 0;
+    }
+
+    .site-navigation-section {
+        .site-navigation-tree {
+            [ui-tree-handle] .node_label {
+                display: inline-block;
+                margin-right: 8px;
+                width: 50%;
+            }
+
+            [ui-tree-handle] {
+                background-color: #222f37;
+                color: #ffffff;
+            }
+
+            [ui-tree-node] ol [ui-tree-handle] {
+                background-color: #778288;
+                color: #eaeaea;
+            }
+        }
+
+        .site-navigation-form {
+            margin-top: 7px;
+            margin-bottom: 30px;
+            max-width: 400px;
+
+            .input-group {
+                width: 100%;
+            }
+
+            .selectize-control {
+                min-width: 150px;
+            }
+        }
+
+        .save-btn {
+            clear: both;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    }
+
+    .rss-categories {
+        input {
+            margin-top: 6px;
+        }
+
+        .toolbar .md-icon-button ng-md-icon {
+            position: relative;
+            top: -6px;
+        }
+    }
+
+    .client-variables {
+        .img-sample {
+            display: block;
+            max-height: 64px;
+        }
+
+        .fileinput-preview {
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+
+        .checkbox {
+            margin: 0;
+        }
+    }
+
+    #integrations {
+        section {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+        }
+
+        .md-subheader {
+            background: @medium-grey;
+            margin: -8px -8px 8px -8px;
+            text-transform: uppercase;
+        }
+
+        section.container {
+            float: left;
+            margin-right: 25px;
+            max-width: 400px;
+
+            input, .md-input, label {
+                font-family: monospace;
+                font-size: 10pt;
+            }
+        }
+
+        #sellr {
+            max-width: 250px;
+
+            md-input-container {
+                margin: 0 5px;
+                padding: 0;
+            }
+        }
+
+        #mailchimp {
+            md-input-container {
+                margin-left: 15px;
+                padding: 0;
+            }
+
+            .md-button {
+                margin: 0;
+            }
+
+            .md-input {
+                min-width: 300px;
+            }
+
+            .mailchimp-details {
+                margin-top: 10px;
+                margin-bottom: 0;
+                td { border: 0; }
+
+                &[disabled] {
+                    color: @medium-grey;
+                    pointer-events: none;
+                }
+            }
+        }
+
+        #stripe {
+            md-input-container {
+                padding-bottom: 8px;
+            }
+
+            .toggle-secret {
+                margin: 0 4px 0 10px;
+                min-width: initial;
+                padding: 0 15px;
+                text-transform: none;
+            }
+
+            .toggle-secret-wrapper {
+                align-items: center;
+                display: flex;
+            }
+        }
+    }
+}
+
+/* --- Tree --- */
+.angular-ui-tree-handle {
+    background: #f8faff;
+    border: 1px solid #dae2ea;
+    color: #7c9eb2;
+    padding: 10px 10px;
+}
+
+.angular-ui-tree-nodes .angular-ui-tree-nodes {
+    padding-left: 40px;
+}
+
+.angular-ui-tree-handle:hover {
+    color: #438eb9;
+    background: #f4f6f7;
+    border-color: #dce2e8;
+}
+
+.angular-ui-tree-placeholder {
+    background: #f0f9ff;
+    border: 2px dashed #bed2db;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.tree-node {
+    border: 1px solid #dae2ea;
+    background: #f8faff;
+    color: #7c9eb2;
+}
+
+.nodrop {
+    background-color: #f2dede;
+}
+
+.tree-node-content {
+    margin: 10px 0;
+}
+
+.tree-handle {
+    padding: 10px;
+    background: #428bca;
+    color: #FFF;
+    margin-right: 10px;
+}
+
+.angular-ui-tree-handle:hover {
+}
+
+.angular-ui-tree-placeholder {
+    background: #f0f9ff;
+    border: 2px dashed #bed2db;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}

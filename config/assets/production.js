@@ -6,7 +6,10 @@ module.exports = {
       css: 'public/dist/lib.min.css',
       js: 'public/dist/lib.js'
     },
-    css: 'public/dist/application.min.css',
+    css: [
+      'public/dist/application.min.css',
+      'public/dist/cardkit.min.css'
+    ],
     js: [
       'public/dist/application.min.js',
       'public/dist/templates.min.js'

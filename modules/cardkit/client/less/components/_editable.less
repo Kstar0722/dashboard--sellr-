@@ -1,0 +1,194 @@
+.editable {
+    position: relative;
+
+    &[data-placeholder]:after {
+        display: none;
+    }
+
+    .medium-insert-embeds {
+        .medium-insert-embed > p,
+        figcaption {
+            display: none;
+        }
+    }
+
+
+    .medium-insert-buttons {
+        left: -35px !important;
+        margin-top: 6px;
+        z-index: 1000005;
+
+        .medium-insert-action {
+            font-family: 'FontAwesome';
+            font-size: 17px;
+            padding-left: 1px;
+            padding-top: 1px;
+            text-decoration: initial;
+
+            &[data-addon="images"] {
+                display: none;
+                :before {
+                    content: "\f030";
+                }
+            }
+
+            &[data-addon="embeds"] {
+                &:before {
+                    content: '\f16a';
+                }
+            }
+        }
+    }
+
+    .image {
+        a {
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        &.uploading {
+            position: relative;
+            vertical-align: top;
+
+            img {
+                opacity: 0.3;
+            }
+
+            .progress {
+                background: transparent;
+                box-shadow: none;
+                color: darkgrey;
+                font-size: 16pt;
+                height: 30px;
+                left: 10px;
+                position: absolute;
+                text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+                top: 5px;
+                width: 200px;
+            }
+        }
+    }
+}
+
+.medium-editor-toolbar {
+    z-index: 1000005;
+
+    #colorpicker {
+        width: auto;
+        display: block;
+
+        .colorblock {
+            display: table-cell;
+            height: 16px;
+            min-width: 16px;
+            padding: 0;
+            margin: 0;
+
+            &.red {
+                background-color: #EC1C24;
+            }
+
+            &.white {
+                background-color: #fff;
+            }
+
+            &.blue {
+                background-color: #5adcff;
+            }
+
+            &.black {
+                background-color: #111;
+            }
+        }
+    }
+
+    li button {
+        min-width: 50px;
+        padding: 0 15px;
+        height: 50px;
+        border: none;
+        background-color: #242424;
+        color: #fff;
+        background: -webkit-linear-gradient(top, #242424, rgba(36, 36, 36, 0.89));
+        background: linear-gradient(to bottom, #242424, rgba(36, 36, 36, 0.89));
+
+        -webkit-transition: background-color 0.2s ease-in;
+        transition: background-color 0.2s ease-in;
+
+        &:hover {
+            background-color: #000;
+            color: red;
+        }
+    }
+
+    .google-tracking-toggle {
+        clear: both;
+        float: right;
+    }
+
+    .google-tracking-form {
+        clear: both;
+
+        div[layout=row] {
+            clear: both;
+            margin: 5px 0;
+        }
+
+        label {
+            line-height: 28px !important;
+            min-width: 70px;
+            padding: 0;
+        }
+
+        input {
+            border-radius: 3px;
+            color: black;
+            margin: 0 10px;
+            padding: 0 4px;
+        }
+    }
+
+    .medium-editor-toolbar-form.selectize {
+        .selectize-control {
+            float: left;
+        }
+
+        .selectize-dropdown {
+            height: initial;
+        }
+
+        a {
+            line-height: 50px;
+        }
+
+        input[type="checkbox"] {
+            float: left;
+            height: 40px;
+        }
+
+        label {
+            display: inline;
+            float: left;
+            line-height: 35px;
+            width: initial;
+        }
+    }
+
+    button.medium-editor-action {
+        padding: 0 !important;
+
+        &.medium-editor-button-last {
+            display: none !important;
+        }
+    }
+
+    &.text-only {
+        button.medium-editor-action {
+            display: initial !important;
+        }
+    }
+}
+
+.medium-editor-anchor-preview li button {
+    padding: 0 15px;
+}

@@ -6,12 +6,12 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
     max: new Date(),
     labels: [],
     data: []
-  };
+  }
 
   $scope.channels = {
     all: [],
     total: 0
-  };
+  }
 
   $scope.chart = {
     type: 'line',
@@ -41,15 +41,15 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
         }
       }
     }
-  };
+  }
 
-  $scope.init = function() {
-    accountsService.getAccount().then(function(account) {
-      if(!account.preferences.analytics) {
-        return;
+  $scope.init = function () {
+    accountsService.getAccount().then(function (account) {
+      if (!account.preferences.analytics) {
+        return
       }
-      if(!account.preferences.analytics.item) {
-        return;
+      if (!account.preferences.analytics.item) {
+        return
       }
       $.ajax({
         type: 'POST',
@@ -60,9 +60,9 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
           grant_type: 'refresh_token',
           refresh_token: account.preferences.analytics.refresh_token
         }
-      }).then(function(response) {
+      }).then(function (response) {
         // TODO: not important, but find out why $http won't chain properly
-        if(account.preferences.analytics.item) {
+        if (account.preferences.analytics.item) {
           return $http({
             method: 'POST',
             url: 'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
@@ -110,64 +110,68 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
                 }
               ]
             }
-          }).then(function(stats) {
-            $scope.channels.total = parseInt(stats.data.reports[1].data.totals[0].values[0]);
-            $scope.channels.all = [];
-            var source, amount, color = 'white';
-            for(var i = 0; i < stats.data.reports[1].data.rows.length; i++) {
-              source = stats.data.reports[1].data.rows[i].dimensions[0];
-              amount = parseInt(stats.data.reports[1].data.rows[i].metrics[0].values[0]);
-              switch(source) {
+          }).then(function (stats) {
+            $scope.channels.total = parseInt(stats.data.reports[1].data.totals[0].values[0], 10)
+            $scope.channels.all = []
+            var source
+            var amount
+            var color = 'white'
+            for (var i = 0; i < stats.data.reports[1].data.rows.length; i++) {
+              source = stats.data.reports[1].data.rows[i].dimensions[0]
+              amount = parseInt(stats.data.reports[1].data.rows[i].metrics[0].values[0], 10)
+              switch (source) {
                 case '(none)':
-                  source = 'Direct';
-                  color = '#2bbf88';
-                  break;
+                  source = 'Direct'
+                  color = '#2bbf88'
+                  break
                 case 'organic':
-                  source = 'Organic Search';
-                  color = '#848c98';
-                  break;
+                  source = 'Organic Search'
+                  color = '#848c98'
+                  break
                 case 'referral':
-                  source = 'Referral';
-                  color = '#ffa700';
-                  break;
+                  source = 'Referral'
+                  color = '#ffa700'
+                  break
                 default:
-                  continue;
+                  continue
               }
               $scope.channels.all.push({
                 source: source,
                 amount: amount,
                 percent: Math.round(amount / $scope.channels.total * 100),
                 color: color
-              });
+              })
             }
-            $scope.chart.data.labels = [];
-            for(var i = 0; i < $scope.chart.data.datasets.length; i++) {
-              $scope.chart.data.datasets[i].data = [];
+            $scope.chart.data.labels = []
+            for (var j = 0; j < $scope.chart.data.datasets.length; j++) {
+              $scope.chart.data.datasets[j].data = []
             }
-            var date, value, map = {};
-            for(var i = 0; i < stats.data.reports[0].data.rows.length; i++) {
-              date = stats.data.reports[0].data.rows[i].dimensions[0];
-              date = `${date.slice(0, 4)}-${date.slice(4,6)}-${date.slice(6)}`;
+            var date
+            var value
+            var map = {}
+            for (var k = 0; k < stats.data.reports[0].data.rows.length; k++) {
+              date = stats.data.reports[0].data.rows[k].dimensions[0]
+              date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6)}`
               date = new Date(date).toLocaleString('en-US', {
-              	month: 'short',
-              	day: 'numeric'
-              });
-              map[date] = parseInt(value);
-              $scope.chart.data.labels.push(date);
-              $scope.chart.data.datasets[0].data.push(stats.data.reports[0].data.rows[i].metrics[0].values[0]);
-              $scope.chart.data.datasets[1].data.push(stats.data.reports[0].data.rows[i].metrics[0].values[1]);
-              if($scope.chartui) {
-                $scope.chartui.update();
+                month: 'short',
+                day: 'numeric'
+              })
+              map[date] = parseInt(value, 10)
+              $scope.chart.data.labels.push(date)
+              $scope.chart.data.datasets[0].data.push(stats.data.reports[0].data.rows[k].metrics[0].values[0])
+              $scope.chart.data.datasets[1].data.push(stats.data.reports[0].data.rows[k].metrics[0].values[1])
+              if ($scope.chartui) {
+                $scope.chartui.update()
               }
             }
-          });
+          })
         }
-      });
-    });
-  };
+      })
+    })
+  }
 
-  $scope.formatDate = function(date) {
-    return date.toISOString().split('T')[0];
+  $scope.formatDate = function (date) {
+    return date.toISOString().split('T')[0]
   }
 
   $scope.ui = {}
@@ -177,5 +181,5 @@ angular.module('core').controller('StoreOwnerReportsController', function ($scop
     $state.go('storeOwner.reports.' + tab)
   }
 
-  $scope.init();
-});
+  $scope.init()
+})

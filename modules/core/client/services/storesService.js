@@ -14,11 +14,11 @@ angular.module('core').service('storesService', function ($http, constants, $q, 
 
     var payload = {
       id: store.storeId,
+      storeId: store.storeId,
       accountId: store.accountId,
       items: storeItems,
       source: 'csv'
     }
-
     return $http.post(constants.API_URL + '/storedb/stores/products/import', { payload: payload }).then(handleResponse)
   }
 

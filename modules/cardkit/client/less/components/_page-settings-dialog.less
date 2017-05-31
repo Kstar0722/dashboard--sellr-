@@ -1,0 +1,141 @@
+#pageSettingsEditorDialog {
+    @toolbar-background: @dark-input-background-color;
+    @content-background: #142332;
+
+    background: transparent;
+    color: @dark-input-empty-color;
+    box-shadow: none;
+    font-family: Arial;
+    font-size: 14px;
+    max-height: 90%;
+    max-width: 90%;
+    min-width: 700px;
+    text-align: left;
+    width: 700px;
+
+    .header,
+    .footer {
+        .md-button {
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: bold;
+            height: auto;
+            margin: 0 6px;
+            padding: 0 12px;
+            text-transform: none;
+
+            &[disabled] {
+                cursor: default;
+                background: @medium-gray;
+                pointer-events: none;
+            }
+        }
+    }
+
+    .header {
+        background: @toolbar-background;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        min-height: initial;
+        padding: 10px 0;
+
+        .md-toolbar-tools {
+            height: auto;
+            padding: 0 24px;
+
+            .md-actions {
+                margin: 0 -6px;
+                padding: 0;
+            }
+        }
+
+        .fa {
+            margin-right: 20px;
+        }
+
+        .md-button {
+            &.save {
+                background: @dark-green;
+                color: @white;
+            }
+
+            &.save-edit {
+                background: @dark-green;
+                color: @white;
+            }
+
+            &.save-close {
+                background: darken(@dark-green, 15%);
+                color: @white;
+            }
+
+            &.cancel {
+                background: @white;
+                color: @black;
+            }
+        }
+    }
+
+    md-dialog-content {
+        background: @content-background;
+        color: @dark-input-empty-color;
+        padding-bottom: 20px;
+
+        md-input-container {
+            margin: 5px 0 10px 0;
+
+            label, .label {
+                -webkit-transform: translate3d(0, 2px, 0) scale(0.75);
+                text-transform: uppercase;
+                transform: translate3d(0, 2px, 0) scale(0.75);
+            }
+        }
+
+        .path-divider {
+            margin: auto 5px 19px 5px;
+        }
+
+        .social-image img {
+            max-height: 150px;
+            max-width: 100%;
+        }
+    }
+
+    .footer {
+        background: @toolbar-background;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        min-height: 60px;
+
+        .md-toolbar-tools {
+            justify-content: center;
+            padding: 0;
+        }
+
+        .md-button {
+            display: inline-block;
+            margin: 0 5px;
+            max-width: 120px;
+            padding: 0 4px;
+            width: 100%;
+
+            &.delete {
+                background: @red;
+                color: @white;
+
+                .fa {
+                    font-size: 20px;
+                    margin-right: 3px;
+                    position: relative;
+                    top: 1px;
+                }
+            }
+        }
+    }
+
+    &.new-page {
+        .footer {
+            min-height: 20px;
+        }
+    }
+}

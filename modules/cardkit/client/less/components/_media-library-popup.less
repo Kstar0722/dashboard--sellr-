@@ -1,0 +1,307 @@
+.media-library.md-dialog-container {
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.media-library-popup {
+    @arrow-size: 10px;
+    @toolbar-background: @dark-input-background-color;
+    @content-background: #222c3c;
+
+    background: transparent;
+    font-size: 14px;
+    height: 57vh;
+    max-height: 450px;
+    max-width: 650px;
+    min-height: 350px;
+    min-width: 450px;
+    overflow: visible;
+    width: 40vw;
+    z-index: 1000;
+
+    .arrow-left {
+        border-color: transparent @toolbar-background transparent transparent;
+        border-style: solid;
+        border-width: @arrow-size;
+        display: none;
+        left: -2 * @arrow-size;
+        position: absolute;
+        top: 15px;
+    }
+
+    .media-header {
+        background: @toolbar-background !important;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        min-height: initial;
+        padding: 8px 0;
+
+        .md-toolbar-tools {
+            height: auto;
+        }
+
+        .search {
+            background: @content-background;
+            font-size: 13px;
+            min-width: 200px;
+            padding: 0;
+            position: relative;
+
+            .fa-search {
+                .position(absolute, 10px, 11px);
+                color: @medium-grey;
+                font-size: 14px;
+                pointer-events: none;
+            }
+
+            .md-input {
+                padding-right: 27px !important;
+                width: 100%;
+
+                .placeholder({
+                    font-size: 11px;
+                });
+            }
+        }
+
+        .md-button {
+            text-transform: none;
+
+            &.upload {
+                background: @dark-green;
+                color: @white;
+            }
+
+            &.cancel {
+                background: @red;
+                color: @white;
+            }
+
+            &.remove {
+                background: transparent;
+                color: @white;
+                margin-right: 20px;
+                min-width: initial;
+            }
+
+            &.remove-confirm {
+                background: transparent;
+                border: 2px solid @red;
+                color: @red;
+                font-size: 12px;
+                line-height: 15px;
+                max-width: 70px;
+                min-width: initial;
+                white-space: normal;
+                word-wrap: break-word;
+            }
+
+            &[disabled] {
+                cursor: default;
+                background: @medium-gray !important;
+                pointer-events: none;
+
+                &.remove {
+                    background: transparent !important;
+                    //color: darken(@medium-grey, 30%);
+                    color: lighten(@dark-grey, 20%);
+                }
+            }
+        }
+    }
+
+    md-content {
+        background: @content-background;
+        color: @white;
+        padding: 15px;
+
+        .asset {
+            cursor: pointer;
+
+            .thumb,
+            .selected-frame {
+                border-radius: 4px;
+                height: 100%;
+                width: 100%;
+            }
+
+            .thumb {
+                //placeholdit.imgix.net/~text?txtsize=25&w=100&h=100&txt=no%20preview
+                background-image: url("//placeholdit.imgix.net/~text?w=100&h=100");
+                background-size: cover;
+                background-repeat: no-repeat;
+                //background-position: 50% 50%;
+                background-position: 0 0;
+                cursor: pointer;
+                margin: 0;
+                pointer-events: none;
+
+                &.audio {
+                    background-image: url("/img/cardkit/audio-file.png");
+                    background-position: 50% 50%;
+                }
+
+                &.video {
+                    background-image: url("/img/cardkit/video-file.png");
+                    background-position: 50% 50%;
+                }
+
+                &.other {
+                    background-image: url("/img/cardkit/file-x-generic.png");
+                    background-position: 50% 50%;
+                }
+
+                &.error {
+                    background-image: url("//placeholdit.imgix.net/~text?txtsize=25&w=100&h=100&txt=Failed");
+                }
+            }
+
+            img {
+                max-width: 100%;
+            }
+
+            &.active .selected-frame {
+                .position(absolute, 0, 0, 0, 0);
+                border: 2px solid @green;
+                z-index: 1;
+            }
+
+            // overlay
+            &:before {
+                .position(absolute, 0, 0, 0, 0);
+                background: @black;
+                content: '';
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.2s ease;
+                z-index: 1000;
+            }
+
+            &[disabled] {
+                pointer-events: none;
+                //opacity: 0.4; // affected by fade out animation causing image blinking, so place transparent overlay below
+                &:before {
+                    opacity: 0.4;
+                }
+            }
+        }
+
+        md-grid-list {
+            md-grid-tile:hover,
+            md-grid-tile.hover {
+                md-grid-tile-footer {
+                    margin-bottom: -1px;
+                    padding-bottom: 1px;
+
+                    figcaption {
+                        transform: translateY(0%);
+                    }
+                }
+            }
+
+            md-grid-tile-footer {
+                align-items: flex-end;
+                background: transparent;
+
+                figcaption {
+                    background: rgba(0,0,0,.5);
+                    font-size: 9px;
+                    transform: translateY(100%);
+                    transition: all 0.1s ease;
+                    width: 100%;
+                    word-break: break-all;
+
+                    .filename {
+                        cursor: text;
+                        display: block;
+                        line-height: 1.2em;
+                        overflow: hidden;
+                        padding: 4px;
+                        text-overflow: ellipsis;
+
+                        // ellipsis overflow for multi-line text, see http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+                        display: -webkit-box;
+                        -webkit-line-clamp: 4;
+                        -webkit-box-orient: vertical;
+                    }
+                }
+
+                &.fixed figcaption {
+                    transform: none !important;
+                }
+            }
+
+            &.searching {
+                md-grid-tile-footer {
+                    .filename {
+                        color: #ccc;
+
+                        .highlighted {
+                            color: @white;
+                            font-weight: bold;
+                        }
+                    }
+
+                    figcaption {
+                        transition: none !important;
+                    }
+                }
+            }
+        }
+
+        .empty-placeholder {
+            font-size: 18px;
+            min-width: 330px;
+        }
+    }
+
+    .footer {
+        background: @toolbar-background;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        min-height: 30px;
+
+        .type-filter {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            margin: 10px 20px;
+        }
+
+        md-radio-button {
+            background: #1d2531;
+            color: @white;
+            display: flex;
+            flex: 1;
+            font-size: 11px;
+            margin: 0 1px 0 0;
+            max-width: 85px;
+            padding: 3px 0;
+            text-align: center;
+            text-transform: uppercase;
+
+            .md-container {
+                display: none;
+            }
+
+            .md-label {
+                flex: 1;
+            }
+
+            &.md-checked {
+                background: #7f8fa4;
+            }
+
+            &:first-of-type {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+
+            &:last-of-type {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+                margin: 0;
+            }
+        }
+    }
+}
