@@ -59,8 +59,15 @@
         <li ui-sref-active="{active: 'storeOwner.marketing'}" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.marketing.posts">
           <span>Marketing Channels</span>
         </li>
-        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.websiteEditor">
-          <span>Pages Editor</span>
+        <!--<li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.websiteEditor">-->
+        <!--<span>Pages Editor</span>-->
+        <!--</li>-->
+        <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'">
+          <div class="coming-soon">
+            <span>Pages Editor</span>
+            <!-- Adjust for each specific nav item. This is temporary solution anyway -->
+            <img src="/img/coming-soon-1.png" alt="icon" class="coming-soon-icon" style="left:4px;">
+          </div>
         </li>
         <li ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.audience">
           <div class="coming-soon">
