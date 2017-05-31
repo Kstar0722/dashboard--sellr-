@@ -187,7 +187,7 @@ angular.module('core').controller('StoreOwnerHomeController', function ($scope, 
   };
 
   $scope.formatDate = function(date) {
-    return moment(date).format('YYYY-MM-D');
+    return moment(date).format('YYYY-MM-DD');
   };
 
   $scope.ui = {
