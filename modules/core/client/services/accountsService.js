@@ -168,7 +168,7 @@ angular.module('core').service('accountsService', function ($http, constants, to
     return $http.put(url, payload, httpOptions).then(onUpdateSuccess, onUpdateError)
 
     function onUpdateSuccess (res) {
-      return me.getAccounts({ id: original.accountId, expand: 'stores,stats', silent: silent }).then(function (saved) {
+      return me.getAccounts({ id: utilsService.currentAccountId, expand: 'stores,stats', silent: silent }).then(function (saved) {
         saved = initAccount(_.first(saved))
         toastr.success('Account Updated!')
         _.replaceItem(me.accounts, original, saved)

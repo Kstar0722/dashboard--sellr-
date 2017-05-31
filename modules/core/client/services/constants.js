@@ -12,6 +12,7 @@ angular.module('core').service('constants', function (envService) {
   me.GETSELLR_URL = 'https://getsellr.com/'
   me.ADS_URL = 'https://s3.amazonaws.com/cdn.expertoncue.com/'
   if (me.env !== 'production') {
+    me.GETSELLR_URL = 'http://localhost:3000'
     console.log('constants %O', me)
   }
 
