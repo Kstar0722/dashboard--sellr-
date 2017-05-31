@@ -90,7 +90,7 @@
                 Delete
               </div>
             </div>
-            <button class="common-btn-black autowidth" ng-if="ui.display === 'editUser'" ng-click="showResetPasswordDialog()">Reset Password</button>
+            <button class="common-btn-black autowidth" ng-if="ui.display === 'editUser'" ng-click="showResetPasswordDialog(ui.currentUser.email)">Reset Password</button>
           </div>
           <div>&nbsp;</div>
           <div class="common-centered-content">
