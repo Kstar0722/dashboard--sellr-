@@ -2,7 +2,7 @@
 
 angular.module('cardkit.core').service('IntercomSvc', function($window) {
     this.start = function(user) {
-        var appId = ($window.appSettings.intercom || {}).appId;
+        var appId = ($window.cardkitSettings.intercom || {}).appId;
         if (!appId || !$window.Intercom) return;
         user = user || {};
 

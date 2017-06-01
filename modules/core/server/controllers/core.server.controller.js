@@ -14,7 +14,7 @@ exports.renderIndex = function (req, res) {
   }
   res.render(index, {
     user: req.user || null,
-    appSettings: settings(req)
+    cardkitSettings: cardkitSettings(req)
   })
 }
 
@@ -49,7 +49,7 @@ exports.renderNotFound = function (req, res) {
   })
 }
 
-function settings (req) {
+function cardkitSettings (req) {
   return {
     aws: config.cardkit.credentials.aws,
     filepicker: config.cardkit.credentials.filepicker,

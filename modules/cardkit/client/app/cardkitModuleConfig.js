@@ -116,7 +116,7 @@ angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'g
   .run(run)
 
 function appConfig(constants) {
-  window.appSettings = window.appSettings || {};
+  window.cardkitSettings = window.cardkitSettings || {};
 
   var config = {
     allPermissions: ['ViewMyCards', 'EditMyCards', 'ViewAllCards', 'EditAnyCard', 'ViewPurchasedCards', 'ViewDevPrice', 'SubmitOrders', 'ViewClientPrice', 'DeleteAnyCard', 'ClaimCards', 'CreateNewCards', 'RegisterUsers', 'SetUsersPermissions', 'CreatePosts', 'ManageOwnPosts', 'ManageAllPosts', 'PublishPosts'],
@@ -147,9 +147,9 @@ function appConfig(constants) {
       [7500, 750, '11h 0m'],
       [7500, 750, '12h 0m']
     ],
-    credentialsAWS: window.appSettings.aws,
-    credentialsFilepicker: window.appSettings.filepicker,
-    credentialsIframely: window.appSettings.iframely,
+    credentialsAWS: window.cardkitSettings.aws,
+    credentialsFilepicker: window.cardkitSettings.filepicker,
+    credentialsIframely: window.cardkitSettings.iframely,
     ratios: ['Full Width', 'Container Width', 'Video', '50 / 50', '60 / 40', '40 / 60', '70 / 30', '30 / 70', 'Thirds'],
     elements: ['Image', 'Text Area', 'Video', 'Background Color', 'Background Image', 'Text/Image Hover'],
     cardStatuses: ['To Do', 'In Progress', 'Ready for Team Review', 'Ready for Client Review', 'Edits Required', 'Approved - not listed', 'Approved'],
