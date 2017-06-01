@@ -49,11 +49,11 @@ exports.renderNotFound = function (req, res) {
   })
 }
 
-function settings(req) {
+function settings (req) {
   return {
     aws: config.cardkit.credentials.aws,
     filepicker: config.cardkit.credentials.filepicker,
     intercom: config.cardkit.credentials.intercom,
     iframely: config.cardkit.credentials.iframely
-  };
+  }
 }
