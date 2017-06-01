@@ -342,9 +342,8 @@
                         _.each(card._actions || card.tempActions, function(value, key) {
                             card.actions[key] = value;
                         });
+                        card.html = cardsHelper.assembleCardHtml(card.html);
                     });
-
-                    card.html = cardsHelper.assembleCardHtml(card.html);
                 }
             };
         }

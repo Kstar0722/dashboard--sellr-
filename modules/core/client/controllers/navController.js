@@ -33,7 +33,7 @@ angular.module('core')
   }
 
   $scope.accountChangeHandler = function (account) {
-    utilsService.setCurrentAccountId(account.accountId)
+    if (account) utilsService.setCurrentAccountId(account.accountId)
     accountsService.currentAccount = account
     setStoresForAccount()
     $scope.ui.showAccountsSelector = false
@@ -41,7 +41,7 @@ angular.module('core')
 
   $scope.storeChangeHandler = function (store) {
     $scope.ui.storeSelected = store
-    utilsService.setCurrentStoreId(store.storeId)
+    if (store) utilsService.setCurrentStoreId(store.storeId)
   }
 
   $scope.openMenu = function (menu) {
@@ -122,13 +122,5 @@ angular.module('core')
     PostMessage.on('identify', function () {
       PostMessage.send('identifyComplete', Authentication.user)
     })
-
-    $scope.$watch('selectAccountId', selectAccount)
-    $scope.$watch(function () { return accountsService.accounts }, selectAccount)
-
-    function selectAccount () {
-      var account = _.find(accountsService.accounts, { accountId: $scope.selectAccountId })
-      if (account) $rootScope.selectAccount = account
-    }
   }
 })

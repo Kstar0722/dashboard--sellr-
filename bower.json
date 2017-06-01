@@ -70,7 +70,8 @@
     "less": "^2.7.2",
     "angular-cookies": "^1.6.4",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#1.7.0",
-    "jquery-ui": "~1.11.4"
+    "jquery-ui": "~1.11.4",
+    "blob-util": "^1.2.1"
   },
   "resolutions": {
     "angular": "1.6.x",

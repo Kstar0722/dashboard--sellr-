@@ -1,5 +1,7 @@
 'use strict'
 
+var config = require('../../../../config/config')
+
 /**
  * Render the main application page
  */
@@ -11,7 +13,8 @@ exports.renderIndex = function (req, res) {
     index = 'modules/core/server/views/dev'
   }
   res.render(index, {
-    user: req.user || null
+    user: req.user || null,
+    appSettings: settings(req)
   })
 }
 
@@ -44,4 +47,13 @@ exports.renderNotFound = function (req, res) {
       res.send('Path not found')
     }
   })
+}
+
+function settings(req) {
+  return {
+    aws: config.cardkit.credentials.aws,
+    filepicker: config.cardkit.credentials.filepicker,
+    intercom: config.cardkit.credentials.intercom,
+    iframely: config.cardkit.credentials.iframely
+  };
 }
