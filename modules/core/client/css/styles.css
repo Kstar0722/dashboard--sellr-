@@ -6983,8 +6983,12 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   font-weight: bold;
   margin-bottom: 15px;
 }
+.store-owner-marketing-settings-view .column .white-box .coming-soon {
+  opacity: .3;
+}
 .store-owner-marketing-settings-view .column .white-box .coming-soon-btn {
   width: 100px;
+  opacity: .3;
 }
 .store-owner-marketing-settings-view .column .white-box .list-item {
   box-sizing: border-box;
