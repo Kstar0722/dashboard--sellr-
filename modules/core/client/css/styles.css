@@ -6838,7 +6838,6 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .store-owner-marketing-posts-view .ads-column .white-column-box {
   border-top: 4px solid #7f8fa4;
 }
-
 .store-owner-marketing-settings-view {
   background-color: #eff3f6;
   padding: 4vh 10vw 4vh 10vw;
@@ -6926,22 +6925,6 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .store-owner-marketing-settings-view .column .white-box .list-item .list-item-left.has-icon .icon-container img {
   width: 25px;
 }
-.store-owner-pages .busy-overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.6);
-}
-.store-owner-pages .website-builder iframe {
-  width: 100%;
-  min-height: 600px;
-  height: 90vh;
-}
-
 .store-owner-audience-view {
   background-color: #eff3f6;
   padding: 4vh 3vw 0px 3vw;
@@ -7670,7 +7653,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   justify-content: space-around;
   align-items: center;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1000px) {
   .common-top-bar {
     height: auto;
     flex-flow: row wrap;
@@ -7678,10 +7661,10 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   }
 }
 .common-top-bar .download {
-  width: 174px;
+  margin-left: 20px;
   max-width: 100%;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1000px) {
   .common-top-bar .button-wrap,
   .common-top-bar .date-wrap {
     width: 100%;
@@ -7691,14 +7674,23 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
     align-items: center;
   }
 }
+@media (min-width: 1000px) and (max-width: 1250px) {
+  .common-top-bar .button-wrap {
+    width: 40%;
+  }
+  .common-top-bar .button-wrap .common-btn-gray {
+    margin: 0 !important;
+    width: 31%;
+  }
+}
 .common-top-bar .date-filter {
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1000px) {
   .common-top-bar .date-filter {
     width: 100%;
     flex-flow: row wrap;
@@ -7712,7 +7704,7 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
 .common-top-bar .date-filter .common-btn-gray {
   margin-right: 15px;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1000px) {
   .common-top-bar .date-filter .common-btn-gray {
     width: 30%;
   }
@@ -7724,6 +7716,11 @@ body.editor-products-matchedit .editor-products-view-content .right-side-content
   background-image: linear-gradient(to bottom, #2ea77a, #32a279);
   border-color: #2bbf88;
   color: #fff;
+}
+@media (min-width: 800px) {
+  .mobile-nav {
+    display: none;
+  }
 }
 .store-owner-home-view {
   background-color: #eff3f6;

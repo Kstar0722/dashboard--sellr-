@@ -1422,17 +1422,17 @@
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
-  @media (max-width: 1250px) {
+  @media (max-width: 1000px) {
     height: auto;
     flex-flow: row wrap;
     padding: 10px 0px;
   }
   .download {
-    width: 174px;
+    margin-left: 20px;
     max-width: 100%;
   }
   .button-wrap, .date-wrap {
-    @media (max-width: 1250px) {
+    @media (max-width: 1000px) {
       width: 100%;
       display: flex;
       flex-flow: row nowrap;
@@ -1440,13 +1440,22 @@
       align-items: center;
     }
   }
+  .button-wrap {
+    @media (min-width: 1000px) and (max-width: 1250px) {
+      width: 40%;
+      .common-btn-gray {
+        margin: 0 !important;
+        width: 31%;
+      }
+    }
+  }
   .date-filter{
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    @media (max-width: 1250px) {
+    @media (max-width: 1000px) {
       width: 100%;
       flex-flow: row wrap;
     }
@@ -1457,7 +1466,7 @@
     }
     .common-btn-gray{
       margin-right: 15px;
-      @media (max-width: 1250px) {
+      @media (max-width: 1000px) {
         width: 30%;
       }
       &:last-child{
@@ -1469,6 +1478,11 @@
         color: #fff;
       }
     }
+  }
+}
+@media (min-width: 800px) {
+  .mobile-nav {
+    display: none;
   }
 }
 
