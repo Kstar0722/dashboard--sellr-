@@ -1,10 +1,10 @@
 'use strict'
 
-angular.module('cardkit.core').service('IntercomSvc', function ($window) {
-  this.start = function (user) {
-    var appId = ($window.settings.intercom || {}).appId
-    if (!appId || !$window.Intercom) return
-    user = user || {}
+angular.module('cardkit.core').service('IntercomSvc', function($window) {
+    this.start = function(user) {
+      var appId = ($window.cardkitSettings.intercom || {}).appId;
+      if (!appId || !$window.Intercom) return;
+      user = user || {};
 
     $window.Intercom('boot', {
       app_id: appId,

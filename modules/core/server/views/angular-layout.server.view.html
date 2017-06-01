@@ -34,6 +34,7 @@
     <script type="text/javascript">
         window.user = {{user | json | safe}};
         window.appSettings = {{ appSettings | json | safe }};
+        window.cardkitSettings = {{ cardkitSettings | json | safe }};
     </script>
 
     {% for jsFile in jsFiles %}

@@ -18,21 +18,20 @@ angular.module('cardkit').controller('CardkitController', ['$scope', 'Authentica
 
     function initCardkit () {
       $scope.$watch('themeClient', loadClients)
-
-      function loadClients () {
-        if (!$scope.themeClient) return $rootScope.selectedClient = null
-        Clients.query().$promise.then(function (clients) {
-          var oldClient = $rootScope.selectedClient
-          var newClient = clientHelper.resolveStateClientName(clients, $scope.themeClient)
-          if (!newClient || oldClient == newClient) return
-          $rootScope.selectedClient = newClient
-          Authorization.authorizeSellr($scope.themeClient).finally(function () {
-            if (oldClient || $state.is('cardkit.listPages')) {
-              $state.go('cardkit.listPages_client', { clientSlug: $scope.themeClient }, { reload: true })
+          function loadClients() {
+              if (!$scope.themeClient) return $rootScope.selectedClient = null;
+              Clients.query().$promise.then(function(clients) {
+                  var oldClient = $rootScope.selectedClient;
+                  var newClient = clientHelper.resolveStateClientName(clients, $scope.themeClient);
+                  $rootScope.selectedClient = newClient;
+                  if (!newClient || oldClient == newClient) return;
+                  Authorization.authorizeSellr($scope.themeClient).finally(function() {
+                      if (oldClient || $state.is('cardkit.listPages')) {
+                          $state.go('cardkit.listPages_client', { clientSlug: $scope.themeClient }, { reload: true });
+                      }
+                  });
+              });
             }
-          })
-        })
-      }
-    }
-  }
+          }
+        }
 ])

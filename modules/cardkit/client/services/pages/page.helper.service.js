@@ -327,29 +327,26 @@
 
             // #warning apply reset variables (like {{target_url}}) before saving the page html.
             // otherwise variables will become broken (not bindable) on page refresh.
-      $rootScope.$emit('updateCardHtml', true)
+            $rootScope.$emit('updateCardHtml', true);
 
-      return {
-        restore: function () {
-          $timeout(function () {
-            $rootScope.$emit('updateCardHtml', true)
-          })
-          $timeout(function () {
-            $rootScope.$emit('updateCardHtml', true) // restore vide plugins
-          }, 1500)
+            return {
+                restore: function() {
+                    $timeout(function() {
+                        $rootScope.$emit('updateCardHtml', true);
+                    });
+                    $timeout(function() {
+                        $rootScope.$emit('updateCardHtml', true); // restore vide plugins
+                    }, 1500);
 
-          if (page.cards) {
-            page.cards.forEach(function (card) {
-              _.each(card._actions || card.tempActions, function (value, key) {
-                card.actions[key] = value
-              })
-            })
-          }
-
-          card.html = cardsHelper.assembleCardHtml(card.html)
+                    if (page.cards) page.cards.forEach(function(card) {
+                        _.each(card._actions || card.tempActions, function(value, key) {
+                            card.actions[key] = value;
+                        });
+                        card.html = cardsHelper.assembleCardHtml(card.html);
+                    });
+                }
+            };
         }
-      }
-    }
 
     function cleanUpHtml (dom) {
       var $dom = $(dom)

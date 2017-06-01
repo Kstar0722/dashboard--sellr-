@@ -1,6 +1,9 @@
 'use strict'
 
-module.exports = {
+var _ = require('lodash')
+var cardkit = require('./cardkit.js')
+
+module.exports = mergeCardkit({
   app: {
     title: 'MEAN.JS',
     description: 'Sellr Dashboard allows you to edit and manage your store. For more information checkout http://getsellr.com',
@@ -44,4 +47,8 @@ module.exports = {
       }
     }
   }
+})
+
+function mergeCardkit (config) {
+  return _.merge(config, cardkit)
 }

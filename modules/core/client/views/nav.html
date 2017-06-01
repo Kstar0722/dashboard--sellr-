@@ -63,7 +63,7 @@
                 <!--<a ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.websiteEditor">-->
                 <!--<span>Pages Editor</span>-->
                 <!--</a>-->
-                <a ui-sref-active="{active: 'cardkit'}" ng-if="ui.primaryRoute === 'store'" ui-sref="cardkit.listPages">
+                <a ui-sref-active="{active: 'cardkit'}" ng-if="ui.primaryRoute === 'store' && accountsService.currentAccount.website" ui-sref="cardkit.listPages">
                     <span>Pages Editor</span>
                 </a>
                 <a ui-sref-active="active" ng-if="ui.primaryRoute === 'store'" ui-sref="storeOwner.audience">

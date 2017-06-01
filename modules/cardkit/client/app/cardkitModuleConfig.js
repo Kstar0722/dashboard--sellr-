@@ -96,12 +96,12 @@ angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'g
       controller: 'PageBuilderController'
     }
 
-      // Pages state routing
+    // Pages state routing
     $stateProvider.state('cardkit', {
       abstract: true,
-      url: '/website/:accountId',
+      url: '/website',
       template: '<div ui-view class="cardkit" ng-if="$root.selectedClient && $root.embedAuthorized"></div>' +
-          '<link rel="stylesheet" href="/dist/cardkit.min.css"/>',
+        '<link rel="stylesheet" href="/dist/cardkit.min.css"/>',
       controller: 'CardkitController'
     }).state('cardkit.listPages', listPages).state('cardkit.listPages_client', nested(listPages, {
       url: '/pages/:clientSlug'
@@ -115,8 +115,8 @@ angular.module('cardkit').config(['$sceDelegateProvider', '$compileProvider', 'g
   // .constant('toastr', toastr)
   .run(run)
 
-function appConfig (constants) {
-  window.settings = window.settings || {}
+function appConfig(constants) {
+  window.cardkitSettings = window.cardkitSettings || {};
 
   var config = {
     allPermissions: ['ViewMyCards', 'EditMyCards', 'ViewAllCards', 'EditAnyCard', 'ViewPurchasedCards', 'ViewDevPrice', 'SubmitOrders', 'ViewClientPrice', 'DeleteAnyCard', 'ClaimCards', 'CreateNewCards', 'RegisterUsers', 'SetUsersPermissions', 'CreatePosts', 'ManageOwnPosts', 'ManageAllPosts', 'PublishPosts'],
@@ -147,9 +147,9 @@ function appConfig (constants) {
       [7500, 750, '11h 0m'],
       [7500, 750, '12h 0m']
     ],
-    credentialsAWS: window.settings.aws,
-    credentialsFilepicker: window.settings.filepicker,
-    credentialsIframely: window.settings.iframely,
+    credentialsAWS: window.cardkitSettings.aws,
+    credentialsFilepicker: window.cardkitSettings.filepicker,
+    credentialsIframely: window.cardkitSettings.iframely,
     ratios: ['Full Width', 'Container Width', 'Video', '50 / 50', '60 / 40', '40 / 60', '70 / 30', '30 / 70', 'Thirds'],
     elements: ['Image', 'Text Area', 'Video', 'Background Color', 'Background Image', 'Text/Image Hover'],
     cardStatuses: ['To Do', 'In Progress', 'Ready for Team Review', 'Ready for Client Review', 'Edits Required', 'Approved - not listed', 'Approved'],
